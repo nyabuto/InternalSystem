@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package moh731;
+package InternalSystem;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Geofrey Nyabuto
  */
-public class loadMOH731 extends HttpServlet {
+public class saveGender extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class loadMOH731 extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet loadMOH731</title>");            
+            out.println("<title>Servlet saveGender</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet loadMOH731 at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet saveGender at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {
