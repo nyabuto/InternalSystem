@@ -1,6 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package General;
@@ -9,7 +8,6 @@ import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,53 +17,45 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Geofrey Nyabuto
+ * @author Elkant
  */
-public class loadYear extends HttpServlet {
+public class loadForms extends HttpServlet {
 
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         try {
-            response.setContentType("text/html;charset=UTF-8");
-
-
-              Calendar cal = Calendar.getInstance();
-                    int year = cal.get(Calendar.YEAR);
-            
-                    
-                    year=year+1;
-            dbConn conn = new dbConn();
-
-            String getyears = "select * from year";
-
-            String years = "<option value=''>Select Year</option>";
-
-
-            conn.rs = conn.st.executeQuery(getyears);
-
-            while (conn.rs.next()) {
-                
-                if(conn.rs.getInt("year")<=year){
-                years += "<option value='" + conn.rs.getString("year") + "'>" + conn.rs.getString("year") + "</option> ";
-                }
-                }
-            PrintWriter out = response.getWriter();
-            try {
-
-                out.println(years);
-
-            } finally {
-                out.close();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(loadYear.class.getName()).log(Level.SEVERE, null, ex);
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
+    
+    dbConn conn= new dbConn();
+   String forms="<option value=''> Select Form</option>"; 
+    String getForms="select * from forms";
+   
+    conn.rs=conn.st.executeQuery(getForms);
+    
+    
+    while(conn.rs.next()){
+    
+     forms+="<option value='"+conn.rs.getString("nextpage") +"'>"+conn.rs.getString("form")+"</option>";   
+    
+                         }
+    
+    try {
+        
+        out.println(forms);
+    } finally {            
+        out.close();
+    }
+}       catch (SQLException ex) {
+            Logger.getLogger(loadForms.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -77,9 +67,8 @@ public class loadYear extends HttpServlet {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -91,9 +80,8 @@ public class loadYear extends HttpServlet {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

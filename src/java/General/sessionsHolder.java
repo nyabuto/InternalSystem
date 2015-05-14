@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,33 +20,29 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class sessionsHolder extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    HttpSession session=null;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet sessionsHolder</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet sessionsHolder at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
-        }
+        
+        
+        session = request.getSession();
+        
+        String form=request.getParameter("form");
+        
+        String year=request.getParameter("year");
+        String month=request.getParameter("month");
+        String facility=request.getParameter("facility");
+        
+        
+        session.setAttribute("currentyear", year);
+        session.setAttribute("currentmonth", month);
+        session.setAttribute("currentfacility", facility);
+        
+       System.out.println("___ Sessions Holder Page ___");
+        
+        response.sendRedirect(form);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

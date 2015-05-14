@@ -9,6 +9,9 @@ package General;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,18 +23,32 @@ import javax.servlet.http.HttpSession;
  * @author Geofrey Nyabuto
  */
 public class loadFacilities extends HttpServlet {
-HttpSession session;
-String data;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             dbConn conn = new dbConn();
-            session=request.getSession();
+           
+            String facils="<option value=''>Select Site</option>";
             
-            data="";   
-            out.println(data);
+            String getfacils="select SubPartnerId,SubPartnerNom from subpartnera";
+            
+            conn.rs=conn.st.executeQuery(getfacils);
+           
+            while(conn.rs.next()){
+                
+            facils+="<option value='"+conn.rs.getString(1) +"'> "+conn.rs.getString(2)+" </option>";
+                
+                
+            
+                                 }
+            
+             
+            out.println(facils);
+        } catch (SQLException ex) {
+            Logger.getLogger(loadFacilities.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
