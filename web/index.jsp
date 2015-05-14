@@ -26,6 +26,14 @@
   <link href="assets/css/style_default.css" rel="stylesheet" id="style_color" />
   <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
   <link rel="shortcut icon" href="favicon.png" />
+  
+    <script src="assets/js/jquery-1.8.3.min.js"></script>
+    
+  <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -50,7 +58,7 @@
         <div class="controls">
           <div class="input-icon left">
             <i class="icon-user"></i>
-            <input class="m-wrap placeholder-no-fix" type="text" placeholder="Username" value="" name="username"/>
+            <input class="m-wrap placeholder-no-fix" required="true" type="text" placeholder="Username" value="" name="username"/>
           </div>
         </div>
       </div>
@@ -59,7 +67,7 @@
         <div class="controls">
           <div class="input-icon left">
             <i class="icon-lock"></i>
-            <input class="m-wrap placeholder-no-fix" type="password" placeholder="Password" value="" name="password"/>
+            <input class="m-wrap placeholder-no-fix" required="true" type="password" placeholder="Password" value="" name="password"/>
           </div>
         </div>
       </div>
@@ -70,8 +78,24 @@
         </button>            
       </div>
      
-    
     </form>
+    
+    
+      <%if (session.getAttribute("login") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("login")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 4800});
+                    
+                </script> <%
+                session.removeAttribute("login");
+                            }
+
+                        %>
+                        
     <!-- END LOGIN FORM -->        
     <!-- BEGIN FORGOT PASSWORD FORM -->
    
@@ -87,7 +111,7 @@
   </div>
   <!-- END COPYRIGHT -->
   <!-- BEGIN JAVASCRIPTS -->
-  <script src="assets/js/jquery-1.8.3.min.js"></script>
+
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>  
   <script src="assets/uniform/jquery.uniform.min.js"></script> 
   <script src="assets/js/jquery.blockui.js"></script>
