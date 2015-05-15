@@ -38,7 +38,16 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-   <link rel="shortcut icon" href="favicon.ico" />
+ 
+   <script type="text/javascript" language="en">
+   function numbers(evt){
+var charCode=(evt.which) ? evt.which : event.keyCode
+if(charCode > 31 && (charCode < 48 || charCode>57))
+return false;
+return true;
+}
+//-->
+</script>
    <script type="text/javascript">
        $(document).ready(function(){
              $.ajax({
@@ -86,22 +95,36 @@ MENU 1
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
-                  <!-- BEGIN SAMPLE FORM PORTLET-->   
-                  <div class="portlet box blue">
+                  <!-- BEGIN SAMPLE FORM PORTLET--> 
+                  <form action="#" class="form-horizontal" style="min-height: 450px;">
+<!--                  <div class="portlet box blue">
                      <div class="portlet-title">
                         <h4 style="margin-left:40%;"><b>MOH 731 FORM.</b></h4>
                       
                      </div>
-                     <div class="portlet-body form">
-                        <!-- BEGIN FORM-->
-                        <form action="#" class="form-horizontal" style="min-height: 450px;">
-                         <p id="data">
+                       </div>
+                    -->
+                     <div class="tabbable tabbable-custom boxless">
+                     <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">1. HIV Counselling and Testing</a></li>
+                        <li><a class="advance_form_with_chosen_element" href="#tab_2" data-toggle="tab">2. PMTCT</a></li>
+                        <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab">3. Care and Treatment</a></li>
+                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>
+                        <li><a class="advance_form_with_chosen_element" href="#tab_5" data-toggle="tab">5. PEP</a></li>
+                        <li><a class="advance_form_with_chosen_element" href="#tab_6" data-toggle="tab">6. Blood Safety</a></li>
+                     </ul> </div>
+                         <!-- BEGIN FORM-->
+                         <div class="tab-content" id="data">
+                        
+                       
                          <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
-                         </p>
-                        </form>
+                        
+                       
                         <!-- END FORM-->           
                      </div>
-                  </div>
+                 
+                 
+                      </form>
                   <!-- END SAMPLE FORM PORTLET-->
                </div>
             </div>
