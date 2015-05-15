@@ -4,8 +4,12 @@
  */
 package General;
 
+import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,19 +25,35 @@ public class updatefacilitysession extends HttpServlet {
    HttpSession session=null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String facility=request.getParameter("facil");
-        
-        PrintWriter out = response.getWriter();
         try {
-            
-            
-            
-            
-           
-        } finally {            
-            out.close();
+    response.setContentType("text/html;charset=UTF-8");
+    
+    session=request.getSession();
+    dbConn conn=new dbConn();
+    
+    //receive the facility id a get the facility name
+    String facility=request.getParameter("facil");
+    
+     String getfacilname="select SubPartnerNom from subpartnera where SubPartnerId='"+facility+"'";
+        
+        conn.rs=conn.st.executeQuery(getfacilname);
+        while(conn.rs.next()){                
+         
+          session.setAttribute("facilityname", conn.rs.getString(1));
+        }
+      session.setAttribute("facilityid", facility);
+    PrintWriter out = response.getWriter();
+    try {
+        
+        
+        
+        
+       
+    } finally {            
+        out.close();
+    }
+}       catch (SQLException ex) {
+            Logger.getLogger(updatefacilitysession.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

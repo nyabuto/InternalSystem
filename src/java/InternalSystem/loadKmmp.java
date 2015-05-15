@@ -118,7 +118,7 @@ if(HV0206==null){HV0206=""; }
     
     createdtable+="<tr><td colspan='2'>  b) Total number of HIV-positive pregnant women in facility (New positive and Knwn Positive-MOH731) </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"showpercent();autosave('KMMP3b','"+tableid+"');\" value='"+KMMP3b+"' name='KMMP3b' id='KMMP3b'></td></tr>";
     
-    createdtable+="<tr><td colspan='2'><b> Perceantage of new IV-positive pregnant women enrolled in KMMP Services </b></td><td><input type='text' value='"+KMMP3c+"' readonly name='KMMP3c' id='KMMP3c'></td></tr>";
+    createdtable+="<tr><td colspan='2'><b> Perceantage of new IV-positive pregnant women enrolled in KMMP Services </b></td><td><input type='text' value='"+KMMP3c+"' tabindex='-1' readonly name='KMMP3c' id='KMMP3c'></td></tr>";
       
     createdtable+="<tr><td ><b> 4 </b></td><td colspan='2'>No. of KMMP support group sessions held </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP4','"+tableid+"');\" value='"+KMMP4+"' name='KMMP4' id='KMMP4'></td></tr>";
      

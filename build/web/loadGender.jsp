@@ -12,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>KMMP Form</title>
+   <title>Gender Form</title>
      <link rel="shortcut icon" href="images/logo.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -133,7 +133,7 @@
                   <ul class="breadcrumb">
                      <li>
                         <i class="icon-home"></i>
-                        <font color="#4b8df8"> Kenya Mentor Mother Program (KMMP) output Data</font>
+                        <font color="#4b8df8">Prevention</font>
                         
                      </li>
            
@@ -148,14 +148,14 @@
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">KMMP</b>
+                        <b style="color:white;text-align: center;font-size: 20px;">GENDER</b>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="sessionsHolder" class="form-horizontal">
                           
                          
-                         <table id="kmmptable" cellpadding="2px" border="1" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
+                         <table id="gendertable" cellpadding="2px" border="1" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
                           
                            
                             
@@ -248,12 +248,12 @@ success:function (data){
          
          
          $.ajax({
-            url:'loadKmmp',
+            url:'loadGender',
             type:'post',
             dataType:'html',
             success:function (data){
-                $("#kmmptable").html(data);
-            $("#KMMP1").focus();   
+                $("#gendertable").html(data);
+            $("#P121DM0").focus();   
             }
             
             
@@ -305,12 +305,12 @@ success:function (data){
              //AUTOUPDATING FUNCTION
              
              
-             function autosave(col,tableid){
+             function autosave(col){
             var achieved=document.getElementById(col).value;
             
             
              $.ajax({
-url:'saveKmmp?col='+col+"&achieved="+achieved,
+url:'saveGender?col='+col+"&achieved="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){      
@@ -323,21 +323,7 @@ success:function (data){
              }
              
              
-             function showpercent(){
-             var three_a=document.getElementById("KMMP3a").value;
-             var three_b=document.getElementById("KMMP3b").value;
-             
-             if(three_a!="" && three_b!="" && three_b!==0){
-                 
-                 var perc=parseInt(three_a)/parseInt(three_b)*100;
-                 perc=Math.round(perc * 100)/100;
-                 //now calculate the percentage and call a save
-                 document.getElementById("KMMP3c").value=""+perc;  
-                autosave('KMMP3c',''); 
-             }
-             
-             
-             }
+           
              
           
             function numbers(evt){

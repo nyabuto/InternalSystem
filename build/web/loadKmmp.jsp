@@ -61,7 +61,7 @@
                                    
                                    <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
                               
-                                 <select style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select></div>
                               
@@ -366,7 +366,7 @@ url:'updatefacilitysession?facil='+facil,
 type:'post',
 dataType:'html',
 success:function (data){      
-    
+    location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
         
 }
