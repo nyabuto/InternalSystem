@@ -6,45 +6,91 @@
 
 package InternalSystem;
 
+import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Geofrey Nyabuto
  */
 public class saveKmmp extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+HttpSession session=null;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet saveKmmp</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet saveKmmp at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
+    response.setContentType("text/html;charset=UTF-8");
+    session =request.getSession();
+    
+    
+    String col=request.getParameter("col");
+    String achieved=request.getParameter("achieved");
+    
+    
+    dbConn conn=new dbConn();
+//get the existing data for the month, year and facility that is already on session
+
+String month="";      
+String year="";      
+String facil="";
+String userid="unknown";
+
+    if(session.getAttribute("userid")!=null){        
+userid=session.getAttribute("userid").toString();
+}
+
+if(session.getAttribute("year")!=null){        
+year=session.getAttribute("year").toString();
+}
+  if(session.getAttribute("monthid")!=null){        
+month=session.getAttribute("monthid").toString();
+}
+
+    if(session.getAttribute("facilityid")!=null){        
+facil=session.getAttribute("facilityid").toString();
+}
+String tableid=year+"_"+month+"_"+facil;
+    
+String Insertqr= "insert into kmmp  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , tableid='"+tableid+"' , user_id='"+userid+"'";
+String updateqr="update kmmp set "+col+"='"+achieved+"' where tableid='"+tableid+"'";
+//check whether data for that month, year and facility has been saved
+
+String checker="select "+col+" from kmmp where tableid='"+tableid+"'";
+
+
+conn.rs=conn.st.executeQuery(checker);
+
+
+if(conn.rs.next()){
+    
+    conn.st.executeUpdate(updateqr);
+    System.out.println("~~ "+updateqr);
+}
+else {
+    System.out.println(">> "+Insertqr);
+        conn.st.executeUpdate(Insertqr);
+
+}
+
+    
+    PrintWriter out = response.getWriter();
+    try {
+        /* TODO output your page here. You may use following sample code. */
+       
+    } finally {
+        out.close();
+    }
+}       catch (SQLException ex) {
+            Logger.getLogger(saveKmmp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

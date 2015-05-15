@@ -14,7 +14,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>SOY SEC</title>
+  <title>Internal System</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -25,7 +25,7 @@
   <link href="assets/css/style_responsive.css" rel="stylesheet" />
   <link href="assets/css/style_default.css" rel="stylesheet" id="style_color" />
   <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-  <link rel="shortcut icon" href="favicon.png" />
+  <link rel="shortcut icon" href="images/logo.png" width="20px" />
   
     <script src="assets/js/jquery-1.8.3.min.js"></script>
     

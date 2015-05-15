@@ -12,8 +12,8 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Home Page</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+   <title>KMMP Form</title>
+     <link rel="shortcut icon" href="images/logo.jpg"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -49,7 +49,23 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h3 style="text-align:center;color:white;">Internal System</h3>
+           <div class="control-group">
+                             <div style="float:right;"> 
+                                 
+                                 <font color="white" size="5px"><b>Year: </b></font>  
+                                   <font color="green" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                 
+                                    <font color="white" size="5px"><b>Month: </b></font>  
+                                   <font color="green" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
+                                 
+                                   
+                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select></div>
+                              
+                           </div>
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -57,14 +73,8 @@
             </a>          
             <!-- END RESPONSIVE MENU TOGGLER -->            
             <!-- BEGIN TOP NAVIGATION MENU -->              
-            <ul class="nav pull-right">
+            <ul class="nav pull-left">
               
-               <!-- END NOTIFICATION DROPDOWN -->
-               <!-- BEGIN INBOX DROPDOWN -->
-             
-             
-               <!-- END TODO DROPDOWN -->
-               <!-- BEGIN USER LOGIN DROPDOWN -->
                <li class="dropdown user">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                  
@@ -72,10 +82,10 @@
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="#"><i class="icon-user"></i> User Profile</a></li>
+                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
                    
                      <li class="divider"></li>
-                     <li><a href="logout.jsp"><i class="icon-key"></i>Log Out</a></li>
+                     <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
                   </ul>
                </li>
                <!-- END USER LOGIN DROPDOWN -->
@@ -118,13 +128,13 @@
                   <!-- END BEGIN STYLE CUSTOMIZER -->   
                   <h3 class="page-title" style="text-align: center;">
                     
-<!--                    Internal System-->
+             
                   </h3>
                   <ul class="breadcrumb">
                      <li>
                         <i class="icon-home"></i>
-                        <a href="#">Home</a> 
-                        <span class="icon-angle-right"></span>
+                        <font color="#4b8df8"> Kenya Mentor Mother Program (KMMP) output Data</font>
+                        
                      </li>
            
                   </ul>
@@ -150,44 +160,12 @@
                         <form action="sessionsHolder" class="form-horizontal">
                           
                          
-                           <div class="control-group">
-                              <label class="control-label">Reporting Year</label>
-                              <div class="controls">
-                                 <select required data-placeholder="Reporting Year" class="chosen-with-diselect span6" tabindex="-1" onchange="loadmonths(this);"  id="year" name="year">
-                                    <option value=""></option>                                 
-                                   
-                                 </select>
-                              </div>
-                           </div>
+                         
                           
-                             <div class="control-group">
-                              <label class="control-label">Reporting Month</label>
-                              <div class="controls">
-                                 <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
-                                    <option value="">Choose reporting year first</option>                                 
-                                   
-                                 </select>
-                              </div>
-                           </div>
+                           
                             
-                              <div class="control-group">
-                              <label class="control-label">Activity Site</label>
-                              <div class="controls">
-                                 <select data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
-                                    <option value=""></option>
-                                 </select>
-                              </div>
-                           </div>
-                            
-                             <div class="control-group">
-                              <label class="control-label">Select Form</label>
-                              <div class="controls">
-                                 <select required data-placeholder="Form" class="chosen-with-diselect span6" tabindex="-1"  id="form" name="form">
-                                 <option value=""></option>                                
-                                   
-                                 </select>
-                              </div>
-                             </div>
+                             
+                           
                             
                          
                            <div class="form-actions">
@@ -275,7 +253,7 @@ success:function (data){
          
          
          $.ajax({
-            url:'loadForms',
+            url:'loadKmmp',
             type:'post',
             dataType:'html',
             success:function (data){
@@ -288,44 +266,44 @@ success:function (data){
         }); 
        
          
-$.ajax({
-    url:'loadYear',
-    type:'post',
-    dataType:'html',
-    success:function (data){
-        // $("#year").html(data);
-        document.getElementById("year").innerHTML=data;
-        
-    }
-    
-    
-}); 
-               
-      });
+//$.ajax({
+//    url:'loadYear',
+//    type:'post',
+//    dataType:'html',
+//    success:function (data){
+//        // $("#year").html(data);
+//        document.getElementById("year").innerHTML=data;
+//        
+//    }
+//    
+//    
+//}); 
+//               
+//      });
       
       
       
-      function loadmonths(){
-      
-      var yr=document.getElementById("year").value;
-      
-              $.ajax({
-url:'loadMonth?year='+yr,
-type:'post',
-dataType:'html',
-success:function (data){
-    $("#month").html(data);     
-    
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
-}
-
-
-});  
-      
-      
-      }
+//      function loadmonths(){
+//      
+//      var yr=document.getElementById("year").value;
+//      
+//              $.ajax({
+//url:'loadMonth?year='+yr,
+//type:'post',
+//dataType:'html',
+//success:function (data){
+//    $("#month").html(data);     
+//    
+//       //document.getElementById("month").innerHTML=data;
+//      // App.init();  
+//        
+//}
+//
+//
+//});  
+//      
+//      
+//      }
       
    </script>
    <!-- END JAVASCRIPTS -->   

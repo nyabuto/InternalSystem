@@ -96,6 +96,10 @@
         <servlet-name>loadForms</servlet-name>
         <servlet-class>General.loadForms</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updatefacilitysession</servlet-name>
+        <servlet-class>General.updatefacilitysession</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -191,6 +195,10 @@
     <servlet-mapping>
         <servlet-name>loadForms</servlet-name>
         <url-pattern>/loadForms</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatefacilitysession</servlet-name>
+        <url-pattern>/updatefacilitysession</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -13,7 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>Home Page</title>
-     <link rel="shortcut icon" href="images/header.jpg"/>
+     <link rel="shortcut icon" href="images/logo.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -49,9 +49,7 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <a class="brand" href="index.html">
-            <img src="assets/img/logo.png" alt="logo" />
-            </a>
+            <h3 style="text-align:center;color:white;">Internal System</h3>
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -70,15 +68,14 @@
                <li class="dropdown user">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                  
-                  <span class="username">Welcome User</span>
+                  <span class="username">Welcome</span>
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="extra_profile.html"><i class="icon-user"></i> My Profile</a></li>
-                     <li><a href="calendar.html"><i class="icon-calendar"></i> My Calendar</a></li>
-                     <li><a href="#"><i class="icon-tasks"></i> My Tasks</a></li>
+                     <li><a href="#"><i class="icon-user"></i> User Profile</a></li>
+                   
                      <li class="divider"></li>
-                     <li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+                     <li><a href="logout.jsp"><i class="icon-key"></i>Log Out</a></li>
                   </ul>
                </li>
                <!-- END USER LOGIN DROPDOWN -->
@@ -121,7 +118,7 @@
                   <!-- END BEGIN STYLE CUSTOMIZER -->   
                   <h3 class="page-title" style="text-align: center;">
                     
-                    Internal System
+<!--                    Internal System-->
                   </h3>
                   <ul class="breadcrumb">
                      <li>
