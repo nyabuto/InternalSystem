@@ -61,6 +61,26 @@ return true;
         }
     }); 
        });
+       
+        function autosave(columnName){
+//          alert("caled"+columnName);
+            var achieved=document.getElementById(columnName).value;
+//           var achieved =$("#"+columnName).val();
+//            alert("called : "+columnName+"   value : "+achieved);
+            
+             $.ajax({
+url:'save731?columnName='+columnName+"&value="+achieved,
+type:'post',
+dataType:'html',
+success:function (data){      
+    
+      $("#"+columnName).css({'background-color' : '#CCFFCC'});
+        
+}
+             
+             });
+             }
+             
        </script>
 </head>
 <!-- END HEAD -->
