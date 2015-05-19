@@ -35,7 +35,9 @@ HttpSession session=null;
     String col=request.getParameter("col");
     String achieved=request.getParameter("achieved");
     
-    
+     if(achieved.equals("")){
+    achieved="0";
+    }
     dbConn conn=new dbConn();
 //get the existing data for the month, year and facility that is already on session
 

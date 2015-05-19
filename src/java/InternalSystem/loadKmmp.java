@@ -110,27 +110,27 @@ if(HV0206==null){HV0206=""; }
     
     String createdtable="<tr class='form-actions'><th colspan='1'><b> KMMP OUTPUT DATA</b></th><th>Total</th></tr>";
     
-    createdtable+="<tr><td><b> 1 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP1','"+tableid+"');\" value='"+KMMP1+"' name='KMMP1' id='KMMP1' autofocus></td></tr>";
+    createdtable+="<tr><td><b> 1 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP1','"+tableid+"');\" value='"+KMMP1+"' name='KMMP1' id='KMMP1' autofocus></td></tr>";
     
-    createdtable+="<tr><td><b> 2 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP2','"+tableid+"');\" value='"+KMMP2+"' name='KMMP1' id='KMMP2'></td></tr>";
+    createdtable+="<tr><td><b> 2 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP2','"+tableid+"');\" value='"+KMMP2+"' name='KMMP1' id='KMMP2'></td></tr>";
     
-    createdtable+="<tr><td rowspan='3'><b> 3 </b></td><td colspan='2'> a) No. of HIV-positive pregnant women enrolled in KMMP Services </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"showpercent();autosave('KMMP3a','"+tableid+"');\" value='"+KMMP3a+"' name='KMMP3a' id='KMMP3a'></td></tr>";
+    createdtable+="<tr><td rowspan='3'><b> 3 </b></td><td colspan='2'> a) No. of HIV-positive pregnant women enrolled in KMMP Services </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"showpercent();autosave('KMMP3a','"+tableid+"');\" value='"+KMMP3a+"' name='KMMP3a' id='KMMP3a'></td></tr>";
     
-    createdtable+="<tr><td colspan='2'>  b) Total number of HIV-positive pregnant women in facility (New positive and Knwn Positive-MOH731) </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"showpercent();autosave('KMMP3b','"+tableid+"');\" value='"+KMMP3b+"' name='KMMP3b' id='KMMP3b'></td></tr>";
+    createdtable+="<tr><td colspan='2'>  b) Total number of HIV-positive pregnant women in facility (New positive and Knwn Positive-MOH731) </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"showpercent();autosave('KMMP3b','"+tableid+"');\" value='"+KMMP3b+"' name='KMMP3b' id='KMMP3b'></td></tr>";
     
-    createdtable+="<tr><td colspan='2'><b> Perceantage of new IV-positive pregnant women enrolled in KMMP Services </b></td><td><input type='text' value='"+KMMP3c+"' tabindex='-1' readonly name='KMMP3c' id='KMMP3c'></td></tr>";
+    createdtable+="<tr><td colspan='2'><b> Perceantage of new IV-positive pregnant women enrolled in KMMP Services </b></td><td><input type='text' onclick=\"this.select();\" value='"+KMMP3c+"' tabindex='-1' readonly name='KMMP3c' id='KMMP3c'></td></tr>";
       
-    createdtable+="<tr><td ><b> 4 </b></td><td colspan='2'>No. of KMMP support group sessions held </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP4','"+tableid+"');\" value='"+KMMP4+"' name='KMMP4' id='KMMP4'></td></tr>";
+    createdtable+="<tr><td ><b> 4 </b></td><td colspan='2'>No. of KMMP support group sessions held </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP4','"+tableid+"');\" value='"+KMMP4+"' name='KMMP4' id='KMMP4'></td></tr>";
      
-      createdtable+="<tr><td rowspan='3'><b> 5 </b></td><td rowspan='3'>Defaulter Tracing </td><td>New Defaulted Clients </td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP5a','"+tableid+"');\" value='"+KMMP5a+"' name='KMMP5a' id='KMMP5a'></td></tr>";
+      createdtable+="<tr><td rowspan='3'><b> 5 </b></td><td rowspan='3'>Defaulter Tracing </td><td>New Defaulted Clients </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP5a','"+tableid+"');\" value='"+KMMP5a+"' name='KMMP5a' id='KMMP5a'></td></tr>";
      
-      createdtable+="<tr><td>Clients Reached</td><td><input type='text' onblur=\"autosave('KMMP5b','"+tableid+"');\" value='"+KMMP5b+"' onkeypress=\"return numbers(event,this);\" name='KMMP5b' id='KMMP5b'></td></tr>";
+      createdtable+="<tr><td>Clients Reached</td><td><input type='text' onclick=\"this.select();\" onblur=\"autosave('KMMP5b','"+tableid+"');\" value='"+KMMP5b+"' onkeypress=\"return numbers(event,this);\" name='KMMP5b' id='KMMP5b'></td></tr>";
       
-      createdtable+="<tr><td>Succesfully Resolved</td><td><input type='text' onkeypress=\"return numbers(event,this);\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP5c','"+tableid+"');\" value='"+KMMP5c+"' name='KMMP5c' id='KMMP5c'></td></tr>";
+      createdtable+="<tr><td>Succesfully Resolved</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP5c','"+tableid+"');\" value='"+KMMP5c+"' name='KMMP5c' id='KMMP5c'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr>";
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr>";
    
     
       System.out.println(createdtable);

@@ -253,7 +253,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#kmmptable").html(data);
-            $("#KMMP1").focus();   
+           // $("#KMMP1").focus();   
             }
             
             
