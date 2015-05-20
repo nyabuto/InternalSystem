@@ -42,7 +42,7 @@
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top">
+<body class="fixed-top" onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }">
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -376,6 +376,46 @@ success:function (data){
           
           
       }
+      
+      
+       $('body').on('keydown', 'input, select, textarea', function(e) {
+var self = $(this)
+  , form = self.parents('form:eq(0)')
+  , focusable
+  , next
+  , prev
+  ;
+
+if (e.shiftKey) {
+ if (e.keyCode == 13) {
+     focusable =   form.find(':input:visible,a,select,button,textarea').filter(':not([readonly])');
+     prev = focusable.eq(focusable.index(this)-1); 
+
+     if (prev.length) {
+        prev.focus();
+        prev.select();
+     } else {
+        form.submit();
+    }
+  }
+}
+  else
+if (e.keyCode == 13) {
+    focusable = form.find(':input:visible,a,select,button,textarea').filter(':not([readonly])');
+    next = focusable.eq(focusable.index(this)+1);
+    if (next.length ) {
+      //  if ( next.is('[readonly]') ) {}
+      
+        next.focus();
+        next.select();
+        
+    } else {
+        form.submit();
+    }
+    return false;
+}
+});
+ 
       
       
    </script>

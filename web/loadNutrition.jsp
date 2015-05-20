@@ -12,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Gender Form</title>
+   <title>Nutrition Form</title>
      <link rel="shortcut icon" href="images/logo.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -148,14 +148,14 @@
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">GENDER</b>
+                        <b style="color:white;text-align: center;font-size: 20px;">Nutrition</b>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="sessionsHolder" class="form-horizontal">
                           
                          
-                         <table id="gendertable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
+                         <table id="nutritiontable" cellpadding="2px" border="1" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
                           
                            
                             
@@ -164,7 +164,7 @@
                             
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validate</button>
+                              <button type="submit" id="vmmcvalidate" class="btn blue">Run Validate</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>
@@ -248,12 +248,12 @@ success:function (data){
          
          
          $.ajax({
-            url:'loadGender',
+            url:'loadNutrition',
             type:'post',
             dataType:'html',
             success:function (data){
-                $("#gendertable").html(data);
-           // $("#P121DM0").focus();   
+                $("#nutritiontable").html(data);
+          //  $("#P51D1").focus();   
             }
             
             
@@ -313,13 +313,13 @@ success:function (data){
             
             
              $.ajax({
-url:'saveGender?col='+col+"&achieved="+achieved,
+url:'saveNutrition?col='+col+"&achieved="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){      
     
       //if the col being autoseved is a total, show a different color 
-      if(col.endsWith("T")||col=='GEND_GBVM'||col=='GEND_GBVF'||col=='GEND_GBV'||col=='GEND_GBV25'||col=='GEND_GBV24'||col=='GEND_GBV17'||col=='GEND_GBV14'||col=='GEND_GBV9'){
+      if(col.endsWith("T")||col=="MCHNtrnFood" || col=="C51DC" ){
        
        $("#"+col).css({'background-color' : '#CCCCFF'});
           
@@ -367,7 +367,7 @@ success:function (data){
     location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
         
-}
+                       }
              
              });    
           
@@ -377,262 +377,65 @@ success:function (data){
    
       //______________________________________________________________________________________________________________   
       
-      function p121total(){
-      
-      
-      var one=document.getElementById("P121DM0").value;
-      var two=document.getElementById("P121DF0").value;
-      
-      var three=document.getElementById("P121DM10").value;
-      var four=document.getElementById("P121DF10").value;
-      
-      var five=document.getElementById("P121DM15").value;
-      var six=document.getElementById("P121DF15").value;
-      
-      var seven=document.getElementById("P121DM20").value;
-      var eight=document.getElementById("P121DF20").value;
-      
-      var nine=document.getElementById("P121DM25").value;
-      var ten=document.getElementById("P121DF25").value;
    
+      
+     
+     
+       function c23dtotal(){
+     
+     var one=document.getElementById("MCHNtrnFoodOVC").value;
+     var two=document.getElementById("MCHNtrnFoodPLHIV").value;
+     
       if(one==""){one=0;}
       if(two==""){two=0;}
+     
+       var mid1=parseInt(one)+parseInt(two);
+       
+       document.getElementById("MCHNtrnFood").value=mid1;
+    
+       autosave('MCHNtrnFood');
+     
+     
+     }
+     
+      function c51dtotal(){
+     
+     var one=document.getElementById("C51DCM").value;
+     var two=document.getElementById("C51DCF").value;   
+     var three=document.getElementById("C51DP").value;
+     
+    // var four=document.getElementById("C51DAM").value;
+    // var five=document.getElementById("C51DAF").value;
+     
+     
+       if(one==""){one=0;}
+      if(two==""){two=0;}
       if(three==""){three=0;}
-      if(four==""){four=0;}
-      if(five==""){five=0;}
-      if(six==""){six=0;}
-      if(seven==""){seven=0;}
-      if(eight==""){eight=0;}
-      if(nine==""){nine=0;}
-      if(ten==""){ten=0;}
+      //------------------to be activated later when need be
+     // if(four==""){four=0;}
+     // if(five==""){five=0;}
+     
+      var mid1=parseInt(one)+parseInt(two);
+      var allttl=parseInt(one)+parseInt(two)+parseInt(three);
+     
+      document.getElementById("C51DC").value=mid1;
+      document.getElementById("C51DT").value=allttl;
+      document.getElementById("C51DMT").value=one;
+      document.getElementById("C51DFT").value=two;
       
-  
-            
-           var fttl=parseInt(two)+parseInt(four)+parseInt(six)+parseInt(eight)+parseInt(ten);
-           var mttl=parseInt(one)+parseInt(three)+parseInt(five)+parseInt(seven)+parseInt(nine);
-           var tttl=parseInt(fttl)+parseInt(mttl);
-           document.getElementById("P121DFT").value=fttl;
-           document.getElementById("P121DMT").value=mttl;
-           document.getElementById("P121DTT").value=tttl;
-            //now calculate the percentage and call a save           
-            autosave('P121DFT'); 
-            autosave('P121DMT'); 
-            autosave('P121DTT');       
-        
-      
-      }
-      
+       autosave('C51DC');
+       autosave('C51DT');
+       autosave('C51DMT');
+       autosave('C51DFT');
+     
+     }
+     
+     
       //______________________________________________________________________________________________________________
       
-      function p122total(){
-     
-
-  var one=document.getElementById("P122DM0").value;
-      var two=document.getElementById("P122DF0").value;
-      
-      var three=document.getElementById("P122DM15").value;
-      var four=document.getElementById("P122DF15").value;
-      
-      var five=document.getElementById("P122DM25").value;
-      var six=document.getElementById("P122DF25").value;
-      
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      if(five==""){five=0;}
-      if(six==""){six=0;}
-      
-      
-  
-            
-           var fttl=parseInt(two)+parseInt(four)+parseInt(six);
-           var mttl=parseInt(one)+parseInt(three)+parseInt(five);
-           var tttl=parseInt(fttl)+parseInt(mttl);
-           document.getElementById("P122DFT").value=fttl;
-           document.getElementById("P122DMT").value=mttl;
-           document.getElementById("P122DTT").value=tttl;
-            //now calculate the percentage and call a save           
-            autosave('P122DFT'); 
-            autosave('P122DMT'); 
-            autosave('P122DTT');          
-        
-
-          
-      }
-      function p123total(){
-     
-
-
-
  
-      var one=document.getElementById("P123DM0").value;
-      var two=document.getElementById("P123DF0").value;
-      
-      var three=document.getElementById("P123DM15").value;
-      var four=document.getElementById("P123DF15").value;
-      
-      var five=document.getElementById("P123DM25").value;
-      var six=document.getElementById("P123DF25").value;
-      
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      if(five==""){five=0;}
-      if(six==""){six=0;}
-      
-      
-  
-            
-           var fttl=parseInt(two)+parseInt(four)+parseInt(six);
-           var mttl=parseInt(one)+parseInt(three)+parseInt(five);
-           var tttl=parseInt(fttl)+parseInt(mttl);
-           document.getElementById("P123DFT").value=fttl;
-           document.getElementById("P123DMT").value=mttl;
-           document.getElementById("P123DTT").value=tttl;
-            //now calculate the percentage and call a save           
-            autosave('P123DFT'); 
-            autosave('P123DMT'); 
-            autosave('P123DTT');       
-        
-
-
-          
-      }
-      function p124total(){
-          
-       
-       
-      var one=document.getElementById("P124DM0").value;
-      var two=document.getElementById("P124DF0").value;
-      
-      var three=document.getElementById("P124DM15").value;
-      var four=document.getElementById("P124DF15").value;
-      
-      var five=document.getElementById("P124DM25").value;
-      var six=document.getElementById("P124DF25").value;
-      
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      if(five==""){five=0;}
-      if(six==""){six=0;}
-      
-      
-  
-            
-           var fttl=parseInt(two)+parseInt(four)+parseInt(six);
-           var mttl=parseInt(one)+parseInt(three)+parseInt(five);
-           var tttl=parseInt(fttl)+parseInt(mttl);
-           document.getElementById("P124DFT").value=fttl;
-           document.getElementById("P124DMT").value=mttl;
-           document.getElementById("P124DTT").value=tttl;
-            //now calculate the percentage and call a save           
-            autosave('P124DFT'); 
-            autosave('P124DMT'); 
-            autosave('P124DTT');       
-        
-
-
-       
-       
-      }
-      function gbvtotal(){
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-      var one=document.getElementById("GEND_GBV9M").value;
-      var two=document.getElementById("GEND_GBV9F").value;
-      
-      var three=document.getElementById("GEND_GBV14M").value;
-      var four=document.getElementById("GEND_GBV14F").value;
-      
-      var five=document.getElementById("GEND_GBV17M").value;
-      var six=document.getElementById("GEND_GBV17F").value;
-      
-      var seven=document.getElementById("GEND_GBV24M").value;
-      var eight=document.getElementById("GEND_GBV24F").value;
-      
-      var nine=document.getElementById("GEND_GBV25M").value;
-      var ten=document.getElementById("GEND_GBV25F").value;
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      if(five==""){five=0;}
-      if(six==""){six=0;}
-      if(seven==""){seven=0;}
-      if(eight==""){eight=0;}
-      if(nine==""){nine=0;}
-      if(ten==""){ten=0;}
-      
-  //total of middle values
-  
-  //total per ages
-  
-  var mid1=parseInt(one)+parseInt(two);
-  var mid2=parseInt(three)+parseInt(four);
-  var mid3=parseInt(five)+parseInt(six);
-  var mid4=parseInt(seven)+parseInt(eight);
-  var mid5=parseInt(nine)+parseInt(ten);
-    
-   document.getElementById("GEND_GBV9").value=mid1;  
-   document.getElementById("GEND_GBV14").value=mid2;  
-   document.getElementById("GEND_GBV17").value=mid3;  
-   document.getElementById("GEND_GBV24").value=mid4;  
-   document.getElementById("GEND_GBV25").value=mid5;  
-    
-      autosave('GEND_GBV9'); 
-      autosave('GEND_GBV14'); 
-      autosave('GEND_GBV17'); 
-      autosave('GEND_GBV24'); 
-      autosave('GEND_GBV25'); 
-    
-    
-           var fttl=parseInt(two)+parseInt(four)+parseInt(six)+parseInt(eight)+parseInt(ten);
-           var mttl=parseInt(one)+parseInt(three)+parseInt(five)+parseInt(seven)+parseInt(nine);
-           var tttl=parseInt(fttl)+parseInt(mttl);
-           document.getElementById("GEND_GBVF").value=fttl;
-           document.getElementById("GEND_GBVM").value=mttl;
-           document.getElementById("GEND_GBV").value=tttl;
-            //now calculate the percentage and call a save           
-            autosave('GEND_GBVF'); 
-            autosave('GEND_GBVM'); 
-            autosave('GEND_GBV');    
-    
-    
-          
-      }
-    
-    
-    
-     $('body').on('keydown', 'input, select, textarea', function(e) {
+ 
+  $('body').on('keydown', 'input, select, textarea', function(e) {
 var self = $(this)
   , form = self.parents('form:eq(0)')
   , focusable
@@ -670,7 +473,7 @@ if (e.keyCode == 13) {
 }
 });
  
-    
+      
       
    </script>
    <!-- END JAVASCRIPTS -->   
