@@ -39,6 +39,7 @@ String facilityID,year,month,userid,tableid;
 
         columnName=request.getParameter("columnName").trim();
         value=request.getParameter("value").trim();
+        if(value.equals("")){value="0";}
     System.out.println("col : "+columnName+" value : "+value);
     if(session.getAttribute("userid")!=null){        
 userid=session.getAttribute("userid").toString();
@@ -55,8 +56,8 @@ month=session.getAttribute("monthid").toString();
 facilityID=session.getAttribute("facilityid").toString();
 }
 tableid=year+"_"+month+"_"+facilityID;
-           
-      String Insertqr= "insert into moh731  set SubPartnerID='"+facilityID+"',Annee='"+year+"',Mois='"+month+"', "+columnName+"='"+value+"' , id='"+tableid+"' , user_id='"+userid+"'";
+       System.out.println("value is : "+value);
+String Insertqr= "insert into moh731  set SubPartnerID='"+facilityID+"',Annee='"+year+"',Mois='"+month+"', "+columnName+"='"+value+"' , id='"+tableid+"' , user_id='"+userid+"'";
 String updateqr="update moh731 set "+columnName+"='"+value+"' where id='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 

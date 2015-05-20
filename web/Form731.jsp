@@ -38,7 +38,14 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
- 
+    
+<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+   
+   <!--
+ -->
    <script type="text/javascript" language="en">
    function numbers(evt){
 var charCode=(evt.which) ? evt.which : event.keyCode
@@ -63,6 +70,7 @@ return true;
        });
        
         function autosave(columnName){
+  var totalsVariables =",HV0103,HV0116,HV0204,HV0209,HV0210,HV0217,HV0220,HV0228,HV0232,HV0236,HV0240,HV0244,HV0307,HV0313,HV0319,HV0325,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0344,HV0349,HV0354,HV0373,HV0406,HV0414,HV0415,HV0507,HV0514,";          
 //          alert("caled"+columnName);
             var achieved=document.getElementById(columnName).value;
 //           var achieved =$("#"+columnName).val();
@@ -73,19 +81,90 @@ url:'save731?columnName='+columnName+"&value="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){      
-    
+  if(totalsVariables.indexOf(","+columnName+",")>-1) {
+   $("#"+columnName).css({'background-color' : 'plum'});    
+  } else{
       $("#"+columnName).css({'background-color' : '#CCFFCC'});
         
 }
-             
+}            
              });
              }
-             
+           
        </script>
+       <script type="text/javascript">
+           $(document).ready(function(){
+                $("form").submit(function(){
+            
+        return true;
+            }) ;
+            
+  $('body').on('keydown', 'input, select, textarea', function(e) {
+var self = $(this)
+  , form = self.parents('form:eq(0)')
+  , focusable
+  , next
+  , prev
+  ;
+
+if (e.shiftKey) {
+ if (e.keyCode == 13) {
+     focusable =   form.find('input,a,select,button,textarea').filter(':visible');
+     prev = focusable.eq(focusable.index(this)-1); 
+
+     if (prev.length) {
+        prev.focus();
+     } else {
+        form.submit();
+    }
+  }
+}
+  else
+if (e.keyCode == 13) {
+    focusable = form.find('input,a,select,button,textarea').filter(':visible');
+    next = focusable.eq(focusable.index(this)+1);
+    if (next.length) {
+        next.focus();
+    } else {
+        form.submit();
+    }
+    return false;
+}
+});
+            
+           });
+       </script>
+        <style>
+fieldset.formatter {
+    border: 2px groove black !important;
+   
+    /*padding: 0 1.4em 1.4em 1.4em !important;*/
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+   
+}
+
+legend.formatter {
+    border: 0px groove black !important;
+    margin: 0 0 0.0em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+    font-size: 1.2em !important;
+    /*font-weight: bold !important;*/
+    text-align: center !important;
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-left:50px;
+
+}
+</style>
+<script type="text/javascript" src="js/form731Totals.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top">
+<body class="fixed-top" onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }" >
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -115,8 +194,25 @@ MENU 1
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
+                   
+                   <%if (session.getAttribute("validate731") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("validate731")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 4800});
+                    
+                </script> <%
+                session.removeAttribute("validate731");
+                            }
+
+                        %>
+                        
+                        
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
-                  <form action="#" class="form-horizontal" style="min-height: 450px;">
+                  <form action="validate731" method="post" class="form-horizontal" style="min-height: 450px;">
 <!--                  <div class="portlet box blue">
                      <div class="portlet-title">
                         <h4 style="margin-left:40%;"><b>MOH 731 FORM.</b></h4>
