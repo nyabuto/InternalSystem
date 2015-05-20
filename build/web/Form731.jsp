@@ -57,6 +57,7 @@ return true;
 </script>
    <script type="text/javascript">
        $(document).ready(function(){
+      
              $.ajax({
         url:"load731",
         type:"post",
@@ -64,7 +65,9 @@ return true;
         success:function(data){
             data=$.trim(data);
            
-         $("#data").html(data);   
+         $("#data").html(data); 
+ var validity=$("#checkValidity").html();
+$("#isValidated").html(validity);
         }
     }); 
        });
@@ -75,26 +78,35 @@ return true;
             var achieved=document.getElementById(columnName).value;
 //           var achieved =$("#"+columnName).val();
 //            alert("called : "+columnName+"   value : "+achieved);
-            
+            if(achieved!=""){
              $.ajax({
 url:'save731?columnName='+columnName+"&value="+achieved,
 type:'post',
 dataType:'html',
-success:function (data){      
-  if(totalsVariables.indexOf(","+columnName+",")>-1) {
+success:function (data){
+   if(data.trim()!="success"){$("#error").html(data);
+     $("#"+columnName).css({'background-color' : 'red'});
+        }
+    else{
+        $("#error").html("");
+    if(achieved==""){}
+  else if(totalsVariables.indexOf(","+columnName+",")>-1) {
    $("#"+columnName).css({'background-color' : 'plum'});    
   } else{
       $("#"+columnName).css({'background-color' : '#CCFFCC'});
-        
 }
-}            
+
+$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
+}
+}
              });
+         }
              }
            
        </script>
        <script type="text/javascript">
            $(document).ready(function(){
-                $("form").submit(function(){
+               $("form").submit(function(){
             
         return true;
             }) ;
@@ -109,11 +121,16 @@ var self = $(this)
 
 if (e.shiftKey) {
  if (e.keyCode == 13) {
-     focusable =   form.find('input,a,select,button,textarea').filter(':visible');
+     focusable =   form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
      prev = focusable.eq(focusable.index(this)-1); 
 
      if (prev.length) {
         prev.focus();
+        $(prev).select();
      } else {
         form.submit();
     }
@@ -121,10 +138,15 @@ if (e.shiftKey) {
 }
   else
 if (e.keyCode == 13) {
-    focusable = form.find('input,a,select,button,textarea').filter(':visible');
+    focusable = form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
     next = focusable.eq(focusable.index(this)+1);
     if (next.length) {
         next.focus();
+       $(next).select();
     } else {
         form.submit();
     }
@@ -133,6 +155,22 @@ if (e.keyCode == 13) {
 });
             
            });
+           
+      function updatefacilsession(){
+          
+        var facil=document.getElementById("facility").value;
+        $.ajax({
+url:'updatefacilitysession?facil='+facil,
+type:'post',
+dataType:'html',
+success:function (data){      
+    location.reload();
+    //  $("#"+col).css({'background-color' : '#CCFFCC'});       
+}
+             
+             });    
+ 
+      }       
        </script>
         <style>
 fieldset.formatter {
@@ -161,6 +199,12 @@ legend.formatter {
 }
 </style>
 <script type="text/javascript" src="js/form731Totals.js"></script>
+
+<script type="text/javascript">
+     $(document).ready(function(){
+
+});
+    </script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -169,9 +213,50 @@ legend.formatter {
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
       <div class="navbar-inner">
-          <div class="container-fluid" style="color:white;">
-            <!-- TOP MENU -->
-MENU 1
+ <div class="container-fluid">
+            <!-- BEGIN LOGO -->
+           <div class="control-group">
+                             <div style="float:right;"> 
+                                <font color="red" size="5px"><b id="error"></b></font>
+                                 <font color="white" size="5px"><b>Year: </b></font>  
+                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                 
+                                    <font color="white" size="5px"><b>Month: </b></font>  
+                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
+                                 
+                                   
+                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select></div>
+                              
+                           </div>
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+            <img src="assets/img/menu-toggler.png" alt="" />
+            </a>          
+            <!-- END RESPONSIVE MENU TOGGLER -->            
+            <!-- BEGIN TOP NAVIGATION MENU -->              
+            <ul class="nav pull-left">
+              
+               <li class="dropdown user">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                 
+                  <span class="username">Welcome</span>
+                  <i class="icon-angle-down"></i>
+                  </a>
+                  <ul class="dropdown-menu">
+                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
+                   
+                     <li class="divider"></li>
+                     <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
+                  </ul>
+               </li>
+               <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+            <!-- END TOP NAVIGATION MENU --> 
          </div>
       </div>
       <!-- END TOP NAVIGATION BAR -->
@@ -180,7 +265,7 @@ MENU 1
    <!-- BEGIN CONTAINER -->
    <div class="page-container row-fluid" style="height: auto;">
       <!-- BEGIN SIDEBAR -->
-      <div class="page-sidebar nav-collapse collapse">
+      <div class="page-sidebar nav-collapse collapse" style="position:fixed; ">
          <!-- BEGIN SIDEBAR MENU -->         
        <%@include file="/menu/menu.jsp"%>
          <!-- END SIDEBAR MENU -->
@@ -194,6 +279,12 @@ MENU 1
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
+                   <ul class="breadcrumb" >
+                     <li style="margin-left:40%; font-size:20px;">
+                        <!--<i class="icon-home"></i>-->
+                        <p>MOH 731</p>
+                      </li>
+                  </ul>
                    
                    <%if (session.getAttribute("validate731") != null) { %>
                                 <script type="text/javascript"> 
@@ -228,12 +319,15 @@ MENU 1
                         <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>
                         <li><a class="advance_form_with_chosen_element" href="#tab_5" data-toggle="tab">5. PEP</a></li>
                         <li><a class="advance_form_with_chosen_element" href="#tab_6" data-toggle="tab">6. Blood Safety</a></li>
-                     </ul> </div>
+                        <li style="margin-left:150px;" id="isValidated"></li>
+                     </ul>
+                   
+                     </div>
                          <!-- BEGIN FORM-->
                          <div class="tab-content" id="data">
                         
                        
-                         <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+                         <i style="margin-left: 450px; margin-top: 200px;">  loading form MOH731...<img src="images/utube.gif"></i>
                         
                        
                         <!-- END FORM-->           
@@ -267,8 +361,7 @@ int year= cal.get(Calendar.YEAR);
 %>
                <p align="center" style=" font-size: 18px;"> &copyInternal System, Aphia Plus | USAID <%=year%>.</p>
             </div>
-
-    
+   <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -287,12 +380,20 @@ int year= cal.get(Calendar.YEAR);
    <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script src="assets/js/app.js"></script>     
+   <script src="assets/js/app.js"></script>    
    <script>
       jQuery(document).ready(function() {       
-         // initiate layout and plugins
-         App.init();
-      });
+             
+               $.ajax({
+url:'loadFacilities',
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+       App.init();  
+}
+}); 
+   });
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>

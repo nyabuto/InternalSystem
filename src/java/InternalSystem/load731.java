@@ -50,7 +50,7 @@ String HV0301,HV0302,HV0303,HV0304,HV0305,HV0306,HV0307,HV0308,HV0309,HV0310,HV0
         HV0354,HV0355,HV0904,HV0905,HV0370,HV0371,HV0372,HV0373;
 String HV0401,HV0402,HV0403,HV0406,HV0407,HV0408,HV0409,HV0410,HV0411,HV0412,HV0413,HV0414,HV0415;
 String HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507,HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514;
-String HV0601,HV0602,HV0605;
+String HV0601,HV0602,HV0605,isValidated,validity;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -80,7 +80,7 @@ String HV0601,HV0602,HV0605;
                               "</div><div class=\"portlet-body form\">";
         
         PMTCT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">Prevention of Mother-to-Child Transmission</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:30%;\">Prevention of Mother-to-Child Transmission</h4>" +
                               "</div><div class=\"portlet-body form\">";
         CT="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">Care and Treatment</h4>" +
@@ -95,7 +95,7 @@ String HV0601,HV0602,HV0605;
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">Blood Safety</h4>" +
                               "</div><div class=\"portlet-body form\">";
         
-            
+  isValidated="";validity="";          
  HV0101=HV0102=HV0103=HV0105=HV0106=HV0107=HV0108=HV0109=HV0110=HV0111=HV0112=HV0113=HV0114=
         HV0115=HV0116="";
 HV0201=HV0202=HV0203=HV0204=HV0205=HV0206=HV0207=HV0208=HV0209=HV0210=HV0211=HV0212=HV0213=
@@ -271,11 +271,28 @@ if(conn.rs.getString("HV0514")!=null){HV0514=conn.rs.getString("HV0514");}
 if(conn.rs.getString("HV0601")!=null){HV0601=conn.rs.getString("HV0601");}
 if(conn.rs.getString("HV0602")!=null){HV0602=conn.rs.getString("HV0602");}
 if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
-          }
          
+//  Check if the form is validated============
+isValidated=conn.rs.getString("isValidated");
+
+          }
+          System.out.println("Validity checker : "+isValidated);
+      if(isValidated.equals("0")){
+  validity="<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;
+}
+      else if(isValidated.equals("1")){
+   validity="<font color=\"green\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
+}
+      else{
+        validity="<font color=\"blue\"><b>New Form</b></font>"  ;          
+              }
+      
+      session.setAttribute("isValidated", validity);
+      
+      System.out.println("read from session : "+session.getAttribute("isValidated").toString());
    //####################HIV COUNSELLING AND TESTING#######################################
 //              ###################################################################
-              
+             String checkValidity="<p hidden=\"true\" id=\"checkValidity\">"+validity+"</p>"; 
        testing=receiving_results=receiving_postive_results="";    
           HIV_CT+="";
       testing="<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">1.1 Testing.</b></legend><table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><br></td></tr>"
@@ -292,7 +309,7 @@ if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
               + "<td style=\"padding-right:40px;\">Couples</td><td style=\"padding-right:40px;\" >HV01-05</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"3\" name=\"HV0105\" id=\"HV0105\" value=\""+HV0105+"\" onblur=\"autosave('HV0105');\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                + "<tr>"
-              + "<td style=\"padding-right:40px;\">Staic [Facility]</td><td style=\"padding-right:40px;\" >HV01-06</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"4\" name=\"HV0106\" id=\"HV0106\" value=\""+HV0106+"\" onblur=\"autosave('HV0106');\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td style=\"padding-right:40px;\">Static [Facility]</td><td style=\"padding-right:40px;\" >HV01-06</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"4\" name=\"HV0106\" id=\"HV0106\" value=\""+HV0106+"\" onblur=\"autosave('HV0106');\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                + "<tr>"
               + "<td style=\"padding-right:40px;\">Outreach</td><td style=\"padding-right:40px;\" >HV01-07</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"5\" name=\"HV0107\" id=\"HV0107\" value=\""+HV0107+"\" onblur=\"autosave('HV0107');\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
@@ -834,8 +851,8 @@ if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
         PEP+="</div></div></div>";
         Blood+="</div></div></div>";
         
-        data=HIV_CT+""+PMTCT+""+CT+""+VMMC+""+PEP+""+Blood;
-        data+="<input type=\"submit\" style=\"margin-left:40%; background-color:plum;\" value=\"Run Validate\">";
+        data=HIV_CT+""+PMTCT+""+CT+""+VMMC+""+PEP+""+Blood+""+checkValidity;
+        data+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validate\">";
             out.println(data);
         } finally {
             out.close();

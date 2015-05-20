@@ -26,6 +26,7 @@ public class save731 extends HttpServlet {
 HttpSession session;
 String columnName,value;
 String facilityID,year,month,userid,tableid;
+String error;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,7 +36,7 @@ String facilityID,year,month,userid,tableid;
            dbConn conn = new dbConn();
            
      userid="unknown";
-     facilityID=year=month="";
+     facilityID=year=month="";error="";
 
         columnName=request.getParameter("columnName").trim();
         value=request.getParameter("value").trim();
@@ -55,10 +56,16 @@ month=session.getAttribute("monthid").toString();
     if(session.getAttribute("facilityid")!=null){        
 facilityID=session.getAttribute("facilityid").toString();
 }
+//    year="";
+    if(year.equals("") || month.equals("") ||facilityID.equals("") ){error="<font color=\"red\">ERROR : Please select year and facility.</font>";}
+    else{
+        error="success";
+    
+    
 tableid=year+"_"+month+"_"+facilityID;
        System.out.println("value is : "+value);
 String Insertqr= "insert into moh731  set SubPartnerID='"+facilityID+"',Annee='"+year+"',Mois='"+month+"', "+columnName+"='"+value+"' , id='"+tableid+"' , user_id='"+userid+"'";
-String updateqr="update moh731 set "+columnName+"='"+value+"' where id='"+tableid+"'";
+String updateqr="update moh731 set "+columnName+"='"+value+"',isValidated='0' where id='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 
 String checker="select "+columnName+" from moh731 where id='"+tableid+"'";     
@@ -75,7 +82,9 @@ else {
         conn.st.executeUpdate(Insertqr);
 
 }
- out.println("success");
+    }
+System.out.println("error : "+error);
+ out.println(error);
         } finally {
             out.close();
         }

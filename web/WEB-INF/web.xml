@@ -104,7 +104,14 @@
         <servlet-name>validate731</servlet-name>
         <servlet-class>InternalSystem.validate731</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>addUsers</servlet-name>
+        <servlet-class>InternalSystem.addUsers</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateProfile</servlet-name>
+        <servlet-class>InternalSystem.updateProfile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -208,6 +215,14 @@
     <servlet-mapping>
         <servlet-name>validate731</servlet-name>
         <url-pattern>/validate731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addUsers</servlet-name>
+        <url-pattern>/addUsers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateProfile</servlet-name>
+        <url-pattern>/updateProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

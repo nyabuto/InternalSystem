@@ -25,55 +25,71 @@ import javax.servlet.http.HttpSession;
  *
  * @author Geofrey Nyabuto
  */
-public class login extends HttpServlet {
+public class updateProfile extends HttpServlet {
 HttpSession session;
-String username,password,fname,mname,lname,userid,level,pass,fullname,status,nextPage;
+String fname,mname,lname,username,password,pass,level,userid,fullname;
+String found;
 MessageDigest m;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
-      session=request.getSession();
-          dbConn conn = new dbConn();
-          username=password=fname=mname=lname=userid=level=pass=fullname=status=nextPage="";
-          
-          username=request.getParameter("username").trim();
-          pass=request.getParameter("password").trim();
-          
-          System.out.println("username : "+username+" password : "+pass);
-          m = MessageDigest.getInstance("MD5");
+     session=request.getSession();
+    dbConn conn = new dbConn();
+    
+      userid="1";
+      userid=session.getAttribute("userid").toString();
+    
+    fname=request.getParameter("fname").toUpperCase();
+    mname=request.getParameter("mname").toUpperCase();
+    lname=request.getParameter("lname").toUpperCase();
+    username=request.getParameter("username");
+    pass=request.getParameter("password");
+
+       m = MessageDigest.getInstance("MD5");
        m.update(pass.getBytes(), 0, pass.length());
        password = new BigInteger(1, m.digest()).toString(16);
-        System.out.println("username : "+username+" password : "+password);  
-        String logger="SELECT userid,fname,mname,lname,level FROM user WHERE username=? && password=?" ;
-        conn.pst=conn.conn.prepareStatement(logger);
-        conn.pst.setString(1, username);
-        conn.pst.setString(2, password);
-         conn.rs=conn.pst.executeQuery();
-         if(conn.rs.next()==true){
-             userid=conn.rs.getString(1);
-             fname=conn.rs.getString(2);
-             mname=conn.rs.getString(3);
-             lname=conn.rs.getString(4);
-             level=conn.rs.getString(5);
-             fullname=fname+" "+mname+" "+lname;
-             session.setAttribute("userid", userid);
-             session.setAttribute("fullname", fullname);
-             session.setAttribute("level", level);
+       
+    
+    String checker="SELECT userid FROM user WHERE ((fname=? && mname=? && lname=?) || username=?) && userid!=?";
+    conn.pst=conn.conn.prepareStatement(checker);
+    conn.pst.setString(1, fname);
+    conn.pst.setString(2, mname);
+    conn.pst.setString(3, lname);
+    conn.pst.setString(4, username);
+    conn.pst.setString(5, userid);
+    
+    conn.rs=conn.pst.executeQuery();
+    if(conn.rs.next()==true){
+        
+   session.setAttribute("editUser", "<font color=\"blue\">"+fullname+"</font> <font color=\"red\"> Already exist.</font>");     
+    }
+    
+    
+    else{
+//     ADD THE USER
+        String inserter="UPDATE user SET fname=?,mname=?,lname=?,username=?,password=? WHERE userid=?";
+        conn.pst=conn.conn.prepareStatement(inserter);
+        conn.pst.setString(1, fname);
+        conn.pst.setString(2, mname);
+        conn.pst.setString(3, lname);
+        conn.pst.setString(4, username);
+        conn.pst.setString(5, password);
+        conn.pst.setString(6, userid);
+    
+        conn.pst.executeUpdate();
+        
+        fullname=fname+" "+mname+" "+lname;
+      
              
+             session.setAttribute("fullname", fullname);
              session.setAttribute("username", username);
              session.setAttribute("fname", fname);
              session.setAttribute("mname", mname);
              session.setAttribute("lname", lname);
-          status="success"; 
-          nextPage="home.jsp";
-         }
-         else{
-             status="<font color=\"red\"><b>Failed:</b> Wrong username and password combination.</font>";
-             nextPage="index.jsp";
-             session.setAttribute("login", status);
-         }
-         System.out.println("STATUS IS :  "+status);
- 
-         response.sendRedirect(nextPage);
+     session.setAttribute("editProfile", "<font color=\"black\">"+fullname+"</font> <font color=\"green\"> Details edited successfully.</font>");
+    }
+    
+    
+    response.sendRedirect("editProfile.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,9 +107,9 @@ MessageDigest m;
     try {
         processRequest(request, response);
     } catch (NoSuchAlgorithmException ex) {
-        Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(updateProfile.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {
-        Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(updateProfile.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -111,9 +127,9 @@ MessageDigest m;
     try {
         processRequest(request, response);
     } catch (NoSuchAlgorithmException ex) {
-        Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(updateProfile.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {
-        Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(updateProfile.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 

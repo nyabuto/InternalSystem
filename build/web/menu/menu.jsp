@@ -8,7 +8,7 @@
             
             </li>
             <li class="start " style="background-color: #69a4e0;">
-               <a href="index.html">
+               <a href="#">
              <span class="title" ><b>Hi, <%if(session.getAttribute("userid")!=null){out.println(session.getAttribute("fullname").toString());}%></b></span>
                </a>
                 </li>
@@ -19,7 +19,7 @@
                </a>
             </li>
             <li class="has-sub ">
-               <a href="#">
+               <a href="load711.jsp">
                <!--<i class="icon-bookmark-empty"></i>--> 
                <span class="title">MOH 711A</span>
                <!--<span class="arrow "></span>-->
@@ -27,7 +27,7 @@
               
             </li>
             <li class="active has-sub ">
-               <a href="#">
+               <a href="Form731.jsp">
                <!--<i class="icon-table"></i>--> 
                <span class="title">MOH 731</span>
                <!--<span class="selected"></span>-->
@@ -36,7 +36,7 @@
               
             </li>
             <li class="has-sub ">
-               <a href="#">
+               <a href="loadGender.jsp">
                <!--<i class="icon-th-list"></i>--> 
                <span class="title">Gender</span>
                <!--<span class="arrow "></span>-->
@@ -44,7 +44,7 @@
               
             </li>
             <li class="has-sub ">
-               <a href="#">
+               <a href="loadVmmc.jsp">
                <!--<i class="icon-th-list"></i>--> 
                <span class="title">VMMC</span>
                <!--<span class="arrow "></span>-->
@@ -52,7 +52,7 @@
               
             </li>
             <li class="has-sub ">
-               <a href="#">
+               <a href="loadNutrition.jsp">
                <!--<i class="icon-map-marker"></i>--> 
                <span class="title">Nutrition</span>
                <!--<span class="arrow "></span>-->
@@ -60,13 +60,13 @@
               
             </li>
             <li class="">
-               <a href="#">
+               <a href="loadKmmp.jsp">
                <!--<i class="icon-bar-chart"></i>--> 
                <span class="title">KMMP</span>
                </a>
             </li>
             <li class="">
-               <a href="#">
+               <a href="loadTb.jsp">
                <!--<i class="icon-calendar"></i>--> 
                <span class="title">TB</span>
                </a>
@@ -78,8 +78,8 @@
                <span class="arrow "></span>
                </a>
                <ul class="sub">
-                  <li ><a href="#">Add Users</a></li>
-                  <li ><a href="#">Edit Profile</a></li>
+                  <li ><a href="addUsers.jsp">Add Users</a></li>
+                  <li ><a href="editProfile.jsp">Edit Profile</a></li>
            
                </ul>
             </li>
