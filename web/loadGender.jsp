@@ -37,6 +37,11 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+   
+   <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
   
 </head>
@@ -66,6 +71,23 @@
                                  </select></div>
                               
                            </div>
+                                   
+                                   
+                                    <%if (session.getAttribute("genderresponse") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("genderresponse")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 4800});
+                    
+                </script> <%
+                session.removeAttribute("genderresponse");
+                            }
+
+                        %>
+                                   
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -152,7 +174,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="sessionsHolder" class="form-horizontal">
+                        <form action="validateGender" class="form-horizontal">
                           
                          
                          <table id="gendertable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
@@ -321,7 +343,7 @@ success:function (data){
       //if the col being autoseved is a total, show a different color 
       if(col.endsWith("T")||col=='GEND_GBVM'||col=='GEND_GBVF'||col=='GEND_GBV'||col=='GEND_GBV25'||col=='GEND_GBV24'||col=='GEND_GBV17'||col=='GEND_GBV14'||col=='GEND_GBV9'){
        
-       $("#"+col).css({'background-color' : '#CCCCFF'});
+       $("#"+col).css({'background-color' : 'plum'});
           
       }
       else {

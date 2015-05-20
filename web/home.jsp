@@ -49,7 +49,8 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h3 style="text-align:center;color:white;">Internal System</h3>
+            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">IMIS</h1><br/>
+            
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -65,19 +66,23 @@
              
                <!-- END TODO DROPDOWN -->
                <!-- BEGIN USER LOGIN DROPDOWN -->
+               
+             <!--  
                <li class="dropdown user">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                  
-                  <span class="username">Welcome</span>
+                  <span class="username" style="background: ;">Welcome</span>
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="#"><i class="icon-user"></i> User Profile</a></li>
+                     <li><a href="editProfile.jsp"><i class="icon-user"></i> User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i>Log Out</a></li>
                   </ul>
-               </li>
+               </li> -->
+               
+               
                <!-- END USER LOGIN DROPDOWN -->
             </ul>
             <!-- END TOP NAVIGATION MENU --> 
@@ -91,7 +96,7 @@
       <!-- BEGIN SIDEBAR -->
       <div class="page-sidebar nav-collapse collapse">
          <!-- BEGIN SIDEBAR MENU -->         
-       <%@include file="/menu/menu.jsp"%>
+       <%@include file="/menu/minimenu.jsp"%>
          <!-- END SIDEBAR MENU -->
       </div>
       <!-- END SIDEBAR -->

@@ -37,6 +37,11 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+   
+   <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
   
 </head>
@@ -66,6 +71,23 @@
                                  </select></div>
                               
                            </div>
+                                   
+                                   
+                                          <%if (session.getAttribute("kmmpresponse") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("kmmpresponse")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 4800});
+                    
+                </script> <%
+                session.removeAttribute("kmmpresponse");
+                            }
+
+                        %>
+                                   
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">

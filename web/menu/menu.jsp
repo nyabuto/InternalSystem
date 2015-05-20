@@ -71,22 +71,30 @@
                <span class="title">TB</span>
                </a>
             </li>
+<!--             <li class="">
+               <a href="#">
+               <i class="icon-calendar"></i> 
+               <span class="title">HEI</span>
+               </a>
+            </li>-->
            <li class="has-sub ">
                <a href="#">
-               <!--<i class="icon-th-list"></i>--> 
+               <i class="icon-signin"></i>
                <span class="title">Management</span>
                <span class="arrow "></span>
                </a>
-               <ul class="sub">
-                  <li ><a href="addUsers.jsp">Add Users</a></li>
-                  <li ><a href="editProfile.jsp">Edit Profile</a></li>
+                <ul class="sub">
+                  <li >
+                      
+                      <a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
+                  <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
            
                </ul>
             </li>
             <li class="has-sub ">
                <a href="#">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">reports</span>
+               <i class="icon-bar-chart"></i>
+               <span class="title">Reports</span>
                <!--<span class="arrow "></span>-->
                </a>
 <!--               <ul class="sub">

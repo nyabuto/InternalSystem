@@ -15,7 +15,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Internal System</title>
+  <title>IMIS System</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta content="" name="description" />
   <meta content="" name="author" />
@@ -40,13 +40,21 @@
 <!-- BEGIN BODY -->
 <body class="login" style="background-color: white;">
   <!-- BEGIN LOGO -->
-  <div class="logo" style="height:70px; width:400px; margin-left: 30%; margin-top: 0%">
+<!--  <div class="logo" style="height:70px; width:400px; margin-left: 30%; margin-top: 0%">
       <img src="images/index.JPG" alt="" width="650px"  style="margin-left:12%; margin-top:10px;height:100px;" /> 
-  </div><br><br><br><br>
+  </div><br><br><br><br>-->
   <!-- END LOGO -->
   <!-- BEGIN LOGIN -->
-  <div style="margin-left: 500px;">
+  <div style="margin-left: 33%;">
+      <div style="margin-right:25% ;">
+          <h3 style="color:#4b8df8;font-family: cambria;text-align: left;font-size: 32px; margin-left: -16%;font-weight: bold;"><b>Intergrated Management Information System</b></h3> 
+          <h3 style="color:#4b8df8; text-align: left;font-size: 42px; font-family: cambria;margin-left: 25%;font-weight: bold;"><b>( IMIS )</b></h3> 
+      </div>
+      <br/>
   <div class="content" style="">
+      
+ 
+      
     <!-- BEGIN LOGIN FORM -->
     <form action="login" class="form-vertical login-form" method="post" style="">
       <h3 class="form-title">Login to your account.</h3>
@@ -106,18 +114,23 @@
   
     <!-- END REGISTRATION FORM -->
   </div>
+                        
+                        
+                        <img src="images/aphia_logo.png" style="height:110px;border:1px solid #cbcdcc; padding:1%; width:410px;margin-left: 0%;"  />
+                        
+                        
   </div>                 
   <!-- END LOGIN -->
     <div class="copyright" style="width:auto;">
    <div id="footer">
-<img src="images/aphia_logo.png" style="height:120px;border:1px solid #000000; width:400px;margin-left: -6%;"  />
+
 <%
 Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);              
 
 %>
 <br><br>
-               <p align="center" style=" font-size: 18px;"> &copy Intergrated MIS | USAID <%=year%></p>
+               <p align="center" style=" font-size: 18px;"> &copy IMIS - APHIAPLUS | USAID <%=year%></p>
             </div>
   </div>
   <!-- END COPYRIGHT -->
