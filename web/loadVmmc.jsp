@@ -13,6 +13,8 @@
 <head>
    <meta charset="utf-8" />
    <title>VMMC Form</title>
+   
+      <script src="assets/js/jquery-1.8.3.min.js"></script>    
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -182,24 +184,17 @@ legend.formatter {
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="sessionsHolder" class="form-horizontal">
-                          
-                             <fieldset class="formatter"><legend class="formatter"><b style="text-align:center;"> Voluntary Male Circumcision Form</b></legend>
-                         
-                         
-                         <table id="gendertable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
-                          </fieldset>
-                           
-                            
+                        <form action="validateVmmc" class="form-horizontal">
+                   <div id="gendertable">   
+                       
+                       
+<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Voluntary Male Circumcision Form</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
                              
-                           
-                            
-                         
-                           <div class="form-actions">
-                     <input type="submit" class="btn blue" value="Run Validation" name="validate" id="validate"/>
-<!--                           
-<!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+    </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
+                      
+                   
+                   </div>
+                       
                         </form>
                         <!-- END FORM-->           
                      </div>
@@ -237,7 +232,7 @@ legend.formatter {
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   

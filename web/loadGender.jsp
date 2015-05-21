@@ -202,26 +202,18 @@ legend.formatter {
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="validateGender" class="form-horizontal">
-                          
-                            <fieldset class="formatter"><legend class="formatter"><b style="text-align:center;"> Prevention Sub Area 12:Gender</b></legend>
-                         
-                         <table id="gendertable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
-                          </fieldset>
-                           
+                    
+                            <div id="gendertable">
                             
+<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Prevention Sub Area 12:Gender</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
                              
-                           
+</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
+                        
                             
-                         
-                           <div class="form-actions">
-<!--                              <button type="submit" class="btn blue">Run Validation</button>-->
-                              
-                              <input type="submit" class="btn blue" value="Run Validation" name="validate" id="validate"/>
-<!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+                            </div>
                         </form>
                         <!-- END FORM-->           
-                     </div>
+                    
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
                </div>

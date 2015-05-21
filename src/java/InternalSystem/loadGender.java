@@ -342,7 +342,9 @@ if(GEND_GBV==null){GEND_GBV=""; }
 
     }
     
-    String createdtable="<tr class='form-actions'><th colspan='6'><b></b></th></tr>";
+    String createdtable="<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Prevention Sub Area 12:Gender</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'><tr class='form-actions'><th colspan='6'><b></b></th></tr>";
+    
+    if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains("Gender")){
     
     createdtable+="<tr><td rowspan='7'><b> P12.1.D: </b></td><td rowspan='7'>GEND_NORM: Number of people completing an intervention pertaining to gender norms, that meets minimum</td><td class='form-actions'>Age</td><td class='form-actions'>MALE</td><td style='width:80px;' class='form-actions'>FEMALE</td><td class='form-actions'>TOTAL</td></tr>";
     createdtable+="<tr><td><b>0-9</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P121DM0');p121total();\" value='"+P121DM0+"' name='P121DM0' id='P121DM0' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P121DF0');p121total();\" value='"+P121DF0+"' name='P121DF0' id='P121DF0' autofocus></td><td></td></tr>";
@@ -372,9 +374,14 @@ if(GEND_GBV==null){GEND_GBV=""; }
     createdtable+="<tr><td><b>18-24</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV24M');gbvtotal();\" value='"+GEND_GBV24M+"' name='GEND_GBV24M' id='GEND_GBV24M' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV24F');gbvtotal();\" value='"+GEND_GBV24F+"' name='GEND_GBV24F' id='GEND_GBV24F' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly  value='"+GEND_GBV24+"' name='GEND_GBV24' id='GEND_GBV24' autofocus></td></tr>";
     createdtable+="<tr><td><b>25+</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25M');gbvtotal();\" value='"+GEND_GBV25M+"' name='GEND_GBV25M' id='GEND_GBV25M' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25F');gbvtotal();\" value='"+GEND_GBV25F+"' name='GEND_GBV25F' id='GEND_GBV25F' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly value='"+GEND_GBV25+"' name='GEND_GBV25' id='GEND_GBV25' autofocus></td></tr>";
     createdtable+="<tr><td><b>Total</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVM+"' name='GEND_GBVM' id='GEND_GBVM' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVF+"' name='GEND_GBVF' id='GEND_GBVF' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return  numbers(event,this);\"  value='"+GEND_GBV+"' name='GEND_GBV' id='GEND_GBV' autofocus></td></tr>";
-    createdtable+="<tr><td></td><td></td><td class='form-actions'>Age</td><td class='form-actions'>MALE</td><td style='width:80px;' class='form-actions'>FEMALE</td><td class='form-actions'>TOTAL</td></tr>";
+    createdtable+="<tr><td></td><td></td><td class='form-actions'>Age</td><td class='form-actions'>MALE</td><td style='width:80px;' class='form-actions'>FEMALE</td><td class='form-actions'>TOTAL</td></tr>"
+            + "</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>";
     
-    
+    }
+    else {
+    createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  Gender module.</font></td></tr>";
+    }
+    }
       //System.out.println(createdtable);
       
     PrintWriter out = response.getWriter();

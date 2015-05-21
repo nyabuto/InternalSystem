@@ -36,7 +36,7 @@ HttpSession session=null;
     String achieved=request.getParameter("achieved");
     
     if(achieved.equals("")){
-    achieved="null";
+    achieved=null;
     }
     
     dbConn conn=new dbConn();

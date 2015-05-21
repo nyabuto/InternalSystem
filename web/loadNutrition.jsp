@@ -201,22 +201,14 @@ legend.formatter {
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="validateNutrition" class="form-horizontal">
-                          
-                         <fieldset class="formatter"><legend class="formatter"><b style="text-align:center;">3.1.9: Nutrition</b></legend>
-                         <table id="nutritiontable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
-                          
-                           </fieldset>
+                        <div id="nutritiontable">
                             
-                             
-                           
-                            
-                         
-                           <div class="form-actions">
-           
-                                <input type="submit" class="btn blue" value="Run Validation" name="validate" id="validate"/>
-<!--                           
-<!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+                         <fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'>3.1.9: Nutrition</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
+                                 
+                                 
+                             </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
+                                 </div>
+                                
                         </form>
                         <!-- END FORM-->           
                      </div>

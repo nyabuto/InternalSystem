@@ -204,9 +204,11 @@ legend.formatter {
                         <!-- BEGIN FORM-->
                         <form action="validateKmmp" class="form-horizontal">
                           
+                            <div id="kmmptable">
+                            
                            <fieldset class="formatter"><legend class="formatter"><b style="text-align:center;"> KMMP OUTPUT DATA</b></legend>
                          
-                         <table id="kmmptable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
+                         <table  cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
                           </fieldset>
                            
                             
@@ -214,12 +216,13 @@ legend.formatter {
                            
                             
                          
-                           <div class="form-actions">
+                           <div class='form-actions'>
                            
-                                <input type="submit" class="btn blue" value="Run Validation" name="validate" id="validate"/>
-<!--                           
-<!--                              <button type="button" class="btn">Cancel</button>-->
+                                <input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/>
+
                            </div>
+                                </div>
+                                
                         </form>
                         <!-- END FORM-->           
                      </div>

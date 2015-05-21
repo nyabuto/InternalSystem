@@ -108,9 +108,13 @@ if(HV0206==null){HV0206=""; }
         
     }
     
-    String createdtable="<tr class='form-actions'><th colspan='2'><b></b></th><th>Total</th></tr>";
+    String createdtable="";
     
-    createdtable+="<tr><td><b> 1 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP1','"+tableid+"');\" value='"+KMMP1+"' name='KMMP1' id='KMMP1' autofocus></td></tr>";
+    
+     if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains("KMMP")){
+    
+    
+    createdtable+="  <fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> KMMP OUTPUT DATA</b></legend><table  cellpadding=\"2px\" border=\"0\" style=\"border-color: #e5e5e5;margin-bottom: 3px;\"><tr class='form-actions'><th colspan='2'><b></b></th><th>Total</th></tr><tr><td><b> 1 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP1','"+tableid+"');\" value='"+KMMP1+"' name='KMMP1' id='KMMP1' autofocus></td></tr>";
     
     createdtable+="<tr><td><b> 2 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP2','"+tableid+"');\" value='"+KMMP2+"' name='KMMP1' id='KMMP2'></td></tr>";
     
@@ -130,8 +134,14 @@ if(HV0206==null){HV0206=""; }
    
       createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr>";
-   
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>";
+   }
+    
+    else {
+    createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  KMMP module.</font></td></tr>";
+    }
+    
+    }
     
       System.out.println(createdtable);
       

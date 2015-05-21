@@ -183,7 +183,10 @@ if(P54D==null){P54D=""; }
 
     }
     
-    String createdtable="<tr class='form-actions'><th colspan='4'>Number of Males CircumCised as part of the minimum package of MC for HIV Prevention Services</th></tr>";
+    String createdtable="<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Voluntary Male Circumcision Form</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'><tr class='form-actions'><th colspan='4'>Number of Males CircumCised as part of the minimum package of MC for HIV Prevention Services</th></tr>";
+    
+    
+     if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains("VMMC")){
     
     createdtable+="<tr><td rowspan='8'><b> P5.1.D </b></td><td colspan='3'><b> <1 </b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P51D1');p51dtotal();\" value='"+P51D1+"' name='P51D1' id='P51D1' autofocus></td></tr>";
     createdtable+="<tr><td colspan='3'><b> 1-9 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P51D9');p51dtotal();\" value='"+P51D9+"' name='P51D9' id='P51D9' ></td></tr>";
@@ -217,10 +220,12 @@ if(P54D==null){P54D=""; }
      createdtable+="<tr><td colspan='3'><b>Total</b></td><td><input readonly tabindex='-1' style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\"  value='"+P53D+"' name='P53D' id='P53D' ></td></tr>";
      
      createdtable+="<tr class='form-actions'><th colspan='4'>Number of males circumcised within the reporting period who return at least once for postoperative follow‐up care (routine or emergent) within 14 days of surgery </th></tr>";
-     createdtable+="<tr><td rowspan='4'><b> P5.4.D </b></td><td colspan='4'><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P54D');\" value='"+P54D+"' name='P54D' id='P54D' ></td></tr>";
+     createdtable+="<tr><td rowspan='4'><b> P5.4.D </b></td><td colspan='4'><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P54D');\" value='"+P54D+"' name='P54D' id='P54D' ></td></tr></table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>";
      
-     
- 
+     }
+ else {
+    createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  VMMC module.</font></td></tr>";
+    }}
     
     
       System.out.println(createdtable);

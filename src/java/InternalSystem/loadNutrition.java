@@ -161,7 +161,9 @@ if(C51DT==null){C51DT=""; }
         
     }
     
-    String createdtable="<tr class='form-actions'><th colspan='7'><b></b></th></tr>";
+    String createdtable=" <fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'>3.1.9: Nutrition</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'><tr class='form-actions'><th colspan='7'><b></b></th></tr>";
+    
+    if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains("Nutrition")){
     
     createdtable+="<tr><td rowspan='10' colspan='2'><b> 3.1.9.2 population-based Nutrition Service Delivery </b></td><td colspan='5'>Number of People trained in child health care and nutrition through USG-supported health area programs</td></tr>";
     createdtable+="<tr><td colspan='5'>No of Men </td><td><input readonly tabindex='-1' style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\"   value='"+MCHCCNtrTM+"' name='MCHCCNtrTM' id='MCHCCNtrTM' ></td></tr>";
@@ -182,7 +184,17 @@ if(C51DT==null){C51DT=""; }
     createdtable+="<tr><td rowspan='4'>C5.1.D</td><td colspan='2' rowspan='4'>Number of eligible clients who received food and / or other nutrition Services</td><td> <b><18</b> </td><td><input style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DCM');c51dtotal();\" value='"+C51DCM+"' name='C51DCM' id='C51DCM' ></td><td><input style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DCF');c51dtotal();\" value='"+C51DCF+"' name='C51DCF' id='C51DCF' ></td><td><input readonly tabindex='-1' style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DC+"' name='C51DC' id='C51DC' ></td></tr>";
     createdtable+="<tr><td> <b> >=18</b> </td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DAM+"' name='C51DAM' id='C51DAM' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DAF');c51dtotal();\" value='"+C51DAF+"' name='C51DAF' id='C51DCF' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DA+"' name='C51DA' id='C51DA' ></td></tr>";
     createdtable+="<tr><td colspan='3'> <b> Pregnant/Lactating (PMTCT 1.5)</b> </td><td><input style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DP');\" value='"+C51DP+"' name='C51DP' id='C51DP' ></td></tr>";
-    createdtable+="<tr><td> <b> Total</b> </td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DMT+"' name='C51DMT' id='C51DMT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DFT+"' name='C51DFT' id='C51DFT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DT');\" value='"+C51DT+"' name='C51DT' id='C51DT' ></td></tr>";
+    createdtable+="<tr><td> <b> Total</b> </td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DMT+"' name='C51DMT' id='C51DMT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DFT+"' name='C51DFT' id='C51DFT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DT');\" value='"+C51DT+"' name='C51DT' id='C51DT' ></td></tr>"
+            + "   </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>";
+    
+    }
+    
+    else {
+    createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  Nutrition module.</font></td></tr>";
+    }
+    
+    }
+    
     
     
     

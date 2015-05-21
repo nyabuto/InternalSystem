@@ -26,7 +26,7 @@
                </a>
               
             </li>
-            <li class="active has-sub ">
+            <li class="has-sub ">
                <a href="Form731.jsp">
                <!--<i class="icon-table"></i>--> 
                <span class="title">MOH 731</span>
