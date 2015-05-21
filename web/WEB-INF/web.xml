@@ -112,6 +112,34 @@
         <servlet-name>updateProfile</servlet-name>
         <servlet-class>InternalSystem.updateProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>validateGender</servlet-name>
+        <servlet-class>InternalSystem.validateGender</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validateNutrition</servlet-name>
+        <servlet-class>InternalSystem.validateNutrition</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validateKmmp</servlet-name>
+        <servlet-class>InternalSystem.validateKmmp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validateVmmc</servlet-name>
+        <servlet-class>InternalSystem.validateVmmc</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate711</servlet-name>
+        <servlet-class>InternalSystem.validate711</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validateTb</servlet-name>
+        <servlet-class>InternalSystem.validateTb</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validateHei</servlet-name>
+        <servlet-class>InternalSystem.validateHei</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -223,6 +251,34 @@
     <servlet-mapping>
         <servlet-name>updateProfile</servlet-name>
         <url-pattern>/updateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validateGender</servlet-name>
+        <url-pattern>/validateGender</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validateNutrition</servlet-name>
+        <url-pattern>/validateNutrition</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validateKmmp</servlet-name>
+        <url-pattern>/validateKmmp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validateVmmc</servlet-name>
+        <url-pattern>/validateVmmc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate711</servlet-name>
+        <url-pattern>/validate711</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validateTb</servlet-name>
+        <url-pattern>/validateTb</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validateHei</servlet-name>
+        <url-pattern>/validateHei</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

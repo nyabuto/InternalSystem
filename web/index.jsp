@@ -40,8 +40,8 @@
 <!-- BEGIN BODY -->
 <body class="login" style="background-color: white;">
   <!-- BEGIN LOGO -->
-  <div class="logo" style="height:100px; width:400px; margin-left: 30%; margin-top: 0%">
-      <img src="images/index.JPG" alt="" width="650px" height="100px" style="margin-left:30%; margin-top:10px;" /> 
+  <div class="logo" style="height:70px; width:400px; margin-left: 30%; margin-top: 0%">
+      <img src="images/index.JPG" alt="" width="650px"  style="margin-left:12%; margin-top:10px;height:100px;" /> 
   </div><br><br><br><br>
   <!-- END LOGO -->
   <!-- BEGIN LOGIN -->
@@ -110,7 +110,7 @@
   <!-- END LOGIN -->
     <div class="copyright" style="width:auto;">
    <div id="footer">
-<img src="images/aphia_logo.png" width="300px" height="70px">
+<img src="images/aphia_logo.png" style="height:120px;border:1px solid #000000; width:400px;margin-left: -6%;"  />
 <%
 Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);              
