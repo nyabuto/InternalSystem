@@ -13,7 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>Home Page</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -173,7 +173,7 @@
                               <div class="control-group">
                               <label class="control-label">Activity Site</label>
                               <div class="controls">
-                                 <select data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                 <select data-placeholder="Facility" onchange="updatefacilsession();" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
                               </div>
@@ -182,8 +182,8 @@
                              <div class="control-group">
                               <label class="control-label">Select Form</label>
                               <div class="controls">
-                                 <select required data-placeholder="Form" class="chosen-with-diselect span6" tabindex="-1"  id="form" name="form">
-                                 <option value=""></option>                                
+                                 <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form">
+                                 <option value="">Select Activity Site First</option>                                
                                    
                                  </select>
                               </div>
@@ -266,26 +266,20 @@ type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-     
-       App.init();   
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      }  
+       App.init(); 
+       
+       
+       
 }
 
 
 }); 
          
          
-         $.ajax({
-            url:'loadForms',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#form").html(data);
-                
-              //  App.init();   
-            }
-            
-            
-        }); 
+     
        
          
 $.ajax({
@@ -304,7 +298,49 @@ $.ajax({
       });
       
       
+    
+    function updatefacilsession(){
+          
+        var facil=document.getElementById("facility").value;
+        $.ajax({
+url:'updatefacilitysession?facil='+facil,
+type:'post',
+dataType:'html',
+success:function (data){      
+    
+    //  $("#"+col).css({'background-color' : '#CCFFCC'});
+     
+     //now load the forms
+     
+     loadfrms();
+     
+}
+             
+             });    
+          
+          
+          
+      }
       
+    
+    function loadfrms(){
+        
+        
+        $.ajax({
+            url:'loadForms',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#form").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
       function loadmonths(){
       
       var yr=document.getElementById("year").value;
@@ -326,6 +362,9 @@ success:function (data){
       
       
       }
+      
+      //load default facilities
+     
       
    </script>
    <!-- END JAVASCRIPTS -->   

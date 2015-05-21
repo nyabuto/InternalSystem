@@ -33,9 +33,9 @@
                <!--<span class="selected"></span>-->
                <!--<span class="arrow open"></span>-->
                </a>
-              
+<!--              forms_holder-->
             </li>
-            <li class="has-sub ">
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){out.println("____hey");  %> style="display:none;" <%} }%> >
                <a href="loadGender.jsp">
                <!--<i class="icon-th-list"></i>--> 
                <span class="title">Gender</span>
@@ -43,7 +43,7 @@
                </a>
               
             </li>
-            <li class="has-sub ">
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("VMMC")){  %> style="display:none;" <%} }%>>
                <a href="loadVmmc.jsp">
                <!--<i class="icon-th-list"></i>--> 
                <span class="title">VMMC</span>
@@ -51,7 +51,7 @@
                </a>
               
             </li>
-            <li class="has-sub ">
+            <li class="has-sub"  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Nutrition")){  %> style="display:none;" <%} }%>>
                <a href="loadNutrition.jsp">
                <!--<i class="icon-map-marker"></i>--> 
                <span class="title">Nutrition</span>
@@ -59,13 +59,13 @@
                </a>
               
             </li>
-            <li class="">
+            <li class=""  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("KMMP")){  %> style="display:none;" <%} }%>>
                <a href="loadKmmp.jsp">
                <!--<i class="icon-bar-chart"></i>--> 
                <span class="title">KMMP</span>
                </a>
             </li>
-            <li class="">
+            <li class="" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("TB")){  %> style="display:none;" <%} }%>>
                <a href="loadTb.jsp">
                <!--<i class="icon-calendar"></i>--> 
                <span class="title">TB</span>

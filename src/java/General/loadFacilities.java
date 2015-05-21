@@ -38,7 +38,7 @@ public class loadFacilities extends HttpServlet {
         facilityonsession=session.getAttribute("facilityid").toString();
         
         }
-        
+        System.out.println("facil on session__"+facilityonsession);
         
         PrintWriter out = response.getWriter();
         try {
@@ -52,7 +52,7 @@ public class loadFacilities extends HttpServlet {
            
             while(conn.rs.next()){
                 //if the current facility on loop is same as the facility on session, then make it selected
-                if(facilityonsession.equals(conn.rs.getString(1))){
+                if(facilityonsession.equalsIgnoreCase(conn.rs.getString(1).trim())){
                 
             facils+="<option selected value='"+conn.rs.getString(1) +"'> "+conn.rs.getString(2)+" </option>";
                 }

@@ -13,7 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>VMMC Form</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -286,7 +286,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#gendertable").html(data);
-          //  $("#P51D1").focus();   
+          $("#P51D1").focus();   
             }
             
             

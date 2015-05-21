@@ -14,7 +14,7 @@
    <meta charset="utf-8" />
    <title>Gender Form</title>
       <script src="assets/js/jquery-1.8.3.min.js"></script>   
-     <link rel="shortcut icon" href="images/logo.png"/>
+     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -310,7 +310,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#gendertable").html(data);
-           // $("#P121DM0").focus();   
+            $("#P121DM0").focus();   
             }
             
             

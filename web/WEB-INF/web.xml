@@ -281,8 +281,6 @@
         <url-pattern>/validateHei</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-           900000
-        </session-timeout>
+        <session-timeout>-1</session-timeout>
     </session-config>
 </web-app>

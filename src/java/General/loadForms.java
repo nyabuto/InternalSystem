@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,10 +22,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class loadForms extends HttpServlet {
 
-   
+   HttpSession session=null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        session=request.getSession();
         try {
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
@@ -37,9 +38,9 @@ public class loadForms extends HttpServlet {
     
     
     while(conn.rs.next()){
-    
+     if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))  || conn.rs.getString("form").equals("MOH 711A")|| conn.rs.getString("form").equals("MOH 731")){     
      forms+="<option value='"+conn.rs.getString("nextpage") +"'>"+conn.rs.getString("form")+"</option>";   
-    
+     } }
                          }
     
     try {

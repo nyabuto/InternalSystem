@@ -26,7 +26,7 @@
   <!--<link href="assets/css/style_responsive.css" rel="stylesheet" />-->
   <!--<link href="assets/css/style_default.css" rel="stylesheet" id="style_color" />-->
   <!--<link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />-->
-  <link rel="shortcut icon" href="images/logo.png" width="20px" />
+  <link rel="shortcut icon" href="images/index.JPG" width="20px" />
   
     <script src="assets/js/jquery-1.8.3.min.js"></script>
     

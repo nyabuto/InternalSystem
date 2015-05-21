@@ -13,7 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>KMMP Form</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+     <link rel="shortcut icon" href="images/index.JPG"/>
    <script src="assets/js/jquery-1.8.3.min.js"></script> 
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -306,7 +306,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#kmmptable").html(data);
-           // $("#KMMP1").focus();   
+            $("#KMMP1").focus();   
             }
             
             
