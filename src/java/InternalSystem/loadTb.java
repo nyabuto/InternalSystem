@@ -35,7 +35,8 @@ public class loadTb extends HttpServlet {
     
     dbConn conn=new dbConn();
     //get the existing data for the month, year and facility that is already on session
-    
+    String isValidated="";
+    String validity="";
     String month="";      
     String year="";      
     String facil="";
@@ -98,7 +99,7 @@ TB_STATP=conn.rs.getString("TB_STATP");
 if(TB_STATP==null){TB_STATP=""; }
 
 TB_IPTN=conn.rs.getString("TB_IPTN");
-if(TB_IPTD==null){TB_IPTN=""; }
+if(TB_IPTN==null){TB_IPTN=""; }
 
 TB_IPTD=conn.rs.getString("TB_IPTD");
 if(TB_IPTD==null){TB_IPTD=""; }
@@ -153,10 +154,27 @@ if(CARPCTHTFPR==null){CARPCTHTFPR=""; }
         
 CARPCTHTTPR=conn.rs.getString("CARPCTHTTPR");
 if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
+ isValidated=conn.rs.getString("isValidated");
+
         
+          
     }
-    
-    String createdtable="<tr class='form-actions'><th colspan='4'><b> Case Sub Area 3: Clinical/ Preventive Services- Additional TB/HIV </b></th></tr>";
+       System.out.println("Validity checker : "+isValidated);
+      if(isValidated.equals("0")){
+  validity="<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;
+}
+      else if(isValidated.equals("1")){
+   validity="<font color=\"green\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
+}
+      else{
+        validity="<font color=\"blue\"><b>New Form</b></font>"  ;          
+              }
+      
+//     System.out.println("read from session : "+session.getAttribute("isValidated").toString());
+ 
+             String createdtable="<p hidden=\"true\" id=\"checkValidity\">"+validity+"</p>" ; 
+             
+     createdtable+="<tr class='form-actions'><th colspan='4'><b> Case Sub Area 3: Clinical/ Preventive Services- Additional TB/HIV </b></th></tr>";
     
     createdtable+="<tr><td rowspan=\"3\" ><b> TB_STAT </b></td>"
             + "<td rowspan=\"3\">Proportion of registered new and relapse TB cases with document HIV </td>"
@@ -169,7 +187,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
     
     createdtable+="<tr>"
             + "<td  colspan=\"2\">Proportion</td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" readonly onblur=\"autosave('TB_STATP');TB_STAT();\" value='"+TB_STATP+"' name='TB_STATP' id='TB_STATP' ></td></tr>";
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" readonly tabindex='-1' onblur=\"autosave('TB_STATP');TB_STAT();\" value='"+TB_STATP+"' name='TB_STATP' id='TB_STATP' ></td></tr>";
     
     
     createdtable+="<tr><td rowspan=\"3\" ><b> TB_IPT </b></td>"
@@ -183,7 +201,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
     
     createdtable+="<tr>"
             + "<td  colspan=\"2\">Proportion</td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" readonly onblur=\"autosave('TB_IPTP');TB_IPT();\" value='"+TB_IPTP+"' name='TB_IPTP' id='TB_IPTP' ></td></tr>";
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" readonly tabindex='-1' onblur=\"autosave('TB_IPTP');TB_IPT();\" value='"+TB_IPTP+"' name='TB_IPTP' id='TB_IPTP' ></td></tr>";
     
     createdtable+="<tr><td  colspan='2' rowspan='8'></td>"
             + "<td  colspan=\"2\"> <1 </td>"
@@ -229,7 +247,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
     
     createdtable+="<tr>"
             + "<td colspan=\"2\">Proportion</td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" readonly onblur=\"autosave('TB_SCREENP');TB_SCREEN();\" value='"+TB_SCREENP+"' name='TB_SCREENP' id='TB_SCREENP' ></td></tr>";
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" readonly tabindex='-1' onblur=\"autosave('TB_SCREENP');TB_SCREEN();\" value='"+TB_SCREENP+"' name='TB_SCREENP' id='TB_SCREENP' ></td></tr>";
     
       createdtable+="<tr><td ><b> TB_OUTCOME </b></td>"
             + "<td colspan=\"3\"> Outcome of TB treatment among registered new and relapse TB cases who are HIV positive</td>"
@@ -243,7 +261,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
          
             + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTMPR');indic74();\" value='"+CARPCTHTMPR+"' name='CARPCTHTMPR' id='CARPCTHTMPR' autofocus></td>"
             + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTFPR');indic74();\" value='"+CARPCTHTFPR+"' name='CARPCTHTFPR' id='CARPCTHTFPR' autofocus></td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" readonly onblur=\"autosave('CARPCTHTTPR');indic74();\" value='"+CARPCTHTTPR+"' name='CARPCTHTTPR' id='CARPCTHTTPR' autofocus></td>"
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly onblur=\"autosave('CARPCTHTTPR');indic74();\" value='"+CARPCTHTTPR+"' name='CARPCTHTTPR' id='CARPCTHTTPR' autofocus></td>"
               + "</tr>";
     
     
@@ -252,7 +270,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
     PrintWriter out = response.getWriter();
     try {
         /* TODO output your page here. You may use following sample code. */
-  
+//   createdtable+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validate\">";
         out.println(createdtable);
     } finally {
         out.close();

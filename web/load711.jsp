@@ -38,7 +38,74 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 
-  
+     <script type="text/javascript">
+           $(document).ready(function(){
+                $("form").submit(function(){
+            
+        return true;
+            }) ;
+            
+  $('body').on('keydown', 'input, select, textarea', function(e) {
+var self = $(this)
+  , form = self.parents('form:eq(0)')
+  , focusable
+  , next
+  , prev
+  ;
+
+if (e.shiftKey) {
+ if (e.keyCode == 13) {
+     focusable =   form.find('input,a,select,button,textarea').filter(':visible');
+     prev = focusable.eq(focusable.index(this)-1); 
+
+     if (prev.length) {
+        prev.focus();
+     } else {
+        form.submit();
+    }
+  }
+}
+  else
+if (e.keyCode == 13) {
+    focusable = form.find('input,a,select,button,textarea').filter(':visible');
+    next = focusable.eq(focusable.index(this)+1);
+    if (next.length) {
+        next.focus();
+    } else {
+        form.submit();
+    }
+    return false;
+}
+});
+            
+           });
+       </script>
+        <style>
+fieldset.formatter {
+    border: 2px groove black !important;
+   
+    /*padding: 0 1.4em 1.4em 1.4em !important;*/
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+   
+}
+
+legend.formatter {
+    border: 0px groove black !important;
+    margin: 0 0 0.0em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+    font-size: 1.2em !important;
+    /*font-weight: bold !important;*/
+    text-align: center !important;
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-left:50px;
+
+}
+</style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -131,28 +198,31 @@
              
                   </h3>
                   <ul class="breadcrumb">
-                     <li>
+<!--                     <li>
                         <i class="icon-home"></i>
-                        <font color="#4b8df8">Prevention</font>
+                        <font color="#4b8df8" size="15px">MOH 711A </font>
                         
-                     </li>
-           
-                  </ul>
+                     </li>-->
+           <li style="margin-left:40%; font-size:20px;">
+                    <p>MOH 711A</p>
+                    </li>
+                                      </ul>
                </div>
+                
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
-                  <div class="portlet box blue">
-                     <div class="portlet-title">
+                  <!--<div class="portlet box blue">-->
+<!--                     <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">711</b>
-                     </div>
+                        <b style="color:white;text-align: center;font-size: 20px;">MOH 711A</b>
+                     </div>-->
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="sessionsHolder" class="form-horizontal">
+                        <form action="validate711" method="post" class="form-horizontal">
                           
                          <div class="tabbable tabbable-custom boxless">
                      <ul class="nav nav-tabs">
@@ -161,10 +231,25 @@
                         <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab">C:MATERNITY/ SAFE DELIVERIES</a></li>
                         <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">D: VCT</a></li>
                         <li><a class="advance_form_with_chosen_element" href="#tab_5" data-toggle="tab">E DTC</a></li>
-                                             </ul> </div>
+                           <li style="margin-left:150px;" id="isValidated"></li>                    </ul> </div>
 <!--                         <table id="711table" cellpadding="2px" border="1" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
                           -->
-                   <div class="tab-content" id="711table">
+                   <%if (session.getAttribute("validate711") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("validate711")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 4800});
+                    
+                </script> <%
+                session.removeAttribute("validate711");
+                            }
+
+                        %>
+                        
+                          <div class="tab-content" id="711table">
                         
                        
                          <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
@@ -178,7 +263,7 @@
                             
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validate</button>
+                              <button type="submit" class="btn blue">Run Validation</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>
@@ -187,7 +272,7 @@
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
                </div>
-            </div>
+            <!--</div>-->
        
           
          
@@ -268,74 +353,58 @@ success:function (data){
             success:function (data){
                 $("#711table").html(data);
             $("#FPMicrolutN").focus();   
-            }
+           
+            
+ var validity=$("#checkValidity").html();
+$("#isValidated").html(validity);
+         
+   
+}
             
             
         }); 
        
-         
-//$.ajax({
-//    url:'loadYear',
-//    type:'post',
-//    dataType:'html',
-//    success:function (data){
-//        // $("#year").html(data);
-//        document.getElementById("year").innerHTML=data;
-//        
-//    }
-//    
-//    
-//}); 
+
 //               
      });
       
-      
-      
-//      function loadmonths(){
-//      
-//      var yr=document.getElementById("year").value;
-//      
-//              $.ajax({
-//url:'loadMonth?year='+yr,
-//type:'post',
-//dataType:'html',
-//success:function (data){
-//    $("#month").html(data);     
-//    
-//       //document.getElementById("month").innerHTML=data;
-//      // App.init();  
-//        
-//}
-//
-//
-//}
-//);  
-//      
-//      
-             //  }
-             
+ 
              
              
              //AUTOUPDATING FUNCTION
              
              
              function autosave(col){
-            var achieved=document.getElementById(col).value;
+var totalsVariables =",FPMicrolutT,FPMicrogynonT,FPIUCDT,FPIMPLANTST,FPBTLT,FPVasectomyT,FPOTHERT,FPCONDOMST,FPCLIENTST,FPCLIENTSN,FPCLIENTSR,PMCTANCClientsT,VCTClient_Couns_TOT,VCTClient_Tested_TOT,VCTClient_HIV_TOT,DTCA_Couns_Out_Tot,DTCA_Couns_In_Tot,DTCB_Test_Out_Tot,DTCB_Test_In_Tot,DTCC_HIV_Out_Tot,DTCC_HIV_In_Tot,";          
+ 
+           
+           var achieved=document.getElementById(col).value;
             
-            
+          
              $.ajax({
 url:'save711?col='+col+"&achieved="+achieved,
 type:'post',
 dataType:'html',
-success:function (data){      
-    
+success:function (data){
+   if(data.trim()!="success"){$("#error").html(data);
+     $("#"+col).css({'background-color' : 'red'});
+        }
+    else{
+        $("#error").html("");
+    if(achieved==""){}
+  else if(totalsVariables.indexOf(","+col+",")>-1) {
+   $("#"+col).css({'background-color' : 'plum'});    
+  } else{
       $("#"+col).css({'background-color' : '#CCFFCC'});
-        
+}
+
+$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
+}
 }
              
              });
              }
-             
+          
              
            
              
@@ -376,8 +445,9 @@ success:function (data){
           
           
       }
-//      FPMicrolutN,FPMicrolutR,FPMicrolutT,FPMicrogynonN,FPMicrogynonR,FPMicrogynonT,FPINJECTIONSN,FPINJECTIONSR,
-//FPINJECTIONST,FPIUCDN,FPIUCDR,FPIUCDT,FPIMPLANTSN,FPIMPLANTSR,FPIMPLANTST,FPBTLN,FPBTLR,FPBTLT,FPVasectomyN,FPVasectomyR
+      
+      
+  
        function Microluttotal(){
      
 //     alert("called");
@@ -611,16 +681,7 @@ success:function (data){
       var FPOTHERN=0;
       var FPOTHERR=0;
       
-      
-     
-     
-     
-     
-     
-     
-     
-     
-      var FPMicrolutN = document.getElementById("FPMicrolutN").value;
+           var FPMicrolutN = document.getElementById("FPMicrolutN").value;
       var  FPMicrolutR= document.getElementById("FPMicrolutR").value;
       var FPMicrogynonN=document.getElementById("FPMicrogynonN").value;
       var FPMicrogynonR=document.getElementById("FPMicrogynonR").value;
@@ -637,22 +698,34 @@ success:function (data){
       var FPOTHERN=document.getElementById("FPOTHERN").value;
       var FPOTHERR=document.getElementById("FPOTHERR").value;
       
-      
-      
-//       var FPCLIENTSN=document.getElementById("FPCLIENTSN").value;
-//      var FPCLIENTSR=document.getElementById("FPCLIENTSR").value;
-//      if(newvisits==""){newvisits=0;}
-//      if(revisits==""){revisits=0;}
-     
-     
- 
-           
-           var newvisitstotal=parseInt(FPMicrolutN)+parseInt(FPMicrogynonN)+
+       if(FPMicrolutN==""){FPMicrolutN=0;}
+       if(FPMicrolutR==""){FPMicrolutR=0;}
+       if(FPMicrogynonN==""){FPMicrogynonN=0;}
+       if(FPMicrogynonR==""){FPMicrogynonR=0;}
+       if(FPINJECTIONSN==""){FPINJECTIONSN=0;}
+       if(FPINJECTIONSR==""){FPINJECTIONSR=0;}
+       if(FPIUCDN==""){FPIUCDN=0;}
+       if(FPIUCDR==""){FPIUCDR=0;}
+       if(FPIMPLANTSN==""){FPIMPLANTSN=0;}
+       if(FPIMPLANTSR==""){FPIMPLANTSR=0;}
+       if(FPBTLN==""){FPBTLN=0;}
+       if(FPBTLR==""){FPBTLR=0;}
+       if(FPVasectomyN==""){FPVasectomyN=0;}
+       if(FPVasectomyR==""){FPVasectomyR=0;}
+       if(FPOTHERN==""){FPOTHERN=0;}
+       if(FPOTHERR==""){FPOTHERR=0;}
+       
+       var newvisitstotal=parseInt(FPMicrolutN)+parseInt(FPMicrogynonN)+
                parseInt(FPINJECTIONSN)+parseInt(FPIUCDN)+parseInt(FPIMPLANTSN)+parseInt(FPBTLN)+parseInt(FPVasectomyN)+parseInt(FPOTHERN);
          
            var revisitstotal=parseInt(FPMicrolutR)+parseInt(FPMicrogynonR)+
                parseInt(FPINJECTIONSR)+parseInt(FPIUCDR)+parseInt(FPIMPLANTSR)+parseInt(FPBTLR)+parseInt(FPVasectomyR)+parseInt(FPOTHERR);
          var total=parseInt(newvisitstotal)+parseInt(revisitstotal);
+         
+           if(newvisitstotal==""){newvisitstotal=0;}
+            if(revisitstotal==""){revisitstotal=0;}
+            if(total==""){total=0;}
+
           document.getElementById("FPCLIENTSN").value=newvisitstotal;
          document.getElementById("FPCLIENTSR").value=revisitstotal;
          document.getElementById("FPCLIENTST").value=total;
@@ -956,7 +1029,10 @@ success:function (data){
       }    
       
    </script>
-   <!-- END JAVASCRIPTS -->   
+   <!-- END JAVASCRIPTS -->  
+   
+   
+   
 </body>
 <!-- END BODY -->
 </html>

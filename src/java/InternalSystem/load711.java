@@ -33,7 +33,8 @@ String VCTClient_Couns_CM,VCTClient_Couns_CF,VCTClient_Couns_AM,VCTClient_Couns_
 String DTCA_Couns_In_CM,DTCA_Couns_In_CF,DTCA_Couns_In_AM,DTCA_Couns_In_AF,DTCA_Couns_In_Tot,DTCA_Couns_Out_CM,DTCA_Couns_Out_CF,DTCA_Couns_Out_AM,DTCA_Couns_Out_AF,DTCA_Couns_Out_Tot,DTCB_Test_In_CM,DTCB_Test_In_CF
 ,DTCB_Test_In_AM,DTCB_Test_In_AF,DTCB_Test_In_Tot,DTCB_Test_Out_CM,DTCB_Test_Out_CF,DTCB_Test_Out_AM,DTCB_Test_Out_AF,DTCB_Test_Out_Tot,DTCC_HIV_In_CM,DTCC_HIV_In_CF,DTCC_HIV_In_AM
 ,DTCC_HIV_In_AF, DTCC_HIV_In_Tot,DTCC_HIV_Out_CM,DTCC_HIV_Out_CF,DTCC_HIV_Out_AM,DTCC_HIV_Out_AF,DTCC_HIV_Out_Tot,Userid;
-
+String isValidated="";
+String validity="";
 
 String FamilyPlanninng, pmct,maternity,vct,dtc;
         
@@ -282,17 +283,33 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
   if(conn.rs.getString("DTCC_HIV_Out_AF")!=null){DTCC_HIV_Out_AF=conn.rs.getString("DTCC_HIV_Out_AF");}else{DTCC_HIV_Out_AF="";}
   if(conn.rs.getString("DTCC_HIV_Out_Tot")!=null){DTCC_HIV_Out_Tot=conn.rs.getString("DTCC_HIV_Out_Tot");}else{DTCC_HIV_Out_Tot="";}
   
+     if(conn.rs.getString("isValidated")!=null){      
+    isValidated=conn.rs.getString("isValidated");
+     }
+     else{isValidated="";}
+        
           
-          
-          
-          }
+    }
+       System.out.println("Validity checker : "+isValidated);
+      if(isValidated.equals("0")){
+  validity="<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;
+}
+      else if(isValidated.equals("1")){
+   validity="<font color=\"green\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
+}
+      else{
+     
+        validity="<font color=\"blue\"><b>New Form</b></font>"  ;          
+              } 
             FamilyPlanninng=pmct=maternity=vct=dtc="";    
           FP_TAB+="";
 //          FPMicrolutN=FPMicrolutR=FPMicrolutT=FPMicrogynonN=FPMicrogynonR=FPMicrogynonT=FPINJECTIONSN=FPINJECTIONSR=
 //FPINJECTIONST=FPIUCDN=FPIUCDR=FPIUCDT=FPIMPLANTSN=FPIMPLANTSR=FPIMPLANTST=FPBTLN=FPBTLR=FPBTLT=FPVasectomyN=FPVasectomyR="";
 //FPVasectomyT=FPCONDOMSN=FPCONDOMSR=FPCONDOMST=FPOTHERN=FPOTHERR=FPOTHERT=FPCLIENTSN=FPCLIENTSR=FPCLIENTST=FPIUCDRemoval=
 //FPIMPLANTSRemoval="";
-      FamilyPlanninng="<table cellpadding=\"2px\" border=\"1\" style=\"border-color: #e5e5e5;margin-bottom: 3px;\"><tr>"
+      FamilyPlanninng="<p id=\"checkValidity\" hidden=\"hidden\">"+validity+"</p>"
+              + " <fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> FAMILY PLANNING </b></legend>"
+              + "<table cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
               + "<td colspan=\"3\" class=\"form-actions\"><b>A: Family Planning </b></td>"
               + "<td class=\"form-actions\"> <b>NEW CLIENTS </b></td>"
               + "<td class=\"form-actions\"> <b>RE-VISITS </b></td>"
@@ -302,7 +319,7 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
               + "<td rowspan=\"2\">PILLS</td><td  >MICROLUT</td>"
               + "<td ><input type=\"text\" name=\"FPMicrolutN\" id=\"FPMicrolutN\" value=\""+FPMicrolutN+"\" onblur=\"autosave('FPMicrolutN');Microluttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"FPMicrolutR\" id=\"FPMicrolutR\" value=\""+FPMicrolutR+"\" onblur=\"autosave('FPMicrolutR');Microluttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPMicrolutT\" id=\"FPMicrolutT\" value=\""+FPMicrolutT+"\" onblur=\"autosave('FPMicrolutT');Microluttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' readonly name=\"FPMicrolutT\" id=\"FPMicrolutT\" value=\""+FPMicrolutT+"\" onblur=\"autosave('FPMicrolutT');Microluttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
          
               + "<tr>"
 //              + "<td>2</td>"
@@ -310,7 +327,7 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
               + "<td  >MICROGYNON</td>"
               + "<td ><input type=\"text\" name=\"FPMicrogynonN\" id=\"FPMicrogynonN\" value=\""+FPMicrogynonN+"\" onblur=\"autosave('FPMicrogynonN');FPMicrogynon();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"FPMicrogynonR\" id=\"FPMicrogynonR\" value=\""+FPMicrogynonR+"\" onblur=\"autosave('FPMicrogynonR');FPMicrogynon();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPMicrogynonT\" id=\"FPMicrogynonT\" value=\""+FPMicrogynonT+"\" onblur=\"autosave('FPMicrogynonT');FPMicrogynon();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' readonly name=\"FPMicrogynonT\" id=\"FPMicrogynonT\" value=\""+FPMicrogynonT+"\" onblur=\"autosave('FPMicrogynonT');FPMicrogynon();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               
               + "<tr><td>2</td>"
@@ -318,7 +335,7 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
               + "<td  >INJECTIONS</td>"
               + "<td ><input type=\"text\" name=\"FPINJECTIONSN\" id=\"FPINJECTIONSN\"  value=\""+FPINJECTIONSN+"\" onblur=\"autosave('FPINJECTIONSN');FPInjectionsTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"FPINJECTIONSR\" id=\"FPINJECTIONSR\"  value=\""+FPINJECTIONSR+"\" onblur=\"autosave('FPINJECTIONSR');FPInjectionsTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPINJECTIONST\" id=\"FPINJECTIONST\"  value=\""+FPINJECTIONST+"\" onblur=\"autosave('FPINJECTIONST');FPInjectionsTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' readonly name=\"FPINJECTIONST\" id=\"FPINJECTIONST\"  value=\""+FPINJECTIONST+"\" onblur=\"autosave('FPINJECTIONST');FPInjectionsTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               
               
@@ -327,48 +344,48 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
               + "<td  >Insertion</td>"
               + "<td ><input type=\"text\" name=\"FPIUCDN\" id=\"FPIUCDN\" value=\""+FPIUCDN+"\" onblur=\"autosave('FPIUCDN');FPIUCDTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"FPIUCDR\" id=\"FPIUCDR\" value=\""+FPIUCDR+"\" onblur=\"autosave('FPIUCDR');FPIUCDTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPIUCDT\" id=\"FPIUCDT\" value=\""+FPIUCDT+"\" onblur=\"autosave('FPIUCDT');FPIUCDTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\"  tabindex='-1' readonly name=\"FPIUCDT\" id=\"FPIUCDT\" value=\""+FPIUCDT+"\" onblur=\"autosave('FPIUCDT');FPIUCDTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               
               + "<tr><td>4</td>"
               + "<td >IMPLANTS</td><td  >Insertion</td>"
               + "<td ><input type=\"text\" name=\"FPIMPLANTSN\" id=\"FPIMPLANTSN\" value=\""+FPIMPLANTSN+"\" onblur=\"autosave('FPIMPLANTSN');FPIMPLANTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"FPIMPLANTSR\" id=\"FPIMPLANTSR\" value=\""+FPIMPLANTSR+"\" onblur=\"autosave('FPIMPLANTSR');FPIMPLANTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\"readonly  name=\"FPIMPLANTST\" id=\"FPIMPLANTST\" value=\""+FPIMPLANTST+"\" onblur=\"autosave('FPIMPLANTST');FPIMPLANTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' readonly  name=\"FPIMPLANTST\" id=\"FPIMPLANTST\" value=\""+FPIMPLANTST+"\" onblur=\"autosave('FPIMPLANTST');FPIMPLANTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               
               + "<tr><td rowspan=\"2\">5</td>"
               + "<td  rowspan=\"2\">STERILIZATION</td><td  >B.T.L</td>"
               + "<td ><input type=\"text\" name=\"FPBTLN\" id=\"FPBTLN\" value=\""+FPBTLN+"\" onblur=\"autosave('FPBTLN');FPBTLTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"FPBTLR\" id=\"FPBTLR\" value=\""+FPBTLR+"\" onblur=\"autosave('FPBTLR');FPBTLTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"FPBTLT\" readonly id=\"FPBTLT\" value=\""+FPBTLT+"\" onblur=\"autosave('FPBTLT');FPBTLTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"FPBTLR\" tabindex='-1' readonly id=\"FPBTLR\" value=\""+FPBTLR+"\" onblur=\"autosave('FPBTLR');FPBTLTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' name=\"FPBTLT\" readonly id=\"FPBTLT\" value=\""+FPBTLT+"\" onblur=\"autosave('FPBTLT');FPBTLTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               + "<tr>"
               + "<td  >Vasectomy</td>"
               + "<td ><input type=\"text\" name=\"FPVasectomyN\" id=\"FPVasectomyN\" value=\""+FPVasectomyN+"\" onblur=\"autosave('FPVasectomyN');FPVasectomyTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"FPVasectomyR\" id=\"FPVasectomyR\" value=\""+FPVasectomyR+"\" onblur=\"autosave('FPVasectomyR');FPVasectomyTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPVasectomyT\" id=\"FPVasectomyT\" value=\""+FPVasectomyT+"\" onblur=\"autosave('FPVasectomyT');FPVasectomyTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"FPVasectomyR\" tabindex='-1' readonly  id=\"FPVasectomyR\" value=\""+FPVasectomyR+"\" onblur=\"autosave('FPVasectomyR');FPVasectomyTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' readonly name=\"FPVasectomyT\" id=\"FPVasectomyT\" value=\""+FPVasectomyT+"\" onblur=\"autosave('FPVasectomyT');FPVasectomyTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                  + "<tr><td>6</td>"
               + "<td >CONDOMS</td><td  >No. of clients receiving</td>"
               + "<td ><input type=\"text\" name=\"FPCONDOMSN\" id=\"FPCONDOMSN\" value=\""+FPCONDOMSN+"\" onblur=\"autosave('FPCONDOMSN');FPCONDOMSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"FPCONDOMSR\" id=\"FPCONDOMSR\" value=\""+FPCONDOMSR+"\" onblur=\"autosave('FPCONDOMSR');FPCONDOMSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPCONDOMST\" id=\"FPCONDOMST\" value=\""+FPCONDOMST+"\" onblur=\"autosave('FPCONDOMST');FPCONDOMSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' readonly name=\"FPCONDOMST\" id=\"FPCONDOMST\" value=\""+FPCONDOMST+"\" onblur=\"autosave('FPCONDOMST');FPCONDOMSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                  + "<tr><td>7</td>"
               + "<td >ALL OTHERS :(Specify)</td>"
               + "<td  ></td>"
               + "<td ><input type=\"text\" name=\"FPOTHERN\" id=\"FPOTHERN\" value=\""+FPOTHERN+"\" onblur=\"autosave('FPOTHERN');FPOTHERTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"FPOTHERR\" id=\"FPOTHERR\" value=\""+FPOTHERR+"\" onblur=\"autosave('FPOTHERR');FPOTHERTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPOTHERT\" id=\"FPOTHERT\" value=\""+FPOTHERT+"\" onblur=\"autosave('FPOTHERT');FPOTHERTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\"tabindex='-1'  readonly name=\"FPOTHERT\" id=\"FPOTHERT\" value=\""+FPOTHERT+"\" onblur=\"autosave('FPOTHERT');FPOTHERTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               
                  + "<tr><td>8</td>"
               + "<td >TOTAL NO. OF CLIENTS</td>"
               + "<td  ></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPCLIENTSN\" id=\"FPCLIENTSN\" value=\""+FPCLIENTSN+"\" onblur=\"autosave('FPCLIENTSN');FPCLIENTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPCLIENTSR\" id=\"FPCLIENTSR\" value=\""+FPCLIENTSR+"\" onblur=\"autosave('FPCLIENTSR');FPCLIENTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" readonly name=\"FPCLIENTST\" id=\"FPCLIENTST\" value=\""+FPCLIENTST+"\" onblur=\"autosave('FPCLIENTST');FPCLIENTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\"  tabindex='-1' readonly name=\"FPCLIENTSN\" id=\"FPCLIENTSN\" value=\""+FPCLIENTSN+"\" onblur=\"autosave('FPCLIENTSN');FPCLIENTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1' readonly name=\"FPCLIENTSR\" id=\"FPCLIENTSR\" value=\""+FPCLIENTSR+"\" onblur=\"autosave('FPCLIENTSR');FPCLIENTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" tabindex='-1'  readonly name=\"FPCLIENTST\" id=\"FPCLIENTST\" value=\""+FPCLIENTST+"\" onblur=\"autosave('FPCLIENTST');FPCLIENTSTotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                  + "<tr><td>9</td>"
               + "<td >REMOVALS</td>"
@@ -376,12 +393,13 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
               + "<td ><input type=\"text\" name=\"FPIUCDRemoval\" id=\"FPIUCDRemoval\" value=\""+FPIUCDRemoval+"\" onblur=\"autosave('FPIUCDRemoval');\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td >IMPLANTS</td>"
               + "<td ><input type=\"text\" name=\"FPIMPLANTSRemoval\" id=\"FPIMPLANTSRemoval\" value=\""+FPIMPLANTSRemoval+"\" onblur=\"autosave('FPIMPLANTSRemoval');\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "</tr></table>" ;
+              + "</tr></table></fieldset>" ;
                  FP_TAB+=FamilyPlanninng;
              // PMCTA_1stVisit_ANC=PMCTA_ReVisit_ANC=PMCTANCClientsT=PMCTHB7=PMCTIPT1=PMCTIPT2=PMCTANCClients4=PMCTITN=MATNormalDelivery=MATCSection="";
 pmct+="";
-           pmct+= "<table cellpadding=\"2px\" border=\"1\" style=\"border-color: #e5e5e5;margin-bottom: 3px;\"><tr>"
-              + "<td colspan=\"2\" class=\"form-actions\"><b>B: MCH-ANC/PMTCT </b></td>"
+           pmct+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> B: MCH-ANC/PMTCT </b></legend>"
+                   + "<table cellpadding=\"2px\"  style=\"margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+              + "<td colspan=\"2\" class=\"form-actions\"><b> </b></td>"
               + "<td class=\"form-actions\"> <b>NEW  </b></td>"
               + "<td class=\"form-actions\"> <b>RE-VISIT </b></td>"
               + "<td class=\"form-actions\"> <b>TOTAL </b></td>"
@@ -412,7 +430,7 @@ pmct+="";
                + "<tr>"
                + "   <td>6.</td> <td > No of ITNs distributed to ANC Clients </td>"
                    + "<td ><input type=\"text\" name=\"PMCTITN\" id=\"PMCTITN\" value=\""+PMCTITN+"\" onblur=\"autosave('PMCTITN');\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "</tr></table>"
+              + "</tr></table></fieldset>"
               
               
               + ""
@@ -428,8 +446,9 @@ pmct+="";
 //MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEclampDead=MATRupUtAlive
   //=MATRupUtDead=MATObstrLaborAlive=MATObstrLaborDead=MATSepsisAlive=MATSepsisDead="";
           maternity+="";    
-     maternity+= "<table cellpadding=\"2px\" border=\"1\" style=\"border-color: #e5e5e5;margin-bottom: 3px;\"><tr>"
-              + "<td colspan=\"2\" class=\"form-actions\"><b>C: MATERNITY / SAFE DELIVERIES </b></td>"
+     maternity+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> C: MATERNITY / SAFE DELIVERIES </b></legend>"+
+             "<table cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+              + "<td colspan=\"2\" class=\"form-actions\"><b></b></td>"
               + "<td  colspan=\"2\" class=\"form-actions\"> <b>NUMBER  </b></td>"
                + "</tr>"
                   + "<tr>"
@@ -523,7 +542,7 @@ pmct+="";
               + "</tr>"
              + ""
              + ""
-             + "</table>"
+             + "</table></fieldset>"
               
               
               + ""
@@ -536,9 +555,10 @@ pmct+="";
     //vct
      vct+="";
    
-  vct+= "<table cellpadding=\"2px\" border=\"1\" style=\"border-color: #e5e5e5;margin-bottom: 3px;\">"
+  vct+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> H: VCT </b></legend>"+
+             "<table cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
           + "<tr>"
-              + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\"><b>H: VCT </b></td>"
+              + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\"><b></b></td>"
               + "<td  colspan=\"2\" class=\"form-actions\"> <b>15-24  </b></td>"
               + "<td colspan=\"2\" class=\"form-actions\"> <b> >=25 Years </b></td>"
               + "<td rowspan=\"2\" class=\"form-actions\"> <b>TOTAL </b></td>"
@@ -557,7 +577,7 @@ pmct+="";
                    + "<td ><input type=\"text\" name=\"VCTClient_Couns_CM\" id=\"VCTClient_Couns_CM\" value=\""+VCTClient_Couns_CM+"\" onblur=\"autosave('VCTClient_Couns_CM');vctconstotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
                    + "<td ><input type=\"text\" name=\"VCTClient_Couns_AF\" id=\"VCTClient_Couns_AF\" value=\""+VCTClient_Couns_AF+"\" onblur=\"autosave('VCTClient_Couns_AF');vctconstotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
                    + "<td ><input type=\"text\" name=\"VCTClient_Couns_AM\" id=\"VCTClient_Couns_AM\" value=\""+VCTClient_Couns_AM+"\" onblur=\"autosave('VCTClient_Couns_AM');vctconstotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-                   + "<td ><input type=\"text\" readonly name=\"VCTClient_Couns_TOT\" id=\"VCTClient_Couns_TOT\" value=\""+VCTClient_Couns_TOT+"\" onblur=\"autosave('VCTClient_Couns_TOT');vctconstotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+                   + "<td ><input type=\"text\" readonly  tabindex='-1' name=\"VCTClient_Couns_TOT\" id=\"VCTClient_Couns_TOT\" value=\""+VCTClient_Couns_TOT+"\" onblur=\"autosave('VCTClient_Couns_TOT');vctconstotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                   + "<tr>"
               + ""
@@ -566,7 +586,7 @@ pmct+="";
                    + "<td ><input type=\"text\" name=\"VCTClient_Tested_CM\" id=\"VCTClient_Tested_CM\" value=\""+VCTClient_Tested_CM+"\" onblur=\"autosave('VCTClient_Tested_CM'); vcttestedtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
                    + "<td ><input type=\"text\" name=\"VCTClient_Tested_AF\" id=\"VCTClient_Tested_AF\" value=\""+VCTClient_Tested_AF+"\" onblur=\"autosave('VCTClient_Tested_AF');vcttestedtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
                    + "<td ><input type=\"text\" name=\"VCTClient_Tested_AM\" id=\"VCTClient_Tested_AM\" value=\""+VCTClient_Tested_AM+"\" onblur=\"autosave('VCTClient_Tested_AM');vcttestedtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-                   + "<td ><input type=\"text\" readonly name=\"VCTClient_Tested_TOT\" id=\"VCTClient_Tested_TOT\" value=\""+VCTClient_Tested_TOT+"\" onblur=\"autosave('VCTClient_Tested_TOT');vcttestedtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+                   + "<td ><input type=\"text\" readonly  tabindex='-1' name=\"VCTClient_Tested_TOT\" id=\"VCTClient_Tested_TOT\" value=\""+VCTClient_Tested_TOT+"\" onblur=\"autosave('VCTClient_Tested_TOT');vcttestedtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                   + "<tr>"
               + ""
@@ -575,7 +595,7 @@ pmct+="";
                    + "<td ><input type=\"text\" name=\"VCTClient_HIV_CM\" id=\"VCTClient_HIV_CM\" value=\""+VCTClient_HIV_CM+"\" onblur=\"autosave('VCTClient_HIV_CM');vcthivtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
                    + "<td ><input type=\"text\" name=\"VCTClient_HIV_AF\" id=\"VCTClient_HIV_AF\" value=\""+VCTClient_HIV_AF+"\" onblur=\"autosave('VCTClient_HIV_AF');vcthivtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
                    + "<td ><input type=\"text\" name=\"VCTClient_HIV_AM\" id=\"VCTClient_HIV_AM\" value=\""+VCTClient_HIV_AM+"\" onblur=\"autosave('VCTClient_HIV_AM');vcthivtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-                   + "<td ><input type=\"text\" name=\"VCTClient_HIV_TOT\" readonly id=\"VCTClient_HIV_TOT\" value=\""+VCTClient_HIV_TOT+"\" onblur=\"autosave('VCTClient_HIV_TOT');vcthivtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+                   + "<td ><input type=\"text\" name=\"VCTClient_HIV_TOT\" tabindex='-1' readonly id=\"VCTClient_HIV_TOT\" value=\""+VCTClient_HIV_TOT+"\" onblur=\"autosave('VCTClient_HIV_TOT');vcthivtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
             + "<tr>"
               + "<td rowspan=\"4\">1.</td><td rowspan=\"4\">No of couples</td>"
@@ -606,7 +626,7 @@ pmct+="";
                   
               + "</tr>"
              
-             +"</table>"
+             +"</table></fieldset>"
               
               
               + ""
@@ -622,7 +642,8 @@ pmct+="";
            
        dtc+="";    
            
-        dtc+= "<table cellpadding=\"2px\" border=\"1\" style=\"border-color: #e5e5e5;margin-bottom: 3px;\">"
+        dtc+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> I: DTC </b></legend>"+
+             "<table cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
                 + "<tr>"
               + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\"><b>I: DTC </b></td>"
               + "<td colspan=\"2\"class=\"form-actions\"> <b>Children  </b></td>"
@@ -643,7 +664,7 @@ pmct+="";
               + "<td ><input type=\"text\" name=\"DTCA_Couns_Out_CM\" id=\"DTCA_Couns_Out_CM\" value=\""+DTCA_Couns_Out_CM+"\" onblur=\"autosave('DTCA_Couns_Out_CM');counsouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCA_Couns_Out_AF\" id=\"DTCA_Couns_Out_AF\" value=\""+DTCA_Couns_Out_AF+"\" onblur=\"autosave('DTCA_Couns_Out_AF');counsouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCA_Couns_Out_AM\" id=\"DTCA_Couns_Out_AM\" value=\""+DTCA_Couns_Out_AM+"\" onblur=\"autosave('DTCA_Couns_Out_AM');counsouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"DTCA_Couns_Out_Tot\" id=\"DTCA_Couns_Out_Tot\" value=\""+DTCA_Couns_Out_Tot+"\" onblur=\"autosave('DTCA_Couns_Out_Tot');counsouttotal();\" readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"DTCA_Couns_Out_Tot\" id=\"DTCA_Couns_Out_Tot\" value=\""+DTCA_Couns_Out_Tot+"\" onblur=\"autosave('DTCA_Couns_Out_Tot');counsouttotal();\" tabindex='-1' readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               + "<tr>"
               + ""
@@ -652,7 +673,7 @@ pmct+="";
               + "<td ><input type=\"text\" name=\"DTCA_Couns_In_CM\" id=\"DTCA_Couns_In_CM\" value=\""+DTCA_Couns_In_CM+"\" onblur=\"autosave('DTCA_Couns_In_CM');counsintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCA_Couns_In_AF\" id=\"DTCA_Couns_In_AF\" value=\""+DTCA_Couns_In_AF+"\" onblur=\"autosave('DTCA_Couns_In_AF');counsintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCA_Couns_In_AM\" id=\"DTCA_Couns_In_AM\" value=\""+DTCA_Couns_In_AM+"\" onblur=\"autosave('DTCA_Couns_In_AM');counsintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"DTCA_Couns_In_Tot\" id=\"DTCA_Couns_In_Tot\" value=\""+DTCA_Couns_In_Tot+"\" onblur=\"autosave('DTCA_Couns_In_Tot');counsintotal();\" readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"DTCA_Couns_In_Tot\" id=\"DTCA_Couns_In_Tot\" value=\""+DTCA_Couns_In_Tot+"\" onblur=\"autosave('DTCA_Couns_In_Tot');counsintotal();\" tabindex='-1' readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               + "<tr>"             
               + "<td rowspan=\"2\">2.</td><td rowspan=\"2\" >No. tested</td><td>Outpatient</td>"
@@ -660,7 +681,7 @@ pmct+="";
               + "<td ><input type=\"text\" name=\"DTCB_Test_Out_CM\" id=\"DTCB_Test_Out_CM\" value=\""+DTCB_Test_Out_CM+"\" onblur=\"autosave('DTCB_Test_Out_CM');testedouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCB_Test_Out_AF\" id=\"DTCB_Test_Out_AF\" value=\""+DTCB_Test_Out_AF+"\" onblur=\"autosave('DTCB_Test_Out_AF');testedouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCB_Test_Out_AM\" id=\"DTCB_Test_Out_AM\" value=\""+DTCB_Test_Out_AM+"\" onblur=\"autosave('DTCB_Test_Out_AM');testedouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"DTCB_Test_Out_Tot\" id=\"DTCB_Test_Out_Tot\" value=\""+DTCB_Test_Out_Tot+"\" onblur=\"autosave('DTCB_Test_Out_Tot');testedouttotal(); \" readonly  maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"DTCB_Test_Out_Tot\" id=\"DTCB_Test_Out_Tot\" value=\""+DTCB_Test_Out_Tot+"\" onblur=\"autosave('DTCB_Test_Out_Tot');testedouttotal(); tabindex='-1'  \" readonly  maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               + "<tr>"
               + "<td>Inpatient</td>"            
@@ -668,7 +689,7 @@ pmct+="";
               + "<td ><input type=\"text\" name=\"DTCB_Test_In_CM\" id=\"DTCB_Test_In_CM\" value=\""+DTCB_Test_In_CM+"\" onblur=\"autosave('DTCB_Test_In_CM');testedintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCB_Test_In_AF\" id=\"DTCB_Test_In_AF\" value=\""+DTCB_Test_In_AF+"\" onblur=\"autosave('DTCB_Test_In_AF');testedintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCB_Test_In_AM\" id=\"DTCB_Test_In_AM\" value=\""+DTCB_Test_In_AM+"\" onblur=\"autosave('DTCB_Test_In_AM');testedintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"DTCB_Test_In_Tot\" id=\"DTCB_Test_In_Tot\" value=\""+DTCB_Test_In_Tot+"\" onblur=\"autosave('DTCB_Test_In_Tot');testedintotal();\" readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"DTCB_Test_In_Tot\" id=\"DTCB_Test_In_Tot\" value=\""+DTCB_Test_In_Tot+"\" onblur=\"autosave('DTCB_Test_In_Tot');testedintotal();\" tabindex='-1' readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               + "<tr>"             
               + "<td rowspan=\"2\">3.</td><td rowspan=\"2\" >No. HIV+</td><td>Outpatient</td>"
@@ -676,7 +697,7 @@ pmct+="";
               + "<td ><input type=\"text\" name=\"DTCC_HIV_Out_CM\" id=\"DTCC_HIV_Out_CM\" value=\""+DTCC_HIV_Out_CM+"\" onblur=\"autosave('DTCC_HIV_Out_CM');hivouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCC_HIV_Out_AF\" id=\"DTCC_HIV_Out_AF\" value=\""+DTCC_HIV_Out_AF+"\" onblur=\"autosave('DTCC_HIV_Out_AF');hivouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCC_HIV_Out_AM\" id=\"DTCC_HIV_Out_AM\" value=\""+DTCC_HIV_Out_AM+"\" onblur=\"autosave('DTCC_HIV_Out_AM');hivouttotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"DTCC_HIV_Out_Tot\" id=\"DTCC_HIV_Out_Tot\" value=\""+DTCC_HIV_Out_Tot+"\" onblur=\"autosave('DTCC_HIV_Out_Tot');hivouttotal();\" readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"DTCC_HIV_Out_Tot\" id=\"DTCC_HIV_Out_Tot\" value=\""+DTCC_HIV_Out_Tot+"\" onblur=\"autosave('DTCC_HIV_Out_Tot');hivouttotal();\" tabindex='-1' readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"  
               + "<tr>"
               + "<td>Inpatient</td>"            
@@ -684,9 +705,9 @@ pmct+="";
               + "<td ><input type=\"text\" name=\"DTCC_HIV_In_CM\" id=\"DTCC_HIV_In_CM\" value=\""+DTCC_HIV_In_CM+"\" onblur=\"autosave('DTCC_HIV_In_CM');hivintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCC_HIV_In_AF\" id=\"DTCC_HIV_In_AF\" value=\""+DTCC_HIV_In_AF+"\" onblur=\"autosave('DTCC_HIV_In_AF');hivintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "<td ><input type=\"text\" name=\"DTCC_HIV_In_AM\" id=\"DTCC_HIV_In_AM\" value=\""+DTCC_HIV_In_AM+"\" onblur=\"autosave('DTCC_HIV_In_AM');hivintotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
-              + "<td ><input type=\"text\" name=\"DTCC_HIV_In_Tot\" id=\"DTCC_HIV_In_Tot\" value=\""+DTCC_HIV_In_Tot+"\" onblur=\"autosave('DTCC_HIV_In_Tot');hivintotal();\" readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td ><input type=\"text\" name=\"DTCC_HIV_In_Tot\" id=\"DTCC_HIV_In_Tot\" value=\""+DTCC_HIV_In_Tot+"\" onblur=\"autosave('DTCC_HIV_In_Tot');hivintotal();\" tabindex='-1' readonly maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>" 
-            +"</table>"; 
+            +"</table></fieldset>"; 
            
            
            DTC_TAB+=dtc;
