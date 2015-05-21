@@ -259,7 +259,10 @@
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-         
+       
+  
+        
+        
                     $.ajax({
 url:'loadFacilities',
 type:'post',

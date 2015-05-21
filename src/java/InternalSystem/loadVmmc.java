@@ -239,7 +239,14 @@ if(P54D==null){P54D=""; }
  else {
     createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  VMMC module.</font></td></tr>";
     }}
-    
+   
+     
+           if(session.getAttribute("facilityid")!=null){ } else {
+  createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  VMMC module.</font></td></tr>";
+          
+  }
+     
+     
     
       System.out.println(createdtable);
       

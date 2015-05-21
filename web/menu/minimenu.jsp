@@ -1,4 +1,48 @@
- <ul>
+
+
+
+
+
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <script src="assets/js/jquery-1.8.3.min.js"></script>  
+        <title></title>
+        
+        <script>
+            
+            
+            
+   jQuery(document).ready(function() {       
+         // initiate layout and plugins
+       
+    $("ul li").on("click", function() {
+      $("ul li").removeClass("active");
+      $(this).addClass("active");
+    });
+   });
+            
+        </script>
+        
+    </head>
+    <body>
+
+
+
+
+
+
+
+
+
+
+<ul>
      
      <br/>
      <br/>
@@ -26,7 +70,7 @@
                   <br/>
                  <br/>
                 
-                <li style="border-top: 1px solid #e2e2e2 !important;">
+                <li class="active" style="border-top: 1px solid #e2e2e2 !important;">
                 <a href="home.jsp">
                <i class="icon-home"></i> 
                <span class="title">Home</span>
@@ -67,3 +111,7 @@
                </a>
             </li>
          </ul>
+
+      
+    </body>
+</html>

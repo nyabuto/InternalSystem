@@ -111,7 +111,7 @@ return true;
       <!-- BEGIN SIDEBAR -->
       <div class="page-sidebar nav-collapse collapse">
          <!-- BEGIN SIDEBAR MENU -->         
-       <%@include file="/menu/menu.jsp"%>
+       <%@include file="/menu/minimenu.jsp"%>
          <!-- END SIDEBAR MENU -->
       </div>
       <!-- END SIDEBAR -->

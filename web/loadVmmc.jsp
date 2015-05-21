@@ -114,7 +114,7 @@ legend.formatter {
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
+                     <li><a href="editProfile.jsp"><i class="icon-user"></i>User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
@@ -181,7 +181,7 @@ legend.formatter {
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">VMMC</b>
-                         <span id="newform" style="margin-left: 70%;"><b>New Form</b></span>
+                         <span id="newform" style="margin-left: 70%;"><b></b></span>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->

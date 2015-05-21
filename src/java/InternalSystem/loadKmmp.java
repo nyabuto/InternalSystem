@@ -153,6 +153,11 @@ if(HV0206==null){HV0206=""; }
     
     }
     
+      if(session.getAttribute("facilityid")!=null){ } else {
+   createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  KMMP module.</font></td></tr>";
+    
+  }
+     
       System.out.println(createdtable);
       
     PrintWriter out = response.getWriter();
