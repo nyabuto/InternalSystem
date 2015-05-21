@@ -40,6 +40,8 @@ public class loadVmmc extends HttpServlet {
     String year="";      
     String facil="";
     
+     String formtype="<b>New Form</b>";
+    
     if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
     }
@@ -90,6 +92,17 @@ String P54D="";
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
     
+        
+         if(conn.rs.getString("isValidated").equals("1")){
+        formtype="<font color='green'><b>Form Validated.<img width='20px' height='20px' src='images/validated.jpg' style='margin-left:10px;'></b></font>";
+        }
+        else
+            
+        {
+        formtype="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>";
+        }
+		
+        
         //now load the column values here
        
 P51D1=conn.rs.getString("P51D1");
@@ -220,7 +233,7 @@ if(P54D==null){P54D=""; }
      createdtable+="<tr><td colspan='3'><b>Total</b></td><td><input readonly tabindex='-1' style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\"  value='"+P53D+"' name='P53D' id='P53D' ></td></tr>";
      
      createdtable+="<tr class='form-actions'><th colspan='4'>Number of males circumcised within the reporting period who return at least once for postoperative follow‐up care (routine or emergent) within 14 days of surgery </th></tr>";
-     createdtable+="<tr><td rowspan='4'><b> P5.4.D </b></td><td colspan='4'><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P54D');\" value='"+P54D+"' name='P54D' id='P54D' ></td></tr></table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>";
+     createdtable+="<tr><td rowspan='4'><b> P5.4.D </b></td><td colspan='4'><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P54D');\" value='"+P54D+"' name='P54D' id='P54D' ></td></tr></table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span>";
      
      }
  else {

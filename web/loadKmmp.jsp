@@ -198,7 +198,9 @@ legend.formatter {
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">KMMP</b>
+                        <b style="color:white;text-align: center;font-size: 20px;">KMMP</b>  
+                        <span id="newform" style="margin-left: 70%;"><b>New Form</b></span>
+                        
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
@@ -309,7 +311,10 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#kmmptable").html(data);
-            $("#KMMP1").focus();   
+                
+                 $("#newform").html($("#formstatus").html());
+                
+            //$("#KMMP1").focus();   
             }
             
             
@@ -367,7 +372,7 @@ success:function (data){
           
              function autosave(col,tableid){
             var achieved=document.getElementById(col).value;
-            
+            document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
             
              $.ajax({
 url:'saveKmmp?col='+col+"&achieved="+achieved,

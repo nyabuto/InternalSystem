@@ -54,7 +54,7 @@ public class loadKmmp extends HttpServlet {
         
         
     String getexistingdata="select * from kmmp where tableid='"+tableid+"'";
-    
+      String formtype="<b>New Form</b>";
 String KMMP1="";
 String KMMP2="";
 String KMMP3a="";
@@ -71,6 +71,16 @@ String HV0206="";
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
     
+        if(conn.rs.getString("isValidated").equals("1")){
+        formtype="<font color='green'><b>Form Validated.<img width='20px' height='20px' src='images/validated.jpg' style='margin-left:10px;'></b></font>";
+        }
+        else
+            
+        {
+        formtype="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>";
+        }
+		
+        
         //now load the column values here
        
 KMMP1=conn.rs.getString("KMMP1");
@@ -134,7 +144,7 @@ if(HV0206==null){HV0206=""; }
    
       createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>";
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span>";
    }
     
     else {

@@ -40,6 +40,8 @@ public class loadGender extends HttpServlet {
     String year="";      
     String facil="";
     
+    String formtype="<b>New Form</b>";
+    
     if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
     }
@@ -54,6 +56,7 @@ public class loadGender extends HttpServlet {
         
         
     String getexistingdata="select * from gender where tableid='"+tableid+"'";
+    
     
 String P121DM0="";
 String P121DF0="";
@@ -119,6 +122,15 @@ String GEND_GBV="";
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
     
+        if(conn.rs.getString("isValidated").equals("1")){
+        formtype="<font color='green'><b>Form Validated.<img width='20px' height='20px' src='images/validated.jpg' style='margin-left:10px;'></b></font>";
+        }
+        else
+            
+        {
+        formtype="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>";
+        }
+        
         //now load the column values here
 //====================================================================p122       
 P121DM0=conn.rs.getString("P121DM0");
@@ -375,7 +387,7 @@ if(GEND_GBV==null){GEND_GBV=""; }
     createdtable+="<tr><td><b>25+</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25M');gbvtotal();\" value='"+GEND_GBV25M+"' name='GEND_GBV25M' id='GEND_GBV25M' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25F');gbvtotal();\" value='"+GEND_GBV25F+"' name='GEND_GBV25F' id='GEND_GBV25F' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly value='"+GEND_GBV25+"' name='GEND_GBV25' id='GEND_GBV25' autofocus></td></tr>";
     createdtable+="<tr><td><b>Total</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVM+"' name='GEND_GBVM' id='GEND_GBVM' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVF+"' name='GEND_GBVF' id='GEND_GBVF' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return  numbers(event,this);\"  value='"+GEND_GBV+"' name='GEND_GBV' id='GEND_GBV' autofocus></td></tr>";
     createdtable+="<tr><td></td><td></td><td class='form-actions'>Age</td><td class='form-actions'>MALE</td><td style='width:80px;' class='form-actions'>FEMALE</td><td class='form-actions'>TOTAL</td></tr>"
-            + "</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>";
+            + "</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/><span id='formstatus' style='display:none;'>"+formtype+" </span></div>";
     
     }
     else {

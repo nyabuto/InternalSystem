@@ -181,6 +181,7 @@ legend.formatter {
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">VMMC</b>
+                         <span id="newform" style="margin-left: 70%;"><b>New Form</b></span>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
@@ -280,8 +281,9 @@ success:function (data){
             type:'post',
             dataType:'html',
             success:function (data){
-                $("#gendertable").html(data);
-          $("#P51D1").focus();   
+                $("#gendertable").html(data);                
+                 $("#newform").html($("#formstatus").html());  
+         // $("#P51D1").focus();   
             }
             
             
@@ -338,7 +340,8 @@ success:function (data){
              
              function autosave(col){
             var achieved=document.getElementById(col).value;
-            
+         document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
+                 
             
              $.ajax({
 url:'saveVmmc?col='+col+"&achieved="+achieved,
