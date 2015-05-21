@@ -36,7 +36,7 @@ HttpSession session=null;
     String achieved=request.getParameter("achieved");
     
      if(achieved.equals("")){
-    achieved="0";
+    achieved=null;
     }
     dbConn conn=new dbConn();
 //get the existing data for the month, year and facility that is already on session
@@ -63,7 +63,7 @@ facil=session.getAttribute("facilityid").toString();
 String tableid=year+"_"+month+"_"+facil;
     
 String Insertqr= "insert into kmmp  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , tableid='"+tableid+"' , user_id='"+userid+"'";
-String updateqr="update kmmp set "+col+"='"+achieved+"' where tableid='"+tableid+"'";
+String updateqr="update kmmp set "+col+"="+achieved+" where tableid='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 
 String checker="select "+col+" from kmmp where tableid='"+tableid+"'";

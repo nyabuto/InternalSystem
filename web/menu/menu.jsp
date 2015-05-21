@@ -18,7 +18,7 @@
                <span class="title">Home</span>
                </a>
             </li>
-            <li class="has-sub ">
+            <li class="has-sub " >
                <a href="load711.jsp">
                <!--<i class="icon-bookmark-empty"></i>--> 
                <span class="title">MOH 711A</span>

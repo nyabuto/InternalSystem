@@ -13,6 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>Gender Form</title>
+      <script src="assets/js/jquery-1.8.3.min.js"></script>   
      <link rel="shortcut icon" href="images/logo.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -37,12 +38,38 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-   
-   <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+
+      <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
 
+ <style>
+fieldset.formatter {
+    border: 2px groove black !important;
+   
+    /*padding: 0 1.4em 1.4em 1.4em !important;*/
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+   
+}
+
+legend.formatter {
+    border: 0px groove black !important;
+    margin: 0 0 0.0em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+    font-size: 1.2em !important;
+    /*font-weight: bold !important;*/
+    text-align: center !important;
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-left:50px;
+
+}
+</style>
   
 </head>
 <!-- END HEAD -->
@@ -176,9 +203,10 @@
                         <!-- BEGIN FORM-->
                         <form action="validateGender" class="form-horizontal">
                           
+                            <fieldset class="formatter"><legend class="formatter"><b style="text-align:center;"> Prevention Sub Area 12:Gender</b></legend>
                          
                          <table id="gendertable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
-                          
+                          </fieldset>
                            
                             
                              
@@ -186,7 +214,9 @@
                             
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validate</button>
+<!--                              <button type="submit" class="btn blue">Run Validation</button>-->
+                              
+                              <input type="submit" class="btn blue" value="Run Validation" name="validate" id="validate"/>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>
@@ -226,7 +256,7 @@
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+ 
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -251,6 +281,11 @@
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>     
+      
+
+   
+   
+   
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins

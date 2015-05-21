@@ -342,7 +342,7 @@ if(GEND_GBV==null){GEND_GBV=""; }
 
     }
     
-    String createdtable="<tr class='form-actions'><th colspan='6'><b> Prevention Sub Area 12:Gender</b></th></tr>";
+    String createdtable="<tr class='form-actions'><th colspan='6'><b></b></th></tr>";
     
     createdtable+="<tr><td rowspan='7'><b> P12.1.D: </b></td><td rowspan='7'>GEND_NORM: Number of people completing an intervention pertaining to gender norms, that meets minimum</td><td class='form-actions'>Age</td><td class='form-actions'>MALE</td><td style='width:80px;' class='form-actions'>FEMALE</td><td class='form-actions'>TOTAL</td></tr>";
     createdtable+="<tr><td><b>0-9</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P121DM0');p121total();\" value='"+P121DM0+"' name='P121DM0' id='P121DM0' autofocus></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P121DF0');p121total();\" value='"+P121DF0+"' name='P121DF0' id='P121DF0' autofocus></td><td></td></tr>";

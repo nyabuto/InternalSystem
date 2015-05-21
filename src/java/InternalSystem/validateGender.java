@@ -490,7 +490,7 @@ updqr+=" where tableid='"+tableid+"'";
 conn.st.executeUpdate(updqr);
 
 
-session.setAttribute("genderresponse", "<font color='green'>Form validated Successfully!</font>");
+session.setAttribute("genderresponse", "<font color=\"green\"> <b>Gender Form validated Successfully!</b></font>");
 
 
  

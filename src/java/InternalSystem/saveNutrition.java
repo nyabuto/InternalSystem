@@ -36,7 +36,7 @@ HttpSession session=null;
     String achieved=request.getParameter("achieved");
     
     if(achieved.equals("")){
-    achieved="0";
+    achieved="null";
     }
     
     dbConn conn=new dbConn();
@@ -64,7 +64,7 @@ facil=session.getAttribute("facilityid").toString();
 String tableid=year+"_"+month+"_"+facil;
     
 String Insertqr= "insert into nutrition  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , tableid='"+tableid+"' , user_id='"+userid+"'";
-String updateqr="update nutrition set "+col+"='"+achieved+"' where tableid='"+tableid+"'";
+String updateqr="update nutrition set "+col+"="+achieved+" where tableid='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 
 String checker="select "+col+" from nutrition where tableid='"+tableid+"'";

@@ -108,7 +108,7 @@ if(HV0206==null){HV0206=""; }
         
     }
     
-    String createdtable="<tr class='form-actions'><th colspan='1'><b> KMMP OUTPUT DATA</b></th><th>Total</th></tr>";
+    String createdtable="<tr class='form-actions'><th colspan='2'><b></b></th><th>Total</th></tr>";
     
     createdtable+="<tr><td><b> 1 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('KMMP1','"+tableid+"');\" value='"+KMMP1+"' name='KMMP1' id='KMMP1' autofocus></td></tr>";
     

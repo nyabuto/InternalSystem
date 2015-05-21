@@ -14,6 +14,7 @@
    <meta charset="utf-8" />
    <title>KMMP Form</title>
      <link rel="shortcut icon" href="images/logo.png"/>
+   <script src="assets/js/jquery-1.8.3.min.js"></script> 
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -44,6 +45,33 @@
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
 
   
+ <style>
+fieldset.formatter {
+    border: 2px groove black !important;
+   
+    /*padding: 0 1.4em 1.4em 1.4em !important;*/
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+   
+}
+
+legend.formatter {
+    border: 0px groove black !important;
+    margin: 0 0 0.0em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+    font-size: 1.2em !important;
+    /*font-weight: bold !important;*/
+    text-align: center !important;
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-left:50px;
+
+}
+</style>
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -174,11 +202,12 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="sessionsHolder" class="form-horizontal">
+                        <form action="validateKmmp" class="form-horizontal">
                           
+                           <fieldset class="formatter"><legend class="formatter"><b style="text-align:center;"> KMMP OUTPUT DATA</b></legend>
                          
-                         <table id="kmmptable" cellpadding="2px" border="1" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
-                          
+                         <table id="kmmptable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
+                          </fieldset>
                            
                             
                              
@@ -186,7 +215,9 @@
                             
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validate</button>
+                           
+                                <input type="submit" class="btn blue" value="Run Validation" name="validate" id="validate"/>
+<!--                           
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>
@@ -226,7 +257,7 @@
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -326,7 +357,11 @@ success:function (data){
              
              //AUTOUPDATING FUNCTION
              
-             
+                    String.prototype.endsWith = function(suffix) {
+    return this.match(suffix+"$") == suffix;
+};
+          
+          
              function autosave(col,tableid){
             var achieved=document.getElementById(col).value;
             
@@ -336,8 +371,13 @@ url:'saveKmmp?col='+col+"&achieved="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){      
-    
+    if(col.endsWith("T")||col=='KMMP3c'){
+         $("#"+col).css({'background-color' : 'plum'}); 
+        
+    }
+    else {
       $("#"+col).css({'background-color' : '#CCFFCC'});
+    }
         
 }
              
