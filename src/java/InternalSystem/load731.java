@@ -907,7 +907,7 @@ isValidated=conn.rs.getString("isValidated");
 //        data=HIV_CT+""+PMTCT+""+CT+""+VMMC+""+PEP+""+Blood+""+checkValidity;
         data+=checkValidity;
         
-        data+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validate\">";
+        data+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validation\">";
     data+=" </div>";
      
      }
