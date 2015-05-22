@@ -59,7 +59,7 @@ String HV0601,HV0602,HV0605,isValidated,validity;
             dbConn conn = new dbConn();
             session=request.getSession();
             
-          
+     if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){     
            data="";
            if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -82,6 +82,7 @@ String HV0601,HV0602,HV0605,isValidated,validity;
         PMTCT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:30%;\">1. Prevention of Mother-to-Child Transmission</h4>" +
                               "</div><div class=\"portlet-body form\">";
+        
         CT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">2. Care and Treatment</h4>" +
                               "</div><div class=\"portlet-body form\">";
@@ -850,11 +851,20 @@ isValidated=conn.rs.getString("isValidated");
         VMMC+="</div></div></div>";
         PEP+="</div></div></div>";
         Blood+="</div></div></div>";
+      
+        if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){data+=PMTCT;}
+        if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){data+=CT;}
+        if(session.getAttribute("forms_holder").toString().contains(",PEP,")){data+=PEP;}
+        if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){data+=Blood;}
         
 //        data=HIV_CT+""+PMTCT+""+CT+""+VMMC+""+PEP+""+Blood+""+checkValidity;
-        data=PMTCT+""+CT+""+PEP+""+Blood+""+checkValidity;
+        data+=checkValidity;
         
         data+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validate\">";
+     }
+     else{
+         data="Facility does not use this form";
+     }
             out.println(data);
         } finally {
             out.close();

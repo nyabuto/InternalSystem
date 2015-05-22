@@ -27,11 +27,11 @@ public class updatefacilitysession extends HttpServlet {
             throws ServletException, IOException {
         try {
     response.setContentType("text/html;charset=UTF-8");
-    active=",";
+    
     
     session=request.getSession();
     dbConn conn=new dbConn();
-    session.removeAttribute("");
+    session.removeAttribute("forms_holder");
     //receive the facility id a get the facility name
     String facility=request.getParameter("facil");
     
@@ -39,7 +39,7 @@ public class updatefacilitysession extends HttpServlet {
         
         conn.rs=conn.st.executeQuery(getfacilname);
         while(conn.rs.next()){
-          
+         active=","; 
         if(conn.rs.getInt("HTC")==1){active+="HTC,";}
         if(conn.rs.getInt("FP")==1){active+="FP,";}
         if(conn.rs.getInt("PMTCT")==1){active+="PMTCT,";}
@@ -62,7 +62,7 @@ public class updatefacilitysession extends HttpServlet {
          if(conn.rs.getInt("Blood_Safety")==1){active+="Blood_Safety,";}
          if(conn.rs.getInt("TB")==1){active+="TB,";}
         
-        
+        session.setAttribute("forms_holder", active);
           session.setAttribute("facilityname", conn.rs.getString("SubPartnerNom"));
         }
         
