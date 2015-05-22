@@ -223,18 +223,7 @@ legend.formatter {
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="validate711" method="post" class="form-horizontal">
-                          
-                         <div class="tabbable tabbable-custom boxless">
-                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab">A: FAMILY PLANNING</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_2" data-toggle="tab">B: MCH- ANC/PMCT</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab">C:MATERNITY/ SAFE DELIVERIES</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">D: VCT</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_5" data-toggle="tab">E DTC</a></li>
-                           <li style="margin-left:150px;" id="isValidated"></li>                    </ul> </div>
-<!--                         <table id="711table" cellpadding="2px" border="1" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
-                          -->
-                   <%if (session.getAttribute("validate711") != null) { %>
+                           <%if (session.getAttribute("validate711") != null) { %>
                                 <script type="text/javascript"> 
                     
                     var n = noty({text: '<%=session.getAttribute("validate711")%>',
@@ -247,28 +236,29 @@ legend.formatter {
                 session.removeAttribute("validate711");
                             }
 
-                        %>
-                        
-                          <div class="tab-content" id="711table">
+                        %> 
+                         <div class="tabbable tabbable-custom boxless" id="711table">
+                   
                         
                        
                          <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
                         
                        
                         <!-- END FORM-->           
-                     </div> 
+                   
                             
                              
                            
                             
                          
+                         
+                        <!-- END FORM-->           
+                     </div>
                            <div class="form-actions">
                               <button type="submit" class="btn blue">Run Validation</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>
-                        <!-- END FORM-->           
-                     </div>
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
                </div>
@@ -352,7 +342,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#711table").html(data);
-            $("#FPMicrolutN").focus();   
+//            $("#FPMicrolutN").focus();   
            
             
  var validity=$("#checkValidity").html();
@@ -430,6 +420,7 @@ return true;
       function updatefacilsession(){
           
         var facil=document.getElementById("facility").value;
+//        alert(facil);
         $.ajax({
 url:'updatefacilitysession?facil='+facil,
 type:'post',

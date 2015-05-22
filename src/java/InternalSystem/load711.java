@@ -59,7 +59,7 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
             String MATERNITY_TAB="";
             String VCT_TAB="";
             String DTC_TAB="";
-          
+           if(session.getAttribute("forms_holder")!=null || !(session.getAttribute("forms_holder").toString().equals(","))){
            data="";
            if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -74,24 +74,104 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
     id=year+"_"+month+"_"+facilityId; 
            
 //          id="2015_1_14498";
+    String fppane="";
+    String pmctpane="";
+    String matpane="";
+    String htcpane=""; 
+    String activeclass="";
+    activeclass="active";
+    int counter=0;
+    String ul="  <ul class=\"nav nav-tabs\">\n" ;
+    if(session.getAttribute("forms_holder").toString().contains(",FP,")){
+        counter++;
+          if(counter==1){
+ fppane+=" <li class="+activeclass+"><a href=\"#tab_"+counter+"\" data-toggle=\"tab\">A: FAMILY PLANNING</a></li>\n" ;
     
-        FP_TAB="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
+      FP_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">A: FAMILY PLANNING</h4>" +
                               "</div><div class=\"portlet-body form\">";
-        
-        MCH_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
+          }else{
+ fppane+=" <li class=\"active\"><a href=\"#tab_1\" data-toggle=\"tab\">A: FAMILY PLANNING</a></li>\n" ;
+    
+      FP_TAB="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">A: FAMILY PLANNING</h4>" +
+                              "</div><div class=\"portlet-body form\">";}
+    
+    
+    }else{fppane="";}
+     if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
+         counter++;
+         if(counter==1){
+ pmctpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">B: MCH- ANC/PMCT</a></li>\n" ;
+    
+       MCH_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">B: MCH - ANC/PMCT</h4>" +
                               "</div><div class=\"portlet-body form\">";
+         }else{
+    pmctpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">B: MCH- ANC/PMCT</a></li>\n" ;
+    
+       MCH_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">B: MCH - ANC/PMCT</h4>" +
+                              "</div><div class=\"portlet-body form\">";      
+         
+         
+         
+         }
+     
+     }else{pmctpane="";}
+      if(session.getAttribute("forms_holder").toString().contains(",Maternity,")){
+           counter++;
+         if(counter==1){
+       matpane+=" <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">C:MATERNITY/ SAFE DELIVERIES</a></li>\n" ;
+     
+      
+        MATERNITY_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">C: MATERNITY / SAFE DELIVERIES</h4>" +
+                              "</div><div class=\"portlet-body form\">";}
+         else{
+ matpane+=" <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\">C:MATERNITY/ SAFE DELIVERIES</a></li>\n" ;
+     
+      
         MATERNITY_TAB="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">C: MATERNITY / SAFE DELIVERIES</h4>" +
-                              "</div><div class=\"portlet-body form\">";
-        VCT_TAB="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
+                              "</div><div class=\"portlet-body form\">";}
+      
+      
+      }else{matpane="";}
+       if(session.getAttribute("forms_holder").toString().contains(",HTC,")){
+            counter++;
+         if(counter==1){
+ htcpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">D: VCT</a></li>"
+        + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">E DTC</a></li>\n" ;
+    VCT_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">D: VCT</h4>" +
                               "</div><div class=\"portlet-body form\">";
-        DTC_TAB="<div class=\"tab-pane \" id=\"tab_5\"><div class=\"portlet box blue\">" +
+    DTC_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">E: DTC </h4>" +
+                              "</div><div class=\"portlet-body form\">"; }
+         else{
+    
+ htcpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\">D: VCT</a></li>"
+        + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\">E DTC</a></li>\n" ;
+    VCT_TAB="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">D: VCT</h4>" +
+                              "</div><div class=\"portlet-body form\">";
+    DTC_TAB="<div class=\"tab-pane \" id=\"tab_5\"><div class=\"portlet box blue\">" +
                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">E: DTC </h4>" +
                               "</div><div class=\"portlet-body form\">"; 
+         }
+       
+       
+       }
+       else{htcpane="";}
+String validatepane=" <li style=\"margin-left:150px;\" id=\"isValidated\"></li>                    </ul> </div>\n" ;
+String mainpane="<div class=\"tab-content\" >";
     
+   
+    
+      
+        
+     
                     
               // INITIALIZING VARIABLES 
               
@@ -732,10 +812,28 @@ pmct+="";
            MATERNITY_TAB+="</div></div></div>";
            VCT_TAB+="</div></div></div>";
            DTC_TAB+="</div></div></div>";
+           data+= ul+" "+fppane+""+pmctpane+""+matpane+""+htcpane+""+validatepane+" "+mainpane;
+    
+          if(session.getAttribute("forms_holder").toString().contains(",FP,")){
+          data+=FP_TAB;
+          }
+             if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
+          data+=MCH_TAB;
+          }
+              if(session.getAttribute("forms_holder").toString().contains(",Maternity,")){
+          data+=MATERNITY_TAB;
+          }
+          if(session.getAttribute("forms_holder").toString().contains(",HTC,")){
+          data+=VCT_TAB+""+DTC_TAB;
+          }
          
+         data+="  </div> ";
+          
+         
+           }else{data+="Facility does not use MOH 711A";}
        
       // System.out.println(MCH_TAB);
-        data+=FP_TAB +""+MCH_TAB+""+MATERNITY_TAB+""+VCT_TAB+""+DTC_TAB;
+//        data+=MCH_TAB+""+MATERNITY_TAB;
             out.println(data);
           
         } finally {

@@ -354,7 +354,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#tbtable").html(data);
-            $("#TB_STATN").focus();   
+//            $("#TB_STATN").focus();   
            
  var validity=$("#checkValidity").html();
 $("#isValidated").html(validity);
