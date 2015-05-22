@@ -14,7 +14,7 @@
    <meta charset="utf-8" />
    <title>MOH 731</title>
     <script src="assets/js/jquery-1.8.3.min.js"></script>  
-    <link rel="shortcut icon" href="images/header.jpg"/>
+    <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -78,7 +78,7 @@ $("#isValidated").html(validity);
             var achieved=document.getElementById(columnName).value;
 //           var achieved =$("#"+columnName).val();
 //            alert("called : "+columnName+"   value : "+achieved);
-            if(achieved!=""){
+//            if(achieved!=""){
              $.ajax({
 url:'save731?columnName='+columnName+"&value="+achieved,
 type:'post',
@@ -100,7 +100,7 @@ $("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"m
 }
 }
              });
-         }
+//         }
              }
            
        </script>
@@ -313,13 +313,13 @@ legend.formatter {
                     -->
                      <div class="tabbable tabbable-custom boxless">
                      <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab">1. HIV Counselling and Testing</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_2" data-toggle="tab">2. PMTCT</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab">3. Care and Treatment</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_5" data-toggle="tab">5. PEP</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_6" data-toggle="tab">6. Blood Safety</a></li>
-                        <li style="margin-left:150px;" id="isValidated"></li>
+                        <!--<li class="active"><a href="#tab_1" data-toggle="tab">1. HIV Counselling and Testing</a></li>-->
+                        <li class="active"><a class="advance_form_with_chosen_element" href="#tab_1" data-toggle="tab"><b>1. Prevention of Mother-to-Child Transmission.</b></a></li>
+                        <li><a class="advance_form_with_chosen_element" href="#tab_2" data-toggle="tab"><b>2. Care and Treatment.</b></a></li>
+                        <!--<li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>-->
+                        <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab"><b>3. Post-Exposure Prophylaxis.</b></a></li>
+                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab"><b>4. Blood Safety.</b></a></li>
+                        <li style="margin-left:20px;" id="isValidated"></li>
                      </ul>
                    
                      </div>

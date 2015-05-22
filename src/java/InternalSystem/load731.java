@@ -75,24 +75,24 @@ String HV0601,HV0602,HV0605,isValidated,validity;
            
 //          id="2015_1_14498";
     
-        HIV_CT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">1. HIV Counselling and Testing</h4>" +
-                              "</div><div class=\"portlet-body form\">";
+//        HIV_CT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
+//                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">1. HIV Counselling and Testing</h4>" +
+//                              "</div><div class=\"portlet-body form\">";
         
-        PMTCT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:30%;\">Prevention of Mother-to-Child Transmission</h4>" +
+        PMTCT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:30%;\">1. Prevention of Mother-to-Child Transmission</h4>" +
                               "</div><div class=\"portlet-body form\">";
-        CT="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">Care and Treatment</h4>" +
+        CT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">2. Care and Treatment</h4>" +
                               "</div><div class=\"portlet-body form\">";
-        VMMC="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">Voluntary Medical Male Circumcision</h4>" +
+//        VMMC="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
+//                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">4. Voluntary Medical Male Circumcision</h4>" +
+//                              "</div><div class=\"portlet-body form\">";
+        PEP="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">3. Post-Exposure Prophylaxis</h4>" +
                               "</div><div class=\"portlet-body form\">";
-        PEP="<div class=\"tab-pane \" id=\"tab_5\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">Post-Exposure Prophylaxis</h4>" +
-                              "</div><div class=\"portlet-body form\">";
-        Blood="<div class=\"tab-pane \" id=\"tab_6\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">Blood Safety</h4>" +
+        Blood="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">4. Blood Safety</h4>" +
                               "</div><div class=\"portlet-body form\">";
         
   isValidated="";validity="";          
@@ -851,7 +851,9 @@ isValidated=conn.rs.getString("isValidated");
         PEP+="</div></div></div>";
         Blood+="</div></div></div>";
         
-        data=HIV_CT+""+PMTCT+""+CT+""+VMMC+""+PEP+""+Blood+""+checkValidity;
+//        data=HIV_CT+""+PMTCT+""+CT+""+VMMC+""+PEP+""+Blood+""+checkValidity;
+        data=PMTCT+""+CT+""+PEP+""+Blood+""+checkValidity;
+        
         data+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validate\">";
             out.println(data);
         } finally {
