@@ -834,7 +834,7 @@ pmct+="";
 "                           </div>";
            data+="  </div> ";
            }else{
-               data+="<font color=\"red\" size=\"6px;\" ><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support module TB.</font>";
+               data="<font color=\"red\" size=\"6px;\" ><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support module MOH 711A.</font>";
                }
        
       // System.out.println(MCH_TAB);
