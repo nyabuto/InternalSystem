@@ -19,7 +19,7 @@
 <head>
    <meta charset="utf-8" />
    <title>TB Form</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+ <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -423,7 +423,7 @@ type:'post',
 dataType:'html',
 success:function (data){
    if(data.trim()!="success"){$("#error").html(data);
-     $("#"+col).css({'background-color' : 'red'});
+//     $("#"+col).css({'background-color' : 'red'});
         }
     else{
         $("#error").html("");

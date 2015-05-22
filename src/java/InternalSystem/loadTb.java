@@ -180,7 +180,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
     createdtable+="<tr><td rowspan=\"3\" ><b> TB_STAT </b></td>"
             + "<td rowspan=\"3\">Proportion of registered new and relapse TB cases with document HIV </td>"
             + "<td colspan=\"2\" >Number of registered new and relapse TB cases with documented HIV status</td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('TB_STATN');TB_STAT();\" value='"+TB_STATN+"' name='TB_STATN' id='TB_STATN' autofocus></td></tr>";
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('TB_STATN');TB_STAT();\" value='"+TB_STATN+"' name='TB_STATN' id='TB_STATN'></td></tr>";
     
     createdtable+="<tr>"
             + "<td  colspan=\"2\">Total Registered and new relapse TB cases</td>"
@@ -240,7 +240,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
     createdtable+="<tr><td rowspan=\"3\" ><b> TB_SCREEN </b></td>"
             + "<td rowspan=\"3\"> Proportion of PLHIV in HIV Clinical care who were screend for TB symptoms at the last clinical visit</td>"
             + "<td colspan=\"2\">Number of PLHIV in clinical care who were screened for TB </td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('TB_SCREENN');TB_SCREEN();\" value='"+TB_SCREENN+"' name='TB_SCREENN' id='TB_SCREENN' autofocus></td></tr>";
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('TB_SCREENN');TB_SCREEN();\" value='"+TB_SCREENN+"' name='TB_SCREENN' id='TB_SCREENN' ></td></tr>";
     
     createdtable+="<tr>"
             + "<td colspan=\"2\">Total Registered and new relapse TB cases</td>"
@@ -253,16 +253,16 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
       createdtable+="<tr><td ><b> TB_OUTCOME </b></td>"
             + "<td colspan=\"3\"> Outcome of TB treatment among registered new and relapse TB cases who are HIV positive</td>"
          
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('TB_OUTCOME');\" value='"+TB_OUTCOME+"' name='TB_OUTCOME' id='TB_OUTCOME' autofocus></td></tr>";
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('TB_OUTCOME');\" value='"+TB_OUTCOME+"' name='TB_OUTCOME' id='TB_OUTCOME' ></td></tr>";
     
       createdtable+="<tr class='form-actions'><TD  colspan=\"1\"></TD><td>MALE</td>"
               + "<td>FEMALE</td>"
               + "<td>TOTAL</td></tr><tr>"
             + "<td colspan=\"2\"> 7.4 Number of reigistered TB patients who recieved HIV counselling, testing, and their test results at a USG supported TB service</td>"
          
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTMPR');indic74();\" value='"+CARPCTHTMPR+"' name='CARPCTHTMPR' id='CARPCTHTMPR' autofocus></td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTFPR');indic74();\" value='"+CARPCTHTFPR+"' name='CARPCTHTFPR' id='CARPCTHTFPR' autofocus></td>"
-            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly onblur=\"autosave('CARPCTHTTPR');indic74();\" value='"+CARPCTHTTPR+"' name='CARPCTHTTPR' id='CARPCTHTTPR' autofocus></td>"
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTMPR');indic74();\" value='"+CARPCTHTMPR+"' name='CARPCTHTMPR' id='CARPCTHTMPR' ></td>"
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTFPR');indic74();\" value='"+CARPCTHTFPR+"' name='CARPCTHTFPR' id='CARPCTHTFPR' ></td>"
+            + "<td><input type='text' onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly onblur=\"autosave('CARPCTHTTPR');indic74();\" value='"+CARPCTHTTPR+"' name='CARPCTHTTPR' id='CARPCTHTTPR' ></td>"
               + "</tr>   </table>   </fieldset>";
     
     createdtable+=" <div class=\"form-actions\">\n" +

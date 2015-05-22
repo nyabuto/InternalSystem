@@ -47,7 +47,7 @@
   <!-- BEGIN LOGIN -->
   <div style="margin-left: 33%;">
       <div style="margin-right:25% ;">
-          <h3 style="color:#4b8df8;font-family: cambria;text-align: left;font-size: 32px; margin-left: -16%;font-weight: bold;"><b>Intergrated Management Information System</b></h3> 
+          <h3 style="color:#4b8df8;font-family: cambria;text-align: left;font-size: 32px; margin-left: -16%;font-weight: bold;"><b>Integrated Management Information System</b></h3> 
           <h3 style="color:#4b8df8; text-align: left;font-size: 42px; font-family: cambria;margin-left: 25%;font-weight: bold;"><b>( IMIS )</b></h3> 
       </div>
       <br/>

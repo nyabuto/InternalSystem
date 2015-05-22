@@ -13,7 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>MOH 711 Form</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+  <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
