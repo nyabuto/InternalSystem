@@ -248,7 +248,7 @@ legend.formatter {
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
+                     <li><a href="editProfile.jsp"><i class="icon-user"></i>User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
