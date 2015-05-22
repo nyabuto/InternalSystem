@@ -51,6 +51,8 @@ String HV0301,HV0302,HV0303,HV0304,HV0305,HV0306,HV0307,HV0308,HV0309,HV0310,HV0
 String HV0401,HV0402,HV0403,HV0406,HV0407,HV0408,HV0409,HV0410,HV0411,HV0412,HV0413,HV0414,HV0415;
 String HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507,HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514;
 String HV0601,HV0602,HV0605,isValidated,validity;
+int markActive;
+String classType="";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -58,8 +60,11 @@ String HV0601,HV0602,HV0605,isValidated,validity;
         try {
             dbConn conn = new dbConn();
             session=request.getSession();
-            
-     if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){     
+           markActive=0; 
+           classType="";
+     if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
+         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",Care_DSD,") || 
+   session.getAttribute("forms_holder").toString().contains(",PEP,") || session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
            data="";
            if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -72,29 +77,71 @@ String HV0601,HV0602,HV0605,isValidated,validity;
    facilityId=session.getAttribute("facilityid").toString();
     }
     id=year+"_"+month+"_"+facilityId; 
-           
+         
+    
+    data=" <div class=\"tabbable tabbable-custom boxless\">" +
+"                     <ul class=\"nav nav-tabs\">"; 
+    if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
+        markActive++;
+         data+=" <li class=\"active\"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. Prevention of Mother-to-Child Transmission.</b></a></li>";
+         }
+    if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){
+        if(markActive==0){classType="class=\"active\"";}else{classType="";}
+         data+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\"><b>2. Care and Treatment.</b></a></li>";
+    markActive++; 
+    }
+    if(session.getAttribute("forms_holder").toString().contains(",PEP,")){
+         if(markActive==0){classType="class=\"active\"";}else{classType="";}
+         data+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. Post-Exposure Prophylaxis.</b></a></li>";
+     markActive++;
+    }
+    if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
+         if(markActive==0){classType="class=\"active\"";}else{classType="";}
+         data+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. Blood Safety.</b></a></li>";
+       }
+         data+="<li style=\"margin-left:20px;\" id=\"isValidated\"></li>" +
+                "</ul>" +
+                "</div>" +
+                "<div class=\"tab-content\" id=\"data\">";
+    
+    markActive=0;
+    classType="";
 //          id="2015_1_14498";
     
 //        HIV_CT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
 //                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">1. HIV Counselling and Testing</h4>" +
 //                              "</div><div class=\"portlet-body form\">";
-        
+        if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
+        markActive++;
         PMTCT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:30%;\">1. Prevention of Mother-to-Child Transmission</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:30%;\">1. Prevention of Mother-to-Child Transmission.</h4>" +
                               "</div><div class=\"portlet-body form\">";
-        
+        }
+         if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){
+        if(markActive==0){classType="active";}else{classType="";}
         CT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">2. Care and Treatment</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">2. Care and Treatment.</h4>" +
                               "</div><div class=\"portlet-body form\">";
+         markActive++;
+         }
 //        VMMC="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
 //                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">4. Voluntary Medical Male Circumcision</h4>" +
 //                              "</div><div class=\"portlet-body form\">";
-        PEP="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">3. Post-Exposure Prophylaxis</h4>" +
+         if(session.getAttribute("forms_holder").toString().contains(",PEP,")){
+              if(markActive==0){classType="active";}else{classType="";}
+        PEP="<div class=\"tab-pane "+classType+" \" id=\"tab_3\"><div class=\"portlet box blue\">" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">3. Post-Exposure Prophylaxis.</h4>" +
                               "</div><div class=\"portlet-body form\">";
-        Blood="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">4. Blood Safety</h4>" +
+         markActive++;
+         }
+             if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
+         if(markActive==0){classType="active";}else{classType="";}
+        Blood="<div class=\"tab-pane "+classType+" \" id=\"tab_4\"><div class=\"portlet box blue\">" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">4. Blood Safety.</h4>" +
                               "</div><div class=\"portlet-body form\">";
+             }
+             
+             
         
   isValidated="";validity="";          
  HV0101=HV0102=HV0103=HV0105=HV0106=HV0107=HV0108=HV0109=HV0110=HV0111=HV0112=HV0113=HV0114=
@@ -861,9 +908,16 @@ isValidated=conn.rs.getString("isValidated");
         data+=checkValidity;
         
         data+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validate\">";
+    data+=" </div>";
+     
      }
+     
      else{
-         data="Facility does not use this form";
+         data="<font color=\"red\" size=\"6px;\" style=\"margin-left: 30%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support module MOH731.</font>";
+     }
+     }
+    else{
+         data="<font color=\"red\" size=\"6px;\" style=\"margin-left: 30%;\"><b>Sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support Module  MOH731.</font>";
      }
             out.println(data);
         } finally {

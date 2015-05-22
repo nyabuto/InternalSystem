@@ -301,41 +301,38 @@ legend.formatter {
 
                         %>
                         
-                        
+                      
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
                   <form action="validate731" method="post" class="form-horizontal" style="min-height: 450px;">
-<!--                  <div class="portlet box blue">
-                     <div class="portlet-title">
-                        <h4 style="margin-left:40%;"><b>MOH 731 FORM.</b></h4>
-                      
-                     </div>
-                       </div>
-                    -->
-                     <div class="tabbable tabbable-custom boxless">
+                      <div id="data">  
+
+<!--                     <div class="tabbable tabbable-custom boxless">
                      <ul class="nav nav-tabs">
-                        <!--<li class="active"><a href="#tab_1" data-toggle="tab">1. HIV Counselling and Testing</a></li>-->
+                        <li class="active"><a href="#tab_1" data-toggle="tab">1. HIV Counselling and Testing</a></li>
                         <li class="active"><a class="advance_form_with_chosen_element" href="#tab_1" data-toggle="tab"><b>1. Prevention of Mother-to-Child Transmission.</b></a></li>
                         <li><a class="advance_form_with_chosen_element" href="#tab_2" data-toggle="tab"><b>2. Care and Treatment.</b></a></li>
-                        <!--<li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>-->
+                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>
                         <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab"><b>3. Post-Exposure Prophylaxis.</b></a></li>
                         <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab"><b>4. Blood Safety.</b></a></li>
                         <li style="margin-left:20px;" id="isValidated"></li>
                      </ul>
                    
-                     </div>
+                     </div>-->
                          <!-- BEGIN FORM-->
-                         <div class="tab-content" id="data">
-                        
+<!--                         <div class="tab-content" id="data">
+                        -->
                        
                          <i style="margin-left: 450px; margin-top: 200px;">  loading form MOH731...<img src="images/utube.gif"></i>
                         
                        
                         <!-- END FORM-->           
-                     </div>
+<!--                     </div>
                  
-                 
+                 --></div>
                       </form>
                   <!-- END SAMPLE FORM PORTLET-->
+                  
+                   
                </div>
             </div>
        
