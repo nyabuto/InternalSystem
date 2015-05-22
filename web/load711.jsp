@@ -374,7 +374,7 @@ type:'post',
 dataType:'html',
 success:function (data){
    if(data.trim()!="success"){$("#error").html(data);
-     $("#"+col).css({'background-color' : 'red'});
+//     $("#"+col).css({'background-color' : 'red'});
         }
     else{
         $("#error").html("");

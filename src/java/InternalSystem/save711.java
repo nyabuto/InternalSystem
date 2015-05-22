@@ -43,7 +43,7 @@ String month="";
 String year="";      
 String facil="";
 String userid="unknown";
- String error="";
+ String error="success";
 
         if(achieved.equals("")){achieved="0";}
     if(session.getAttribute("userid")!=null){        
