@@ -246,28 +246,28 @@ legend.formatter {
                           
                         
                         
-                      <fieldset class="formatter"><legend class="formatter"><b style="text-align:center;"> TB/HIV</b></legend>
+                  
                  
+                          <div id="tbtable">
+                              
+                               <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+                          </div>
                         
-                         <table id="tbtable" cellpadding="2px"  style="border-color: #e5e5e5;margin-bottom: 3px;  ">
                              
                              
-                             <td> <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i></td>
+                             
                          
                          
                          
-                         </table>
-                       </fieldset>
+                      
+                    
                            
                             
                              
                            
                             
                          
-                           <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validation</button>
-<!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+                          
                         </form>
                         <!-- END FORM-->           
                      </div>

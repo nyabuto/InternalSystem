@@ -59,7 +59,7 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
             String MATERNITY_TAB="";
             String VCT_TAB="";
             String DTC_TAB="";
-           if(session.getAttribute("forms_holder")!=null || !(session.getAttribute("forms_holder").toString().equals(","))){
+           if(session.getAttribute("forms_holder")!=null && !(session.getAttribute("forms_holder").toString().equals(","))){
            data="";
            if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -827,10 +827,15 @@ pmct+="";
           data+=VCT_TAB+""+DTC_TAB;
           }
          
-         data+="  </div> ";
-          
-         
-           }else{data+="Facility does not use MOH 711A";}
+       
+          data+="<div class=\"form-actions\">\n" +
+"                              <button type=\"submit\" class=\"btn blue\">Run Validation</button>\n" +
+"<!--                              <button type=\"button\" class=\"btn\">Cancel</button>-->\n" +
+"                           </div>";
+           data+="  </div> ";
+           }else{
+               data+="<font color=\"red\" size=\"6px;\" ><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support module TB.</font>";
+               }
        
       // System.out.println(MCH_TAB);
 //        data+=MCH_TAB+""+MATERNITY_TAB;

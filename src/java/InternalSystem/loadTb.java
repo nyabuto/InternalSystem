@@ -29,6 +29,7 @@ public class loadTb extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+             PrintWriter out = response.getWriter();
     response.setContentType("text/html;charset=UTF-8");
     session=request.getSession();
     
@@ -40,7 +41,7 @@ public class loadTb extends HttpServlet {
     String month="";      
     String year="";      
     String facil="";
-    
+     if(session.getAttribute("forms_holder")!=null && (session.getAttribute("forms_holder").toString().contains(",TB,"))  ){ 
     if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
     }
@@ -174,7 +175,7 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
  
              String createdtable="<p hidden=\"true\" id=\"checkValidity\">"+validity+"</p>" ; 
              
-     createdtable+="<tr class='form-actions'><th colspan='4'><b> Case Sub Area 3: Clinical/ Preventive Services- Additional TB/HIV </b></th></tr>";
+     createdtable+="     <fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> TB/HIV</b></legend><table id=\"tbtable\" cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px;  \"><tr class='form-actions'><th colspan='4'><b> Case Sub Area 3: Clinical/ Preventive Services- Additional TB/HIV </b></th></tr>";
     
     createdtable+="<tr><td rowspan=\"3\" ><b> TB_STAT </b></td>"
             + "<td rowspan=\"3\">Proportion of registered new and relapse TB cases with document HIV </td>"
@@ -262,19 +263,20 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
             + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTMPR');indic74();\" value='"+CARPCTHTMPR+"' name='CARPCTHTMPR' id='CARPCTHTMPR' autofocus></td>"
             + "<td><input type='text' onkeypress=\"return numbers(event,this);\" onblur=\"autosave('CARPCTHTFPR');indic74();\" value='"+CARPCTHTFPR+"' name='CARPCTHTFPR' id='CARPCTHTFPR' autofocus></td>"
             + "<td><input type='text' onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly onblur=\"autosave('CARPCTHTTPR');indic74();\" value='"+CARPCTHTTPR+"' name='CARPCTHTTPR' id='CARPCTHTTPR' autofocus></td>"
-              + "</tr>";
+              + "</tr>   </table>   </fieldset>";
     
-    
+    createdtable+=" <div class=\"form-actions\">\n" +
+"                              <button type=\"submit\" class=\"btn blue\">Run Validation</button>\n" +
+"<!--                              <button type=\"button\" class=\"btn\">Cancel</button>-->\n" +
+"                           </div>";
       System.out.println(createdtable);
       
-    PrintWriter out = response.getWriter();
-    try {
-        /* TODO output your page here. You may use following sample code. */
-//   createdtable+="<input type=\"submit\" class=\"btn blue\" style=\"margin-left:40%;\" value=\"Run Validate\">";
+   
+  
         out.println(createdtable);
-    } finally {
-        out.close();
-    }
+     }else{
+       out.println("<font color=\"red\" size=\"6px;\" ><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support module TB.</font>");
+     }
 }       catch (SQLException ex) {
             Logger.getLogger(loadKmmp.class.getName()).log(Level.SEVERE, null, ex);
         }

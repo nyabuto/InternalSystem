@@ -254,10 +254,7 @@ legend.formatter {
                          
                         <!-- END FORM-->           
                      </div>
-                           <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validation</button>
-<!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+                           
                         </form>
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
