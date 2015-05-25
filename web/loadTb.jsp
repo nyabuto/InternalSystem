@@ -23,6 +23,7 @@
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
+      <script src="assets/js/jquery-1.8.3.min.js"></script>   
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -43,48 +44,12 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-  <script type="text/javascript">
-           $(document).ready(function(){
-                $("form").submit(function(){
-            
-        return true;
-            }) ;
-            
-  $('body').on('keydown', 'input, select, textarea', function(e) {
-var self = $(this)
-  , form = self.parents('form:eq(0)')
-  , focusable
-  , next
-  , prev
-  ;
-
-if (e.shiftKey) {
- if (e.keyCode == 13) {
-     focusable =   form.find('input,a,select,button,textarea').filter(':visible');
-     prev = focusable.eq(focusable.index(this)-1); 
-
-     if (prev.length) {
-        prev.focus();
-     } else {
-        form.submit();
-    }
-  }
-}
-  else
-if (e.keyCode == 13) {
-    focusable = form.find('input,a,select,button,textarea').filter(':visible');
-    next = focusable.eq(focusable.index(this)+1);
-    if (next.length) {
-        next.focus();
-    } else {
-        form.submit();
-    }
-    return false;
-}
-});
-            
-           });
-       </script>
+ 
+<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+   
         <style>
 fieldset.formatter {
     border: 2px groove black !important;
@@ -242,7 +207,7 @@ legend.formatter {
                             }
 
                         %>
-                        <form action="validateTB" method="post" class="form-horizontal">
+                        <form action="validateTb" method="post" class="form-horizontal">
                           
                         
                         
@@ -366,19 +331,51 @@ $("#isValidated").html(validity);
         }); 
        
          
-//$.ajax({
-//    url:'loadYear',
-//    type:'post',
-//    dataType:'html',
-//    success:function (data){
-//        // $("#year").html(data);
-//        document.getElementById("year").innerHTML=data;
-//        
-//    }
-//    
-//    
-//}); 
-//               
+           
+  $('body').on('keydown', 'input, select, textarea', function(e) {
+var self = $(this)
+  , form = self.parents('form:eq(0)')
+  , focusable
+  , next
+  , prev
+  ;
+
+if (e.shiftKey) {
+ if (e.keyCode == 13) {
+     focusable =   form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
+     prev = focusable.eq(focusable.index(this)-1); 
+
+     if (prev.length) {
+        prev.focus();
+        $(prev).select();
+     } else {
+        form.submit();
+    }
+  }
+}
+  else
+if (e.keyCode == 13) {
+    focusable = form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
+    next = focusable.eq(focusable.index(this)+1);
+    if (next.length) {
+        next.focus();
+       $(next).select();
+    } else {
+        form.submit();
+    }
+    return false;
+}
+});
+            
+             
      });
       
       

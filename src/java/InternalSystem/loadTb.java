@@ -165,10 +165,10 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
   validity="<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;
 }
       else if(isValidated.equals("1")){
-   validity="<font color=\"green\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
+   validity="<font color=\"white\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
 }
       else{
-        validity="<font color=\"blue\"><b>New Form</b></font>"  ;          
+        validity="<font color=\"white\"><b>New Form</b></font>"  ;          
               }
       
 //     System.out.println("read from session : "+session.getAttribute("isValidated").toString());
