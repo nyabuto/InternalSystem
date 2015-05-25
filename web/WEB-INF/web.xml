@@ -140,6 +140,14 @@
         <servlet-name>validateHei</servlet-name>
         <servlet-class>InternalSystem.validateHei</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadCounty</servlet-name>
+        <servlet-class>General.loadCounty</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSubcounty</servlet-name>
+        <servlet-class>General.loadSubcounty</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -279,6 +287,14 @@
     <servlet-mapping>
         <servlet-name>validateHei</servlet-name>
         <url-pattern>/validateHei</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadCounty</servlet-name>
+        <url-pattern>/loadCounty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSubcounty</servlet-name>
+        <url-pattern>/loadSubcounty</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

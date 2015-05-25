@@ -170,6 +170,26 @@
                               </div>
                            </div>
                             
+                            
+                              <div class="control-group">
+                              <label class="control-label">County </label>
+                              <div class="controls">
+                                 <select data-placeholder="County" onchange="loadsubcounty();" required class="chosen-with-diselect span6" tabindex="-1"  id="county" name="county">
+                                    <option value=""></option>
+                                 </select>
+                              </div>
+                           </div>
+                            
+                            <div class="control-group">
+                              <label class="control-label">Sub-County </label>
+                              <div class="controls">
+                                 <select data-placeholder="Sub-County" onchange="loadfacils();" required class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value=""></option>
+                                 </select>
+                              </div>
+                           </div> 
+                            
+                            
                               <div class="control-group">
                               <label class="control-label">Activity Site</label>
                               <div class="controls">
