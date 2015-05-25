@@ -206,7 +206,10 @@ if(C51DT==null){C51DT=""; }
     
     }
     
-    
+        if(session.getAttribute("facilityid")!=null){ } else {
+  createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  Nutrition module.</font></td></tr>";
+       
+  }
     
     
       System.out.println(createdtable);
