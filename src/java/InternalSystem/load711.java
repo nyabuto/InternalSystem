@@ -81,6 +81,8 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
     String activeclass="";
     activeclass="active";
     int counter=0;
+     isValidated="";
+ validity="";
     String ul="  <ul class=\"nav nav-tabs\">\n" ;
     if(session.getAttribute("forms_holder").toString().contains(",FP,")){
         counter++;

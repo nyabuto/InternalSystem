@@ -19,7 +19,7 @@
 <head>
    <meta charset="utf-8" />
    <title>TB Form</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+ <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -43,7 +43,74 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+  <script type="text/javascript">
+           $(document).ready(function(){
+                $("form").submit(function(){
+            
+        return true;
+            }) ;
+            
+  $('body').on('keydown', 'input, select, textarea', function(e) {
+var self = $(this)
+  , form = self.parents('form:eq(0)')
+  , focusable
+  , next
+  , prev
+  ;
 
+if (e.shiftKey) {
+ if (e.keyCode == 13) {
+     focusable =   form.find('input,a,select,button,textarea').filter(':visible');
+     prev = focusable.eq(focusable.index(this)-1); 
+
+     if (prev.length) {
+        prev.focus();
+     } else {
+        form.submit();
+    }
+  }
+}
+  else
+if (e.keyCode == 13) {
+    focusable = form.find('input,a,select,button,textarea').filter(':visible');
+    next = focusable.eq(focusable.index(this)+1);
+    if (next.length) {
+        next.focus();
+    } else {
+        form.submit();
+    }
+    return false;
+}
+});
+            
+           });
+       </script>
+        <style>
+fieldset.formatter {
+    border: 2px groove black !important;
+   
+    /*padding: 0 1.4em 1.4em 1.4em !important;*/
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+   
+}
+
+legend.formatter {
+    border: 0px groove black !important;
+    margin: 0 0 0.0em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+    font-size: 1.2em !important;
+    /*font-weight: bold !important;*/
+    text-align: center !important;
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-left:50px;
+
+}
+</style>
   
 </head>
 <!-- END HEAD -->
@@ -139,7 +206,7 @@
                   <ul class="breadcrumb">
                      <li>
                         <i class="icon-home"></i>
-                        <font color="#4b8df8">Prevention</font>
+                        <font color="#4b8df8">Care and Treatment</font>
                         
                      </li>
            
@@ -155,32 +222,52 @@
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">TB</b>
+                         <h4><i style="margin-left:150px;" id="isValidated"></i></h4>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="sessionsHolder" class="form-horizontal">
+                        
+                         
+                   <%if (session.getAttribute("validatetb") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("validatetb")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 4800});
+                    
+                </script> <%
+                session.removeAttribute("validatetb");
+                            }
+
+                        %>
+                        <form action="validateTB" method="post" class="form-horizontal">
                           
                         
                         
-                         <table id="tbtable" cellpadding="2px" border="1" style="border-color: #e5e5e5;margin-bottom: 3px;">
+                  
+                 
+                          <div id="tbtable">
+                              
+                               <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+                          </div>
+                        
                              
                              
-                                <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+                             
                          
                          
                          
-                         </table>
-                          
+                      
+                    
                            
                             
                              
                            
                             
                          
-                           <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validate</button>
-<!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+                          
                         </form>
                         <!-- END FORM-->           
                      </div>
@@ -267,7 +354,12 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#tbtable").html(data);
-            $("#TB_STATN").focus();   
+//            $("#TB_STATN").focus();   
+           
+ var validity=$("#checkValidity").html();
+$("#isValidated").html(validity);
+            
+            
             }
             
             
@@ -320,22 +412,36 @@ success:function (data){
              
              
              function autosave(col){
+            var totalsVariables=",TB_STATP,TB_IPTP,TB_SCREENP,CARPCTHTTPR,"
+           
             var achieved=document.getElementById(col).value;
             
-            
+       
              $.ajax({
 url:'saveTb?col='+col+"&achieved="+achieved,
 type:'post',
 dataType:'html',
-success:function (data){      
-    
+success:function (data){
+   if(data.trim()!="success"){$("#error").html(data);
+//     $("#"+col).css({'background-color' : 'red'});
+        }
+    else{
+        $("#error").html("");
+    if(achieved==""){}
+  else if(totalsVariables.indexOf(","+col+",")>-1) {
+   $("#"+col).css({'background-color' : 'plum'});    
+  } else{
       $("#"+col).css({'background-color' : '#CCFFCC'});
-        
 }
+
+$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
+}
+}
+  
              
              });
              }
-             
+            
              
            
              
@@ -383,15 +489,24 @@ success:function (data){
      TB_STATN= document.getElementById("TB_STATN").value;
       var TB_STATD=0;
      TB_STATD= document.getElementById("TB_STATD").value;
-     
+      if(TB_STATN==""){TB_STATN=0;}
+      if(TB_STATD==""){TB_STATD=0;}
         
            var visitstotal=0;
-//           if(TB_STATD!="" && TB_STATN!=""){
+           if(TB_STATD!="" && TB_STATN!="" && TB_STATN!==0){
            visitstotal=(parseInt(TB_STATD)/parseInt(TB_STATN))*100;
+             if(visitstotal==""){visitstotal=0;}
                 document.getElementById("TB_STATP").value=Math.round(visitstotal);    
              autosave('TB_STATP');     
 
-//                }
+                }
+                else{
+                 
+                document.getElementById("TB_STATP").value=("0");    
+                 autosave('TB_STATP');    
+                    
+                    
+                }
           
          
                
@@ -406,16 +521,22 @@ success:function (data){
      TB_IPTN= document.getElementById("TB_IPTN").value;
       var TB_IPTD=0;
      TB_IPTD= document.getElementById("TB_IPTD").value;
+      if(TB_IPTN==""){TB_IPTN=0;}
+      if(TB_IPTD==""){TB_IPTD=0;}
+      
      
         
            var visitstotal=0;
+           if(TB_IPTD!="" && TB_IPTN!="" && TB_IPTN!==0){
            visitstotal=(parseInt(TB_IPTD)/parseInt(TB_IPTN))*100;
-           
+           if(visitstotal==""){visitstotal=0;}
            document.getElementById("TB_IPTP").value=Math.round(visitstotal);
-         
-               
-            autosave('TB_IPTP');
-          
+           autosave('TB_IPTP');
+           }
+           else{
+             document.getElementById("TB_IPTP").value="0";
+           autosave('TB_IPTP');   
+           }
      
       }    
    function TB_SCREEN(){
@@ -425,16 +546,23 @@ success:function (data){
      TB_SCREENN= document.getElementById("TB_SCREENN").value;
       var TB_SCREEND=0;
      TB_SCREEND= document.getElementById("TB_SCREEND").value;
-     
+     if(TB_SCREENN==""){TB_SCREENN=0;}
+      if(TB_SCREEND==""){TB_SCREEND=0;}
         
            var visitstotal=0;
+            if(TB_SCREEND!="" && TB_SCREENN!="" && TB_SCREENN!==0){
            visitstotal=(parseInt(TB_SCREEND)/parseInt(TB_SCREENN))*100;
+           
+           if(visitstotal==""){visitstotal=0;}
            
            document.getElementById("TB_SCREENP").value=Math.round(visitstotal);
          
                
             autosave('TB_SCREENP');
-          
+            } else{
+             document.getElementById("TB_SCREENP").value="0";
+           autosave('TB_SCREENP');   
+           }
      
       }    
        function indic74(){
