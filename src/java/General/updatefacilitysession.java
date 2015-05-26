@@ -35,7 +35,7 @@ public class updatefacilitysession extends HttpServlet {
     //receive the facility id a get the facility name
     String facility=request.getParameter("facil");
     
-     String getfacilname="select * from subpartnera where SubPartnerId='"+facility+"'";
+     String getfacilname="select * from subpartnera join district on subpartnera.DistrictID=district.DistrictID  where SubPartnerId='"+facility+"'";
         
         conn.rs=conn.st.executeQuery(getfacilname);
         while(conn.rs.next()){
@@ -63,7 +63,12 @@ public class updatefacilitysession extends HttpServlet {
          if(conn.rs.getInt("TB")==1){active+="TB,";}
         
         session.setAttribute("forms_holder", active);
-          session.setAttribute("facilityname", conn.rs.getString("SubPartnerNom"));
+        session.setAttribute("facilityname", conn.rs.getString("SubPartnerNom"));
+        
+        session.setAttribute("subcountyid",conn.rs.getString("district.DistrictID"));
+        session.setAttribute("countyid",conn.rs.getString("CountyID"));
+          
+          
         }
         
         

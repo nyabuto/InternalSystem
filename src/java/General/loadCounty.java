@@ -14,18 +14,28 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Elkant
  */
 public class loadCounty extends HttpServlet {
-
+HttpSession session=null;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
     response.setContentType("text/html;charset=UTF-8");
+    session=request.getSession();
+ String sessioncounty="";   
+    
+    
+    if(session.getAttribute("countyid")!=null){
+    
+    sessioncounty=session.getAttribute("countyid").toString();
+    }
+    
     
     String county="";
     
@@ -34,8 +44,16 @@ county="<option value=\"\">Select County</option>";
 String qr="select * from county";
 conn.rs=conn.st.executeQuery(qr);
 while(conn.rs.next()){
+if(sessioncounty.equalsIgnoreCase(conn.rs.getString(1))){
+
+county+="<option selected value=\""+conn.rs.getString(1)+"\">"+conn.rs.getString(2)+"</option>";
+}    
+
+else {
 county+="<option value=\""+conn.rs.getString(1)+"\">"+conn.rs.getString(2)+"</option>";
 }
+
+                      }
     
     PrintWriter out = response.getWriter();
     try {

@@ -34,6 +34,13 @@ public class loadFacilities extends HttpServlet {
         
         String facilityonsession="";
         
+        String subcounty="";
+        
+       subcounty=request.getParameter("subcounty"); 
+       
+       //disttrict is same as subcounty
+       
+       
         if(session.getAttribute("facilityid")!=null){
         facilityonsession=session.getAttribute("facilityid").toString();
         
@@ -45,11 +52,18 @@ public class loadFacilities extends HttpServlet {
             dbConn conn = new dbConn();
            
             String facils="<option value=''>Select Site</option>";
+            String getfacils="";
             
-            String getfacils="select SubPartnerId,SubPartnerNom from subpartnera";
+            if(subcounty!=null){
+             getfacils="select SubPartnerId,SubPartnerNom from subpartnera where DistrictID='"+subcounty+"' order by SubPartnerNom ";
+            }
+            else {
+              getfacils="select SubPartnerId,SubPartnerNom from subpartnera  order by SubPartnerNom ";
             
+            
+            }
             conn.rs=conn.st.executeQuery(getfacils);
-           
+            System.out.println(getfacils);
             while(conn.rs.next()){
                 //if the current facility on loop is same as the facility on session, then make it selected
                 if(facilityonsession.equalsIgnoreCase(conn.rs.getString(1).trim())){
@@ -59,7 +73,7 @@ public class loadFacilities extends HttpServlet {
                 else{
                          facils+="<option value='"+conn.rs.getString(1) +"'> "+conn.rs.getString(2)+" </option>";
                 }
-                
+               // System.out.println("~~"+conn.rs.getString(2));
             
                                  }
             

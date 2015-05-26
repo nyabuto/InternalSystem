@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,13 +22,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class loadSubcounty extends HttpServlet {
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
+    HttpSession session=null;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -38,14 +35,28 @@ public class loadSubcounty extends HttpServlet {
         try {
     response.setContentType("text/html;charset=UTF-8");
     
+    session=request.getSession();
+    
+    String sessionSubcounty="";
+    
+     session.getAttribute("subcountyid");
+       
+     if(session.getAttribute("subcountyid")!=null){
+     
+    sessionSubcounty=session.getAttribute("subcountyid").toString();
+         
+     
+     }
+            System.out.println("current district ___"+sessionSubcounty);
+    
     String county_id,current_districts;
     
-     county_id=request.getParameter("county_id");
-       System.out.println(county_id);
+     county_id=request.getParameter("county");
+ 
     //   System.out.println(" County:"+ county_name); 
        current_districts="";
        
-       String districts="Select * from district where county_id='"+county_id+"'";
+       String districts="Select * from district where CountyID='"+county_id+"'";
        
        dbConn conn=new dbConn();
        
@@ -54,9 +65,16 @@ public class loadSubcounty extends HttpServlet {
        current_districts="<option value=\"\">Select sub-county</option>";
        
        while(conn.rs.next()){
+if(sessionSubcounty.equalsIgnoreCase(conn.rs.getString("DistrictID"))){
+    
+current_districts=current_districts+"<option selected value=\""+conn.rs.getString("DistrictID")+"\">"+conn.rs.getString("DistrictNom")+"</option>";
 
+}
+else {
 current_districts=current_districts+"<option value=\""+conn.rs.getString("DistrictID")+"\">"+conn.rs.getString("DistrictNom")+"</option>";
 
+
+}
 
 
        }
@@ -69,6 +87,7 @@ current_districts=current_districts+"<option value=\""+conn.rs.getString("Distri
     
     
     try {
+        out.println(current_districts);
        
     } finally {            
         out.close();

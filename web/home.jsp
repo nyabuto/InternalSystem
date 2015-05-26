@@ -37,6 +37,7 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+<link rel="stylesheet" href="select2/css/select2.css">
 
   
 </head>
@@ -151,7 +152,7 @@
                           
                          
                            <div class="control-group">
-                              <label class="control-label">Reporting Year</label>
+                              <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select required data-placeholder="Reporting Year" class="chosen-with-diselect span6" tabindex="-1" onchange="loadmonths(this);"  id="year" name="year">
                                     <option value=""></option>                                 
@@ -161,7 +162,7 @@
                            </div>
                           
                              <div class="control-group">
-                              <label class="control-label">Reporting Month</label>
+                              <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
                                     <option value="">Choose reporting year first</option>                                 
@@ -174,7 +175,7 @@
                               <div class="control-group">
                               <label class="control-label">County </label>
                               <div class="controls">
-                                 <select data-placeholder="County" onchange="loadsubcounty();" required class="chosen-with-diselect span6" tabindex="-1"  id="county" name="county">
+                                 <select placeholder="County" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                               </div>
@@ -183,24 +184,24 @@
                             <div class="control-group">
                               <label class="control-label">Sub-County </label>
                               <div class="controls">
-                                 <select data-placeholder="Sub-County" onchange="loadfacils();" required class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
-                                    <option value=""></option>
+                                 <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
                                  </select>
                               </div>
                            </div> 
                             
                             
                               <div class="control-group">
-                              <label class="control-label">Activity Site</label>
+                              <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Facility" onchange="updatefacilsession();" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                 <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6" required tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
                               </div>
                            </div>
                             
                              <div class="control-group">
-                              <label class="control-label">Select Form</label>
+                              <label class="control-label">Select Form<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form">
                                  <option value="">Select Activity Site First</option>                                
@@ -275,15 +276,20 @@
    <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script src="assets/js/app.js"></script>     
+   <script src="assets/js/app.js"></script>  
+   <script src="select2/js/select2.js"></script>
+  
+   
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-       
-  
+        $('#facility').select2(); 
+
+       // FormComponents.init();
         
-        
-                    $.ajax({
+      
+      //load all the facilities first to enable one to filter by county
+                 $.ajax({
 url:'loadFacilities',
 type:'post',
 dataType:'html',
@@ -291,19 +297,19 @@ success:function (data){
        $("#facility").html(data);
          if(document.getElementById("facility").value!==''){
       updatefacilsession();
+      
+      $('#facility').select2();  
       }  
-       App.init(); 
-       
+     
+         // $("#facility").chosen();
        
        
 }
 
 
 }); 
-         
-         
-     
-       
+      
+      
          
 $.ajax({
     url:'loadYear',
@@ -320,6 +326,32 @@ $.ajax({
                
       });
       
+      
+      
+      function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
       
     
     function updatefacilsession(){
@@ -356,6 +388,31 @@ success:function (data){
             success:function (data){
                 $("#form").html(data);
                 
+              //  App.init(); 
+              
+              //also load county and facility
+              loadcounty();
+              //loadsubcounty();
+            }
+            
+            
+        });
+        
+    }
+    
+    
+    
+     
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
               //  App.init();   
             }
             
@@ -363,6 +420,27 @@ success:function (data){
         });
         
     }
+    
+    
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    
     
       function loadmonths(){
       
@@ -387,7 +465,7 @@ success:function (data){
       }
       
       //load default facilities
-     
+     loadcounty();
       
    </script>
    <!-- END JAVASCRIPTS -->   
