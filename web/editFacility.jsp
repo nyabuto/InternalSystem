@@ -12,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>MOH 731</title>
+   <title>Edit Facilities</title>
     <script src="assets/js/jquery-1.8.3.min.js"></script>  
     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -35,8 +35,8 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-timepicker/compiled/timepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-colorpicker/css/colorpicker.css" />
    <link rel="stylesheet" href="assets/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />
-   <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
+<!--   <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
+   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />-->
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
     
 <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
@@ -44,6 +44,27 @@
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
    
+<script src="dataTable/jquery.dataTables.js" type="text/javascript"></script>
+         <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
+        <script src="dataTable/jquery.jeditable.js" type="text/javascript"></script>
+        <script src="scripts/jquery_ui.js" type="text/javascript"></script>
+         <script src="scripts/jquery.validate.js" type="text/javascript"></script>
+          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
+          <script src="scripts/dataTables.scroller.js" type="text/javascript"></script>
+          <script src="scripts/dataTables.colReorder.js" type="text/javascript"></script>
+          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+          <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+          <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
+          
+        <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
+        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
+        <script src="dataTable/dataTables.fnGetFilteredNodes.js" type="text/javascript"></script>
+        <script src="dataTable/dataTables.fnGetHiddenNodes.js" type="text/javascript"></script>
+
    <!--
  -->
    <script type="text/javascript" language="en">
@@ -55,155 +76,81 @@ return true;
 }
 //-->
 </script>
-   <script type="text/javascript">
+
+<script type="text/javascript" src="js/form731Totals.js"></script>
+ <script type="text/javascript">
        $(document).ready(function(){
-      
+       
+      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='example'><tr><td>Loading facilities...<img src='images/utube.gif' alt='.'></td></tr></table>");
              $.ajax({
-        url:"load731",
+        url:"loadEditFacility",
         type:"post",
         dataType:"html",
         success:function(data){
-            data=$.trim(data);
-           
-         $("#data").html(data); 
- var validity=$("#checkValidity").html();
-$("#isValidated").html(validity);
-        }
+//        alert(data);
+  $("#example").html(data);
+              oTable=$('#example').dataTable().makeEditable({  
+                  sUpdateURL: "aveEditedFacilities" ,
+               "aoColumns": [ null,null,null,null,null,null,null,
+      null,null,null,null,null,null,null,null,null,null,null,null,null,            
+      null,null,null,null,null,null]      
+              });
+              
+               $('form').submit(function(){
+   //replace 'yourformsnameattribute' with the name of your form
+//  $(oTable.fnGetHiddenNodes()).find('input:checkbox').appendTo(this);
+  $(oTable.fnGetHiddenNodes()).attr('checked',this.checked).appendTo(this).css("visibility","hidden");
+
+  ////this is what passes any hidden nodes to your form when a user clicks SUBMIT on your FORM
+} );
+              
+          }
     }); 
-       });
-       
-        function autosave(columnName){
-  var totalsVariables =",HV0103,HV0116,HV0204,HV0209,HV0210,HV0217,HV0220,HV0228,HV0232,HV0236,HV0240,HV0244,HV0307,HV0313,HV0319,HV0325,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0344,HV0349,HV0354,HV0373,HV0406,HV0414,HV0415,HV0507,HV0514,";          
-//          alert("caled"+columnName);
-            var achieved=document.getElementById(columnName).value;
-//           var achieved =$("#"+columnName).val();
-//            alert("called : "+columnName+"   value : "+achieved);
-//            if(achieved!=""){
-             $.ajax({
-url:'save731?columnName='+columnName+"&value="+achieved,
-type:'post',
-dataType:'html',
-success:function (data){
-   if(data.trim()!="success"){$("#error").html(data);
-     $("#"+columnName).css({'background-color' : 'red'});
-        }
-    else{
-        $("#error").html("");
-    if(achieved==""){}
-  else if(totalsVariables.indexOf(","+columnName+",")>-1) {
-   $("#"+columnName).css({'background-color' : 'plum'});    
-  } else{
-      $("#"+columnName).css({'background-color' : '#CCFFCC'});
-}
-
-$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
-}
-}
-             });
-//         }
-             }
-           
+    
+    
+    
+    
+       });   
        </script>
-       <script type="text/javascript">
-           $(document).ready(function(){
-               $("form").submit(function(){
-            
-        return true;
-            }) ;
-            
-  $('body').on('keydown', 'input, select, textarea', function(e) {
-var self = $(this)
-  , form = self.parents('form:eq(0)')
-  , focusable
-  , next
-  , prev
-  ;
-
-if (e.shiftKey) {
- if (e.keyCode == 13) {
-     focusable =   form.find('input,a,select,button,textarea').filter(function(){
-    return !this.readOnly &&
-           !this.disabled &&
-           $(this).parentsUntil('form', 'div').css('display') != "none";
-});
-     prev = focusable.eq(focusable.index(this)-1); 
-
-     if (prev.length) {
-        prev.focus();
-        $(prev).select();
-     } else {
-        form.submit();
-    }
-  }
-}
-  else
-if (e.keyCode == 13) {
-    focusable = form.find('input,a,select,button,textarea').filter(function(){
-    return !this.readOnly &&
-           !this.disabled &&
-           $(this).parentsUntil('form', 'div').css('display') != "none";
-});
-    next = focusable.eq(focusable.index(this)+1);
-    if (next.length) {
-        next.focus();
-       $(next).select();
-    } else {
-        form.submit();
-    }
-    return false;
-}
-});
-            
-           });
-           
-      function updatefacilsession(){
-          
-        var facil=document.getElementById("facility").value;
-        $.ajax({
-url:'updatefacilitysession?facil='+facil,
-type:'post',
-dataType:'html',
-success:function (data){      
-    location.reload();
-    //  $("#"+col).css({'background-color' : '#CCFFCC'});       
-}
-             
-             });    
- 
-      }       
-       </script>
-        <style>
-fieldset.formatter {
-    border: 2px groove black !important;
-   
-    /*padding: 0 1.4em 1.4em 1.4em !important;*/
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-            box-shadow:  0px 0px 0px 0px #000;
-   
-}
-
-legend.formatter {
-    border: 0px groove black !important;
-    margin: 0 0 0.0em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-            box-shadow:  0px 0px 0px 0px #000;
-    font-size: 1.2em !important;
-    /*font-weight: bold !important;*/
-    text-align: center !important;
-    width:inherit; /* Or auto */
-    padding:0 10px; /* To give a bit of padding on the left and right */
-    border-bottom:none;
-    margin-left:50px;
-
-}
-</style>
-<script type="text/javascript" src="js/form731Totals.js"></script>
-
 <script type="text/javascript">
-     $(document).ready(function(){
+  function updator(id){
+      $("#saver").html("<font color=\"blue\">Saving....</font>");
+ var value,positionArray,position,facilityID,columnName;
+ if(document.getElementById(id).checked){value="1";} else{value="0";}
+positionArray=id.split("##");
+columnName=positionArray[0];
+position=positionArray[1];
+facilityID=document.getElementById("id_"+position).value;
+//alert("facility id "+facilityID+"   columnName :"+columnName+" value is : "+value);
+       $.ajax({
+        url:"saveEditedFacilities?facilityID="+facilityID+"&&columnName="+columnName+"&&data="+value,
+        type:"post",
+        dataType:"html",
+        success:function(){
+     $("#saver").html("<font color=\"green\">Saved</font>");
+    }
+        });
+}
 
-});
+
+  function updatorSelect(id){
+      $("#saver").html("<font color=\"blue\">Saving....</font>");
+ var value,positionArray,position,facilityID,columnName;
+ value=document.getElementById(id).value;
+positionArray=id.split("##");
+columnName=positionArray[0];
+position=positionArray[1];
+facilityID=document.getElementById("id_"+position).value;
+//alert("facility id "+facilityID+"   columnName :"+columnName+" value is : "+value);
+       $.ajax({
+        url:"saveEditedFacilities?facilityID="+facilityID+"&&columnName="+columnName+"&&data="+value,
+        type:"post",
+        dataType:"html",
+        success:function(){
+     $("#saver").html("<font color=\"green\">Saved</font>");
+    }
+        });
+}
     </script>
 </head>
 <!-- END HEAD -->
@@ -216,20 +163,11 @@ legend.formatter {
  <div class="container-fluid">
             <!-- BEGIN LOGO -->
            <div class="control-group">
-                             <div style="float:right;"> 
-                                <font color="red" size="5px"><b id="error"></b></font>
-                                 <font color="white" size="5px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                 
-                                    <font color="white" size="5px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
-                                 
-                                   
-                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
-                              
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
-                                    <option value=""></option>
-                                 </select></div>
+                             <div style="float: right; margin-right: 40%;"> 
+                          
+                                 <p style="color:white; font-size: 20px;"><b>EDIT HEALTH FACILITY DETAILS.</b></p> 
+                            <br>
+                             </div>
                               
                            </div>
             <!-- END LOGO -->
@@ -273,19 +211,15 @@ legend.formatter {
       <!-- END SIDEBAR -->
       <!-- BEGIN PAGE -->  
       <div class="page-content" style="height: auto;">
-<br><br>
          <div class="container-fluid">
            <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
-                   <ul class="breadcrumb" >
-                     <li style="margin-left:40%; font-size:20px;">
-                        <!--<i class="icon-home"></i>-->
-                        <p>MOH 731</p>
-                      </li>
-                  </ul>
-        
+               <div class="breadcrumb" >
+                        <p style="margin-left:40%" id="saver"></p>
+                     
+        </div>
                    <%if (session.getAttribute("validate731") != null) { %>
                                 <script type="text/javascript"> 
                     
@@ -303,33 +237,15 @@ legend.formatter {
                         
                       
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
-                  <form action="validate731" method="post" class="form-horizontal" style="min-height: 450px;">
-                      <div id="data">  
-
-<!--                     <div class="tabbable tabbable-custom boxless">
-                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab">1. HIV Counselling and Testing</a></li>
-                        <li class="active"><a class="advance_form_with_chosen_element" href="#tab_1" data-toggle="tab"><b>1. Prevention of Mother-to-Child Transmission.</b></a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_2" data-toggle="tab"><b>2. Care and Treatment.</b></a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab"><b>3. Post-Exposure Prophylaxis.</b></a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab"><b>4. Blood Safety.</b></a></li>
-                        <li style="margin-left:20px;" id="isValidated"></li>
-                     </ul>
-                   
-                     </div>-->
-                         <!-- BEGIN FORM-->
-<!--                         <div class="tab-content" id="data">
-                        -->
-                       
-                         <p style="margin-left: 450px; margin-top: 200px;">  loading form MOH731...<img src="images/utube.gif"></p>
-                        
-                       
-                        <!-- END FORM-->           
-<!--                     </div>
-                 
-                 --></div>
-                      </form>
+ <form action="saveEditedFacilities" method="post" class="form-horizontal" style="">
+                      
+                     
+                  <!-- END SAMPLE FORM PORTLET-->
+                   <div id="demo" style="width:100%;margin-left:3px; overflow-x: auto;">
+ <p style="margin-left: 450px; margin-top: 200px;">  loading facilities...<img src="images/utube.gif"></p>
+ </div>
+                  <!--<input type="submit" value="update" class="btn blue" style="margin-left:45%;">-->
+        </form> 
                   <!-- END SAMPLE FORM PORTLET-->
                   
                    

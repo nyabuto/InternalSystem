@@ -148,6 +148,14 @@
         <servlet-name>loadSubcounty</servlet-name>
         <servlet-class>General.loadSubcounty</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadEditFacility</servlet-name>
+        <servlet-class>General.loadEditFacility</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveEditedFacilities</servlet-name>
+        <servlet-class>General.saveEditedFacilities</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -295,6 +303,14 @@
     <servlet-mapping>
         <servlet-name>loadSubcounty</servlet-name>
         <url-pattern>/loadSubcounty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadEditFacility</servlet-name>
+        <url-pattern>/loadEditFacility</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveEditedFacilities</servlet-name>
+        <url-pattern>/saveEditedFacilities</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

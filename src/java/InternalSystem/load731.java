@@ -64,7 +64,7 @@ String classType="";
            classType="";
      if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
          if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",Care_DSD,") || 
-   session.getAttribute("forms_holder").toString().contains(",PEP,") || session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
+   session.getAttribute("forms_holder").toString().contains(",PEP,")){
            data="";
            if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -95,10 +95,10 @@ String classType="";
          data+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. Post-Exposure Prophylaxis.</b></a></li>";
      markActive++;
     }
-    if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
-         if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         data+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. Blood Safety.</b></a></li>";
-       }
+//    if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
+//         if(markActive==0){classType="class=\"active\"";}else{classType="";}
+//         data+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. Blood Safety.</b></a></li>";
+//       }
          data+="<li style=\"margin-left:20px;\" id=\"isValidated\"></li>" +
                 "</ul>" +
                 "</div>" +
@@ -134,12 +134,12 @@ String classType="";
                               "</div><div class=\"portlet-body form\">";
          markActive++;
          }
-             if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
-         if(markActive==0){classType="active";}else{classType="";}
-        Blood="<div class=\"tab-pane "+classType+" \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">4. Blood Safety.</h4>" +
-                              "</div><div class=\"portlet-body form\">";
-             }
+//             if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
+//         if(markActive==0){classType="active";}else{classType="";}
+//        Blood="<div class=\"tab-pane "+classType+" \" id=\"tab_4\"><div class=\"portlet box blue\">" +
+//                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">4. Blood Safety.</h4>" +
+//                              "</div><div class=\"portlet-body form\">";
+//             }
              
              
         
@@ -332,7 +332,7 @@ isValidated=conn.rs.getString("isValidated");
    validity="<font color=\"green\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
 }
       else{
-        validity="<font color=\"blue\"><b>New Form</b></font>"  ;          
+        validity="<font color=\"blue\"><b>New entry form.</b></font>"  ;          
               }
       
       session.setAttribute("isValidated", validity);
@@ -897,12 +897,20 @@ isValidated=conn.rs.getString("isValidated");
         CT+="</div></div></div>";
         VMMC+="</div></div></div>";
         PEP+="</div></div></div>";
-        Blood+="</div></div></div>";
+//        Blood+="</div></div></div>";
       
         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){data+=PMTCT;}
         if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){data+=CT;}
         if(session.getAttribute("forms_holder").toString().contains(",PEP,")){data+=PEP;}
-        if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){data+=Blood;}
+//        if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){data+=Blood;}
+     
+        
+        String getForms="SELECT COUNT(id),isValidated FROM moh731 WHERE year='"+year+"' && month='"+month+"' GROUP BY isValidated";
+        conn.rs1=conn.st1.executeQuery(getForms);
+        while(conn.rs1.next()){
+            System.out.println("cont : "+conn.rs1.getString(1)+"   numberv is "+conn.rs.getString(2));
+        }
+        
         
 //        data=HIV_CT+""+PMTCT+""+CT+""+VMMC+""+PEP+""+Blood+""+checkValidity;
         data+=checkValidity;
