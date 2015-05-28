@@ -43,7 +43,12 @@
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
+       
+<script>
+$(document).ready(function(){
    
+});
+</script>
    <!--
  -->
    <script type="text/javascript" language="en">
@@ -88,6 +93,7 @@ success:function (data){
      $("#"+columnName).css({'background-color' : 'red'});
         }
     else{
+    $("#"+columnName).prop('title', '');    
         $("#error").html("");
     if(achieved==""){}
   else if(totalsVariables.indexOf(","+columnName+",")>-1) {
@@ -97,6 +103,7 @@ success:function (data){
 }
 
 $("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
+$('[data-toggle="tooltip"]').tooltip();
 }
 }
              });
@@ -199,11 +206,109 @@ legend.formatter {
 }
 </style>
 <script type="text/javascript" src="js/form731Totals.js"></script>
-
+<script type="text/javascript" src="js/validate731.js"></script>
 <script type="text/javascript">
-     $(document).ready(function(){
+ $(document).ready(function(){
+   var errorsHCT=0,errorsPMTCT=0,errorsCT=0,errorsVMMC=0,errorsPEP=0,errorBLOOD=0;
 
-});
+//    $('#myModal').modal();
+   $("form").submit(function(){
+       $(":text").css({'background-color' : 'white'});        
+var totalsVariables ="HV0103,HV0116,HV0204,HV0209,HV0210,HV0217,HV0220,HV0228,HV0232,HV0236,HV0240,HV0244,HV0307,HV0313,HV0319,HV0325,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0344,HV0349,HV0354,HV0373,HV0406,HV0414,HV0415,HV0507,HV0514,HV0340,HV0341,HV0342,HV0343";
+var arrayTotals=totalsVariables.split(",");  
+var arrayLength=arrayTotals.length;
+var i=0;
+//alert("length : "+arrayLength);
+while(i<arrayLength){
+ $("#"+arrayTotals[i]).css({'background-color' : '#DDDDDD'});          
+ i++;   
+}
+var allErrors="Following errors were found : <br><br>";
+  var returned;
+//   if ( $( "#HV0101" ).length ) {    
+//   errorsHCT=validateHCT();
+//   if(parseInt(errorsHCT)>0){
+//   allErrors+=" "+errorsHCT+" errors in HIV Counselling and Testing.<br>";
+//   }
+//   }
+   
+   if ( $( "#HV0201" ).length ) {
+   errorsPMTCT=validatePMTCT();
+//   alert("errors"+errorsPMTCT);
+if(parseInt(errorsPMTCT)>0){
+   allErrors+=" "+errorsPMTCT+" error(s) were found in PMTCT section.<br>";
+}
+}
+
+if ( $( "#HV0301" ).length ) {
+   errorsCT=validateCT();
+//   alert("errors"+errorsCT);
+if(parseInt(errorsCT)>0){
+   allErrors+=" "+errorsCT+" error(s) were found in Care and Treatment section.<br>";
+}
+}
+
+//if ( $( "#HV0401" ).length ) {
+//   errorsVMMC=validateVMMC();
+////   alert("errors"+errorsVMMC);
+//if(parseInt(errorsVMMC)>0){
+//   allErrors+=" "+errorsVMMC+" errors in VMMC.<br>";
+//}
+//}
+
+if ( $( "#HV0501" ).length ) {
+   errorsPEP=validatePEP();
+//   alert("errors"+errorsPEP);
+if(parseInt(errorsPEP)>0){
+   allErrors+=" "+errorsPEP+" error(s) were found in Post-Exposure Prophylaxis (PEP) section.<br>";
+}
+}
+
+//if ( $( "#HV0601" ).length ) {
+//   errorBLOOD=validateBlood();
+////   alert("errors"+errorBLOOD);
+//if(parseInt(errorBLOOD)>0){
+//   allErrors+=" "+errorBLOOD+" errors in Blood safety.<br>";
+//}
+//} 
+
+//alert("errors : "+allErrors);
+
+
+if(allErrors!="Following errors were found : <br><br>"){
+    $("#errorBody").html(allErrors);
+     $('#notifier').modal();
+$("#submit").click(function(){
+//  alert("to submit");  
+$('#notifier').modal('hide');
+$.ajax({
+        url: 'validate731',
+        type: 'post',
+        dataType: 'html',
+        data: $('form').serialize(),
+        success: function() {
+//                alert("submitted");
+       location.reload(); 
+                 }
+         
+    });
+  });    
+ $("#viewErrors").click(function(){
+//alert("to view errors");
+  });
+  
+  returned = false;
+}
+else{
+    returned=true;
+}
+ $('[data-toggle="tooltip"]').tooltip();
+return returned;
+ });
+ 
+ 
+ });
+
     </script>
 </head>
 <!-- END HEAD -->
@@ -286,6 +391,36 @@ legend.formatter {
                       </li>
                   </ul>
         
+                   <!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>-->
+
+<!-- Modal -->
+<div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Errors detected.</p></h4>
+      </div>
+      <div class="modal-body" id="errorBody">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" data-dismiss="modal" style="height:40px;" id="viewErrors">view errors</button>
+        <button type="button" class="btn-danger" id="submit" style="height:40px;">submit with errors</button>
+      </div>
+    </div>
+  </div>
+</div>
+                   
+   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
+    <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
+    <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
+    <br>2.Click <b>NO</b> if want to edit the already marked data for adherence.</p>
+</div>
+
                    <%if (session.getAttribute("validate731") != null) { %>
                                 <script type="text/javascript"> 
                     

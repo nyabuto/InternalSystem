@@ -228,9 +228,12 @@ function currentCare(){
 }
 //3.4 STARTING ART
 function startingART(){
-     var HV0320,HV0321,HV0322,HV0323,HV0324,total;
+     var HV0320,HV0321,HV0322,HV0323,HV0324,HV0325,total;
+     var HV0340,HV0341,HV0342,HV0343,HV0344,totalCumulative;
       var HV0328,HV0329,HV0330,HV0331,HV0332;
       var HV0334,HV0335,HV0336,HV0337,HV0338,HV0339;
+      var HV0340_1,HV0341_1,HV0342_1,HV0343_1,HV0344_1;
+      
     HV0320=document.getElementById("HV0320").value; 
     HV0321=document.getElementById("HV0321").value;
     HV0322=document.getElementById("HV0322").value;
@@ -243,11 +246,31 @@ function startingART(){
     HV0331=document.getElementById("HV0331").value;
     HV0332=document.getElementById("HV0332").value;
     
+    HV0340=document.getElementById("HV0340").value; 
+    HV0341=document.getElementById("HV0341").value;
+    HV0342=document.getElementById("HV0342").value;
+    HV0343=document.getElementById("HV0343").value;
+    HV0344=document.getElementById("HV0344").value;
+    
+    HV0340_1=document.getElementById("HV0340_1").value; 
+    HV0341_1=document.getElementById("HV0341_1").value;
+    HV0342_1=document.getElementById("HV0342_1").value;
+    HV0343_1=document.getElementById("HV0343_1").value;
+    HV0344_1=document.getElementById("HV0344_1").value;
+    
+    
+    
     if(HV0320==""){HV0320="0";}
     if(HV0321==""){HV0321="0";}
     if(HV0322==""){HV0322="0";}
     if(HV0323==""){HV0323="0";}
     if(HV0324==""){HV0324="0";}
+    
+    if(HV0340==""){HV0320="0";}
+    if(HV0341==""){HV0321="0";}
+    if(HV0342==""){HV0322="0";}
+    if(HV0343==""){HV0323="0";}
+    if(HV0344==""){HV0324="0";}
     
     
     if(HV0328==""){HV0328="0";}
@@ -256,6 +279,7 @@ function startingART(){
     if(HV0331==""){HV0331="0";}
     if(HV0332==""){HV0332="0";}
     
+   
      
     total=parseInt(HV0321)+parseInt(HV0322)+parseInt(HV0323)+parseInt(HV0324);
     document.getElementById("HV0325").value=total; 
@@ -276,9 +300,28 @@ function startingART(){
             document.getElementById("HV0338").value=HV0338;
             autosave("HV0338");
    
-    HV0339=parseInt(HV0334)+parseInt(HV0335)+parseInt(HV0336)+parseInt(HV0337)+parseInt(HV0338);
+    HV0339=parseInt(HV0335)+parseInt(HV0336)+parseInt(HV0337)+parseInt(HV0338);
    document.getElementById("HV0339").value=HV0339;
    autosave("HV0339");
+   
+    HV0340=parseInt(HV0340_1)+parseInt(HV0321); 
+    HV0341=parseInt(HV0341_1)+parseInt(HV0322); 
+    HV0342=parseInt(HV0342_1)+parseInt(HV0323); 
+    HV0343=parseInt(HV0343_1)+parseInt(HV0324); 
+    HV0344=parseInt(HV0344_1)+parseInt(total); 
+   
+   document.getElementById("HV0340").value=HV0340;
+   autosave("HV0340");
+   document.getElementById("HV0341").value=HV0341;
+   autosave("HV0341");
+   document.getElementById("HV0342").value=HV0342;
+   autosave("HV0342");
+   document.getElementById("HV0343").value=HV0343;
+   autosave("HV0343");
+   document.getElementById("HV0344").value=HV0344;
+   autosave("HV0344");
+//   alert("here");
+    
 }
 //3.5 REVISITS ON ART
 function revisitART(){
@@ -328,7 +371,7 @@ function revisitART(){
             document.getElementById("HV0338").value=HV0338;
             autosave("HV0338");
    
-    HV0339=parseInt(HV0334)+parseInt(HV0335)+parseInt(HV0336)+parseInt(HV0337)+parseInt(HV0338);
+    HV0339=parseInt(HV0335)+parseInt(HV0336)+parseInt(HV0337)+parseInt(HV0338);
    document.getElementById("HV0339").value=HV0339;
    autosave("HV0339");
 }

@@ -87,11 +87,16 @@
                <span class="arrow "></span>
                </a>
                 <ul class="sub">
-                  <li >
-                      
-                      <a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
+                    
+                  <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
+                  <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
+                  <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
+                  <%}else{}}%>
+                  
                   <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
-           
+                  
+                 
+                 
                </ul>
             </li>
             <li class="has-sub ">
