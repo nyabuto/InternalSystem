@@ -39,7 +39,7 @@ public class loadGender extends HttpServlet {
     String month="";      
     String year="";      
     String facil="";
-    
+    String enterdby="";
     String formtype="<b>New Entry</b>";
     
     if(session.getAttribute("year")!=null){        
@@ -137,6 +137,44 @@ String P124D25="";
     
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
+        
+        //get the name of the person who entered the form 
+
+        String enterer = "select * from user where userid='" + conn.rs.getString("user_id") + "'";
+
+        conn.rs1 = conn.st1.executeQuery(enterer);
+        //add details of person who entered
+        if (conn.rs1.next()) {
+            enterdby = "<font color='green'>Data 1st entered by:   <b> " + conn.rs1.getString("fname") + " " + conn.rs1.getString("mname") + " " + conn.rs1.getString("lname") + "</b>  on  <b>" + conn.rs.getString("timestamp") + "</b></font>";
+        }
+
+
+        //now check if form was updated and if its one month after data entry
+
+        if (conn.rs.getString("updatedOn") != null) {
+            //get difference in months between entered date and updated date
+            String compdate = "SELECT TIMESTAMPDIFF(MONTH,'" + conn.rs.getString("timestamp") + "','" + conn.rs.getString("updatedOn") + "')";
+            conn.rs2 = conn.st2.executeQuery(compdate);
+            if (conn.rs2.next()) {
+                //now get the details of the person who updated the form
+                //if the difference is greater than or equal to one, 
+
+
+                if (conn.rs2.getInt(1) >= 1) {
+                    String updater = "select * from user where userid='" + conn.rs.getString("updatedBy") + "'";
+
+                    conn.rs1 = conn.st1.executeQuery(updater);
+                    //add details of person who entered
+                    if (conn.rs1.next()) {
+                        enterdby += "<span style='margin-left:30%;'><font color='red'>   Updated  by:   <b> " + conn.rs1.getString("fname") + " " + conn.rs1.getString("mname") + " " + conn.rs1.getString("lname") + "</b>  on  <b>" + conn.rs.getString("updatedOn") + "</b></font></span>";
+                    }
+                } //end of if month >=1 
+            }//end of date comparison if 
+
+        }//end of if updated !=null
+
+        
+        
     
         if(conn.rs.getString("isValidated").equals("1")){
         formtype="<font color='green'><b>Form Validated.<img width='20px' height='20px' src='images/validated.jpg' style='margin-left:10px;'></b></font>";
@@ -416,7 +454,7 @@ if(P124D25==null){P124D25=""; }
 
     }
     
-    String createdtable="<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Prevention Sub Area 12:Gender</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'><tr class='form-actions'><th colspan='6'><b></b></th></tr>";
+    String createdtable=enterdby+"<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Prevention Sub Area 12:Gender</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'><tr class='form-actions'><th colspan='6'><b></b></th></tr>";
     
     if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains("Gender")){
     
