@@ -55,6 +55,7 @@ public class loadYear extends HttpServlet {
                 out.println(years);
 
             } finally {
+                  conn.conn.close();
                 out.close();
             }
         } catch (SQLException ex) {

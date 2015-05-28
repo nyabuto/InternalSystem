@@ -64,7 +64,7 @@ facil=session.getAttribute("facilityid").toString();
 }
 String tableid=year+"_"+month+"_"+facil;
     
-String Insertqr= "insert into gender  set SubPartnerID='"+facil+"', Annee='"+year+"', Mois='"+month+"', "+col+"='"+achieved+"' , tableid='"+tableid+"' , user_id='"+userid+"'";
+String Insertqr= "insert into gender  set SubPartnerID='"+facil+"', Annee='"+year+"', Mois='"+month+"', "+col+"="+achieved+" , tableid='"+tableid+"' , user_id='"+userid+"'";
 String updateqr="update gender set "+col+"="+achieved+" , isValidated='0' where tableid='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 
@@ -84,13 +84,17 @@ else {
         conn.st.executeUpdate(Insertqr);
 
 }
-
+ conn.rs.close();
+    conn.st.close();
+    conn.conn.close();
     
     PrintWriter out = response.getWriter();
     try {
         /* TODO output your page here. You may use following sample code. */
        
     } finally {
+       
+        
         out.close();
     }
 }       catch (SQLException ex) {

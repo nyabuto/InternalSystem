@@ -38,6 +38,9 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+     <script src="select2/js/select2.js"></script>
+   <link rel="stylesheet" href="select2/css/select2.css">
+   
 
       <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
@@ -84,16 +87,29 @@ legend.formatter {
            <div class="control-group">
                              <div style="float:right;"> 
                                  
-                                 <font color="white" size="5px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                 <font color="white" size="3px"><b>Year: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
                                  
-                                    <font color="white" size="5px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
                                  
                                    
-                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
+                                    <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                                    <option value=""></option>
+                                 </select>
+                                   
+                                    <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
+                              
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                                    
+                                   
+                                   <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select></div>
                               
@@ -212,6 +228,7 @@ legend.formatter {
                         
                             
                             </div>
+                            <input type="hidden" name="checkblank" id="checkblank" value="0"/>
                         </form>
                         <!-- END FORM-->           
                     
@@ -282,6 +299,7 @@ legend.formatter {
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
+               $('#facility').select2(); 
          
                     $.ajax({
 url:'loadFacilities',
@@ -289,8 +307,8 @@ type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-     
-       App.init();   
+      $('#facility').select2(); 
+      // App.init();   
 }
 
 
@@ -364,16 +382,16 @@ success:function (data){
              function autosave(col){
             var achieved=document.getElementById(col).value;
               document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
-            
+           if(document.getElementById("checkblank").value=='1'){
             
              $.ajax({
 url:'saveGender?col='+col+"&achieved="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){      
-    
+    document.getElementById("checkblank").value='0'; 
       //if the col being autoseved is a total, show a different color 
-      if(col.endsWith("T")||col=='GEND_GBVM'||col=='GEND_GBVF'||col=='GEND_GBV'||col=='GEND_GBV25'||col=='GEND_GBV24'||col=='GEND_GBV17'||col=='GEND_GBV14'||col=='GEND_GBV9'){
+      if(col.endsWith("T")||col=='GEND_GBVM'||col=='GEND_GBVF'||col=='GEND_GBV'||col=='GEND_GBV25'||col=='GEND_GBV24'||col=='GEND_GBV17'||col=='GEND_GBV14'||col=='GEND_GBV9'||col=='P121D0'||col=='P121D10'||col=='P121D15'||col=='P121D20'||col=='P121D25'||col=='P122D0'||col=='P122D15'||col=='P122D25'||col=='P123D0'||col=='P123D15'||col=='P123D25'||col=='P124D0'||col=='P124D15'||col=='P124D25'){
        
        $("#"+col).css({'background-color' : 'plum'});
           
@@ -386,6 +404,10 @@ success:function (data){
                        }
              
              });
+             
+             
+             }
+             
              }
              
              
@@ -395,13 +417,14 @@ success:function (data){
             function numbers(evt){
 var charCode=(evt.which) ? evt.which : event.keyCode
 if(charCode > 31 && (charCode < 48 || charCode>57)){
+
+
+
 return false;
 }
+else{   
 
-else{
- 
-
-
+document.getElementById("checkblank").value='1'; 
  
 return true;
 }
@@ -460,8 +483,22 @@ success:function (data){
       if(nine==""){nine=0;}
       if(ten==""){ten=0;}
       
-  
-            
+  var mid1=parseInt(one)+parseInt(two);
+       document.getElementById("P121D0").value=mid1;
+  var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P121D10").value=mid2;
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P121D15").value=mid3;
+  var mid4=parseInt(seven)+parseInt(eight);
+  document.getElementById("P121D20").value=mid4;
+  var mid5=parseInt(nine)+parseInt(ten);
+  document.getElementById("P121D25").value=mid5;
+     autosave('P121D0');  
+     autosave('P121D10');  
+     autosave('P121D15');  
+     autosave('P121D20');  
+     autosave('P121D25');  
+    
            var fttl=parseInt(two)+parseInt(four)+parseInt(six)+parseInt(eight)+parseInt(ten);
            var mttl=parseInt(one)+parseInt(three)+parseInt(five)+parseInt(seven)+parseInt(nine);
            var tttl=parseInt(fttl)+parseInt(mttl);
@@ -498,8 +535,17 @@ success:function (data){
       if(five==""){five=0;}
       if(six==""){six=0;}
       
+  var mid1=parseInt(one)+parseInt(two);
+  document.getElementById("P122D0").value=mid1;
+  autosave('P122D0'); 
       
-  
+   var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P122D15").value=mid2;
+  autosave('P122D15'); 
+     
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P122D25").value=mid3;
+  autosave('P122D25'); 
             
            var fttl=parseInt(two)+parseInt(four)+parseInt(six);
            var mttl=parseInt(one)+parseInt(three)+parseInt(five);
@@ -538,7 +584,17 @@ success:function (data){
       if(five==""){five=0;}
       if(six==""){six=0;}
       
+      var mid1=parseInt(one)+parseInt(two);
+  document.getElementById("P123D0").value=mid1;
+  autosave('P123D0'); 
       
+   var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P123D15").value=mid2;
+  autosave('P123D15'); 
+     
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P123D25").value=mid3;
+  autosave('P123D25'); 
   
             
            var fttl=parseInt(two)+parseInt(four)+parseInt(six);
@@ -577,7 +633,18 @@ success:function (data){
       if(five==""){five=0;}
       if(six==""){six=0;}
       
+       var mid1=parseInt(one)+parseInt(two);
+  document.getElementById("P124D0").value=mid1;
+  autosave('P124D0'); 
       
+   var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P124D15").value=mid2;
+  autosave('P124D15'); 
+     
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P124D25").value=mid3;
+  autosave('P124D25'); 
+  
   
             
            var fttl=parseInt(two)+parseInt(four)+parseInt(six);
@@ -724,7 +791,92 @@ if (e.keyCode == 13) {
 }
 });
  
+ 
+ 
+ 
+ //a function to monitor if data has been entered or its just enter and 
+ 
+ function isIntegerPressed(status){
+ if(status=="1"){    
+     document.getElementById("checkblank").value='1';
+ }
+ else {
+       document.getElementById("checkblank").value='0'; 
+     
+ }
+     
+ }
+ 
+ 
+ 
+ 
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
     
+    
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
+    
+ 
+ loadcounty();
+ 
+ 
+    document.getElementById("checkblank").value='0';
       
    </script>
    <!-- END JAVASCRIPTS -->   

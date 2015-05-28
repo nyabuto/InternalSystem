@@ -89,7 +89,8 @@ current_districts=current_districts+"<option value=\""+conn.rs.getString("Distri
     try {
         out.println(current_districts);
        
-    } finally {            
+    } finally {   
+          conn.conn.close();
         out.close();
     }
 }       catch (SQLException ex) {

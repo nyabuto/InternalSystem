@@ -85,6 +85,10 @@ HttpSession session=null;
     String C51DMT="";
     String C51DFT="";
     String C51DT="";
+    
+    String MCHCCNtrTMC="";
+    String MCHCCNtrTFC="";
+    String MCHCCNtrTTC="";
 
         
        
@@ -93,6 +97,22 @@ HttpSession session=null;
         conn.rs=conn.st.executeQuery(getexistingdata);
         while(conn.rs.next()){
         
+            MCHCCNtrTMC=conn.rs.getString("MCHCCNtrTMC");
+    if(MCHCCNtrTMC==null){MCHCCNtrTMC="";
+        updatestring+=" MCHCCNtrTMC='0' ,";
+    }
+         
+     MCHCCNtrTFC=conn.rs.getString("MCHCCNtrTFC");
+    if(MCHCCNtrTFC==null){MCHCCNtrTFC="";
+        updatestring+=" MCHCCNtrTFC='0' ,";
+    }
+    
+    
+     MCHCCNtrTTC=conn.rs.getString("MCHCCNtrTTC");
+    if(MCHCCNtrTTC==null){MCHCCNtrTTC="";
+        updatestring+=" MCHCCNtrTTC='0' ,";
+    }
+            
             //now load the column values here
            
     MCHCCNtrTM=conn.rs.getString("MCHCCNtrTM");

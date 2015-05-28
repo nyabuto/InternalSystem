@@ -120,6 +120,24 @@ String GEND_GBVF="";
 String GEND_GBV="";
 
 
+String P121D0="";
+String P121D10="";
+String P121D15="";
+String P121D20="";
+String P121D25="";
+String P122D0="";
+String P122D15="";
+String P122D25="";
+String P123D0="";
+String P123D15="";
+String P123D25="";
+String P124D0="";
+String P124D15="";
+String P124D25="";
+
+
+
+
 String getdata="select * from gender where tableid ='"+tableid+"'";
 
 
@@ -131,7 +149,82 @@ String updatestring="";
 while (conn.rs.next()){
 
        //now load the column values here
-//====================================================================p122       
+//====================================================================p122 
+    
+    
+P121D0=conn.rs.getString("P121D0");
+if(P121D0==null){P121D0="0";
+updatestring+=" P121D0='0' ,";
+}    
+  
+
+P121D10=conn.rs.getString("P121D10");
+if(P121D10==null){P121D10="0";
+updatestring+=" P121D10='0' ,";
+}    
+
+P121D15=conn.rs.getString("P121D15");
+if(P121D15==null){P121D15="0";
+updatestring+=" P121D15='0' ,";
+}    
+
+P121D20=conn.rs.getString("P121D20");
+if(P121D20==null){P121D20="0";
+updatestring+=" P121D20='0' ,";
+}    
+
+P121D25=conn.rs.getString("P121D25");
+if(P121D25==null){P121D25="0";
+updatestring+=" P121D25='0' ,";
+}    
+
+P122D0=conn.rs.getString("P122D0");
+if(P122D0==null){P122D0="0";
+updatestring+=" P122D0='0' ,";
+}    
+
+P122D15=conn.rs.getString("P122D15");
+if(P122D15==null){P122D15="0";
+updatestring+=" P122D15='0' ,";
+}    
+
+P122D25=conn.rs.getString("P122D25");
+if(P122D25==null){P122D25="0";
+updatestring+=" P122D25='0' ,";
+}    
+
+P123D0=conn.rs.getString("P123D0");
+if(P123D0==null){P123D0="0";
+updatestring+=" P123D0='0' ,";
+}    
+
+P123D15=conn.rs.getString("P123D15");
+if(P123D15==null){P123D15="0";
+updatestring+=" P123D15='0' ,";
+}    
+
+P123D25=conn.rs.getString("P123D25");
+if(P123D25==null){P123D25="0";
+updatestring+=" P123D25='0' ,";
+}    
+
+P124D0=conn.rs.getString("P124D0");
+if(P124D0==null){P124D0="0";
+updatestring+=" P124D0='0' ,";
+}    
+
+P124D15=conn.rs.getString("P124D15");
+if(P124D15==null){P124D15="0";
+updatestring+=" P124D15='0' ,";
+}    
+
+P124D25=conn.rs.getString("P124D25");
+if(P124D25==null){P124D25="0";
+updatestring+=" P124D25='0' ,";
+}    
+//---------------------------------------------------------------------------------    
+    
+    
 P121DM0=conn.rs.getString("P121DM0");
 if(P121DM0==null){P121DM0="0";
 updatestring+=" P121DM0='0' ,";

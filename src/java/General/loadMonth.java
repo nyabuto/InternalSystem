@@ -85,6 +85,7 @@ public class loadMonth extends HttpServlet {
                 out.println(months);
 
             } finally {
+                  conn.conn.close();
                 out.close();
             }
         } catch (SQLException ex) {

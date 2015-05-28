@@ -31,7 +31,7 @@ public class loadFacilities extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         session=request.getSession();
-        
+             dbConn conn = new dbConn();
         String facilityonsession="";
         
         String subcounty="";
@@ -49,7 +49,7 @@ public class loadFacilities extends HttpServlet {
         
         PrintWriter out = response.getWriter();
         try {
-            dbConn conn = new dbConn();
+       
            
             String facils="<option value=''>Select Site</option>";
             String getfacils="";
@@ -82,7 +82,12 @@ public class loadFacilities extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(loadFacilities.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            out.close();
+            try {
+                conn.conn.close();
+              out.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(loadFacilities.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

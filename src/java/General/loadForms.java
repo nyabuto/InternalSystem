@@ -46,8 +46,10 @@ public class loadForms extends HttpServlet {
     try {
         
         out.println(forms);
-    } finally {            
+    } finally {    
+          conn.conn.close();
         out.close();
+        
     }
 }       catch (SQLException ex) {
             Logger.getLogger(loadForms.class.getName()).log(Level.SEVERE, null, ex);
