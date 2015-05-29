@@ -83,37 +83,83 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
     int counter=0;
      isValidated="";
  validity="";
+ 
+ 
+
     String ul="  <ul class=\"nav nav-tabs\">\n" ;
     if(session.getAttribute("forms_holder").toString().contains(",FP,")){
         counter++;
+        
+        int fpoccu=0; 
+        int fpoccu1=0; 
+int facilityfpcount=0; 
+ String counterFpcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (FPMicrolutN!='NULL' ||FPMicrolutN!='')  ";
+ conn.rs1 = conn.st1.executeQuery(counterFpcheck);
+ while(conn.rs1.next()){
+ fpoccu++;
+  }
+ String counterFpcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (FPMicrolutN='NULL' ||FPMicrolutN='' ||  isValidated='0')  ";
+ conn.rs1 = conn.st1.executeQuery(counterFpcheck1);
+ while(conn.rs1.next()){
+ fpoccu1++;
+  }
+ String countfacility="Select * from subpartnera where FP='1'  ";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs2 = conn.st2.executeQuery(countfacility);
+ while(conn.rs2.next()){
+ facilityfpcount++;
+ }
+ 
+ System.out.println(fpoccu +" out of "+facilityfpcount);
           if(counter==1){
  fppane+=" <li class="+activeclass+"><a href=\"#tab_"+counter+"\" data-toggle=\"tab\">A: FAMILY PLANNING</a></li>\n" ;
     
       FP_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">A: FAMILY PLANNING</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">A: FAMILY PLANNING  &nbsp <b style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\"> Record Counter: "+fpoccu+" out of "+facilityfpcount+"  &nbsp; Unvalidated Form(s) : "+fpoccu1+"</b></h4>" +
                               "</div><div class=\"portlet-body form\">";
           }else{
  fppane+=" <li class=\"active\"><a href=\"#tab_1\" data-toggle=\"tab\">A: FAMILY PLANNING</a></li>\n" ;
     
       FP_TAB="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">A: FAMILY PLANNING</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">A: FAMILY PLANNING &nbsp <b style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter: "+fpoccu+" out of "+facilityfpcount+"  &nbsp;  Unvalidated Form(s) : "+fpoccu1+" </b></h4>" +
                               "</div><div class=\"portlet-body form\">";}
     
     
     }else{fppane="";}
      if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
+         
          counter++;
+         
+           int pmctoccu=0; 
+           int pmctoccu1=0; 
+int facilitypmctcount=0; 
+ String counterpmtctcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (PMCTA_1stVisit_ANC!='NULL' ||PMCTA_1stVisit_ANC!='')  ";
+ conn.rs1 = conn.st1.executeQuery(counterpmtctcheck);
+ while(conn.rs1.next()){
+ pmctoccu++;
+  }
+ String counterpmtctcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (PMCTA_1stVisit_ANC='NULL' ||PMCTA_1stVisit_ANC=''  || isValidated='0')  ";
+ conn.rs3 = conn.st3.executeQuery(counterpmtctcheck1);
+ while(conn.rs3.next()){
+ pmctoccu1++;
+  }
+ String countpmctfacility="Select * from subpartnera where PMTCT ='1'  ";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs2 = conn.st2.executeQuery(countpmctfacility);
+ while(conn.rs2.next()){
+ facilitypmctcount++;
+ }System.out.println("pmtct"+pmctoccu+" "+facilitypmctcount) ;  
          if(counter==1){
  pmctpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">B: MCH- ANC/PMCT</a></li>\n" ;
     
        MCH_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">B: MCH - ANC/PMCT</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">B: MCH - ANC/PMCT  &nbsp <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+pmctoccu+" out of "+facilitypmctcount+" Unvalidated Form(s): "+pmctoccu1+"</b> </h4>" +
                               "</div><div class=\"portlet-body form\">";
          }else{
-    pmctpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">B: MCH- ANC/PMCT</a></li>\n" ;
+    pmctpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">B: MCH- ANC/PMCT &nbsp </a></li>\n" ;
     
        MCH_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">B: MCH - ANC/PMCT</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">B: MCH - ANC/PMCT  &nbsp <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+pmctoccu+" out of "+facilitypmctcount+" Unvalidated Form(s): "+pmctoccu1+"</b></h4>" +
                               "</div><div class=\"portlet-body form\">";      
          
          
@@ -122,44 +168,98 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
      
      }else{pmctpane="";}
       if(session.getAttribute("forms_holder").toString().contains(",Maternity,")){
+          int matoccu=0; 
+          int matoccu1=0; 
+int facilitymatcount=0; 
+ String countermatcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (MATNormalDelivery!='NULL' ||MATNormalDelivery!='')  ";
+ conn.rs1 = conn.st1.executeQuery(countermatcheck);
+ while(conn.rs1.next()){
+ matoccu++;
+  }
+ String countermatcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (MATNormalDelivery='NULL' ||MATNormalDelivery='' || isValidated='0')  ";
+ conn.rs1 = conn.st1.executeQuery(countermatcheck1);
+ while(conn.rs1.next()){
+ matoccu1++;
+  }
+ String countmatfacility="Select * from subpartnera where Maternity ='1'  ";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs2 = conn.st2.executeQuery(countmatfacility);
+ while(conn.rs2.next()){
+ facilitymatcount++;
+ }
+   System.out.println("mat"+matoccu+" "+facilitymatcount) ;      
+          
            counter++;
          if(counter==1){
        matpane+=" <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">C:MATERNITY/ SAFE DELIVERIES</a></li>\n" ;
      
       
         MATERNITY_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">C: MATERNITY / SAFE DELIVERIES</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">C: MATERNITY / SAFE DELIVERIESS  &nbsp  &nbsp <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</b></h4>" +
                               "</div><div class=\"portlet-body form\">";}
          else{
- matpane+=" <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\">C:MATERNITY/ SAFE DELIVERIES</a></li>\n" ;
+ matpane+=" <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\">C:MATERNITY/ SAFE DELIVERIES </a></li>\n" ;
      
       
         MATERNITY_TAB="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">C: MATERNITY / SAFE DELIVERIES</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">C: MATERNITY / SAFE DELIVERIES &nbsp&nbsp <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</b></h4>" +
                               "</div><div class=\"portlet-body form\">";}
       
       
       }else{matpane="";}
        if(session.getAttribute("forms_holder").toString().contains(",HTC,")){
             counter++;
+            
+            
+                int vctoccu=0; 
+                int vctoccu1=0; 
+                int dtcoccu=0; 
+                int dtcoccu1=0; 
+int facilityvctcount=0; 
+ String countervctcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (VCTClient_Couns_CM!='NULL' || VCTClient_Couns_CM!='')  ";
+ conn.rs1 = conn.st1.executeQuery(countervctcheck);
+ while(conn.rs1.next()){
+ vctoccu++;
+  }
+ String countervctcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (VCTClient_Couns_CM='NULL' || VCTClient_Couns_CM='' || isValidated='0' )";
+ conn.rs1 = conn.st1.executeQuery(countervctcheck1);
+ while(conn.rs1.next()){
+ vctoccu1++;
+  }
+ String counterdctcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (DTCA_Couns_In_CM!='NULL' || DTCA_Couns_In_CM!='')  ";
+ conn.rs1 = conn.st1.executeQuery(counterdctcheck);
+ while(conn.rs1.next()){
+ dtcoccu++;
+  }
+ String counterdctcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (DTCA_Couns_In_CM='NULL' || DTCA_Couns_In_CM=''||  isValidated='0') ";
+ conn.rs1 = conn.st1.executeQuery(counterdctcheck1);
+ while(conn.rs1.next()){
+ dtcoccu1++;
+  }
+ String countpmctfacility="Select * from subpartnera where HTC='1' ";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs2 = conn.st2.executeQuery(countpmctfacility);
+ while(conn.rs2.next()){
+ facilityvctcount++;
+ }System.out.println("pmtct"+vctoccu+" "+facilityvctcount +""+dtcoccu) ;  
          if(counter==1){
  htcpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">D: VCT</a></li>"
         + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">E DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">D: VCT</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT &nbsp <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+"  &nbsp;  Unvalidated Form(s): "+vctoccu1+"</b> </h4>" +
                               "</div><div class=\"portlet-body form\">";
     DTC_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">E: DTC </h4>" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC  <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+"   &nbsp;  Unvalidated Form(s): "+dtcoccu1+"</b> </h4>" +
                               "</div><div class=\"portlet-body form\">"; }
          else{
     
  htcpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\">D: VCT</a></li>"
         + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\">E DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">D: VCT</h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT  <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+" &nbsp;   Unvalidated Form(s): "+vctoccu1+"</b> </h4>" +
                               "</div><div class=\"portlet-body form\">";
     DTC_TAB="<div class=\"tab-pane \" id=\"tab_5\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:40%;\">E: DTC </h4>" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC   <b  style=\"color:white; font-family:cambria; text-align: center;  margin-right:400px; font-size:14px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+" &nbsp; Unvalidated Form(s): "+dtcoccu1+"</b> </h4>" +
                               "</div><div class=\"portlet-body form\">"; 
          }
        

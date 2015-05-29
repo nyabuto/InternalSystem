@@ -160,15 +160,35 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
         
           
     }
+      
+        int TBoccu=0; 
+        int TBoccu1=0; 
+int facilityTBcount=0; 
+ String counterTBcheck="SELECT * FROM tb where Annee ='"+year+"' and Mois='"+month+"' and (TB_STATN!='NULL' ||TB_STATN!='')  ";
+ conn.rs1 = conn.st1.executeQuery(counterTBcheck);
+ while(conn.rs1.next()){
+ TBoccu++;
+  }
+ String counterTBcheck1="SELECT * FROM tb where Annee ='"+year+"' and Mois='"+month+"' and (TB_STATN='NULL' ||TB_STATN='' ||  isValidated='0')";
+ conn.rs3 = conn.st3.executeQuery(counterTBcheck1);
+ while(conn.rs3.next()){
+ TBoccu1++;
+  }
+ String countfacility="Select * from subpartnera where TB='1'  ";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs2 = conn.st2.executeQuery(countfacility);
+ while(conn.rs2.next()){
+ facilityTBcount++;
+ }
        System.out.println("Validity checker : "+isValidated);
       if(isValidated.equals("0")){
-  validity="<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;
+  validity="<b style=\"color:white; font-family:cambria; text-align: center;font-family: Open Sans;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+":   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>";
 }
       else if(isValidated.equals("1")){
-   validity="<font color=\"white\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
+   validity="<b style=\"color:white; font-family:cambria; text-align: center;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+":   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"white\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>";  
 }
       else{
-        validity="<font color=\"white\"><b>New Form</b></font>"  ;          
+        validity=" <b style=\"color:white; font-family:cambria; text-align: center;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+"   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"white\"><b style=\"text-align: left;\">New Form Entry </b></font>  "  ;          
               }
       
 //     System.out.println("read from session : "+session.getAttribute("isValidated").toString());
