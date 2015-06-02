@@ -67,7 +67,37 @@ String KMMP5c="";
 String HV0205="";
 String HV0206="";
 
-    
+int kmmpdone=0;
+int kmmpundone=0;
+int facilssupporting=0;
+String distid="";
+
+if(session.getAttribute("subcountyid")!=null){
+distid=session.getAttribute("subcountyid").toString();
+}
+
+
+String kmmpcounter="SELECT 1 FROM kmmp join subpartnera on kmmp.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (KMMP1 is not null ||KMMP1!='')  ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter);
+ while(conn.rs1.next()){
+ kmmpdone++;
+  }
+            System.out.println(kmmpcounter);
+ 
+ String kmmpcounter1="SELECT 1 FROM kmmp join subpartnera on kmmp.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (KMMP1 is not null ||KMMP1!='') and isValidated='0' ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
+ while(conn.rs1.next()){
+ kmmpundone++;
+  }
+ String countpmctfacility="Select * from subpartnera where KMMP ='1' and  DistrictID='"+distid+"'";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs1 = conn.st1.executeQuery(countpmctfacility);
+ while(conn.rs1.next()){
+ facilssupporting++;
+ }
+ 
+  String label="Record counter <font color='green'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+     
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
         
@@ -184,7 +214,7 @@ if(HV0206==null){HV0206=""; }
    
       createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span>";
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>";
    }
     
     else {

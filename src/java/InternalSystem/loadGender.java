@@ -133,6 +133,39 @@ String P124D0="";
 String P124D15="";
 String P124D25="";
 
+int kmmpdone=0;
+int kmmpundone=0;
+int facilssupporting=0;
+String distid="";
+
+if(session.getAttribute("subcountyid")!=null){
+distid=session.getAttribute("subcountyid").toString();
+}
+
+
+String kmmpcounter="SELECT 1 FROM gender join subpartnera on gender.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (p121DM0 is not null ||p121DM0!='')  ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter);
+ while(conn.rs1.next()){
+ kmmpdone++;
+  }
+            System.out.println(kmmpcounter);
+ 
+ String kmmpcounter1="SELECT 1 FROM gender join subpartnera on gender.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (p121DM0 is not null ||p121DM0!='') and isValidated='0' ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
+ while(conn.rs1.next()){
+ kmmpundone++;
+  }
+ String countpmctfacility="Select * from subpartnera where Gender ='1' and  DistrictID='"+distid+"'";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs1 = conn.st1.executeQuery(countpmctfacility);
+ while(conn.rs1.next()){
+ facilssupporting++;
+ }
+ 
+  String label="Record counter <font color='green'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+   
+
+
 
     
     conn.rs=conn.st.executeQuery(getexistingdata);
@@ -487,7 +520,7 @@ if(P124D25==null){P124D25=""; }
     createdtable+="<tr><td><b>25+</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25M');gbvtotal();\" value='"+GEND_GBV25M+"' name='GEND_GBV25M' id='GEND_GBV25M' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25F');gbvtotal();\" value='"+GEND_GBV25F+"' name='GEND_GBV25F' id='GEND_GBV25F' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly value='"+GEND_GBV25+"' name='GEND_GBV25' id='GEND_GBV25' ></td></tr>";
     createdtable+="<tr><td><b>Total</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVM+"' name='GEND_GBVM' id='GEND_GBVM' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVF+"' name='GEND_GBVF' id='GEND_GBVF' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return  numbers(event,this);\"  value='"+GEND_GBV+"' name='GEND_GBV' id='GEND_GBV' ></td></tr>";
     createdtable+="<tr><td></td><td></td><td class='form-actions'>AGE</td><td class='form-actions'>MALE</td><td style='width:80px;' class='form-actions'>FEMALE</td><td class='form-actions'>TOTAL</td></tr>"
-            + "</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/><span id='formstatus' style='display:none;'>"+formtype+" </span></div>";
+            + "</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>	</div>";
     
     }
     else {

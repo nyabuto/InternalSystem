@@ -214,14 +214,17 @@ legend.formatter {
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">GENDER</b>
-                         <span id="newform" style="margin-left: 70%;"></span>
+                          <span id="recordcounter" style="margin-left:9%;color:red;font-size:15px;background-color: white;"><b></b></span>
+                         <span id="newform" style="margin-left: 30%;"><b></b></span>
+                     
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="validateGender" class="form-horizontal">
                     
                             <div id="gendertable">
-                            
+                              <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+                        
 <fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Prevention Sub Area 12:Gender</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
                              
 </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
@@ -322,6 +325,7 @@ success:function (data){
             success:function (data){
                 $("#gendertable").html(data);
                 $("#newform").html($("#formstatus").html());
+                $("#recordcounter").html($("#rc").html());
                 
                 
             //$("#P121DM0").focus();   

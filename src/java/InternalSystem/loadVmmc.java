@@ -87,6 +87,37 @@ public class loadVmmc extends HttpServlet {
             String P54D = "";
 
 
+int kmmpdone=0;
+int kmmpundone=0;
+int facilssupporting=0;
+String distid="";
+
+if(session.getAttribute("subcountyid")!=null){
+distid=session.getAttribute("subcountyid").toString();
+}
+
+
+String kmmpcounter="SELECT 1 FROM vmmc join subpartnera on vmmc.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (P51D1 is not null ||P51D1!='')  ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter);
+ while(conn.rs1.next()){
+ kmmpdone++;
+  }
+            System.out.println(kmmpcounter);
+ 
+ String kmmpcounter1="SELECT 1 FROM vmmc join subpartnera on vmmc.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (P51D1 is not null ||P51D1!='') and isValidated='0' ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
+ while(conn.rs1.next()){
+ kmmpundone++;
+  }
+ String countpmctfacility="Select * from subpartnera where VMMC ='1' and  DistrictID='"+distid+"'";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs1 = conn.st1.executeQuery(countpmctfacility);
+ while(conn.rs1.next()){
+ facilssupporting++;
+ }
+ 
+    String label="Record counter <font color='green'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+   
 
 
 
@@ -322,7 +353,7 @@ public class loadVmmc extends HttpServlet {
                     createdtable += "<tr><td colspan='3' style='text-align:right;'><b>Total</b></td><td><input readonly tabindex='-1' style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\"  value='" + P53D + "' name='P53D' id='P53D' ></td></tr>";
 
                     createdtable += "<tr class='form-actions'><th colspan='4'> <b> P5.4.D </b>Number of males circumcised within the reporting period who return at least once for postoperative follow‐up care (routine or emergent) within 14 days of surgery </th></tr>";
-                    createdtable += "<tr><td rowspan='4'></td><td colspan='4' style='text-align:right;'><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P54D');\" value='" + P54D + "' name='P54D' id='P54D' ></td></tr></table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>" + formtype + " </span>";
+                    createdtable += "<tr><td rowspan='4'></td><td colspan='4' style='text-align:right;'><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('P54D');\" value='" + P54D + "' name='P54D' id='P54D' ></td></tr></table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>" + formtype + " </span><span id='rc' style='display:none;'>"+label+" </span>";
 
                 } else {
                     createdtable = "<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  VMMC module.</font></td></tr>";

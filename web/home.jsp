@@ -194,7 +194,7 @@
                               <div class="control-group">
                               <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6" required tabindex="-1"  id="facility" name="facility">
+                                 <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6 m-wrap" required tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
                               </div>

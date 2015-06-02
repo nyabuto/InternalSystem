@@ -24,13 +24,13 @@ import javax.servlet.http.HttpSession;
  */
 public class saveNutrition extends HttpServlet {
 HttpSession session=null;
-    
+    boolean isinsert=true;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
     response.setContentType("text/html;charset=UTF-8");
     session =request.getSession();
-    
+    isinsert=true;
     
     String col=request.getParameter("col");
     String achieved=request.getParameter("achieved");
@@ -63,30 +63,46 @@ facil=session.getAttribute("facilityid").toString();
 }
 String tableid=year+"_"+month+"_"+facil;
    
-
+int tempyear=Integer.parseInt(year);
 String yearmonth="";
 String tempmonth=month;
 if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
-yearmonth=year+tempmonth;
-String Insertqr= "insert into nutrition  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"="+achieved+" , tableid='"+tableid+"' , user_id='"+userid+"' , yearmonth='"+yearmonth+"'";
+if(Integer.parseInt(month)>=10){tempyear=Integer.parseInt(year)-1;}
+yearmonth=tempyear+tempmonth;
+String Insertqr= "replace into nutrition  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"="+achieved+" , tableid='"+tableid+"' , user_id='"+userid+"' , yearmonth='"+yearmonth+"'";
 String updateqr="update nutrition set "+col+"="+achieved+" , isValidated='0' where tableid='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 
-String checker="select "+col+" from nutrition where tableid='"+tableid+"'";
+String checker="select 1 from nutrition where tableid='"+tableid+"'";
+
+
 
 
 conn.rs=conn.st.executeQuery(checker);
-
+   System.out.println("ISINSERT is "+isinsert);  
 
 if(conn.rs.next()){
     
-    conn.st.executeUpdate(updateqr);
-    System.out.println("~~ "+updateqr);
+    System.out.println("_________Update qry result ::"+conn.st.executeUpdate(updateqr));
+    //System.out.println("~~ "+updateqr);
 }
 else {
-    System.out.println(">> "+Insertqr);
-        conn.st.executeUpdate(Insertqr);
-
+  if(isinsert=true){
+     isinsert=false;     
+     
+   //System.out.println(">> "+Insertqr);
+     System.out.println("++++++++++Insert Query result"+conn.st.executeUpdate(Insertqr));
+  
+  }
+  else {
+  
+ System.out.println("LUCKY Update qry result ::"+conn.st.executeUpdate(updateqr));
+  
+  }
+          
+          
+   System.out.println("Update qry result ::"+conn.st.executeUpdate(updateqr));
+  
 }
 
     

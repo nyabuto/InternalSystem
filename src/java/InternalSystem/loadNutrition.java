@@ -93,10 +93,48 @@ String C51DMT="";
 String C51DFT="";
 String C51DT="";
 
+
+
+int kmmpdone=0;
+int kmmpundone=0;
+int facilssupporting=0;
+String distid="";
+
+if(session.getAttribute("subcountyid")!=null){
+distid=session.getAttribute("subcountyid").toString();
+}
+
+
+String kmmpcounter="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (C51DC is not null ||C51DC!='')  ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter);
+ while(conn.rs1.next()){
+ kmmpdone++;
+  }
+            System.out.println(kmmpcounter);
+ 
+ String kmmpcounter1="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (C51DC is not null ||C51DC!='') and isValidated='0' ";
+ conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
+ while(conn.rs1.next()){
+ kmmpundone++;
+  }
+ String countpmctfacility="Select * from subpartnera where Nutrition ='1' and  DistrictID='"+distid+"'";
+// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
+ conn.rs1 = conn.st1.executeQuery(countpmctfacility);
+ while(conn.rs1.next()){
+ facilssupporting++;
+ }
+ 
+    String label="Record counter <font color='green'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+   
+
+
+
 String yearmonth="";
+int tempyear=Integer.parseInt(year);
 String tempmonth=month;
 if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
-yearmonth=year+tempmonth;
+if(Integer.parseInt(month)>=10){tempyear=Integer.parseInt(year)-1;}
+yearmonth=tempyear+tempmonth;
 
 //____We need to get the cumulatives up to the maximum reported yearmonth   as long as its less than the current month and year
 //eg if its 2016 jan, get the max reported yearmonth.from 2014 12 backwards. Also ensure that the value of accumulatives for that max month is not Zero
@@ -105,7 +143,7 @@ String maxyearmonth="201505";
 
           
 
-String getmaxmonthandyear="select Max(yearmonth) as yearmo from nutrition where yearmonth < '"+yearmonth+"' and (MCHCCNtrTTC !='0' && MCHCCNtrTTC is not null)";
+String getmaxmonthandyear="select Max(yearmonth) as yearmo from nutrition where yearmonth < '"+yearmonth+"' and (MCHCCNtrTTC !='0' && MCHCCNtrTTC is not null) and SubPartnerID='"+facil+"'";
   
             System.out.println("__"+getmaxmonthandyear);
 
@@ -122,7 +160,7 @@ maxyearmonth=conn.rs2.getString(1);
             System.out.println("Max Year Month____"+maxyearmonth);
 //After getting the Maximum valid YearMonth,(By Valid I mean a month that was reported with a cumulative greater than zero) select the cumulatives for male, female and totals
 
-    String gatmaxs="select MCHCCNtrTMC , MCHCCNtrTFC ,MCHCCNtrTTC  from nutrition where yearmonth='"+maxyearmonth+"' ";
+    String gatmaxs="select MCHCCNtrTMC , MCHCCNtrTFC ,MCHCCNtrTTC  from nutrition where yearmonth='"+maxyearmonth+"' and  SubPartnerID='"+facil+"'";
     
       conn.rs=conn.st.executeQuery(gatmaxs);
     while(conn.rs.next()){
@@ -300,7 +338,7 @@ if(C51DT==null){C51DT=""; }
     createdtable+="<tr><td> <b> >=18</b> </td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DAM+"' name='C51DAM' id='C51DAM' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DAF');c51dtotal();\" value='"+C51DAF+"' name='C51DAF' id='C51DCF' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DA+"' name='C51DA' id='C51DA' ></td></tr>";
     createdtable+="<tr><td colspan='3'> <b> Pregnant/Lactating (PMTCT 1.5)</b> </td><td><input style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DP');\" value='"+C51DP+"' name='C51DP' id='C51DP' ></td></tr>";
     createdtable+="<tr><td> <b> Total</b> </td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DMT+"' name='C51DMT' id='C51DMT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DFT+"' name='C51DFT' id='C51DFT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DT');\" value='"+C51DT+"' name='C51DT' id='C51DT' ></td></tr>"
-            + "   </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span>";
+            + "   </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>	";
     
     }
     
