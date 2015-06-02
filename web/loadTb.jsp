@@ -44,7 +44,8 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
- 
+   <script src="select2/js/select2.js"></script>
+<link rel="stylesheet" href="select2/css/select2.css">
 <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
@@ -89,19 +90,38 @@ legend.formatter {
             <!-- BEGIN LOGO -->
            <div class="control-group">
                              <div style="float:right;"> 
+                               
+                              <font color="white" size="3px"><b>Year: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
                                  
-                                 <font color="white" size="5px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                 
-                                    <font color="white" size="5px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
                                  
                                    
-                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
+                                    <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
-                                 </select></div>
+                                 </select>
+                                   
+                                    <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
+                              
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                                    
+                                   
+                                   <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select>
+                             
+                             
+                             
+                             
+                             
+                             </div>
                               
                            </div>
             <!-- END LOGO -->
@@ -270,7 +290,7 @@ legend.formatter {
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -306,7 +326,7 @@ dataType:'html',
 success:function (data){
        $("#facility").html(data);
      
-       App.init();   
+        $('#facility').select2();  
 }
 
 
@@ -584,6 +604,88 @@ success:function (data){
           
      
       }
+      //a function to monitor if data has been entered or its just enter and 
+ 
+ function isIntegerPressed(status){
+ if(status=="1"){    
+     document.getElementById("checkblank").value='1';
+ }
+ else {
+       document.getElementById("checkblank").value='0'; 
+     
+ }
+     
+ }
+ 
+ 
+ 
+ 
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
+    
+ 
+ loadcounty();
+ 
+ 
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>

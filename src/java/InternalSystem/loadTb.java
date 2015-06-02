@@ -188,7 +188,7 @@ int facilityTBcount=0;
    validity="<b style=\"color:white; font-family:cambria; text-align: center;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+":   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"white\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>";  
 }
       else{
-        validity=" <b style=\"color:white; font-family:cambria; text-align: center;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+"   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"white\"><b style=\"text-align: left;\">New Form Entry </b></font>  "  ;          
+        validity=" <b style=\"color:white; font-family:cambria; text-align: center;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+"   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"white\"><b style=\"text-align: left;\">New Entry Entry </b></font>  "  ;          
               }
       
 //     System.out.println("read from session : "+session.getAttribute("isValidated").toString());

@@ -17,7 +17,8 @@
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
-      <script src="assets/js/jquery-1.8.3.min.js"></script>    
+    
+     <script src="assets/js/jquery-1.8.3.min.js"></script>     
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -39,16 +40,16 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
    
+   <script src="select2/js/select2.js"></script>
+<link rel="stylesheet" href="select2/css/select2.css">
 <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
-   
-     <script type="text/javascript">
-        
-        
-     
-       </script>
+
+  
+
+
         <style>
 fieldset.formatter {
     border: 2px groove black !important;
@@ -88,18 +89,32 @@ legend.formatter {
            <div class="control-group">
                              <div style="float:right;"> 
                                  
-                                 <font color="white" size="5px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                               <font color="white" size="3px"><b>Year: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
                                  
-                                    <font color="white" size="5px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
                                  
                                    
-                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
+                                    <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
-                                 </select></div>
+                                 </select>
+                                   
+                                    <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
+                              
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                                    
+                                   
+                                   <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select>
+                             </div>
                               
                            </div>
             <!-- END LOGO -->
@@ -147,10 +162,10 @@ legend.formatter {
          <div id="portlet-config" class="modal hide">
             <div class="modal-header">
                <button data-dismiss="modal" class="close" type="button"></button>
-               <h3>portlet Settings</h3>
+               <!--<h3>portlet Settings</h3>-->
             </div>
             <div class="modal-body">
-               <p>Here will be a configuration form</p>
+               <!--<p>Here will be a configuration form</p>-->
             </div>
          </div>
          <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -259,7 +274,7 @@ legend.formatter {
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -287,6 +302,8 @@ legend.formatter {
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
+   
+//               $('#facility').select2(); 
          
                     $.ajax({
 url:'loadFacilities',
@@ -294,13 +311,12 @@ type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-     
-       App.init();   
+      $('#facility').select2(); 
+      // App.init();   
 }
 
 
-}); 
-         
+});  
          
          $.ajax({
             url:'load711',
@@ -424,14 +440,93 @@ else{
 return true;
 }
 }
-          
+     
+
+ //a function to monitor if data has been entered or its just enter and 
+ 
+ function isIntegerPressed(status){
+ if(status=="1"){    
+     document.getElementById("checkblank").value='1';
+ }
+ else {
+       document.getElementById("checkblank").value='0'; 
+     
+ }
+     
+ }
+ 
+ 
+ 
+ 
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
       
-      //a function to update the selected session
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
+    
+ 
+ loadcounty();
+  //a function to update the selected session
       
       function updatefacilsession(){
           
         var facil=document.getElementById("facility").value;
-//        alert(facil);
         $.ajax({
 url:'updatefacilitysession?facil='+facil,
 type:'post',
@@ -447,7 +542,11 @@ success:function (data){
           
           
       }
+   
+ 
+//    document.getElementById("checkblank").value='0';
       
+ 
       
   
        function Microluttotal(){
@@ -1029,7 +1128,36 @@ success:function (data){
           
      
       }    
-      
+      function maternitytotals(){
+      var normaldeliveries=0;
+     var csdeliveries=0;
+     var breechdeliveries=0;
+     var assisteddeliveries=0;
+     
+       normaldeliveries=document.getElementById("MATNormalDelivery").value;
+       csdeliveries=document.getElementById("MATCSection").value;
+       breechdeliveries=document.getElementById("MATBreech").value;
+       assisteddeliveries=document.getElementById("MATAssistedVag").value;
+     
+      if(normaldeliveries==""){normaldeliveries=0;}
+      if(csdeliveries==""){csdeliveries=0;}
+      if(breechdeliveries==""){breechdeliveries=0;}
+      if(assisteddeliveries==""){assisteddeliveries=0;}
+     
+     
+ 
+           
+           var deliveriestotal=parseInt(normaldeliveries)+parseInt(csdeliveries)+parseInt(breechdeliveries)+parseInt(assisteddeliveries);
+                if(deliveriestotal==""){deliveriestotal=0;}
+           document.getElementById("MATDeliveryT").value=deliveriestotal;
+         
+           
+            autosave('MATDeliveryT');
+            
+          
+          
+          
+      }
    </script>
    <!-- END JAVASCRIPTS -->  
    
