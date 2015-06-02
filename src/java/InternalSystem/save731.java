@@ -61,11 +61,18 @@ facilityID=session.getAttribute("facilityid").toString();
     else{
         error="success";
     
-    
+    String yearmonth="";
+String tempmonth=month;
+int pepfaryear=Integer.parseInt(year);
+if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+else {pepfaryear--;}
+
+yearmonth=pepfaryear+""+tempmonth;
+
 tableid=year+"_"+month+"_"+facilityID;
        System.out.println("value is : "+value);
-String Insertqr= "insert into moh731  set SubPartnerID='"+facilityID+"',Annee='"+year+"',Mois='"+month+"', "+columnName+"="+value+" , id='"+tableid+"' , user_id='"+userid+"'";
-String updateqr="update moh731 set "+columnName+"="+value+",isValidated='0' where id='"+tableid+"'";
+String Insertqr= "insert into moh731  set SubPartnerID='"+facilityID+"',Annee='"+year+"',Mois='"+month+"', "+columnName+"="+value+" , id='"+tableid+"' , user_id='"+userid+"', yearmonth='"+yearmonth+"'";
+String updateqr="update moh731 set "+columnName+"="+value+",isValidated='0', yearmonth='"+yearmonth+"' where id='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 
 String checker="select "+columnName+" from moh731 where id='"+tableid+"'";     

@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -42,6 +44,7 @@ String HV0301,HV0302,HV0303,HV0304,HV0305,HV0306,HV0307,HV0308,HV0309,HV0310,HV0
 String HV0401,HV0402,HV0403,HV0406,HV0407,HV0408,HV0409,HV0410,HV0411,HV0412,HV0413,HV0414,HV0415;
 String HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507,HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514;
 String HV0601,HV0602,HV0605;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -88,7 +91,7 @@ HV0401=HV0402=HV0403=HV0406=HV0407=HV0408=HV0409=HV0410=HV0411=HV0412=HV0413=HV0
           
           if(conn.rs.next()==true){
               System.out.println("Updating data-------------------");
-
+              
  if(conn.rs.getString("HV0101")!=null){HV0101=conn.rs.getString("HV0101");}
   if(conn.rs.getString("HV0102")!=null){HV0102=conn.rs.getString("HV0102");}
   if(conn.rs.getString("HV0103")!=null){HV0103=conn.rs.getString("HV0103");}
@@ -419,8 +422,26 @@ if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
    
    conn.pst.executeUpdate();
    
+   
      session.setAttribute("validate731", "<font color=\"green\"><b>Form MOH 731 Validated Successfully.</b></font>");
-      response.sendRedirect("Form731.jsp");
+    int monthDiff=0;
+     String getMonths="SELECT TIMESTAMPDIFF(MONTH, timestamp, now()) FROM moh731 WHERE id='"+id+"'";
+     conn.rs1=conn.st1.executeQuery(getMonths);
+     if(conn.rs1.next()==true){
+         System.out.println("months are : "+conn.rs1.getString(1));
+    monthDiff=conn.rs.getInt(1);
+     }
+     if(monthDiff>0){
+//      UPDATE THE COLUMN   
+       java.util.Date date= new java.util.Date();
+Timestamp lastUpdatedOn =new Timestamp(date.getTime()); 
+String userid=session.getAttribute("userid").toString();
+     String updateLast="UPDATE moh731 SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE id='"+id+"'" ;   
+       conn.st2.executeUpdate(updateLast);
+     }
+     
+     
+     response.sendRedirect("Form731.jsp");
           }
         } finally {
             out.close();
