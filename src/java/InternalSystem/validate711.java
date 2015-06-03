@@ -365,7 +365,7 @@ String checker="select * from moh711 WHERE id=?" ;
      System.out.println(runvalidate);  
    conn.st.executeUpdate(runvalidate);
     session.setAttribute("validate711", "<font color=\"green\"><b>Form MOH 711 Validated Successfully.</b></font>");
-      response.sendRedirect("load711.jsp");
+  
 }
         }
   finally {
@@ -373,7 +373,7 @@ String checker="select * from moh711 WHERE id=?" ;
         }
         
    
-    
+        response.sendRedirect("load711.jsp");
 }
 
     

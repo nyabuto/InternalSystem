@@ -122,13 +122,13 @@ conn.rs1 = conn.st1.executeQuery(counterFpcheck);
  fppane+=" <li class="+activeclass+"><a href=\"#tab_"+counter+"\" data-toggle=\"tab\">A: FAMILY PLANNING</a></li>\n" ;
     
       FP_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">A: FAMILY PLANNING  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style=\"color:yellow; font-family:cambria; text-align: left;  margin-left:450px; font-size:16px;\"> Record Counter: "+fpoccu+" out of "+facilityfpcount+"  &nbsp; Unvalidated Form(s) : "+fpoccu1+"</b></h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">A: FAMILY PLANNING  </h4> <b style=\"color:yellow; font-family:cambria; text-align: left;  margin-left:25%; font-size:16px;\"> Record Counter: "+fpoccu+" out of "+facilityfpcount+"  &nbsp; Unvalidated Form(s) : "+fpoccu1+"</b>" +
                               "</div><div class=\"portlet-body form\">";
           }else{
  fppane+=" <li class=\"active\"><a href=\"#tab_1\" data-toggle=\"tab\">A: FAMILY PLANNING</a></li>\n" ;
     
       FP_TAB="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">A: FAMILY PLANNING &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style=\"color:yellow; font-family:cambria; text-align: left;  margin-left:450px; font-size:16px;\">Record Counter: "+fpoccu+" out of "+facilityfpcount+"  &nbsp;  Unvalidated Form(s) : "+fpoccu1+" </b></h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">A: FAMILY PLANNING </h4><b style=\"color:yellow; font-family:cambria; text-align: left;  margin-left:25%; font-size:16px;\">Record Counter: "+fpoccu+" out of "+facilityfpcount+"  &nbsp;  Unvalidated Form(s) : "+fpoccu1+" </b>" +
                               "</div><div class=\"portlet-body form\">";}
     
     
@@ -161,13 +161,13 @@ int facilitypmctcount=0;
  pmctpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">B: MCH- ANC/PMCT</a></li>\n" ;
     
        MCH_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">B: MCH - ANC/PMCT  &nbsp <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:520px; font-size:16px;\">Record Counter:"+pmctoccu+" out of "+facilitypmctcount+" Unvalidated Form(s): "+pmctoccu1+"</b> </h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">B: MCH - ANC/PMCT </h4> &nbsp <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+pmctoccu+" out of "+facilitypmctcount+" Unvalidated Form(s): "+pmctoccu1+"</b> " +
                               "</div><div class=\"portlet-body form\">";
          }else{
     pmctpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">B: MCH- ANC/PMCT &nbsp </a></li>\n" ;
     
        MCH_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">B: MCH - ANC/PMCT  &nbsp <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:520px; font-size:16px;\">Record Counter:"+pmctoccu+" out of "+facilitypmctcount+" Unvalidated Form(s): "+pmctoccu1+"</b></h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">B: MCH - ANC/PMCT  &nbsp </h4><b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+pmctoccu+" out of "+facilitypmctcount+" Unvalidated Form(s): "+pmctoccu1+"</b>" +
                               "</div><div class=\"portlet-body form\">";      
          
          
@@ -203,14 +203,14 @@ int facilitymatcount=0;
      
       
         MATERNITY_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">C: MATERNITY / SAFE DELIVERIESS  &nbsp  &nbsp <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:400px; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</b></h4>" +
+                              "<div class=\"portlet-title\"><h4 >C: MATERNITY / SAFE DELIVERIESS  &nbsp  &nbsp </h4><span  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</span>" +
                               "</div><div class=\"portlet-body form\">";}
          else{
  matpane+=" <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\">C:MATERNITY/ SAFE DELIVERIES </a></li>\n" ;
      
       
         MATERNITY_TAB="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">C: MATERNITY / SAFE DELIVERIES &nbsp&nbsp <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:400px; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</b></h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">C: MATERNITY / SAFE DELIVERIES &nbsp&nbsp</h4> <span  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</span>" +
                               "</div><div class=\"portlet-body form\">";}
       
       
@@ -254,20 +254,20 @@ int facilityvctcount=0;
  htcpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">D: VCT</a></li>"
         + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">E DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT &nbsp <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:600px; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+"  &nbsp;  Unvalidated Form(s): "+vctoccu1+"</b> </h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT &nbsp  </h4><span  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+"  &nbsp;  Unvalidated Form(s): "+vctoccu1+"</span>" +
                               "</div><div class=\"portlet-body form\">";
     DTC_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC  <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:600px; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+"   &nbsp;  Unvalidated Form(s): "+dtcoccu1+"</b> </h4>" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC  </h4> <span  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+"   &nbsp;  Unvalidated Form(s): "+dtcoccu1+"</span>" +
                               "</div><div class=\"portlet-body form\">"; }
          else{
     
  htcpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\">D: VCT</a></li>"
         + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\">E DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT  <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:600px; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+" &nbsp;   Unvalidated Form(s): "+vctoccu1+"</b> </h4>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT </h4>  <span  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+" &nbsp;   Unvalidated Form(s): "+vctoccu1+"</span> " +
                               "</div><div class=\"portlet-body form\">";
     DTC_TAB="<div class=\"tab-pane \" id=\"tab_5\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC   <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:600px; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+" &nbsp; Unvalidated Form(s): "+dtcoccu1+"</b> </h4>" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC   </h4>  <span  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+" &nbsp; Unvalidated Form(s): "+dtcoccu1+"</span>" +
                               "</div><div class=\"portlet-body form\">"; 
          }
        
