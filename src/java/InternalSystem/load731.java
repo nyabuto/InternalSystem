@@ -75,7 +75,7 @@ String enterdby,tabs,subcountyid;
 enterdby=tabs="";
 subcountyid="";
      if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
-         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",Care_DSD,") || 
+         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",ART,") || 
    session.getAttribute("forms_holder").toString().contains(",PEP,")){
            data="";
            if(session.getAttribute("year")!=null){        
@@ -100,7 +100,7 @@ subcountyid="";
         markActive++;
          tabs+=" <li class=\"active\"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. Prevention of Mother-to-Child Transmission.</b></a></li>";
          }
-    if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){
+    if(session.getAttribute("forms_holder").toString().contains(",ART,")){
         if(markActive==0){classType="class=\"active\"";}else{classType="";}
          tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\"><b>2. Care and Treatment.</b></a></li>";
     markActive++; 
@@ -124,7 +124,7 @@ subcountyid="";
 //          id="2015_1_14498";
     
    
-   String getExpectedForms="SELECT SUM(PMTCT),SUM(Care_DSD),SUM(PEP) FROM subpartnera WHERE subpartnera.DistrictID='"+subcountyid+"'" ;
+   String getExpectedForms="SELECT SUM(PMTCT),SUM(ART),SUM(PEP) FROM subpartnera WHERE subpartnera.DistrictID='"+subcountyid+"'" ;
    conn.rs1=conn.st1.executeQuery(getExpectedForms);
    if(conn.rs1.next()==true){
 //       System.out.println("pmtct : "+conn.rs1.getString(1)+"  care : "+conn.rs1.getInt(2)+" pep : "+conn.rs1.getInt(3));
@@ -136,7 +136,7 @@ subcountyid="";
      validCARE=invalidCARE=totalCARE=0;
      validPEP=invalidPEP=totalPEP=0;
      
-    String getEntered="SELECT moh731.isValidated,SUM(subpartnera.PMTCT),SUM(subpartnera.Care_DSD),SUM(subpartnera.PEP)"
+    String getEntered="SELECT moh731.isValidated,SUM(subpartnera.PMTCT),SUM(subpartnera.ART),SUM(subpartnera.PEP)"
             + " FROM subpartnera JOIN moh731 ON subpartnera.SubPartnerID=moh731.SubPartnerID WHERE "
             + "moh731.Mois='"+month+"' AND moh731.Annee='"+year+"' AND subpartnera.DistrictID='"+subcountyid+"' GROUP BY moh731.isValidated";
     conn.rs1=conn.st1.executeQuery(getEntered);
@@ -168,7 +168,7 @@ subcountyid="";
                               "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>1. Prevention of Mother-to-Child Transmission.</b><b style=\"color:yellow; font-family:cambria;  margin-left:10%; font-size:16px;\"> Record Counter: "+totalPMTCT+" out of "+expectedPMTCT+" &nbsp; Validated Form(s) : "+validPMTCT+"  &nbsp; Unvalidated Form(s) : "+invalidPMTCT+"</b></h4>" +
                               "<br></div><div class=\"portlet-body form\">";
         }
-         if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){
+         if(session.getAttribute("forms_holder").toString().contains(",ART,")){
         if(markActive==0){classType="active";}else{classType="";}
         CT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
                               "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>2. Care and Treatment.</b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalCARE+" out of "+expectedCARE+" &nbsp; Validated Form(s) : "+validCARE+"  &nbsp; Unvalidated Form(s) : "+invalidCARE+"</b></h4>" +
@@ -1056,7 +1056,7 @@ isValidated=conn.rs.getString("isValidated");
         data+=""+enterdby+"<br><br>"+tabs;
         
         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){data+=PMTCT;}
-        if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){data+=CT;}
+        if(session.getAttribute("forms_holder").toString().contains(",ART,")){data+=CT;}
         if(session.getAttribute("forms_holder").toString().contains(",PEP,")){data+=PEP;}
 //        if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){data+=Blood;}
      
