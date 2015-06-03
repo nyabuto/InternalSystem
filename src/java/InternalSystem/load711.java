@@ -37,7 +37,7 @@ String isValidated="";
 String validity="";
 
 String FamilyPlanninng, pmct,maternity,vct,dtc;
-        
+        String subcountyid="";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,6 +72,9 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
         if(session.getAttribute("facilityid")!=null){        
    facilityId=session.getAttribute("facilityid").toString();
     }
+        if(session.getAttribute("subcountyid")!=null){        
+   subcountyid=session.getAttribute("subcountyid").toString();
+    }
     id=year+"_"+month+"_"+facilityId; 
            
 //          id="2015_1_14498";
@@ -94,17 +97,20 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
         int fpoccu=0; 
         int fpoccu1=0; 
 int facilityfpcount=0; 
- String counterFpcheck="SELECT count(FPMicrolutN) FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (FPMicrolutN!=null ||FPMicrolutN!='')  ";
- conn.rs1 = conn.st1.executeQuery(counterFpcheck);
+// String counterFpcheck="SELECT count(FPMicrolutN) FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (FPMicrolutN!=null ||FPMicrolutN!='')  ";
+String counterFpcheck="SELECT  * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where Annee ='"+year+"' and Mois='"+month+"'   and DistrictID='"+subcountyid+"' and (FPMicrolutN is not null  ||FPMicrolutN!='')  ";
+ System.out.println(counterFpcheck); 
+conn.rs1 = conn.st1.executeQuery(counterFpcheck);
  if(conn.rs1.next()==true){
- fpoccu= conn.rs1.getInt(1);
+ fpoccu++;
   }
- String counterFpcheck1="SELECT count(FPMicrolutN) FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (FPMicrolutN=null ||FPMicrolutN='' ||  isValidated='0')  ";
+ String counterFpcheck1="SELECT *  FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where Annee ='"+year+"' and Mois='"+month+"' and DistrictID='"+subcountyid+"' and (FPMicrolutN=null ||FPMicrolutN='' ||  isValidated='0')  ";
  conn.rs2 = conn.st2.executeQuery(counterFpcheck1);
  if(conn.rs2.next()==true){
- fpoccu1=conn.rs2.getInt(1);
+ fpoccu1++;
   }
- String countfacility="Select count(FP) from subpartnera where FP='1'  ";
+ String countfacility="Select count(FP) from subpartnera where FP='1' and DistrictID='"+subcountyid+"'  ";
+ System.out.println("_______"+countfacility);
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs3 = conn.st3.executeQuery(countfacility);
  if(conn.rs3.next()==true){
@@ -134,17 +140,17 @@ int facilityfpcount=0;
            int pmctoccu=0; 
            int pmctoccu1=0; 
 int facilitypmctcount=0; 
- String counterpmtctcheck="SELECT count(PMCTA_1stVisit_ANC) FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (PMCTA_1stVisit_ANC!=null ||PMCTA_1stVisit_ANC!='')  ";
+ String counterpmtctcheck="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and  Annee ='"+year+"' and Mois='"+month+"' and (PMCTA_1stVisit_ANC!=null ||PMCTA_1stVisit_ANC!='')  ";
  conn.rs1 = conn.st1.executeQuery(counterpmtctcheck);
- if(conn.rs1.next()==true){
- pmctoccu=conn.rs1.getInt(1);
+ while(conn.rs1.next()){
+ pmctoccu++;
   }
- String counterpmtctcheck1="SELECT count(PMCTA_1stVisit_ANC) FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (PMCTA_1stVisit_ANC=null ||PMCTA_1stVisit_ANC=''  || isValidated='0')  ";
+ String counterpmtctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and Annee ='"+year+"' and Mois='"+month+"' and (PMCTA_1stVisit_ANC=null ||PMCTA_1stVisit_ANC=''  || isValidated='0')  ";
  conn.rs3 = conn.st3.executeQuery(counterpmtctcheck1);
- if(conn.rs3.next()==true){
- pmctoccu1=conn.rs3.getInt(1);
+ while(conn.rs3.next()){
+ pmctoccu1++;
   }
- String countpmctfacility="Select count(PMTCT) from subpartnera where PMTCT ='1'  ";
+ String countpmctfacility="Select count(PMTCT) from subpartnera where PMTCT ='1'  and DistrictID='"+subcountyid+"'";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs2 = conn.st2.executeQuery(countpmctfacility);
  if(conn.rs2.next()==true){
@@ -173,17 +179,17 @@ int facilitypmctcount=0;
           int matoccu=0; 
           int matoccu1=0; 
 int facilitymatcount=0; 
- String countermatcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (MATNormalDelivery!=null ||MATNormalDelivery!='')  ";
+ String countermatcheck="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and  Annee ='"+year+"' and Mois='"+month+"' and (MATNormalDelivery!=null ||MATNormalDelivery!='')  ";
  conn.rs1 = conn.st1.executeQuery(countermatcheck);
  while(conn.rs1.next()){
  matoccu++;
   }
- String countermatcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (MATNormalDelivery=null ||MATNormalDelivery='' || isValidated='0')  ";
+ String countermatcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and  Annee ='"+year+"' and Mois='"+month+"' and (MATNormalDelivery=null ||MATNormalDelivery='' || isValidated='0')  ";
  conn.rs1 = conn.st1.executeQuery(countermatcheck1);
  while(conn.rs1.next()){
  matoccu1++;
   }
- String countmatfacility="Select * from subpartnera where Maternity ='1'  ";
+ String countmatfacility="Select * from subpartnera where Maternity ='1' and  DistrictID='"+subcountyid+"' ";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs2 = conn.st2.executeQuery(countmatfacility);
  while(conn.rs2.next()){
@@ -218,27 +224,27 @@ int facilitymatcount=0;
                 int dtcoccu=0; 
                 int dtcoccu1=0; 
 int facilityvctcount=0; 
- String countervctcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (VCTClient_Couns_CM!=null || VCTClient_Couns_CM!='')  ";
+ String countervctcheck="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and  Annee ='"+year+"' and Mois='"+month+"' and (VCTClient_Couns_CM!=null || VCTClient_Couns_CM!='')  ";
  conn.rs1 = conn.st1.executeQuery(countervctcheck);
  while(conn.rs1.next()){
  vctoccu++;
   }
- String countervctcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (VCTClient_Couns_CM=null || VCTClient_Couns_CM='' || isValidated='0' )";
+ String countervctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and   Annee ='"+year+"' and Mois='"+month+"' and (VCTClient_Couns_CM=null || VCTClient_Couns_CM='' || isValidated='0' )";
  conn.rs1 = conn.st1.executeQuery(countervctcheck1);
  while(conn.rs1.next()){
  vctoccu1++;
   }
- String counterdctcheck="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (DTCA_Couns_In_CM!=null || DTCA_Couns_In_CM!='')  ";
+ String counterdctcheck="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and  Annee ='"+year+"' and Mois='"+month+"' and (DTCA_Couns_In_CM!=null || DTCA_Couns_In_CM!='')  ";
  conn.rs1 = conn.st1.executeQuery(counterdctcheck);
  while(conn.rs1.next()){
  dtcoccu++;
   }
- String counterdctcheck1="SELECT * FROM moh711 where Annee ='"+year+"' and Mois='"+month+"' and (DTCA_Couns_In_CM=null || DTCA_Couns_In_CM=''||  isValidated='0') ";
+ String counterdctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and   Annee ='"+year+"' and Mois='"+month+"' and (DTCA_Couns_In_CM=null || DTCA_Couns_In_CM=''||  isValidated='0') ";
  conn.rs1 = conn.st1.executeQuery(counterdctcheck1);
  while(conn.rs1.next()){
  dtcoccu1++;
   }
- String countpmctfacility="Select * from subpartnera where HTC='1' ";
+ String countpmctfacility="Select * from subpartnera where HTC='1' and DistrictID='"+subcountyid+"' ";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs2 = conn.st2.executeQuery(countpmctfacility);
  while(conn.rs2.next()){
