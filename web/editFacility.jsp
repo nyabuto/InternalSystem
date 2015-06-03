@@ -13,7 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>Edit Facilities</title>
-    <script src="assets/js/jquery-1.8.3.min.js"></script>  
+   
     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -39,119 +39,7 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />-->
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
     
-<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
-<script type="text/javascript" src="js/noty/layouts/top.js"></script>
-<script type="text/javascript" src="js/noty/layouts/center.js"></script>
-<script type="text/javascript" src="js/noty/themes/default.js"></script>
-   
-<script src="dataTable/jquery.dataTables.js" type="text/javascript"></script>
-         <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
-        <script src="dataTable/jquery.jeditable.js" type="text/javascript"></script>
-        <script src="scripts/jquery_ui.js" type="text/javascript"></script>
-         <script src="scripts/jquery.validate.js" type="text/javascript"></script>
-          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
-          <script src="scripts/dataTables.scroller.js" type="text/javascript"></script>
-          <script src="scripts/dataTables.colReorder.js" type="text/javascript"></script>
-          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
-          <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-          <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
-          
-        <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
-        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
-        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
-        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
-        <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
-        <script src="dataTable/dataTables.fnGetFilteredNodes.js" type="text/javascript"></script>
-        <script src="dataTable/dataTables.fnGetHiddenNodes.js" type="text/javascript"></script>
 
-   <!--
- -->
-   <script type="text/javascript" language="en">
-   function numbers(evt){
-var charCode=(evt.which) ? evt.which : event.keyCode
-if(charCode > 31 && (charCode < 48 || charCode>57))
-return false;
-return true;
-}
-//-->
-</script>
-
-<script type="text/javascript" src="js/form731Totals.js"></script>
- <script type="text/javascript">
-       $(document).ready(function(){
-       
-      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='example'><tr><td>Loading facilities...<img src='images/utube.gif' alt='.'></td></tr></table>");
-             $.ajax({
-        url:"loadEditFacility",
-        type:"post",
-        dataType:"html",
-        success:function(data){
-//        alert(data);
-  $("#example").html(data);
-              oTable=$('#example').dataTable().makeEditable({  
-                  sUpdateURL: "aveEditedFacilities" ,
-               "aoColumns": [ null,null,null,null,null,null,null,
-      null,null,null,null,null,null,null,null,null,null,null,null,null,            
-      null,null,null,null,null,null]      
-              });
-              
-               $('form').submit(function(){
-   //replace 'yourformsnameattribute' with the name of your form
-//  $(oTable.fnGetHiddenNodes()).find('input:checkbox').appendTo(this);
-  $(oTable.fnGetHiddenNodes()).attr('checked',this.checked).appendTo(this).css("visibility","hidden");
-
-  ////this is what passes any hidden nodes to your form when a user clicks SUBMIT on your FORM
-} );
-              
-          }
-    }); 
-    
-    
-    
-    
-       });   
-       </script>
-<script type="text/javascript">
-  function updator(id){
-      $("#saver").html("<font color=\"blue\">Saving....</font>");
- var value,positionArray,position,facilityID,columnName;
- if(document.getElementById(id).checked){value="1";} else{value="0";}
-positionArray=id.split("##");
-columnName=positionArray[0];
-position=positionArray[1];
-facilityID=document.getElementById("id_"+position).value;
-//alert("facility id "+facilityID+"   columnName :"+columnName+" value is : "+value);
-       $.ajax({
-        url:"saveEditedFacilities?facilityID="+facilityID+"&&columnName="+columnName+"&&data="+value,
-        type:"post",
-        dataType:"html",
-        success:function(){
-     $("#saver").html("<font color=\"green\">Saved</font>");
-    }
-        });
-}
-
-
-  function updatorSelect(id){
-      $("#saver").html("<font color=\"blue\">Saving....</font>");
- var value,positionArray,position,facilityID,columnName;
- value=document.getElementById(id).value;
-positionArray=id.split("##");
-columnName=positionArray[0];
-position=positionArray[1];
-facilityID=document.getElementById("id_"+position).value;
-//alert("facility id "+facilityID+"   columnName :"+columnName+" value is : "+value);
-       $.ajax({
-        url:"saveEditedFacilities?facilityID="+facilityID+"&&columnName="+columnName+"&&data="+value,
-        type:"post",
-        dataType:"html",
-        success:function(){
-     $("#saver").html("<font color=\"green\">Saved</font>");
-    }
-        });
-}
-    </script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -274,7 +162,7 @@ int year= cal.get(Calendar.YEAR);
 %>
                <p align="center" style=" font-size: 18px;"> &copyInternal System, Aphia Plus | USAID <%=year%>.</p>
             </div>
-   <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->    
+   <script src="assets/js/jquery-1.8.3.min.js"></script>    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -293,7 +181,120 @@ int year= cal.get(Calendar.YEAR);
    <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script src="assets/js/app.js"></script>    
+   <script src="assets/js/app.js"></script>  
+   <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+   
+<script src="dataTable/jquery.dataTables.js" type="text/javascript"></script>
+         <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
+        <script src="dataTable/jquery.jeditable.js" type="text/javascript"></script>
+        <script src="scripts/jquery_ui.js" type="text/javascript"></script>
+         <script src="scripts/jquery.validate.js" type="text/javascript"></script>
+          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
+          <script src="scripts/dataTables.scroller.js" type="text/javascript"></script>
+          <script src="scripts/dataTables.colReorder.js" type="text/javascript"></script>
+          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+          <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+          <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
+          
+        <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
+        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
+        <script src="dataTable/dataTables.fnGetFilteredNodes.js" type="text/javascript"></script>
+        <script src="dataTable/dataTables.fnGetHiddenNodes.js" type="text/javascript"></script>
+
+   <!--
+ -->
+   <script type="text/javascript" language="en">
+   function numbers(evt){
+var charCode=(evt.which) ? evt.which : event.keyCode
+if(charCode > 31 && (charCode < 48 || charCode>57))
+return false;
+return true;
+}
+//-->
+</script>
+
+<script type="text/javascript" src="js/form731Totals.js"></script>
+ <script type="text/javascript">
+       $(document).ready(function(){
+       
+      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='example'><tr><td>Loading facilities...<img src='images/utube.gif' alt='.'></td></tr></table>");
+             $.ajax({
+        url:"loadEditFacility",
+        type:"post",
+        dataType:"html",
+        success:function(data){
+//        alert(data);
+  $("#example").html(data);
+              oTable=$('#example').dataTable().makeEditable({  
+                  sUpdateURL: "aveEditedFacilities" ,
+               "aoColumns": [ null,null,null,null,null,null,null,
+      null,null,null,null,null,null,null,null,null,null,null,null,null,            
+      null,null,null,null,null,null]      
+              });
+              
+               $('form').submit(function(){
+   //replace 'yourformsnameattribute' with the name of your form
+//  $(oTable.fnGetHiddenNodes()).find('input:checkbox').appendTo(this);
+  $(oTable.fnGetHiddenNodes()).attr('checked',this.checked).appendTo(this).css("visibility","hidden");
+
+  ////this is what passes any hidden nodes to your form when a user clicks SUBMIT on your FORM
+} );
+              
+          }
+    }); 
+    
+    
+    
+    
+       });   
+       </script>
+<script type="text/javascript">
+  function updator(id){
+      $("#saver").html("<font color=\"blue\">Saving....</font>");
+ var value,positionArray,position,facilityID,columnName;
+ if(document.getElementById(id).checked){value="1";} else{value="0";}
+positionArray=id.split("##");
+columnName=positionArray[0];
+position=positionArray[1];
+facilityID=document.getElementById("id_"+position).value;
+//alert("facility id "+facilityID+"   columnName :"+columnName+" value is : "+value);
+       $.ajax({
+        url:"saveEditedFacilities?facilityID="+facilityID+"&&columnName="+columnName+"&&data="+value,
+        type:"post",
+        dataType:"html",
+        success:function(){
+     $("#saver").html("<font color=\"green\">Saved</font>");
+    }
+        });
+}
+
+
+  function updatorSelect(id){
+      $("#saver").html("<font color=\"blue\">Saving....</font>");
+ var value,positionArray,position,facilityID,columnName;
+ value=document.getElementById(id).value;
+positionArray=id.split("##");
+columnName=positionArray[0];
+position=positionArray[1];
+facilityID=document.getElementById("id_"+position).value;
+//alert("facility id "+facilityID+"   columnName :"+columnName+" value is : "+value);
+       $.ajax({
+        url:"saveEditedFacilities?facilityID="+facilityID+"&&columnName="+columnName+"&&data="+value,
+        type:"post",
+        dataType:"html",
+        success:function(){
+     $("#saver").html("<font color=\"green\">Saved</font>");
+    }
+        });
+}
+    </script>
    <script>
       jQuery(document).ready(function() {       
              
