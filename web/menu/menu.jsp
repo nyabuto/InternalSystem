@@ -21,7 +21,8 @@
                <span class="title">Home</span>
                </a>
             </li>
-            <li class="has-sub " >
+              <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711A")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
+           
                <a href="load711.jsp">
                <!--<i class="icon-bookmark-empty"></i>--> 
                <span class="title">MOH 711A</span>
@@ -29,7 +30,8 @@
                </a>
               
             </li>
-            <li class="has-sub ">
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 731")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
+            
                <a href="Form731.jsp">
                <!--<i class="icon-table"></i>--> 
                <span class="title">MOH 731</span>

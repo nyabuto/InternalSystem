@@ -104,7 +104,7 @@ String kmmpcounter="SELECT 1 FROM vmmc join subpartnera on vmmc.SubPartnerID=sub
   }
             System.out.println(kmmpcounter);
  
- String kmmpcounter1="SELECT 1 FROM vmmc join subpartnera on vmmc.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (P51D1 is not null ||P51D1!='') and isValidated='0' ";
+ String kmmpcounter1="SELECT 1 FROM vmmc join subpartnera on vmmc.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and  isValidated='0' ";
  conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
  while(conn.rs1.next()){
  kmmpundone++;
@@ -116,7 +116,7 @@ String kmmpcounter="SELECT 1 FROM vmmc join subpartnera on vmmc.SubPartnerID=sub
  facilssupporting++;
  }
  
-    String label="Record counter <font color='green'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+    String label="Record counter <font color='white'><b>"+kmmpdone+"</b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
    
 
 

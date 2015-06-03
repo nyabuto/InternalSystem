@@ -84,6 +84,8 @@ public class loadFacilities extends HttpServlet {
         } finally {
             try {
                 conn.conn.close();
+                conn.rs.close();
+                conn.st.close();
               out.close();
             } catch (SQLException ex) {
                 Logger.getLogger(loadFacilities.class.getName()).log(Level.SEVERE, null, ex);

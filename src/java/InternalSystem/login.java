@@ -72,7 +72,17 @@ MessageDigest m;
              session.setAttribute("login", status);
          }
          System.out.println("STATUS IS :  "+status);
- 
+         if(conn.conn!=null){
+ conn.conn.close();
+         }
+         
+         if(conn.rs!=null){
+         conn.rs.close();
+         }
+         
+         if(conn.pst!=null){
+         conn.pst.close();
+         }
          response.sendRedirect(nextPage);
     }
 

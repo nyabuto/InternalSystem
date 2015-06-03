@@ -112,7 +112,7 @@ String kmmpcounter="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPar
   }
             System.out.println(kmmpcounter);
  
- String kmmpcounter1="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and (C51DC is not null ||C51DC!='') and isValidated='0' ";
+ String kmmpcounter1="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"'  and isValidated='0' ";
  conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
  while(conn.rs1.next()){
  kmmpundone++;
@@ -124,7 +124,7 @@ String kmmpcounter="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPar
  facilssupporting++;
  }
  
-    String label="Record counter <font color='green'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+    String label="Record counter <font color='white'><b>"+kmmpdone+"</b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
    
 
 

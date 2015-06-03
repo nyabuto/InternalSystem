@@ -213,7 +213,7 @@ legend.formatter {
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">Nutrition</b>
                         
-                         <span id="recordcounter" style="margin-left:9%;color:red;font-size:15px;background-color: white;"><b></b></span>
+                         <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:17px;"><b></b></span>
                         <span id="newform" style="margin-left: 30%;"><b></b></span>
                      </div>
                      <div class="portlet-body form">
@@ -376,7 +376,7 @@ success:function (data){
              
              function autosave(col){
             var achieved=document.getElementById(col).value;
-                if(document.getElementById("checkblank").value=='1'){
+               // if(document.getElementById("checkblank").value=='1'){
             
               document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
             
@@ -405,7 +405,7 @@ success:function (data){
              //end of if
              
              
-            }
+           // }
              
            }
              

@@ -60,6 +60,12 @@ county+="<option value=\""+conn.rs.getString(1)+"\">"+conn.rs.getString(2)+"</op
       out.println(county); 
     } finally {            
         out.close();
+           if (conn!=null) try {
+               conn.conn.close();
+               conn.rs.close();
+               conn.st.close();
+               
+           }catch (Exception ignore) {}
     }
 }       catch (SQLException ex) {
             Logger.getLogger(loadCounty.class.getName()).log(Level.SEVERE, null, ex);

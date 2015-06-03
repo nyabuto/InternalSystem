@@ -38,12 +38,17 @@ public class loadForms extends HttpServlet {
     
     
     while(conn.rs.next()){
-     if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))  || conn.rs.getString("form").equals("MOH 711A")|| conn.rs.getString("form").equals("MOH 731")){     
+     if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     
      forms+="<option value='"+conn.rs.getString("nextpage") +"'>"+conn.rs.getString("form")+"</option>";   
      } }
                          }
     
     try {
+        
+        if(forms.equalsIgnoreCase("<option value=''> Select Form</option>")){
+        forms="<option value=''>No Form available for this site</option>"; 
+        
+        }
         
         out.println(forms);
     } finally {    
