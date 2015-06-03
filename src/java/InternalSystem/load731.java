@@ -58,7 +58,7 @@ int expectedPMTCT,expectedCARE,expectedPEP;
 int validPMTCT,invalidPMTCT,totalPMTCT;
 int validCARE,invalidCARE,totalCARE;
 int validPEP,invalidPEP,totalPEP;
-String enterdby,tabs;
+String enterdby,tabs,subcountyid;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -73,6 +73,7 @@ String enterdby,tabs;
      validCARE=invalidCARE=totalCARE=0;
      validPEP=invalidPEP=totalPEP=0;
 enterdby=tabs="";
+subcountyid="";
      if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
          if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",Care_DSD,") || 
    session.getAttribute("forms_holder").toString().contains(",PEP,")){
@@ -86,6 +87,9 @@ enterdby=tabs="";
    
         if(session.getAttribute("facilityid")!=null){        
    facilityId=session.getAttribute("facilityid").toString();
+    }
+         if(session.getAttribute("subcountyid")!=null){        
+   subcountyid=session.getAttribute("subcountyid").toString();
     }
     id=year+"_"+month+"_"+facilityId; 
          
@@ -120,7 +124,7 @@ enterdby=tabs="";
 //          id="2015_1_14498";
     
    
-   String getExpectedForms="SELECT SUM(PMTCT),SUM(Care_DSD),SUM(PEP) FROM subpartnera" ;
+   String getExpectedForms="SELECT SUM(PMTCT),SUM(Care_DSD),SUM(PEP) FROM subpartnera WHERE subpartnera.DistrictID='"+subcountyid+"'" ;
    conn.rs1=conn.st1.executeQuery(getExpectedForms);
    if(conn.rs1.next()==true){
 //       System.out.println("pmtct : "+conn.rs1.getString(1)+"  care : "+conn.rs1.getInt(2)+" pep : "+conn.rs1.getInt(3));
@@ -134,7 +138,7 @@ enterdby=tabs="";
      
     String getEntered="SELECT moh731.isValidated,SUM(subpartnera.PMTCT),SUM(subpartnera.Care_DSD),SUM(subpartnera.PEP)"
             + " FROM subpartnera JOIN moh731 ON subpartnera.SubPartnerID=moh731.SubPartnerID WHERE "
-            + "moh731.Mois='"+month+"' AND moh731.Annee='"+year+"' GROUP BY moh731.isValidated";
+            + "moh731.Mois='"+month+"' AND moh731.Annee='"+year+"' AND subpartnera.DistrictID='"+subcountyid+"' GROUP BY moh731.isValidated";
     conn.rs1=conn.st1.executeQuery(getEntered);
     while(conn.rs1.next()){
         System.out.println("isvalidated : "+conn.rs1.getInt(1)+"  num : "+conn.rs1.getInt(2));
@@ -161,14 +165,14 @@ enterdby=tabs="";
         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
         markActive++;
         PMTCT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\">1. Prevention of Mother-to-Child Transmission.<b style=\"color:black; height:100%; padding:-20px; font-family:cambria; background-color:#CFDDEE; text-align: center;  margin-left:50px; font-size:14px;\"> Record Counter: "+totalPMTCT+" out of "+expectedPMTCT+" &nbsp; Validated Form(s) : "+validPMTCT+"  &nbsp; Unvalidated Form(s) : "+invalidPMTCT+"</b></h4>" +
-                              "</div><div class=\"portlet-body form\">";
+                              "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>1. Prevention of Mother-to-Child Transmission.</b><b style=\"color:yellow; font-family:cambria;  margin-left:10%; font-size:16px;\"> Record Counter: "+totalPMTCT+" out of "+expectedPMTCT+" &nbsp; Validated Form(s) : "+validPMTCT+"  &nbsp; Unvalidated Form(s) : "+invalidPMTCT+"</b></h4>" +
+                              "<br></div><div class=\"portlet-body form\">";
         }
          if(session.getAttribute("forms_holder").toString().contains(",Care_DSD,")){
         if(markActive==0){classType="active";}else{classType="";}
         CT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\">2. Care and Treatment.<b style=\"color:black; height:100%; padding:-20px; font-family:cambria; background-color:#CFDDEE; text-align: center;  margin-left:50px; font-size:14px;\"> Record Counter: "+totalCARE+" out of "+expectedCARE+" &nbsp; Validated Form(s) : "+validCARE+"  &nbsp; Unvalidated Form(s) : "+invalidCARE+"</b></h4>" +
-                              "</div><div class=\"portlet-body form\">";
+                              "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>2. Care and Treatment.</b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalCARE+" out of "+expectedCARE+" &nbsp; Validated Form(s) : "+validCARE+"  &nbsp; Unvalidated Form(s) : "+invalidCARE+"</b></h4>" +
+                              "<br></div><div class=\"portlet-body form\">";
          markActive++;
          }
 //        VMMC="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
@@ -177,8 +181,8 @@ enterdby=tabs="";
          if(session.getAttribute("forms_holder").toString().contains(",PEP,")){
               if(markActive==0){classType="active";}else{classType="";}
         PEP="<div class=\"tab-pane "+classType+" \" id=\"tab_3\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\">3. Post-Exposure Prophylaxis. <b style=\"color:black; height:100%; padding:-20px; font-family:cambria; background-color:#CFDDEE; text-align: center;  margin-left:50px; font-size:14px;\"> Record Counter: "+totalPEP+" out of "+expectedPEP+" &nbsp; Validated Form(s) : "+validPEP+"  &nbsp; Unvalidated Form(s) : "+invalidPEP+"</b></h4>" +
-                              "</div><div class=\"portlet-body form\">";
+                             "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>3. Post-Exposure Prophylaxis. </b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalPEP+" out of "+expectedPEP+" &nbsp; Validated Form(s) : "+validPEP+"  &nbsp; Unvalidated Form(s) : "+invalidPEP+"</b></h4>" +
+                              "<br></div><div class=\"portlet-body form\">";
          markActive++;
          }
 //             if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
@@ -1079,8 +1083,10 @@ isValidated=conn.rs.getString("isValidated");
     else{
          data="<font color=\"red\" size=\"6px;\" style=\"margin-left: 30%;\"><b>Sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support Module  MOH731.</font>";
      }
+            conn.conn.close();
             out.println(data);
         } finally {
+           
             out.close();
         }
     }
