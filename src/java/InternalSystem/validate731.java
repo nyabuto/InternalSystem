@@ -429,7 +429,7 @@ if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
      conn.rs1=conn.st1.executeQuery(getMonths);
      if(conn.rs1.next()==true){
          System.out.println("months are : "+conn.rs1.getString(1));
-    monthDiff=conn.rs.getInt(1);
+    monthDiff=conn.rs1.getInt(1);
      }
      if(monthDiff>0){
 //      UPDATE THE COLUMN   
