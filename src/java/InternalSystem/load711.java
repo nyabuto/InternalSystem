@@ -104,7 +104,7 @@ conn.rs1 = conn.st1.executeQuery(counterFpcheck);
  if(conn.rs1.next()==true){
  fpoccu++;
   }
- String counterFpcheck1="SELECT *  FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where Annee ='"+year+"' and Mois='"+month+"' and DistrictID='"+subcountyid+"' and (FPMicrolutN=null ||FPMicrolutN='' ||  isValidated='0')  ";
+ String counterFpcheck1="SELECT *  FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where Annee ='"+year+"' and Mois='"+month+"' and DistrictID='"+subcountyid+"' and   isValidated='0' ";
  conn.rs2 = conn.st2.executeQuery(counterFpcheck1);
  if(conn.rs2.next()==true){
  fpoccu1++;
@@ -145,7 +145,7 @@ int facilitypmctcount=0;
  while(conn.rs1.next()){
  pmctoccu++;
   }
- String counterpmtctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and Annee ='"+year+"' and Mois='"+month+"' and (PMCTA_1stVisit_ANC=null ||PMCTA_1stVisit_ANC=''  || isValidated='0')  ";
+ String counterpmtctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and Annee ='"+year+"' and Mois='"+month+"' and isValidated='0'  ";
  conn.rs3 = conn.st3.executeQuery(counterpmtctcheck1);
  while(conn.rs3.next()){
  pmctoccu1++;
@@ -184,7 +184,7 @@ int facilitymatcount=0;
  while(conn.rs1.next()){
  matoccu++;
   }
- String countermatcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and  Annee ='"+year+"' and Mois='"+month+"' and (MATNormalDelivery=null ||MATNormalDelivery='' || isValidated='0')  ";
+ String countermatcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and  Annee ='"+year+"' and Mois='"+month+"' and isValidated='0'  ";
  conn.rs1 = conn.st1.executeQuery(countermatcheck1);
  while(conn.rs1.next()){
  matoccu1++;
@@ -203,14 +203,14 @@ int facilitymatcount=0;
      
       
         MATERNITY_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 >C: MATERNITY / SAFE DELIVERIESS  &nbsp  &nbsp </h4><span  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</span>" +
+                              "<div class=\"portlet-title\"><h4 >C: MATERNITY / SAFE DELIVERIESS  &nbsp  &nbsp </h4><b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</b>" +
                               "</div><div class=\"portlet-body form\">";}
          else{
  matpane+=" <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\">C:MATERNITY/ SAFE DELIVERIES </a></li>\n" ;
      
       
         MATERNITY_TAB="<div class=\"tab-pane \" id=\"tab_3\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">C: MATERNITY / SAFE DELIVERIES &nbsp&nbsp</h4> <span  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</span>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">C: MATERNITY / SAFE DELIVERIES &nbsp&nbsp</h4> <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+matoccu+" out of "+facilitymatcount+"  Unvalidated Form(s): "+matoccu1+"</b>" +
                               "</div><div class=\"portlet-body form\">";}
       
       
@@ -229,7 +229,7 @@ int facilityvctcount=0;
  while(conn.rs1.next()){
  vctoccu++;
   }
- String countervctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and   Annee ='"+year+"' and Mois='"+month+"' and (VCTClient_Couns_CM=null || VCTClient_Couns_CM='' || isValidated='0' )";
+ String countervctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and   Annee ='"+year+"' and Mois='"+month+"' and  isValidated='0' ";
  conn.rs1 = conn.st1.executeQuery(countervctcheck1);
  while(conn.rs1.next()){
  vctoccu1++;
@@ -239,7 +239,7 @@ int facilityvctcount=0;
  while(conn.rs1.next()){
  dtcoccu++;
   }
- String counterdctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and   Annee ='"+year+"' and Mois='"+month+"' and (DTCA_Couns_In_CM=null || DTCA_Couns_In_CM=''||  isValidated='0') ";
+ String counterdctcheck1="SELECT * FROM moh711 join subpartnera on moh711.SubPartnerID=subpartnera.SubPartnerID  where  DistrictID='"+subcountyid+"' and   Annee ='"+year+"' and Mois='"+month+"' and  isValidated='0' ";
  conn.rs1 = conn.st1.executeQuery(counterdctcheck1);
  while(conn.rs1.next()){
  dtcoccu1++;
@@ -254,20 +254,20 @@ int facilityvctcount=0;
  htcpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">D: VCT</a></li>"
         + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">E DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT &nbsp  </h4><span  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+"  &nbsp;  Unvalidated Form(s): "+vctoccu1+"</span>" +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT &nbsp  </h4><b  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+"  &nbsp;  Unvalidated Form(s): "+vctoccu1+"</b>" +
                               "</div><div class=\"portlet-body form\">";
     DTC_TAB="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC  </h4> <span  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+"   &nbsp;  Unvalidated Form(s): "+dtcoccu1+"</span>" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC  </h4> <b  style=\"color:yellow; font-family:cambria; text-align: center;  margin-left:25%; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+"   &nbsp;  Unvalidated Form(s): "+dtcoccu1+"</b>" +
                               "</div><div class=\"portlet-body form\">"; }
          else{
     
  htcpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\">D: VCT</a></li>"
         + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\">E DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT </h4>  <span  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+" &nbsp;   Unvalidated Form(s): "+vctoccu1+"</span> " +
+                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT </h4>  <b  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+vctoccu+" out of "+facilityvctcount+" &nbsp;   Unvalidated Form(s): "+vctoccu1+"</b> " +
                               "</div><div class=\"portlet-body form\">";
     DTC_TAB="<div class=\"tab-pane \" id=\"tab_5\"><div class=\"portlet box blue\">" +
-                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC   </h4>  <span  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+" &nbsp; Unvalidated Form(s): "+dtcoccu1+"</span>" +
+                             "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC   </h4>  <b  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+dtcoccu+" out of "+facilityvctcount+" &nbsp; Unvalidated Form(s): "+dtcoccu1+"</b>" +
                               "</div><div class=\"portlet-body form\">"; 
          }
        
