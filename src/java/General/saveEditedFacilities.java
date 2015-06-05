@@ -42,6 +42,9 @@ conn.pst.setString(1, data);
 conn.pst.setString(2, facilityID);
 
  conn.pst.executeUpdate();
+     
+     if(conn.pst!=null){conn.pst.close();}
+     if(conn.conn!=null){conn.conn.close();}
  
   System.out.println("updated : facility id : "+facilityID+" columnname : "+columnName+"  value : "+data);
      } finally {

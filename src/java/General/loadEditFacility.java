@@ -256,7 +256,10 @@ data+="<tr id=\""+id+"\">"
 
 System.out.println("data : "+position);
  }
-
+    if(conn.st!=null){conn.st.close();}
+    if(conn.rs!=null){conn.rs.close();}
+    if(conn.conn!=null){conn.conn.close();}
+     
    data+="<input type=\"text\" name=\"total\" value=\""+position+"\" style=\"display: none;\"></table>";
             out.println(data);
         } finally {
