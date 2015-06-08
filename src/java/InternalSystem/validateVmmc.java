@@ -42,22 +42,48 @@ public class validateVmmc extends HttpServlet {
         String userid="unknown";
         
         if(session.getAttribute("userid")!=null){        
-userid=session.getAttribute("userid").toString();
-}
+        userid=session.getAttribute("userid").toString();
+         }
         
-        if(session.getAttribute("year")!=null){        
+       if(session.getAttribute("year")!=null){        
        year=session.getAttribute("year").toString();
         }
-          if(session.getAttribute("monthid")!=null){        
+      if(session.getAttribute("monthid")!=null){        
        month=session.getAttribute("monthid").toString();
         }
        
-            if(session.getAttribute("facilityid")!=null){        
+       if(session.getAttribute("facilityid")!=null){        
        facil=session.getAttribute("facilityid").toString();
         }
-        String tableid=year+"_"+month+"_"+facil;
+    String tableid=year+"_"+month+"_"+facil;
             
-            
+         
+        
+        
+    String updqr1="update vmmc set ";
+
+
+    String SP51D1=request.getParameter("P51D1");
+    updqr1+="P51D1="+SP51D1 +", ";
+    String SP51D9=request.getParameter("P51D9");
+    updqr1+="P51D9="+SP51D9 +", ";
+    String SP51D10=request.getParameter("P51D10");
+    updqr1+="P51D10="+SP51D10 +", ";
+    String SP51D19=request.getParameter("P51D19");
+    updqr1+="P51D19="+SP51D19 +", ";
+    String SP51D24=request.getParameter("P51D24");
+    updqr1+="P51D24="+SP51D24 +", ";
+    String SP51D49=request.getParameter("P51D49");
+    updqr1+="P51D49="+SP51D49 +", ";
+    String SP51D50=request.getParameter("P51D50");
+    updqr1+="P51D50="+SP51D50 +", ";
+
+    updqr1+=" isValidated='0' where  tableid='"+tableid+"'";
+
+    conn.st.executeUpdate(updqr1);
+        
+        
+        
         String getexistingdata="select * from vmmc where tableid='"+tableid+"'";
         
     String P51D1="";

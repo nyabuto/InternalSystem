@@ -54,7 +54,7 @@ public class loadKmmp extends HttpServlet {
         
         
     String getexistingdata="select * from kmmp where tableid='"+tableid+"'";
-      String formtype="<b>New Entry</b>";
+    String formtype="<b><font color='#4b8df8'>New Entry</font></b>";
 String KMMP1="";
 String KMMP2="";
 String KMMP3a="";
@@ -69,6 +69,7 @@ String HV0206="";
 
 int kmmpdone=0;
 int kmmpundone=0;
+int kmmpvalid=0;
 int facilssupporting=0;
 String distid="";
 
@@ -84,11 +85,17 @@ String kmmpcounter="SELECT 1 FROM kmmp join subpartnera on kmmp.SubPartnerID=sub
   }
             System.out.println(kmmpcounter);
  
- String kmmpcounter1="SELECT 1 FROM kmmp join subpartnera on kmmp.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and isValidated='0' ";
+ String kmmpcounter1="SELECT subpartnera.SubPartnerID FROM kmmp join subpartnera on kmmp.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and isValidated='0' ";
  conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
  while(conn.rs1.next()){
  kmmpundone++;
   }
+ String kmmpvalidatedcounter1="SELECT 1 FROM kmmp join subpartnera on kmmp.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and isValidated='0' ";
+ conn.rs1 = conn.st1.executeQuery(kmmpvalidatedcounter1);
+ while(conn.rs1.next()){
+ kmmpvalid++;
+  }
+ 
  String countpmctfacility="Select * from subpartnera where KMMP ='1' and  DistrictID='"+distid+"'";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs1 = conn.st1.executeQuery(countpmctfacility);
@@ -96,7 +103,32 @@ String kmmpcounter="SELECT 1 FROM kmmp join subpartnera on kmmp.SubPartnerID=sub
  facilssupporting++;
  }
  
-  String label="Record counter <font color='white'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+ 
+ 
+ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
+ String unvalidated="&nbsp &nbsp Unvalidated Form (s) <font color='black'><b>"+kmmpundone+"</b></font>";
+ 
+ 
+  String unvalidatedLink="";int counter=0;
+     if(kmmpundone>0){
+     String getUnvalidated="SELECT kmmp.SubPartnerID,subpartnera.SubPartnerNom FROM kmmp JOIN subpartnera ON kmmp.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND kmmp.Mois='"+month+"' AND kmmp.Annee='"+year+"' AND kmmp.isValidated='0'";
+     conn.rs=conn.st.executeQuery(getUnvalidated);
+     while(conn.rs.next()){
+         counter++;
+//     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=Form731.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=loadKmmp.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+                    }
+    }
+     
+   if(counter>0){
+    unvalidated="<button class='btn btn-primary btn-lg' data-target='#unvalidatedModal' style='width:auto; height:auto;' data-toggle='modal' type='button'> Unvalidated Form (s) <span class='badge badge-important'><b>"+kmmpundone+"</b></span></button>";
+ 
+   }  
+ 
+ 
+ 
+ 
+ String label="Record counter <font color='white'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b>"+validated+unvalidated;
      
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
@@ -214,7 +246,7 @@ if(HV0206==null){HV0206=""; }
    
       createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>";
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span> <p id='ufs' style='display:none;'>"+unvalidatedLink+"</p>";
    }
     
     else {

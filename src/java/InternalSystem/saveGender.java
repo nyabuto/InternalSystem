@@ -24,13 +24,15 @@ import javax.servlet.http.HttpSession;
  */
 public class saveGender extends HttpServlet {
 HttpSession session=null;
-    
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
     response.setContentType("text/html;charset=UTF-8");
     session =request.getSession();
+ 
     
+   
     
     String col=request.getParameter("col");
     String achieved=request.getParameter("achieved");
@@ -80,23 +82,43 @@ if(conn.rs.next()){
     System.out.println("~~ "+updateqr);
 }
 else {
-    System.out.println(">> "+Insertqr);
-        conn.st.executeUpdate(Insertqr);
+    
+    System.out.println(" session status::"+session.getAttribute("isinsertgender"));
+    if(session.getAttribute("isinsertgender").equals("yes")){
+   //if(1==1){
+   
+     
+   //if an insert fails, run an update
+     if(conn.st.executeUpdate(Insertqr)==0){
+     
+     conn.st1.executeUpdate(updateqr);
+     
+     }else {
+     session.setAttribute("isinsertgender","yes");
+    
+         System.out.println(">>Inserted "+Insertqr);
+     }
+  
+  }
+  else {
+  
+ System.out.println("LUCKY Update qry result ::"+conn.st.executeUpdate(updateqr));
+  
+  }
+    
 
 }
- conn.rs.close();
-    conn.st.close();
-    conn.conn.close();
+        conn.conn.close();
+        conn.rs.close();
+        
+         conn.st.close();
+         conn.st1.close();
     
     PrintWriter out = response.getWriter();
     try {
         /* TODO output your page here. You may use following sample code. */
        
-    } finally {
-       if(conn.conn!=null){ conn.conn.close();}
-         if(conn.rs!=null){ conn.rs.close();}
-        
-         if(conn.st!=null){ conn.st.close();}
+    } finally {     
        
         
         out.close();

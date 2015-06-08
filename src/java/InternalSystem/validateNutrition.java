@@ -57,8 +57,40 @@ HttpSession session=null;
         facil=session.getAttribute("facilityid").toString();
         }
 
-        String tableid=year+"_"+month+"_"+facil;
+    String tableid=year+"_"+month+"_"+facil;
 
+        
+    String updqr1="update nutrition set ";
+
+
+   
+         
+         
+    String SMCHCCNtrTM=request.getParameter("MCHCCNtrTM");
+    updqr1+="MCHCCNtrTM="+SMCHCCNtrTM +", ";
+    
+    String SMCHCCNtrTF=request.getParameter("MCHCCNtrTF");
+    updqr1+="MCHCCNtrTF="+SMCHCCNtrTF +", ";
+    
+    
+    String SC51DCM=request.getParameter("C51DCM");
+    updqr1+="C51DCM="+SC51DCM +", ";
+
+    String SC51DCF=request.getParameter("C51DCF");
+    updqr1+="C51DCF="+SC51DCF +", ";
+    
+    String SMCHNtrnFoodOVC=request.getParameter("MCHNtrnFoodOVC");
+    updqr1+="MCHNtrnFoodOVC="+SMCHNtrnFoodOVC +", ";
+    
+    String SMCHNtrnFoodPLHIV=request.getParameter("MCHNtrnFoodPLHIV");
+    updqr1+="MCHNtrnFoodPLHIV="+SMCHNtrnFoodPLHIV +", ";
+    
+    
+    updqr1+=" isValidated='0' where  tableid='"+tableid+"'";
+
+    conn.st.executeUpdate(updqr1);
+        
+        
       String getexistingdata="select * from nutrition where tableid='"+tableid+"'";
         
         

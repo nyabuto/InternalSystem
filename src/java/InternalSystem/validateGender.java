@@ -61,6 +61,35 @@ facil=session.getAttribute("facilityid").toString();
 String tableid=year+"_"+month+"_"+facil;
 
 
+String updqr1="update gender set ";
+
+String SP121DM0=request.getParameter("P121DM0");
+updqr1+="P121DM0="+SP121DM0 +", ";
+String SP121DF0=request.getParameter("P121DF0");
+updqr1+="P121DF0="+SP121DF0 +", ";
+String SP121DM10=request.getParameter("P121DM10");
+updqr1+="P121DM10="+SP121DM10 +", ";
+String SP121DF10=request.getParameter("P121DF10");
+updqr1+="P121DF10="+SP121DF10 +", ";
+String SP121DM15=request.getParameter("P121DM15");
+updqr1+="P121DM15="+SP121DM15 +", ";
+String SP121DF15=request.getParameter("P121DF15");
+updqr1+="P121DF15="+SP121DF15 +", ";
+String SP121DM20=request.getParameter("P121DM20");
+updqr1+="P121DM20="+SP121DM20 +", ";
+String SP121DF20=request.getParameter("P121DF20");
+updqr1+="P121DF20="+SP121DF20 +", ";
+String SP121DM25=request.getParameter("P121DM25");
+updqr1+="P121DM25="+SP121DM25 +", ";
+String SP121DF25=request.getParameter("P121DF25");
+updqr1+="P121DF25="+SP121DF25 +", ";
+
+
+
+updqr1+=" isValidated='0' where  tableid='"+tableid+"'";
+
+conn.st.executeUpdate(updqr1);
+
 String P121DM0="";
 String P121DF0="";
 String P121DM10="";

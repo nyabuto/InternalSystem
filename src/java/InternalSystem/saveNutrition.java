@@ -90,8 +90,12 @@ else {
   if(isinsert=true){
      isinsert=false;     
      
-   //System.out.println(">> "+Insertqr);
-     System.out.println("++++++++++Insert Query result"+conn.st.executeUpdate(Insertqr));
+   //if an insert fails, run an update
+     if(conn.st.executeUpdate(Insertqr)==0){
+     
+     conn.st1.executeUpdate(updateqr);
+     
+     }
   
   }
   else {
@@ -101,7 +105,7 @@ else {
   }
           
           
-   System.out.println("Update qry result ::"+conn.st.executeUpdate(updateqr));
+  // System.out.println("Update qry result ::"+conn.st.executeUpdate(updateqr));
   
 }
 
@@ -116,6 +120,7 @@ else {
          if(conn.rs!=null){ conn.rs.close();}
         
          if(conn.st!=null){ conn.st.close();}
+         if(conn.st1!=null){ conn.st1.close();}
 
         out.close();
     }

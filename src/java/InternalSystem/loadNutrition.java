@@ -53,11 +53,11 @@ public class loadNutrition extends HttpServlet {
     }
     String tableid=year+"_"+month+"_"+facil;
       
-    
+    //select cumulatives from the cumulatives table
     
     String getexistingdata="select tableid,SubPartnerID,Annee,Mois,MCHCCNtrTMC , MCHCCNtrTFC ,MCHCCNtrTTC,MCHCCNtrTM,MCHCCNtrTF, MCHCCNtrTT,MCHNtrnCHWTrain,MCHNutChRch,MCHNtrnWasted,MCHNtrnUnderweight,MCHChild5D,MCHNtrnHealthFacility,MCHVaccVitA,MCHNtrnFoodOVC,MCHNtrnFoodPLHIV,MCHNtrnFood,C51DCM,C51DCF,C51DC,C51DAM,C51DAF,C51DA,C51DP,C51DMT,C51DFT,C51DT,user_id,timestamp,isValidated,updatedOn,updatedBy from nutrition where tableid='"+tableid+"'";
     
-String formtype="<b>New Entry</b>";
+String formtype="<b><font color='#4b8df8'>New Entry</font></b>";
     
 String MCHCCNtrTM="";
 String MCHCCNtrTF="";
@@ -97,6 +97,7 @@ String C51DT="";
 
 int kmmpdone=0;
 int kmmpundone=0;
+int kmmpvalid=0;
 int facilssupporting=0;
 String distid="";
 
@@ -109,14 +110,23 @@ String kmmpcounter="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPar
  conn.rs1 = conn.st1.executeQuery(kmmpcounter);
  while(conn.rs1.next()){
  kmmpdone++;
-  }
-            System.out.println(kmmpcounter);
+                       }
+ System.out.println(kmmpcounter);
+ 
+ 
  
  String kmmpcounter1="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"'  and isValidated='0' ";
  conn.rs1 = conn.st1.executeQuery(kmmpcounter1);
  while(conn.rs1.next()){
  kmmpundone++;
+                       }
+ 
+ String kmmpvalidatedcounter1="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and isValidated='0' ";
+ conn.rs1 = conn.st1.executeQuery(kmmpvalidatedcounter1);
+ while(conn.rs1.next()){
+ kmmpvalid++;
   }
+ 
  String countpmctfacility="Select * from subpartnera where Nutrition ='1' and  DistrictID='"+distid+"'";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs1 = conn.st1.executeQuery(countpmctfacility);
@@ -124,7 +134,28 @@ String kmmpcounter="SELECT 1 FROM nutrition join subpartnera on nutrition.SubPar
  facilssupporting++;
  }
  
-    String label="Record counter <font color='white'><b>"+kmmpdone+"</b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
+String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
+ String unvalidated="&nbsp &nbsp Unvalidated Form (s) <font color='black'><b>"+kmmpundone+"</b></font>";
+ 
+ 
+  String unvalidatedLink="";int counter=0;
+     if(kmmpundone>0){
+     String getUnvalidated="SELECT nutrition.SubPartnerID,subpartnera.SubPartnerNom FROM nutrition JOIN subpartnera ON nutrition.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND nutrition.Mois='"+month+"' AND nutrition.Annee='"+year+"' AND nutrition.isValidated='0'";
+     conn.rs=conn.st.executeQuery(getUnvalidated);
+     while(conn.rs.next()){
+         counter++;
+//     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=Form731.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=loadNutrition.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+                    }
+    }
+     
+   if(counter>0){
+    unvalidated="<button class='btn btn-primary btn-lg' data-target='#unvalidatedModal' style='width:auto; height:auto;' data-toggle='modal' type='button'> Unvalidated Form (s) <span class='badge badge-important'><b>"+kmmpundone+"</b></span></button>";
+ 
+   } 
+ 
+ 
+ String label="Record counter <font color='white'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b>"+validated+unvalidated;
    
 
 
@@ -163,29 +194,83 @@ maxyearmonth=conn.rs2.getString(1);
     String gatmaxs="select MCHCCNtrTMC , MCHCCNtrTFC ,MCHCCNtrTTC  from nutrition where yearmonth='"+maxyearmonth+"' and  SubPartnerID='"+facil+"'";
     
       conn.rs=conn.st.executeQuery(gatmaxs);
-    while(conn.rs.next()){
+    if(conn.rs.next()){
     //if the cumulatives for current month have not been entered, show cum for previous month
         //
         
         
         
-    MCHCCNtrTMCH=conn.rs.getString("MCHCCNtrTMC");
-    MCHCCNtrTMC=conn.rs.getString("MCHCCNtrTMC");
-if(MCHCCNtrTMCH==null){MCHCCNtrTMCH="0"; }
-if(MCHCCNtrTMC==null){MCHCCNtrTMC="0"; }
+        MCHCCNtrTMCH = conn.rs.getString("MCHCCNtrTMC");
+        MCHCCNtrTMC = conn.rs.getString("MCHCCNtrTMC");
+        if (MCHCCNtrTMCH == null) {
+            MCHCCNtrTMCH = "0";
+        }
+        if (MCHCCNtrTMC == null) {
+            MCHCCNtrTMC = "0";
+        }
 
-MCHCCNtrTFCH=conn.rs.getString("MCHCCNtrTFC");
-MCHCCNtrTFC=conn.rs.getString("MCHCCNtrTFC");
-if(MCHCCNtrTFCH==null){MCHCCNtrTFCH="0"; }
-if(MCHCCNtrTFC==null){MCHCCNtrTFC="0"; }
+        MCHCCNtrTFCH = conn.rs.getString("MCHCCNtrTFC");
+        MCHCCNtrTFC = conn.rs.getString("MCHCCNtrTFC");
+        if (MCHCCNtrTFCH == null) {
+            MCHCCNtrTFCH = "0";
+        }
+        if (MCHCCNtrTFC == null) {
+            MCHCCNtrTFC = "0";
+        }
 
-MCHCCNtrTTCH=conn.rs.getString("MCHCCNtrTTC");
-MCHCCNtrTTC=conn.rs.getString("MCHCCNtrTTC");
-if(MCHCCNtrTTCH==null){MCHCCNtrTTCH="0"; }
-if(MCHCCNtrTTC==null){MCHCCNtrTTC="0"; }
+        MCHCCNtrTTCH = conn.rs.getString("MCHCCNtrTTC");
+        MCHCCNtrTTC = conn.rs.getString("MCHCCNtrTTC");
+        if (MCHCCNtrTTCH == null) {
+            MCHCCNtrTTCH = "0";
+        }
+        if (MCHCCNtrTTC == null) {
+            MCHCCNtrTTC = "0";
+        }
     
     }
-   
+    else {
+    //get the baselines from the nutrition baselines database
+      String getbaselines="select MCHCCNtrTMC , MCHCCNtrTFC ,MCHCCNtrTTC  from nutritionbaseline where   facility_id='"+facil+"'";
+     conn.rs=conn.st.executeQuery(getbaselines);
+    if(conn.rs.next()){
+    
+      
+        
+        MCHCCNtrTMCH = conn.rs.getString("MCHCCNtrTMC");
+        MCHCCNtrTMC = conn.rs.getString("MCHCCNtrTMC");
+        if (MCHCCNtrTMCH == null) {
+            MCHCCNtrTMCH = "0";
+        }
+        if (MCHCCNtrTMC == null) {
+            MCHCCNtrTMC = "0";
+        }
+
+        MCHCCNtrTFCH = conn.rs.getString("MCHCCNtrTFC");
+        MCHCCNtrTFC = conn.rs.getString("MCHCCNtrTFC");
+        if (MCHCCNtrTFCH == null) {
+            MCHCCNtrTFCH = "0";
+        }
+        if (MCHCCNtrTFC == null) {
+            MCHCCNtrTFC = "0";
+        }
+
+        MCHCCNtrTTCH = conn.rs.getString("MCHCCNtrTTC");
+        MCHCCNtrTTC = conn.rs.getString("MCHCCNtrTTC");
+        if (MCHCCNtrTTCH == null) {
+            MCHCCNtrTTCH = "0";
+        }
+        if (MCHCCNtrTTC == null) {
+            MCHCCNtrTTC = "0";
+        }
+    
+        
+        
+    }
+        
+        
+        
+    
+    }
 
     
     conn.rs=conn.st.executeQuery(getexistingdata);
@@ -348,7 +433,7 @@ if(C51DT==null){C51DT=""; }
     createdtable+="<tr><td> <b> >=18</b> </td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DAM+"' name='C51DAM' id='C51DAM' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DAF');c51dtotal();\" value='"+C51DAF+"' name='C51DAF' id='C51DCF' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DA+"' name='C51DA' id='C51DA' ></td></tr>";
     createdtable+="<tr><td colspan='3'> <b> Pregnant/Lactating (PMTCT 1.5)</b> </td><td><input style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DP');\" value='"+C51DP+"' name='C51DP' id='C51DP' ></td></tr>";
     createdtable+="<tr><td> <b> Total</b> </td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DMT+"' name='C51DMT' id='C51DMT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\"  value='"+C51DFT+"' name='C51DFT' id='C51DFT' ></td><td><input tabindex='-1' readonly style='width:100px;' type='text'  onclick=\"this.select();\"  onkeypress=\"return numbers(event,this);\" onblur=\"autosave('C51DT');\" value='"+C51DT+"' name='C51DT' id='C51DT' ></td></tr>"
-            + "   </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>	";
+            + "   </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>	<span id='ufs' style='display:none;'>"+unvalidatedLink+"</span>";
     
     }
     

@@ -78,6 +78,25 @@ legend.formatter {
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top" onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }">
+  <!-------------------------------------------dialog box for unvalidated facils-------------------------------------------------->  
+    <div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Unvalidated Forms.</p></h4>
+      </div>
+      <div class="modal-body" id="allunValidated" style="font-size: 16px;">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-danger" data-dismiss="modal" style="height:30px;" id="viewErrors">Close</button>
+      </div>
+    </div>
+  </div>
+</div> 
+  <!-------------------------------------------dialog box for unvalidated facils-------------------------------------------------->  
+     
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -214,8 +233,8 @@ legend.formatter {
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">KMMP</b>  
-                        <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:17px;"><b></b></span>
-                        <span id="newform" style="margin-left: 30%;"><b></b></span>
+                        <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:17px;font-family: cambria;"><b></b></span>
+                       <span id="newform" style="margin-left: 20%;background-color: white;padding: 2px;"><b></b></span>
                         
                      </div>
                      <div class="portlet-body form">
@@ -335,6 +354,7 @@ success:function (data){
                 
                  $("#newform").html($("#formstatus").html());
                  $("#recordcounter").html($("#rc").html());
+                 $("#allunValidated").html($("#ufs").html());
                 
             //$("#KMMP1").focus();   
             }

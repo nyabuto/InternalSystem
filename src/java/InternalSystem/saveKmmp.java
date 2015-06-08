@@ -65,7 +65,7 @@ facil=session.getAttribute("facilityid").toString();
 }
 String tableid=year+"_"+month+"_"+facil;
     
-String Insertqr= "replace into kmmp  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"="+achieved+" , tableid='"+tableid+"' , user_id='"+userid+"'";
+String Insertqr= "insert into kmmp  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"="+achieved+" , tableid='"+tableid+"' , user_id='"+userid+"'";
 String updateqr="update kmmp set "+col+"="+achieved+" , isValidated='0' where tableid='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 

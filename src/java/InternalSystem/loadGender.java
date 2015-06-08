@@ -33,6 +33,11 @@ public class loadGender extends HttpServlet {
     session=request.getSession();
     
     
+    if(session.getAttribute("isinsertgender")!=null){
+    session.removeAttribute("isinsertgender");
+    
+    }
+    
     dbConn conn=new dbConn();
     //get the existing data for the month, year and facility that is already on session
     
@@ -40,7 +45,7 @@ public class loadGender extends HttpServlet {
     String year="";      
     String facil="";
     String enterdby="";
-    String formtype="<b>New Entry</b>";
+    String formtype="<b><font color='#4b8df8'>New Entry</font></b>";
     
     if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -135,6 +140,7 @@ String P124D25="";
 
 int kmmpdone=0;
 int kmmpundone=0;
+int kmmpvalid=0;
 int facilssupporting=0;
 String distid="";
 
@@ -155,6 +161,14 @@ String kmmpcounter="SELECT 1 FROM gender join subpartnera on gender.SubPartnerID
  while(conn.rs1.next()){
  kmmpundone++;
   }
+ 
+ 
+  String kmmpvalidatedcounter1="SELECT 1 FROM kmmp join subpartnera on kmmp.SubPartnerID=subpartnera.SubPartnerID where Annee ='"+year+"' and DistrictID='"+distid+"'  and Mois='"+month+"' and isValidated='0' ";
+ conn.rs1 = conn.st1.executeQuery(kmmpvalidatedcounter1);
+ while(conn.rs1.next()){
+ kmmpvalid++;
+  }
+ 
  String countpmctfacility="Select * from subpartnera where Gender ='1' and  DistrictID='"+distid+"'";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs1 = conn.st1.executeQuery(countpmctfacility);
@@ -162,15 +176,35 @@ String kmmpcounter="SELECT 1 FROM gender join subpartnera on gender.SubPartnerID
  facilssupporting++;
  }
  
-  String label="Record counter <font color='white'><b>"+kmmpdone+"</b></font>  out of <b>"+facilssupporting+"</b> &nbsp &nbsp Unvalidated Forms are <font color='black'><b>"+kmmpundone+"</b></font>";
-   
+   String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
+ String unvalidated="&nbsp &nbsp Unvalidated Form (s) <font color='black'><b>"+kmmpundone+"</b></font>";
+ 
+ 
+  String unvalidatedLink="";int counter=0;
+     if(kmmpundone>0){
+     String getUnvalidated="SELECT gender.SubPartnerID,subpartnera.SubPartnerNom FROM gender JOIN subpartnera ON gender.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND gender.Mois='"+month+"' AND gender.Annee='"+year+"' AND gender.isValidated='0'";
+     conn.rs=conn.st.executeQuery(getUnvalidated);
+     while(conn.rs.next()){
+         counter++;
+//     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=Form731.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=loadGender.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+                    }
+    }
+     
+   if(counter>0){
+    unvalidated="<button class='btn btn-primary btn-lg' data-target='#unvalidatedModal' style='width:auto; height:auto;' data-toggle='modal' type='button'> Unvalidated Form (s) <span class='badge badge-important'><b>"+kmmpundone+"</b></span></button>";
+ 
+   } 
+ 
+ 
+ String label="Record counter <font color='white'><b>"+kmmpdone+"<b></font>  out of <b>"+facilssupporting+"</b>"+validated+unvalidated;
+ 
 
-
-
+String theresdata="";
     
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
-        
+      theresdata="true";  
         //get the name of the person who entered the form 
 
         String enterer = "select * from user where userid='" + conn.rs.getString("user_id") + "'";
@@ -485,8 +519,12 @@ if(P124D15==null){P124D15=""; }
 
 P124D25=conn.rs.getString("P124D25");
 if(P124D25==null){P124D25=""; }
+session.setAttribute("isinsertgender","no");
 
-
+    }
+   
+    if(theresdata.equals("")){
+    session.setAttribute("isinsertgender","yes");
     }
     
     String createdtable=enterdby+"<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Prevention Sub Area 12:Gender</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'><tr class='form-actions'><th colspan='6'><b></b></th></tr>";
@@ -522,19 +560,32 @@ if(P124D25==null){P124D25=""; }
     createdtable+="<tr><td><b>25+</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25M');gbvtotal();\" value='"+GEND_GBV25M+"' name='GEND_GBV25M' id='GEND_GBV25M' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onblur=\"autosave('GEND_GBV25F');gbvtotal();\" value='"+GEND_GBV25F+"' name='GEND_GBV25F' id='GEND_GBV25F' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly value='"+GEND_GBV25+"' name='GEND_GBV25' id='GEND_GBV25' ></td></tr>";
     createdtable+="<tr><td><b>Total</b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVM+"' name='GEND_GBVM' id='GEND_GBVM' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return numbers(event,this);\"  value='"+GEND_GBVF+"' name='GEND_GBVF' id='GEND_GBVF' ></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" tabindex='-1' readonly onkeypress=\"return  numbers(event,this);\"  value='"+GEND_GBV+"' name='GEND_GBV' id='GEND_GBV' ></td></tr>";
     createdtable+="<tr><td></td><td></td><td class='form-actions'>AGE</td><td class='form-actions'>MALE</td><td style='width:80px;' class='form-actions'>FEMALE</td><td class='form-actions'>TOTAL</td></tr>"
-            + "</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>	</div>";
+            + "</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span>	<span id='ufs' style='display:none;'>"+unvalidatedLink+"</span></div>";
+    
+    
+    
     
     }
     else {
     createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  Gender module.</font></td></tr>";
+   session.setAttribute("isinsertgender","yes");
+     
     }
     }
     
   if(session.getAttribute("facilityid")!=null){ } else {
    createdtable="<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  Gender module.</font></td></tr>";
-    
+   session.setAttribute("isinsertgender","yes");
+     
   }
     
+  if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.st!=null){ conn.st.close();}
+         if(conn.st2!=null){ conn.st2.close();}
+  
       //System.out.println(createdtable);
       
     PrintWriter out = response.getWriter();
@@ -542,13 +593,10 @@ if(P124D25==null){P124D25=""; }
         /* TODO output your page here. You may use following sample code. */
   
         out.println(createdtable);
+        System.out.println("~~ Load Gender session is "+session.getAttribute("isinsertgender"));
+        
     } finally {
-        if(conn.conn!=null){ conn.conn.close();}
-         if(conn.rs!=null){ conn.rs.close();}
-         if(conn.rs1!=null){ conn.rs1.close();}
-         if(conn.rs2!=null){ conn.rs2.close();}
-         if(conn.st!=null){ conn.st.close();}
-         if(conn.st2!=null){ conn.st2.close();}
+        
         out.close();
     }
 }       catch (SQLException ex) {
