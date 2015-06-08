@@ -51,8 +51,9 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+            dbConn conn = new dbConn();
         try {
-               dbConn conn = new dbConn();
+           
             session=request.getSession();
             String FP_TAB="";
             String MCH_TAB="";
@@ -760,7 +761,7 @@ pmct+="";
                    + "<td ><input type=\"text\" name=\"MATObstrLaborDead\" id=\"MATObstrLaborDead\" value=\""+MATObstrLaborDead+"\" onblur=\"autosave('MATObstrLaborDead');\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
               + "<tr>"
-               + "   <td>18.</td> <td > Ruptured Uterus</td>"
+               + "   <td>19.</td> <td > Sepsis</td>"
                    + "<td ><input type=\"text\" name=\"MATSepsisAlive\" id=\"MATSepsisAlive\" value=\""+MATSepsisAlive+"\" onblur=\"autosave('MATSepsisAlive');\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
                    + "<td ><input type=\"text\" name=\"MATSepsisDead\" id=\"MATSepsisDead\" value=\""+MATSepsisDead+"\" onblur=\"autosave('MATSepsisDead');\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
@@ -870,7 +871,7 @@ pmct+="";
              "<table cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
                 + "<tr>"
               + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\"><b>I: DTC </b></td>"
-              + "<td colspan=\"2\"class=\"form-actions\"> <b>Children  </b></td>"
+              + "<td colspan=\"2\"  class=\"form-actions\"> <b>Children  </b></td>"
               + "<td colspan=\"2\" class=\"form-actions\"> <b> Adults </b></td>"
               + "<td rowspan=\"2\" class=\"form-actions\"> <b>TOTAL </b></td>"
               + "</tr>"
@@ -986,6 +987,12 @@ pmct+="";
             out.println(data);
           
         } finally {
+              if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.st!=null){ conn.st.close();}
+         if(conn.st2!=null){ conn.st2.close();}
             out.close();
         }
     }

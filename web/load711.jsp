@@ -79,7 +79,7 @@ legend.formatter {
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top">
+<body class="fixed-top" onload="checkdispensary();">
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -111,7 +111,7 @@ legend.formatter {
                                    
                                    <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                 <select onchange="updatefacilsession(); checkdispensary();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
                              </div>
@@ -192,7 +192,29 @@ legend.formatter {
                     </li>
                                       </ul>
                </div>
-                
+             <div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Errors detected.</p></h4>
+      </div>
+      <div class="modal-body" id="errorBody">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" data-dismiss="modal" style="height:40px;" id="viewErrors">view errors</button>
+        <button type="button" class="btn-danger" id="submit" style="height:40px;">submit with errors</button>
+      </div>
+    </div>
+  </div>
+</div>
+                   
+   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
+    <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
+    <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
+    <br>2.Click <b>NO</b> if want to edit the already marked data for adherence.</p>
+</div>   
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -299,6 +321,7 @@ legend.formatter {
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>     
+ 
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
@@ -326,7 +349,7 @@ success:function (data){
                 $("#711table").html(data);
 //            $("#FPMicrolutN").focus();   
            
-            
+            checkdispensary();
  var validity=$("#checkValidity").html();
 $("#isValidated").html(validity);
          
@@ -799,6 +822,9 @@ success:function (data){
       var FPOTHERN=document.getElementById("FPOTHERN").value;
       var FPOTHERR=document.getElementById("FPOTHERR").value;
       
+      var FPCONDOMSN=document.getElementById("FPCONDOMSN").value;
+      var FPCONDOMSR=document.getElementById("FPCONDOMSR").value;
+      
        if(FPMicrolutN==""){FPMicrolutN=0;}
        if(FPMicrolutR==""){FPMicrolutR=0;}
        if(FPMicrogynonN==""){FPMicrogynonN=0;}
@@ -815,11 +841,13 @@ success:function (data){
        if(FPVasectomyR==""){FPVasectomyR=0;}
        if(FPOTHERN==""){FPOTHERN=0;}
        if(FPOTHERR==""){FPOTHERR=0;}
+       if(FPCONDOMSN==""){FPCONDOMSN=0;}
+       if(FPCONDOMSR==""){FPCONDOMSR=0;}
        
-       var newvisitstotal=parseInt(FPMicrolutN)+parseInt(FPMicrogynonN)+
+       var newvisitstotal=parseInt(FPMicrolutN)+parseInt(FPMicrogynonN)+ parseInt(FPCONDOMSN)+
                parseInt(FPINJECTIONSN)+parseInt(FPIUCDN)+parseInt(FPIMPLANTSN)+parseInt(FPBTLN)+parseInt(FPVasectomyN)+parseInt(FPOTHERN);
          
-           var revisitstotal=parseInt(FPMicrolutR)+parseInt(FPMicrogynonR)+
+           var revisitstotal=parseInt(FPMicrolutR)+parseInt(FPMicrogynonR)+parseInt(FPCONDOMSR)+
                parseInt(FPINJECTIONSR)+parseInt(FPIUCDR)+parseInt(FPIMPLANTSR)+parseInt(FPBTLR)+parseInt(FPVasectomyR)+parseInt(FPOTHERR);
          var total=parseInt(newvisitstotal)+parseInt(revisitstotal);
          
@@ -1158,11 +1186,164 @@ success:function (data){
           
           
       }
-   </script>
+      
+   </script>   
+     <script type="text/javascript" src="js/validate711.js"></script>
+   <script type="text/javascript">
+ $(document).ready(function(){
+   var errorsFP=0,errorsVCT=0,errorsDTC=0;
+
+//    $('#myModal').modal();
+   $("form").submit(function(){
+//       alert("mmmm");
+       var errors=0;
+       $(":text").css({'background-color' : 'white'});        
+var totalsVariables ="FPCLIENTSN,FPCLIENTSR,FPCLIENTST";
+var arrayTotals=totalsVariables.split(",");  
+var arrayLength=arrayTotals.length;
+var i=0;
+//alert("length : "+arrayLength);
+while(i<arrayLength){
+ $("#"+arrayTotals[i]).css({'background-color' : '#DDDDDD'});          
+ i++;   
+}
+var allErrors="The following errors were found : <br><br>";
+  var returned;
+//   if ( $( "#HV0101" ).length ) {    
+//   errorsHCT=validateHCT();
+//   if(parseInt(errorsHCT)>0){
+//   allErrors+=" "+errorsHCT+" errors in HIV Counselling and Testing.<br>";
+//   }
+//   }
+   
+   if ( $( "#FPMicrolutN" ).length ) {
+   errorsFP=validateFP();
+//   alert("errors"+errorsPMTCT);
+if(parseInt(errorsFP)>0){
+   allErrors+=" "+errorsFP+" error(s) were found in FP section.<br>";
+errors+=parseInt(errorsFP);
+}
+}
+   if ( $( "#VCTClient_Couns_CF" ).length ) {
+  
+   errorsVCT=validateVCT();
+//   alert("errors"+errorsPMTCT);
+if(parseInt(errorsVCT)>0){
+   allErrors+=" "+errorsVCT+" error(s) were found in VCT section.<br>";
+errors+=parseInt(errorsVCT);
+}
+}
+   if ( $( "#DTCA_Couns_Out_CF" ).length ) {
+  
+   errorsDTC=validateDTC();
+//   alert("errors"+errorsPMTCT);
+if(parseInt(errorsDTC)>0){
+   allErrors+=" "+errorsDTC+" error(s) were found in DTC section.<br>";
+errors+=parseInt(errorsDTC);
+}
+}
+
+//if ( $( "#HV0301" ).length ) {
+//   errorsCT=validateCT();
+////   alert("errors"+errorsCT);
+//if(parseInt(errorsCT)>0){
+//   allErrors+=" "+errorsCT+" error(s) were found in Care and Treatment section.<br>";
+//errors+=parseInt(errorsCT);
+//}
+//}
+//
+////if ( $( "#HV0401" ).length ) {
+////   errorsVMMC=validateVMMC();
+//////   alert("errors"+errorsVMMC);
+////if(parseInt(errorsVMMC)>0){
+////   allErrors+=" "+errorsVMMC+" errors in VMMC.<br>";
+////}
+////}
+//
+//if ( $( "#HV0501" ).length ) {
+//   errorsPEP=validatePEP();
+////   alert("errors"+errorsPEP);
+//if(parseInt(errorsPEP)>0){
+//   allErrors+=" "+errorsPEP+" error(s) were found in Post-Exposure Prophylaxis (PEP) section.<br>";
+//errors+=parseInt(errorsPEP);
+//}
+//}
+
+//if ( $( "#HV0601" ).length ) {
+//   errorBLOOD=validateBlood();
+////   alert("errors"+errorBLOOD);
+//if(parseInt(errorBLOOD)>0){
+//   allErrors+=" "+errorBLOOD+" errors in Blood safety.<br>";
+//}
+//} 
+
+//alert("errors : "+allErrors);
+
+
+if(errors>0){
+    $("#errorBody").html(allErrors);
+     $('#notifier').modal();
+$("#submit").click(function(){
+//  alert("to submit");  
+$('#notifier').modal('hide');
+$.ajax({
+        url: 'validate711',
+        type: 'post',
+        dataType: 'html',
+        data: $('form').serialize(),
+        success: function() {
+//                alert("submitted");
+       location.reload(); 
+                 }
+         
+    });
+  });    
+ $("#viewErrors").click(function(){
+//alert("to view errors");
+  });
+  
+  returned = false;
+}
+else{
+    returned=true;
+}
+ $('[data-toggle="tooltip"]').tooltip();
+return returned;
+ });
+ });
+ 
+ function checkdispensary(){
+  
+    var facil=document.getElementById("facility");
+    var facilityname = facil.options[facil.selectedIndex].text;
+    
+   if(facilityname.contains("Dispensary"))  {
+       
+//       alert("entered facilty");
+      
+        if ( $( "#DTCA_Couns_Out_CF" ).length ) {
+   document.getElementById("DTCB_Test_In_CF").disabled=true;
+  document.getElementById("DTCC_HIV_In_CF").disabled=true;
+   
+ document.getElementById("DTCB_Test_In_CM").disabled=true;
+  document.getElementById("DTCC_HIV_In_CM").disabled=true;
+
+
+document.getElementById("DTCB_Test_In_AM").disabled=true;
+  document.getElementById("DTCC_HIV_In_AM").disabled=true;
+  
+ document.getElementById("DTCC_HIV_In_AF").disabled=true;
+ document.getElementById("DTCB_Test_In_AF").disabled=true;
+        }
+   }
+ }
+
+    </script>
+
    <!-- END JAVASCRIPTS -->  
    
    
-   
+   </div>
 </body>
 <!-- END BODY -->
 </html>
