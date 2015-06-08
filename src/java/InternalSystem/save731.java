@@ -80,14 +80,15 @@ String checker="select "+columnName+" from moh731 where id='"+tableid+"'";
 conn.rs=conn.st.executeQuery(checker);
 
 if(conn.rs.next()){
-    
     conn.st.executeUpdate(updateqr);
     System.out.println("~~ "+updateqr);
 }
 else {
     System.out.println(">> "+Insertqr);
-        conn.st.executeUpdate(Insertqr);
-
+     int inserted=conn.st.executeUpdate(Insertqr);
+if(inserted==0){
+  conn.st.executeUpdate(updateqr);   
+}
 }
     }
     if(conn.st!=null){conn.st.close();}

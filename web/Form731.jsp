@@ -78,6 +78,8 @@ legend.formatter {
       <!-- BEGIN TOP NAVIGATION BAR -->
       <div class="navbar-inner">
  <div class="container-fluid">
+     
+     
             <!-- BEGIN LOGO -->
             <div class="control-group">
                              <div style="float:right;"> 
@@ -91,7 +93,7 @@ legend.formatter {
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                               <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                                    
@@ -158,7 +160,10 @@ legend.formatter {
                <div class="span12">
                    <ul class="breadcrumb" >
                      <li style="margin-left:40%; font-size:20px;">
-                        <!--<i class="icon-home"></i>-->
+                      
+<!-- Modal -->
+
+                         <!--<i class="icon-home"></i>-->
                         <p>MOH 731</p>
                       </li>
                   </ul>
@@ -168,30 +173,7 @@ legend.formatter {
   Launch demo modal
 </button>-->
 
-<!-- Modal -->
-<div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Errors detected.</p></h4>
-      </div>
-      <div class="modal-body" id="errorBody">
-    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-primary" data-dismiss="modal" style="height:40px;" id="viewErrors">view errors</button>
-        <button type="button" class="btn-danger" id="submit" style="height:40px;">submit with errors</button>
-      </div>
-    </div>
-  </div>
-</div>
-                   
-   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
-    <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
-    <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
-    <br>2.Click <b>NO</b> if want to edit the already marked data for adherence.</p>
-</div>
+
 
                    <%if (session.getAttribute("validate731") != null) { %>
                                 <script type="text/javascript"> 
@@ -254,8 +236,11 @@ legend.formatter {
          <!-- END PAGE CONTAINER-->
       </div>
       <!-- END PAGE -->  
+     
    </div>
    <!-- END CONTAINER -->
+   <div>
+  
    <!-- BEGIN FOOTER -->
   <div id="footer">
 <%
@@ -264,7 +249,50 @@ int year= cal.get(Calendar.YEAR);
 
 %>
                <p align="center" style=" font-size: 18px;"> &copyInternal System, Aphia Plus | USAID <%=year%>.</p>
-            </div>
+           
+               
+               
+    <div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Errors detected.</p></h4>
+      </div>
+      <div class="modal-body" id="errorBody">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" data-dismiss="modal" style="height:40px;" id="viewErrors">view errors</button>
+        <button type="button" class="btn-danger" id="submit" style="height:40px;">submit with errors</button>
+     
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!--Modal unvalidated forms-->
+    
+<div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Unvalidated Forms.</p></h4>
+      </div>
+      <div class="modal-body" id="allunValidated" style="font-size: 16px;">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-danger" data-dismiss="modal" style="height:30px;" id="viewErrors">Close</button>
+      </div>
+    </div>
+  </div>
+</div>     
+ 
+       </div>
+  
+  </div>
    <script src="assets/js/jquery-1.8.3.min.js"></script>    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
@@ -320,6 +348,10 @@ return true;
          $("#data").html(data); 
  var validity=$("#checkValidity").html();
 $("#isValidated").html(validity);
+
+var invalidatedData=$("#invalidatedData").html();
+$("#allunValidated").html(invalidatedData);
+
         }
     }); 
        });
@@ -439,7 +471,7 @@ success:function (data){
 //       App.init();  
 }
 });
-
+});
 
     function loadcounty(){
         
@@ -505,7 +537,7 @@ success:function (data){
     
  
  loadcounty();
-   });
+  
    </script>
    <script type="text/javascript" src="js/form731Totals.js"></script>
 <script type="text/javascript" src="js/validate731.js"></script>

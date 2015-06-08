@@ -156,6 +156,10 @@
         <servlet-name>saveEditedFacilities</servlet-name>
         <servlet-class>General.saveEditedFacilities</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>changeFacilitySession</servlet-name>
+        <servlet-class>General.changeFacilitySession</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -311,6 +315,10 @@
     <servlet-mapping>
         <servlet-name>saveEditedFacilities</servlet-name>
         <url-pattern>/saveEditedFacilities</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>changeFacilitySession</servlet-name>
+        <url-pattern>/changeFacilitySession</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
