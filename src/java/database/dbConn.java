@@ -20,16 +20,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;
- 
-
 /**
  *
  * @author Geofrey Nyabuto
  */
-public final class dbConn{
-private static Connection connection;
+public final class dbConn {
+
     public ResultSet rs0,rs, rs1, rs2, rs3, rs4, rs_1, rs_2, rs_3, rs_4, rs_5, rs_6, anc_sch_rs;
     public Statement st0,st, st1, st2, st3, st4, st_1, st_2, st_3, st_4, st_5, st_6, anc_scheduling_st;
   public  PreparedStatement pst,pst1,pst2,pst3,pst4,pst5;
@@ -41,27 +37,9 @@ private static Connection connection;
     public static int issetdbcalled_wrongpword = 2;
    public  String dbsetup[] = new String[4];
 public  Connection conn = null;
-
     public dbConn() {
-        
-        
-        
-         
-        
-        
-        
-        
-        
         try {
-
-            
-             
-             PoolProperties p= new PoolProperties();         
-       
-       // p.setDriverClassName("com.mysql.jdbc.Driver");
-           
-            
-            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
             // Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhc","root", "");
            
 
@@ -82,20 +60,10 @@ public  Connection conn = null;
 
                 if (dbsetup[0] != null) {
 
-                    if(dbsetup[3]==null){
-               // DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],"");
-                        p.setUrl("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1]);
-                        p.setDriverClassName("com.mysql.jdbc.Driver"); 
-                        p.setUsername(dbsetup[2]);
-                        p.setPassword("");
-                    }
+                    if(dbsetup[3]==null){conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],"");
+}
                     else{
-                   // conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
-                        p.setUrl("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1]);
-                       
-                       p.setDriverClassName("com.mysql.jdbc.Driver");
-                        p.setUsername(dbsetup[2]);
-                        p.setPassword(dbsetup[3]);
+                    conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
                     }
 
 
@@ -118,32 +86,6 @@ public  Connection conn = null;
                 issetdbcalled_file_exists = 2;
                 issetdbcalled_wrongpword = 2;
 
-                
-                
-                
-          p.setJmxEnabled(true);
-          p.setTestWhileIdle(false);
-          p.setTestOnBorrow(true);
-          p.setValidationQuery("SELECT 1");
-          p.setTestOnReturn(false);
-          p.setValidationInterval(30000);
-          p.setTimeBetweenEvictionRunsMillis(30000);
-          p.setMaxActive(2000);
-          
-          p.setInitialSize(10);
-          p.setMaxWait(10000);
-          p.setRemoveAbandonedTimeout(60);
-          p.setMinEvictableIdleTimeMillis(30000);
-          p.setMinIdle(10);
-          p.setLogAbandoned(true);
-          p.setRemoveAbandoned(true);
-          p.setJdbcInterceptors(
-            "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+
-            "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-          DataSource datasource  = new DataSource();
-          datasource.setPoolProperties(p);
-                
-                conn = datasource.getConnection();
                 st0 = conn.createStatement();
                 st = conn.createStatement();
                 st1 = conn.createStatement();
@@ -159,10 +101,6 @@ public  Connection conn = null;
                 st_5 = conn.createStatement();
                 st_6 = conn.createStatement();
                 anc_scheduling_st = conn.createStatement();
-            
-             
-             
-              
 
 
             }
@@ -182,11 +120,6 @@ public  Connection conn = null;
             issetdbcalled_exception ++;
             }
 
-        }
-        
-        finally {
-        
-       
         }
     }
 
@@ -247,31 +180,4 @@ public  Connection conn = null;
         return worked;
 
     }
-    
-    public  void attemptClose(ResultSet o)
-    {
-	try
-	    { if (o != null) o.close();}
-	catch (Exception e)
-	    { e.printStackTrace();}
-    }
-
-    public  void attemptClose(Statement o)
-    {
-	try
-	    { if (o != null) o.close();}
-	catch (Exception e)
-	    { e.printStackTrace();}
-    }
-
-    public  void attemptClose(Connection o)
-    {
-	try
-	    { if (o != null) o.close();}
-	catch (Exception e)
-	    { e.printStackTrace();}
-    }
-
-    
-    
 }
