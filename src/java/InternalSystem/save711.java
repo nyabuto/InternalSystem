@@ -65,7 +65,7 @@ String tableid=year+"_"+month+"_"+facil;
        error="<font color=\"red\">ERROR : Please select year and facility.</font>";}
     else{
         error="success";  
-String Insertqr= "insert into moh711  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , ID='"+tableid+"' , userid='"+userid+"'";
+String Insertqr= "insert into moh711 set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , ID='"+tableid+"' , userid='"+userid+"'";
 String updateqr="update  moh711 set "+col+"='"+achieved+"' where id='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 
@@ -88,6 +88,16 @@ else {
    }
         System.out.println("error : "+error);
  out.println(error);
+ 
+  if(conn.st!=null){conn.st.close();}
+     if(conn.st1!=null){conn.st1.close();}
+     if(conn.st2!=null){conn.st2.close();}
+     
+     if(conn.rs!=null){conn.rs.close();}
+     if(conn.rs1!=null){conn.rs1.close();}
+     if(conn.rs2!=null){conn.rs2.close();}
+     if(conn.conn!=null){conn.conn.close();}
+   
    
     try {
         /* TODO output your page here. You may use following sample code. */

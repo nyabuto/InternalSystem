@@ -8,6 +8,7 @@ import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -191,6 +192,34 @@ if(CARPCTHTTPR==null){CARPCTHTTPR="0"; }
           + "CARPCTHTTPR='"+CARPCTHTTPR+"', isValidated='1' where ID='"+tableid+"'"; 
           System.out.println(runvalidate);
           conn.st.executeUpdate(runvalidate);
+          
+          
+           int monthDiff=0;
+     String getMonths="SELECT TIMESTAMPDIFF(MONTH, timestamp, now()) FROM tb WHERE id='"+tableid+"'";
+     conn.rs1=conn.st1.executeQuery(getMonths);
+     if(conn.rs1.next()==true){
+         System.out.println("months are : "+conn.rs1.getString(1));
+    monthDiff=conn.rs1.getInt(1);
+     }
+     if(monthDiff>0){
+//      UPDATE THE COLUMN   
+       java.util.Date date= new java.util.Date();
+Timestamp lastUpdatedOn =new Timestamp(date.getTime()); 
+
+     String updateLast="UPDATE tb SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE id='"+tableid+"'" ;   
+       conn.st2.executeUpdate(updateLast);
+     }
+     if(conn.st!=null){conn.st.close();}
+     if(conn.st1!=null){conn.st1.close();}
+     if(conn.st2!=null){conn.st2.close();}
+     
+     if(conn.rs!=null){conn.rs.close();}
+     if(conn.rs1!=null){conn.rs1.close();}
+     if(conn.rs2!=null){conn.rs2.close();}
+     if(conn.conn!=null){conn.conn.close();}
+   
+    
+    
           }
  session.setAttribute("validatetb", "<font color=\"green\"><b>TB Form Validated Successfully.</b></font>");
       response.sendRedirect("loadTb.jsp");

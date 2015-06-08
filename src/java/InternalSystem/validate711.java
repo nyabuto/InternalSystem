@@ -10,6 +10,7 @@ import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -366,6 +367,35 @@ String checker="select * from moh711 WHERE id=?" ;
    conn.st.executeUpdate(runvalidate);
     session.setAttribute("validate711", "<font color=\"green\"><b>Form MOH 711 Validated Successfully.</b></font>");
   
+    
+     int monthDiff=0;
+     String getMonths="SELECT TIMESTAMPDIFF(MONTH, timestamp, now()) FROM moh711 WHERE ID='"+tableid+"'";
+     conn.rs1=conn.st1.executeQuery(getMonths);
+     if(conn.rs1.next()==true){
+         System.out.println("months are : "+conn.rs1.getString(1));
+    monthDiff=conn.rs1.getInt(1);
+     }
+     if(monthDiff>0){
+//      UPDATE THE COLUMN   
+       java.util.Date date= new java.util.Date();
+Timestamp lastUpdatedOn =new Timestamp(date.getTime()); 
+
+     String updateLast="UPDATE moh711 SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE ID='"+tableid+"'" ;   
+       conn.st2.executeUpdate(updateLast);
+     }
+     if(conn.st!=null){conn.st.close();}
+     if(conn.st1!=null){conn.st1.close();}
+     if(conn.st2!=null){conn.st2.close();}
+     if(conn.st3!=null){conn.st3.close();}
+     
+     if(conn.rs!=null){conn.rs.close();}
+     if(conn.rs1!=null){conn.rs1.close();}
+     if(conn.rs2!=null){conn.rs2.close();}
+     if(conn.rs3!=null){conn.rs3.close();}
+     if(conn.conn!=null){conn.conn.close();}
+   
+    
+    
 }
         }
   finally {

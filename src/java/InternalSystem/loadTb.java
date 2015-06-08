@@ -294,11 +294,24 @@ int facilityTBcount=0;
    
   
         out.println(createdtable);
+        
+        
+         if(conn.st!=null){conn.st.close();}
+     if(conn.st1!=null){conn.st1.close();}
+     if(conn.st2!=null){conn.st2.close();}
+     if(conn.st3!=null){conn.st3.close();}
+     
+     if(conn.rs!=null){conn.rs.close();}
+     if(conn.rs1!=null){conn.rs1.close();}
+     if(conn.rs2!=null){conn.rs2.close();}
+     if(conn.rs3!=null){conn.rs3.close();}
+     if(conn.conn!=null){conn.conn.close();}
+   
      }else{
        out.println("<font color=\"red\" size=\"6px;\" ><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support module TB.</font>");
      }
 }       catch (SQLException ex) {
-            Logger.getLogger(loadKmmp.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(loadTb.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

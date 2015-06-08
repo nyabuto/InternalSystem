@@ -79,7 +79,7 @@ legend.formatter {
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top" onload="checkdispensary();">
+<body class="fixed-top" >
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -209,12 +209,30 @@ legend.formatter {
     </div>
   </div>
 </div>
-                   
-   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
+    <!--Modal unvalidated forms-->
+    
+<div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Unvalidated Forms.</p></h4>
+      </div>
+      <div class="modal-body" id="allunValidated" style="font-size: 16px;">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-danger" data-dismiss="modal" style="height:30px;" id="viewErrors">Close</button>
+      </div>
+    </div>
+  </div>
+</div>     
+                 
+<!--   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
     <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
     <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
     <br>2.Click <b>NO</b> if want to edit the already marked data for adherence.</p>
-</div>   
+</div>   -->
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -352,7 +370,9 @@ success:function (data){
             checkdispensary();
  var validity=$("#checkValidity").html();
 $("#isValidated").html(validity);
-         
+  
+var invalidatedData=$("#invalidatedData").html();
+$("#allunValidated").html(invalidatedData);       
    
 }
             
@@ -557,7 +577,7 @@ dataType:'html',
 success:function (data){      
     location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
-        
+   checkdispensary();     
 }
              
              });    
@@ -1198,7 +1218,8 @@ success:function (data){
 //       alert("mmmm");
        var errors=0;
        $(":text").css({'background-color' : 'white'});        
-var totalsVariables ="FPCLIENTSN,FPCLIENTSR,FPCLIENTST";
+var totalsVariables ="FPMicrolutT,FPMicrogynonT,FPINJECTIONST,MATDeliveryT,FPIUCDT,FPIMPLANTST,FPBTLT,FPVasectomyT,FPOTHERT,FPCONDOMST,FPCLIENTST,FPCLIENTSN,FPCLIENTSR,PMCTANCClientsT,VCTClient_Couns_TOT,VCTClient_Tested_TOT,VCTClient_HIV_TOT,DTCA_Couns_Out_Tot,DTCA_Couns_In_Tot,DTCB_Test_Out_Tot,DTCB_Test_In_Tot,DTCC_HIV_Out_Tot,DTCC_HIV_In_Tot,";          
+
 var arrayTotals=totalsVariables.split(",");  
 var arrayLength=arrayTotals.length;
 var i=0;
@@ -1293,7 +1314,9 @@ $.ajax({
         data: $('form').serialize(),
         success: function() {
 //                alert("submitted");
-       location.reload(); 
+       location.reload();
+       checkdispensary();
+       
                  }
          
     });
