@@ -261,7 +261,8 @@ maxyearmonth=conn.rs2.getString(1);
     }
 
 }
-
+int yrmonth=Integer.parseInt(maxyearmonth);
+if(yrmonth>201503){
  System.out.println("Max Year Month____"+maxyearmonth);
 //After getting the Maximum valid YearMonth,(By Valid I mean a month that was reported with a cumulative greater than zero) select the cumulatives for male, female and totals
 
@@ -270,7 +271,7 @@ maxyearmonth=conn.rs2.getString(1);
       conn.rs=conn.st.executeQuery(gatmaxs);
     if(conn.rs.next()==true){
     
-    HV0340_1=conn.rs.getString("HV0340");
+HV0340_1=conn.rs.getString("HV0340");
 if(HV0340_1==null){HV0340_1="0"; }
 
 HV0341_1=conn.rs.getString("HV0341");
@@ -285,8 +286,24 @@ if(HV0343_1==null){HV0343_1="0"; }
 HV0344_1=conn.rs.getString("HV0344");
 if(HV0344_1==null){HV0344_1="0"; }
 }
+    else{
+//        Get baselines
+        String baselines="SELECT HV0340 , HV0341 ,HV0342,HV0343,HV0344 FROM moh731_baseline WHERE SubPartnerID='"+facilityId+"'";
+       conn.rs=conn.st.executeQuery(baselines);
+    if(conn.rs.next()==true){
     
+HV0340_1=conn.rs.getString(1);
+HV0341_1=conn.rs.getString(2);
+HV0342_1=conn.rs.getString(3);
+HV0343_1=conn.rs.getString(4);
+HV0344_1=conn.rs.getString(5);
+}
  
+    }    
+
+}
+ HV0340=HV0340_1;HV0341=HV0341_1;HV0342=HV0342_1;HV0343=HV0343_1;HV0344=HV0344_1;
+     
           String checker="SELECT * FROM moh731 WHERE id=?" ;
           conn.pst=conn.conn.prepareStatement(checker);
           conn.pst.setString(1, id);
@@ -485,7 +502,14 @@ if(conn.rs.getString("HV0514")!=null){HV0514=conn.rs.getString("HV0514");}
 if(conn.rs.getString("HV0601")!=null){HV0601=conn.rs.getString("HV0601");}
 if(conn.rs.getString("HV0602")!=null){HV0602=conn.rs.getString("HV0602");}
 if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
-         
+   
+
+if(HV0340.equals("")){HV0340=HV0340_1;}
+if(HV0341.equals("")){HV0341=HV0341_1;}
+if(HV0342.equals("")){HV0342=HV0342_1;}
+if(HV0343.equals("")){HV0343=HV0343_1;}
+if(HV0344.equals("")){HV0344=HV0344_1;}
+System.out.println("HVO340 : "+HV0340+" HV0340_1 : "+HV0340_1);
 //  Check if the form is validated============
 isValidated=conn.rs.getString("isValidated");
 
@@ -858,10 +882,10 @@ isValidated=conn.rs.getString("isValidated");
           
          cumulative_ART="<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">3.7 Cumullative ever on ART </b></legend><table style=\"margin-left:100px;\"><tr><td colspan=\"3\"> </td></tr>"
               + "<tr>"
-              + "<td style=\"padding-right:40px;\">Ever on ART - Below 15 year </td><td style=\"padding-right:40px;\" >HV03-40(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0340\"  tabindex=\"71\" id=\"HV0340\" value=\""+HV0340+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0340');\" maxLength=\"4\" onkeypress=\"return numbers(event)\"    oninput=\"return cumulativeART();\" style=\"width: 80px; background-color:#DDDDDD;\"></td>  <td style=\"padding-right:40px;\" >HV03-41(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"72\" name=\"HV0341\" id=\"HV0341\" value=\""+HV0341+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0341');\" maxLength=\"4\" onkeypress=\"return numbers(event)\"   oninput=\"return cumulativeART();\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
+              + "<td style=\"padding-right:40px;\">Ever on ART - Below 15 year </td><td style=\"padding-right:40px;\" >HV03-40(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0340\"  tabindex=\"71\" id=\"HV0340\" value=\""+HV0340+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0340');\" maxLength=\"5\" onkeypress=\"return numbers(event)\"    oninput=\"return cumulativeART();\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>  <td style=\"padding-right:40px;\" >HV03-41(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"72\" name=\"HV0341\" id=\"HV0341\" value=\""+HV0341+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0341');\" maxLength=\"5\" onkeypress=\"return numbers(event)\"   oninput=\"return cumulativeART();\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
               + "</tr>"
                + "<tr>"
-              + "<td style=\"padding-right:40px;\">Ever on ART - 15 years and older </td><td style=\"padding-right:40px;\" >HV03-42(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0342\"  tabindex=\"73\" id=\"HV0342\" value=\""+HV0342+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0342');\" maxLength=\"4\" onkeypress=\"return numbers(event)\"   oninput=\"return cumulativeART();\" style=\"width: 80px; background-color:#DDDDDD;\"></td> <td style=\"padding-right:40px;\" >HV03-43(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"74\" name=\"HV0343\" id=\"HV0343\" value=\""+HV0343+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0343');\" maxLength=\"4\" onkeypress=\"return numbers(event)\"   oninput=\"return cumulativeART();\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
+              + "<td style=\"padding-right:40px;\">Ever on ART - 15 years and older </td><td style=\"padding-right:40px;\" >HV03-42(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0342\"  tabindex=\"73\" id=\"HV0342\" value=\""+HV0342+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0342');\" maxLength=\"5\" onkeypress=\"return numbers(event)\"   oninput=\"return cumulativeART();\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td> <td style=\"padding-right:40px;\" >HV03-43(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"74\" name=\"HV0343\" id=\"HV0343\" value=\""+HV0343+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0343');\" maxLength=\"5\" onkeypress=\"return numbers(event)\"   oninput=\"return cumulativeART();\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
               + "</tr>"
               + "<tr>"
               + "<td style=\"padding-right:40px;\">Ever on ART - Total (Sum HV03-40 to HV03-43) </td><td style=\"padding-right:40px;\" >HV03-44</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0344\" id=\"HV0344\" value=\""+HV0344+"\"  data-toggle=\"tooltip\" data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0344');\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"width: 80px; background-color:#DDDDDD;\" readonly=\"true\"></td>"
@@ -1106,7 +1130,7 @@ isValidated=conn.rs.getString("isValidated");
      }
    
      String unvalidatedLink="";int counter=0;
-     if(invalidPMTCT>0){
+     if(invalidPMTCT>0 || invalidCARE>0 || invalidPEP>0){
      String getUnvalidated="SELECT moh731.SubPartnerID,subpartnera.SubPartnerNom FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+subcountyid+"' AND moh731.Mois='"+month+"' AND moh731.Annee='"+year+"' AND moh731.isValidated='0'";
      conn.rs=conn.st.executeQuery(getUnvalidated);
      while(conn.rs.next()){

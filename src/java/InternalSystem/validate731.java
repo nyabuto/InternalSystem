@@ -84,166 +84,168 @@ HV0401=HV0402=HV0403=HV0406=HV0407=HV0408=HV0409=HV0410=HV0411=HV0412=HV0413=HV0
  HV0501=HV0502=HV0503=HV0504=HV0505=HV0506=HV0507=HV0508=HV0509=HV0510=HV0511=HV0512=HV0513=HV0514="0";
  HV0601=HV0602=HV0605="0";
  
-          String checker="SELECT * FROM moh731 WHERE id=?" ;
-          conn.pst=conn.conn.prepareStatement(checker);
-          conn.pst.setString(1, id);
-          conn.rs=conn.pst.executeQuery();
-          
-          if(conn.rs.next()==true){
-              System.out.println("Updating data-------------------");
-              
- if(conn.rs.getString("HV0101")!=null){HV0101=conn.rs.getString("HV0101");}
-  if(conn.rs.getString("HV0102")!=null){HV0102=conn.rs.getString("HV0102");}
-  if(conn.rs.getString("HV0103")!=null){HV0103=conn.rs.getString("HV0103");}
-  if(conn.rs.getString("HV0105")!=null){HV0105=conn.rs.getString("HV0105");}
-  if(conn.rs.getString("HV0106")!=null){HV0106=conn.rs.getString("HV0106");}
-  if(conn.rs.getString("HV0107")!=null){HV0107=conn.rs.getString("HV0107");}
-  if(conn.rs.getString("HV0108")!=null){HV0108=conn.rs.getString("HV0108");}
-  if(conn.rs.getString("HV0109")!=null){HV0109=conn.rs.getString("HV0109");}
-  if(conn.rs.getString("HV0110")!=null){HV0110=conn.rs.getString("HV0110");}
-  if(conn.rs.getString("HV0111")!=null){HV0111=conn.rs.getString("HV0111");}
-  if(conn.rs.getString("HV0112")!=null){HV0112=conn.rs.getString("HV0112");}
-  if(conn.rs.getString("HV0113")!=null){HV0113=conn.rs.getString("HV0113");}
-  if(conn.rs.getString("HV0114")!=null){HV0114=conn.rs.getString("HV0114");}
-  if(conn.rs.getString("HV0115")!=null){HV0115=conn.rs.getString("HV0115");}
-  if(conn.rs.getString("HV0116")!=null){HV0116=conn.rs.getString("HV0116");}
+//          String checker="SELECT * FROM moh731 WHERE id=?" ;
+//          conn.pst=conn.conn.prepareStatement(checker);
+//          conn.pst.setString(1, id);
+//          conn.rs=conn.pst.executeQuery();
+//          
+//          if(conn.rs.next()==true){
+//             System.out.println("Updating data-------------------");
+//              
+//          }
+  if(request.getParameter("HV0101")!=null && !request.getParameter("HV0101").equals("")){HV0101=request.getParameter("HV0101");}
+  if(request.getParameter("HV0102")!=null && !request.getParameter("HV0102").equals("")){HV0102=request.getParameter("HV0102");}
+  if(request.getParameter("HV0103")!=null && !request.getParameter("HV0103").equals("")){HV0103=request.getParameter("HV0103");}
+  if(request.getParameter("HV0105")!=null && !request.getParameter("HV0105").equals("")){HV0105=request.getParameter("HV0105");}
+  if(request.getParameter("HV0106")!=null && !request.getParameter("HV0106").equals("")){HV0106=request.getParameter("HV0106");}
+  if(request.getParameter("HV0107")!=null && !request.getParameter("HV0107").equals("")){HV0107=request.getParameter("HV0107");}
+  if(request.getParameter("HV0108")!=null && !request.getParameter("HV0108").equals("")){HV0108=request.getParameter("HV0108");}
+  if(request.getParameter("HV0109")!=null && !request.getParameter("HV0109").equals("")){HV0109=request.getParameter("HV0109");}
+  if(request.getParameter("HV0110")!=null && !request.getParameter("HV0110").equals("")){HV0110=request.getParameter("HV0110");}
+  if(request.getParameter("HV0111")!=null && !request.getParameter("HV0111").equals("")){HV0111=request.getParameter("HV0111");}
+  if(request.getParameter("HV0112")!=null && !request.getParameter("HV0112").equals("")){HV0112=request.getParameter("HV0112");}
+  if(request.getParameter("HV0113")!=null && !request.getParameter("HV0113").equals("")){HV0113=request.getParameter("HV0113");}
+  if(request.getParameter("HV0114")!=null && !request.getParameter("HV0114").equals("")){HV0114=request.getParameter("HV0114");}
+  if(request.getParameter("HV0115")!=null && !request.getParameter("HV0115").equals("")){HV0115=request.getParameter("HV0115");}
+  if(request.getParameter("HV0116")!=null && !request.getParameter("HV0116").equals("")){HV0116=request.getParameter("HV0116");}
  
-if(conn.rs.getString("HV0201")!=null){HV0201=conn.rs.getString("HV0201");}
-if(conn.rs.getString("HV0202")!=null){HV0202=conn.rs.getString("HV0202");}
-if(conn.rs.getString("HV0203")!=null){HV0203=conn.rs.getString("HV0203");}
-if(conn.rs.getString("HV0204")!=null){HV0204=conn.rs.getString("HV0204");}
-if(conn.rs.getString("HV0205")!=null){HV0205=conn.rs.getString("HV0205");}
-if(conn.rs.getString("HV0206")!=null){HV0206=conn.rs.getString("HV0206");}
-if(conn.rs.getString("HV0207")!=null){HV0207=conn.rs.getString("HV0207");}
-if(conn.rs.getString("HV0208")!=null){HV0208=conn.rs.getString("HV0208");}
-if(conn.rs.getString("HV0209")!=null){HV0209=conn.rs.getString("HV0209");}
-if(conn.rs.getString("HV0210")!=null){HV0210=conn.rs.getString("HV0210");}
-if(conn.rs.getString("HV0211")!=null){HV0211=conn.rs.getString("HV0211");}
-if(conn.rs.getString("HV0212")!=null){HV0212=conn.rs.getString("HV0212");}
-if(conn.rs.getString("HV0213")!=null){HV0213=conn.rs.getString("HV0213");}
-if(conn.rs.getString("HV0214")!=null){HV0214=conn.rs.getString("HV0214");}
-if(conn.rs.getString("HV0215")!=null){HV0215=conn.rs.getString("HV0215");}
-if(conn.rs.getString("HV0216")!=null){HV0216=conn.rs.getString("HV0216");}
-if(conn.rs.getString("HV0217")!=null){HV0217=conn.rs.getString("HV0217");}
-if(conn.rs.getString("HV0218")!=null){HV0218=conn.rs.getString("HV0218");}
-if(conn.rs.getString("HV0219")!=null){HV0219=conn.rs.getString("HV0219");}
-if(conn.rs.getString("HV0220")!=null){HV0220=conn.rs.getString("HV0220");}
-if(conn.rs.getString("HV0221")!=null){HV0221=conn.rs.getString("HV0221");}
-if(conn.rs.getString("HV0224")!=null){HV0224=conn.rs.getString("HV0224");}
-if(conn.rs.getString("HV0225")!=null){HV0225=conn.rs.getString("HV0225");}
-if(conn.rs.getString("HV0226")!=null){HV0226=conn.rs.getString("HV0226");}
-if(conn.rs.getString("HV0227")!=null){HV0227=conn.rs.getString("HV0227");}
-if(conn.rs.getString("HV0228")!=null){HV0228=conn.rs.getString("HV0228");}
-if(conn.rs.getString("HV0229")!=null){HV0229=conn.rs.getString("HV0229");}
-if(conn.rs.getString("HV0230")!=null){HV0230=conn.rs.getString("HV0230");}
-if(conn.rs.getString("HV0231")!=null){HV0231=conn.rs.getString("HV0231");}
-if(conn.rs.getString("HV0232")!=null){HV0232=conn.rs.getString("HV0232");}
-if(conn.rs.getString("HV0233")!=null){HV0233=conn.rs.getString("HV0233");}
-if(conn.rs.getString("HV0234")!=null){HV0234=conn.rs.getString("HV0234");}
-if(conn.rs.getString("HV0235")!=null){HV0235=conn.rs.getString("HV0235");}
-if(conn.rs.getString("HV0236")!=null){HV0236=conn.rs.getString("HV0236");}
-if(conn.rs.getString("HV0237")!=null){HV0237=conn.rs.getString("HV0237");}
-if(conn.rs.getString("HV0238")!=null){HV0238=conn.rs.getString("HV0238");}
-if(conn.rs.getString("HV0239")!=null){HV0239=conn.rs.getString("HV0239");}
-if(conn.rs.getString("HV0240")!=null){HV0240=conn.rs.getString("HV0240");}
-if(conn.rs.getString("HV0241")!=null){HV0241=conn.rs.getString("HV0241");}
-if(conn.rs.getString("HV0242")!=null){HV0242=conn.rs.getString("HV0242");}
-if(conn.rs.getString("HV0243")!=null){HV0243=conn.rs.getString("HV0243");}
-if(conn.rs.getString("HV0244")!=null){HV0244=conn.rs.getString("HV0244");}
+if(request.getParameter("HV0201")!=null && !request.getParameter("HV0201").equals("")){HV0201=request.getParameter("HV0201");}
+if(request.getParameter("HV0202")!=null && !request.getParameter("HV0202").equals("")){HV0202=request.getParameter("HV0202");}
+if(request.getParameter("HV0203")!=null && !request.getParameter("HV0203").equals("")){HV0203=request.getParameter("HV0203");}
+if(request.getParameter("HV0204")!=null && !request.getParameter("HV0204").equals("")){HV0204=request.getParameter("HV0204");}
+if(request.getParameter("HV0205")!=null && !request.getParameter("HV0205").equals("")){HV0205=request.getParameter("HV0205");}
+if(request.getParameter("HV0206")!=null && !request.getParameter("HV0206").equals("")){HV0206=request.getParameter("HV0206");}
+if(request.getParameter("HV0207")!=null && !request.getParameter("HV0207").equals("")){HV0207=request.getParameter("HV0207");}
+if(request.getParameter("HV0208")!=null && !request.getParameter("HV0208").equals("")){HV0208=request.getParameter("HV0208");}
+if(request.getParameter("HV0209")!=null && !request.getParameter("HV0209").equals("")){HV0209=request.getParameter("HV0209");}
+if(request.getParameter("HV0210")!=null && !request.getParameter("HV0210").equals("")){HV0210=request.getParameter("HV0210");}
+if(request.getParameter("HV0211")!=null && !request.getParameter("HV0211").equals("")){HV0211=request.getParameter("HV0211");}
+if(request.getParameter("HV0212")!=null && !request.getParameter("HV0212").equals("")){HV0212=request.getParameter("HV0212");}
+if(request.getParameter("HV0213")!=null && !request.getParameter("HV0213").equals("")){HV0213=request.getParameter("HV0213");}
+if(request.getParameter("HV0214")!=null && !request.getParameter("HV0214").equals("")){HV0214=request.getParameter("HV0214");}
+if(request.getParameter("HV0215")!=null && !request.getParameter("HV0215").equals("")){HV0215=request.getParameter("HV0215");}
+if(request.getParameter("HV0216")!=null && !request.getParameter("HV0216").equals("")){HV0216=request.getParameter("HV0216");}
+if(request.getParameter("HV0217")!=null && !request.getParameter("HV0217").equals("")){HV0217=request.getParameter("HV0217");}
+if(request.getParameter("HV0218")!=null && !request.getParameter("HV0218").equals("")){HV0218=request.getParameter("HV0218");}
+if(request.getParameter("HV0219")!=null && !request.getParameter("HV0219").equals("")){HV0219=request.getParameter("HV0219");}
+if(request.getParameter("HV0220")!=null && !request.getParameter("HV0220").equals("")){HV0220=request.getParameter("HV0220");}
+if(request.getParameter("HV0221")!=null && !request.getParameter("HV0221").equals("")){HV0221=request.getParameter("HV0221");}
+if(request.getParameter("HV0224")!=null && !request.getParameter("HV0224").equals("")){HV0224=request.getParameter("HV0224");}
+if(request.getParameter("HV0225")!=null && !request.getParameter("HV0225").equals("")){HV0225=request.getParameter("HV0225");}
+if(request.getParameter("HV0226")!=null && !request.getParameter("HV0226").equals("")){HV0226=request.getParameter("HV0226");}
+if(request.getParameter("HV0227")!=null && !request.getParameter("HV0227").equals("")){HV0227=request.getParameter("HV0227");}
+if(request.getParameter("HV0228")!=null && !request.getParameter("HV0228").equals("")){HV0228=request.getParameter("HV0228");}
+if(request.getParameter("HV0229")!=null && !request.getParameter("HV0229").equals("")){HV0229=request.getParameter("HV0229");}
+if(request.getParameter("HV0230")!=null && !request.getParameter("HV0230").equals("")){HV0230=request.getParameter("HV0230");}
+if(request.getParameter("HV0231")!=null && !request.getParameter("HV0231").equals("")){HV0231=request.getParameter("HV0231");}
+if(request.getParameter("HV0232")!=null && !request.getParameter("HV0232").equals("")){HV0232=request.getParameter("HV0232");}
+if(request.getParameter("HV0233")!=null && !request.getParameter("HV0233").equals("")){HV0233=request.getParameter("HV0233");}
+if(request.getParameter("HV0234")!=null && !request.getParameter("HV0234").equals("")){HV0234=request.getParameter("HV0234");}
+if(request.getParameter("HV0235")!=null && !request.getParameter("HV0235").equals("")){HV0235=request.getParameter("HV0235");}
+if(request.getParameter("HV0236")!=null && !request.getParameter("HV0236").equals("")){HV0236=request.getParameter("HV0236");}
+if(request.getParameter("HV0237")!=null && !request.getParameter("HV0237").equals("")){HV0237=request.getParameter("HV0237");}
+if(request.getParameter("HV0238")!=null && !request.getParameter("HV0238").equals("")){HV0238=request.getParameter("HV0238");}
+if(request.getParameter("HV0239")!=null && !request.getParameter("HV0239").equals("")){HV0239=request.getParameter("HV0239");}
+if(request.getParameter("HV0240")!=null && !request.getParameter("HV0240").equals("")){HV0240=request.getParameter("HV0240");}
+if(request.getParameter("HV0241")!=null && !request.getParameter("HV0241").equals("")){HV0241=request.getParameter("HV0241");}
+if(request.getParameter("HV0242")!=null && !request.getParameter("HV0242").equals("")){HV0242=request.getParameter("HV0242");}
+if(request.getParameter("HV0243")!=null && !request.getParameter("HV0243").equals("")){HV0243=request.getParameter("HV0243");}
+if(request.getParameter("HV0244")!=null && !request.getParameter("HV0244").equals("")){HV0244=request.getParameter("HV0244");}
 
-if(conn.rs.getString("HV0301")!=null){HV0301=conn.rs.getString("HV0301");}
-if(conn.rs.getString("HV0302")!=null){HV0302=conn.rs.getString("HV0302");}
-if(conn.rs.getString("HV0303")!=null){HV0303=conn.rs.getString("HV0303");}
-if(conn.rs.getString("HV0304")!=null){HV0304=conn.rs.getString("HV0304");}
-if(conn.rs.getString("HV0305")!=null){HV0305=conn.rs.getString("HV0305");}
-if(conn.rs.getString("HV0306")!=null){HV0306=conn.rs.getString("HV0306");}
-if(conn.rs.getString("HV0307")!=null){HV0307=conn.rs.getString("HV0307");}
-if(conn.rs.getString("HV0308")!=null){HV0308=conn.rs.getString("HV0308");}
-if(conn.rs.getString("HV0309")!=null){HV0309=conn.rs.getString("HV0309");}
-if(conn.rs.getString("HV0310")!=null){HV0310=conn.rs.getString("HV0310");}
-if(conn.rs.getString("HV0311")!=null){HV0311=conn.rs.getString("HV0311");}
-if(conn.rs.getString("HV0312")!=null){HV0312=conn.rs.getString("HV0312");}
-if(conn.rs.getString("HV0313")!=null){HV0313=conn.rs.getString("HV0313");}
-if(conn.rs.getString("HV0314")!=null){HV0314=conn.rs.getString("HV0314");}
-if(conn.rs.getString("HV0315")!=null){HV0315=conn.rs.getString("HV0315");}
-if(conn.rs.getString("HV0316")!=null){HV0316=conn.rs.getString("HV0316");}
-if(conn.rs.getString("HV0317")!=null){HV0317=conn.rs.getString("HV0317");}
-if(conn.rs.getString("HV0319")!=null){HV0319=conn.rs.getString("HV0319");}
-if(conn.rs.getString("HV0320")!=null){HV0320=conn.rs.getString("HV0320");}
-if(conn.rs.getString("HV0321")!=null){HV0321=conn.rs.getString("HV0321");}
-if(conn.rs.getString("HV0322")!=null){HV0322=conn.rs.getString("HV0322");}
-if(conn.rs.getString("HV0323")!=null){HV0323=conn.rs.getString("HV0323");}
-if(conn.rs.getString("HV0324")!=null){HV0324=conn.rs.getString("HV0324");}
-if(conn.rs.getString("HV0325")!=null){HV0325=conn.rs.getString("HV0325");}
-if(conn.rs.getString("HV0326")!=null){HV0326=conn.rs.getString("HV0326");}
-if(conn.rs.getString("HV0327")!=null){HV0327=conn.rs.getString("HV0327");}
-if(conn.rs.getString("HV0328")!=null){HV0328=conn.rs.getString("HV0328");}
-if(conn.rs.getString("HV0329")!=null){HV0329=conn.rs.getString("HV0329");}
-if(conn.rs.getString("HV0330")!=null){HV0330=conn.rs.getString("HV0330");}
-if(conn.rs.getString("HV0331")!=null){HV0331=conn.rs.getString("HV0331");}
-if(conn.rs.getString("HV0332")!=null){HV0332=conn.rs.getString("HV0332");}
-if(conn.rs.getString("HV0333")!=null){HV0333=conn.rs.getString("HV0333");}
-if(conn.rs.getString("HV0334")!=null){HV0334=conn.rs.getString("HV0334");}
-if(conn.rs.getString("HV0335")!=null){HV0335=conn.rs.getString("HV0335");}
-if(conn.rs.getString("HV0336")!=null){HV0336=conn.rs.getString("HV0336");}
-if(conn.rs.getString("HV0337")!=null){HV0337=conn.rs.getString("HV0337");}
-if(conn.rs.getString("HV0338")!=null){HV0338=conn.rs.getString("HV0338");}
-if(conn.rs.getString("HV0339")!=null){HV0339=conn.rs.getString("HV0339");}
-if(conn.rs.getString("HV0340")!=null){HV0340=conn.rs.getString("HV0340");}
-if(conn.rs.getString("HV0341")!=null){HV0341=conn.rs.getString("HV0341");}
-if(conn.rs.getString("HV0342")!=null){HV0342=conn.rs.getString("HV0342");}
-if(conn.rs.getString("HV0343")!=null){HV0343=conn.rs.getString("HV0343");}
-if(conn.rs.getString("HV0344")!=null){HV0344=conn.rs.getString("HV0344");}
-if(conn.rs.getString("HV0345")!=null){HV0345=conn.rs.getString("HV0345");}
-if(conn.rs.getString("HV0346")!=null){HV0346=conn.rs.getString("HV0346");}
-if(conn.rs.getString("HV0347")!=null){HV0347=conn.rs.getString("HV0347");}
-if(conn.rs.getString("HV0348")!=null){HV0348=conn.rs.getString("HV0348");}
-if(conn.rs.getString("HV0349")!=null){HV0349=conn.rs.getString("HV0349");}
-if(conn.rs.getString("HV0350")!=null){HV0350=conn.rs.getString("HV0350");}
-if(conn.rs.getString("HV0351")!=null){HV0351=conn.rs.getString("HV0351");}
-if(conn.rs.getString("HV0352")!=null){HV0352=conn.rs.getString("HV0352");}
-if(conn.rs.getString("HV0353")!=null){HV0353=conn.rs.getString("HV0353");}
-if(conn.rs.getString("HV0354")!=null){HV0354=conn.rs.getString("HV0354");}
-if(conn.rs.getString("HV0355")!=null){HV0355=conn.rs.getString("HV0355");}
-if(conn.rs.getString("HV0904")!=null){HV0904=conn.rs.getString("HV0904");}
-if(conn.rs.getString("HV0905")!=null){HV0905=conn.rs.getString("HV0905");}
-if(conn.rs.getString("HV0370")!=null){HV0370=conn.rs.getString("HV0370");}
-if(conn.rs.getString("HV0371")!=null){HV0371=conn.rs.getString("HV0371");}
-if(conn.rs.getString("HV0372")!=null){HV0372=conn.rs.getString("HV0372");}
-if(conn.rs.getString("HV0373")!=null){HV0373=conn.rs.getString("HV0373");}
+if(request.getParameter("HV0301")!=null && !request.getParameter("HV0301").equals("")){HV0301=request.getParameter("HV0301");}
+if(request.getParameter("HV0302")!=null && !request.getParameter("HV0302").equals("")){HV0302=request.getParameter("HV0302");}
+if(request.getParameter("HV0303")!=null && !request.getParameter("HV0303").equals("")){HV0303=request.getParameter("HV0303");}
+if(request.getParameter("HV0304")!=null && !request.getParameter("HV0304").equals("")){HV0304=request.getParameter("HV0304");}
+if(request.getParameter("HV0305")!=null && !request.getParameter("HV0305").equals("")){HV0305=request.getParameter("HV0305");}
+if(request.getParameter("HV0306")!=null && !request.getParameter("HV0306").equals("")){HV0306=request.getParameter("HV0306");}
+if(request.getParameter("HV0307")!=null && !request.getParameter("HV0307").equals("")){HV0307=request.getParameter("HV0307");}
+if(request.getParameter("HV0308")!=null && !request.getParameter("HV0308").equals("")){HV0308=request.getParameter("HV0308");}
+if(request.getParameter("HV0309")!=null && !request.getParameter("HV0309").equals("")){HV0309=request.getParameter("HV0309");}
+if(request.getParameter("HV0310")!=null && !request.getParameter("HV0310").equals("")){HV0310=request.getParameter("HV0310");}
+if(request.getParameter("HV0311")!=null && !request.getParameter("HV0311").equals("")){HV0311=request.getParameter("HV0311");}
+if(request.getParameter("HV0312")!=null && !request.getParameter("HV0312").equals("")){HV0312=request.getParameter("HV0312");}
+if(request.getParameter("HV0313")!=null && !request.getParameter("HV0313").equals("")){HV0313=request.getParameter("HV0313");}
+if(request.getParameter("HV0314")!=null && !request.getParameter("HV0314").equals("")){HV0314=request.getParameter("HV0314");}
+if(request.getParameter("HV0315")!=null && !request.getParameter("HV0315").equals("")){HV0315=request.getParameter("HV0315");}
+if(request.getParameter("HV0316")!=null && !request.getParameter("HV0316").equals("")){HV0316=request.getParameter("HV0316");}
+if(request.getParameter("HV0317")!=null && !request.getParameter("HV0317").equals("")){HV0317=request.getParameter("HV0317");}
+if(request.getParameter("HV0318")!=null && !request.getParameter("HV0318").equals("")){HV0318=request.getParameter("HV0318");}
+if(request.getParameter("HV0319")!=null && !request.getParameter("HV0319").equals("")){HV0319=request.getParameter("HV0319");}
+if(request.getParameter("HV0320")!=null && !request.getParameter("HV0320").equals("")){HV0320=request.getParameter("HV0320");}
+if(request.getParameter("HV0321")!=null && !request.getParameter("HV0321").equals("")){HV0321=request.getParameter("HV0321");}
+if(request.getParameter("HV0322")!=null && !request.getParameter("HV0322").equals("")){HV0322=request.getParameter("HV0322");}
+if(request.getParameter("HV0323")!=null && !request.getParameter("HV0323").equals("")){HV0323=request.getParameter("HV0323");}
+if(request.getParameter("HV0324")!=null && !request.getParameter("HV0324").equals("")){HV0324=request.getParameter("HV0324");}
+if(request.getParameter("HV0325")!=null && !request.getParameter("HV0325").equals("")){HV0325=request.getParameter("HV0325");}
+if(request.getParameter("HV0326")!=null && !request.getParameter("HV0326").equals("")){HV0326=request.getParameter("HV0326");}
+if(request.getParameter("HV0327")!=null && !request.getParameter("HV0327").equals("")){HV0327=request.getParameter("HV0327");}
+if(request.getParameter("HV0328")!=null && !request.getParameter("HV0328").equals("")){HV0328=request.getParameter("HV0328");}
+if(request.getParameter("HV0329")!=null && !request.getParameter("HV0329").equals("")){HV0329=request.getParameter("HV0329");}
+if(request.getParameter("HV0330")!=null && !request.getParameter("HV0330").equals("")){HV0330=request.getParameter("HV0330");}
+if(request.getParameter("HV0331")!=null && !request.getParameter("HV0331").equals("")){HV0331=request.getParameter("HV0331");}
+if(request.getParameter("HV0332")!=null && !request.getParameter("HV0332").equals("")){HV0332=request.getParameter("HV0332");}
+if(request.getParameter("HV0333")!=null && !request.getParameter("HV0333").equals("")){HV0333=request.getParameter("HV0333");}
+if(request.getParameter("HV0334")!=null && !request.getParameter("HV0334").equals("")){HV0334=request.getParameter("HV0334");}
+if(request.getParameter("HV0335")!=null && !request.getParameter("HV0335").equals("")){HV0335=request.getParameter("HV0335");}
+if(request.getParameter("HV0336")!=null && !request.getParameter("HV0336").equals("")){HV0336=request.getParameter("HV0336");}
+if(request.getParameter("HV0337")!=null && !request.getParameter("HV0337").equals("")){HV0337=request.getParameter("HV0337");}
+if(request.getParameter("HV0338")!=null && !request.getParameter("HV0338").equals("")){HV0338=request.getParameter("HV0338");}
+if(request.getParameter("HV0339")!=null && !request.getParameter("HV0339").equals("")){HV0339=request.getParameter("HV0339");}
+if(request.getParameter("HV0340")!=null && !request.getParameter("HV0340").equals("")){HV0340=request.getParameter("HV0340");}
+if(request.getParameter("HV0341")!=null && !request.getParameter("HV0341").equals("")){HV0341=request.getParameter("HV0341");}
+if(request.getParameter("HV0342")!=null && !request.getParameter("HV0342").equals("")){HV0342=request.getParameter("HV0342");}
+if(request.getParameter("HV0343")!=null && !request.getParameter("HV0343").equals("")){HV0343=request.getParameter("HV0343");}
+if(request.getParameter("HV0344")!=null && !request.getParameter("HV0344").equals("")){HV0344=request.getParameter("HV0344");}
+if(request.getParameter("HV0345")!=null && !request.getParameter("HV0345").equals("")){HV0345=request.getParameter("HV0345");}
+if(request.getParameter("HV0346")!=null && !request.getParameter("HV0346").equals("")){HV0346=request.getParameter("HV0346");}
+if(request.getParameter("HV0347")!=null && !request.getParameter("HV0347").equals("")){HV0347=request.getParameter("HV0347");}
+if(request.getParameter("HV0348")!=null && !request.getParameter("HV0348").equals("")){HV0348=request.getParameter("HV0348");}
+if(request.getParameter("HV0349")!=null && !request.getParameter("HV0349").equals("")){HV0349=request.getParameter("HV0349");}
+if(request.getParameter("HV0350")!=null && !request.getParameter("HV0350").equals("")){HV0350=request.getParameter("HV0350");}
+if(request.getParameter("HV0351")!=null && !request.getParameter("HV0351").equals("")){HV0351=request.getParameter("HV0351");}
+if(request.getParameter("HV0352")!=null && !request.getParameter("HV0352").equals("")){HV0352=request.getParameter("HV0352");}
+if(request.getParameter("HV0353")!=null && !request.getParameter("HV0353").equals("")){HV0353=request.getParameter("HV0353");}
+if(request.getParameter("HV0354")!=null && !request.getParameter("HV0354").equals("")){HV0354=request.getParameter("HV0354");}
+if(request.getParameter("HV0355")!=null && !request.getParameter("HV0355").equals("")){HV0355=request.getParameter("HV0355");}
+if(request.getParameter("HV0904")!=null && !request.getParameter("HV0904").equals("")){HV0904=request.getParameter("HV0904");}
+if(request.getParameter("HV0905")!=null && !request.getParameter("HV0905").equals("")){HV0905=request.getParameter("HV0905");}
+if(request.getParameter("HV0370")!=null && !request.getParameter("HV0370").equals("")){HV0370=request.getParameter("HV0370");}
+if(request.getParameter("HV0371")!=null && !request.getParameter("HV0371").equals("")){HV0371=request.getParameter("HV0371");}
+if(request.getParameter("HV0372")!=null && !request.getParameter("HV0372").equals("")){HV0372=request.getParameter("HV0372");}
+if(request.getParameter("HV0373")!=null && !request.getParameter("HV0373").equals("")){HV0373=request.getParameter("HV0373");}
 
-if(conn.rs.getString("HV0401")!=null){HV0401=conn.rs.getString("HV0401");}
-if(conn.rs.getString("HV0402")!=null){HV0402=conn.rs.getString("HV0402");}
-if(conn.rs.getString("HV0403")!=null){HV0403=conn.rs.getString("HV0403");}
-if(conn.rs.getString("HV0406")!=null){HV0406=conn.rs.getString("HV0406");}
-if(conn.rs.getString("HV0407")!=null){HV0407=conn.rs.getString("HV0407");}
-if(conn.rs.getString("HV0408")!=null){HV0408=conn.rs.getString("HV0408");}
-if(conn.rs.getString("HV0409")!=null){HV0409=conn.rs.getString("HV0409");}
-if(conn.rs.getString("HV0410")!=null){HV0410=conn.rs.getString("HV0410");}
-if(conn.rs.getString("HV0411")!=null){HV0411=conn.rs.getString("HV0411");}
-if(conn.rs.getString("HV0412")!=null){HV0412=conn.rs.getString("HV0412");}
-if(conn.rs.getString("HV0413")!=null){HV0413=conn.rs.getString("HV0413");}
-if(conn.rs.getString("HV0414")!=null){HV0414=conn.rs.getString("HV0414");}
-if(conn.rs.getString("HV0415")!=null){HV0415=conn.rs.getString("HV0415");}
+if(request.getParameter("HV0401")!=null && !request.getParameter("HV0401").equals("")){HV0401=request.getParameter("HV0401");}
+if(request.getParameter("HV0402")!=null && !request.getParameter("HV0402").equals("")){HV0402=request.getParameter("HV0402");}
+if(request.getParameter("HV0403")!=null && !request.getParameter("HV0403").equals("")){HV0403=request.getParameter("HV0403");}
+if(request.getParameter("HV0406")!=null && !request.getParameter("HV0406").equals("")){HV0406=request.getParameter("HV0406");}
+if(request.getParameter("HV0407")!=null && !request.getParameter("HV0407").equals("")){HV0407=request.getParameter("HV0407");}
+if(request.getParameter("HV0408")!=null && !request.getParameter("HV0408").equals("")){HV0408=request.getParameter("HV0408");}
+if(request.getParameter("HV0409")!=null && !request.getParameter("HV0409").equals("")){HV0409=request.getParameter("HV0409");}
+if(request.getParameter("HV0410")!=null && !request.getParameter("HV0410").equals("")){HV0410=request.getParameter("HV0410");}
+if(request.getParameter("HV0411")!=null && !request.getParameter("HV0411").equals("")){HV0411=request.getParameter("HV0411");}
+if(request.getParameter("HV0412")!=null && !request.getParameter("HV0412").equals("")){HV0412=request.getParameter("HV0412");}
+if(request.getParameter("HV0413")!=null && !request.getParameter("HV0413").equals("")){HV0413=request.getParameter("HV0413");}
+if(request.getParameter("HV0414")!=null && !request.getParameter("HV0414").equals("")){HV0414=request.getParameter("HV0414");}
+if(request.getParameter("HV0415")!=null && !request.getParameter("HV0415").equals("")){HV0415=request.getParameter("HV0415");}
 
-if(conn.rs.getString("HV0501")!=null){HV0501=conn.rs.getString("HV0501");}
-if(conn.rs.getString("HV0502")!=null){HV0502=conn.rs.getString("HV0502");}
-if(conn.rs.getString("HV0503")!=null){HV0503=conn.rs.getString("HV0503");}
-if(conn.rs.getString("HV0504")!=null){HV0504=conn.rs.getString("HV0504");}
-if(conn.rs.getString("HV0505")!=null){HV0505=conn.rs.getString("HV0505");}
-if(conn.rs.getString("HV0506")!=null){HV0506=conn.rs.getString("HV0506");}
-if(conn.rs.getString("HV0507")!=null){HV0507=conn.rs.getString("HV0507");}
-if(conn.rs.getString("HV0508")!=null){HV0508=conn.rs.getString("HV0508");}
-if(conn.rs.getString("HV0509")!=null){HV0509=conn.rs.getString("HV0509");}
-if(conn.rs.getString("HV0510")!=null){HV0510=conn.rs.getString("HV0510");}
-if(conn.rs.getString("HV0511")!=null){HV0511=conn.rs.getString("HV0511");}
-if(conn.rs.getString("HV0512")!=null){HV0512=conn.rs.getString("HV0512");}
-if(conn.rs.getString("HV0513")!=null){HV0513=conn.rs.getString("HV0513");}
-if(conn.rs.getString("HV0514")!=null){HV0514=conn.rs.getString("HV0514");}
+if(request.getParameter("HV0501")!=null && !request.getParameter("HV0501").equals("")){HV0501=request.getParameter("HV0501");}
+if(request.getParameter("HV0502")!=null && !request.getParameter("HV0502").equals("")){HV0502=request.getParameter("HV0502");}
+if(request.getParameter("HV0503")!=null && !request.getParameter("HV0503").equals("")){HV0503=request.getParameter("HV0503");}
+if(request.getParameter("HV0504")!=null && !request.getParameter("HV0504").equals("")){HV0504=request.getParameter("HV0504");}
+if(request.getParameter("HV0505")!=null && !request.getParameter("HV0505").equals("")){HV0505=request.getParameter("HV0505");}
+if(request.getParameter("HV0506")!=null && !request.getParameter("HV0506").equals("")){HV0506=request.getParameter("HV0506");}
+if(request.getParameter("HV0507")!=null && !request.getParameter("HV0507").equals("")){HV0507=request.getParameter("HV0507");}
+if(request.getParameter("HV0508")!=null && !request.getParameter("HV0508").equals("")){HV0508=request.getParameter("HV0508");}
+if(request.getParameter("HV0509")!=null && !request.getParameter("HV0509").equals("")){HV0509=request.getParameter("HV0509");}
+if(request.getParameter("HV0510")!=null && !request.getParameter("HV0510").equals("")){HV0510=request.getParameter("HV0510");}
+if(request.getParameter("HV0511")!=null && !request.getParameter("HV0511").equals("")){HV0511=request.getParameter("HV0511");}
+if(request.getParameter("HV0512")!=null && !request.getParameter("HV0512").equals("")){HV0512=request.getParameter("HV0512");}
+if(request.getParameter("HV0513")!=null && !request.getParameter("HV0513").equals("")){HV0513=request.getParameter("HV0513");}
+if(request.getParameter("HV0514")!=null && !request.getParameter("HV0514").equals("")){HV0514=request.getParameter("HV0514");}
 
-if(conn.rs.getString("HV0601")!=null){HV0601=conn.rs.getString("HV0601");}
-if(conn.rs.getString("HV0602")!=null){HV0602=conn.rs.getString("HV0602");}
-if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
+if(request.getParameter("HV0601")!=null && !request.getParameter("HV0601").equals("")){HV0601=request.getParameter("HV0601");}
+if(request.getParameter("HV0602")!=null && !request.getParameter("HV0602").equals("")){HV0602=request.getParameter("HV0602");}
+if(request.getParameter("HV0605")!=null && !request.getParameter("HV0605").equals("")){HV0605=request.getParameter("HV0605");}
          
           
           
@@ -449,7 +451,7 @@ String userid=session.getAttribute("userid").toString();
      if(conn.conn!=null){conn.conn.close();}
      
      response.sendRedirect("Form731.jsp");
-          }
+//          }
         } finally {
             out.close();
         }

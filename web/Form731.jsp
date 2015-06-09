@@ -93,13 +93,13 @@ legend.formatter {
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                               <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                               <select placeholder="County" onchange="loadsubcounty();" style="width: 120px;"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
                               
-                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                <select data-placeholder="Sub-County" onchange="loadfacils();" style="width: 150px;"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
                                     <option value="">Select County First</option>
                                  </select>
                                     
@@ -357,7 +357,7 @@ $("#allunValidated").html(invalidatedData);
        });
        
         function autosave(columnName){
-  var totalsVariables =",HV0103,HV0116,HV0204,HV0209,HV0210,HV0217,HV0220,HV0228,HV0232,HV0236,HV0240,HV0244,HV0307,HV0313,HV0319,HV0325,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0344,HV0349,HV0354,HV0373,HV0406,HV0414,HV0415,HV0507,HV0514,";          
+  var totalsVariables =",HV0103,HV0116,HV0204,HV0209,HV0210,HV0217,HV0220,HV0228,HV0232,HV0236,HV0240,HV0244,HV0307,HV0313,HV0319,HV0325,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0340,HV0341,HV0342,HV0343,HV0344,HV0349,HV0354,HV0373,HV0406,HV0414,HV0415,HV0507,HV0514,";          
 //          alert("caled"+columnName);
             var achieved=document.getElementById(columnName).value;
 //           var achieved =$("#"+columnName).val();
