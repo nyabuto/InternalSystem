@@ -67,22 +67,28 @@ HttpSession session=null;
          
          
     String SMCHCCNtrTM=request.getParameter("MCHCCNtrTM");
+    if(SMCHCCNtrTM.equals("")){SMCHCCNtrTM=null;} 
     updqr1+="MCHCCNtrTM="+SMCHCCNtrTM +", ";
     
     String SMCHCCNtrTF=request.getParameter("MCHCCNtrTF");
+    if(SMCHCCNtrTF.equals("")){SMCHCCNtrTF=null;} 
     updqr1+="MCHCCNtrTF="+SMCHCCNtrTF +", ";
     
     
     String SC51DCM=request.getParameter("C51DCM");
+    if(SC51DCM.equals("")){SC51DCM=null;} 
     updqr1+="C51DCM="+SC51DCM +", ";
 
     String SC51DCF=request.getParameter("C51DCF");
+    if(SC51DCF.equals("")){SC51DCF=null;} 
     updqr1+="C51DCF="+SC51DCF +", ";
     
     String SMCHNtrnFoodOVC=request.getParameter("MCHNtrnFoodOVC");
+    if(SMCHNtrnFoodOVC.equals("")){SMCHNtrnFoodOVC=null;} 
     updqr1+="MCHNtrnFoodOVC="+SMCHNtrnFoodOVC +", ";
     
     String SMCHNtrnFoodPLHIV=request.getParameter("MCHNtrnFoodPLHIV");
+    if(SMCHNtrnFoodPLHIV.equals("")){SMCHNtrnFoodPLHIV=null;} 
     updqr1+="MCHNtrnFoodPLHIV="+SMCHNtrnFoodPLHIV +", ";
     
     

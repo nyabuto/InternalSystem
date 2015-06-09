@@ -64,18 +64,25 @@ public class validateVmmc extends HttpServlet {
 
 
     String SP51D1=request.getParameter("P51D1");
+      if(SP51D1.equals("")){SP51D1=null;} 
     updqr1+="P51D1="+SP51D1 +", ";
     String SP51D9=request.getParameter("P51D9");
+       if(SP51D1.equals("")){SP51D1=null;} 
     updqr1+="P51D9="+SP51D9 +", ";
     String SP51D10=request.getParameter("P51D10");
+       if(SP51D10.equals("")){SP51D10=null;} 
     updqr1+="P51D10="+SP51D10 +", ";
     String SP51D19=request.getParameter("P51D19");
+       if(SP51D19.equals("")){SP51D19=null;} 
     updqr1+="P51D19="+SP51D19 +", ";
     String SP51D24=request.getParameter("P51D24");
+       if(SP51D24.equals("")){SP51D24=null;} 
     updqr1+="P51D24="+SP51D24 +", ";
     String SP51D49=request.getParameter("P51D49");
+       if(SP51D49.equals("")){SP51D49=null;} 
     updqr1+="P51D49="+SP51D49 +", ";
     String SP51D50=request.getParameter("P51D50");
+       if(SP51D50.equals("")){SP51D50=null;} 
     updqr1+="P51D50="+SP51D50 +", ";
 
     updqr1+=" isValidated='0' where  tableid='"+tableid+"'";

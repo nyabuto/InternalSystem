@@ -64,24 +64,34 @@ String tableid=year+"_"+month+"_"+facil;
 String updqr1="update gender set ";
 
 String SP121DM0=request.getParameter("P121DM0");
+if(SP121DM0.equals("")){SP121DM0=null;} 
 updqr1+="P121DM0="+SP121DM0 +", ";
 String SP121DF0=request.getParameter("P121DF0");
+if(SP121DF0.equals("")){SP121DF0=null;} 
 updqr1+="P121DF0="+SP121DF0 +", ";
 String SP121DM10=request.getParameter("P121DM10");
+if(SP121DM10.equals("")){SP121DM10=null;} 
 updqr1+="P121DM10="+SP121DM10 +", ";
 String SP121DF10=request.getParameter("P121DF10");
+if(SP121DF10.equals("")){SP121DF10=null;} 
 updqr1+="P121DF10="+SP121DF10 +", ";
 String SP121DM15=request.getParameter("P121DM15");
+if(SP121DM15.equals("")){SP121DM15=null;} 
 updqr1+="P121DM15="+SP121DM15 +", ";
 String SP121DF15=request.getParameter("P121DF15");
+if(SP121DF15.equals("")){SP121DF15=null;} 
 updqr1+="P121DF15="+SP121DF15 +", ";
 String SP121DM20=request.getParameter("P121DM20");
+if(SP121DM20.equals("")){SP121DM20=null;} 
 updqr1+="P121DM20="+SP121DM20 +", ";
 String SP121DF20=request.getParameter("P121DF20");
+if(SP121DF20.equals("")){SP121DF20=null;} 
 updqr1+="P121DF20="+SP121DF20 +", ";
 String SP121DM25=request.getParameter("P121DM25");
+if(SP121DM25.equals("")){SP121DM25=null;} 
 updqr1+="P121DM25="+SP121DM25 +", ";
 String SP121DF25=request.getParameter("P121DF25");
+if(SP121DF25.equals("")){SP121DF25=null;} 
 updqr1+="P121DF25="+SP121DF25 +", ";
 
 
