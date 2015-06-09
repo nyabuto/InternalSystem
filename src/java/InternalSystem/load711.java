@@ -331,7 +331,7 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
 // }System.out.println("pmtct"+vctoccu+" "+facilityvctcount +""+dtcoccu) ;  
          if(counter==1){
  htcpane+="  <li class="+activeclass+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_"+counter+"\" data-toggle=\"tab\">D: VCT</a></li>"
-        + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\">E DTC</a></li>\n" ;
+        + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\" onclick=\"checkdispensary();\">E: DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane "+activeclass+"\" id=\"tab_"+counter+"\"><div class=\"portlet box blue\">" +
                               "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT &nbsp  </h4><b  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+validHTC+" out of "+expectedHTC+" &nbsp; "+invalidHTCTXT+"</b> " +
                               "</div><div class=\"portlet-body form\">";
@@ -341,9 +341,9 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
          else{
     
  htcpane+="  <li><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\">D: VCT</a></li>"
-        + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\">E DTC</a></li>\n" ;
+        + "<li><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\" onclick=\"checkdispensary();\">E DTC</a></li>\n" ;
     VCT_TAB="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">D: VCT </h4>  <b  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+validHTC+" out of "+expectedHTC+" &nbsp;   "+invalidHTCTXT+"</b> " +
+                              "<div class=\"portlet-title\" ><h4 style=\"margin-left:20%;\">D: VCT </h4>  <b  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+validHTC+" out of "+expectedHTC+" &nbsp;   "+invalidHTCTXT+"</b> " +
                               "</div><div class=\"portlet-body form\">";
     DTC_TAB="<div class=\"tab-pane \" id=\"tab_5\"><div class=\"portlet box blue\">" +
                              "<div class=\"portlet-title\"><h4 style=\"margin-left:20%;\">E: DTC   </h4>  <b  style=\"color:yellow; font-family:cambria; text-align: center; margin-left:25%; font-size:16px;\">Record Counter:"+validHTC+" out of "+expectedHTC+" &nbsp;  "+invalidHTCTXT+"</b> " +
@@ -612,7 +612,7 @@ System.out.println(enterer);
 //FPIMPLANTSRemoval="";"
       FamilyPlanninng="<p id=\"checkValidity\" hidden=\"hidden\">"+validity+"</p>"
               +  "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> FAMILY PLANNING </b></legend>"
-              + "<table cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+              + "<table frame=\"box\" cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
               + "<td colspan=\"3\" class=\"form-actions\"><b>A: Family Planning </b></td>"
               + "<td class=\"form-actions\"> <b>NEW CLIENTS </b></td>"
               + "<td class=\"form-actions\"> <b>RE-VISITS </b></td>"
@@ -701,7 +701,7 @@ System.out.println(enterer);
              // PMCTA_1stVisit_ANC=PMCTA_ReVisit_ANC=PMCTANCClientsT=PMCTHB7=PMCTIPT1=PMCTIPT2=PMCTANCClients4=PMCTITN=MATNormalDelivery=MATCSection="";
 pmct+="";
            pmct+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> B: MCH-ANC/PMTCT </b></legend>"
-                   + "<table cellpadding=\"2px\"  style=\"margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+                   + "<table frame=\"box\" cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
               + "<td colspan=\"2\" class=\"form-actions\"><b> </b></td>"
               + "<td class=\"form-actions\"> <b>NEW  </b></td>"
               + "<td class=\"form-actions\"> <b>RE-VISIT </b></td>"
@@ -750,7 +750,7 @@ pmct+="";
   //=MATRupUtDead=MATObstrLaborAlive=MATObstrLaborDead=MATSepsisAlive=MATSepsisDead="";
           maternity+="";    
      maternity+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> C: MATERNITY / SAFE DELIVERIES </b></legend>"+
-             "<table cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+             "<table frame=\"box\" cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
               + "<td colspan=\"2\" class=\"form-actions\"><b></b></td>"
               + "<td  colspan=\"2\" class=\"form-actions\"> <b>NUMBER  </b></td>"
                + "</tr>"
@@ -859,18 +859,18 @@ pmct+="";
      vct+="";
    
   vct+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> H: VCT </b></legend>"+
-             "<table cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
+             "<table frame=\"box\" cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
           + "<tr>"
               + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\"><b></b></td>"
-              + "<td  colspan=\"2\" class=\"form-actions\"> <b>15-24  </b></td>"
-              + "<td colspan=\"2\" class=\"form-actions\"> <b> >=25 Years </b></td>"
-              + "<td rowspan=\"2\" class=\"form-actions\"> <b>TOTAL </b></td>"
+              + "<td  colspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b>15-24  </b></td>"
+              + "<td colspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b> >=25 Years </b></td>"
+              + "<td rowspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b>TOTAL </b></td>"
               + "</tr>"
           + "<tr>"
-              + "<td  class=\"form-actions\"><b>F </b></td>"
-              + "<td   class=\"form-actions\"> <b>M </b></td>"
-              + "<td  class=\"form-actions\"> <b>F</b></td>"
-              + "<td class=\"form-actions\"> <b>M </b></td>"
+              + "<td  class=\"form-actions\" style=\"text-align:center;\"><b>F </b></td>"
+              + "<td   class=\"form-actions\" style=\"text-align:center;\"> <b>M </b></td>"
+              + "<td  class=\"form-actions\" style=\"text-align:center;\"> <b>F</b></td>"
+              + "<td class=\"form-actions\" style=\"text-align:center;\"> <b>M </b></td>"
               + "</tr>"
           
                   + "<tr>"
@@ -901,7 +901,7 @@ pmct+="";
                    + "<td ><input type=\"text\" name=\"VCTClient_HIV_TOT\" tabindex='-1' readonly id=\"VCTClient_HIV_TOT\" value=\""+VCTClient_HIV_TOT+"\" onblur=\"autosave('VCTClient_HIV_TOT');vcthivtotal();\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
             + "<tr>"
-              + "<td rowspan=\"4\">1.</td><td rowspan=\"4\">No of couples</td>"
+              + "<td rowspan=\"4\">2.</td><td rowspan=\"4\">No of couples</td>"
                       + "<td>Counselled</td>"
                       + "<td colspan=\"4\">  </td>"
                       + "<td ><input type=\"text\" name=\"VCTPartner_Couns_TOT\" id=\"VCTPartner_Couns_TOT\" value=\""+VCTPartner_Couns_TOT+"\" onblur=\"autosave('VCTPartner_Couns_TOT');\" maxlength=\"10\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
@@ -945,20 +945,20 @@ pmct+="";
            
        dtc+="";    
            
-        dtc+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> I: DTC </b></legend>"+
-             "<table cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
+        dtc+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><p id=\"demo\" hidden=\"true\"></p><b style=\"text-align:center;\"> I: DTC </b></legend>"+
+             "<table frame=\"box\" cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
                 + "<tr>"
-              + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\"><b>I: DTC </b></td>"
-              + "<td colspan=\"2\"  class=\"form-actions\"> <b>Children  </b></td>"
-              + "<td colspan=\"2\" class=\"form-actions\"> <b> Adults </b></td>"
-              + "<td rowspan=\"2\" class=\"form-actions\"> <b>TOTAL </b></td>"
+              + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\" style=\"text-align:center;\"><b>I: DTC </b></td>"
+              + "<td colspan=\"2\"  class=\"form-actions\" style=\"text-align:center;\"> <b>Children  </b></td>"
+              + "<td colspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b> Adults </b></td>"
+              + "<td rowspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b>TOTAL </b></td>"
               + "</tr>"
                 + "<tr>"
              
-              + "<td  class=\"form-actions\"> <b>F  </b></td>"
-              + "<td  class=\"form-actions\"> <b>M </b></td>"
-              + "<td  class=\"form-actions\"> <b>F </b></td>"
-              + "<td  class=\"form-actions\"> <b>M </b></td>"
+              + "<td  class=\"form-actions\" style=\"text-align:center;\"> <b>F  </b></td>"
+              + "<td  class=\"form-actions\" style=\"text-align:center;\"> <b>M </b></td>"
+              + "<td  class=\"form-actions\" style=\"text-align:center;\"> <b>F </b></td>"
+              + "<td  class=\"form-actions\" style=\"text-align:center;\"> <b>M </b></td>"
               + "</tr>"
               + "<tr>"
               + "<td rowspan=\"2\">1.</td><td rowspan=\"2\" >No. Counselled</td>"

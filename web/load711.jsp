@@ -76,10 +76,18 @@ legend.formatter {
 
 }
 </style>
+<style>
+    
+    
+    .form-actions {
+  
+    padding: 4px 20px 4px;
+}
+</style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top" >
+<body class="fixed-top"  >
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -111,7 +119,7 @@ legend.formatter {
                                    
                                    <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
                               
-                                 <select onchange="updatefacilsession(); checkdispensary();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
                              </div>
@@ -227,7 +235,7 @@ legend.formatter {
     </div>
   </div>
 </div>     
-                 
+            
 <!--   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
     <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
     <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
@@ -261,7 +269,7 @@ legend.formatter {
                             }
 
                         %> 
-                         <div class="tabbable tabbable-custom boxless" id="711table">
+                        <div class="tabbable tabbable-custom boxless" id="711table" >
                    
                         
                        
@@ -345,7 +353,7 @@ legend.formatter {
          // initiate layout and plugins
    
 //               $('#facility').select2(); 
-         
+        
                     $.ajax({
 url:'loadFacilities',
 type:'post',
@@ -366,8 +374,8 @@ success:function (data){
             success:function (data){
                 $("#711table").html(data);
 //            $("#FPMicrolutN").focus();   
-           
-            checkdispensary();
+            checkdispensary(); 
+    
  var validity=$("#checkValidity").html();
 $("#isValidated").html(validity);
   
@@ -577,7 +585,7 @@ dataType:'html',
 success:function (data){      
     location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
-   checkdispensary();     
+     
 }
              
              });    
@@ -1315,7 +1323,7 @@ $.ajax({
         success: function() {
 //                alert("submitted");
        location.reload();
-       checkdispensary();
+      
        
                  }
          
@@ -1332,19 +1340,22 @@ else{
 }
  $('[data-toggle="tooltip"]').tooltip();
 return returned;
- });
- });
+ });});
  
+// $("#demo").onload = function() {checkdispensary()};  
  function checkdispensary(){
-  
+
     var facil=document.getElementById("facility");
+    var faci= facil.options[facil.selectedIndex].innerHTML;
     var facilityname = facil.options[facil.selectedIndex].text;
-    
+//     alert(faci+"___"+facilityname);
    if(facilityname.contains("Dispensary"))  {
        
 //       alert("entered facilty");
       
         if ( $( "#DTCA_Couns_Out_CF" ).length ) {
+//                alert("entered facilty")
+       
    document.getElementById("DTCB_Test_In_CF").disabled=true;
   document.getElementById("DTCC_HIV_In_CF").disabled=true;
    
