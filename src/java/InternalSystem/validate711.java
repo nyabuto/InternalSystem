@@ -95,117 +95,117 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
 
            
 String tableid=year+"_"+month+"_"+facil;
-String checker="select * from moh711 WHERE id=?" ;
-          conn.pst=conn.conn.prepareStatement(checker);
-          conn.pst.setString(1, tableid);
-          conn.rs=conn.pst.executeQuery();
-          
-          if(conn.rs.next()==true){
-  if(conn.rs.getString("FPMicrolutN")!=null){FPMicrolutN=conn.rs.getString("FPMicrolutN");}
-  if(conn.rs.getString("FPMicrolutR")!=null){FPMicrolutR=conn.rs.getString("FPMicrolutR");}
-  if(conn.rs.getString("FPMicrolutT")!=null){FPMicrolutT=conn.rs.getString("FPMicrolutT");}
-  if(conn.rs.getString("FPMicrogynonN")!=null){FPMicrogynonN=conn.rs.getString("FPMicrogynonN");}
-  if(conn.rs.getString("FPMicrogynonR")!=null){FPMicrogynonR=conn.rs.getString("FPMicrogynonR");}
-  if(conn.rs.getString("FPMicrogynonT")!=null){FPMicrogynonT=conn.rs.getString("FPMicrogynonT");}
-  if(conn.rs.getString("FPINJECTIONSN")!=null){FPINJECTIONSN=conn.rs.getString("FPINJECTIONSN");}
-  if(conn.rs.getString("FPINJECTIONSR")!=null){FPINJECTIONSR=conn.rs.getString("FPINJECTIONSR");}
-  if(conn.rs.getString("FPINJECTIONST")!=null){FPINJECTIONST=conn.rs.getString("FPINJECTIONST");}
-  if(conn.rs.getString("FPIUCDN")!=null){FPIUCDN=conn.rs.getString("FPIUCDN");}
-  if(conn.rs.getString("FPIUCDR")!=null){FPIUCDR=conn.rs.getString("FPIUCDR");}
-  if(conn.rs.getString("FPIUCDT")!=null){FPIUCDT=conn.rs.getString("FPIUCDT");}
-  if(conn.rs.getString("FPIMPLANTSN")!=null){FPIMPLANTSN=conn.rs.getString("FPIMPLANTSN");}
-  if(conn.rs.getString("FPIMPLANTSR")!=null){FPIMPLANTSR=conn.rs.getString("FPIMPLANTSR");}
-  if(conn.rs.getString("FPIMPLANTST")!=null){FPIMPLANTST=conn.rs.getString("FPIMPLANTST");}
-  if(conn.rs.getString("FPBTLN")!=null){FPBTLN=conn.rs.getString("FPBTLN");}
-  if(conn.rs.getString("FPBTLR")!=null){FPBTLR=conn.rs.getString("FPBTLR");}
-  if(conn.rs.getString("FPBTLT")!=null){FPBTLT=conn.rs.getString("FPBTLT");}
-  if(conn.rs.getString("FPVasectomyN")!=null){FPVasectomyN=conn.rs.getString("FPVasectomyN");}
-  if(conn.rs.getString("FPVasectomyR")!=null){FPVasectomyR=conn.rs.getString("FPVasectomyR");}
-  if(conn.rs.getString("FPVasectomyT")!=null){FPVasectomyT=conn.rs.getString("FPVasectomyT");}
-  if(conn.rs.getString("FPCONDOMSN")!=null){FPCONDOMSN=conn.rs.getString("FPCONDOMSN");}
-  if(conn.rs.getString("FPCONDOMSR")!=null){FPCONDOMSR=conn.rs.getString("FPCONDOMSR");}
-  if(conn.rs.getString("FPCONDOMST")!=null){FPCONDOMST=conn.rs.getString("FPCONDOMST");}
+//String checker="select * from moh711 WHERE id=?" ;
+//          conn.pst=conn.conn.prepareStatement(checker);
+//          conn.pst.setString(1, tableid);
+//          conn.rs=conn.pst.executeQuery();
+//          
+//          if(conn.rs.next()==true){
+  if(request.getParameter("FPMicrolutN")!=null && !request.getParameter("FPMicrolutN").equals("")){FPMicrolutN=request.getParameter("FPMicrolutN");}
+  if(request.getParameter("FPMicrolutR")!=null && !request.getParameter("FPMicrolutR").equals("")){FPMicrolutR=request.getParameter("FPMicrolutR");}
+  if(request.getParameter("FPMicrolutT")!=null && !request.getParameter("FPMicrolutT").equals("")){FPMicrolutT=request.getParameter("FPMicrolutT");}
+  if(request.getParameter("FPMicrogynonN")!=null && !request.getParameter("FPMicrogynonN").equals("")){FPMicrogynonN=request.getParameter("FPMicrogynonN");}
+  if(request.getParameter("FPMicrogynonR")!=null && !request.getParameter("FPMicrogynonR").equals("")){FPMicrogynonR=request.getParameter("FPMicrogynonR");}
+  if(request.getParameter("FPMicrogynonT")!=null && !request.getParameter("FPMicrogynonT").equals("")){FPMicrogynonT=request.getParameter("FPMicrogynonT");}
+  if(request.getParameter("FPINJECTIONSN")!=null && !request.getParameter("FPINJECTIONSN").equals("")){FPINJECTIONSN=request.getParameter("FPINJECTIONSN");}
+  if(request.getParameter("FPINJECTIONST")!=null &&  !request.getParameter("FPINJECTIONST").equals("")){FPINJECTIONST=request.getParameter("FPINJECTIONST");}
+  if(request.getParameter("FPINJECTIONSR")!=null &&  !request.getParameter("FPINJECTIONSR").equals("")){FPINJECTIONSR=request.getParameter("FPINJECTIONSR");}
+  if(request.getParameter("FPIUCDN")!=null &&  !request.getParameter("FPIUCDN").equals("")){FPIUCDN=request.getParameter("FPIUCDN");}
+  if(request.getParameter("FPIUCDR")!=null &&  !request.getParameter("FPIUCDR").equals("")){FPIUCDR=request.getParameter("FPIUCDR");}
+  if(request.getParameter("FPIUCDT")!=null && !request.getParameter("FPIUCDT").equals("")){FPIUCDT=request.getParameter("FPIUCDT");}
+  if(request.getParameter("FPIMPLANTSN")!=null && !request.getParameter("FPIMPLANTSN").equals("")){FPIMPLANTSN=request.getParameter("FPIMPLANTSN");}
+  if(request.getParameter("FPIMPLANTSR")!=null && !request.getParameter("FPIMPLANTSR").equals("")){FPIMPLANTSR=request.getParameter("FPIMPLANTSR");}
+  if(request.getParameter("FPIMPLANTST")!=null && !request.getParameter("FPIMPLANTST").equals("") ){FPIMPLANTST=request.getParameter("FPIMPLANTST");}
+  if(request.getParameter("FPBTLN")!=null && !request.getParameter("FPBTLN").equals("")){FPBTLN=request.getParameter("FPBTLN");}
+  if(request.getParameter("FPBTLR")!=null  && !request.getParameter("FPBTLR").equals("")){FPBTLR=request.getParameter("FPBTLR");}
+  if(request.getParameter("FPBTLT")!=null && !request.getParameter("FPBTLT").equals("")){FPBTLT=request.getParameter("FPBTLT");}
+  if(request.getParameter("FPVasectomyN")!=null && !request.getParameter("FPVasectomyN").equals("")){FPVasectomyN=request.getParameter("FPVasectomyN");}
+  if(request.getParameter("FPVasectomyR")!=null && !request.getParameter("FPVasectomyR").equals("")){FPVasectomyR=request.getParameter("FPVasectomyR");}
+  if(request.getParameter("FPVasectomyT")!=null && !request.getParameter("FPVasectomyT").equals("")){FPVasectomyT=request.getParameter("FPVasectomyT");}
+  if(request.getParameter("FPCONDOMSN")!=null && !request.getParameter("FPCONDOMSN").equals("")){FPCONDOMSN=request.getParameter("FPCONDOMSN");}
+  if(request.getParameter("FPCONDOMSR")!=null && !request.getParameter("FPCONDOMSR").equals("")){FPCONDOMSR=request.getParameter("FPCONDOMSR");}
+  if(request.getParameter("FPCONDOMST")!=null && !request.getParameter("FPCONDOMST").equals("")){FPCONDOMST=request.getParameter("FPCONDOMST");}
          
-  if(conn.rs.getString("FPOTHERN")!=null){FPOTHERN=conn.rs.getString("FPOTHERN");}
-  if(conn.rs.getString("FPOTHERR")!=null){FPOTHERR=conn.rs.getString("FPOTHERR");}
-  if(conn.rs.getString("FPOTHERT")!=null){FPOTHERT=conn.rs.getString("FPOTHERT");}
+  if(request.getParameter("FPOTHERN")!=null && !request.getParameter("FPOTHERN").equals("")){FPOTHERN=request.getParameter("FPOTHERN");}
+  if(request.getParameter("FPOTHERR")!=null && !request.getParameter("FPOTHERR").equals("")){FPOTHERR=request.getParameter("FPOTHERR");}
+  if(request.getParameter("FPOTHERT")!=null && !request.getParameter("FPOTHERT").equals("")){FPOTHERT=request.getParameter("FPOTHERT");}
          
-  if(conn.rs.getString("FPCLIENTSN")!=null){FPCLIENTSN=conn.rs.getString("FPCLIENTSN");}
-  if(conn.rs.getString("FPCLIENTSR")!=null){FPCLIENTSR=conn.rs.getString("FPCLIENTSR");}
-  if(conn.rs.getString("FPCLIENTST")!=null){FPCLIENTST=conn.rs.getString("FPCLIENTST");}
-   if(conn.rs.getString("FPIUCDRemoval")!=null){FPIUCDRemoval=conn.rs.getString("FPIUCDRemoval");}
-  if(conn.rs.getString("FPIMPLANTSRemoval")!=null){FPIMPLANTSRemoval=conn.rs.getString("FPIMPLANTSRemoval");}
+  if(request.getParameter("FPCLIENTSN")!=null  && !request.getParameter("FPCLIENTSN").equals("")){FPCLIENTSN=request.getParameter("FPCLIENTSN");}
+  if(request.getParameter("FPCLIENTSR")!=null  && !request.getParameter("FPCLIENTSR").equals("")){FPCLIENTSR=request.getParameter("FPCLIENTSR");}
+  if(request.getParameter("FPCLIENTST")!=null  && !request.getParameter("FPCLIENTST").equals("")){FPCLIENTST=request.getParameter("FPCLIENTST");}
+   if(request.getParameter("FPIUCDRemoval")!=null  && !request.getParameter("FPIUCDRemoval").equals("")){FPIUCDRemoval=request.getParameter("FPIUCDRemoval");}
+  if(request.getParameter("FPIMPLANTSRemoval")!=null  && !request.getParameter("FPIMPLANTSRemoval").equals("")){FPIMPLANTSRemoval=request.getParameter("FPIMPLANTSRemoval");}
           
           
           
           // mch 
   // PMCTA_1stVisit_ANC=PMCTA_ReVisit_ANC=PMCTANCClientsT=PMCTHB7=PMCTIPT1=PMCTIPT2=PMCTANCClients4=PMCTITN=MATNormalDelivery=MATCSection="";
 
-   if(conn.rs.getString("PMCTA_1stVisit_ANC")!=null){PMCTA_1stVisit_ANC=conn.rs.getString("PMCTA_1stVisit_ANC");}
-  if(conn.rs.getString("PMCTA_ReVisit_ANC")!=null){PMCTA_ReVisit_ANC=conn.rs.getString("PMCTA_ReVisit_ANC");}
-  if(conn.rs.getString("PMCTANCClientsT")!=null){PMCTANCClientsT=conn.rs.getString("PMCTANCClientsT");}
-  if(conn.rs.getString("PMCTHB7")!=null){PMCTHB7=conn.rs.getString("PMCTHB7");}
-  if(conn.rs.getString("PMCTIPT1")!=null){PMCTIPT1=conn.rs.getString("PMCTIPT1");}
-  if(conn.rs.getString("PMCTIPT2")!=null){PMCTIPT2=conn.rs.getString("PMCTIPT2");}
-  if(conn.rs.getString("PMCTANCClients4")!=null){PMCTANCClients4=conn.rs.getString("PMCTANCClients4");}
-  if(conn.rs.getString("PMCTITN")!=null){PMCTITN=conn.rs.getString("PMCTITN");}
+   if(request.getParameter("PMCTA_1stVisit_ANC")!=null  && !request.getParameter("PMCTA_1stVisit_ANC").equals("")){PMCTA_1stVisit_ANC=request.getParameter("PMCTA_1stVisit_ANC");}
+  if(request.getParameter("PMCTA_ReVisit_ANC")!=null  && !request.getParameter("PMCTA_ReVisit_ANC").equals("")  ){PMCTA_ReVisit_ANC=request.getParameter("PMCTA_ReVisit_ANC");}
+  if(request.getParameter("PMCTANCClientsT")!=null  && !request.getParameter("PMCTANCClientsT").equals("")){PMCTANCClientsT=request.getParameter("PMCTANCClientsT");}
+  if(request.getParameter("PMCTHB7")!=null  && !request.getParameter("PMCTHB7").equals("")){PMCTHB7=request.getParameter("PMCTHB7");}
+  if(request.getParameter("PMCTIPT1")!=null  && !request.getParameter("PMCTIPT1").equals("")){PMCTIPT1=request.getParameter("PMCTIPT1");}
+  if(request.getParameter("PMCTIPT2")!=null  && !request.getParameter("PMCTIPT2").equals("")){PMCTIPT2=request.getParameter("PMCTIPT2");}
+  if(request.getParameter("PMCTANCClients4")!=null  && !request.getParameter("PMCTANCClients4").equals("")){PMCTANCClients4=request.getParameter("PMCTANCClients4");}
+  if(request.getParameter("PMCTITN")!=null  && !request.getParameter("PMCTITN").equals("")){PMCTITN=request.getParameter("PMCTITN");}
   
   // maternity MATNormalDelivery=MATCSection=""MATBreech=MATAssistedVag=MATDeliveryT=MATLiveBirth=MATStillBirth=MATWeight2500=MATPreTerm=
   //MATDischargealive=MATReferral=MATNeoNatalD=
 //MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEclampDead=MATRupUtAlive
   //=MATRupUtDead=MATObstrLaborAlive=MATObstrLaborDead=MATSepsisAlive=MATSepsisDead="";
  
-  if(conn.rs.getString("MATNormalDelivery")!=null){MATNormalDelivery=conn.rs.getString("MATNormalDelivery");}
-  if(conn.rs.getString("MATCSection")!=null){MATCSection=conn.rs.getString("MATCSection");}
-  if(conn.rs.getString("MATBreech")!=null){MATBreech=conn.rs.getString("MATBreech");}
-  if(conn.rs.getString("MATAssistedVag")!=null){MATAssistedVag=conn.rs.getString("MATAssistedVag");}
-  if(conn.rs.getString("MATDeliveryT")!=null){MATDeliveryT=conn.rs.getString("MATDeliveryT");}
-  if(conn.rs.getString("MATLiveBirth")!=null){MATLiveBirth=conn.rs.getString("MATLiveBirth");}
-  if(conn.rs.getString("MATStillBirth")!=null){MATStillBirth=conn.rs.getString("MATStillBirth");}
-  if(conn.rs.getString("FPBTLT")!=null){FPBTLT=conn.rs.getString("FPBTLT");}
-  if(conn.rs.getString("MATWeight2500")!=null){MATWeight2500=conn.rs.getString("MATWeight2500");}
-  if(conn.rs.getString("MATPreTerm")!=null){MATPreTerm=conn.rs.getString("MATPreTerm");}
-  if(conn.rs.getString("MATDischargealive")!=null){MATDischargealive=conn.rs.getString("MATDischargealive");}
-  if(conn.rs.getString("MATReferral")!=null){MATReferral=conn.rs.getString("MATReferral");}
-  if(conn.rs.getString("MATNeoNatalD")!=null){MATNeoNatalD=conn.rs.getString("MATNeoNatalD");}
-  if(conn.rs.getString("MATMaternalD")!=null){MATMaternalD=conn.rs.getString("MATMaternalD");}
-  if(conn.rs.getString("MATAPHAlive")!=null){MATAPHAlive=conn.rs.getString("MATAPHAlive");}
-  if(conn.rs.getString("MATAPHDead")!=null){MATAPHDead=conn.rs.getString("MATAPHDead");}
-  if(conn.rs.getString("MATPPHAlive")!=null){MATPPHAlive=conn.rs.getString("MATPPHAlive");}
-  if(conn.rs.getString("MATPPHDead")!=null){MATPPHDead=conn.rs.getString("MATPPHDead");}
-  if(conn.rs.getString("MATEclampAlive")!=null){MATEclampAlive=conn.rs.getString("MATEclampAlive");}
-  if(conn.rs.getString("MATEclampDead")!=null){MATEclampDead=conn.rs.getString("MATEclampDead");}
-  if(conn.rs.getString("MATRupUtAlive")!=null){MATRupUtAlive=conn.rs.getString("MATRupUtAlive");}
-  if(conn.rs.getString("MATRupUtDead")!=null){MATRupUtDead=conn.rs.getString("MATRupUtDead");}
-  if(conn.rs.getString("MATObstrLaborAlive")!=null){MATObstrLaborAlive=conn.rs.getString("MATObstrLaborAlive");}
-  if(conn.rs.getString("MATObstrLaborDead")!=null){MATObstrLaborDead=conn.rs.getString("MATObstrLaborDead");}
-  if(conn.rs.getString("MATSepsisAlive")!=null){MATSepsisAlive=conn.rs.getString("MATSepsisAlive");}
-  if(conn.rs.getString("MATSepsisDead")!=null){MATSepsisDead=conn.rs.getString("MATSepsisDead");}
+  if(request.getParameter("MATNormalDelivery")!=null &&  !request.getParameter("MATNormalDelivery").equals("")){MATNormalDelivery=request.getParameter("MATNormalDelivery");}
+  if(request.getParameter("MATCSection")!=null && !request.getParameter("MATCSection").equals("")){MATCSection=request.getParameter("MATCSection");}
+  if(request.getParameter("MATBreech")!=null && !request.getParameter("MATBreech").equals("")){MATBreech=request.getParameter("MATBreech");}
+  if(request.getParameter("MATAssistedVag")!=null && !request.getParameter("MATAssistedVag").equals("")){MATAssistedVag=request.getParameter("MATAssistedVag");}
+  if(request.getParameter("MATDeliveryT")!=null && !request.getParameter("MATDeliveryT").equals("")){MATDeliveryT=request.getParameter("MATDeliveryT");}
+  if(request.getParameter("MATLiveBirth")!=null && !request.getParameter("MATLiveBirth").equals("")){MATLiveBirth=request.getParameter("MATLiveBirth");}
+  if(request.getParameter("MATStillBirth")!=null && !request.getParameter("MATStillBirth").equals("")){MATStillBirth=request.getParameter("MATStillBirth");}
+  if(request.getParameter("FPBTLT")!=null && !request.getParameter("FPBTLT").equals("")){FPBTLT=request.getParameter("FPBTLT");}
+  if(request.getParameter("MATWeight2500")!=null && !request.getParameter("MATWeight2500").equals("")){MATWeight2500=request.getParameter("MATWeight2500");}
+  if(request.getParameter("MATPreTerm")!=null && !request.getParameter("MATPreTerm").equals("")){MATPreTerm=request.getParameter("MATPreTerm");}
+  if(request.getParameter("MATDischargealive")!=null && !request.getParameter("MATDischargealive").equals("")){MATDischargealive=request.getParameter("MATDischargealive");}
+  if(request.getParameter("MATReferral")!=null && !request.getParameter("MATReferral").equals("")){MATReferral=request.getParameter("MATReferral");}
+  if(request.getParameter("MATNeoNatalD")!=null && !request.getParameter("MATNeoNatalD").equals("")){MATNeoNatalD=request.getParameter("MATNeoNatalD");}
+  if(request.getParameter("MATMaternalD")!=null && !request.getParameter("MATMaternalD").equals("")){MATMaternalD=request.getParameter("MATMaternalD");}
+  if(request.getParameter("MATAPHAlive")!=null && !request.getParameter("MATAPHAlive").equals("")){MATAPHAlive=request.getParameter("MATAPHAlive");}
+  if(request.getParameter("MATAPHDead")!=null && !request.getParameter("MATAPHDead").equals("")){MATAPHDead=request.getParameter("MATAPHDead");}
+  if(request.getParameter("MATPPHAlive")!=null && !request.getParameter("MATPPHAlive").equals("")){MATPPHAlive=request.getParameter("MATPPHAlive");}
+  if(request.getParameter("MATPPHDead")!=null && !request.getParameter("MATPPHDead").equals("")){MATPPHDead=request.getParameter("MATPPHDead");}
+  if(request.getParameter("MATEclampAlive")!=null && !request.getParameter("MATEclampAlive").equals("")){MATEclampAlive=request.getParameter("MATEclampAlive");}
+  if(request.getParameter("MATEclampDead")!=null && !request.getParameter("MATEclampDead").equals("")){MATEclampDead=request.getParameter("MATEclampDead");}
+  if(request.getParameter("MATRupUtAlive")!=null && !request.getParameter("MATRupUtAlive").equals("")){MATRupUtAlive=request.getParameter("MATRupUtAlive");}
+  if(request.getParameter("MATRupUtDead")!=null && !request.getParameter("MATRupUtDead").equals("")){MATRupUtDead=request.getParameter("MATRupUtDead");}
+  if(request.getParameter("MATObstrLaborAlive")!=null && !request.getParameter("MATObstrLaborAlive").equals("")){MATObstrLaborAlive=request.getParameter("MATObstrLaborAlive");}
+  if(request.getParameter("MATObstrLaborDead")!=null && !request.getParameter("MATObstrLaborDead").equals("")){MATObstrLaborDead=request.getParameter("MATObstrLaborDead");}
+  if(request.getParameter("MATSepsisAlive")!=null && !request.getParameter("MATSepsisAlive").equals("")){MATSepsisAlive=request.getParameter("MATSepsisAlive");}
+  if(request.getParameter("MATSepsisDead")!=null && !request.getParameter("MATSepsisDead").equals("")){MATSepsisDead=request.getParameter("MATSepsisDead");}
 //      VCTClient_Couns_CM=VCTClient_Couns_CF=VCTClient_Couns_AM=VCTClient_Couns_AF=VCTClient_Couns_TOT=VCTClient_Tested_CM=VCTClient_Tested_CF
   //=VCTClient_Tested_AM=VCTClient_Tested_AF
 //=VCTClient_Tested_TOT=VCTClient_HIV_CM=VCTClient_HIV_CF=VCTClient_HIV_AM=VCTClient_HIV_AF=
   //VCTClient_HIV_TOT=VCTPartner_Couns_TOT=VCTPartner_Tested_TOT=VCTPartner_HIV_TOT=VCTPartner_Disc_TOT="";
 //     
           
-  if(conn.rs.getString("VCTClient_Couns_CM")!=null){VCTClient_Couns_CM=conn.rs.getString("VCTClient_Couns_CM");}
-  if(conn.rs.getString("VCTClient_Couns_CF")!=null){VCTClient_Couns_CF=conn.rs.getString("VCTClient_Couns_CF");}
-  if(conn.rs.getString("VCTClient_Couns_AM")!=null){VCTClient_Couns_AM=conn.rs.getString("VCTClient_Couns_AM");}
-  if(conn.rs.getString("VCTClient_Couns_AF")!=null){VCTClient_Couns_AF=conn.rs.getString("VCTClient_Couns_AF");}
-  if(conn.rs.getString("VCTClient_Couns_TOT")!=null){VCTClient_Couns_TOT=conn.rs.getString("VCTClient_Couns_TOT");}
-  if(conn.rs.getString("VCTClient_Tested_CM")!=null){VCTClient_Tested_CM=conn.rs.getString("VCTClient_Tested_CM");}
-  if(conn.rs.getString("VCTClient_Tested_CF")!=null){VCTClient_Tested_CF=conn.rs.getString("VCTClient_Tested_CF");}
-  if(conn.rs.getString("VCTClient_Tested_AM")!=null){VCTClient_Tested_AM=conn.rs.getString("VCTClient_Tested_AM");}
-  if(conn.rs.getString("VCTClient_Tested_AF")!=null){VCTClient_Tested_AF=conn.rs.getString("VCTClient_Tested_AF");}
-  if(conn.rs.getString("VCTClient_Tested_TOT")!=null){VCTClient_Tested_TOT=conn.rs.getString("VCTClient_Tested_TOT");}
-  if(conn.rs.getString("VCTClient_HIV_CM")!=null){VCTClient_HIV_CM=conn.rs.getString("VCTClient_HIV_CM");}
-  if(conn.rs.getString("VCTClient_HIV_CF")!=null){VCTClient_HIV_CF=conn.rs.getString("VCTClient_HIV_CF");}
-  if(conn.rs.getString("VCTClient_HIV_AM")!=null){VCTClient_HIV_AM=conn.rs.getString("VCTClient_HIV_AM");}
-  if(conn.rs.getString("VCTClient_HIV_AF")!=null){VCTClient_HIV_AF=conn.rs.getString("VCTClient_HIV_AF");}
-  if(conn.rs.getString("VCTClient_HIV_TOT")!=null){VCTClient_HIV_TOT=conn.rs.getString("VCTClient_HIV_TOT");}
-  if(conn.rs.getString("VCTPartner_Couns_TOT")!=null){VCTPartner_Couns_TOT=conn.rs.getString("VCTPartner_Couns_TOT");}
-  if(conn.rs.getString("VCTPartner_Tested_TOT")!=null){VCTPartner_Tested_TOT=conn.rs.getString("VCTPartner_Tested_TOT");}
-  if(conn.rs.getString("VCTPartner_HIV_TOT")!=null){VCTPartner_HIV_TOT=conn.rs.getString("VCTPartner_HIV_TOT");}
-  if(conn.rs.getString("VCTPartner_Disc_TOT")!=null){VCTPartner_Disc_TOT=conn.rs.getString("VCTPartner_Disc_TOT");}
+  if(request.getParameter("VCTClient_Couns_CM")!=null  && !request.getParameter("VCTClient_Couns_CM").equals("")){VCTClient_Couns_CM=request.getParameter("VCTClient_Couns_CM");}
+  if(request.getParameter("VCTClient_Couns_CF")!=null  && !request.getParameter("VCTClient_Couns_CF").equals("")){VCTClient_Couns_CF=request.getParameter("VCTClient_Couns_CF");}
+  if(request.getParameter("VCTClient_Couns_AM")!=null  && !request.getParameter("VCTClient_Couns_AM").equals("")){VCTClient_Couns_AM=request.getParameter("VCTClient_Couns_AM");}
+  if(request.getParameter("VCTClient_Couns_AF")!=null  && !request.getParameter("VCTClient_Couns_AF").equals("")){VCTClient_Couns_AF=request.getParameter("VCTClient_Couns_AF");}
+  if(request.getParameter("VCTClient_Couns_TOT")!=null  && !request.getParameter("VCTClient_Couns_TOT").equals("")){VCTClient_Couns_TOT=request.getParameter("VCTClient_Couns_TOT");}
+  if(request.getParameter("VCTClient_Tested_CM")!=null  && !request.getParameter("VCTClient_Tested_CM").equals("")){VCTClient_Tested_CM=request.getParameter("VCTClient_Tested_CM");}
+  if(request.getParameter("VCTClient_Tested_CF")!=null  && !request.getParameter("VCTClient_Tested_CF").equals("")){VCTClient_Tested_CF=request.getParameter("VCTClient_Tested_CF");}
+  if(request.getParameter("VCTClient_Tested_AM")!=null  && !request.getParameter("VCTClient_Tested_AM").equals("")){VCTClient_Tested_AM=request.getParameter("VCTClient_Tested_AM");}
+  if(request.getParameter("VCTClient_Tested_AF")!=null  && !request.getParameter("VCTClient_Tested_AF").equals("")){VCTClient_Tested_AF=request.getParameter("VCTClient_Tested_AF");}
+  if(request.getParameter("VCTClient_Tested_TOT")!=null  && !request.getParameter("VCTClient_Tested_TOT").equals("")){VCTClient_Tested_TOT=request.getParameter("VCTClient_Tested_TOT");}
+  if(request.getParameter("VCTClient_HIV_CM")!=null  && !request.getParameter("VCTClient_HIV_CM").equals("")){VCTClient_HIV_CM=request.getParameter("VCTClient_HIV_CM");}
+  if(request.getParameter("VCTClient_HIV_CF")!=null  && !request.getParameter("VCTClient_HIV_CF").equals("")){VCTClient_HIV_CF=request.getParameter("VCTClient_HIV_CF");}
+  if(request.getParameter("VCTClient_HIV_AM")!=null   && !request.getParameter("VCTClient_HIV_AM").equals("")){VCTClient_HIV_AM=request.getParameter("VCTClient_HIV_AM");}
+  if(request.getParameter("VCTClient_HIV_AF")!=null  && !request.getParameter("VCTClient_HIV_AF").equals("")){VCTClient_HIV_AF=request.getParameter("VCTClient_HIV_AF");}
+  if(request.getParameter("VCTClient_HIV_TOT")!=null  && !request.getParameter("VCTClient_HIV_TOT").equals("")){VCTClient_HIV_TOT=request.getParameter("VCTClient_HIV_TOT");}
+  if(request.getParameter("VCTPartner_Couns_TOT")!=null  && !request.getParameter("VCTPartner_Couns_TOT").equals("")){VCTPartner_Couns_TOT=request.getParameter("VCTPartner_Couns_TOT");}
+  if(request.getParameter("VCTPartner_Tested_TOT")!=null  && !request.getParameter("VCTPartner_Tested_TOT").equals("")){VCTPartner_Tested_TOT=request.getParameter("VCTPartner_Tested_TOT");}
+  if(request.getParameter("VCTPartner_HIV_TOT")!=null  && !request.getParameter("VCTPartner_HIV_TOT").equals("")){VCTPartner_HIV_TOT=request.getParameter("VCTPartner_HIV_TOT");}
+  if(request.getParameter("VCTPartner_Disc_TOT")!=null  && !request.getParameter("VCTPartner_Disc_TOT").equals("")){VCTPartner_Disc_TOT=request.getParameter("VCTPartner_Disc_TOT");}
   
   
   
@@ -217,36 +217,36 @@ String checker="select * from moh711 WHERE id=?" ;
 
   
   //dtc
-  if(conn.rs.getString("DTCA_Couns_In_CM")!=null){DTCA_Couns_In_CM=conn.rs.getString("DTCA_Couns_In_CM");}
-  if(conn.rs.getString("DTCA_Couns_In_CF")!=null){DTCA_Couns_In_CF=conn.rs.getString("DTCA_Couns_In_CF");}
-  if(conn.rs.getString("DTCA_Couns_In_AM")!=null){DTCA_Couns_In_AM=conn.rs.getString("DTCA_Couns_In_AM");}
-  if(conn.rs.getString("DTCA_Couns_In_AF")!=null){DTCA_Couns_In_AF=conn.rs.getString("DTCA_Couns_In_AF");}
-  if(conn.rs.getString("DTCA_Couns_In_Tot")!=null){DTCA_Couns_In_Tot=conn.rs.getString("DTCA_Couns_In_Tot");}
-  if(conn.rs.getString("DTCA_Couns_Out_CM")!=null){DTCA_Couns_Out_CM=conn.rs.getString("DTCA_Couns_Out_CM");}
-  if(conn.rs.getString("DTCA_Couns_Out_CF")!=null){DTCA_Couns_Out_CF=conn.rs.getString("DTCA_Couns_Out_CF");}
-  if(conn.rs.getString("DTCA_Couns_Out_AM")!=null){DTCA_Couns_Out_AM=conn.rs.getString("DTCA_Couns_Out_AM");}
-  if(conn.rs.getString("DTCA_Couns_Out_AF")!=null){DTCA_Couns_Out_AF=conn.rs.getString("DTCA_Couns_Out_AF");}
-  if(conn.rs.getString("DTCA_Couns_Out_Tot")!=null){DTCA_Couns_Out_Tot=conn.rs.getString("DTCA_Couns_Out_Tot");}
-  if(conn.rs.getString("DTCB_Test_In_CM")!=null){DTCB_Test_In_CM=conn.rs.getString("DTCB_Test_In_CM");}
-  if(conn.rs.getString("DTCB_Test_In_CF")!=null){DTCB_Test_In_CF=conn.rs.getString("DTCB_Test_In_CF");}
-  if(conn.rs.getString("DTCB_Test_In_AM")!=null){DTCB_Test_In_AM=conn.rs.getString("DTCB_Test_In_AM");}
-  if(conn.rs.getString("DTCB_Test_In_AF")!=null){DTCB_Test_In_AF=conn.rs.getString("DTCB_Test_In_AF");}
-  if(conn.rs.getString("DTCB_Test_In_Tot")!=null){DTCB_Test_In_Tot=conn.rs.getString("DTCB_Test_In_Tot");}
-  if(conn.rs.getString("DTCB_Test_Out_CM")!=null){DTCB_Test_Out_CM=conn.rs.getString("DTCB_Test_Out_CM");}
-  if(conn.rs.getString("DTCB_Test_Out_CF")!=null){DTCB_Test_Out_CF=conn.rs.getString("DTCB_Test_Out_CF");}
-  if(conn.rs.getString("DTCB_Test_Out_AM")!=null){DTCB_Test_Out_AM=conn.rs.getString("DTCB_Test_Out_AM");}
-  if(conn.rs.getString("DTCB_Test_Out_AF")!=null){DTCB_Test_Out_AF=conn.rs.getString("DTCB_Test_Out_AF");}
-  if(conn.rs.getString("DTCB_Test_Out_Tot")!=null){DTCB_Test_Out_Tot=conn.rs.getString("DTCB_Test_Out_Tot");}
-  if(conn.rs.getString("DTCC_HIV_In_CM")!=null){DTCC_HIV_In_CM=conn.rs.getString("DTCC_HIV_In_CM");}
-  if(conn.rs.getString("DTCC_HIV_In_CF")!=null){DTCC_HIV_In_CF=conn.rs.getString("DTCC_HIV_In_CF");}
-  if(conn.rs.getString("DTCC_HIV_In_AM")!=null){DTCC_HIV_In_AM=conn.rs.getString("DTCC_HIV_In_AM");}
-  if(conn.rs.getString("DTCC_HIV_In_AF")!=null){DTCC_HIV_In_AF=conn.rs.getString("DTCC_HIV_In_AF");}
-  if(conn.rs.getString("DTCC_HIV_In_Tot")!=null){DTCC_HIV_In_Tot=conn.rs.getString("DTCC_HIV_In_Tot");}
-  if(conn.rs.getString("DTCC_HIV_Out_CM")!=null){DTCC_HIV_Out_CM=conn.rs.getString("DTCC_HIV_Out_CM");}
-  if(conn.rs.getString("DTCC_HIV_Out_CF")!=null){DTCC_HIV_Out_CF=conn.rs.getString("DTCC_HIV_Out_CF");}
-  if(conn.rs.getString("DTCC_HIV_Out_AM")!=null){DTCC_HIV_Out_AM=conn.rs.getString("DTCC_HIV_Out_AM");}
-  if(conn.rs.getString("DTCC_HIV_Out_AF")!=null){DTCC_HIV_Out_AF=conn.rs.getString("DTCC_HIV_Out_AF");}
-  if(conn.rs.getString("DTCC_HIV_Out_Tot")!=null){DTCC_HIV_Out_Tot=conn.rs.getString("DTCC_HIV_Out_Tot");}
+  if(request.getParameter("DTCA_Couns_In_CM")!=null && !request.getParameter("DTCA_Couns_In_CM").equals("")){DTCA_Couns_In_CM=request.getParameter("DTCA_Couns_In_CM");}
+  if(request.getParameter("DTCA_Couns_In_CF")!=null && !request.getParameter("DTCA_Couns_In_CF").equals("")){DTCA_Couns_In_CF=request.getParameter("DTCA_Couns_In_CF");}
+  if(request.getParameter("DTCA_Couns_In_AM")!=null && !request.getParameter("DTCA_Couns_In_AM").equals("")){DTCA_Couns_In_AM=request.getParameter("DTCA_Couns_In_AM");}
+  if(request.getParameter("DTCA_Couns_In_AF")!=null && !request.getParameter("DTCA_Couns_In_AF").equals("")){DTCA_Couns_In_AF=request.getParameter("DTCA_Couns_In_AF");}
+  if(request.getParameter("DTCA_Couns_In_Tot")!=null && !request.getParameter("DTCA_Couns_In_Tot").equals("")){DTCA_Couns_In_Tot=request.getParameter("DTCA_Couns_In_Tot");}
+  if(request.getParameter("DTCA_Couns_Out_CM")!=null && !request.getParameter("DTCA_Couns_Out_CM").equals("")){DTCA_Couns_Out_CM=request.getParameter("DTCA_Couns_Out_CM");}
+  if(request.getParameter("DTCA_Couns_Out_CF")!=null && !request.getParameter("DTCA_Couns_Out_CF").equals("")){DTCA_Couns_Out_CF=request.getParameter("DTCA_Couns_Out_CF");}
+  if(request.getParameter("DTCA_Couns_Out_AM")!=null && !request.getParameter("DTCA_Couns_Out_AM").equals("")){DTCA_Couns_Out_AM=request.getParameter("DTCA_Couns_Out_AM");}
+  if(request.getParameter("DTCA_Couns_Out_AF")!=null && !request.getParameter("DTCA_Couns_Out_AF").equals("")){DTCA_Couns_Out_AF=request.getParameter("DTCA_Couns_Out_AF");}
+  if(request.getParameter("DTCA_Couns_Out_Tot")!=null && !request.getParameter("DTCA_Couns_Out_Tot").equals("")){DTCA_Couns_Out_Tot=request.getParameter("DTCA_Couns_Out_Tot");}
+  if(request.getParameter("DTCB_Test_In_CM")!=null && !request.getParameter("DTCB_Test_In_CM").equals("")){DTCB_Test_In_CM=request.getParameter("DTCB_Test_In_CM");}
+  if(request.getParameter("DTCB_Test_In_CF")!=null && !request.getParameter("DTCB_Test_In_CF").equals("")){DTCB_Test_In_CF=request.getParameter("DTCB_Test_In_CF");}
+  if(request.getParameter("DTCB_Test_In_AM")!=null && !request.getParameter("DTCB_Test_In_AM").equals("")){DTCB_Test_In_AM=request.getParameter("DTCB_Test_In_AM");}
+  if(request.getParameter("DTCB_Test_In_AF")!=null && !request.getParameter("DTCB_Test_In_AF").equals("")){DTCB_Test_In_AF=request.getParameter("DTCB_Test_In_AF");}
+  if(request.getParameter("DTCB_Test_In_Tot")!=null && !request.getParameter("DTCB_Test_In_Tot").equals("")){DTCB_Test_In_Tot=request.getParameter("DTCB_Test_In_Tot");}
+  if(request.getParameter("DTCB_Test_Out_CM")!=null && !request.getParameter("DTCB_Test_Out_CM").equals("")){DTCB_Test_Out_CM=request.getParameter("DTCB_Test_Out_CM");}
+  if(request.getParameter("DTCB_Test_Out_CF")!=null && !request.getParameter("DTCB_Test_Out_CF").equals("")){DTCB_Test_Out_CF=request.getParameter("DTCB_Test_Out_CF");}
+  if(request.getParameter("DTCB_Test_Out_AM")!=null && !request.getParameter("DTCB_Test_Out_AM").equals("")){DTCB_Test_Out_AM=request.getParameter("DTCB_Test_Out_AM");}
+  if(request.getParameter("DTCB_Test_Out_AF")!=null && !request.getParameter("DTCB_Test_Out_AF").equals("")){DTCB_Test_Out_AF=request.getParameter("DTCB_Test_Out_AF");}
+  if(request.getParameter("DTCB_Test_Out_Tot")!=null && !request.getParameter("DTCB_Test_Out_Tot").equals("")){DTCB_Test_Out_Tot=request.getParameter("DTCB_Test_Out_Tot");}
+  if(request.getParameter("DTCC_HIV_In_CM")!=null && !request.getParameter("DTCC_HIV_In_CM").equals("")){DTCC_HIV_In_CM=request.getParameter("DTCC_HIV_In_CM");}
+  if(request.getParameter("DTCC_HIV_In_CF")!=null && !request.getParameter("DTCC_HIV_In_CF").equals("")){DTCC_HIV_In_CF=request.getParameter("DTCC_HIV_In_CF");}
+  if(request.getParameter("DTCC_HIV_In_AM")!=null && !request.getParameter("DTCC_HIV_In_AM").equals("")){DTCC_HIV_In_AM=request.getParameter("DTCC_HIV_In_AM");}
+  if(request.getParameter("DTCC_HIV_In_AF")!=null && !request.getParameter("DTCC_HIV_In_AF").equals("")){DTCC_HIV_In_AF=request.getParameter("DTCC_HIV_In_AF");}
+  if(request.getParameter("DTCC_HIV_In_Tot")!=null && !request.getParameter("DTCC_HIV_In_Tot").equals("")){DTCC_HIV_In_Tot=request.getParameter("DTCC_HIV_In_Tot");}
+  if(request.getParameter("DTCC_HIV_Out_CM")!=null && !request.getParameter("DTCC_HIV_Out_CM").equals("")){DTCC_HIV_Out_CM=request.getParameter("DTCC_HIV_Out_CM");}
+  if(request.getParameter("DTCC_HIV_Out_CF")!=null && !request.getParameter("DTCC_HIV_Out_CF").equals("")){DTCC_HIV_Out_CF=request.getParameter("DTCC_HIV_Out_CF");}
+  if(request.getParameter("DTCC_HIV_Out_AM")!=null && !request.getParameter("DTCC_HIV_Out_AM").equals("")){DTCC_HIV_Out_AM=request.getParameter("DTCC_HIV_Out_AM");}
+  if(request.getParameter("DTCC_HIV_Out_AF")!=null && !request.getParameter("DTCC_HIV_Out_AF").equals("")){DTCC_HIV_Out_AF=request.getParameter("DTCC_HIV_Out_AF");}
+  if(request.getParameter("DTCC_HIV_Out_Tot")!=null && !request.getParameter("DTCC_HIV_Out_Tot").equals("")){DTCC_HIV_Out_Tot=request.getParameter("DTCC_HIV_Out_Tot");}
   
   String runvalidate="update moh711 set FPMicrolutN='"+FPMicrolutN+"',"
           + "FPMicrolutR='"+FPMicrolutR+"',"
@@ -397,7 +397,7 @@ Timestamp lastUpdatedOn =new Timestamp(date.getTime());
     
     
 }
-        }
+        
   finally {
            // out.close();
         }
