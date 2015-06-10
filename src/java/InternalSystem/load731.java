@@ -183,6 +183,7 @@ unvalidatedFacilities="";
 //        HIV_CT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
 //                              "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:40%;\">1. HIV Counselling and Testing</h4>" +
 //                              "</div><div class=\"portlet-body form\">";
+//    markActive=0;
         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
         markActive++;
         PMTCT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
@@ -191,7 +192,7 @@ unvalidatedFacilities="";
         }
          if(session.getAttribute("forms_holder").toString().contains(",ART,")){
         if(markActive==0){classType="active";}else{classType="";}
-        CT="<div class=\"tab-pane \" id=\"tab_2\"><div class=\"portlet box blue\">" +
+        CT="<div class=\"tab-pane "+classType+"\" id=\"tab_2\"><div class=\"portlet box blue\">" +
                               "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>2. Care and Treatment.</b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalCARE+" out of "+expectedCARE+" &nbsp; Validated Form(s) : "+validCARE+"  &nbsp; "+invalidCARETXT+"</b></h4>" +
                               "<br></div><div class=\"portlet-body form\">";
          markActive++;
