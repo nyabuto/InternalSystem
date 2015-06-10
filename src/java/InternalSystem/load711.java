@@ -46,6 +46,7 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
  int validPMTCT=0;
  int invalidPMTCT=0;
  int totalPMTCT=0;
+ String validitychecker="";
  int   validFP,invalidFP,totalFP,validMAT,invalidMAT,totalMAT,validHTC,invalidHTC,totalHTC;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -606,11 +607,13 @@ System.out.println(enterer);
               } 
             FamilyPlanninng=pmct=maternity=vct=dtc="";    
           FP_TAB+="";
+          
+          validitychecker+="<p id=\"checkValidity\" hidden=\"hidden\">"+validity+"</p>";
 //          FPMicrolutN=FPMicrolutR=FPMicrolutT=FPMicrogynonN=FPMicrogynonR=FPMicrogynonT=FPINJECTIONSN=FPINJECTIONSR=
 //FPINJECTIONST=FPIUCDN=FPIUCDR=FPIUCDT=FPIMPLANTSN=FPIMPLANTSR=FPIMPLANTST=FPBTLN=FPBTLR=FPBTLT=FPVasectomyN=FPVasectomyR="";
 //FPVasectomyT=FPCONDOMSN=FPCONDOMSR=FPCONDOMST=FPOTHERN=FPOTHERR=FPOTHERT=FPCLIENTSN=FPCLIENTSR=FPCLIENTST=FPIUCDRemoval=
 //FPIMPLANTSRemoval="";"
-      FamilyPlanninng="<p id=\"checkValidity\" hidden=\"hidden\">"+validity+"</p>"
+      FamilyPlanninng=""
               +  "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> FAMILY PLANNING </b></legend>"
               + "<table frame=\"box\" cellpadding=\"2px\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
               + "<td colspan=\"3\" class=\"form-actions\"><b>A: Family Planning </b></td>"
@@ -1035,7 +1038,7 @@ pmct+="";
            MATERNITY_TAB+="</div></div></div>";
            VCT_TAB+="</div></div></div>";
            DTC_TAB+="</div></div></div>";
-           data+= ul+" "+fppane+""+pmctpane+""+matpane+""+htcpane+""+validatepane+" "+mainpane;
+           data+=validitychecker+" "+ ul+" "+fppane+""+pmctpane+""+matpane+""+htcpane+""+validatepane+" "+mainpane;
     
           if(session.getAttribute("forms_holder").toString().contains(",FP,")){
           data+=FP_TAB;
