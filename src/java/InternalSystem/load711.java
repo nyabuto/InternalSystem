@@ -46,7 +46,7 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
  int validPMTCT=0;
  int invalidPMTCT=0;
  int totalPMTCT=0;
- String validitychecker="";
+
  int   validFP,invalidFP,totalFP,validMAT,invalidMAT,totalMAT,validHTC,invalidHTC,totalHTC;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,7 +63,7 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
         PrintWriter out = response.getWriter();
             dbConn conn = new dbConn();
         try {
-           
+            String validitychecker="";
             session=request.getSession();
             String FP_TAB="";
             String MCH_TAB="";
