@@ -16,21 +16,27 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Geofrey Nyabuto
  */
-public class loadMonth extends HttpServlet {
 
+public class loadMonth extends HttpServlet {
+HttpSession session;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            session =request.getSession();
             response.setContentType("text/html;charset=UTF-8");
-
+String sessionmonth="";
             //The current year such that if a year is not passed
-
-
+ if(session.getAttribute("monthid")!=null){
+    
+    sessionmonth=session.getAttribute("monthid").toString();
+    }
+System.out.println("sessionmonth   "+sessionmonth);
             String passedyear = "";
 
             if (request.getParameter("year") != null) {
@@ -59,6 +65,30 @@ public class loadMonth extends HttpServlet {
 
             while (conn.rs.next()) {
 
+                
+               if(sessionmonth.equalsIgnoreCase(conn.rs.getString("id"))){
+               
+                  //If selected month is 2015, prev year is 2014  . Oct, Nov Dec will appear like October, 2014 while the others will appear like jan , 2015
+                //if no year passed, show october only
+                if (conn.rs.getInt("id") >= 10) {
+                    if (prevyear != 0) {
+
+                        months += "<option selected value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + " ," + prevyear + "</option> ";
+                    } else {
+                        months += "<option  selected value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + "</option> ";
+                    }
+                } else if (conn.rs.getInt("id") < 10) {
+
+                    if (!passedyear.equals("")) {
+
+                        months += "<option selected value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + " ," + passedyear + "</option> ";
+                    } else {
+                        months += "<option selected value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + "</option> ";
+                    }
+                }
+               
+               }
+               else{
                 //If selected month is 2015, prev year is 2014  . Oct, Nov Dec will appear like October, 2014 while the others will appear like jan , 2015
                 //if no year passed, show october only
                 if (conn.rs.getInt("id") >= 10) {
@@ -77,7 +107,7 @@ public class loadMonth extends HttpServlet {
                         months += "<option value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + "</option> ";
                     }
                 }
-
+               }
             }
             PrintWriter out = response.getWriter();
             try {

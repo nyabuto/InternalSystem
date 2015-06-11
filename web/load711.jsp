@@ -98,12 +98,19 @@ legend.formatter {
                              <div style="float:right;"> 
                                  
                                <font color="white" size="3px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                 
-                                    <font color="white" size="3px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
-                                 
+                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year">
+                                    <option value=""></option>                                 
                                    
+                                 </select>
+<!--                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                    <input type="hidden" name="year" id="year" value="<%=session.getAttribute("year").toString()%>">
+                                  -->
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                  
+                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();">
+                                    <option value=""></option>
+                                 </select>
+                                
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
                                 <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
@@ -365,7 +372,26 @@ success:function (data){
 }
 
 
-});  
+});
+
+ 
+
+         
+$.ajax({
+    url:'loadYear',
+    type:'post',
+    dataType:'html',
+    success:function (data){
+         $("#year").html(data);
+         loadmonths();
+//        document.getElementById("year").innerHTML=data;
+        
+    }
+    
+    
+});
+               
+     
          
          $.ajax({
             url:'load711',
@@ -526,8 +552,32 @@ return true;
         });
         
     }
+     function loadmonths(){
+      
+      var yr=document.getElementById("year").value;
+//      alert(yr);
+              $.ajax({
+url:'loadMonth?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+    $("#month").html(data);
+//    if($("#month").val('')){
+//        
+//    }
+// location.reload();
     
-    
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+  
        function loadsubcounty(){
         
         var county=document.getElementById("county").value;
@@ -556,7 +606,7 @@ success:function (data){
        $("#facility").html(data);
          if(document.getElementById("facility").value!==''){
       updatefacilsession();
-      
+     
      
       }  
       $('#facility').select2();  
@@ -571,7 +621,7 @@ success:function (data){
          
         }
     
- 
+
  loadcounty();
   //a function to update the selected session
       
@@ -593,7 +643,53 @@ success:function (data){
           
           
       }
-   
+        function sendtosessionyear(){
+      
+      var yr=document.getElementById("year").value;
+  
+     
+    
+              $.ajax({
+url:'monthyearsession?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+     loadmonths(); 
+     location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+        function sendtosessionmonth(){
+      
+    
+      var month=document.getElementById("month").value;
+    
+  
+              $.ajax({
+url:'monthyearsession?month='+month,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+      location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
  
 //    document.getElementById("checkblank").value='0';
       
@@ -1371,6 +1467,9 @@ document.getElementById("DTCB_Test_In_AM").disabled=true;
         }
    }
  }
+  
+ 
+
 
     </script>
 

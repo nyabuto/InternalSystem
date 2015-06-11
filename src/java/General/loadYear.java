@@ -16,26 +16,30 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Geofrey Nyabuto
  */
 public class loadYear extends HttpServlet {
-
+HttpSession session;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
 
-
+session = request.getSession();
               Calendar cal = Calendar.getInstance();
                     int year = cal.get(Calendar.YEAR);
-            
+         String sessionyear="";   
                     
                     year=year+1;
             dbConn conn = new dbConn();
-
+if(session.getAttribute("year")!=null){
+    
+    sessionyear=session.getAttribute("year").toString();
+    }
             String getyears = "select * from year";
 
             String years = "<option value=''>Select Year</option>";
@@ -44,10 +48,14 @@ public class loadYear extends HttpServlet {
             conn.rs = conn.st.executeQuery(getyears);
 
             while (conn.rs.next()) {
-                
+                 if(sessionyear.equalsIgnoreCase(conn.rs.getString("year"))){
+                  if(conn.rs.getInt("year")<=year){
+                years += "<option selected value='" + conn.rs.getString("year") + "'>" + conn.rs.getString("year") + "</option> ";
+                }}
+                 else{
                 if(conn.rs.getInt("year")<=year){
                 years += "<option value='" + conn.rs.getString("year") + "'>" + conn.rs.getString("year") + "</option> ";
-                }
+                }}
                 }
             PrintWriter out = response.getWriter();
             try {
