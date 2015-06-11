@@ -37,9 +37,12 @@ String sessionmonth="";
     sessionmonth=session.getAttribute("monthid").toString();
     }
 System.out.println("sessionmonth   "+sessionmonth);
-            String passedyear = "";
 
-            if (request.getParameter("year") != null) {
+Calendar cal = Calendar.getInstance();
+int year= cal.get(Calendar.YEAR);  
+            String passedyear =""+year;
+
+            if (request.getParameter("year") != null&&!request.getParameter("year").equals("")) {
 
                 passedyear = request.getParameter("year");
 

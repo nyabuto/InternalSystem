@@ -316,9 +316,10 @@ $.ajax({
     type:'post',
     dataType:'html',
     success:function (data){
+        //alert("_");
         // $("#year").html(data);
         document.getElementById("year").innerHTML=data;
-        
+        loadmonths();
     }
     
     
@@ -443,7 +444,7 @@ success:function (data){
     
     
       function loadmonths(){
-      
+      //alert("");
       var yr=document.getElementById("year").value;
       
               $.ajax({

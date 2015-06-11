@@ -109,15 +109,22 @@ legend.formatter {
                              <div style="float:right;"> 
                                  
                                  <font color="white" size="3px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                 
+                                <select style="width:100px;" required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year">
+                                    <option value=""></option>                                 
+                                   
+                                 </select>
+<!--                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                    <input type="hidden" name="year" id="year" value="<%=session.getAttribute("year").toString()%>">
+                                  -->
                                     <font color="white" size="3px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
-                                 
+                                  
+                                  <select style="width:150px;" placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();">
+                                    <option value=""></option>
+                                 </select>
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                                <select style="width:150px;" placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                                    
@@ -332,47 +339,107 @@ success:function (data){
         }); 
        
          
-//$.ajax({
-//    url:'loadYear',
-//    type:'post',
-//    dataType:'html',
-//    success:function (data){
-//        // $("#year").html(data);
+$.ajax({
+    url:'loadYear',
+    type:'post',
+    dataType:'html',
+    success:function (data){
+         $("#year").html(data);
+         loadmonths();
 //        document.getElementById("year").innerHTML=data;
-//        
-//    }
-//    
-//    
-//}); 
+        
+    }
+    
+    
+});
 //               
      });
       
       
       
-//      function loadmonths(){
-//      
-//      var yr=document.getElementById("year").value;
-//      
-//              $.ajax({
-//url:'loadMonth?year='+yr,
-//type:'post',
-//dataType:'html',
-//success:function (data){
-//    $("#month").html(data);     
-//    
-//       //document.getElementById("month").innerHTML=data;
-//      // App.init();  
+function loadmonths(){
+      
+      var yr=document.getElementById("year").value;
+//      alert(yr);
+              $.ajax({
+url:'loadMonth?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+    $("#month").html(data);
+//    if($("#month").val('')){
 //        
-//}
-//
-//
-//}
-//);  
-//      
-//      
-             //  }
-             
-             
+//    }
+// location.reload();
+    
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+
+
+
+
+
+
+ function sendtosessionyear(){
+      
+      var yr=document.getElementById("year").value;
+  
+     
+    
+              $.ajax({
+url:'monthyearsession?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+     loadmonths(); 
+     location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+	  
+	  
+	  
+
+        function sendtosessionmonth(){
+      
+    
+      var month=document.getElementById("month").value;
+    
+  
+              $.ajax({
+url:'monthyearsession?month='+month,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+      location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+	  
              
              //AUTOUPDATING FUNCTION
            
