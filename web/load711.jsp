@@ -98,7 +98,7 @@ legend.formatter {
                              <div style="float:right;"> 
                                  
                                <font color="white" size="3px"><b>Year: </b></font>  
-                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year">
+                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year" style="width: 100px;">
                                     <option value=""></option>                                 
                                    
                                  </select>
@@ -107,13 +107,13 @@ legend.formatter {
                                   -->
                                     <font color="white" size="3px"><b>Month: </b></font>  
                                   
-                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();">
+                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();" style="width: 150px;">
                                     <option value=""></option>
                                  </select>
                                 
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 150px;">
                                     <option value=""></option>
                                  </select>
                                    
