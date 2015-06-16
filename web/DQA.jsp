@@ -1,29 +1,24 @@
 <%-- 
-    Document   : loadTB
-    Created on : May 19, 2015, 4:44:09 PM
+    Document   : DQA
+    Created on : Jun 16, 2015, 8:16:01 AM
     Author     : Maureen
 --%>
-
-<%-- 
-    Document   : Form731
-    Created on : May 11, 2015, 10:09:28 AM
-    Author     : Maureen
---%>
-
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
 
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>TB Form</title>
- <link rel="shortcut icon" href="images/index.JPG"/>
+   <title>DQA</title>
+  <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
-      <script src="assets/js/jquery-1.8.3.min.js"></script>   
+    
+     <script src="assets/js/jquery-1.8.3.min.js"></script>     
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -44,13 +39,17 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+   
    <script src="select2/js/select2.js"></script>
 <link rel="stylesheet" href="select2/css/select2.css">
 <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
-   
+
+  
+
+
         <style>
 fieldset.formatter {
     border: 2px groove black !important;
@@ -77,11 +76,18 @@ legend.formatter {
 
 }
 </style>
+<style>
+    
+    
+    .form-actions {
   
+    padding: 4px 20px 4px;
+}
+</style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top">
+<body class="fixed-top"  >
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -90,31 +96,23 @@ legend.formatter {
             <!-- BEGIN LOGO -->
            <div class="control-group">
                              <div style="float:right;"> 
-                               
-<!--                              <font color="white" size="3px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                 
-                                    <font color="white" size="3px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
-                                 -->
-                                 
-                                 <font color="white" size="3px"><b>Year: </b></font>  
+                              
+                             
+                               <font color="white" size="3px"><b>Year: </b></font>  
                                 <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year" style="width: 100px;">
                                     <option value=""></option>                                 
                                    
                                  </select>
-<!--                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                    <input type="hidden" name="year" id="year" value="<%=session.getAttribute("year").toString()%>">
-                                  -->
+
                                     <font color="white" size="3px"><b>Month: </b></font>  
                                   
                                   <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();" style="width: 150px;">
                                     <option value=""></option>
                                  </select>
-                                   
+                                
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 150px;"
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 150px;">
                                     <option value=""></option>
                                  </select>
                                    
@@ -130,11 +128,11 @@ legend.formatter {
                                  <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
-                             
-                             
-                             
-                             
-                             
+                                    <font color="white" size="3px"><b>Select Form </b></font>
+                                 <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form" onchange="viewDQA();">
+                                 <option value="">Select Activity Site First</option>                                
+                                   
+                                 </select>
                              </div>
                               
                            </div>
@@ -154,7 +152,7 @@ legend.formatter {
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="editProfile.jsp"><i class="icon-user"></i>User Profile</a></li>
+                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
@@ -183,17 +181,37 @@ legend.formatter {
          <div id="portlet-config" class="modal hide">
             <div class="modal-header">
                <button data-dismiss="modal" class="close" type="button"></button>
-               <h3>portlet Settings</h3>
+               <!--<h3>portlet Settings</h3>-->
             </div>
             <div class="modal-body">
-               <p>Here will be a configuration form</p>
+               <!--<p>Here will be a configuration form</p>-->
             </div>
          </div>
          <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
          <!-- BEGIN PAGE CONTAINER-->
-         
-         
-            <div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->   
+            <div class="row-fluid">
+               <div class="span12">
+                  <!-- BEGIN STYLE CUSTOMIZER -->
+               
+                  <!-- END BEGIN STYLE CUSTOMIZER -->   
+                  <h3 class="page-title" style="text-align: center;">
+                    
+             
+                  </h3>
+                  <ul class="breadcrumb">
+<!--                     <li>
+                        <i class="icon-home"></i>
+                        <font color="#4b8df8" size="15px">MOH 711A </font>
+                        
+                     </li>-->
+           <li style="margin-left:40%; font-size:20px;">
+                    <p>DQA</p>
+                    </li>
+                                      </ul>
+               </div>
+             <div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -227,95 +245,51 @@ legend.formatter {
       </div>
     </div>
   </div>
-</div>    
-         
-         
-         
-         
-         
-         <div class="container-fluid">
-            <!-- BEGIN PAGE HEADER-->   
-            <div class="row-fluid">
-               <div class="span12">
-                  <!-- BEGIN STYLE CUSTOMIZER -->
-               
-                  <!-- END BEGIN STYLE CUSTOMIZER -->   
-                  <h3 class="page-title" style="text-align: center;">
-                    
-             
-                  </h3>
-                  <ul class="breadcrumb">
-                     <li>
-                        <i class="icon-home"></i>
-                        <font color="#4b8df8">Care and Treatment</font>
-                        
-                     </li>
-           
-                  </ul>
-               </div>
+</div>     
+            
+<!--   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
+    <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
+    <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
+    <br>2.Click <b>NO</b> if want to edit the already marked data for adherence.</p>
+</div>   -->
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
-                  <div class="portlet box blue">
-                     <div class="portlet-title">
+                  <!--<div class="portlet box blue">-->
+<!--                     <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">TB</b>
-                         <h4><span style="margin-left:150px; color:white;" id="isValidated"></span><span style="margin-left:150px; color:white;" id="showcounter"></span></h4>
-                     </div>
+                        <b style="color:white;text-align: center;font-size: 20px;">MOH 711A</b>
+                     </div>-->
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        
-                         
-                   <%if (session.getAttribute("validatetb") != null) { %>
-                                <script type="text/javascript"> 
-                    
-                    var n = noty({text: '<%=session.getAttribute("validatetb")%>',
-                        layout: 'center',
-                        type: 'Success',
- 
-                         timeout: 4800});
-                    
-                </script> <%
-                session.removeAttribute("validatetb");
-                            }
-
-                        %>
-                        <form action="validateTb" method="post" class="form-horizontal">
-                          
-                        
-                        
-                  
-                 
-                          <div id="tbtable">
-                              
-                               <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
-                          </div>
-                        
-                             
-                             
-                             
-                         
-                         
-                         
-                      
-                    
+                        <form action="validate711" method="post" class="form-horizontal">
                            
+                        <div class="tabbable tabbable-custom boxless" id="DQAtable" >
+                   
+                        
+                       
+                         <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+                        
+                       
+                        <!-- END FORM-->           
+                   
                             
                              
                            
                             
                          
-                          
-                        </form>
+                         
                         <!-- END FORM-->           
                      </div>
+                           
+                        </form>
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
                </div>
-            </div>
+            <!--</div>-->
        
           
          
@@ -371,49 +345,27 @@ legend.formatter {
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>     
+ 
    <script>
       jQuery(document).ready(function() {       
-         // initiate layout and plugins
-         
+      
                     $.ajax({
 url:'loadFacilities',
 type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-     
-        $('#facility').select2();  
+      $('#facility').select2(); 
+      // App.init();   
 }
 
 
-}); 
+});
+
+ 
+
          
-         
-         $.ajax({
-            url:'loadTb',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#tbtable").html(data);
-//            $("#TB_STATN").focus();   
-           
- var validity=$("#checkValidity").html();
-$("#isValidated").html(validity);
- 
- var validity=$("#recordcounter").html();
-$("#showcounter").html(validity);
- 
- 
-   
-var invalidatedData=$("#invalidatedData").html();
-$("#allunValidated").html(invalidatedData); 
-            
-            }
-            
-            
-        }); 
-       
-       $.ajax({
+$.ajax({
     url:'loadYear',
     type:'post',
     dataType:'html',
@@ -426,7 +378,25 @@ $("#allunValidated").html(invalidatedData);
     
     
 });
-  
+               
+     
+         
+         $.ajax({
+            url:'loadDQA',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#DQAtable").html(data);
+
+    
+
+}
+            
+            
+        }); 
+       
+
+    
            
   $('body').on('keydown', 'input, select, textarea', function(e) {
 var self = $(this)
@@ -471,73 +441,11 @@ if (e.keyCode == 13) {
 }
 });
             
-             
+ 
+                    
      });
       
-      
-      
-//      function loadmonths(){
-//      
-//      var yr=document.getElementById("year").value;
-//      
-//              $.ajax({
-//url:'loadMonth?year='+yr,
-//type:'post',
-//dataType:'html',
-//success:function (data){
-//    $("#month").html(data);     
-//    
-//       //document.getElementById("month").innerHTML=data;
-//      // App.init();  
-//        
-//}
-//
-//
-//}
-//);  
-//      
-//      
-             //  }
-             
-             
-             
-             //AUTOUPDATING FUNCTION
-             
-             
-             function autosave(col){
-            var totalsVariables=",TB_STATP,TB_IPTP,TB_SCREENP,CARPCTHTTPR,"
-           
-            var achieved=document.getElementById(col).value;
-            
        
-             $.ajax({
-url:'saveTb?col='+col+"&achieved="+achieved,
-type:'post',
-dataType:'html',
-success:function (data){
-   if(data.trim()!="success"){$("#error").html(data);
-//     $("#"+col).css({'background-color' : 'red'});
-        }
-    else{
-        $("#error").html("");
-    if(achieved==""){}
-  else if(totalsVariables.indexOf(","+col+",")>-1) {
-   $("#"+col).css({'background-color' : 'plum'});    
-  } else{
-      $("#"+col).css({'background-color' : '#CCFFCC'});
-}
-
-$("#isValidated").html("<font color=\"white\"><b style=\"font-size:16px;font-family: cambria;\">Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
-}
-}
-  
-             
-             });
-             }
-            
-             
-           
-             
           
             function numbers(evt){
 var charCode=(evt.which) ? evt.which : event.keyCode
@@ -553,220 +461,9 @@ else{
 return true;
 }
 }
-          
-      
-      //a function to update the selected session
-      
-      function updatefacilsession(){
-          
-        var facil=document.getElementById("facility").value;
-        $.ajax({
-url:'updatefacilitysession?facil='+facil,
-type:'post',
-dataType:'html',
-success:function (data){      
-    location.reload();
-    //  $("#"+col).css({'background-color' : '#CCFFCC'});
-        
-}
-             
-             });    
-          
-          
-          
-      }
-      
-      
-      
-       function loadmonths(){
-      
-      var yr=document.getElementById("year").value;
-//      alert(yr);
-              $.ajax({
-url:'loadMonth?year='+yr,
-type:'post',
-dataType:'html',
-success:function (data){
-    $("#month").html(data);
-//    if($("#month").val('')){
-//        
-//    }
-// location.reload();
-    
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
-}
-
-
-});  
-      
-      
-      }
-
-
-
-//-----------------------------------------------------------------------------------------
-
-
- function sendtosessionyear(){
-      
-      var yr=document.getElementById("year").value;
-  
      
-    
-              $.ajax({
-url:'monthyearsession?year='+yr,
-type:'post',
-dataType:'html',
-success:function (data){
-//    $("#month").html(data);     
-     loadmonths(); 
-     location.reload();
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
-}
 
-
-});  
-      
-      
-      }
-	  
-	  
-	  
-//-----------------------------------------------------------------------------------------
-        function sendtosessionmonth(){
-      
-    
-      var month=document.getElementById("month").value;
-    
-  
-              $.ajax({
-url:'monthyearsession?month='+month,
-type:'post',
-dataType:'html',
-success:function (data){
-//    $("#month").html(data);     
-      location.reload();
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
-}
-
-
-});  
-      
-      
-      }
-
-   function TB_STAT(){
-     
-//     alert("called");
-      var TB_STATN=0;
-     TB_STATN= document.getElementById("TB_STATN").value;
-      var TB_STATD=0;
-     TB_STATD= document.getElementById("TB_STATD").value;
-      if(TB_STATN==""){TB_STATN=0;}
-      if(TB_STATD==""){TB_STATD=0;}
-        
-           var visitstotal=0;
-           if(TB_STATD!="" && TB_STATN!="" && TB_STATN!==0){
-           visitstotal=(parseInt(TB_STATD)/parseInt(TB_STATN))*100;
-             if(visitstotal==""){visitstotal=0;}
-                document.getElementById("TB_STATP").value=Math.round(visitstotal);    
-             autosave('TB_STATP');     
-
-                }
-                else{
-                 
-                document.getElementById("TB_STATP").value=("0");    
-                 autosave('TB_STATP');    
-                    
-                    
-                }
-          
-         
-               
-           
-          
-     
-      }    
-   function TB_IPT(){
-     
-//     alert("called");
-      var TB_IPTN=0;
-     TB_IPTN= document.getElementById("TB_IPTN").value;
-      var TB_IPTD=0;
-     TB_IPTD= document.getElementById("TB_IPTD").value;
-      if(TB_IPTN==""){TB_IPTN=0;}
-      if(TB_IPTD==""){TB_IPTD=0;}
-      
-     
-        
-           var visitstotal=0;
-           if(TB_IPTD!="" && TB_IPTN!="" && TB_IPTN!==0){
-           visitstotal=(parseInt(TB_IPTD)/parseInt(TB_IPTN))*100;
-           if(visitstotal==""){visitstotal=0;}
-           document.getElementById("TB_IPTP").value=Math.round(visitstotal);
-           autosave('TB_IPTP');
-           }
-           else{
-             document.getElementById("TB_IPTP").value="0";
-           autosave('TB_IPTP');   
-           }
-     
-      }    
-   function TB_SCREEN(){
-     
-//     alert("called");
-      var TB_SCREENN=0;
-     TB_SCREENN= document.getElementById("TB_SCREENN").value;
-      var TB_SCREEND=0;
-     TB_SCREEND= document.getElementById("TB_SCREEND").value;
-     if(TB_SCREENN==""){TB_SCREENN=0;}
-      if(TB_SCREEND==""){TB_SCREEND=0;}
-        
-           var visitstotal=0;
-            if(TB_SCREEND!="" && TB_SCREENN!="" && TB_SCREENN!==0){
-           visitstotal=(parseInt(TB_SCREEND)/parseInt(TB_SCREENN))*100;
-           
-           if(visitstotal==""){visitstotal=0;}
-           
-           document.getElementById("TB_SCREENP").value=Math.round(visitstotal);
-         
-               
-            autosave('TB_SCREENP');
-            } else{
-             document.getElementById("TB_SCREENP").value="0";
-           autosave('TB_SCREENP');   
-           }
-     
-      }    
-       function indic74(){
-     
-//     alert("called");
-      var male=0;
-     male= document.getElementById("CARPCTHTMPR").value;
-      var female=0;
-     female= document.getElementById("CARPCTHTFPR").value;
-     
-      if(male==""){male=0;}
-      if(female==""){female=0;}
-     
-     
- 
-           
-           var visitstotal=parseInt(female)+parseInt(male);
-           
-           document.getElementById("CARPCTHTTPR").value=Math.round(visitstotal);
-             
-            autosave('CARPCTHTTPR');
-          
-     
-      }
-      //a function to monitor if data has been entered or its just enter and 
+ //a function to monitor if data has been entered or its just enter and 
  
  function isIntegerPressed(status){
  if(status=="1"){    
@@ -799,8 +496,32 @@ success:function (data){
         });
         
     }
+     function loadmonths(){
+      
+      var yr=document.getElementById("year").value;
+//      alert(yr);
+              $.ajax({
+url:'loadMonth?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+    $("#month").html(data);
+//    if($("#month").val('')){
+//        
+//    }
+// location.reload();
     
-    
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+  
        function loadsubcounty(){
         
         var county=document.getElementById("county").value;
@@ -829,7 +550,7 @@ success:function (data){
        $("#facility").html(data);
          if(document.getElementById("facility").value!==''){
       updatefacilsession();
-      
+     
      
       }  
       $('#facility').select2();  
@@ -844,15 +565,112 @@ success:function (data){
          
         }
     
- 
+
  loadcounty();
+  //a function to update the selected session
+      
+      function updatefacilsession(){
+          
+        var facil=document.getElementById("facility").value;
+        $.ajax({
+url:'updatefacilitysession?facil='+facil,
+type:'post',
+dataType:'html',
+success:function (data){  
+ loadfrms();    
+//    location.reload();
+    //  $("#"+col).css({'background-color' : '#CCFFCC'});
+     
+}
+             
+             });    
+          
+          
+          
+      }
+      function loadfrms(){
+        
+        
+        $.ajax({
+            url:'loadForms',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#form").html(data);
+                
+              //  App.init(); 
+              
+              //also load county and facility
+//              loadcounty();
+              //loadsubcounty();
+            }
+            
+            
+        });
+        
+    }
+        function sendtosessionyear(){
+      
+      var yr=document.getElementById("year").value;
+  
+     
+    
+              $.ajax({
+url:'monthyearsession?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+     loadmonths(); 
+     location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+        function sendtosessionmonth(){
+      
+    
+      var month=document.getElementById("month").value;
+    
+  
+              $.ajax({
+url:'monthyearsession?month='+month,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+      location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
  
+//    document.getElementById("checkblank").value='0';
+      
  
-   </script>
-   <!-- END JAVASCRIPTS -->   
+      
+  
+     
+    </script>
+
+   <!-- END JAVASCRIPTS -->  
+   
+   
+   </div>
 </body>
 <!-- END BODY -->
 </html>
-
 
 

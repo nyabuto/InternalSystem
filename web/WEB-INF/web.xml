@@ -168,6 +168,10 @@
         <servlet-name>monthyearsession</servlet-name>
         <servlet-class>General.monthyearsession</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadDQA</servlet-name>
+        <servlet-class>InternalSystem.loadDQA</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -335,6 +339,10 @@
     <servlet-mapping>
         <servlet-name>monthyearsession</servlet-name>
         <url-pattern>/monthyearsession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadDQA</servlet-name>
+        <url-pattern>/loadDQA</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

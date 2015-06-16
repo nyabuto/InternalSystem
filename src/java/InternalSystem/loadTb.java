@@ -41,6 +41,7 @@ public class loadTb extends HttpServlet {
     String month="";      
     String year="";      
     String facil="";
+    String invalidTBTXT="";
      if(session.getAttribute("forms_holder")!=null && (session.getAttribute("forms_holder").toString().contains(",TB,"))  ){ 
     if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -55,7 +56,7 @@ public class loadTb extends HttpServlet {
     String tableid=year+"_"+month+"_"+facil;
         
         
-    String getexistingdata="select * from tb where ID='"+tableid+"'";
+  
     
 String C31D="";
 String TB_STATN="";
@@ -80,11 +81,95 @@ String CARPCTHTMPR="";
 String CARPCTHTFPR="";
 String CARPCTHTTPR="";
 
+String enterdby="";
 
-    
+
+
+
+ String subcountyid="";
+    if(session.getAttribute("subcountyid")!=null){        
+   subcountyid=session.getAttribute("subcountyid").toString();
+    }    
+        int validTB=0; 
+        int invalidTB=0; 
+int TotalTB=0; 
+int expectedTB=0; 
+String getExpectedForms="SELECT SUM(TB)FROM subpartnera WHERE subpartnera.DistrictID='"+subcountyid+"'" ;
+   conn.rs1=conn.st1.executeQuery(getExpectedForms);
+   if(conn.rs1.next()==true){
+//       System.out.println("pmtct : "+conn.rs1.getString(1)+"  care : "+conn.rs1.getInt(2)+" pep : "+conn.rs1.getInt(3));
+           expectedTB=conn.rs1.getInt(1);
+          
+   }
+     
+        String getEntered="SELECT tb.isValidated,SUM(subpartnera.TB)"
+            + " FROM subpartnera JOIN tb ON subpartnera.SubPartnerID=tb.SubPartnerID WHERE "
+            + "tb.Mois='"+month+"' AND tb.Annee='"+year+"' AND subpartnera.DistrictID='"+subcountyid+"' GROUP BY tb.isValidated";
+    conn.rs1=conn.st1.executeQuery(getEntered);
+    while(conn.rs1.next()){
+        System.out.println("isvalidated : "+conn.rs1.getInt(1)+"  num : "+conn.rs1.getInt(2));
+   if(conn.rs1.getInt(1)==1){
+    validTB=conn.rs1.getInt(2);
+   
+   }
+   if(conn.rs1.getInt(1)==0){
+      invalidTB=conn.rs1.getInt(2);
+ 
+      
+   }
+    }
+    TotalTB=validTB+invalidTB;
+ 
+ 
+  invalidTBTXT=" Unvalidated Form(s) : 0";
+ 
+    if(invalidTB>0){
+   invalidTBTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidTB+"</span></button>";
+    }
+
+     String getexistingdata="select * from tb where ID='"+tableid+"'"; 
     conn.rs=conn.st.executeQuery(getexistingdata);
     while(conn.rs.next()){
     
+        
+        
+        String enterer="select * from user where userid='"+conn.rs.getString("user_id") +"'";
+        
+        conn.rs1=conn.st1.executeQuery(enterer);
+        //add details of person who entered
+        if(conn.rs1.next()){
+        enterdby="<font color='green'>Data 1st entered by:   <b> "+conn.rs1.getString("fname")+" "+conn.rs1.getString("mname")+" "+conn.rs1.getString("lname")+"</b>  on  <b>"+conn.rs.getString("timestamp") +"</b></font>";
+        }
+        
+		
+		//now check if form was updated and if its one month after data entry
+        
+        if(conn.rs.getString("updatedOn")!=null){
+        //get difference in months between entered date and updated date
+        String compdate="SELECT TIMESTAMPDIFF(MONTH,'"+conn.rs.getString("timestamp") +"','"+conn.rs.getString("updatedOn") +"')";
+        conn.rs2=conn.st2.executeQuery(compdate);
+        if (conn.rs2.next()){
+            //now get the details of the person who updated the form
+        //if the difference is greater than or equal to one, 
+        
+            
+            if(conn.rs2.getInt(1)>=1){
+        String updater="select * from user where userid='"+conn.rs.getString("updatedBy") +"'";
+        
+        conn.rs1=conn.st1.executeQuery(updater);
+        //add details of person who entered
+        if(conn.rs1.next()){
+            enterdby += "<span style='margin-left:30%;'><font color='red'>   Updated  by:   <b> " + conn.rs1.getString("fname") + " " + conn.rs1.getString("mname") + " " + conn.rs1.getString("lname") + "</b>  on  <b>" + conn.rs.getString("updatedOn") + "</b></font></span>";
+                            }
+        } //end of if month >=1 
+        }//end of date comparison if 
+        
+        }//end of if updated !=null
+        
+        
+        
+        
+        
         //now load the column values here
        
 C31D=conn.rs.getString("C31D");
@@ -160,42 +245,24 @@ if(CARPCTHTTPR==null){CARPCTHTTPR=""; }
         
           
     }
-      
-        int TBoccu=0; 
-        int TBoccu1=0; 
-int facilityTBcount=0; 
- String counterTBcheck="SELECT * FROM tb where Annee ='"+year+"' and Mois='"+month+"' and (TB_STATN!='NULL' ||TB_STATN!='')  ";
- conn.rs1 = conn.st1.executeQuery(counterTBcheck);
- while(conn.rs1.next()){
- TBoccu++;
-  }
- String counterTBcheck1="SELECT * FROM tb where Annee ='"+year+"' and Mois='"+month+"' and (TB_STATN='NULL' ||TB_STATN='' ||  isValidated='0')";
- conn.rs3 = conn.st3.executeQuery(counterTBcheck1);
- while(conn.rs3.next()){
- TBoccu1++;
-  }
- String countfacility="Select * from subpartnera where TB='1'  ";
-// String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
- conn.rs2 = conn.st2.executeQuery(countfacility);
- while(conn.rs2.next()){
- facilityTBcount++;
- }
-       System.out.println("Validity checker : "+isValidated);
+   //       System.out.println("Validity checker : "+isValidated);
+          System.out.println("Validity checker : "+isValidated);
       if(isValidated.equals("0")){
-  validity="<b style=\"color:white; font-family:cambria; text-align: center;font-family: Open Sans;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+":   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>";
+  validity="<font color=\"white\" ><b style=\"font-size:16px;font-family: cambria;\">Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;
 }
       else if(isValidated.equals("1")){
-   validity="<b style=\"color:white; font-family:cambria; text-align: center;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+":   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"white\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>";  
+   validity="<font color=\"white\"><b style=\"font-size:16px;font-family: cambria;\">Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
 }
       else{
-        validity=" <b style=\"color:white; font-family:cambria; text-align: center;  margin-right:600px; font-size:14px;\"> Record Counter:  &nbsp; "+TBoccu+" out of "+facilityTBcount+"   Unvalidated form(s)  :"+TBoccu1+"</b> &nbsp;&nbsp;&nbsp;&nbsp;<font color=\"white\"><b style=\"text-align: left;\">New Entry Entry </b></font>  "  ;          
+     
+        validity="<font color=\"white\" style=\"font-size:16px;font-family: cambria;\"><b>New Entry</b></font>"  ;          
               }
       
 //     System.out.println("read from session : "+session.getAttribute("isValidated").toString());
  
-             String createdtable="<p hidden=\"true\" id=\"checkValidity\">"+validity+"</p>" ; 
+             String createdtable="<p hidden=\"true\" id=\"recordcounter\"><b style=\"color:yellow;font-size:16px;font-family: cambria; margin-right:200px;\">  Record Counter: "+TotalTB+" out of "+expectedTB+" &nbsp; Validated Form(s) : "+validTB+"  &nbsp; "+invalidTBTXT+"</b> </p><p hidden=\"true\" id=\"checkValidity\"><b>"+validity+"</b></p>" ; 
              
-     createdtable+="     <fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> TB/HIV</b></legend><table id=\"tbtable\" cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px;  \"><tr class='form-actions'><th colspan='4'><b> Case Sub Area 3: Clinical/ Preventive Services- Additional TB/HIV </b></th></tr>";
+     createdtable+=enterdby+"<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> TB/HIV</b></legend><table id=\"tbtable\" cellpadding=\"2px\"  style=\"border-color: #e5e5e5;margin-bottom: 3px;  \"><tr class='form-actions'><th colspan='4'><b> Case Sub Area 3: Clinical/ Preventive Services- Additional TB/HIV </b></th></tr>";
     
     createdtable+="<tr><td rowspan=\"3\" ><b> TB_STAT </b></td>"
             + "<td rowspan=\"3\">Proportion of registered new and relapse TB cases with document HIV </td>"
@@ -291,7 +358,19 @@ int facilityTBcount=0;
 "                           </div>";
       System.out.println(createdtable);
       
-   
+     String unvalidatedLink="";int counter=0;
+     if(invalidTB>0 ){
+     String getUnvalidated="SELECT tb.SubPartnerID,subpartnera.SubPartnerNom FROM tb JOIN subpartnera ON tb.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+subcountyid+"' AND tb.Mois='"+month+"' AND tb.Annee='"+year+"' AND tb.isValidated='0'";
+     conn.rs=conn.st.executeQuery(getUnvalidated);
+     while(conn.rs.next()){
+         counter++;
+//     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=Form731.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=loadTb.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+     }
+    }
+     
+    createdtable+="<p hidden=\"true\" id=\"invalidatedData\">"+unvalidatedLink+"</p>"; 
+     
   
         out.println(createdtable);
         
