@@ -44,7 +44,7 @@ String HV0301,HV0302,HV0303,HV0304,HV0305,HV0306,HV0307,HV0308,HV0309,HV0310,HV0
 String HV0401,HV0402,HV0403,HV0406,HV0407,HV0408,HV0409,HV0410,HV0411,HV0412,HV0413,HV0414,HV0415;
 String HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507,HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514;
 String HV0601,HV0602,HV0605;
-
+String data_elements,description;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -93,6 +93,10 @@ HV0401=HV0402=HV0403=HV0406=HV0407=HV0408=HV0409=HV0410=HV0411=HV0412=HV0413=HV0
 //             System.out.println("Updating data-------------------");
 //              
 //          }
+ 
+ data_elements=request.getParameter("data_elements");
+  description=request.getParameter("description");
+ 
   if(request.getParameter("HV0101")!=null && !request.getParameter("HV0101").equals("")){HV0101=request.getParameter("HV0101");}
   if(request.getParameter("HV0102")!=null && !request.getParameter("HV0102").equals("")){HV0102=request.getParameter("HV0102");}
   if(request.getParameter("HV0103")!=null && !request.getParameter("HV0103").equals("")){HV0103=request.getParameter("HV0103");}
@@ -441,6 +445,52 @@ String userid=session.getAttribute("userid").toString();
      String updateLast="UPDATE moh731 SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE id='"+id+"'" ;   
        conn.st2.executeUpdate(updateLast);
      }
+     String dqaid="";
+      System.out.println("++++++++++++++++++++++++++++++++here++++++++++++++++++++++++++++++++++++++++++++");
+     String checker="SELECT id FROM dqa WHERE year='"+year+"' && month='"+month+"' && facilityid='"+facilityId+"' && form='moh731' LIMIT 1";
+     conn.rs=conn.st.executeQuery(checker);
+     if(conn.rs.next()==true){
+        dqaid=conn.rs.getString(1);
+        
+        if(!data_elements.equals("")){
+//           UPDATE DQA TABLE
+             System.out.println("to update");
+            String updator="UPDATE dqa SET columns=?, errors=? WHERE id=? ";
+            conn.pst=conn.conn.prepareStatement(updator);
+            conn.pst.setString(1, data_elements);
+            conn.pst.setString(2, description);
+            conn.pst.setString(3, dqaid);
+            conn.pst.executeUpdate();
+        }
+        else{
+         System.out.println("to delete");
+            String updator="DELETE FROM dqa WHERE id=? ";
+            conn.pst=conn.conn.prepareStatement(updator);
+            conn.pst.setString(1, dqaid);
+           
+            conn.pst.executeUpdate();    
+        }
+     }
+     else{
+         
+    if(!data_elements.equals("")) {
+      System.out.println("to insert");
+    String inserter="INSERT INTO dqa (tableid,form,facilityid,year,month,columns,errors) VALUES(?,?,?,?,?,?,?)";
+    conn.pst=conn.conn.prepareStatement(inserter);
+    conn.pst.setString(1, id);
+    conn.pst.setString(2, "moh731");
+    conn.pst.setString(3, facilityId);
+    conn.pst.setString(4, year);
+    conn.pst.setString(5, month);
+    conn.pst.setString(6, data_elements);
+    conn.pst.setString(7, description);
+    
+    conn.pst.executeUpdate();
+    }    
+         
+     } 
+     
+     
      if(conn.st!=null){conn.st.close();}
      if(conn.st1!=null){conn.st1.close();}
      if(conn.st2!=null){conn.st2.close();}

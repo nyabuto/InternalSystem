@@ -199,6 +199,9 @@ legend.formatter {
                       
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
                   <form action="validate731" method="post" class="form-horizontal" style="min-height: 450px;">
+                   <input type="hidden" name="data_elements" id="data_elements" value="">
+                   <input type="hidden" name="description" id="description" value="">    
+                      
                       <div id="data">  
 
 <!--                     <div class="tabbable tabbable-custom boxless">
@@ -357,6 +360,9 @@ $("#isValidated").html(validity);
 
 var invalidatedData=$("#invalidatedData").html();
 $("#allunValidated").html(invalidatedData);
+
+$("#data_elements").val("");
+$("#description").val("");
 
         }
     }); 
@@ -624,7 +630,7 @@ success:function (data){
   
    </script>
    <script type="text/javascript" src="js/form731Totals.js"></script>
-<script type="text/javascript" src="js/validate731.js"></script>
+<script type="text/javascript" src="js/val731.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
    var errorsHCT=0,errorsPMTCT=0,errorsCT=0,errorsVMMC=0,errorsPEP=0,errorBLOOD=0;
@@ -632,6 +638,9 @@ success:function (data){
 //    $('#myModal').modal();
    $("form").submit(function(){
        var errors=0;
+$("#data_elements").val("");
+$("#description").val("");
+
        $(":text").css({'background-color' : 'white'});        
 var totalsVariables ="HV0103,HV0116,HV0204,HV0209,HV0210,HV0217,HV0220,HV0228,HV0232,HV0236,HV0240,HV0244,HV0307,HV0313,HV0319,HV0325,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0344,HV0349,HV0354,HV0373,HV0406,HV0414,HV0415,HV0507,HV0514,HV0340,HV0341,HV0342,HV0343";
 var arrayTotals=totalsVariables.split(",");  
