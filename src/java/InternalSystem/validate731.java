@@ -498,6 +498,7 @@ String userid=session.getAttribute("userid").toString();
      if(conn.rs!=null){conn.rs.close();}
      if(conn.rs1!=null){conn.rs1.close();}
      if(conn.rs2!=null){conn.rs2.close();}
+     if(conn.pst!=null){conn.pst.close();}
      if(conn.conn!=null){conn.conn.close();}
      
      response.sendRedirect("Form731.jsp");

@@ -172,6 +172,14 @@
         <servlet-name>loadDQA</servlet-name>
         <servlet-class>InternalSystem.loadDQA</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>moh731_Facility</servlet-name>
+        <servlet-class>reports.moh731_Facility</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>errors731</servlet-name>
+        <servlet-class>General.errors731</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -343,6 +351,14 @@
     <servlet-mapping>
         <servlet-name>loadDQA</servlet-name>
         <url-pattern>/loadDQA</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>moh731_Facility</servlet-name>
+        <url-pattern>/moh731_Facility</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>errors731</servlet-name>
+        <url-pattern>/errors731</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
