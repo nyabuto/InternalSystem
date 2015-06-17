@@ -35,14 +35,23 @@ public class loadForms extends HttpServlet {
     String getForms="select * from forms";
    
     conn.rs=conn.st.executeQuery(getForms);
-    
+ String form="";
+ form =session.getAttribute("form").toString();
+ System.out.println("form session "+form);
     
     while(conn.rs.next()){
+        if(form.equals(conn.rs.getString("nextpage"))){
+        if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     
+     forms+="<option selected value='"+conn.rs.getString("nextpage") +"'>"+conn.rs.getString("form")+"</option>";   
+     } }
+                         }
+       
+        else{
      if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     
      forms+="<option value='"+conn.rs.getString("nextpage") +"'>"+conn.rs.getString("form")+"</option>";   
      } }
                          }
-    
+    }
     try {
         
         if(forms.equalsIgnoreCase("<option value=''> Select Form</option>")){

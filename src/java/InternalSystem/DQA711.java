@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Maureen
  */
-public class loadDQA extends HttpServlet {
+public class DQA711 extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -40,38 +40,41 @@ public class loadDQA extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         session= request.getSession();
         PrintWriter out = response.getWriter();
-        String form="";
-        String year="";
-        String month="";
-        String facilityId="";
-        String subcountyid="";
-        
-           dbConn conn = new dbConn();
+//        String form="";
+//        String year="";
+//        String month="";
+//        String facilityId="";
+//        String subcountyid="";
+//        
+          dbConn conn = new dbConn();
         try {
-            if( request.getParameter("form")!=null){
-           form =  request.getParameter("form");
-            }
-            else{
-                  if(session.getAttribute("form")!=null){
-          form=  session.getAttribute("form").toString();
-                  }}
-      
-      
-        System.out.println("nnn "+form); 
-        session.setAttribute("form",form);
-               if(session.getAttribute("year")!=null){        
-   year=session.getAttribute("year").toString();
-    }
-      if(session.getAttribute("monthid")!=null){        
-   month=session.getAttribute("monthid").toString();
-    }
-   
-        if(session.getAttribute("facilityid")!=null){        
-   facilityId=session.getAttribute("facilityid").toString();
-    }
-        if(session.getAttribute("subcountyid")!=null){        
-   subcountyid=session.getAttribute("subcountyid").toString();
-    }
+//            if( request.getParameter("form")!=null){
+//           form =  request.getParameter("form");
+//            }
+//            else{
+//                  if(session.getAttribute("form")!=null){
+//          form=  session.getAttribute("form").toString();
+//                  }}
+//      
+       String months="";
+         String  years="";
+             String  DistrictID="";
+             String SubPartnerID="";
+//        System.out.println("nnn "+form); 
+//        session.setAttribute("form",form);
+//               if(session.getAttribute("year")!=null){        
+//   year=session.getAttribute("year").toString();
+//    }
+//      if(session.getAttribute("monthid")!=null){        
+//   month=session.getAttribute("monthid").toString();
+//    }
+//   
+//        if(session.getAttribute("facilityid")!=null){        
+//   facilityId=session.getAttribute("facilityid").toString();
+//    }
+//        if(session.getAttribute("subcountyid")!=null){        
+//   subcountyid=session.getAttribute("subcountyid").toString();
+//    }
            ArrayList viewerrors=new ArrayList();
        String[] parts=null; 
 //        errorss
@@ -82,7 +85,9 @@ public class loadDQA extends HttpServlet {
         String data="";
          String VCTClient_HIV_CF ="";
            String  VCTClient_Tested_CF ="";
-        if(form.equals("load711.jsp")  ){
+           String facility="";
+           String HTC="";
+//        if(form.equals("load711.jsp")  ){
             
             
             data+="<thead><th>No.</th><th>COLUMN</th><th>ERROR</th> </thead><tbody>";
@@ -92,7 +97,10 @@ public class loadDQA extends HttpServlet {
 //"		WHEN VCTClient_HIV_CF < VCTClient_Tested_CF'   THEN  'hiv>tested 15-24' f ""  \n" +
 //"		WHEN 'B3' AND RiskReductionDetails.action LIKE 'WBL Provided_%' THEN SUM(SUBSTRING_INDEX(riskreductiondetails.Action, '_', -1) ) end as e,\n" +
 String allerrors="";
-            
+            String getfacility="select * from subpartnera ";
+            conn.rs2= conn.st2.executeQuery(getfacility);
+            while(conn.rs2.next()){
+                facility=conn.rs2.getString(1);
             String getdata=" SELECT "+
 " CASE  WHEN VCTClient_HIV_CF > VCTClient_Tested_CF THEN  'VCT CLIENTS HIV + F(15-24)%HIV + is greater than Tested (15-24 F)' ELSE '' END AS HIV1,"+
 " CASE  WHEN VCTClient_HIV_CM > VCTClient_Tested_CM THEN  'VCT CLIENTS HIV + M(15-24)%HIV + is greater than Tested (15-24 M)' ELSE '' END AS HIV2, "+
@@ -109,15 +117,17 @@ String allerrors="";
 " CASE  WHEN DTCC_HIV_In_AM > DTCB_Test_In_AM THEN  'DTC HIV+ INPATIENT M(>25)%HIV + is greater than Tested (>25 M)-INPATIENT' ELSE '' END AS HIV11,  "+
 " CASE  WHEN DTCC_HIV_In_AF > DTCB_Test_In_AF THEN  'DTC HIV+ INPATIENT F(>25)%HIV + is greater than Tested (>25 F)-INPATIENT' ELSE '' END AS HIV12  "+
 
-" FROM  moh711 JOIN  subpartnera ON subpartnera.SubPartnerID=moh711.SubPartnerID WHERE moh711.Mois='"+month+"' AND moh711.Annee='"+year+"' AND subpartnera.DistrictID='"+subcountyid+"' and MOH711.SubPartnerID='"+facilityId+"' ";
+",ID,moh711.Mois,moh711.Annee,subpartnera.DistrictID, MOH711.SubPartnerID,HTC FROM  moh711 JOIN  subpartnera ON subpartnera.SubPartnerID=moh711.SubPartnerID WHERE  MOH711.SubPartnerID='"+facility+"' ";
    
 
-            
+         String tableID="";
+         String columns="";
+         String errors="";
       System.out.println(getdata);
 //            String getdata="select * from moh711 where VCTClient_HIV_CF > VCTClient_Tested_CF";
             conn.rs= conn.st.executeQuery(getdata);
-            while(conn.rs.next()){
-          
+            if(conn.rs.next()==true){
+         
                 allerrors += conn.rs.getString(1) +
                         " @"+conn.rs.getString(2)+
                         " @"+conn.rs.getString(3)+
@@ -131,29 +141,45 @@ String allerrors="";
                         " @"+conn.rs.getString(11)+
                         " @"+conn.rs.getString(12);
                        
-              
+              tableID=conn.rs.getString(13);
+              months=conn.rs.getString(14);
+              years=conn.rs.getString(15);
+              DistrictID=conn.rs.getString(16);
+              SubPartnerID=conn.rs.getString(17);
+              HTC=conn.rs.getString(18);
                  parts = allerrors.split("@");
              
                viewerrors.add(allerrors.split("@"));
-                
-            }
+//             System.out.println("mmmm     "+allerrors+" "+tableID+" "+months+" "+years+" "+DistrictID+" "+SubPartnerID); 
+           
+            
+//            System.out.println("nnnn     "+allerrors+" "+tableID+" "+months+" "+years+" "+DistrictID+" "+SubPartnerID);
             int counter=0;
             String otherpart[]=null;
             for(int i=0;i<parts.length;i++){
              
                 if(parts[i]!=null && !parts[i].equals("null") && !parts[i].equals(" ")){
                        counter++;
-                    System.out.println("vvv"+parts[i]+"MMM");
+//                    System.out.println("vvv"+parts[i]+"MMM");
                      String part[];
                      part= parts[i].split("%");
-                     System.out.println(part[0]+"___"+part[1]);
+//                     System.out.println(part[0]+"___"+part[1]);
               data+="<tr>"
                      
                       
                       
                         + "<td>"+counter+"</td><td>"+part[0]+"</td><td>"+part[1] +"</td>"
                       
-                        + "</tr>"; }
+                        + "</tr>";
+              if(!columns.contains(part[0])){
+              columns+=part[0]+"@";
+              errors+=part[1]+"@";}
+              
+                  System.out.println("errors    "+columns+"___"+errors);
+                }
+                
+                
+               
             }
             data+="</tbody>";
            if(data.equals("")){
@@ -161,12 +187,15 @@ String allerrors="";
            data+="nodata";
            }
             
-            
-            
-       
-            
+            if(!tableID.equals("") && !columns.equals("") &&  !errors.equals("") &&  !SubPartnerID.equals("") && HTC.equals("1") ){
+             String insert="insert into DQA set tableid='"+tableID+"',form='moh711',facilityid='"+SubPartnerID+"',year='"+years+"',month='"+months+"',columns='"+columns+"',errors='"+errors+"'"; 
+                    conn.st1.executeUpdate(insert);
+             System.out.println(insert);}
+             columns="";  
+         errors="";
         }
-            
+       }
+        
             out.println(data);     
           System.out.println(   data  );  
         } finally {            

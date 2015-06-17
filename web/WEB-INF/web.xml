@@ -184,6 +184,18 @@
         <servlet-name>allStaticReports</servlet-name>
         <servlet-class>reports.allStaticReports</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DQA711</servlet-name>
+        <servlet-class>InternalSystem.DQA711</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>setFormSession</servlet-name>
+        <servlet-class>General.setFormSession</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>moh711_Facility</servlet-name>
+        <servlet-class>reports.moh711_Facility</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -367,6 +379,18 @@
     <servlet-mapping>
         <servlet-name>allStaticReports</servlet-name>
         <url-pattern>/allStaticReports</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DQA711</servlet-name>
+        <url-pattern>/DQA711</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>setFormSession</servlet-name>
+        <url-pattern>/setFormSession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>moh711_Facility</servlet-name>
+        <url-pattern>/moh711_Facility</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

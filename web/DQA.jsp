@@ -46,10 +46,196 @@
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
+ <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
+         <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
+         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
+          <script src="scripts/jquery-ui.js" type="text/javascript"></script>
+          <script src="scripts/jquery.validate.js" type="text/javascript"></script>
+          
+          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
+          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+          
+          <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+          <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
+             <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
+        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
+               
+<!--    <script type="text/javascript">
+        $(document).ready(function () {
+       
+              $("#DQAtable").dataTable({
+              
+             
+              
+              "dom": 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": "swf/copy_csv_xls_pdf.swf",
+            "aButtons": [ {
+                    "sExtends": "csv",
+                    "sButtonText": "Save to csv"
+                },
+                {
+                    "sExtends": "xls",
+                    "sButtonText": "Save to xls"
+                },
+                {
+                    "sExtends": "pdf",
+                    "sButtonText": "Save to pdf"
+                } ],
+             "sRowSelect": "single"
+            
+        },
+              
+                "bProcessing": true,
+                "sPaginationType": "full_numbers",
+                "bJQueryUI": true
+            }).makeEditable({
+                sUpdateURL: "update711",            
+              
+                "aoColumns": [ null,null]
+            }
+            
+            ).columnFilter({aoColumns: [{type: "text"},{} ]});
+            
+ 
+                               
+        });
+         
+        
+        </script>-->
+<!--        	<script type="text/javascript">
+			$(document).ready( function () {
+				$('#DQAtable').dataTable().makeEditable({
+                                  
+									
+                                                                        sUpdateURL: "Update711",
+                                                                      
+                    							"aoColumns": [ null,                  									
+                    									
+                    									{
+                									        event: 'mouseover',
+                                                                                                indicator: 'Saving...',
+                                                            					tooltip: 'Click to edit ',
+												type: 'textarea',
+                                                 						submit:'Save changes',
+                                                                                                callback : function(value, settings)
+                                                                                                                        { 
+                                                                                                                            alert(value);
+                                                                                                                            window.location.reload();
+                                                                                                                        
+                                                                                                                        },
+												fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
+													alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
+												}
+                    									}
+//                    									
+											]									
 
-  
+										});
+				
+			} );
+		</script>-->
+<script>
 
+     function  viewDQA(){
+      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='DQAtable'><tr><td>Loading facilities...<img src='images/utube.gif' alt='.'></td></tr></table>");
+//       alert("enterd");
+         var form=document.getElementById("form").value;
 
+            $.ajax({
+            
+        url:'loadDQA?form='+form,
+        type:"post",
+        dataType:"html",
+        success:function(data){
+//        alert(data);
+  $("#DQAtable").html(data);
+//              oTable=$('#DQAtable').dataTable().makeEditable({  
+//                  sUpdateURL: "update711"
+//                  
+               $("#DQAtable").dataTable({
+              
+              sUpdateURL: "update711",
+              
+              "dom": 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": "swf/copy_csv_xls_pdf.swf",
+            "aButtons": [ {
+                    "sExtends": "csv",
+                    "sButtonText": "Save to csv"
+                },
+                {
+                    "sExtends": "xls",
+                    "sButtonText": "Save to xls"
+                },
+                {
+                    "sExtends": "pdf",
+                    "sButtonText": "Save to pdf"
+                } ],
+             "sRowSelect": "single"
+            
+        },
+              
+                "bProcessing": true,
+                "sPaginationType": "full_numbers",
+                "bJQueryUI": true
+            }).makeEditable({
+                sUpdateURL: "update711",            
+              
+                "aoColumns": [  {    event: 'mouseover',
+                                          indicator: 'Saving...',
+                                          tooltip: 'Click to edit ',
+					  type: 'textarea',
+                                          submit:'Save changes',
+                                          callback : function(value, settings)
+                                          {  alert(value);
+                                             window.location.reload();
+                                              },
+					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
+					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
+						}
+                    									},
+                    {    event: 'mouseover',
+                                          indicator: 'Saving...',
+                                          tooltip: 'Click to edit ',
+					  type: 'textarea',
+                                          submit:'Save changes',
+                                          callback : function(value, settings)
+                                          {  alert(value);
+                                             window.location.reload();
+                                              },
+					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
+					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
+						}
+                    									}
+                 									]
+            }
+            
+            ).columnFilter({aoColumns: [{type: "text"},{} ]});
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+            
+              
+      
+              
+          }
+    }); 
+    
+  }
+    
+    
+       </script>
         <style>
 fieldset.formatter {
     border: 2px groove black !important;
@@ -74,6 +260,11 @@ legend.formatter {
     border-bottom:none;
     margin-left:50px;
 
+}
+label {
+    float: left;
+    font-weight: bold;
+    width: 400px;
 }
 </style>
 <style>
@@ -129,7 +320,7 @@ legend.formatter {
                                     <option value=""></option>
                                  </select>
                                     <font color="white" size="3px"><b>Select Form </b></font>
-                                 <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form" onchange="viewDQA();">
+                                    <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form" onchange="sendtoformsession();">
                                  <option value="">Select Activity Site First</option>                                
                                    
                                  </select>
@@ -267,16 +458,27 @@ legend.formatter {
                         <!-- BEGIN FORM-->
                         <form action="validate711" method="post" class="form-horizontal">
                            
-                        <div class="tabbable tabbable-custom boxless" id="DQAtable" >
+                        <div class="tabbable tabbable-custom boxless" id="demo"  >
                    
                         
                        
-                         <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
-                        
                        
                         <!-- END FORM-->           
                    
-                            
+<!--                        <table id="DQAtable" class="display" >
+                         
+                         <td style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></td>
+                         <thead>
+                             
+                         <th>n</th>
+                         <th>m</th>
+                         
+                         </thead>  
+                         <tbody>
+                         <td>bb </td>
+                         <td> nn </td>
+                         </tbody>
+                        </table>      -->
                              
                            
                             
@@ -348,14 +550,22 @@ legend.formatter {
  
    <script>
       jQuery(document).ready(function() {       
-      
+       loadfrms(); 
+    
+   
+       
+     
                     $.ajax({
 url:'loadFacilities',
 type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-      $('#facility').select2(); 
+      $('#facility').select2();
+      if( $('#form').length>0){
+          viewDQA();
+//          alert("A");
+      }
       // App.init();   
 }
 
@@ -380,21 +590,21 @@ $.ajax({
 });
                
      
-         
-         $.ajax({
-            url:'loadDQA',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#DQAtable").html(data);
-
-    
-
-}
-            
-            
-        }); 
-       
+//         
+//         $.ajax({
+//            url:'loadDQA',
+//            type:'post',
+//            dataType:'html',
+//            success:function (data){
+//                $("#DQAtable").html(data);
+//
+//    
+//alert("enterd");
+//}
+//            
+//            
+//        }); 
+//       
 
     
            
@@ -580,7 +790,7 @@ success:function (data){
  loadfrms();    
 //    location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
-     
+   viewDQA();  
 }
              
              });    
@@ -589,8 +799,7 @@ success:function (data){
           
       }
       function loadfrms(){
-        
-        
+  
         $.ajax({
             url:'loadForms',
             type:'post',
@@ -625,7 +834,7 @@ success:function (data){
      location.reload();
        //document.getElementById("month").innerHTML=data;
       // App.init();  
-        
+   viewDQA();       
 }
 
 
@@ -648,14 +857,56 @@ success:function (data){
       location.reload();
        //document.getElementById("month").innerHTML=data;
       // App.init();  
+   viewDQA();       
+}
+
+
+});  }
+        function sendtoformsession(){
+      
+    
+      var form=document.getElementById("form").value;
+    
+  
+              $.ajax({
+url:'setFormSession?form='+form,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+//      location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+      viewDQA();
         
 }
 
 
-});  
+});  }
       
-      
-      }
+//        function viewDQA(){
+//      
+//    
+//      var form=document.getElementById("form").value;
+//    
+//  
+//              $.ajax({
+//url:'loadDQA?form='+form,
+//type:'post',
+//dataType:'html',
+//success:function (data){
+//    $("#DQAtable").html(data);     
+////      location.reload();
+//       //document.getElementById("month").innerHTML=data;
+//      // App.init();  
+//      alert("entered");  
+//}
+//
+//
+//});  
+//      
+//      
+//      }
  
 //    document.getElementById("checkblank").value='0';
       
