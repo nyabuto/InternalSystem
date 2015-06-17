@@ -180,6 +180,10 @@
         <servlet-name>errors731</servlet-name>
         <servlet-class>General.errors731</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>allStaticReports</servlet-name>
+        <servlet-class>reports.allStaticReports</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -359,6 +363,10 @@
     <servlet-mapping>
         <servlet-name>errors731</servlet-name>
         <url-pattern>/errors731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allStaticReports</servlet-name>
+        <url-pattern>/allStaticReports</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
