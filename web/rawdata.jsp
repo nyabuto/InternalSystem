@@ -149,7 +149,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="moh711_Facility" class="form-horizontal">
+                        <form action="" name="forms" class="form-horizontal">
                            
                            <div class="control-group">
                               <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
@@ -268,7 +268,17 @@ dbConn conn = new dbConn();
                   function changeform(){
                   
                                var form= document.getElementById("form").value
-                               alert(form);
+//                               alert(form);
+                               if( form=="MOH 711A" ) {
+                           document.forms.action = "moh711_Facility";
+                            }
+                            else if( form=="MOH 731" ) {
+                                document.forms.action = "moh731_Facility";
+                            }
+//                            else if( action_name=="ccc" ) {
+//                                document.forms.action = "/CCC";
+//                            }
+                               
                            }
                                 
                             </script>

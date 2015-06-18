@@ -58,8 +58,10 @@ HttpSession session;
             throws ServletException, IOException, SQLException {
        session=request.getSession();
        dbConn conn = new dbConn();
-         year="2015";
-       month="4";
+       if(request.getParameter("year")!=null && !request.getParameter("year").equals("")){
+         year=request.getParameter("year");}
+        if(request.getParameter("month")!=null && !request.getParameter("month").equals("")){
+       month=request.getParameter("month");}
      
       try{
       counter=0;
