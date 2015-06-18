@@ -427,6 +427,7 @@ if(conn.rs.getString("HV0314")!=null){HV0314=conn.rs.getString("HV0314");}
 if(conn.rs.getString("HV0315")!=null){HV0315=conn.rs.getString("HV0315");}
 if(conn.rs.getString("HV0316")!=null){HV0316=conn.rs.getString("HV0316");}
 if(conn.rs.getString("HV0317")!=null){HV0317=conn.rs.getString("HV0317");}
+if(conn.rs.getString("HV0318")!=null){HV0318=conn.rs.getString("HV0318");}
 if(conn.rs.getString("HV0319")!=null){HV0319=conn.rs.getString("HV0319");}
 if(conn.rs.getString("HV0320")!=null){HV0320=conn.rs.getString("HV0320");}
 if(conn.rs.getString("HV0321")!=null){HV0321=conn.rs.getString("HV0321");}
