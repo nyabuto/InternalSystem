@@ -274,6 +274,12 @@ legend.formatter {
                             }
 
                         %> 
+                        
+                        
+                        
+                        
+                         <input type="hidden" name="data_elements" id="data_elements" value="">
+                   <input type="hidden" name="description" id="description" value="">    
                         <div class="tabbable tabbable-custom boxless" id="711table" >
                    
                         
@@ -405,7 +411,10 @@ $("#isValidated").html(validity);
   
 var invalidatedData=$("#invalidatedData").html();
 $("#allunValidated").html(invalidatedData);       
-   
+ 
+ $("#data_elements").val("");
+$("#description").val("");
+ 
 }
             
             
@@ -1319,6 +1328,8 @@ success:function (data){
    $("form").submit(function(){
 //       alert("mmmm");
        var errors=0;
+       $("#data_elements").val("");
+$("#description").val("");
        $(":text").css({'background-color' : 'white'});        
 var totalsVariables ="FPMicrolutT,FPMicrogynonT,FPINJECTIONST,MATDeliveryT,FPIUCDT,FPIMPLANTST,FPBTLT,FPVasectomyT,FPOTHERT,FPCONDOMST,FPCLIENTST,FPCLIENTSN,FPCLIENTSR,PMCTANCClientsT,VCTClient_Couns_TOT,VCTClient_Tested_TOT,VCTClient_HIV_TOT,DTCA_Couns_Out_Tot,DTCA_Couns_In_Tot,DTCB_Test_Out_Tot,DTCB_Test_In_Tot,DTCC_HIV_Out_Tot,DTCC_HIV_In_Tot,";          
 

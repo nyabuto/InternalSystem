@@ -67,7 +67,7 @@ if(session.getAttribute("facilityid")!=null){
        String[] parts=null; 
 
         if(form.equals("load711.jsp")  ){
-         formname="moh711A";   
+         formname="moh711";   
         } 
 
         else if(form.equals("Form731.jsp")){
@@ -80,6 +80,7 @@ if(session.getAttribute("facilityid")!=null){
             data+="<thead><th>No.</th><th>COLUMN</th><th>ERROR</th> </thead><tbody>";
             
             String getdata="SELECT columns,errors FROM dqa WHERE facilityid='"+facilityId+"' && year='"+year+"' && month='"+month+"' && form='"+formname+"'";
+           System.out.println(getdata);
             conn.rs= conn.st.executeQuery(getdata);
             if(conn.rs.next()==true){
           allcolumns=conn.rs.getString(1).split("@");

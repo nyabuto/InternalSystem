@@ -25,6 +25,15 @@ total=parseInt(FPCLIENTSN)+parseInt(FPCLIENTSR);
    $("#FPCLIENTSN").css({'background-color' : 'yellow'});
    $("#FPCLIENTSR").css({'background-color' : 'yellow'});
    $("#FPCLIENTST").css({'background-color' : 'yellow'});
+  
+      var data=$("#data_elements").val();
+   data+="@FPCLIENTSN_FPCLIENTSR_FPCLIENTST";
+   $("#data_elements").val(data);
+   
+    var description=$("#description").val();
+    description+="@Total of FP clients is greater than the sum of new and revisits";
+   $("#description").val(description);
+   
     }
  return checker;
 }
@@ -78,12 +87,38 @@ if(VCTClient_HIV_TOT==""){VCTClient_HIV_TOT="0";}
     
    $("#VCTClient_HIV_CF").css({'background-color' : 'yellow'});
    $("#VCTClient_Tested_CF").css({'background-color' : 'yellow'});
+   
+   $("#VCTClient_HIV_CF").prop('title', 'HIV+ should not be greater than Tested');
+   $("#VCTClient_Tested_CF").prop('title', 'HIV+ should not be less than Tested');
+   
+   var data=$("#data_elements").val();
+    data+="@VCT CLIENTS HIV + F(15-24),VCT CLIENTS TESTED + F(15-24)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV + is greater than Tested (15-24 F)";
+   $("#description").val(description);
+   
+   
      }
  if(parseInt(VCTClient_HIV_CM)> parseInt(VCTClient_Tested_CM)){
      checker++;
    
    $("#VCTClient_Tested_CM").css({'background-color' : 'yellow'});
    $("#VCTClient_HIV_CM").css({'background-color' : 'yellow'});
+   
+    $("#VCTClient_Tested_CM").prop('title', 'HIV+ should not be greater than Tested');
+   $("#VCTClient_HIV_CM").prop('title', 'HIV+ should not be less than Tested');
+   
+   var data=$("#data_elements").val();
+    data+="@VCT CLIENTS HIV + M(15-24),VCT CLIENTS TESTED + M(15-24)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV + is greater than Tested (15-24) M";
+   $("#description").val(description);
+   
+   
      }
      
      // female adults
@@ -92,6 +127,25 @@ if(VCTClient_HIV_TOT==""){VCTClient_HIV_TOT="0";}
  
    $("#VCTClient_HIV_AF").css({'background-color' : 'yellow'});
    $("#VCTClient_Tested_AF").css({'background-color' : 'yellow'});
+   
+   
+      $("#VCTClient_HIV_AF").prop('title', 'HIV+ should not be greater than Tested');
+   $("#VCTClient_Tested_AF").prop('title', 'HIV+ should not be less than Tested');
+   
+   var data=$("#data_elements").val();
+    data+="@VCT CLIENTS HIV + F(>25),VCT CLIENTS TESTED + F(>25)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV + is greater than Tested (>25) F";
+   $("#description").val(description);
+   
+   
+   
+   
+   
+   
+   
      }
 //     male adults
  if(parseInt(VCTClient_HIV_AM)> parseInt(VCTClient_Tested_AM)){
@@ -99,6 +153,21 @@ if(VCTClient_HIV_TOT==""){VCTClient_HIV_TOT="0";}
 
    $("#VCTClient_Tested_AM").css({'background-color' : 'yellow'});
    $("#VCTClient_HIV_AM").css({'background-color' : 'yellow'});
+   
+   
+   
+   
+      $("#VCTClient_HIV_AM").prop('title', 'HIV+ should not be greater than Tested');
+   $("#VCTClient_Tested_AM").prop('title', 'HIV+ should not be less than Tested');
+   
+   var data=$("#data_elements").val();
+    data+="@VCT CLIENTS HIV + M(>25),VCT CLIENTS TESTED + M(>25)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV + is greater than Tested (>25) M";
+   $("#description").val(description);
+   
      }
      
      
@@ -108,6 +177,23 @@ if(VCTClient_HIV_TOT==""){VCTClient_HIV_TOT="0";}
    
    $("#VCTClient_HIV_TOT").css({'background-color' : 'yellow'});
    $("#VCTClient_Tested_TOT").css({'background-color' : 'yellow'});
+   
+   
+   
+      $("#VCTClient_HIV_TOT").prop('title', 'HIV+ Total should not be greater than Tested');
+   $("#VCTClient_Tested_TOT").prop('title', 'HIV+ Total should not be less than Tested');
+   
+   var data=$("#data_elements").val();
+    data+="@VCT CLIENTS HIV + Total,VCT CLIENTS TESTED Total";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ Total is greater than Total Tested ";
+   $("#description").val(description);
+   
+   
+   
+   
      }
  return checker;
 }
@@ -178,24 +264,88 @@ if(DTCC_HIV_In_AM==""){DTCC_HIV_In_AM="0";}
    
    $("#DTCC_HIV_Out_CF").css({'background-color' : 'yellow'});
    $("#DTCB_Test_Out_CF").css({'background-color' : 'yellow'});
+   
+   
+   
+   
+      $("#DTCC_HIV_Out_CF").prop('title', 'HIV+ Outpatient should not be greater than Tested OutPatient');
+   $("#DTCB_Test_Out_CF").prop('title', 'Tested OutPatient should greater or equal  to HIV+ Outpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ OUTPATIENT F(15-24),DTC TESTED OUTPATIENT F(15-24)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (15-24 F)-OUTPATIENT";
+   $("#description").val(description);
+   
      }
    if(parseInt(DTCC_HIV_Out_CM)> parseInt(DTCB_Test_Out_CM)){
      checker++;
    
    $("#DTCC_HIV_Out_CM").css({'background-color' : 'yellow'});
    $("#DTCB_Test_Out_CM").css({'background-color' : 'yellow'});
+  
+  
+   $("#DTCC_HIV_Out_CM").prop('title', 'HIV+ Outpatient should not be greater than Tested OutPatient');
+   $("#DTCB_Test_Out_CM").prop('title', 'Tested OutPatient should greater or equal  to HIV+ Outpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ OUTPATIENT M(15-24),DTC TESTED OUTPATIENT M(15-24)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (15-24 M)-OUTPATIENT";
+   $("#description").val(description);
+   
+   
+   
      }
    if(parseInt(DTCC_HIV_Out_AM)> parseInt(DTCB_Test_Out_AM)){
      checker++;
    
    $("#DTCC_HIV_Out_AM").css({'background-color' : 'yellow'});
    $("#DTCB_Test_Out_AM").css({'background-color' : 'yellow'});
+   
+   
+   
+    $("#DTCC_HIV_Out_AM").prop('title', 'HIV+ Outpatient should not be greater than Tested OutPatient');
+   $("#DTCB_Test_Out_AM").prop('title', 'Tested OutPatient should greater or equal  to HIV+ Outpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ OUTPATIENT M(>25),DTC TESTED OUTPATIENT M(>25)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (>25 M)-OUTPATIENT";
+   $("#description").val(description);
+   
+   
+   
      }
       if(parseInt(DTCC_HIV_Out_AF)> parseInt(DTCB_Test_Out_AF)){
      checker++;
    
    $("#DTCC_HIV_Out_AF").css({'background-color' : 'yellow'});
    $("#DTCB_Test_Out_AF").css({'background-color' : 'yellow'});
+   
+   
+    $("#DTCC_HIV_Out_AF").prop('title', 'HIV+ Outpatient should not be greater than Tested OutPatient');
+   $("#DTCB_Test_Out_AF").prop('title', 'Tested OutPatient should greater or equal  to HIV+ Outpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ OUTPATIENT F(>25),DTC TESTED OUTPATIENT F(>25)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (>25 F)-OUTPATIENT";
+   $("#description").val(description);
+   
+   
+   
+   
+   
+   
      }
      
      
@@ -208,24 +358,82 @@ if(DTCC_HIV_In_AM==""){DTCC_HIV_In_AM="0";}
    
    $("#DTCC_HIV_In_CF").css({'background-color' : '#4b8df8'});
    $("#DTCB_Test_In_CF").css({'background-color' : '#4b8df8'});
+   
+   
+   
+   $("#DTCC_HIV_In_CF").prop('title', 'HIV+ inpatient should not be greater than Tested inpatient');
+   $("#DTCB_Test_In_CF").prop('title', 'Tested inpatient should greater or equal  to HIV+ inpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ INPATIENT F(0-14),DTC TESTED INPATIENT F(0-14)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (0-14 F)-INPATIENT";
+   $("#description").val(description);
+   
+   
+   
      }
    if(parseInt(DTCC_HIV_In_CM)> parseInt(DTCB_Test_In_CM)){
      checker++;
    
    $("#DTCC_HIV_In_CM").css({'background-color' : '#4b8df8'});
    $("#DTCB_Test_In_CM").css({'background-color' : '#4b8df8'});
+   
+   
+   
+     $("#DTCC_HIV_In_CM").prop('title', 'HIV+ inpatient should not be greater than Tested inpatient');
+   $("#DTCB_Test_In_CM").prop('title', 'Tested inpatient should greater or equal  to HIV+ inpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ INPATIENT M(0-14),DTC TESTED INPATIENT M(0-14)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (0-14 M)-INPATIENT";
+   $("#description").val(description);
+   
+   
      }
    if(parseInt(DTCC_HIV_In_AM)> parseInt(DTCB_Test_In_AM)){
      checker++;
    
    $("#DTCC_HIV_In_AM").css({'background-color' : '#4b8df8'});
    $("#DTCB_Test_In_AM").css({'background-color' : '#4b8df8'});
+   
+   
+   
+    $("#DTCC_HIV_In_AM").prop('title', 'HIV+ inpatient should not be greater than Tested inpatient');
+   $("#DTCB_Test_In_AM").prop('title', 'Tested inpatient should greater or equal  to HIV+ inpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ INPATIENT M(>14),DTC TESTED INPATIENT M(>14)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (>14 M)-INPATIENT";
+   $("#description").val(description);
+   
      }
       if(parseInt(DTCC_HIV_In_AF)> parseInt(DTCB_Test_In_AF)){
      checker++;
    
    $("#DTCC_HIV_In_AF").css({'background-color' : '#4b8df8'});
    $("#DTCB_Test_In_AF").css({'background-color' : '#4b8df8'});
+   
+    
+    $("#DTCC_HIV_In_AF").prop('title', 'HIV+ inpatient should not be greater than Tested inpatient');
+   $("#DTCB_Test_In_AF").prop('title', 'Tested inpatient should greater or equal  to HIV+ inpatient');
+   
+   var data=$("#data_elements").val();
+    data+="@DTC HIV+ INPATIENT F(>14),DTC TESTED INPATIENT F(>14)";
+   $("#data_elements").val(data); 
+   
+   var description=$("#description").val();
+    description+="@HIV+ is greater than Tested (>14 F)-INPATIENT";
+   $("#description").val(description);
+   
      }
      
      

@@ -60,6 +60,9 @@ public class DQA711 extends HttpServlet {
          String  years="";
              String  DistrictID="";
              String SubPartnerID="";
+               String tableID="";
+         String columns="";
+         String errors="";
 //        System.out.println("nnn "+form); 
 //        session.setAttribute("form",form);
 //               if(session.getAttribute("year")!=null){        
@@ -76,6 +79,8 @@ public class DQA711 extends HttpServlet {
 //   subcountyid=session.getAttribute("subcountyid").toString();
 //    }
            ArrayList viewerrors=new ArrayList();
+             String montharray[]={"4","5","6"};
+            
        String[] parts=null; 
 //        errorss
 //        parseInt(VCTClient_HIV_CF)> parseInt(VCTClient_Tested_CF)    
@@ -96,39 +101,56 @@ public class DQA711 extends HttpServlet {
 //              + "and  "      CASE riskreductiondetails.QID \n" +
 //"		WHEN VCTClient_HIV_CF < VCTClient_Tested_CF'   THEN  'hiv>tested 15-24' f ""  \n" +
 //"		WHEN 'B3' AND RiskReductionDetails.action LIKE 'WBL Provided_%' THEN SUM(SUBSTRING_INDEX(riskreductiondetails.Action, '_', -1) ) end as e,\n" +
-String allerrors="";
+
             String getfacility="select * from subpartnera ";
             conn.rs2= conn.st2.executeQuery(getfacility);
             while(conn.rs2.next()){
+                for(int k=0;k<montharray.length;k++){
                 facility=conn.rs2.getString(1);
-            String getdata=" SELECT "+
-" CASE  WHEN VCTClient_HIV_CF > VCTClient_Tested_CF THEN  'VCT CLIENTS HIV + F(15-24)%HIV + is greater than Tested (15-24 F)' ELSE '' END AS HIV1,"+
-" CASE  WHEN VCTClient_HIV_CM > VCTClient_Tested_CM THEN  'VCT CLIENTS HIV + M(15-24)%HIV + is greater than Tested (15-24 M)' ELSE '' END AS HIV2, "+
-" CASE  WHEN VCTClient_HIV_AF > VCTClient_Tested_AF THEN  'VCT CLIENTS HIV + F(>25)%HIV + is greater than Tested (>25 F)' ELSE '' END AS HIV3, "+
-" CASE  WHEN VCTClient_HIV_AM > VCTClient_Tested_AM THEN  'VCT CLIENTS HIV + M(>25)%HIV + is greater than Tested (>25 M)' ELSE '' END AS HIV4, "+
+//            String getdata=" SELECT "+
+//" CASE  WHEN VCTClient_HIV_CF > VCTClient_Tested_CF THEN  'VCT CLIENTS HIV + F(15-24)%HIV + is greater than Tested (15-24 F)' ELSE '' END AS HIV1,"+
+//" CASE  WHEN VCTClient_HIV_CM > VCTClient_Tested_CM THEN  'VCT CLIENTS HIV + M(15-24)%HIV + is greater than Tested (15-24 M)' ELSE '' END AS HIV2, "+
+//" CASE  WHEN VCTClient_HIV_AF > VCTClient_Tested_AF THEN  'VCT CLIENTS HIV + F(>25)%HIV + is greater than Tested (>25 F)' ELSE '' END AS HIV3, "+
+//" CASE  WHEN VCTClient_HIV_AM > VCTClient_Tested_AM THEN  'VCT CLIENTS HIV + M(>25)%HIV + is greater than Tested (>25 M)' ELSE '' END AS HIV4, "+
+//
+//" CASE  WHEN DTCC_HIV_Out_CF > DTCB_Test_Out_CF THEN  'DTC HIV+ OUTPATIENT F(15-24)%HIV + is greater than Tested (15-24 F)-OUTPATIENT' ELSE '' END AS HIV5, "+
+//" CASE  WHEN DTCC_HIV_Out_CM > DTCB_Test_Out_CM THEN  'DTC HIV+ OUTPATIENT M(15-24)%HIV + is greater than Tested (15-24 M)-OUTPATIENT' ELSE '' END AS HIV6, "+
+//" CASE  WHEN DTCC_HIV_Out_AM > DTCB_Test_Out_AM THEN  'DTC HIV+ OUTPATIENT M(>25)%HIV + is greater than Tested (>25 M)-OUTPATIENT' ELSE '' END AS HIV7, "+
+//" CASE  WHEN DTCC_HIV_Out_AF > DTCB_Test_Out_AF THEN  'DTC HIV+ OUTPATIENT F(>25)%HIV + is greater than Tested (>25 F)-OUTPATIENT' ELSE ''  END AS HIV8, "+
+//
+//" CASE  WHEN DTCC_HIV_In_CF > DTCB_Test_In_CF THEN  'DTC HIV+ INPATIENT F(15-24)%HIV + is greater than Tested (15-24 F)-INPATIENT' ELSE '' END AS HIV9, "+
+//" CASE  WHEN DTCC_HIV_In_CM > DTCB_Test_In_CM THEN  'DTC HIV+ INPATIENT M(15-24)% HIV + is greater than Tested (15-24 M)-INPATIENT' ELSE ''  END AS HIV10, "+
+//" CASE  WHEN DTCC_HIV_In_AM > DTCB_Test_In_AM THEN  'DTC HIV+ INPATIENT M(>25)%HIV + is greater than Tested (>25 M)-INPATIENT' ELSE '' END AS HIV11,  "+
+//" CASE  WHEN DTCC_HIV_In_AF > DTCB_Test_In_AF THEN  'DTC HIV+ INPATIENT F(>25)%HIV + is greater than Tested (>25 F)-INPATIENT' ELSE '' END AS HIV12  "+
+//
+//",ID,moh711.Mois,moh711.Annee,subpartnera.DistrictID, MOH711.SubPartnerID,HTC FROM  moh711 JOIN  subpartnera ON subpartnera.SubPartnerID=moh711.SubPartnerID WHERE  MOH711.SubPartnerID='"+facility+"' ";
+//   
+                 String getdata=" SELECT "+
+" CASE  WHEN VCTClient_HIV_CF > VCTClient_Tested_CF THEN  'VCT CLIENTS HIV + F(15-24)-VCT CLIENTS TESTED + F(15-24%HIV + is greater than Tested (15-24 F)' ELSE '' END AS HIV1,"+
+" CASE  WHEN VCTClient_HIV_CM > VCTClient_Tested_CM THEN  'VCT CLIENTS HIV + M(15-24)-VCT CLIENTS TESTED + M(15-24)%HIV + is greater than Tested (15-24 M)' ELSE '' END AS HIV2, "+
+" CASE  WHEN VCTClient_HIV_AF > VCTClient_Tested_AF THEN  'VCT CLIENTS HIV + F(>25)-VCT CLIENTS TESTED + F(>25)%HIV + is greater than Tested (>25 F)' ELSE '' END AS HIV3, "+
+" CASE  WHEN VCTClient_HIV_AM > VCTClient_Tested_AM THEN  'VCT CLIENTS HIV + M(>25)-VCT CLIENTS TESTED + M(>25)%HIV + is greater than Tested (>25 M)' ELSE '' END AS HIV4, "+
 
-" CASE  WHEN DTCC_HIV_Out_CF > DTCB_Test_Out_CF THEN  'DTC HIV+ OUTPATIENT F(15-24)%HIV + is greater than Tested (15-24 F)-OUTPATIENT' ELSE '' END AS HIV5, "+
-" CASE  WHEN DTCC_HIV_Out_CM > DTCB_Test_Out_CM THEN  'DTC HIV+ OUTPATIENT M(15-24)%HIV + is greater than Tested (15-24 M)-OUTPATIENT' ELSE '' END AS HIV6, "+
-" CASE  WHEN DTCC_HIV_Out_AM > DTCB_Test_Out_AM THEN  'DTC HIV+ OUTPATIENT M(>25)%HIV + is greater than Tested (>25 M)-OUTPATIENT' ELSE '' END AS HIV7, "+
-" CASE  WHEN DTCC_HIV_Out_AF > DTCB_Test_Out_AF THEN  'DTC HIV+ OUTPATIENT F(>25)%HIV + is greater than Tested (>25 F)-OUTPATIENT' ELSE ''  END AS HIV8, "+
+" CASE  WHEN DTCC_HIV_Out_CF > DTCB_Test_Out_CF THEN  'DTC HIV+ OUTPATIENT F(15-24)-DTC TESTED OUTPATIENT F(15-24)%HIV + is greater than Tested (15-24 F)-OUTPATIENT' ELSE '' END AS HIV5, "+
+" CASE  WHEN DTCC_HIV_Out_CM > DTCB_Test_Out_CM THEN  'DTC HIV+ OUTPATIENT M(15-24)-DTC TESTED OUTPATIENT M(15-24)%HIV + is greater than Tested (15-24 M)-OUTPATIENT' ELSE '' END AS HIV6, "+
+" CASE  WHEN DTCC_HIV_Out_AM > DTCB_Test_Out_AM THEN  'DTC HIV+ OUTPATIENT M(>25)-DTC TESTED OUTPATIENT M(>25)%HIV + is greater than Tested (>25 M)-OUTPATIENT' ELSE '' END AS HIV7, "+
+" CASE  WHEN DTCC_HIV_Out_AF > DTCB_Test_Out_AF THEN  'DTC HIV+ OUTPATIENT F(>25)-DTC TESTED OUTPATIENT F(>25)%HIV + is greater than Tested (>25 F)-OUTPATIENT' ELSE ''  END AS HIV8, "+
 
-" CASE  WHEN DTCC_HIV_In_CF > DTCB_Test_In_CF THEN  'DTC HIV+ INPATIENT F(15-24)%HIV + is greater than Tested (15-24 F)-INPATIENT' ELSE '' END AS HIV9, "+
-" CASE  WHEN DTCC_HIV_In_CM > DTCB_Test_In_CM THEN  'DTC HIV+ INPATIENT M(15-24)% HIV + is greater than Tested (15-24 M)-INPATIENT' ELSE ''  END AS HIV10, "+
-" CASE  WHEN DTCC_HIV_In_AM > DTCB_Test_In_AM THEN  'DTC HIV+ INPATIENT M(>25)%HIV + is greater than Tested (>25 M)-INPATIENT' ELSE '' END AS HIV11,  "+
-" CASE  WHEN DTCC_HIV_In_AF > DTCB_Test_In_AF THEN  'DTC HIV+ INPATIENT F(>25)%HIV + is greater than Tested (>25 F)-INPATIENT' ELSE '' END AS HIV12  "+
+" CASE  WHEN DTCC_HIV_In_CF > DTCB_Test_In_CF THEN  'DTC HIV+ INPATIENT F(0-14)-DTC TESTED INPATIENT F(0-14)%HIV + is greater than Tested (15-24 F)-INPATIENT' ELSE '' END AS HIV9, "+
+" CASE  WHEN DTCC_HIV_In_CM > DTCB_Test_In_CM THEN  'DTC HIV+ INPATIENT M(0-14)-DTC TESTED INPATIENT M(0-14)% HIV + is greater than Tested (15-24 M)-INPATIENT' ELSE ''  END AS HIV10, "+
+" CASE  WHEN DTCC_HIV_In_AM > DTCB_Test_In_AM THEN  'DTC HIV+ INPATIENT M(>14)-DTC TESTED INPATIENT M(>14)%HIV + is greater than Tested (>25 M)-INPATIENT' ELSE '' END AS HIV11,  "+
+" CASE  WHEN DTCC_HIV_In_AF > DTCB_Test_In_AF THEN  'DTC HIV+ INPATIENT F(>14)-DTC TESTED INPATIENT F(>14)%HIV + is greater than Tested (>25 F)-INPATIENT' ELSE '' END AS HIV12  "+
 
-",ID,moh711.Mois,moh711.Annee,subpartnera.DistrictID, MOH711.SubPartnerID,HTC FROM  moh711 JOIN  subpartnera ON subpartnera.SubPartnerID=moh711.SubPartnerID WHERE  MOH711.SubPartnerID='"+facility+"' ";
+",ID,moh711.Mois,moh711.Annee,subpartnera.DistrictID, MOH711.SubPartnerID,HTC FROM  moh711 JOIN  subpartnera ON subpartnera.SubPartnerID=moh711.SubPartnerID WHERE  moh711.SubPartnerID='"+facility+"' and moh711.Mois='"+montharray[k]+"'";
    
 
-         String tableID="";
-         String columns="";
-         String errors="";
-      System.out.println(getdata);
+       
+//      System.out.println(getdata);
 //            String getdata="select * from moh711 where VCTClient_HIV_CF > VCTClient_Tested_CF";
             conn.rs= conn.st.executeQuery(getdata);
             if(conn.rs.next()==true){
-         
-                allerrors += conn.rs.getString(1) +
+         String allerrors="";
+                allerrors +=conn.rs.getString(1) +
                         " @"+conn.rs.getString(2)+
                         " @"+conn.rs.getString(3)+
                         " @"+conn.rs.getString(4)+
@@ -150,7 +172,7 @@ String allerrors="";
                  parts = allerrors.split("@");
              
                viewerrors.add(allerrors.split("@"));
-//             System.out.println("mmmm     "+allerrors+" "+tableID+" "+months+" "+years+" "+DistrictID+" "+SubPartnerID); 
+             System.out.println("mmmm     "+allerrors+" "+tableID+" "+months+" "+years+" "+DistrictID+" "+SubPartnerID); 
            
             
 //            System.out.println("nnnn     "+allerrors+" "+tableID+" "+months+" "+years+" "+DistrictID+" "+SubPartnerID);
@@ -164,33 +186,34 @@ String allerrors="";
                      String part[];
                      part= parts[i].split("%");
 //                     System.out.println(part[0]+"___"+part[1]);
-              data+="<tr>"
-                     
-                      
-                      
-                        + "<td>"+counter+"</td><td>"+part[0]+"</td><td>"+part[1] +"</td>"
-                      
-                        + "</tr>";
+//              data+="<tr>"
+//                     
+//                      
+//                      
+//                        + "<td>"+counter+"</td><td>"+part[0]+"</td><td>"+part[1] +"</td>"
+//                      
+//                        + "</tr>";
               if(!columns.contains(part[0])){
               columns+=part[0]+"@";
               errors+=part[1]+"@";}
               
-                  System.out.println("errors    "+columns+"___"+errors);
+//                  System.out.println("errors    "+columns+"___"+errors);
                 }
                 
                 
                
             }
-            data+="</tbody>";
-           if(data.equals("")){
-           
-           data+="nodata";
-           }
+//            data+="</tbody>";
+//           if(data.equals("")){
+//           
+//           data+="nodata";
+//           }
             
             if(!tableID.equals("") && !columns.equals("") &&  !errors.equals("") &&  !SubPartnerID.equals("") && HTC.equals("1") ){
              String insert="insert into DQA set tableid='"+tableID+"',form='moh711',facilityid='"+SubPartnerID+"',year='"+years+"',month='"+months+"',columns='"+columns+"',errors='"+errors+"'"; 
                     conn.st1.executeUpdate(insert);
-             System.out.println(insert);}
+             System.out.println(insert);
+            }
              columns="";  
          errors="";
         }
@@ -198,7 +221,7 @@ String allerrors="";
         
             out.println(data);     
           System.out.println(   data  );  
-        } finally {            
+        }} finally {            
             out.close();
         }
     }

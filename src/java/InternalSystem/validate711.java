@@ -39,7 +39,7 @@ String DTCA_Couns_In_CM,DTCA_Couns_In_CF,DTCA_Couns_In_AM,DTCA_Couns_In_AF,DTCA_
   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        
+       String data_elements,description=""; 
     response.setContentType("text/html;charset=UTF-8");
   try{
     session =request.getSession();
@@ -73,7 +73,8 @@ month=session.getAttribute("monthid").toString();
     if(session.getAttribute("facilityid")!=null){        
 facil=session.getAttribute("facilityid").toString();
 }
-    
+     data_elements=request.getParameter("data_elements");
+  description=request.getParameter("description");
     
       // FAMILY PLANNING            
  FPMicrolutN=FPMicrolutR=FPMicrolutT=FPMicrogynonN=FPMicrogynonR=FPMicrogynonT=FPINJECTIONSN=FPINJECTIONSR="0";
@@ -383,6 +384,57 @@ Timestamp lastUpdatedOn =new Timestamp(date.getTime());
      String updateLast="UPDATE moh711 SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE ID='"+tableid+"'" ;   
        conn.st2.executeUpdate(updateLast);
      }
+     
+     
+     
+       String dqaid="";
+      System.out.println("++++++++++++++++++++++++++++++++here++++++++++++++++++++++++++++++++++++++++++++");
+     String checker="SELECT id FROM dqa WHERE year='"+year+"' && month='"+month+"' && facilityid='"+facil+"' && form='moh711' LIMIT 1";
+     conn.rs=conn.st.executeQuery(checker);
+     if(conn.rs.next()==true){
+        dqaid=conn.rs.getString(1);
+        
+        if(!data_elements.equals("")){
+//           UPDATE DQA TABLE
+             System.out.println("to update");
+            String updator="UPDATE dqa SET columns=?, errors=? WHERE id=? ";
+            conn.pst=conn.conn.prepareStatement(updator);
+            conn.pst.setString(1, data_elements);
+            conn.pst.setString(2, description);
+            conn.pst.setString(3, dqaid);
+            conn.pst.executeUpdate();
+        }
+        else{
+         System.out.println("to delete");
+            String updator="DELETE FROM dqa WHERE id=? ";
+            conn.pst=conn.conn.prepareStatement(updator);
+            conn.pst.setString(1, dqaid);
+           
+            conn.pst.executeUpdate();    
+        }
+     }
+     else{
+         
+    if(!data_elements.equals("")) {
+      System.out.println("to insert");
+    String inserter="INSERT INTO dqa (tableid,form,facilityid,year,month,columns,errors) VALUES(?,?,?,?,?,?,?)";
+    conn.pst=conn.conn.prepareStatement(inserter);
+    conn.pst.setString(1, tableid);
+    conn.pst.setString(2, "moh711");
+    conn.pst.setString(3, facil);
+    conn.pst.setString(4, year);
+    conn.pst.setString(5, month);
+    conn.pst.setString(6, data_elements);
+    conn.pst.setString(7, description);
+    
+    conn.pst.executeUpdate();
+    }    
+         
+     } 
+     
+     
+     
+     
      if(conn.st!=null){conn.st.close();}
      if(conn.st1!=null){conn.st1.close();}
      if(conn.st2!=null){conn.st2.close();}
