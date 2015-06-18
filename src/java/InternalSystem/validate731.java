@@ -445,9 +445,12 @@ String userid=session.getAttribute("userid").toString();
      String updateLast="UPDATE moh731 SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE id='"+id+"'" ;   
        conn.st2.executeUpdate(updateLast);
      }
+    
+     
      String dqaid="";
       System.out.println("++++++++++++++++++++++++++++++++here++++++++++++++++++++++++++++++++++++++++++++");
-     String checker="SELECT id FROM dqa WHERE year='"+year+"' && month='"+month+"' && facilityid='"+facilityId+"' && form='moh731' LIMIT 1";
+    System.out.println("errors : "+data_elements+"   descr : "+description);
+      String checker="SELECT id FROM dqa WHERE year='"+year+"' && month='"+month+"' && facilityid='"+facilityId+"' && form='moh731' LIMIT 1";
      conn.rs=conn.st.executeQuery(checker);
      if(conn.rs.next()==true){
         dqaid=conn.rs.getString(1);

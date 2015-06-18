@@ -99,7 +99,7 @@ String sheets,headers,elementName;
     stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
     XSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.LIME.index);
+stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
@@ -112,19 +112,19 @@ fontx.setColor(HSSFColor.DARK_BLUE.index);
 stylex.setFont(fontx);
 stylex.setWrapText(true);
 
-    shet1.setColumnWidth(0, 10);
+    shet1.setColumnWidth(0, 200);
     
     for (int i=1;i<=47;i++){
    shet1.setColumnWidth(i, 6000);     
     }
     
-    shet2.setColumnWidth(0, 10);
+    shet2.setColumnWidth(0, 200);
     
     for (int i=1;i<=66;i++){
    shet2.setColumnWidth(i, 3000);     
     }
     
-    shet3.setColumnWidth(0, 10);
+    shet3.setColumnWidth(0, 200);
     
     for (int i=1;i<=19;i++){
    shet3.setColumnWidth(i, 3000);     
@@ -239,10 +239,10 @@ String arrayDetails []=basicDetails.split("@");
     S3cell.setCellStyle(stborder);     
    }
   int pos;
-  for (int i=4;i<=counterPMTCT;i++){
+  for (int i=5;i<=counterPMTCT;i++){
    XSSFCell  S3cell=rw2S1.createCell(i);
    pos=i;
-//   System.out.println("cell no 1 : "+i+" value no : "+pos);
+   System.out.println("cell no 1 : "+i+" value no : "+pos);
     S3cell.setCellValue(conn.rs.getInt(pos));
     S3cell.setCellStyle(stborder);    
       
@@ -261,7 +261,6 @@ String arrayDetails []=basicDetails.split("@");
   XSSFCell  S3cell=rw2S2.createCell(facilno);
     S3cell.setCellValue(facilityDetails);
     S3cell.setCellStyle(stborder);     
-  System.out.println("facildet pos : "+facilno+"     det : "+facilityDetails);
    }
    
    
@@ -292,7 +291,7 @@ counterPEP1++;
   for (int i=5;i<=counterPEP;i++){
    XSSFCell  S3cell=rw2S3.createCell(i);
    pos=i+103;
-//   System.out.println("cell no 3 : "+i+" value no : "+pos);
+   System.out.println("cell no 3 : "+i+" value no : "+pos);
     S3cell.setCellValue(conn.rs.getInt(pos));
     S3cell.setCellStyle(stborder);    
       

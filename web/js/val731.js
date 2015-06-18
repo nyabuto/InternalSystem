@@ -252,7 +252,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0204").prop('title', 'HV0204 should not be less than HV0201');
     
     var data=$("#data_elements").val();
-    data+="@HV0201_HV0204";
+    data+="@HV0201,HV0204";
    $("#data_elements").val(data); 
    
    var description=$("#description").val();
@@ -267,7 +267,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0204").prop('title', 'HV0204 should not be less than HV0202');
    
     var data=$("#data_elements").val();
-    data+="@HV0202_HV0204";
+    data+="@HV0202,HV0204";
    $("#data_elements").val(data); 
    
    var description=$("#description").val();
@@ -281,7 +281,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0203").prop('title', 'HV0203 should not be greater than HV0204');
     $("#HV0204").prop('title', 'HV0204 should not be less than HV0203');
    var data=$("#data_elements").val();
-   data+="@HV0203_HV0204";
+   data+="@HV0203,HV0204";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -301,7 +301,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0204").prop('title', 'Sum of HV0201,HV0202,HV0203 is not equal to HV0204');
     
     var data=$("#data_elements").val();
-    data+="@HV0201_HV0202_HV0203_HV0204";
+    data+="@HV0201,HV0202,HV0203,HV0204";
    $("#data_elements").val(data); 
    
    
@@ -321,7 +321,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0210").prop('title', 'HV0210 should not be less than HV0206');
     
    var data=$("#data_elements").val();
-   data+="@HV0206_HV0210";
+   data+="@HV0206,HV0210";
    $("#data_elements").val(data);
    
     var description=$("#description").val();
@@ -337,7 +337,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0210").prop('title', 'HV0210 should not be less than HV0208');
     
    var data=$("#data_elements").val();
-   data+="@HV0208_HV0210";
+   data+="@HV0208,HV0210";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -353,7 +353,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0210").prop('title', 'HV0210 should not be less than HV0207');
    
     var data=$("#data_elements").val();
-   data+="@HV0207_HV0210";
+   data+="@HV0207,HV0210";
    $("#data_elements").val(data); 
    
    
@@ -385,7 +385,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0204").prop('title', 'HV0204 should not be less than HV0211' );
     
    var data=$("#data_elements").val();
-   data+="@HV0211_HV0204";
+   data+="@HV0211,HV0204";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -400,7 +400,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0204").prop('title', 'HV0204 should not be less than HV0210');
     
      var data=$("#data_elements").val();
-   data+="@HV0210_HV0204";
+   data+="@HV0210,HV0204";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -418,7 +418,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0213');
     
    var data=$("#data_elements").val();
-   data+="@HV0213_HV0209";
+   data+="@HV0213,HV0209";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -433,7 +433,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0214');
     
    var data=$("#data_elements").val();
-   data+="@HV0214_HV0209";
+   data+="@HV0214,HV0209";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -448,7 +448,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0215');
     
    var data=$("#data_elements").val();
-   data+="@HV0215_HV0209";
+   data+="@HV0215,HV0209";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -462,7 +462,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0216');
     
    var data=$("#data_elements").val();
-   data+="@HV0216_HV0209";
+   data+="@HV0216,HV0209";
    $("#data_elements").val(data); 
    
    
@@ -480,7 +480,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should be equal to HV0217');
     
    var data=$("#data_elements").val();
-   data+="@HV0217_HV0209";
+   data+="@HV0217,HV0209";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -498,7 +498,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0219');
     
    var data=$("#data_elements").val();
-   data+="@HV0219_HV0209";
+   data+="@HV0219,HV0209";
    $("#data_elements").val(data); 
    
    
@@ -515,7 +515,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0220');
     
    var data=$("#data_elements").val();
-   data+="@HV0220_HV0209";
+   data+="@HV0220,HV0209";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -530,7 +530,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0221');
     
    var data=$("#data_elements").val();
-   data+="@HV0221_HV0209";
+   data+="@HV0221,HV0209";
    $("#data_elements").val(data);
    
    
@@ -550,7 +550,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0228").prop('title', 'HV0228 should not be less than HV0224');
     
    var data=$("#data_elements").val();
-   data+="@HV0224_HV0228";
+   data+="@HV0224,HV0228";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -565,7 +565,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0228").prop('title', 'HV0228 should not be less than HV0225');
     
    var data=$("#data_elements").val();
-   data+="@HV0225_HV0228";
+   data+="@HV0225,HV0228";
    $("#data_elements").val(data); 
    
    
@@ -581,7 +581,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0228").prop('title', 'HV0228 should not be less than HV0226');
     
    var data=$("#data_elements").val();
-   data+="@HV0226_HV0228";
+   data+="@HV0226,HV0228";
    $("#data_elements").val(data); 
    
    
@@ -599,7 +599,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0240").prop('title', 'HV0240 should not be less than HV0228');
     
    var data=$("#data_elements").val();
-   data+="@HV0228_HV0240";
+   data+="@HV0228,HV0240";
    $("#data_elements").val(data); 
    
    
@@ -620,7 +620,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0224").prop('title', 'HV0224 should not be less than HV0229');
     
    var data=$("#data_elements").val();
-   data+="@HV0229_HV0224";
+   data+="@HV0229,HV0224";
    $("#data_elements").val(data); 
    
    
@@ -638,7 +638,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0225").prop('title', 'HV0225 should not be less than HV0230');
     
     var data=$("#data_elements").val();
-   data+="@HV0225_HV0230";
+   data+="@HV0225,HV0230";
    $("#data_elements").val(data); 
    
    
@@ -655,7 +655,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0227").prop('title', 'HV0227 should not be less than HV0231');
     
     var data=$("#data_elements").val();
-   data+="@HV0227_HV0231";
+   data+="@HV0227,HV0231";
    $("#data_elements").val(data); 
    
    
@@ -673,7 +673,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0228").prop('title', 'HV0228 should not be less than HV0232');
     
     var data=$("#data_elements").val();
-   data+="@HV0228_HV0232";
+   data+="@HV0228,HV0232";
    $("#data_elements").val(data); 
    
    
@@ -693,7 +693,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0240").prop('title', 'HV0240 should not be less than HV0236');
     
    var data=$("#data_elements").val();
-   data+="@HV0236_HV0240";
+   data+="@HV0236,HV0240";
    $("#data_elements").val(data); 
    
    
@@ -717,7 +717,7 @@ if(HV0244==""){HV0244="0";}
     
     
   var data=$("#data_elements").val();
-   data+="@HV0205_HVO2O6_HV0241";
+   data+="@HV0205,HVO2O6,HV0241";
    $("#data_elements").val(data);  
    
    
@@ -733,7 +733,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0207").prop('title', 'HV0207 should not be less than HV0241');
     
     var data=$("#data_elements").val();
-   data+="@HV0207_HV0241";
+   data+="@HV0207,HV0241";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -748,7 +748,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0208").prop('title', 'HV0208 should not be less than HV0241');
     
    var data=$("#data_elements").val();
-   data+="@HV0208_HV0241";
+   data+="@HV0208,HV0241";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -765,7 +765,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0241');
     
     var data=$("#data_elements").val();
-   data+="@HV0209_HV0241";
+   data+="@HV0209,HV0241";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -781,7 +781,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0242');
     
     var data=$("#data_elements").val();
-   data+="@HV0209_HV0242";
+   data+="@HV0209,HV0242";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -796,7 +796,7 @@ if(HV0244==""){HV0244="0";}
     $("#HV0209").prop('title', 'HV0209 should not be less than HV0243');
     
     var data=$("#data_elements").val();
-   data+="@HV0209_HV0243";
+   data+="@HV0209,HV0243";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -955,7 +955,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0240").prop('title', 'HV0240 should not be less than HV0301');
     
    var data=$("#data_elements").val();
-   data+="@HV0301_HV0240";
+   data+="@HV0301,HV0240";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -970,7 +970,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0240").prop('title', 'HV0240 should be equal HV0302');
     
    var data=$("#data_elements").val();
-   data+="@HV0302_HV0240";
+   data+="@HV0302,HV0240";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -987,7 +987,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0307").prop('title', 'HV0307 should not be less than sum of HV0303 and HV0304');
    
    var data=$("#data_elements").val();
-   data+="@HV0303_HV0304_HV0307";
+   data+="@HV0303,HV0304,HV0307";
    $("#data_elements").val(data);
    
    
@@ -1006,7 +1006,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0307").prop('title', 'HV0307 should not be less than sum of HV0305 and HV0306');
     
     var data=$("#data_elements").val();
-   data+="@HV0305_HV0306_HV0307";
+   data+="@HV0305,HV0306,HV0307";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1024,7 +1024,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0319").prop('title', 'HV0319 should not be less than HV0307');
    
    var data=$("#data_elements").val();
-   data+="@HV0307_HV0319";
+   data+="@HV0307,HV0319";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1045,7 +1045,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0310").prop('title', 'sum of HV0310 and HV0309 should not be less than HV0308');
 
    var data=$("#data_elements").val();
-   data+="@HV0308_HV0309_HV0310";
+   data+="@HV0308,HV0309,HV0310";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1063,7 +1063,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0313").prop('title', 'HV0313 should not be less than sum of HV0309 and HV0310');
  
     var data=$("#data_elements").val();
-   data+="@HV0309_HV0310_HV0313";
+   data+="@HV0309,HV0310,HV0313";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1081,7 +1081,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0313").prop('title', 'HV0313 should not be less than sum of HV0311 and HV0312');
  
    var data=$("#data_elements").val();
-   data+="@HV0311_HV0312_HV0313";
+   data+="@HV0311,HV0312,HV0313";
    $("#data_elements").val(data);  
    
    
@@ -1100,7 +1100,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0307").prop('title', 'HV0307 should not be less than or equal to  HV0313');
     
     var data=$("#data_elements").val();
-   data+="@HV0307_HV0313";
+   data+="@HV0307,HV0313";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1120,7 +1120,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0316").prop('title', 'sum of HV0316 and HV0315 should not be less than HV0314');
  
    var data=$("#data_elements").val();
-   data+="@HV0314_HV0315_HV0316";
+   data+="@HV0314,HV0315,HV0316";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1138,7 +1138,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0319").prop('title', 'HV0319 should not be less than sum of HV0315 and HV0316');
     
     var data=$("#data_elements").val();
-   data+="@HV0315_HV0316_HV0319";
+   data+="@HV0315,HV0316,HV0319";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1155,7 +1155,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0319").prop('title', 'HV0319 should not be less than sum of HV0317 and HV0318');
     
     var data=$("#data_elements").val();
-   data+="@HV0317_HV0318_HV0319";
+   data+="@HV0317,HV0318,HV0319";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1176,7 +1176,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0316").prop('title', 'sum of HV0303 and HV0304  should not be greater than sum of HV0315 and HV0316');
     
    var data=$("#data_elements").val();
-   data+="@HV0303_HV0304_HV0315_HV0316";
+   data+="@HV0303,HV0304,HV0315,HV0316";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1195,7 +1195,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0316").prop('title', 'sum of HV0311 and HV0312  should not be greater than sum of HV0315 and HV0316');
     
     var data=$("#data_elements").val();
-   data+="@HV0311_HV0312_HV0315_HV0316";
+   data+="@HV0311,HV0312,HV0315,HV0316";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1210,7 +1210,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0319").prop('title', 'HV0319 should not be less than or equal to  HV0313');
     
     var data=$("#data_elements").val();
-   data+="@HV0313_HV0319";
+   data+="@HV0313,HV0319";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1229,7 +1229,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0320").prop('title', 'HV0320 should not be greater than HV0334');
     
     var data=$("#data_elements").val();
-   data+="@HV0334_HV0320";
+   data+="@HV0334,HV0320";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1246,7 +1246,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0325").prop('title', 'HV0325 should not be less than sum of HV0321 and HV0322');
     
     var data=$("#data_elements").val();
-   data+="@HV0325_HV0321_HV0322";
+   data+="@HV0325,HV0321,HV0322";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1263,7 +1263,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0325").prop('title', 'HV0325 should not be less than sum of HV0323 and HV0324');
     
    var data=$("#data_elements").val();
-   data+="@HV0323_HV0324_HV0325";
+   data+="@HV0323,HV0324,HV0325";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1284,7 +1284,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0325").prop('title', 'HV0325 should be equal to sum of HV0321,HV0322,HV0323,HV0324');
     
     var data=$("#data_elements").val();
-   data+="@HV0321_HV0322_HV0323_HV0324_HV0325";
+   data+="@HV0321,HV0322,HV0323,HV0324,HV0325";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1307,7 +1307,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0326").prop('title', 'HV0326 should not be greater than HV0324');
     
     var data=$("#data_elements").val();
-   data+="@HV0324_HV0326";
+   data+="@HV0324,HV0326";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1323,7 +1323,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0327").prop('title', 'HV0327 should not be greater than HV0325');
    
     var data=$("#data_elements").val();
-   data+="@HV0325_HV0327";
+   data+="@HV0325,HV0327";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1344,7 +1344,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0336").prop('title', 'sum of HV0321 and HV0322  should not be greater than sum of HV0335 and HV0336');
     
    var data=$("#data_elements").val();
-   data+="@HV0321_HV0322_HV0335_HV0336";
+   data+="@HV0321,HV0322,HV0335,HV0336";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1363,7 +1363,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0338").prop('title', 'sum of HV0323 and HV0324  should not be greater than sum of HV0337 and HV0338');
     
     var data=$("#data_elements").val();
-   data+="@HV0323_HV0324_HV0337_HV0338";
+   data+="@HV0323,HV0324,HV0337,HV0338";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1378,7 +1378,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0325").prop('title', 'HV0325 should not be greater than HV0339');
     
    var data=$("#data_elements").val();
-   data+="@HV0325_HV0339";
+   data+="@HV0325,HV0339";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1395,7 +1395,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0221").prop('title', 'HV0221 should not be greater than HV0326');
     
     var data=$("#data_elements").val();
-   data+="@HV0221_HV0326";
+   data+="@HV0221,HV0326";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1413,7 +1413,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0320").prop('title', 'HV0320 should not be greater than HV0328');
     
     var data=$("#data_elements").val();
-   data+="@HV0320_HV0328";
+   data+="@HV0320,HV0328";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1430,7 +1430,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0333").prop('title', 'HV0333 should not be less than sum of HV0329 and HV0330');
     
     var data=$("#data_elements").val();
-   data+="@HV0333_HV0329_HV0330";
+   data+="@HV0333,HV0329,HV0330";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1447,7 +1447,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0333").prop('title', 'HV0333 should not be less than sum of HV0331 and HV0332');
     
     var data=$("#data_elements").val();
-   data+="@HV0331_HV0332_HV0333";
+   data+="@HV0331,HV0332,HV0333";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1468,7 +1468,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0333").prop('title', 'HV0333 should be equal to sum of HV0329,HV0330,HV0331,HV0332');
     
    var data=$("#data_elements").val();
-   data+="@HV0329_HV0330_HV0331_HV0332_HV0333";
+   data+="@HV0329,HV0330,HV0331,HV0332,HV0333";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1496,7 +1496,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0336").prop('title', 'sum of HV0329 and HV0330  should not be greater than sum of HV0335 and HV0336');
     
     var data=$("#data_elements").val();
-   data+="@HV0329_HV0330_HV0335_HV0336";
+   data+="@HV0329,HV0330,HV0335,HV0336";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1515,7 +1515,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0338").prop('title', 'sum of HV0331 and HV0332  should not be greater than sum of HV0337 and HV0338');
     
     var data=$("#data_elements").val();
-   data+="@HV0331_HV0332_HV0337_HV0338";
+   data+="@HV0331,HV0332,HV0337,HV0338";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1530,7 +1530,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0333").prop('title', 'HV0333 should not be greater than HV0339');
     
     var data=$("#data_elements").val();
-   data+="@HV0333_HV0339";
+   data+="@HV0333,HV0339";
    $("#data_elements").val(data); 
    
    
@@ -1556,7 +1556,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0328").prop('title', 'HV0328 should not be greater than HV0334');
     
     var data=$("#data_elements").val();
-   data+="@HV0328_HV0334";
+   data+="@HV0328,HV0334";
    $("#data_elements").val(data); 
    
    
@@ -1576,7 +1576,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0339").prop('title', 'HV0339 should not be less than sum of HV0335 and HV0336');
     
    var data=$("#data_elements").val();
-   data+="@HV0335_HV0336_HV0339";
+   data+="@HV0335,HV0336,HV0339";
    $("#data_elements").val(data); 
    
    
@@ -1595,7 +1595,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0339").prop('title', 'HV0339 should not be less than sum of HV0337 and HV0338');
     
    var data=$("#data_elements").val();
-   data+="@HV0337_HV0338_HV0339";
+   data+="@HV0337,HV0338,HV0339";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1617,7 +1617,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0333").prop('title', 'HV0333 should be equal to sum of HV0335,HV0336,HV0337,HV0338');
     
    var data=$("#data_elements").val();
-   data+="@HV0333_HV0335_HV0336_HV0337_HV0338";
+   data+="@HV0333,HV0335,HV0336,HV0337,HV0338";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1636,7 +1636,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0340").prop('title', 'sum of HV0335 and HV0336  should not be greater than sum of HV0340 and HV0341');
     $("#HV0341").prop('title', 'sum of HV0335 and HV0336  should not be greater than sum of HV0340 and HV0341');
    var data=$("#data_elements").val();
-   data+="@HV0335_HV0336_HV0340_HV0341";
+   data+="@HV0335,HV0336,HV0340,HV0341";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1655,7 +1655,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0343").prop('title', 'sum of HV0337 and HV0338  should not be greater than sum of HV0342 and HV0343');
     
     var data=$("#data_elements").val();
-   data+="@HV0337_HV0338_HV0342_HV0343";
+   data+="@HV0337,HV0338,HV0342,HV0343";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1670,7 +1670,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0333").prop('title', 'HV0333 should not be greater than HV0344');
     
     var data=$("#data_elements").val();
-   data+="@HV0333_HV0344";
+   data+="@HV0333,HV0344";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1690,7 +1690,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0344").prop('title', 'HV0344 should not be less than sum of HV0340 and HV0341');
     
     var data=$("#data_elements").val();
-   data+="@HV0340_HV0341_HV0344";
+   data+="@HV0340,HV0341,HV0344";
    $("#data_elements").val(data);
    
     var description=$("#description").val();
@@ -1708,7 +1708,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0344").prop('title', 'HV0344 should not be less than sum of HV0342 and HV0343');
     
    var data=$("#data_elements").val();
-   data+="@HV0342_HV0343_HV0344";
+   data+="@HV0342,HV0343,HV0344";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1730,7 +1730,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0333").prop('title', 'HV0333 should be equal to sum of HV0340,HV0341,HV0342,HV0343');
     
    var data=$("#data_elements").val();
-   data+="@HV0333_HV0340_HV0341_HV0341_HV0342_HV0343";
+   data+="@HV0333,HV0340,HV0341,HV0341,HV0342,HV0343";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1748,7 +1748,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0349").prop('title', 'HV0349 should not be greater than HV0344');
     
     var data=$("#data_elements").val();
-   data+="@HV0345_HV0349";
+   data+="@HV0345,HV0349";
    $("#data_elements").val(data); 
    
    
@@ -1765,7 +1765,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0346").prop('title', 'HV0346 should not be greater than HV0349');
     
     var data=$("#data_elements").val();
-   data+="@HV0346_HV0349";
+   data+="@HV0346,HV0349";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1781,7 +1781,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0347").prop('title', 'HV0347 should not be greater than HV0349');
     
     var data=$("#data_elements").val();
-   data+="@HV0347_HV0349";
+   data+="@HV0347,HV0349";
    $("#data_elements").val(data);
    
     var description=$("#description").val();
@@ -1796,7 +1796,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0348").prop('title', 'HV0348 should not be greater than HV0349');
     
     var data=$("#data_elements").val();
-   data+="@HV0348_HV0349";
+   data+="@HV0348,HV0349";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1812,7 +1812,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0349").prop('title', 'HV0349 should not be greater than HV0345');
     
     var data=$("#data_elements").val();
-   data+="@HV0345_HV0349";
+   data+="@HV0345,HV0349";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1829,7 +1829,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0346").prop('title', 'HV0346 should not be greater than HV0345');
     
     var data=$("#data_elements").val();
-   data+="@HV0345_HV0346";
+   data+="@HV0345,HV0346";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1844,7 +1844,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0347").prop('title', 'HV0347 should not be greater than HV0345');
     
     var data=$("#data_elements").val();
-   data+="@HV0345_HV0347";
+   data+="@HV0345,HV0347";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1860,7 +1860,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0348").prop('title', 'HV0348 should not be greater than HV0345');
     
    var data=$("#data_elements").val();
-   data+="@HV0345_HV0348";
+   data+="@HV0345,HV0348";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1879,7 +1879,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0354").prop('title', 'HV0354 should not be greater than HV0373');
     
     var data=$("#data_elements").val();
-   data+="@HV0354_HV0373";
+   data+="@HV0354,HV0373";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1895,7 +1895,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0355").prop('title', 'HV0355 should not be greater than HV0370');
     
     var data=$("#data_elements").val();
-   data+="@HV0355_HV0370";
+   data+="@HV0355,HV0370";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1913,7 +1913,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0904").prop('title', 'HV0904 should not be greater than HV0373');
     
     var data=$("#data_elements").val();
-   data+="@HV0373_HV0904";
+   data+="@HV0373,HV0904";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -1935,7 +1935,7 @@ if(HV0373==""){HV0373="0";}
     $("#HV0319").prop('title', 'HV0319 should be equal to HV0373');
     
     var data=$("#data_elements").val();
-   data+="@HV0373_HV0319";
+   data+="@HV0373,HV0319";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -2109,7 +2109,7 @@ if(HV0514==""){HV0514="0";}
     $("#HV0507").prop('title', 'HV0507 should be equal to sum of HV0501,HV0502,HV0503,HV0504,HV0505,HV0506');
     
     var data=$("#data_elements").val();
-   data+="@HV0501_HV0502_HV0503_HV0504_HV0505_HV0506_HV0507";
+   data+="@HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507";
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
@@ -2129,7 +2129,7 @@ if(HV0514==""){HV0514="0";}
     $("#HV0509").prop('title', 'sum of HV0501 and HV0502  should be equal to the sum of HV0508 and HV0509'); 
     
      var data=$("#data_elements").val();
-   data+="@HV0501_HV0502_HV0508_HV0509";
+   data+="@HV0501,HV0502,HV0508,HV0509";
    $("#data_elements").val(data);
    
     var description=$("#description").val();
@@ -2148,7 +2148,7 @@ if(HV0514==""){HV0514="0";}
     $("#HV0511").prop('title', 'sum of HV0503 and HV0504  should be equal to the sum of HV0510 and HV0511');  
     
      var data=$("#data_elements").val();
-   data+="@HV0503_HV0504_HV05_HV0510_HV0511";
+   data+="@HV0503,HV0504,HV05,HV0510,HV0511";
    $("#data_elements").val(data);
    
     var description=$("#description").val();
@@ -2168,7 +2168,7 @@ if(HV0514==""){HV0514="0";}
     $("#HV0513").prop('title', 'sum of HV0505 and HV0506  should be equal to the sum of HV0512 and HV0513');
     
      var data=$("#data_elements").val();
-   data+="@HV0505_HV0506_HV0512_HV0513";
+   data+="@HV0505,HV0506,HV0512,HV0513";
    $("#data_elements").val(data);
    
     var description=$("#description").val();
@@ -2194,7 +2194,7 @@ if(HV0514==""){HV0514="0";}
     $("#HV0514").prop('title', 'HV0514 should be equal to sum of HV0508,HV0509,HV0510,HV0511,HV0512,HV0513');
     
    var data=$("#data_elements").val();
-   data+="@HV0508_HV0509_HV0510_HV0511_HV0512_HV0513_HV0514";
+   data+="@HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514";
    $("#data_elements").val(data);
    
     var description=$("#description").val();

@@ -199,7 +199,8 @@ legend.formatter {
                       
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
                   <form action="validate731" method="post" class="form-horizontal" style="min-height: 450px;">
-                   <input type="hidden" name="data_elements" id="data_elements" value="">
+                  
+                      <input type="hidden" name="data_elements" id="data_elements" value="">
                    <input type="hidden" name="description" id="description" value="">    
                       
                       <div id="data">  

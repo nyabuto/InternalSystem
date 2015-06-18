@@ -36,7 +36,9 @@ public class loadForms extends HttpServlet {
    
     conn.rs=conn.st.executeQuery(getForms);
  String form="";
+ if(session.getAttribute("form")!=null){
  form =session.getAttribute("form").toString();
+ }
  System.out.println("form session "+form);
     
     while(conn.rs.next()){

@@ -12,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>DQA</title>
+   <title>DQA MODULE</title>
   <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -142,7 +142,7 @@
 <script>
 
      function  viewDQA(){
-      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='DQAtable'><tr><td>Loading facilities...<img src='images/utube.gif' alt='.'></td></tr></table>");
+      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='DQAtable'><tr><td>Loading Errors...<img src='images/utube.gif' alt='.'></td></tr></table>");
 //       alert("enterd");
          var form=document.getElementById("form").value;
 
@@ -183,39 +183,42 @@
                 "bProcessing": true,
                 "sPaginationType": "full_numbers",
                 "bJQueryUI": true
-            }).makeEditable({
-                sUpdateURL: "update711",            
-              
-                "aoColumns": [  {    event: 'mouseover',
-                                          indicator: 'Saving...',
-                                          tooltip: 'Click to edit ',
-					  type: 'textarea',
-                                          submit:'Save changes',
-                                          callback : function(value, settings)
-                                          {  alert(value);
-                                             window.location.reload();
-                                              },
-					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
-					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
-						}
-                    									},
-                    {    event: 'mouseover',
-                                          indicator: 'Saving...',
-                                          tooltip: 'Click to edit ',
-					  type: 'textarea',
-                                          submit:'Save changes',
-                                          callback : function(value, settings)
-                                          {  alert(value);
-                                             window.location.reload();
-                                              },
-					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
-					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
-						}
-                    									}
-                 									]
-            }
-            
-            ).columnFilter({aoColumns: [{type: "text"},{} ]});
+            });
+                    
+                
+//                .makeEditable({
+//                sUpdateURL: "update711",            
+//              
+//                "aoColumns": [  {    event: 'mouseover',
+//                                          indicator: 'Saving...',
+//                                          tooltip: 'Click to edit ',
+//					  type: 'textarea',
+//                                          submit:'Save changes',
+//                                          callback : function(value, settings)
+//                                          {  alert(value);
+//                                             window.location.reload();
+//                                              },
+//					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
+//					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
+//						}
+//                    									},
+//                    {    event: 'mouseover',
+//                                          indicator: 'Saving...',
+//                                          tooltip: 'Click to edit ',
+//					  type: 'textarea',
+//                                          submit:'Save changes',
+//                                          callback : function(value, settings)
+//                                          {  alert(value);
+//                                             window.location.reload();
+//                                              },
+//					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
+//					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
+//						}
+//                    									}
+//                 									]
+//            }
+//            
+//            ).columnFilter({aoColumns: [{type: "text"},{} ]});
                   
                   
                   
@@ -290,37 +293,37 @@ label {
                               
                              
                                <font color="white" size="3px"><b>Year: </b></font>  
-                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year" style="width: 100px;">
+                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year" style="width: 80px;">
                                     <option value=""></option>                                 
                                    
                                  </select>
 
                                     <font color="white" size="3px"><b>Month: </b></font>  
                                   
-                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();" style="width: 150px;">
+                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();" style="width: 120px;">
                                     <option value=""></option>
                                  </select>
                                 
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 150px;">
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 100px;">
                                     <option value=""></option>
                                  </select>
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
                               
-                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty" style="width: 150px;">
                                     <option value="">Select County First</option>
                                  </select>
                                     
                                    
                                    <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility" style="width: 150px;">
                                     <option value=""></option>
                                  </select>
-                                    <font color="white" size="3px"><b>Select Form </b></font>
-                                    <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form" onchange="sendtoformsession();">
+                                    <font color="white" size="3px"><b>Form </b></font>
+                                    <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form" onchange="sendtoformsession();" style="width: 120px;">
                                  <option value="">Select Activity Site First</option>                                
                                    
                                  </select>
@@ -456,7 +459,7 @@ label {
                      </div>-->
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="validate711" method="post" class="form-horizontal">
+                        <form action="#" method="post" class="form-horizontal">
                            
                         <div class="tabbable tabbable-custom boxless" id="demo"  >
                    
