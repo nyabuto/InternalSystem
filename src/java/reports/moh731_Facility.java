@@ -6,6 +6,7 @@
 
 package reports;
 
+import General.IdGenerator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,36 +44,22 @@ public class moh731_Facility extends HttpServlet {
     HttpSession session;
 String data,id;
 String facilityId,year,month;
-String HIV_CT,PMTCT,CT,VMMC,PEP,Blood;
-int HV0101,HV0102,HV0103,HV0105,HV0106,HV0107,HV0108,HV0109,HV0110,HV0111,HV0112,HV0113,HV0114,
-        HV0115,HV0116;
-int HV0201,HV0202,HV0203,HV0204,HV0205,HV0206,HV0207,HV0208,HV0209,HV0210,HV0211,HV0212,HV0213,
-HV0214,HV0215,HV0216,HV0217,HV0218,HV0219,HV0220,HV0221,HV0224,HV0225,HV0226,HV0227,HV0228,HV0229,
-        HV0230,HV0231,HV0232,HV0233,HV0234,HV0235,HV0236,HV0237,HV0238,HV0239,HV0240,HV0241,HV0242,
-        HV0243,HV0244;
-int HV0301,HV0302,HV0303,HV0304,HV0305,HV0306,HV0307,HV0308,HV0309,HV0310,HV0311,HV0312,HV0313,HV0314,
-        HV0315,HV0316,HV0317,HV0318,HV0319,HV0320,HV0321,HV0322,HV0323,HV0324,HV0325,HV0326,HV0327,HV0328,
-        HV0329,HV0330,HV0331,HV0332,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0340,HV0341,
-        HV0342,HV0343,HV0344,HV0345,HV0346,HV0347,HV0348,HV0349,HV0350,HV0351,HV0352,HV0353,
-        HV0354,HV0355,HV0904,HV0905,HV0370,HV0371,HV0372,HV0373;
-int HV0401,HV0402,HV0403,HV0406,HV0407,HV0408,HV0409,HV0410,HV0411,HV0412,HV0413,HV0414,HV0415;
-int HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507,HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514;
-int HV0601,HV0602,HV0605;
 String county,district,facilityname,mflcode;
 int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counterPEP1;
-String sheets,headers,elementName;
+String sheets,headers,elementName,monthName,createdOn;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
        session=request.getSession();
        dbConn conn = new dbConn();
        
        
-//      year=session.getAttribute("year").toString();
-//      month=session.getAttribute("month").toString();
+      year=request.getParameter("year");
+      month=request.getParameter("month");
        
-      year="2015";
-      month="4";
+//      year="2015";
+//      month="5";
       counter=0;
+      monthName="";
       //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
    XSSFWorkbook wb=new XSSFWorkbook();
   XSSFSheet shet1=wb.createSheet("PMTCT");
@@ -99,7 +86,7 @@ String sheets,headers,elementName;
     stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
     XSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
@@ -112,21 +99,29 @@ fontx.setColor(HSSFColor.DARK_BLUE.index);
 stylex.setFont(fontx);
 stylex.setWrapText(true);
 
-    shet1.setColumnWidth(0, 200);
+  
     
-    for (int i=1;i<=47;i++){
+    for (int i=0;i<=3;i++){
    shet1.setColumnWidth(i, 6000);     
     }
     
-    shet2.setColumnWidth(0, 200);
+    for (int i=4;i<=47;i++){
+   shet1.setColumnWidth(i, 4000);     
+    }
     
-    for (int i=1;i<=66;i++){
+  for (int i=0;i<=3;i++){
+   shet2.setColumnWidth(i, 6000);     
+    }
+    
+    for (int i=4;i<=66;i++){
    shet2.setColumnWidth(i, 3000);     
     }
     
-    shet3.setColumnWidth(0, 200);
+ for (int i=0;i<=3;i++){
+   shet3.setColumnWidth(i, 6000);     
+    }
     
-    for (int i=1;i<=19;i++){
+    for (int i=4;i<=19;i++){
    shet3.setColumnWidth(i, 3000);     
     }
     
@@ -135,19 +130,19 @@ stylex.setWrapText(true);
     String arrayHeader []=headers.split(",");
     int headerno=0;
    
-   XSSFRow rw0S1=shet1.createRow(0);
-   XSSFRow rw1S1=shet1.createRow(1);  
+//   XSSFRow rw0S1=shet1.createRow(0);
+   XSSFRow rw1S1=shet1.createRow(0);  
    
-    XSSFRow rw0S2=shet2.createRow(0);
-   XSSFRow rw1S2=shet2.createRow(1);
+//    XSSFRow rw0S2=shet2.createRow(0);
+   XSSFRow rw1S2=shet2.createRow(0);
     
-    XSSFRow rw0S3=shet3.createRow(0);
-   XSSFRow rw1S3=shet3.createRow(1);
+//    XSSFRow rw0S3=shet3.createRow(0);
+   XSSFRow rw1S3=shet3.createRow(0);
 
     
 //    LOOP THROUGH AND WRITE STATIC HEADERS TO THE ELEMENTS
      for(String headername:arrayHeader){
-        headerno++;
+    
     XSSFCell  S1cell=rw1S1.createCell(headerno);
     S1cell.setCellValue(headername);
     S1cell.setCellStyle(stylex);
@@ -159,10 +154,18 @@ stylex.setWrapText(true);
     XSSFCell  S3cell=rw1S3.createCell(headerno);
     S3cell.setCellValue(headername);
     S3cell.setCellStyle(stylex);
-    }
+      headerno++;
+     }
   
+    String getMonth="SELECT name FROM month WHERE id='"+month+"'";
+    conn.rs=conn.st.executeQuery(getMonth);
+    if(conn.rs.next()==true){
+        monthName=conn.rs.getString(1);
+    }
+     
+     
    
-  counterPMTCT=counterART=counterPEP=4; 
+  counterPMTCT=counterART=counterPEP=3; 
           
     String getVariables="SELECT * FROM moh731_indicators ORDER BY id"; 
     conn.rs1=conn.st1.executeQuery(getVariables);
@@ -199,7 +202,7 @@ stylex.setWrapText(true);
 //  counterART=counterART-5;
 //  counterPEP=counterPEP-5;
   
-     counterPMTCT1=counterART1=counterPEP1=1;
+     counterPMTCT1=counterART1=counterPEP1=0;
       String getData="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,"
 + "moh731.HV0201,moh731.HV0202,moh731.HV0203,moh731.HV0204,moh731.HV0205,moh731.HV0206,moh731.HV0207,moh731.HV0208,moh731.HV0209,moh731.HV0210,moh731.HV0211,moh731.HV0212,moh731.HV0213," +
 "moh731.HV0214,moh731.HV0215,moh731.HV0216,moh731.HV0217,moh731.HV0218,moh731.HV0219,moh731.HV0220,moh731.HV0221,moh731.HV0224,moh731.HV0225,moh731.HV0226,moh731.HV0227,moh731.HV0228,moh731.HV0229," +
@@ -214,7 +217,8 @@ stylex.setWrapText(true);
  + " FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID "
               + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
-              + " WHERE moh731.Mois='"+month+"' && moh731.Annee='"+year+"' && isValidated=1";
+              + " WHERE moh731.Mois='"+month+"' && moh731.Annee='"+year+"' && isValidated=1"
+              + " ORDER BY county.County,district.DistrictNom,subpartnera.SubPartnerNom";
       conn.rs=conn.st.executeQuery(getData);
      while (conn.rs.next()){
        counter++;  
@@ -233,15 +237,17 @@ String arrayDetails []=basicDetails.split("@");
   int facilno=0;
   
    for(String facilityDetails:arrayDetails){
-     facilno++;  
+     
   XSSFCell  S3cell=rw2S1.createCell(facilno);
     S3cell.setCellValue(facilityDetails);
-    S3cell.setCellStyle(stborder);     
+    S3cell.setCellStyle(stborder); 
+    
+     facilno++; 
    }
   int pos;
-  for (int i=5;i<=counterPMTCT;i++){
+  for (int i=4;i<=counterPMTCT;i++){
    XSSFCell  S3cell=rw2S1.createCell(i);
-   pos=i;
+   pos=i+1;
    System.out.println("cell no 1 : "+i+" value no : "+pos);
     S3cell.setCellValue(conn.rs.getInt(pos));
     S3cell.setCellStyle(stborder);    
@@ -257,17 +263,19 @@ String arrayDetails []=basicDetails.split("@");
   
   int facilno=0;
    for(String facilityDetails:arrayDetails){
-     facilno++;  
+    
   XSSFCell  S3cell=rw2S2.createCell(facilno);
     S3cell.setCellValue(facilityDetails);
-    S3cell.setCellStyle(stborder);     
+    S3cell.setCellStyle(stborder);
+    
+      facilno++; 
    }
    
    
   int pos;
-  for (int i=5;i<=counterART;i++){
+  for (int i=4;i<=counterART;i++){
    XSSFCell  S3cell=rw2S2.createCell(i);
-   pos=i+42;
+   pos=i+43;
    System.out.println("cell no 2 : "+i+" value no : "+pos);
     S3cell.setCellValue(conn.rs.getInt(pos));
     S3cell.setCellStyle(stborder);    
@@ -281,16 +289,18 @@ counterPEP1++;
   XSSFRow rw2S3=shet3.createRow(counterPEP1);
   int facilno=0;
    for(String facilityDetails:arrayDetails){
-     facilno++;  
+    
   XSSFCell  S3cell=rw2S3.createCell(facilno);
     S3cell.setCellValue(facilityDetails);
-    S3cell.setCellStyle(stborder);     
+    S3cell.setCellStyle(stborder); 
+    
+     facilno++;  
    }
   
   int pos;
-  for (int i=5;i<=counterPEP;i++){
+  for (int i=4;i<=counterPEP;i++){
    XSSFCell  S3cell=rw2S3.createCell(i);
-   pos=i+103;
+   pos=i+104;
    System.out.println("cell no 3 : "+i+" value no : "+pos);
     S3cell.setCellValue(conn.rs.getInt(pos));
     S3cell.setCellStyle(stborder);    
@@ -302,7 +312,17 @@ System.out.println("counter : "+counter);
      } 
       
     
+    if(conn.st!=null){conn.st.close();}
+     if(conn.st1!=null){conn.st1.close();}
+//     if(conn.st2!=null){conn.st2.close();}
      
+     if(conn.rs!=null){conn.rs.close();}
+     if(conn.rs1!=null){conn.rs1.close();}
+//     if(conn.rs2!=null){conn.rs2.close();}
+     if(conn.conn!=null){conn.conn.close();} 
+     
+        IdGenerator IG = new IdGenerator();
+        createdOn=IG.CreatedOn();
      
       // write it as an excel attachment
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
@@ -311,7 +331,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=MOH731_RAW_DATA_PER_FACILITY.xlsx");
+response.setHeader("Content-Disposition", "attachment; filename=MOH731_RAW_DATA_REPORT_FOR_"+year.trim()+"("+monthName.trim()+")_CREATED_"+createdOn.trim()+".xlsx");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
