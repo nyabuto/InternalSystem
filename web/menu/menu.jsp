@@ -105,13 +105,13 @@
                <a href="#">
                <i class="icon-bar-chart"></i>
                <span class="title">Reports</span>
-               <!--<span class="arrow "></span>-->
+               <span class="arrow "></span>
                </a>
-<!--               <ul class="sub">
-                  <li ><a href="#">Add Users</a></li>
-                  <li ><a href="#">Edit Profile</a></li>
+               <ul class="sub">
+                  <li ><a href="rawdata.jsp">Facility raw data</a></li>
+                  <!--<li ><a href="#">Edit Profile</a></li>-->
            
-               </ul>-->
+               </ul>
             </li>
             
             <li class="">

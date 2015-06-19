@@ -57,5 +57,12 @@ now=new Timestamp(date.getTime());
    return full_date;
     }
        
-    
+  public String current_id(){
+       
+String full_date2=hour+""+min+""+sec+""+micro;
+String db=Double.toString(fraction);
+String tableID=(db+""+full_date2).replace(".", ""); 
+ String id=year+"_"+month+"_"+date+"_"+hour+"_"+min+"_"+sec+"_"+micro;       
+       return  tableID;
+    }   
 }
