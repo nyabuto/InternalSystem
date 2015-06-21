@@ -4,7 +4,6 @@
     Author     : Maureen
 --%>
 
-<%@page import="database.dbConn"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Raw Data Page</title>
+   <title>Static Reports</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -51,7 +50,7 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">IMIS</h1><br/>
+            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">IMIS REPORTS</h1><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -130,7 +129,7 @@
                   <ul class="breadcrumb">
                      <li>
                         <i class="icon-home"></i>
-                        <a href="#">Raw Data</a> 
+                        <a href="#">Home</a> 
                         <span class="icon-angle-right"></span>
                      </li>
            
@@ -149,8 +148,26 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="" name="forms" class="form-horizontal">
-                           
+                        <form action="sessionsHolder" class="form-horizontal">
+                          
+                            
+                            
+                              <div class="control-group">
+                              <label class="control-label">Select Form<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select required data-placeholder="Form" multiselect class="span6 m-wrap" tabindex="-1"  id="form" name="form">
+                                 <option value="">Select Form</option>                                
+                                 <option value="moh731">MOH 731</option>                                
+                                 <option value="moh711">MOH 711</option>                                
+                                 <option value="kmmp">KMMP</option>                                
+                                 <option value="vmmc">VMMC</option>                                
+                                 <option value="nutrition">NUTRITION</option>                                
+                                 <option value="gender">GENDER</option>                                
+                                   
+                                 </select>
+                              </div>
+                             </div>
+                         
                            <div class="control-group">
                               <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
                               <div class="controls">
@@ -161,7 +178,7 @@
                               </div>
                            </div>
                           
-                             <div class="control-group">
+                             <div class="control-group" id="monthdiv" >
                               <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
@@ -170,30 +187,46 @@
                                  </select>
                               </div>
                            </div>
-                            
-                           
-                          
-                            
-                           
-                            
-                             <div class="control-group">
-                              <label class="control-label">Select Form<font color='red'><b>*</b></font></label>
+                              <div class="control-group" id="quarterdiv">
+                              <label class="control-label">Reporting Quarter<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1" onchange="changeform();" id="form" name="form">
-                                   <option value="">Select form</option>   
-                                     <%  
-dbConn conn = new dbConn();                                 
-                                 String getForms="select * from forms";
-                                 conn.rs=conn.st.executeQuery(getForms);
-                                 while(conn.rs.next()){
-                                 
-                             
-%>
-                                       <option value="<%=conn.rs.getString("form")%>"><%=conn.rs.getString("form")%></option>                              
-                                   <%}%>
+                                 <select required data-placeholder="Reporting Year" class="span6 m-wrap" tabindex="-1"  id="quarter" name="quarter">
+                                    <!--<option value="jan"></option>-->                                 
+                                   
                                  </select>
                               </div>
-                             </div>
+                              </div>
+                            
+                            
+                              <div class="control-group">
+                              <label class="control-label">County </label>
+                              <div class="controls">
+                                 <select placeholder="County" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county">
+                                    <option value=""></option>
+                                 </select>
+                              </div>
+                           </div>
+                            
+                            <div class="control-group">
+                              <label class="control-label">Sub-County </label>
+                              <div class="controls">
+                                 <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                              </div>
+                           </div> 
+                            
+                            
+                              <div class="control-group">
+                              <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6 m-wrap" required tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select>
+                              </div>
+                           </div>
+                            
+                           
                             
                          
                            <div class="form-actions">
@@ -264,33 +297,36 @@ dbConn conn = new dbConn();
    <script src="assets/js/app.js"></script>  
    <script src="select2/js/select2.js"></script>
   
-              <script>
-                  function changeform(){
-                  
-                               var form= document.getElementById("form").value
-//                               alert(form);
-                               if( form=="MOH 711A" ) {
-                           document.forms.action = "moh711_Facility";
-                            }
-                            else if( form=="MOH 731" ) {
-                                document.forms.action = "moh731_Facility";
-                            }
-else {
-    
-     document.forms.action = "allStaticReports";
-    
-}
-                               
-                           }
-                                
-                            </script>
-                         
+   
    <script>
-       
       jQuery(document).ready(function() {       
-//   loadfrms();
+         // initiate layout and plugins
+        $('#facility').select2(); 
+
+       // FormComponents.init();
+        
       
-  
+      //load all the facilities first to enable one to filter by county
+                 $.ajax({
+url:'loadFacilities',
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+      $('#facility').select2();  
+      }  
+     
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+      
       
          
 $.ajax({
@@ -302,7 +338,6 @@ $.ajax({
         // $("#year").html(data);
         document.getElementById("year").innerHTML=data;
         loadmonths();
-        // loadfrms();
     }
     
     
@@ -312,17 +347,61 @@ $.ajax({
       
       
       
-  
+      function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
       
     
-   
+    function updatefacilsession(){
+          
+        var facil=document.getElementById("facility").value;
+        $.ajax({
+url:'updatefacilitysession?facil='+facil,
+type:'post',
+dataType:'html',
+success:function (data){      
+    
+    //  $("#"+col).css({'background-color' : '#CCFFCC'});
+     
+     //now load the forms
+     
+    
+     
+}
+             
+             });    
+          
+          
+          
+      }
       
     
     function loadfrms(){
         
-        alert("fornm");
+        
         $.ajax({
-            url:'loadForms',
+            url:'loadReportedForms',
             type:'post',
             dataType:'html',
             success:function (data){
@@ -331,7 +410,7 @@ $.ajax({
               //  App.init(); 
               
               //also load county and facility
-//              //loadcounty();
+              loadcounty();
               //loadsubcounty();
             }
             
@@ -343,10 +422,43 @@ $.ajax({
     
     
      
-   
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
     
     
-   
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
     
     
       function loadmonths(){
@@ -359,7 +471,7 @@ type:'post',
 dataType:'html',
 success:function (data){
     $("#month").html(data);     
-    // loadfrms();
+    
        //document.getElementById("month").innerHTML=data;
       // App.init();  
         
@@ -372,8 +484,8 @@ success:function (data){
       }
       
       //load default facilities
-    // loadcounty();
-      
+     loadcounty();
+       loadfrms();
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>

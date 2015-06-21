@@ -196,6 +196,14 @@
         <servlet-name>moh711_Facility</servlet-name>
         <servlet-class>reports.moh711_Facility</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadReportedForms</servlet-name>
+        <servlet-class>reportsAjax.loadReportedForms</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadQuarter</servlet-name>
+        <servlet-class>reportsAjax.loadQuarter</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -391,6 +399,14 @@
     <servlet-mapping>
         <servlet-name>moh711_Facility</servlet-name>
         <url-pattern>/moh711_Facility</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadReportedForms</servlet-name>
+        <url-pattern>/loadReportedForms</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadQuarter</servlet-name>
+        <url-pattern>/loadQuarter</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
