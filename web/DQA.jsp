@@ -39,25 +39,12 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+   <link rel="stylesheet" href="select2/css/select2.css">
    
-   <script src="select2/js/select2.js"></script>
-<link rel="stylesheet" href="select2/css/select2.css">
-<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
-<script type="text/javascript" src="js/noty/layouts/top.js"></script>
-<script type="text/javascript" src="js/noty/layouts/center.js"></script>
-<script type="text/javascript" src="js/noty/themes/default.js"></script>
- <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
-         <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
-         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
-          <script src="scripts/jquery-ui.js" type="text/javascript"></script>
-          <script src="scripts/jquery.validate.js" type="text/javascript"></script>
-          
-          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
-          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
           
           <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
           <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
-             <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+         <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
         <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
         <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
         <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
@@ -139,106 +126,7 @@
 				
 			} );
 		</script>-->
-<script>
 
-     function  viewDQA(){
-      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='DQAtable'><tr><td>Loading Errors...<img src='images/utube.gif' alt='.'></td></tr></table>");
-//       alert("enterd");
-         var form=document.getElementById("form").value;
-
-            $.ajax({
-            
-        url:'loadDQA?form='+form,
-        type:"post",
-        dataType:"html",
-        success:function(data){
-//        alert(data);
-  $("#DQAtable").html(data);
-//              oTable=$('#DQAtable').dataTable().makeEditable({  
-//                  sUpdateURL: "update711"
-//                  
-               $("#DQAtable").dataTable({
-              
-              sUpdateURL: "update711",
-              
-              "dom": 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": "swf/copy_csv_xls_pdf.swf",
-            "aButtons": [ {
-                    "sExtends": "csv",
-                    "sButtonText": "Save to csv"
-                },
-                {
-                    "sExtends": "xls",
-                    "sButtonText": "Save to xls"
-                },
-                {
-                    "sExtends": "pdf",
-                    "sButtonText": "Save to pdf"
-                } ],
-             "sRowSelect": "single"
-            
-        },
-              
-                "bProcessing": true,
-                "sPaginationType": "full_numbers",
-                "bJQueryUI": true
-            });
-                    
-                
-//                .makeEditable({
-//                sUpdateURL: "update711",            
-//              
-//                "aoColumns": [  {    event: 'mouseover',
-//                                          indicator: 'Saving...',
-//                                          tooltip: 'Click to edit ',
-//					  type: 'textarea',
-//                                          submit:'Save changes',
-//                                          callback : function(value, settings)
-//                                          {  alert(value);
-//                                             window.location.reload();
-//                                              },
-//					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
-//					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
-//						}
-//                    									},
-//                    {    event: 'mouseover',
-//                                          indicator: 'Saving...',
-//                                          tooltip: 'Click to edit ',
-//					  type: 'textarea',
-//                                          submit:'Save changes',
-//                                          callback : function(value, settings)
-//                                          {  alert(value);
-//                                             window.location.reload();
-//                                              },
-//					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
-//					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
-//						}
-//                    									}
-//                 									]
-//            }
-//            
-//            ).columnFilter({aoColumns: [{type: "text"},{} ]});
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-            
-              
-      
-              
-          }
-    }); 
-    
-  }
-    
-    
-       </script>
         <style>
 fieldset.formatter {
     border: 2px groove black !important;
@@ -551,6 +439,21 @@ label {
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>     
  
+   <script src="select2/js/select2.js"></script>
+
+<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+ <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
+         <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
+         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
+          <script src="scripts/jquery-ui.js" type="text/javascript"></script>
+          <script src="scripts/jquery.validate.js" type="text/javascript"></script>
+          
+          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
+          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+          
    <script>
       jQuery(document).ready(function() {       
        loadfrms(); 
@@ -919,6 +822,106 @@ success:function (data){
      
     </script>
 
+    <script>
+
+     function  viewDQA(){
+      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='DQAtable'><tr><td>Loading Errors...<img src='images/utube.gif' alt='.'></td></tr></table>");
+//       alert("enterd");
+         var form=document.getElementById("form").value;
+
+            $.ajax({
+            
+        url:'loadDQA?form='+form,
+        type:"post",
+        dataType:"html",
+        success:function(data){
+//        alert(data);
+  $("#DQAtable").html(data);
+//              oTable=$('#DQAtable').dataTable().makeEditable({  
+//                  sUpdateURL: "update711"
+//                  
+               $("#DQAtable").dataTable({
+              
+              sUpdateURL: "update711",
+              
+              "dom": 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": "swf/copy_csv_xls_pdf.swf",
+            "aButtons": [ {
+                    "sExtends": "csv",
+                    "sButtonText": "Save to csv"
+                },
+                {
+                    "sExtends": "xls",
+                    "sButtonText": "Save to xls"
+                },
+                {
+                    "sExtends": "pdf",
+                    "sButtonText": "Save to pdf"
+                } ],
+             "sRowSelect": "single"
+            
+        },
+              
+                "bProcessing": true,
+                "sPaginationType": "full_numbers",
+                "bJQueryUI": true
+            });
+                    
+                
+//                .makeEditable({
+//                sUpdateURL: "update711",            
+//              
+//                "aoColumns": [  {    event: 'mouseover',
+//                                          indicator: 'Saving...',
+//                                          tooltip: 'Click to edit ',
+//					  type: 'textarea',
+//                                          submit:'Save changes',
+//                                          callback : function(value, settings)
+//                                          {  alert(value);
+//                                             window.location.reload();
+//                                              },
+//					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
+//					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
+//						}
+//                    									},
+//                    {    event: 'mouseover',
+//                                          indicator: 'Saving...',
+//                                          tooltip: 'Click to edit ',
+//					  type: 'textarea',
+//                                          submit:'Save changes',
+//                                          callback : function(value, settings)
+//                                          {  alert(value);
+//                                             window.location.reload();
+//                                              },
+//					fnOnCellUpdated: function(sStatus, sValue, row, column, settings){
+//					alert("(Cell Callback): Cell["+row+","+column+"] is updated with value " + sValue);
+//						}
+//                    									}
+//                 									]
+//            }
+//            
+//            ).columnFilter({aoColumns: [{type: "text"},{} ]});
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+            
+              
+      
+              
+          }
+    }); 
+    
+  }
+    
+    
+       </script>
    <!-- END JAVASCRIPTS -->  
    
    

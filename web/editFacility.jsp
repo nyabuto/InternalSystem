@@ -38,7 +38,15 @@
 <!--   <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />-->
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-    
+   
+     <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+          <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
+         <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
+        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
 
 </head>
 <!-- END HEAD -->
@@ -187,27 +195,18 @@ int year= cal.get(Calendar.YEAR);
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
    
-<script src="dataTable/jquery.dataTables.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+ <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
          <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
-        <script src="dataTable/jquery.jeditable.js" type="text/javascript"></script>
-        <script src="scripts/jquery_ui.js" type="text/javascript"></script>
-         <script src="scripts/jquery.validate.js" type="text/javascript"></script>
-          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
-          <script src="scripts/dataTables.scroller.js" type="text/javascript"></script>
-          <script src="scripts/dataTables.colReorder.js" type="text/javascript"></script>
-          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
-          <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-          <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
+         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
+          <script src="scripts/jquery-ui.js" type="text/javascript"></script>
+          <script src="scripts/jquery.validate.js" type="text/javascript"></script>
           
-        <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
-        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
-        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
-        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
-        <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
-        <script src="dataTable/dataTables.fnGetFilteredNodes.js" type="text/javascript"></script>
-        <script src="dataTable/dataTables.fnGetHiddenNodes.js" type="text/javascript"></script>
-
+          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
+          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
    <!--
  -->
    <script type="text/javascript" language="en">
