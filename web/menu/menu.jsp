@@ -1,6 +1,47 @@
  
 
 
+
+
+
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <script src="assets/js/jquery-1.8.3.min.js"></script>  
+        <title></title>
+        
+        <script>
+            
+            
+            
+   jQuery(document).ready(function() {       
+         // initiate layout and plugins
+       
+    $("ul li").on("click", function() {
+      $("ul li").removeClass("active");
+      $(this).addClass("active");
+    });
+   });
+            
+        </script>
+        
+    </head>
+    <body>
+
+
+
+
+
+
+
+
+
 <ul>
             <li>
                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
@@ -109,6 +150,7 @@
                </a>
                <ul class="sub">
                   <li ><a href="rawdata.jsp">Facility raw data</a></li>
+                  <li ><a href="DQA.jsp">DQA</a></li>
                   <!--<li ><a href="#">Edit Profile</a></li>-->
            
                </ul>
@@ -121,3 +163,5 @@
                </a>
             </li>
          </ul>
+   </body>
+</html>
