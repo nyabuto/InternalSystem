@@ -7,10 +7,12 @@ package reportsAjax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -18,19 +20,56 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class loadQuarter extends HttpServlet {
 
+    HttpSession session=null;
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        session=request.getSession();
+        
         response.setContentType("text/html;charset=UTF-8");
         
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        String passedyear = "" + year;
+
+        if (request.getParameter("year") != null && !request.getParameter("year").equals("")) {
+
+            passedyear = request.getParameter("year");
+
+        }
+        //get the previous year
+
+        int prevyear = 0;
+
+        if (!passedyear.equals("")) {
+
+            prevyear = Integer.parseInt(passedyear) - 1;
+
+        }
+       
+        String quarters[]={"1. Oct-Dec "+prevyear+"","2. Jan-Mar "+year+"","3. Apr-Jun "+year+"","4. Jul-Sept "+year+""};
+        String quartersmonths[]={"10,11,12","1,2,3","4,5,6","7,8,9"};
         
+        String sannual[]={"1. Oct "+prevyear+" - Mar "+year+" ","2. Apr "+year+" - Sep "+year};
+        String sannualmonths[]={"10,11,12,1,2,3","4,5,6,7,8,9"};
         
+      String opts=""; 
+      String opts2="";
+        for(int a=0;a<quarters.length;a++){        
+        opts+="<option value='"+quartersmonths[a]+"'>"+quarters[a]+"</option>";
+        }
+        
+        for(int a=0;a<sannual.length;a++){        
+        opts2+="<option value='"+sannualmonths[a]+"'>"+sannual[a]+"</option>";
+        }
+        
+     
         
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
 
-            out.println("<html>");
+            out.println(opts+"#"+opts2);
             
         } finally {
             out.close();

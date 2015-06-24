@@ -6,6 +6,7 @@
 
 package reports;
 
+import General.IdGenerator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -66,9 +67,29 @@ public class allStaticReports extends HttpServlet {
     }
     
    String facilitywhere="";
+   String yearwhere="";
+   String monthwhere="";
    String countywhere="";
    String districtwhere="";
    String reporttype="";
+   
+   if(!year.equals("")){
+   
+   yearwhere=" and Annee = '"+year+"'";    
+   
+   }
+    if(!county.equals("")){
+   
+   countywhere=" and countyid = '"+county+"'";    
+   
+   }
+   if(!month.equals("")){
+   
+   monthwhere=" and Mois = '"+month+"'";    
+   
+   }
+   
+   
     dbConn conn= new dbConn();
     
     
@@ -150,12 +171,13 @@ public class allStaticReports extends HttpServlet {
             iscumulative.add(conn.rs.getString("cumulative"));
         } else {
             iscumulative.add(cum);
-        }
+              }
 
     
         if (conn.rs.getString("percentage") != null) {
             ispercent.add(conn.rs.getString("percentage"));
-        } else {
+                                                     } 
+        else {
             ispercent.add(perc);
         }
         
@@ -165,7 +187,7 @@ public class allStaticReports extends HttpServlet {
     
     //if
     
-    String perfacilselect="select   Upper(County) as County , Upper(DistrictNom) as District , UPPER(SubPartnerNom) as facility ,CentreSanteId as mflcode , ";
+    String perfacilselect="select   Upper(County) as County , Upper(DistrictNom) as District , UPPER(SubPartnerNom) as facility ,CentreSanteId as mflcode , district.CountyID as countyid ,";
 
   
     //--------------------------------------------------------------------------------------------
@@ -214,7 +236,7 @@ public class allStaticReports extends HttpServlet {
 //------------------------------------------------------------------------------------------ 
  
  
- 
+  perfacilselect+=" where  1=1 "+monthwhere+yearwhere;
  
  
  
@@ -390,15 +412,18 @@ public class allStaticReports extends HttpServlet {
     }
             
             
-   
+    IdGenerator IG = new IdGenerator();
+     String   createdOn=IG.CreatedOn();
     
+            System.out.println(""+form.toUpperCase().trim()+"_REPORT_FOR_"+year.trim()+"("+month.trim()+")_CREATED_"+createdOn.trim()+".xlsx");
+     
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);
 byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename="+form.toUpperCase()+"_REPORT.xlsx");
+response.setHeader("Content-Disposition", "attachment; filename="+form.toUpperCase().trim()+"_REPORT_FOR_"+year.trim()+"("+month.trim()+")_CREATED_"+createdOn.trim()+".xlsx");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();

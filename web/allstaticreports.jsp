@@ -177,25 +177,57 @@
                                  </select>
                               </div>
                            </div>
-                          
+                            
+                            <div class="control-group">
+                              <label class="control-label">Reporting Rate<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select required data-placeholder="Reporting Rate" class="chosen-with-diselect span6" tabindex="-1" onchange="togglediv();"  id="reportingrate" name="reportingrate">
+                                    <option value="">Reporting Rate</option>                                 
+                                    <option value="monthly">Monthly</option>                                 
+                                    <option value="quarterly">Quarterly</option>                                 
+                                    <option value="semiannually">Semi Annually</option>                                 
+                                    <option value="annually">Annually</option>                                 
+                                   
+                                 </select>
+                              </div>
+                           </div>
+                            
+                          <div id="monthdiv">
                              <div class="control-group" id="monthdiv" >
                               <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
+                                 <select  data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
                                     <option value="">Choose reporting year first</option>                                 
                                    
                                  </select>
                               </div>
                            </div>
+                           </div>
+                            <div id="qtrdiv" style="display:none;">
+                            
                               <div class="control-group" id="quarterdiv">
                               <label class="control-label">Reporting Quarter<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Reporting Year" class="span6 m-wrap" tabindex="-1"  id="quarter" name="quarter">
+                              <select style="height:72px;"  data-placeholder="Reporting Quarter" class="chosen span6 chzn-done" multiple="multiple" tabindex="-1"  id="quarter" name="quarter">
                                     <!--<option value="jan"></option>-->                                 
                                    
-                                 </select>
+                              </select>
                               </div>
                               </div>
+                             </div>
+                            
+                            
+                             <div id="semianndiv" style="display:none;">
+                            
+                              <div class="control-group" id="quarterdiv">
+                              <label class="control-label">Reporting Semi-Annual <font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <select style="height:42px;"  data-placeholder="Reporting Semi Annual" class="chosen span6 chzn-done" multiple="multiple" tabindex="-1"  id="semiannual" name="semiannual">
+                                    
+                                  </select>
+                              </div>
+                              </div>
+                             </div>
                             
                             
                               <div class="control-group">
@@ -338,6 +370,7 @@ $.ajax({
         // $("#year").html(data);
         document.getElementById("year").innerHTML=data;
         loadmonths();
+        loadqtr();
     }
     
     
@@ -471,6 +504,44 @@ type:'post',
 dataType:'html',
 success:function (data){
     $("#month").html(data);     
+    
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+      
+       
+      function loadqtr(){
+      //alert("");
+      var yr=document.getElementById("year").value;
+      
+              $.ajax({
+url:'loadQuarter?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+
+
+
+var tmplist = data.split('#');
+var hashlist =[];
+var nonhashlist = [];
+for(var w in tmplist){
+    if(tmplist[ w ].indexOf('#') == 0)
+        hashlist.push(tmplist[ w ]);
+    else
+        nonhashlist.push(tmplist[ w ]);
+}
+
+  
+    $("#quarter").html(tmplist[0]);     
+    $("#semiannual").html(tmplist[1]);     
     
        //document.getElementById("month").innerHTML=data;
       // App.init();  

@@ -14,7 +14,7 @@
    <meta charset="utf-8" />
    <title>KMMP Form</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
-   <script src="assets/js/jquery-1.8.3.min.js"></script> 
+  
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -38,9 +38,18 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-   <script src="select2/js/select2.js"></script>
+ 
    <link rel="stylesheet" href="select2/css/select2.css">
-   
+    <script src="assets/js/jquery-1.8.3.min.js"></script> 
+    
+    <!---------------------------------------------------------------->
+
+
+    
+    <!---------------------------------------------------------------->
+    
+    
+    
    <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="js/noty/layouts/center.js"></script>
@@ -73,11 +82,12 @@ legend.formatter {
 
 }
 </style>
-
+ <script src="jspdf/jspdf.js"></script> 
+      <script src="jspdf/from-html.js"></script> 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top" onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }">
+<body class="fixed-top" onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }" >
   <!-------------------------------------------dialog box for unvalidated facils-------------------------------------------------->  
     <div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -225,6 +235,7 @@ legend.formatter {
                      <li>
                         <i class="icon-home"></i>
                         <font color="#4b8df8"> Kenya Mentor Mother Program (KMMP) output Data</font>
+                        <button id="cmd" style="display:none;">generate PDF</button>
                         
                      </li>
            
@@ -271,7 +282,7 @@ legend.formatter {
                                 </div>
                                 
                                <input type="hidden" name="checkblank" id="checkblank" value="0">
-                            
+                            <div id="editor"></div>
                         </form>
                         <!-- END FORM-->           
                      </div>
@@ -309,7 +320,7 @@ legend.formatter {
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   
+     
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -334,6 +345,11 @@ legend.formatter {
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>     
+
+     <script src="select2/js/select2.js"></script>
+
+       
+        
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
@@ -362,12 +378,34 @@ success:function (data){
                  $("#newform").html($("#formstatus").html());
                  $("#recordcounter").html($("#rc").html());
                  $("#allunValidated").html($("#ufs").html());
+                 
+                 
+              var specialElementHandlers = {
+        '#editor': function (element,renderer) {
+            return true;
+        }
+    };
+ $('#cmd').click(function () {
+        var doc = new jsPDF();
+        doc.fromHTML($('#kmmptable').html(), 15, 15, {
+            'width': 170,'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample-file.pdf');
+    });     
+                 
+                 
+                 
                 
-            //$("#KMMP1").focus();   
-            }
+            //$("#KMMP1").focus();  
+        }
+  
+    
+    
+});
             
             
-        }); 
+            
+            }); 
        
          
 $.ajax({
@@ -384,7 +422,7 @@ $.ajax({
     
 });
                
-     });
+     
       
       
       
@@ -557,6 +595,11 @@ success:function (data){
                  document.getElementById("KMMP3c").value=""+perc;  
                 autosave('KMMP3c',''); 
              }
+             else {
+                 
+                  document.getElementById("KMMP3c").value="";
+                  autosave('KMMP3c',''); 
+             }
              
              
              }
@@ -707,6 +750,13 @@ success:function (data){
     
  
  loadcounty();  
+      
+      
+      
+      
+      
+      
+
       
    </script>
    <!-- END JAVASCRIPTS -->   
