@@ -40,7 +40,7 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
    
-   <script src="select2/js/select2.js"></script>
+ 
 <link rel="stylesheet" href="select2/css/select2.css">
 <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
@@ -357,7 +357,8 @@ legend.formatter {
    <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script src="assets/js/app.js"></script>     
+   <script src="assets/js/app.js"></script>   
+     <script src="select2/js/select2.js"></script>
  
    <script>
       jQuery(document).ready(function() {       

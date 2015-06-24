@@ -4,6 +4,7 @@
  */
 package reports;
 
+import General.IdGenerator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -99,7 +100,7 @@ HttpSession session;
     stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
     XSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.LIME.index);
+stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
@@ -233,7 +234,7 @@ stylex.setWrapText(true);
       
     String getdata="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,FPMicrolutN,"
             + " FPMicrolutR, FPMicrolutT, FPMicrogynonN, FPMicrogynonR, FPMicrogynonT,"
-            + " FPINJECTIONSN, FPINJECTIONSR, FPINJECTIONST, FPIUCDN, FPIUCDT, FPIUCDR, FPIMPLANTSN, FPIMPLANTSR, "
+            + " FPINJECTIONSN, FPINJECTIONSR, FPINJECTIONST, FPIUCDN, FPIUCDR,FPIUCDT,FPIMPLANTSN, FPIMPLANTSR, "
             + "FPIMPLANTST, FPBTLN, FPBTLR, FPBTLT, FPVasectomyN, FPVasectomyR, FPVasectomyT, FPCONDOMSN, FPCONDOMSR, "
             + "FPCONDOMST, FPOTHERN, FPOTHERR, FPOTHERT, FPCLIENTSN, FPCLIENTSR, FPCLIENTST, FPIUCDRemoval,"
             + " FPIMPLANTSRemoval, PMCTA_1stVisit_ANC, PMCTA_ReVisit_ANC, PMCTANCClientsT, PMCTHB7, PMCTIPT1,"
@@ -254,7 +255,7 @@ stylex.setWrapText(true);
             + "FROM moh711 JOIN subpartnera ON moh711.SubPartnerID=subpartnera.SubPartnerID "
               + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
-              + " WHERE moh711.Mois='"+month+"' && moh711.Annee='"+year+"' && isValidated=1";
+              + " WHERE moh711.Mois='"+month+"' && moh711.Annee='"+year+"' ";
     conn.rs = conn.st.executeQuery(getdata);
     while(conn.rs.next()){
 //        county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,
@@ -398,8 +399,16 @@ System.out.println(counterFP   +"  "+basicDetails);
    }  
  
    }   //end of while
-   
-    
+   String monthName="";
+  String getMonth="SELECT name FROM month WHERE id='"+month+"'";
+    conn.rs=conn.st.executeQuery(getMonth);
+    if(conn.rs.next()==true){
+        monthName=conn.rs.getString(1);
+    } 
+    String createdOn="";
+    IdGenerator IG = new IdGenerator();
+        createdOn=IG.CreatedOn();
+     
 // write it as an excel attachment
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);
@@ -407,7 +416,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=MOH711_RAW_DATA_PER_FACILITY.xlsx");
+response.setHeader("Content-Disposition", "attachment; filename=MOH711_RAW_DATA_PER_FACILITY"+year.trim()+"("+monthName.trim()+")_CREATED_"+createdOn.trim()+".xlsx");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
