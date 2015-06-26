@@ -181,7 +181,7 @@
                             <div class="control-group">
                               <label class="control-label">Reporting Rate<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Reporting Rate" class="chosen-with-diselect span6" tabindex="-1" onchange="togglediv();"  id="reportingrate" name="reportingrate">
+                                 <select required data-placeholder="Reporting Rate" onchange="deciderate();" class="chosen-with-diselect span6" tabindex="-1"  id="reportingrate" name="reportingrate">
                                     <option value="">Reporting Rate</option>                                 
                                     <option value="monthly">Monthly</option>                                 
                                     <option value="quarterly">Quarterly</option>                                 
@@ -193,7 +193,7 @@
                            </div>
                             
                           <div id="monthdiv">
-                             <div class="control-group" id="monthdiv" >
+                             <div class="control-group" id="monthdiv" style="display:none;" >
                               <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select  data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
@@ -220,7 +220,7 @@
                              <div id="semianndiv" style="display:none;">
                             
                               <div class="control-group" id="quarterdiv">
-                              <label class="control-label">Reporting Semi-Annual <font color='red'><b>*</b></font></label>
+                              <label class="control-label">Reporting Semi-Annual<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                   <select style="height:42px;"  data-placeholder="Reporting Semi Annual" class="chosen span6 chzn-done" multiple="multiple" tabindex="-1"  id="semiannual" name="semiannual">
                                     
@@ -233,16 +233,18 @@
                               <div class="control-group">
                               <label class="control-label">County </label>
                               <div class="controls">
-                                 <select placeholder="County" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county">
+                                 <select placeholder="County" multiple="multiple" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
+                                  
+                                  <input type="checkbox" id="countybox" >  Select All
                               </div>
                            </div>
                             
                             <div class="control-group">
                               <label class="control-label">Sub-County </label>
                               <div class="controls">
-                                 <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                 <select multiple="multiple" data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
                                     <option value="">Select County First</option>
                                  </select>
                               </div>
@@ -428,7 +430,41 @@ success:function (data){
           
           
       }
-      
+    
+    
+    
+         function deciderate(){
+         
+         if(document.getElementById("reportingrate").value=='monthly'){
+             
+          
+             document.getElementById("monthdiv").style.display='block';
+             document.getElementById("qtrdiv").style.display='none';
+             document.getElementById("semianndiv").style.display='none';
+         }
+         else  if(document.getElementById("reportingrate").value=='quarterly'){
+             
+             document.getElementById("monthdiv").style.display='none';
+             document.getElementById("qtrdiv").style.display='block';
+             document.getElementById("semianndiv").style.display='none';
+             
+         }
+         else  if(document.getElementById("reportingrate").value=='semiannually'){
+             
+             document.getElementById("monthdiv").style.display='none';
+             document.getElementById("qtrdiv").style.display='none';
+             document.getElementById("semianndiv").style.display='block';
+             
+                                                                                 }  
+                                                                                 
+         else {
+             document.getElementById("monthdiv").style.display='none';
+             document.getElementById("qtrdiv").style.display='none';
+             document.getElementById("semianndiv").style.display='none';     
+                                                                                     
+                                                                                 }
+     }
+    
     
     function loadfrms(){
         
@@ -452,7 +488,15 @@ success:function (data){
         
     }
     
-    
+    $("#countybox").click(function(){
+    if($("#countybox").is(':checked') ){
+        $("#county > option").prop("selected","selected");
+        $("#county").trigger("change");
+    }else{
+        $("#county > option").removeAttr("selected");
+         $("#county").trigger("change");
+     }
+});
     
      
     function loadcounty(){
@@ -464,6 +508,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#county").html(data);
+                 $('#county').select2(); 
                 loadsubcounty();
               //  App.init();   
             }
@@ -483,7 +528,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#subcounty").html(data);
-                
+                  $('#subcounty').select2();  
               //  App.init();   
             }
             
