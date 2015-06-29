@@ -129,7 +129,7 @@
                   <ul class="breadcrumb">
                      <li>
                         <i class="icon-home"></i>
-                        <a href="#">Home</a> 
+                        <a href="#">Reports </a> 
                         <span class="icon-angle-right"></span>
                      </li>
            
@@ -183,17 +183,17 @@
                               <div class="controls">
                                  <select required data-placeholder="Reporting Rate" onchange="deciderate();" class="chosen-with-diselect span6" tabindex="-1"  id="reportingrate" name="reportingrate">
                                     <option value="">Reporting Rate</option>                                 
-                                    <option value="monthly">Monthly</option>                                 
-                                    <option value="quarterly">Quarterly</option>                                 
-                                    <option value="semiannually">Semi Annually</option>                                 
-                                    <option value="annually">Annually</option>                                 
+                                    <option selected title="covers data summation/avg/cumulatives for the selected month" value="monthly">Monthly</option>                                 
+                                    <option tittle="covers data summation/avg/cumulatives for the selected quarter" value="quarterly">Quarterly</option>                                 
+                                    <option tittle="covers data summation/avg/cumulatives for the selected semi-annual period" value="semiannually">Semi Annually</option>                                 
+                                    <option  title="covers data summation/avg/cumulatives for the selected year" value="annually">Annually</option>                                 
                                    
                                  </select>
                               </div>
                            </div>
                             
-                          <div id="monthdiv">
-                             <div class="control-group" id="monthdiv" style="display:none;" >
+                          <div id="monthdiv" style="display:none;">
+                             <div class="control-group"  >
                               <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select  data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
@@ -208,7 +208,7 @@
                               <div class="control-group" id="quarterdiv">
                               <label class="control-label">Reporting Quarter<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                              <select style="height:72px;"  data-placeholder="Reporting Quarter" class="chosen span6 chzn-done" multiple="multiple" tabindex="-1"  id="quarter" name="quarter">
+                              <select   data-placeholder="Reporting Quarter" class="chosen span6 chzn-done"  tabindex="-1"  id="quarter" name="quarter">
                                     <!--<option value="jan"></option>-->                                 
                                    
                               </select>
@@ -222,7 +222,7 @@
                               <div class="control-group" id="quarterdiv">
                               <label class="control-label">Reporting Semi-Annual<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <select style="height:42px;"  data-placeholder="Reporting Semi Annual" class="chosen span6 chzn-done" multiple="multiple" tabindex="-1"  id="semiannual" name="semiannual">
+                                  <select   data-placeholder="Reporting Semi Annual" class="chosen span6 chzn-done"  tabindex="-1"  id="semiannual" name="semiannual">
                                     
                                   </select>
                               </div>
@@ -230,11 +230,24 @@
                              </div>
                             
                             
+                              <div class="control-group" style=" width:277px;">
+                                   <label class="control-label">Specify Organizational Unit</label>
+                             <div class="controls">
+                                 
+                                <input style="margin-left: 0px;"  type="checkbox" id="orgunitbox" >
+                                 
+                                 
+                              </div>
+                           </div>
+                            
+                            
+                            <div id="orgunit" style="display:none;width:500px;">
+                            
                               <div class="control-group">
                               <label class="control-label">County </label>
                               <div class="controls">
-                                 <select placeholder="County" multiple="multiple" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county">
-                                    <option value=""></option>
+                                 <select placeholder="Type name to search" multiple="multiple" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county">
+                                    <option value="">Type to search county</option>
                                  </select>
                                   
                                   <input type="checkbox" id="countybox" >  Select All
@@ -244,7 +257,7 @@
                             <div class="control-group">
                               <label class="control-label">Sub-County </label>
                               <div class="controls">
-                                 <select multiple="multiple" data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                 <select multiple="multiple" data-placeholder="Type a sub-county name to search it" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
                                     <option value="">Select County First</option>
                                  </select>
                               </div>
@@ -254,13 +267,13 @@
                               <div class="control-group">
                               <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6 m-wrap" required tabindex="-1"  id="facility" name="facility">
+                                 <select data-placeholder="Type a Facility Name to search it." onchange="updatefacilsession();" class="span6 m-wrap" required tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
                               </div>
                            </div>
                             
-                           
+                           </div>
                             
                          
                            <div class="form-actions">
@@ -497,7 +510,19 @@ success:function (data){
          $("#county").trigger("change");
      }
 });
-    
+   
+   
+     $("#orgunitbox").click(function(){
+    if($("#orgunitbox").is(':checked') ){
+     document.getElementById("orgunit").style.display='block';
+               
+        
+    }else{
+        document.getElementById("orgunit").style.display='none'; 
+       
+     }
+});
+   
      
     function loadcounty(){
         
@@ -602,6 +627,7 @@ for(var w in tmplist){
       //load default facilities
      loadcounty();
        loadfrms();
+       deciderate();
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>

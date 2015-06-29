@@ -47,11 +47,11 @@ public class loadQuarter extends HttpServlet {
 
         }
        
-        String quarters[]={"1. Oct-Dec "+prevyear+"","2. Jan-Mar "+year+"","3. Apr-Jun "+year+"","4. Jul-Sept "+year+""};
-        String quartersmonths[]={"10,11,12","1,2,3","4,5,6","7,8,9"};
+        String quarters[]={"Select Period","1. Oct-Dec "+prevyear+"","2. Jan-Mar "+year+"","3. Apr-Jun "+year+"","4. Jul-Sept "+year+""};
+        String quartersmonths[]={"","10,11,12","1,2,3","4,5,6","7,8,9"};
         
-        String sannual[]={"1. Oct "+prevyear+" - Mar "+year+" ","2. Apr "+year+" - Sep "+year};
-        String sannualmonths[]={"10,11,12,1,2,3","4,5,6,7,8,9"};
+        String sannual[]={"Select Period","1. Oct "+prevyear+" - Mar "+year+" ","2. Apr "+year+" - Sep "+year};
+        String sannualmonths[]={"","10,11,12,1,2,3","4,5,6,7,8,9"};
         
       String opts=""; 
       String opts2="";
