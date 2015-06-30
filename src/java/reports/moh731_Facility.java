@@ -47,6 +47,7 @@ String facilityId,year,month;
 String county,district,facilityname,mflcode;
 int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counterPEP1;
 String sheets,headers,elementName,monthName,createdOn;
+String isValidated;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
        session=request.getSession();
@@ -195,12 +196,24 @@ stylex.setWrapText(true);
          else{} 
     
     }
+    XSSFCell  S3cella=rw1S1.createCell(46);
+    S3cella.setCellValue("Validation Run");
+    S3cella.setCellStyle(stylex); 
+    
+    XSSFCell  S3cell2a=rw1S2.createCell(65);
+    S3cell2a.setCellValue("Validation Run");
+    S3cell2a.setCellStyle(stylex); 
+    
+   XSSFCell  S3cell3a=rw1S3.createCell(17);
+    S3cell3a.setCellValue("Validation Run");
+    S3cell3a.setCellStyle(stylex);  
     
 //   counter=1; 
   System.out.println("pmtct : "+counterPMTCT+" art : "+counterART+" PEPE : "+counterPEP);
 //  counterPMTCT=counterPMTCT-5;
 //  counterART=counterART-5;
 //  counterPEP=counterPEP-5;
+  
   
      counterPMTCT1=counterART1=counterPEP1=0;
       String getData="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,"
@@ -213,11 +226,11 @@ stylex.setWrapText(true);
 "        moh731.HV0342,moh731.HV0343,moh731.HV0344,moh731.HV0345,moh731.HV0346,moh731.HV0347,moh731.HV0348,moh731.HV0349,moh731.HV0350,moh731.HV0351,moh731.HV0352,moh731.HV0353," +
 "        moh731.HV0354,moh731.HV0355,moh731.HV0904,moh731.HV0905,moh731.HV0370,moh731.HV0371,moh731.HV0372,moh731.HV0373,"+
 "        moh731.HV0501,moh731.HV0502,moh731.HV0503,moh731.HV0504,moh731.HV0505,moh731.HV0506,moh731.HV0507,moh731.HV0508,moh731.HV0509,moh731.HV0510,moh731.HV0511,moh731.HV0512,moh731.HV0513,moh731.HV0514,"
-+ "subpartnera.PMTCT,subpartnera.ART,subpartnera.PEP "
++ "subpartnera.PMTCT,subpartnera.ART,subpartnera.PEP,isValidated "
  + " FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID "
               + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
-              + " WHERE moh731.Mois='"+month+"' && moh731.Annee='"+year+"' && isValidated=1"
+              + " WHERE moh731.Mois='"+month+"' && moh731.Annee='"+year+"'"
               + " ORDER BY county.County,district.DistrictNom,subpartnera.SubPartnerNom";
       conn.rs=conn.st.executeQuery(getData);
      while (conn.rs.next()){
@@ -253,6 +266,17 @@ String arrayDetails []=basicDetails.split("@");
     S3cell.setCellStyle(stborder);    
       
   }
+  isValidated=conn.rs.getString(125);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S1.createCell(46);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
+    
    }
    
    
@@ -280,7 +304,21 @@ String arrayDetails []=basicDetails.split("@");
     S3cell.setCellValue(conn.rs.getInt(pos));
     S3cell.setCellStyle(stborder);    
       
-  } 
+  }
+  
+   isValidated=conn.rs.getString(125);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S2.createCell(65);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
+    
+    
+  
    }
    
    if(conn.rs.getInt(124)==1){
@@ -307,6 +345,19 @@ counterPEP1++;
       
   }
 
+    
+   isValidated=conn.rs.getString(125);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S3.createCell(17);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
+    
+  
    }
 System.out.println("counter : "+counter);
      } 
