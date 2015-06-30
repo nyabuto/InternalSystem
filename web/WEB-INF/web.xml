@@ -204,6 +204,14 @@
         <servlet-name>loadQuarter</servlet-name>
         <servlet-class>reportsAjax.loadQuarter</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>moh731_district</servlet-name>
+        <servlet-class>reports.moh731_district</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>moh711_StaticReport</servlet-name>
+        <servlet-class>reports.moh711_StaticReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -407,6 +415,14 @@
     <servlet-mapping>
         <servlet-name>loadQuarter</servlet-name>
         <url-pattern>/loadQuarter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>moh731_district</servlet-name>
+        <url-pattern>/moh731_district</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>moh711_StaticReport</servlet-name>
+        <url-pattern>/moh711_StaticReport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
