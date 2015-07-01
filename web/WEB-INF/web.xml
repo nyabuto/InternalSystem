@@ -212,6 +212,54 @@
         <servlet-name>moh711_StaticReport</servlet-name>
         <servlet-class>reports.moh711_StaticReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>staticReportExcel731</servlet-name>
+        <servlet-class>reports.staticReportExcel731</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>moh731_subSection</servlet-name>
+        <servlet-class>reports.moh731_subSection</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadDistricts</servlet-name>
+        <servlet-class>reports.loadDistricts</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadFacils</servlet-name>
+        <servlet-class>reports.loadFacils</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadAllForms</servlet-name>
+        <servlet-class>reports.loadAllForms</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSubSection</servlet-name>
+        <servlet-class>reports.loadSubSection</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSection</servlet-name>
+        <servlet-class>reports.loadSection</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sectionsReport</servlet-name>
+        <servlet-class>reports.sectionsReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pdf731</servlet-name>
+        <servlet-class>reports.pdf731</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadReportingPeriod</servlet-name>
+        <servlet-class>General.loadReportingPeriod</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSemiAnnual</servlet-name>
+        <servlet-class>General.loadSemiAnnual</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadQuarters</servlet-name>
+        <servlet-class>General.loadQuarters</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -423,6 +471,54 @@
     <servlet-mapping>
         <servlet-name>moh711_StaticReport</servlet-name>
         <url-pattern>/moh711_StaticReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>staticReportExcel731</servlet-name>
+        <url-pattern>/staticReportExcel731</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>moh731_subSection</servlet-name>
+        <url-pattern>/moh731_subSection</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadDistricts</servlet-name>
+        <url-pattern>/loadDistricts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadFacils</servlet-name>
+        <url-pattern>/loadFacils</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadAllForms</servlet-name>
+        <url-pattern>/loadAllForms</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSubSection</servlet-name>
+        <url-pattern>/loadSubSection</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSection</servlet-name>
+        <url-pattern>/loadSection</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sectionsReport</servlet-name>
+        <url-pattern>/sectionsReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pdf731</servlet-name>
+        <url-pattern>/pdf731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadReportingPeriod</servlet-name>
+        <url-pattern>/loadReportingPeriod</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSemiAnnual</servlet-name>
+        <url-pattern>/loadSemiAnnual</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadQuarters</servlet-name>
+        <url-pattern>/loadQuarters</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
