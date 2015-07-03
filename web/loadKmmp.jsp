@@ -393,7 +393,15 @@ success:function (data){
           
           
              function autosave(col,tableid){
+                 
+            
+                 
+             
             var achieved=document.getElementById(col).value;
+           // alert(achieved);
+            
+          
+            
                 //  if(document.getElementById("checkblank").value=='1'){
             document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
             
@@ -415,6 +423,10 @@ success:function (data){
 }
              
              });
+             
+            
+             
+             
             // }
              }
              
@@ -423,7 +435,7 @@ success:function (data){
              var three_a=document.getElementById("KMMP3a").value;
              var three_b=document.getElementById("KMMP3b").value;
              
-             if(three_a!="" && three_b!="" && three_b!==0){
+             if(three_a!="" && three_b!="" && three_b!=="0"){
                  
                  var perc=parseInt(three_a)/parseInt(three_b)*100;
                  perc=Math.round(perc * 100)/100;

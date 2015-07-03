@@ -8,6 +8,7 @@ import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -151,11 +152,29 @@ updqr+=" where tableid='"+tableid+"'";
 
             System.out.println("__update qr  "+updqr);
 
-conn.st.executeUpdate(updqr);
+if(conn.st.executeUpdate(updqr)==1){
 
+    
+    int monthDiff=0;
+     String getMonths="SELECT TIMESTAMPDIFF(MONTH, timestamp, now()) FROM kmmp WHERE tableid='"+tableid+"'";
+     conn.rs1=conn.st1.executeQuery(getMonths);
+     if(conn.rs1.next()==true){
+         System.out.println("months are : "+conn.rs1.getString(1));
+    monthDiff=conn.rs1.getInt(1);
+     }
+     if(monthDiff>0){
+//      UPDATE THE COLUMN   
+       java.util.Date date= new java.util.Date();
+Timestamp lastUpdatedOn =new Timestamp(date.getTime()); 
+
+     String updateLast="UPDATE kmmp SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE tableid='"+tableid+"'" ;   
+       conn.st2.executeUpdate(updateLast);
+     }
+     
+    
 
 session.setAttribute("kmmpresponse", "<font color=\"green\"><b>KMMP Form validated Successfully!</b></font>");
-
+}
         
         
         

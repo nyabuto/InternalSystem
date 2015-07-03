@@ -164,15 +164,25 @@ maxyearmonth=conn.rs2.getString(1);
     
       conn.rs=conn.st.executeQuery(gatmaxs);
     while(conn.rs.next()){
-    
+    //if the cumulatives for current month have not been entered, show cum for previous month
+        //
+        
+        
+        
     MCHCCNtrTMCH=conn.rs.getString("MCHCCNtrTMC");
+    MCHCCNtrTMC=conn.rs.getString("MCHCCNtrTMC");
 if(MCHCCNtrTMCH==null){MCHCCNtrTMCH="0"; }
+if(MCHCCNtrTMC==null){MCHCCNtrTMC="0"; }
 
 MCHCCNtrTFCH=conn.rs.getString("MCHCCNtrTFC");
+MCHCCNtrTFC=conn.rs.getString("MCHCCNtrTFC");
 if(MCHCCNtrTFCH==null){MCHCCNtrTFCH="0"; }
+if(MCHCCNtrTFC==null){MCHCCNtrTFC="0"; }
 
 MCHCCNtrTTCH=conn.rs.getString("MCHCCNtrTTC");
+MCHCCNtrTTC=conn.rs.getString("MCHCCNtrTTC");
 if(MCHCCNtrTTCH==null){MCHCCNtrTTCH="0"; }
+if(MCHCCNtrTTC==null){MCHCCNtrTTC="0"; }
     
     }
    
@@ -242,13 +252,13 @@ if(MCHCCNtrTT==null){MCHCCNtrTT=""; }
 
 
  MCHCCNtrTMC=conn.rs.getString("MCHCCNtrTMC");
-if(MCHCCNtrTMC==null){MCHCCNtrTMC=""; }
+if(MCHCCNtrTMC==null){MCHCCNtrTMC="0"; }
 
 MCHCCNtrTFC=conn.rs.getString("MCHCCNtrTFC");
-if(MCHCCNtrTFC==null){MCHCCNtrTFC=""; }
+if(MCHCCNtrTFC==null){MCHCCNtrTFC="0"; }
 
 MCHCCNtrTTC=conn.rs.getString("MCHCCNtrTTC");
-if(MCHCCNtrTTC==null){MCHCCNtrTTC=""; }
+if(MCHCCNtrTTC==null){MCHCCNtrTTC="0"; }
 
 
 MCHNtrnCHWTrain=conn.rs.getString("MCHNtrnCHWTrain");

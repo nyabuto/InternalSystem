@@ -81,14 +81,14 @@ data+="<thead><tr>"
           
           
           
-          String getFacilities="SELECT county.County,sub_county.name,subpartnera.SubPartnerID,subpartnera.subPartnerNom,subpartnera.CentreSanteId,"
+          String getFacilities="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerID,subpartnera.subPartnerNom,subpartnera.CentreSanteId,"
   + "subpartnera.SP_ID,subpartnera.HTC,subpartnera.FP,subpartnera.PMTCT,subpartnera.EID,subpartnera.ART,subpartnera.VMMC,"
   + "subpartnera.Nutrition,subpartnera.GSN,subpartnera.Lab,subpartnera.FP_Integration,subpartnera.Care_DSD,subpartnera.ART_DSD,"
   + "subpartnera.Maternity,subpartnera.ART_Support,subpartnera.PMTCT_Support,subpartnera.HTC_Support1,subpartnera.KMMP,"
   + "subpartnera.Gender,subpartnera.PEP,subpartnera.Blood_Safety,subpartnera.TB"
                   + ""
                   + ""
-+ " FROM subpartnera JOIN sub_county ON subpartnera.DistrictID=sub_county.id JOIN county ON sub_county.county_id=county.CountyID "
++ " FROM subpartnera JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON district.countyID=county.CountyID "
                   + " ORDER BY subpartnera.subPartnerNom ";
             
  conn.rs=conn.st.executeQuery(getFacilities);

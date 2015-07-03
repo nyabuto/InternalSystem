@@ -38,6 +38,9 @@ HttpSession session=null;
      if(achieved.equals("")){
     achieved=null;
     }
+     
+     if(achieved.equalsIgnoreCase("Infinity")){  achieved="0";}
+     if(achieved.equalsIgnoreCase("NaN")){  achieved="0";}
     dbConn conn=new dbConn();
 //get the existing data for the month, year and facility that is already on session
 

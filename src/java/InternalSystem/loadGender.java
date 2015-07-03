@@ -175,12 +175,14 @@ String kmmpcounter="SELECT 1 FROM gender join subpartnera on gender.SubPartnerID
 
         String enterer = "select * from user where userid='" + conn.rs.getString("user_id") + "'";
 
+        System.out.println("Enterer_______"+enterer);
+        
         conn.rs1 = conn.st1.executeQuery(enterer);
         //add details of person who entered
         if (conn.rs1.next()) {
             enterdby = "<font color='green'>Data 1st entered by:   <b> " + conn.rs1.getString("fname") + " " + conn.rs1.getString("mname") + " " + conn.rs1.getString("lname") + "</b>  on  <b>" + conn.rs.getString("timestamp") + "</b></font>";
         }
-
+        System.out.println(""+enterdby);
 
         //now check if form was updated and if its one month after data entry
 
