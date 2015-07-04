@@ -93,6 +93,10 @@ else {
         /* TODO output your page here. You may use following sample code. */
        
     } finally {
+       if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+        
+         if(conn.st!=null){ conn.st.close();}
        
         
         out.close();

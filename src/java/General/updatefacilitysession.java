@@ -90,9 +90,9 @@ public class updatefacilitysession extends HttpServlet {
        
     } finally {            
         out.close();
-        conn.conn.close();
-        conn.st.close();
-        conn.rs.close();
+         if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.st!=null){ conn.st.close();}
     }
 }       catch (SQLException ex) {
             Logger.getLogger(updatefacilitysession.class.getName()).log(Level.SEVERE, null, ex);

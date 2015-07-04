@@ -543,7 +543,12 @@ if(P124D25==null){P124D25=""; }
   
         out.println(createdtable);
     } finally {
-        conn.conn.close();
+        if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.st!=null){ conn.st.close();}
+         if(conn.st2!=null){ conn.st2.close();}
         out.close();
     }
 }       catch (SQLException ex) {

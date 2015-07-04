@@ -61,9 +61,12 @@ county+="<option value=\""+conn.rs.getString(1)+"\">"+conn.rs.getString(2)+"</op
     } finally {            
         out.close();
            if (conn!=null) try {
-               conn.conn.close();
-               conn.rs.close();
-               conn.st.close();
+               
+               if(conn.conn!=null){ conn.conn.close();}
+               if(conn.rs!=null){ conn.rs.close();}
+               if(conn.st!=null){ conn.st.close();}
+              
+               
                
            }catch (Exception ignore) {}
     }

@@ -52,7 +52,9 @@ public class loadForms extends HttpServlet {
         
         out.println(forms);
     } finally {    
-          conn.conn.close();
+           if(conn.conn!=null){ conn.conn.close();}
+               if(conn.rs!=null){ conn.rs.close();}
+               if(conn.st!=null){ conn.st.close();}
         out.close();
         
     }

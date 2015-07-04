@@ -76,6 +76,10 @@ public class sessionsHolder extends HttpServlet {
             
            System.out.println("___ Sessions Holder Page ___");
             
+            if(conn.conn!=null){ conn.conn.close();}
+               if(conn.rs!=null){ conn.rs.close();}
+               if(conn.st!=null){ conn.st.close();}
+           
             response.sendRedirect(form);
         } catch (SQLException ex) {
             Logger.getLogger(sessionsHolder.class.getName()).log(Level.SEVERE, null, ex);

@@ -90,7 +90,9 @@ current_districts=current_districts+"<option value=\""+conn.rs.getString("Distri
         out.println(current_districts);
        
     } finally {   
-          conn.conn.close();
+          if(conn.conn!=null){ conn.conn.close();}
+               if(conn.rs!=null){ conn.rs.close();}
+               if(conn.st!=null){ conn.st.close();}
         out.close();
     }
 }       catch (SQLException ex) {

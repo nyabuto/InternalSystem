@@ -176,7 +176,11 @@ Timestamp lastUpdatedOn =new Timestamp(date.getTime());
 session.setAttribute("kmmpresponse", "<font color=\"green\"><b>KMMP Form validated Successfully!</b></font>");
 }
         
-        
+    if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}       
+         if(conn.st!=null){ conn.st.close();}
+         if(conn.st2!=null){ conn.st2.close();}     
         
         } catch (SQLException ex) {
             Logger.getLogger(validateKmmp.class.getName()).log(Level.SEVERE, null, ex);

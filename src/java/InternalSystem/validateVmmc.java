@@ -282,7 +282,11 @@ session.setAttribute("vmmcresponse", "<font color=\"green\"><b>VMMC Form validat
 }
         
         
-        
+    if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}       
+         if(conn.st!=null){ conn.st.close();}
+         if(conn.st2!=null){ conn.st2.close();}     
         
         
         
