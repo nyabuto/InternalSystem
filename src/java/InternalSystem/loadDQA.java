@@ -24,93 +24,63 @@ import javax.servlet.http.HttpSession;
 public class loadDQA extends HttpServlet {
 HttpSession session;
 int counter;
+String county,facilityName,form;
+int elementsCounter;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         session= request.getSession();
         PrintWriter out = response.getWriter();
-        String form="";
-        String year="";
+       String year="";
         String month="";
-        String facilityId="";
-        String subcountyid="";
-        String formname="";
         String allcolumns []=null;
         String allerrors []=null;
         String data="";
            dbConn conn = new dbConn();
+           county=facilityName=form="";
+           elementsCounter=0;
         try {
-            if( request.getParameter("form")!=null){
-           form =  request.getParameter("form");
-            }
-            else{
-                  if(session.getAttribute("form")!=null){
-          form=  session.getAttribute("form").toString();
-                  }}
-      
-      
-        System.out.println("nnn "+form); 
-        session.setAttribute("form",form);
-               if(session.getAttribute("year")!=null){        
-   year=session.getAttribute("year").toString();
-    }
-      if(session.getAttribute("monthid")!=null){        
-   month=session.getAttribute("monthid").toString();
-    }
-if(session.getAttribute("facilityid")!=null){        
-   facilityId=session.getAttribute("facilityid").toString();
-    }
-        if(session.getAttribute("subcountyid")!=null){        
-   subcountyid=session.getAttribute("subcountyid").toString();
-    }
-           ArrayList viewerrors=new ArrayList();
-       String[] parts=null; 
+//         System.out.println("entered here for dqa");
+//               if(session.getAttribute("year")!=null){        
+//   year=session.getAttribute("year").toString();
+//    }
+//      if(session.getAttribute("monthid")!=null){        
+//   month=session.getAttribute("monthid").toString();
+//    }
+            year=request.getParameter("year");
+            month=request.getParameter("month");
 
-        if(form.equals("load711.jsp")  ){
-         formname="moh711";   
-        } 
-
-        else if(form.equals("Form731.jsp")){
-         formname="moh731";   
-        }
-        else{
-            formname="noform";
-        }
+  System.out.println("to process data for dqa");
+            data+="<thead><th>No.</th><th>COUNTY</th><th>HEALTH FACILITY</th><th>FORM </th><th>COLUMN</th><th>ERROR</th> </thead><tbody>";
             
-            data+="<thead><th>No.</th><th>COLUMN</th><th>ERROR</th> </thead><tbody>";
-            
-            String getdata="SELECT columns,errors FROM dqa WHERE facilityid='"+facilityId+"' && year='"+year+"' && month='"+month+"' && form='"+formname+"'";
+            String getdata="SELECT county.County,subpartnera.SubPartnerNom,dqa.columns,dqa.errors,dqa.form "
+        + "FROM dqa JOIN subpartnera ON subpartnera.SubPartnerID=dqa.facilityid "
+        + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+        + "JOIN county ON county.CountyID=district.CountyID "
+        + "WHERE year='"+year+"' && month='"+month+"' ORDER BY dqa.form";
            System.out.println(getdata);
             conn.rs= conn.st.executeQuery(getdata);
-            if(conn.rs.next()==true){
-          allcolumns=conn.rs.getString(1).split("@");
-          allerrors=conn.rs.getString(2).split("@"); 
+            while(conn.rs.next()){
+                county=conn.rs.getString(1);
+                facilityName=conn.rs.getString(2);
+                
+          allcolumns=conn.rs.getString(3).split("@");
+          allerrors=conn.rs.getString(4).split("@");
+          form=conn.rs.getString(5);
           System.out.println(conn.rs.getString(1));
          counter=0;
           for(String column:allcolumns){
         if(!allcolumns[counter].equals("") && !allerrors[counter].equals("") ){
+            elementsCounter++;
         data+="<tr>"
-         + "<td>"+counter+"</td><td>"+allcolumns[counter]+"</td><td>"+allerrors[counter] +"</td>"
+         + "<td>"+elementsCounter+"</td><td>"+county+"</td><td>"+facilityName+"</td><td>"+form+"</td><td>"+allcolumns[counter]+"</td><td>"+allerrors[counter] +"</td>"
          + "</tr>";     
           }
          counter++; 
           }
             }
-            else{
-//                data+="<tr><td></td><td><font color=\"green\">No errors to display.</font></td><td></td></tr>";
-            }
           data+="</tbody>";
-//           if(data.equals("")){
-//           data+="<tr><td>nodata</td></tr>";
-//           }
-                   
-            
-        
-        
-        
-        
-        
-            
+
             out.println(data);     
           System.out.println(   data  );  
         } finally {            
