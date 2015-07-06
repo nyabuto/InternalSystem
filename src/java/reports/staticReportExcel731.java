@@ -43,17 +43,6 @@ public class staticReportExcel731 extends HttpServlet {
 HttpSession session;
 String data,id;
 String facilityId;
-String HIV_CT,PMTCT,CT,VMMC,PEP,Blood;
-
-String testing,receiving_results,receiving_postive_results;
-String testing_for_HIV,HIV_Postive_results,partner_involvement,
-        maternal_prophylaxis,assessment_ART,infant_testing,
-        confirmed_infant,infant_feeding,infant_ARV;
-String on_CP,enrolled_care,currently_care,starting_ART,revisit_ART,
-        current_ART,cumulative_ART,cumulative_ARTPrevious,survival_ART,screening,pwp,HIV_care;
-String number_circumcised,hiv_status,adverse_events;
-String type_exposure,provided_p;
-String blood_safety;
 String county,district,facilityname,mflcode;       
   String isValidated,validity;
 int maxYearMonth;
@@ -69,13 +58,13 @@ int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counter
         dbConn conn = new dbConn();
             session=request.getSession();
         
-        reportType=request.getParameter("reportType");
-        year=Integer.parseInt(request.getParameter("year"));
-        reportDuration=request.getParameter("reportDuration");
+//        reportType=request.getParameter("reportType");
+//        year=Integer.parseInt(request.getParameter("year"));
+//        reportDuration=request.getParameter("reportDuration");
         
-//        reportType="1";
-//        year=2015;
-//        reportDuration="4";
+        reportType="2";
+        year=2015;
+        reportDuration="4";
         
         prevYear=year-1; 
         maxYearMonth=0;
@@ -116,8 +105,8 @@ int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counter
         }  
         
       else if(reportDuration.equals("4")){
-     month=Integer.parseInt(request.getParameter("month"));
-//     month=4;
+//     month=Integer.parseInt(request.getParameter("month"));
+     month=4;
      if(month>=10){
      duration=" moh731.yearmonth="+prevYear+""+month;    
      }
@@ -138,9 +127,9 @@ int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counter
     }
       
       else{
-  facilityId=request.getParameter("facility");
-//  facilityId="403";
-  facility="SubPartnerID='"+facilityId+"' &&";    
+//  facilityId=request.getParameter("facility");
+  facilityId="403";
+  facility="moh731.SubPartnerID='"+facilityId+"' &&";    
   
   String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
           + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -319,9 +308,8 @@ stylex.setWrapText(true);
 "SUM(HV0354),SUM(HV0355),SUM(HV0904),SUM(HV0905),SUM(HV0370),SUM(HV0371),SUM(HV0372),SUM(HV0373)," +
 "SUM(HV0401),SUM(HV0402),SUM(HV0403),SUM(HV0406),SUM(HV0407),SUM(HV0408),SUM(HV0409),SUM(HV0410),SUM(HV0411),SUM(HV0412),SUM(HV0413),SUM(HV0414),SUM(HV0415)," +
 "SUM(HV0501),SUM(HV0502),SUM(HV0503),SUM(HV0504),SUM(HV0505),SUM(HV0506),SUM(HV0507),SUM(HV0508),SUM(HV0509),SUM(HV0510),SUM(HV0511),SUM(HV0512),SUM(HV0513),SUM(HV0514)," +
-"SUM(HV0601),SUM(HV0602),SUM(HV0605)"
-+ "subpartnera.PMTCT,subpartnera.ART,subpartnera.PEP,"
- + " FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID "
+"SUM(HV0601),SUM(HV0602),SUM(HV0605),subpartnera.PMTCT,subpartnera.ART,subpartnera.PEP "
+ +"FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID "
 + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
 + "JOIN county ON county.CountyID=district.CountyID "
 + " WHERE "+facility+" "+duration+" GROUP BY subpartnera.SubPartnerID "
