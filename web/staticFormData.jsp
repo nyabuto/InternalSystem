@@ -149,7 +149,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="pdf731" class="form-horizontal">
+                        <form action="allStaticReports" id="formActions" class="form-horizontal">
                           
                          
                            <div class="control-group">
@@ -243,10 +243,21 @@
                               </div>
                            </div>
                             
+                           <div class="control-group" id="reportFormats">
+                              <label class="control-label">Report Format<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select data-placeholder="Report Format" required="true" onchange="getAction();" class="span6 m-wrap" tabindex="-1"  id="reportFormat" name="reportFormat" style="width: 400px;">
+                                    <option value="">Choose report Format</option>
+                                    <option value="excel">Excel Report</option>
+                                    <option value="pdf">PDF Report</option>
+                                 </select>
+                              </div>
+                           </div>
+                            
                              <div class="control-group">
                               <label class="control-label">Select Form<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1" id="form" name="form"  style="width: 400px;">
+                                  <select required data-placeholder="Form" class="span6 m-wrap" onchange="getAction();" tabindex="-1" id="form" name="form"  style="width: 400px;">
                                    <option value="">Select form</option>   
                                      <%  
 dbConn conn = new dbConn();                                 
@@ -333,6 +344,36 @@ dbConn conn = new dbConn();
   
    
    <script>
+     function getAction(){
+      var reportFormat="",form="",formActions=""; 
+
+    var formActions=$("#formActions").val();
+    var reportFormat=$("#reportFormat").val();
+    var form=$("#form").val();
+//    alert("format : "+reportFormat+" form : "+form);
+    
+    if(reportFormat==="" || form===""){
+        
+    }
+    else{
+    if( reportFormat==="pdf" && form==="MOH 731") {
+   document.getElementById("formActions").action = "pdf731";
+    }
+    else if( reportFormat==="excel" && form==="MOH 731") {
+ document.getElementById("formActions").action = "staticReportExcel731";
+    }
+    else if(form==="MOH 711A") {
+ document.getElementById("formActions").action = "pdf711";
+    }
+else {
+ document.getElementById("formActions").action =  "allStaticReports";
+}
+}
+
+     }  
+       
+       
+       
       jQuery(document).ready(function() {       
          // initiate layout and plugins
         $('#facility').select2(); 
@@ -364,22 +405,7 @@ success:function (data){
 }
 
 
-}); 
-      
-  $("#form").change(function(){
-     
-    var form=$("#form").val();
-//     alert("called : "+form);
-    if( form==="MOH 711A") {
-    document.forms.action = "pdf711";
-    }
-    else if( form==="MOH 731") {
-    document.forms.action = "pdf731";
-    }
-else {
-    document.forms.action = "allStaticReports";
-}  
-  });    
+});     
          
 $.ajax({
     url:'loadYear',

@@ -408,7 +408,7 @@ if(conn.rs.getInt(148)!=0){HV0605=conn.rs.getInt(148);}
     + "SUM(HV0336),SUM(HV0337),SUM(HV0338),SUM(HV0339),SUM(HV0340),SUM(HV0341),SUM(HV0342),SUM(HV0343),SUM(HV0344)"+
     "FROM moh731 WHERE "+facility+" yearmonth="+maxYearMonth;
     conn.rs=conn.st.executeQuery(getCummulatives);
-    if(conn.rs.next()==true){
+   if(conn.rs.next()==true){
 System.out.println("entered to get culum]latives : "+maxYearMonth);
 HV0314=conn.rs.getInt(1);
 HV0315=conn.rs.getInt(2);
