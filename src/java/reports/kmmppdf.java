@@ -344,7 +344,7 @@ if(1==1){
     
     createdtable+="<tr><td colspan='2'>  b) Total number of HIV-positive pregnant women in facility (New positive and Known Positive-MOH731) </td><td>"+KMMP3b+"</td></tr>";
     
-    createdtable+="<tr><td colspan='2'><b> Percentage of new IV-positive pregnant women enrolled in KMMP Services </b></td><td>"+KMMP3c+" <b>%</b> </td></tr>";
+    createdtable+="<tr><td colspan='2'><b> Percentage of new IV-positive pregnant women enrolled in KMMP Services </b></td><td>"+KMMP3c.substring(0, 2)+""+" <b>%</b> </td></tr>";
       
     createdtable+="<tr><td ><b> 4 </b></td><td colspan='2'>No. of KMMP support group sessions held </td><td>"+KMMP4+"</td></tr>";
      

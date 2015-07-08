@@ -365,6 +365,13 @@ dbConn conn = new dbConn();
     else if(form==="MOH 711A") {
  document.getElementById("formActions").action = "pdf711";
     }
+     else if(reportFormat==="pdf" && form==="KMMP") {
+ document.getElementById("formActions").action = "kmmppdf";
+    }
+    else if(reportFormat==="excel" && form==="KMMP") {
+ document.getElementById("formActions").action = "kmmpexcel";
+    }
+    
 else {
  document.getElementById("formActions").action =  "allStaticReports";
 }

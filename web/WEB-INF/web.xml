@@ -268,6 +268,34 @@
         <servlet-name>excelstaticreports</servlet-name>
         <servlet-class>reports.excelstaticreports</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>kmmpexcel</servlet-name>
+        <servlet-class>reports.kmmpexcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Vmmcpdf</servlet-name>
+        <servlet-class>reports.Vmmcpdf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vmmcexcel</servlet-name>
+        <servlet-class>reports.vmmcexcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>genderpdf</servlet-name>
+        <servlet-class>reports.genderpdf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>genderexcel</servlet-name>
+        <servlet-class>reports.genderexcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>nutritionpdf</servlet-name>
+        <servlet-class>reports.nutritionpdf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>nutritionexcel</servlet-name>
+        <servlet-class>reports.nutritionexcel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -535,6 +563,34 @@
     <servlet-mapping>
         <servlet-name>excelstaticreports</servlet-name>
         <url-pattern>/excelstaticreports</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>kmmpexcel</servlet-name>
+        <url-pattern>/kmmpexcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Vmmcpdf</servlet-name>
+        <url-pattern>/Vmmcpdf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vmmcexcel</servlet-name>
+        <url-pattern>/vmmcexcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>genderpdf</servlet-name>
+        <url-pattern>/genderpdf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>genderexcel</servlet-name>
+        <url-pattern>/genderexcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>nutritionpdf</servlet-name>
+        <url-pattern>/nutritionpdf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>nutritionexcel</servlet-name>
+        <url-pattern>/nutritionexcel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
