@@ -64,8 +64,16 @@ month=session.getAttribute("monthid").toString();
 facil=session.getAttribute("facilityid").toString();
 }
 String tableid=year+"_"+month+"_"+facil;
-    
-String Insertqr= "insert into kmmp  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"="+achieved+" , tableid='"+tableid+"' , user_id='"+userid+"'";
+ 
+
+int tempyear=Integer.parseInt(year);
+String yearmonth="";
+String tempmonth=month;
+if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+if(Integer.parseInt(month)>=10){tempyear=Integer.parseInt(year)-1;}
+yearmonth=tempyear+tempmonth;
+
+String Insertqr= "insert into kmmp  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"="+achieved+" , tableid='"+tableid+"' , user_id='"+userid+"' , yearmonth='"+yearmonth+"'";
 String updateqr="update kmmp set "+col+"="+achieved+" , isValidated='0' where tableid='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 

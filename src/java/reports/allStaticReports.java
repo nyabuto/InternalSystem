@@ -11,7 +11,6 @@ import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -187,7 +186,7 @@ public class allStaticReports extends HttpServlet {
     
     //if
     
-    String perfacilselect="select   Upper(County) as County , Upper(DistrictNom) as District , UPPER(SubPartnerNom) as facility ,CentreSanteId as mflcode , district.CountyID as countyid ,";
+    String perfacilselect="select   Upper(County) as County , Upper(DistrictNom) as District , UPPER(SubPartnerNom) as facility ,CentreSanteId as mflcode , district.CountyID as countyid , ";
 
   
     //--------------------------------------------------------------------------------------------
@@ -228,7 +227,7 @@ public class allStaticReports extends HttpServlet {
   //     FROM  
   //------------------------------------------------------------------------------------  
   
- perfacilselect+=" from "+form+"  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID ";   
+ perfacilselect+=" , isValidated as Form_Validated from "+form+"  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID ";   
   
  
 //------------------------------------------------------------------------------------------
@@ -343,6 +342,15 @@ public class allStaticReports extends HttpServlet {
      
      }//end of for loop
    
+     //create is validated header
+     
+     
+     shet.setColumnWidth(headercellpos, 6000);  
+       XSSFCell cell0=rw.createCell(headercellpos);
+       cell0.setCellValue("Form Validated ?");
+       cell0.setCellStyle(stylex);
+       headercellpos++;
+     
                                             }         
             
     conn.rs=conn.st.executeQuery(perfacilselect);
@@ -396,7 +404,13 @@ public class allStaticReports extends HttpServlet {
 
         }//end of for loop
      
+     String isvalidated="Yes";
      
+     if(conn.rs.getString("Form_Validated").equals("0")){ isvalidated="No";}
+                XSSFCell cell0 = rw.createCell(colpos);
+                cell0.setCellValue(isvalidated);
+                cell0.setCellStyle(stborder);
+                colpos++;
      
      
      }

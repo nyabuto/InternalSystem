@@ -260,6 +260,18 @@
         <servlet-name>loadQuarters</servlet-name>
         <servlet-class>General.loadQuarters</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>kmmppdf</servlet-name>
+        <servlet-class>reports.kmmppdf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>excelstaticreports</servlet-name>
+        <servlet-class>reports.excelstaticreports</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>kmmppdf</servlet-name>
+        <url-pattern>/kmmppdf</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>loadMOH731</servlet-name>
         <url-pattern>/loadMOH731</url-pattern>
@@ -476,7 +488,7 @@
         <servlet-name>staticReportExcel731</servlet-name>
         <url-pattern>/staticReportExcel731</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>moh731_subSection</servlet-name>
         <url-pattern>/moh731_subSection</url-pattern>
     </servlet-mapping>
@@ -519,6 +531,10 @@
     <servlet-mapping>
         <servlet-name>loadQuarters</servlet-name>
         <url-pattern>/loadQuarters</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>excelstaticreports</servlet-name>
+        <url-pattern>/excelstaticreports</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
