@@ -61,7 +61,14 @@ public class kmmpexcel extends HttpServlet {
       
    
     
- 
+ String  reportType="";
+    if(request.getParameter("reportType")!=null){
+      reportType=request.getParameter("reportType");
+    }
+    String  reportDuration="";
+    if(request.getParameter("reportDuration")!=null){
+    reportDuration=request.getParameter("reportDuration");
+    }
   
     
 
@@ -80,7 +87,7 @@ public class kmmpexcel extends HttpServlet {
     year=request.getParameter("year");
     }
     
-     if(request.getParameter("facil")!=null){
+     if(request.getParameter("facil")!=null && reportType.equals("2")){
     facil=request.getParameter("facil");
     
     String getfacil="select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='"+facil+"'";
@@ -96,7 +103,7 @@ public class kmmpexcel extends HttpServlet {
     
     }
     
-    if(request.getParameter("county")!=null){
+    if(request.getParameter("county")!=null && reportType.equals("2")){
     county=request.getParameter("county");
     
     
@@ -111,7 +118,7 @@ public class kmmpexcel extends HttpServlet {
     
     }
     
-    if(request.getParameter("month")!=null){
+    if(request.getParameter("month")!=null && reportDuration.equals("4")){
     month=request.getParameter("month");
     
     
@@ -145,9 +152,9 @@ public class kmmpexcel extends HttpServlet {
    //==================================================================================================
    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   
-       String  reportType=request.getParameter("reportType");
+       
        int  yearcopy=Integer.parseInt(year);
-       String  reportDuration=request.getParameter("reportDuration");
+     
         
 //        reportType="2";
 //        year=2015;

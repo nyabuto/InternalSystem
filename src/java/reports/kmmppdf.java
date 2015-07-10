@@ -66,14 +66,21 @@ public class kmmppdf extends HttpServlet {
    
     String header="";
     
-    String reporttype="";
+  String  reportType="";
+    if(request.getParameter("reportType")!=null){
+      reportType=request.getParameter("reportType");
+    }
+    String  reportDuration="";
+    if(request.getParameter("reportDuration")!=null){
+    reportDuration=request.getParameter("reportDuration");
+    }
     
     
     if(request.getParameter("year")!=null){
     year=request.getParameter("year");
     }
     
-     if(request.getParameter("facil")!=null){
+     if(request.getParameter("facil")!=null && reportType.equals("2")){
     facil=request.getParameter("facil");
     
     String getfacil="select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='"+facil+"'";
@@ -89,7 +96,7 @@ public class kmmppdf extends HttpServlet {
     
     }
     
-    if(request.getParameter("county")!=null){
+    if(request.getParameter("county")!=null && reportType.equals("2")){
     county=request.getParameter("county");
     
     
@@ -104,7 +111,7 @@ public class kmmppdf extends HttpServlet {
     
     }
     
-    if(request.getParameter("month")!=null){
+    if(request.getParameter("month")!=null && reportDuration.equals("4")){
     month=request.getParameter("month");
     
     
@@ -138,9 +145,9 @@ public class kmmppdf extends HttpServlet {
    //==================================================================================================
    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   
-       String  reportType=request.getParameter("reportType");
+
        int  yearcopy=Integer.parseInt(year);
-       String  reportDuration=request.getParameter("reportDuration");
+     
         
 //        reportType="2";
 //        year=2015;
@@ -336,7 +343,7 @@ if(HV0206==null){HV0206=""; }
 if(1==1){ 
     
     
-    createdtable+=header+"<br/><br/><br/><table   border=\"1\" style=\"font-family:cambria; border-color: #e5e5e5;margin-bottom: 3px;\"><tr class='form-actions'><th colspan='3'><b style=\"text-align:center;\"> KMMP OUTPUT DATA</b></th><th>Total</th></tr><tr><td><b> 1 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td>"+KMMP1+"</td></tr>";
+    createdtable+=header+"<br/><br/><br/><table   border=\"1\" style=\"border-color: #e5e5e5;margin-bottom: 3px;font-size:12;font-family:cambria;\" ><tr class='form-actions'><th colspan='3'><b style=\"text-align:center;\"> KMMP OUTPUT DATA</b></th><th>Total</th></tr><tr><td><b> 1 </b></td><td colspan='2'>No of New HIV positive clients enrolled in KMMP Services (ANC and PN) </td><td>"+KMMP1+"</td></tr>";
     
     createdtable+="<tr><td><b> 2 </b></td><td colspan='2'>No of New HIV negative clients enrolled in KMMP Services (ANC Only) </td><td>"+KMMP2+"</td></tr>";
     

@@ -371,6 +371,25 @@ dbConn conn = new dbConn();
     else if(reportFormat==="excel" && form==="KMMP") {
  document.getElementById("formActions").action = "kmmpexcel";
     }
+    else if(reportFormat==="pdf" && form==="VMMC") {
+ document.getElementById("formActions").action = "Vmmcpdf";
+    }
+      else if(reportFormat==="excel" && form==="VMMC") {
+ document.getElementById("formActions").action = "vmmcexcel";
+    }
+     else if(reportFormat==="pdf" && form==="Gender") {
+ document.getElementById("formActions").action = "Genderpdf";
+    }
+    
+      else if(reportFormat==="excel" && form==="Gender") {
+ document.getElementById("formActions").action = "Genderexcel";
+      }
+       else if(reportFormat==="pdf" && form==="Nutrition") {
+ document.getElementById("formActions").action = "Nutritionpdf";
+    }
+    else if(reportFormat==="excel" && form==="Nutrition") {
+ document.getElementById("formActions").action = "Nutritionexcel";
+      }
     
 else {
  document.getElementById("formActions").action =  "allStaticReports";
