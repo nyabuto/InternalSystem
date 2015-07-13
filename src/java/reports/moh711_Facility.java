@@ -65,6 +65,7 @@ HttpSession session;
        month=request.getParameter("month");}
      
       try{
+          String isValidated="";
       counter=0;
       int rowcounter=0;
       int fprows=1;
@@ -199,7 +200,9 @@ stylex.setWrapText(true);
    XSSFCell  S1cell=rw1S1.createCell(counterFP);
     S1cell.setCellValue(conn.rs1.getString("shortlabel"));
     S1cell.setCellStyle(stylex);
+  
   }
+         
     else if (conn.rs1.getString("section").equals("MCH-ANC/PMCT")){    
      counterPMTCT++;
      XSSFCell  S2cell=rw1S2.createCell(counterPMTCT);
@@ -231,7 +234,28 @@ stylex.setWrapText(true);
         }
 //     System.out.println("bbbb "+counterMAT);
     }
-      
+    
+    System.out.println("nnnnnn     "+counterFP+"   "+counterPMTCT+" "+counterMAT+" "+counterVCT+"  "+counterDTC);
+    XSSFCell  S1cell=rw1S1.createCell(37);
+    S1cell.setCellValue("Validation Run(Yes/No)");
+    S1cell.setCellStyle(stylex); 
+    
+    XSSFCell  S2cell=rw1S2.createCell(13);
+    S2cell.setCellValue("Validation Run(Yes/No)"); 
+    S2cell.setCellStyle(stylex); 
+    
+    XSSFCell  S3_cell=rw1S3.createCell(30);
+    S3_cell.setCellValue("Validation Run(Yes/No)");
+    S3_cell.setCellStyle(stylex);
+    
+      XSSFCell  S4cell=rw1S4.createCell(24);
+    S4cell.setCellValue("Validation Run(Yes/No)");
+    S4cell.setCellStyle(stylex);
+    
+       XSSFCell  S5cell=rw1S5.createCell(35);
+    S5cell.setCellValue("Validation Run(Yes/No)");
+    S5cell.setCellStyle(stylex);
+     
     String getdata="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,FPMicrolutN,"
             + " FPMicrolutR, FPMicrolutT, FPMicrogynonN, FPMicrogynonR, FPMicrogynonT,"
             + " FPINJECTIONSN, FPINJECTIONSR, FPINJECTIONST, FPIUCDN, FPIUCDR,FPIUCDT,FPIMPLANTSN, FPIMPLANTSR, "
@@ -251,7 +275,7 @@ stylex.setWrapText(true);
             + " DTCB_Test_In_AM, DTCB_Test_In_AF, DTCB_Test_In_Tot, DTCB_Test_Out_CM, DTCB_Test_Out_CF, DTCB_Test_Out_AM,"
             + " DTCB_Test_Out_AF, DTCB_Test_Out_Tot, DTCC_HIV_In_CM, DTCC_HIV_In_CF, DTCC_HIV_In_AM, DTCC_HIV_In_AF,"
             + " DTCC_HIV_In_Tot, DTCC_HIV_Out_CM, DTCC_HIV_Out_CF, DTCC_HIV_Out_AM, DTCC_HIV_Out_AF, DTCC_HIV_Out_Tot, "
-            + "subpartnera.FP,subpartnera.PMTCT,subpartnera.Maternity,subpartnera.HTC "
+            + "subpartnera.FP,subpartnera.PMTCT,subpartnera.Maternity,subpartnera.HTC, isValidated  "
             + "FROM moh711 JOIN subpartnera ON moh711.SubPartnerID=subpartnera.SubPartnerID "
               + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
@@ -292,6 +316,18 @@ System.out.println(counterFP   +"  "+basicDetails);
     S3cell.setCellStyle(stborder);    
       
   }
+  
+   isValidated=conn.rs.getString(123);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S1.createCell(37);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
+    
    }
   System.out.println("counterPMTCT"+ counterPMTCT);
    if(conn.rs.getInt(120)==1){ 
@@ -317,6 +353,17 @@ System.out.println(counterFP   +"  "+basicDetails);
     S3cell.setCellStyle(stborder);    
       
   }
+   isValidated=conn.rs.getString(123);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S1.createCell(13);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
+    
    }
    System.out.println("counterMAT"+ counterMAT);
    if(conn.rs.getInt(121)==1){ 
@@ -342,7 +389,16 @@ System.out.println(counterFP   +"  "+basicDetails);
     S3cell.setCellStyle(stborder);    
       
   }
-  
+  isValidated=conn.rs.getString(123);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S1.createCell(30);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
    }
    
     if(conn.rs.getInt(122)==1){ 
@@ -368,7 +424,16 @@ System.out.println(counterFP   +"  "+basicDetails);
     S3cell.setCellStyle(stborder);    
       
   }
-  
+  isValidated=conn.rs.getString(123);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S1.createCell(24);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
   
    }  
     if(conn.rs.getInt(122)==1){ 
@@ -394,7 +459,16 @@ System.out.println(counterFP   +"  "+basicDetails);
     S3cell.setCellStyle(stborder);    
       
   }
-  
+  isValidated=conn.rs.getString(123);
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S3cell=rw2S1.createCell(35);
+    S3cell.setCellValue(isValidated);
+    S3cell.setCellStyle(stborder); 
   
    }  
  

@@ -10,7 +10,11 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.exceptions.CssResolverException;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
 import database.dbConn;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -18,6 +22,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +38,7 @@ import javax.servlet.http.HttpSession;
 public class moh711_StaticReport extends HttpServlet {
     HttpSession session;
 String data,id;
-String facilityId,year,month;
+//String facilityId,year,month;
 //HttpSession session;
 //String data,id;
 //String facilityId,year,month;
@@ -53,7 +58,7 @@ String isValidated="";
 String validity="";
 
 String FamilyPlanninng, pmct,maternity,vct,dtc;
-        String subcountyid="";
+    
          String invalidFPTXT,invalidPMTCTTXT,invalidMATTXT,invalidHTCTXT="";
           int expectedFP=0;
  int expectedPMTCT=0;
@@ -64,8 +69,14 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
  int totalPMTCT=0;
 
  int   validFP,invalidFP,totalFP,validMAT,invalidMAT,totalMAT,validHTC,invalidHTC,totalHTC;
+ 
+ int maxYearMonth;
+String subcountyid,facility,period;
+String reportType,duration,reportDuration,quarter,semi_annual;
+int year=0,prevYear=0,month=0;
+String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, DocumentException {
+            throws ServletException, IOException, SQLException, DocumentException, CssResolverException {
        session=request.getSession();
        dbConn conn = new dbConn();
  String validitychecker="";
@@ -76,27 +87,123 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
             String VCT_TAB="";
             String DTC_TAB="";
                String enterdby="";
+                String isValidated,validity;
+
 //           if(session.getAttribute("forms_holder")!=null && !(session.getAttribute("forms_holder").toString().equals(","))){
            data="";
-//           if(session.getAttribute("year")!=null){        
-//   year=session.getAttribute("year").toString();
-   year="2015";
-//    }
-//      if(session.getAttribute("monthid")!=null){        
-//   month=session.getAttribute("monthid").toString();
-//    }
-   month="4";
-   
-//        if(session.getAttribute("facilityid")!=null){        
-//   facilityId=session.getAttribute("facilityid").toString();
-//    }
-   facilityId="403";
-//        if(session.getAttribute("subcountyid")!=null){        
-//   subcountyid=session.getAttribute("subcountyid").toString();
-//    }
+      subcountyid=facility=period="";
+ reportType=duration=reportDuration=quarter=semi_annual="";
+
+ header=facilityName=countyName=districtName=mflcode=monthName="";      
+     facilityId="";         
+        reportType=request.getParameter("reportType");
+        year=Integer.parseInt(request.getParameter("year"));
+        reportDuration=request.getParameter("reportDuration");
         
-        subcountyid="8";
-    id=year+"_"+month+"_"+facilityId; 
+        header="<table><tr><td colspan=\"12\">REPUBLIC OF KENYA-MINISTRY OF HEALTH</td></tr>";
+        header+="<tr><td colspan=\"12\"> NATIONAL INTEGRATED FORM FOR REPRODUCTIVE HEALTH,HIV/AIDS,MALARIA,TB and CHILD NUTRITION</td></tr>";
+//        reportType="1";
+//        year=2015;
+//        reportDuration="4";
+        
+        prevYear=year-1; 
+        maxYearMonth=0;
+        
+//        GET REPORT DURATION============================================
+        
+        if(reportDuration.equals("1")){
+         duration=" moh711.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
+      period="Annual Report ";
+        }
+        else if(reportDuration.equals("2")){
+        semi_annual=request.getParameter("semi_annual");
+//        semi_annual="2";
+       if(semi_annual.equals("1")){
+       duration=" moh711.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
+      period="Semi-Annual : <b> OCT ("+prevYear+") -  MARCH ("+year+")</b>"; 
+       }
+           else{
+       duration=" moh711.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
+       period="Semi-Annual : <b> APRIL ("+year+") -  SEPT ("+year+")</b>";  
+       }
+       }
+        
+        else if(reportDuration.equals("3")){
+            String startMonth,endMonth;
+       quarter=request.getParameter("quarter");
+//       quarter="3";
+       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
+       conn.rs=conn.st.executeQuery(getMonths);
+       if(conn.rs.next()==true){
+      String months []=conn.rs.getString(1).split(",");
+       startMonth=months[0];
+       endMonth=months[2];
+      if(quarter.equals("1")){
+      duration=" moh711.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
+     period="Quarter: <b>"+conn.rs.getString(2).replace("-", prevYear+" - ")+" "+prevYear+"</b>";
+      }
+      else{
+     duration=" moh711.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;
+     period="Quarter: <b>"+conn.rs.getString(2).replace("-", year+" - ")+" "+year+"</b>";
+      }
+        }
+        }  
+        
+      else if(reportDuration.equals("4")){
+     month=Integer.parseInt(request.getParameter("month"));
+//     month=4;
+     if(month>=10){
+     duration=" moh711.yearmonth="+prevYear+""+month;    
+     }
+     else{
+  duration=" moh711.yearmonth="+year+"0"+month;  
+     }
+    String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
+    conn.rs=conn.st.executeQuery(getMonthName);
+    if(conn.rs.next()==true){
+       if(month>=10){
+   period="Month : <b>"+conn.rs.getString(1)+"("+prevYear+")</b>"; 
+     }
+       else{
+        period="Month : <b>"+conn.rs.getString(1)+"("+year+")</b>";
+    }
+     
+    }
+      }
+      else{
+     duration="";     
+      }
+           
+     
+//     GET FACILITIES TO OUTPUT.................................
+    mflcode=countyName=districtName=facilityName="";    
+        
+      if(reportType.equals("1")){  
+    facility="";  
+  header+="<tr><td colspan=\"3\"> All health facilities.</td> <td>Year</td><td> <b>"+year+"</b></td><td colspan=\"7\"> "+period+"</td></tr>"  ;
+     }
+      
+      else{
+  facilityId=request.getParameter("facility");
+//  facilityId="403";
+  facility="SubPartnerID='"+facilityId+"' &&";    
+  
+  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
+          + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+          + "district.CountyID=county.CountyID WHERE subpartnera.SubPartnerID='"+facilityId+"'";
+  conn.rs=conn.st.executeQuery(getName);
+  if(conn.rs.next()==true){
+      facilityName=conn.rs.getString(1);
+      districtName=conn.rs.getString(2);
+      countyName=conn.rs.getString(3);
+      mflcode=conn.rs.getString(4);
+  }
+  header+="<tr><td>District</td><td> <b>"+districtName+"</b></td><td>  County</td><td> <b>"+countyName+"</b></td><td>   Facility</td><td> <b>"+facilityName+"</b></td><td colspan=\"2\">"+period+"</td><td>   Year</td><td> <b>"+year+"</b></td><td>   MFL Code</td><td> <b>"+mflcode+"</b></td><td></tr>";
+      }
+     
+    header+="</table>";  
+
+ 
     System.out.println("id is  "+id);
       invalidFPTXT=invalidPMTCTTXT=invalidMATTXT=invalidHTCTXT="";     
 //          id="2015_1_14498";
@@ -204,10 +311,10 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
 =DTCC_HIV_In_AF= DTCC_HIV_In_Tot=DTCC_HIV_Out_CM=DTCC_HIV_Out_CF=DTCC_HIV_Out_AM=DTCC_HIV_Out_AF=DTCC_HIV_Out_Tot=Userid="";
 
            
-          String checker="SELECT * FROM moh711 WHERE id=?" ;
-          conn.pst=conn.conn.prepareStatement(checker);
-          conn.pst.setString(1, id);
-          conn.rs=conn.pst.executeQuery();
+          String checker="SELECT * FROM moh711 WHERE "+facility+" "+duration ;
+          System.out.println(checker);
+          
+          conn.rs=conn.st.executeQuery(checker);
           
           if(conn.rs.next()==true){
               
@@ -423,7 +530,7 @@ System.out.println(enterer);
 //FPIMPLANTSRemoval="";"
       FamilyPlanninng=""
               +  "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> FAMILY PLANNING </b></legend>"
-              + "<table frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+              + "<table frame=\"box\"  border=\"1\" style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
               + "<td colspan=\"2\" class=\"form-actions\"><b>A: Family Planning </b></td>"
               + "<td class=\"form-actions\"> <b>NEW CLIENTS </b></td>"
               + "<td class=\"form-actions\"> <b>RE-VISITS </b></td>"
@@ -487,7 +594,7 @@ System.out.println(enterer);
               + "<td >"+FPCONDOMST+"</td>"
               + "</tr>"
                  + "<tr>"
-              + "<td >7. ALL OTHERS:(Specify)</td>"
+              + "<td colspan=\"2\">7. ALL OTHERS:(Specify)</td>"
            
               + "<td >"+FPOTHERN+"</td>"
               + "<td >"+FPOTHERR+"</td>"
@@ -495,8 +602,8 @@ System.out.println(enterer);
               + "</tr>"
               
                  + "<tr>"
-              + "<td >8. TOTAL NO. OF CLIENTS</td>"
-              + "<td  ></td>"
+              + "<td colspan=\"2\">8. TOTAL NO. OF CLIENTS</td>"
+            
               + "<td >"+FPCLIENTSN+"</td>"
               + "<td >"+FPCLIENTSR+"</td>"
               + "<td >"+FPCLIENTST+"</td>"
@@ -512,7 +619,7 @@ System.out.println(enterer);
                  
                  pmct+="";
            pmct+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> B: MCH-ANC/PMTCT </b></legend>"
-                   + "<table frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
+                   + "<table border=\"1\" frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
                    + "<tr>"
               + "<td  class=\"form-actions\"><b> </b></td>"
               + "<td class=\"form-actions\"> <b>NEW  </b></td>"
@@ -525,7 +632,7 @@ System.out.println(enterer);
                    + "<td >"+PMCTA_ReVisit_ANC+"</td>"
                    + "<td >"+PMCTANCClientsT+"</td>"
               + "</tr></table>"
-               + "<table frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+               + "<table border=\"1\" frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
                + " <td colspan=\"3\" >2. No of clients with Hb <7 g/dl </td>"
                    + "<td >"+PMCTHB7+"</td>"
               + "</tr>"
@@ -562,96 +669,96 @@ System.out.println(enterer);
   //=MATRupUtDead=MATObstrLaborAlive=MATObstrLaborDead=MATSepsisAlive=MATSepsisDead="";
           maternity+="";    
      maternity+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> C: MATERNITY / SAFE DELIVERIES </b></legend>"+
-             "<table frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
-              + "<td colspan=\"2\" class=\"form-actions\"><b></b></td>"
+             "<table border=\"1\" frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\"><tr>"
+              + "<td colspan=\"1\" class=\"form-actions\"><b></b></td>"
               + "<td  colspan=\"2\" class=\"form-actions\"> <b>NUMBER  </b></td>"
                + "</tr>"
                   + "<tr>"
-              + "<td>1.</td><td >Normal Deliveries </td>"
+              + "<td>1.Normal Deliveries </td>"
                    + "<td  colspan=\"2\">"+MATNormalDelivery+"</td>"
               + "</tr>"
                + "<tr>"
-               + " <td>2.</td>   <td > Caesarian Sections </td>"
+               + " <td>2. Caesarian Sections </td>"
                    + "<td  colspan=\"2\">"+MATCSection+"</td>"
               + "</tr>"
                + "<tr>"
-               + "  <td>3.</td>  <td > Breech Delivery </td>"
+               + "  <td>3. Breech Delivery </td>"
                    + "<td  colspan=\"2\">"+MATBreech+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>4.</td> <td > Assisted vaginal delivery </td>"
+               + "   <td>4. Assisted vaginal delivery </td>"
                    + "<td  colspan=\"2\">"+MATAssistedVag+"</td>"
               + "</tr>"
                + "<tr>"
-               + "<td>5.</td>    <td > TOTAL DELIVERIES</td>"
+               + "<td>5. TOTAL DELIVERIES</td>"
                    + "<td  colspan=\"2\">"+MATDeliveryT+"</td>"
               + "</tr>"
                
                + "<tr>"
-               + "   <td>6.</td> <td > Live Births </td>"
+               + "   <td>6. Live Births </td>"
                    + "<td  colspan=\"2\">"+MATLiveBirth+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>7.</td> <td > Still Births </td>"
+               + "   <td>7. Still Births </td>"
                    + "<td  colspan=\"2\">"+MATStillBirth+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>8.</td> <td > Under Weight Babies (Weight below 2500 grams) </td>"
+               + "   <td>8. Under Weight Babies (Weight below 2500 grams) </td>"
                    + "<td  colspan=\"2\">"+MATWeight2500+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>9.</td> <td > Pre-Term babies  </td>"
+               + "   <td>9. Pre-Term babies  </td>"
                    + "<td  colspan=\"2\">"+MATPreTerm+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>10.</td> <td > No of babies discharged alive </td>"
+               + "   <td>10. No of babies discharged alive </td>"
                    + "<td style=\"padding-right:20px;\" colspan=\"2\" >"+MATDischargealive+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>11.</td> <td > Referrals </td>"
+               + "   <td>11. Referrals </td>"
                    + "<td  colspan=\"2\">"+MATReferral+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>12.</td> <td > Neonatal Deaths </td>"
+               + "   <td>12.Neonatal Deaths </td>"
                    + "<td  colspan=\"2\">"+MATNeoNatalD+"</td>"
               + "</tr>"
                + "<tr>"
-               + "   <td>13.</td> <td  > Maternal Deaths </td>"
+               + "   <td>13. Maternal Deaths </td>"
                    + "<td  colspan=\"2\">"+MATMaternalD+"</td>"
               + "</tr>"
                + "<tr>"
-               + "    <td  colspan=\"2\" class=\"form-actions\"><b> Maternal Complications </b></td>"
+               + "    <td class=\"form-actions\"><b> Maternal Complications </b></td>"
                    + "<td  class=\"form-actions\"><b>Alive </b></td>"
                    + "<td class=\"form-actions\" ><b>Dead </b></td>"
               + "</tr>"
               + "<tr>"
-               + "   <td>14.</td> <td > A.P.H. (Ante Partum Haemorrhage) </td>"
+               + "   <td>14. A.P.H. (Ante Partum Haemorrhage) </td>"
                    + "<td >"+MATAPHAlive+"</td>"
                    + "<td >"+MATAPHDead+"</td>"
               + "</tr>"
              + ""
               + "<tr>"
-               + "   <td>15.</td> <td > P.P.H. (Post Partum Haemorrhage) </td>"
+               + "   <td>15. P.P.H. (Post Partum Haemorrhage) </td>"
                    + "<td >"+MATPPHAlive+"</td>"
                    + "<td >"+MATPPHDead+"</td>"
               + "</tr>"
               + "<tr>"
-               + "   <td>16.</td> <td > Eclampsia</td>"
+               + "   <td>16. Eclampsia</td>"
                    + "<td >"+MATEclampAlive+"</td>"
                    + "<td >"+MATEclampDead+"</td>"
               + "</tr>"
               + "<tr>"
-               + "   <td>17.</td> <td > Ruptured Uterus</td>"
+               + "   <td>17. Ruptured Uterus</td>"
                    + "<td >"+MATRupUtAlive+"</td>"
                    + "<td >"+MATRupUtDead+"</td>"
               + "</tr>"
               + "<tr>"
-               + "   <td>18.</td> <td > Obstructed Labour</td>"
+               + "   <td>18. Obstructed Labour</td>"
                    + "<td >"+MATObstrLaborAlive+"</td>"
                    + "<td >"+MATObstrLaborDead+"</td>"
               + "</tr>"
               + "<tr>"
-               + "   <td>19.</td> <td > Sepsis</td>"
+               + "   <td>19. Sepsis</td>"
                    + "<td >"+MATSepsisAlive+"</td>"
                    + "<td >"+MATSepsisDead+"</td>"
               + "</tr>"
@@ -671,9 +778,9 @@ System.out.println(enterer);
      vct+="";
    
   vct+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\"> H: VCT </b></legend>"+
-             "<table frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
+             "<table border=\"1\" frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
           + "<tr>"
-              + "<td rowspan=\"2\" colspan=\"3\" class=\"form-actions\"><b></b></td>"
+              + "<td rowspan=\"2\" colspan=\"2\" class=\"form-actions\"><b></b></td>"
               + "<td  colspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b>15-24  </b></td>"
               + "<td colspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b> >=25 Years </b></td>"
               + "<td rowspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"> <b>TOTAL </b></td>"
@@ -686,7 +793,7 @@ System.out.println(enterer);
               + "</tr>"
           
                   + "<tr>"
-              + "<td rowspan=\"3\">1.</td><td rowspan=\"3\">VCT Clients</td>"
+              + "<td rowspan=\"3\">1. VCT Clients</td>"
                     + "<td>Counselled</td>"
                    + "<td  style=\"text-align:center;\" >"+VCTClient_Couns_CF+"</td>"
                    + "<td  style=\"text-align:center;\">"+VCTClient_Couns_CM+"</td>"
@@ -713,7 +820,7 @@ System.out.println(enterer);
                    + "<td  style=\"text-align:center;\">"+VCTClient_HIV_TOT+"</td>"
               + "</tr>"
             + "<tr>"
-              + "<td rowspan=\"4\">2.</td><td rowspan=\"4\">No of couples</td>"
+              + "<td rowspan=\"4\">2. No of couples</td>"
                       + "<td>Counselled</td>"
                       + "<td colspan=\"4\">  </td>"
                       + "<td  style=\"text-align:center;\">"+VCTPartner_Couns_TOT+"</td>"
@@ -758,7 +865,7 @@ System.out.println(enterer);
        dtc+="";    
            
         dtc+= "<fieldset class=\"formatter\"><legend class=\"formatter\"><p id=\"demo\" hidden=\"true\"></p><b style=\"text-align:center;\"> I: DTC </b></legend>"+
-             "<table frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
+             "<table border=\"1\" frame=\"box\"  style=\"border-color: #e5e5e5;margin-bottom: 3px; margin-left:150px; width:800px;\">"
                 + "<tr>"
               + "<td rowspan=\"2\" colspan=\"2\" class=\"form-actions\" style=\"text-align:center;\"><b>I: DTC </b></td>"
               + "<td colspan=\"2\"  class=\"form-actions\" style=\"text-align:center;\"> <b>Children  </b></td>"
@@ -801,7 +908,7 @@ System.out.println(enterer);
               + "<tr>"
               + "<td>Inpatient</td>"            
               + "<td  style=\"text-align:center;\">"+DTCB_Test_In_CF+"</td>"
-              + "<td  style=\"text-align:center;\">"+DTCB_Test_In_CM+"></td>"
+              + "<td  style=\"text-align:center;\">"+DTCB_Test_In_CM+"</td>"
               + "<td  style=\"text-align:center;\">"+DTCB_Test_In_AF+"</td>"
               + "<td  style=\"text-align:center;\">"+DTCB_Test_In_AM+"</td>"
               + "<td  style=\"text-align:center;\">"+DTCB_Test_In_Tot+"</td>"
@@ -848,39 +955,53 @@ System.out.println(enterer);
            VCT_TAB+="</div></div></div>";
            DTC_TAB+="</div></div></div>";
 
-                 
-//           System.out.println("aaaaa"+FP_TAB);//}
-//System.out.println("aaaaa"+FP_TAB);
-   
-   try {
-      Document document = new Document(PageSize.LETTER);
-      PdfWriter.getInstance(document, new FileOutputStream("D://testpdf2.pdf"));
-      document.open();
-      document.addAuthor("Real Gagnon");
-      document.addCreator("Real's HowTo");
-      document.addSubject("Thanks for your support");
-      document.addCreationDate();
-      document.addTitle("Please read this");
-
-      HTMLWorker htmlWorker = new HTMLWorker(document);
-      String str = "<html><head></head><body>"+FP_TAB+"  "+MCH_TAB+"  "+MATERNITY_TAB+"  "+VCT_TAB+"   "+DTC_TAB+" </body></html>";
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      htmlWorker.parse(new StringReader(str));
-      document.close();
-      System.out.println("Done");
-      }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
+String str="";
+//      HTMLWorker htmlWorker = new HTMLWorker(document);
+//     String str = "<html><head></head><body>"+header+""+FP_TAB+" </br></br> "+MCH_TAB+" </br></br> "+MATERNITY_TAB+"</br></br>  "+VCT_TAB+"  </br></br></br></br> "+DTC_TAB+" </body></html>";
+  str+="<table border=\"1\" style=\"color:black; font-size:6px;\" width=\"90%\">"
+               + "<tr>"
+               + "<td>"+header+"</td>"
+               + "</tr>"
+               + "<tr>"
+               + "<td>"+FP_TAB+"</td>"
+              + "</tr>"
+              + "<tr>"
+               + "<td>"+MCH_TAB+"</td>"
+              + "</tr>"
+                + "<tr>"
+              + "<td>"+MATERNITY_TAB+"</td>"
+               + "</tr>"
+                + "<tr>"
+               + "<td>"+VCT_TAB+"</td>"
+               + "</tr>"
+               + "<tr>"
+               + "<td>"+DTC_TAB+"</td>"
+               + "</tr>"
+                
+               + "</table>"
+               + "";
         System.out.println( "PDF Created!" );
+           Document document = new Document();
+  ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
+PdfWriter.getInstance(document, outByteStream);
+      document.open();
+      
+      HTMLWorker htmlWorker = new HTMLWorker(document);
+       htmlWorker.parse(new StringReader(str));
+       
+       CSSResolver cssResolver = XMLWorkerHelper.getInstance().getDefaultCssResolver(false);  
+cssResolver.addCss("", true);
+
+   document.close();    
+response.setContentType("application/pdf");
+response.setContentLength(outByteStream.size());
+response.setHeader("Expires:", "0"); // eliminates browser caching
+response.setHeader("Content-Disposition", "attachment; filename=MOH711.pdf");
+
+ServletOutputStream sos;
+sos = response.getOutputStream();
+outByteStream.writeTo(sos);
+sos.flush();
        
     }
 
@@ -897,11 +1018,15 @@ System.out.println(enterer);
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+                    try {
+                        processRequest(request, response);
+                    } catch (CssResolverException ex) {
+                        Logger.getLogger(moh711_StaticReport.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         } catch (SQLException ex) {
-            Logger.getLogger(moh731_district.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(moh711_StaticReport.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
-            Logger.getLogger(moh731_district.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(moh711_StaticReport.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
 
@@ -917,11 +1042,15 @@ System.out.println(enterer);
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+                    try {
+                        processRequest(request, response);
+                    } catch (CssResolverException ex) {
+                        Logger.getLogger(moh711_StaticReport.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         } catch (SQLException ex) {
-            Logger.getLogger(moh731_district.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(moh711_StaticReport.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
-            Logger.getLogger(moh731_district.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(moh711_StaticReport.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
 

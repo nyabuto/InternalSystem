@@ -69,8 +69,15 @@ String tableid=year+"_"+month+"_"+facil;
        error="<font color=\"red\">ERROR : Please select year and facility.</font>";}
     else{
         error="success";
-       
-String Insertqr= "insert into tb  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , ID='"+tableid+"' , user_id='"+userid+"'";
+     String yearmonth="";
+String tempmonth=month;
+int pepfaryear=Integer.parseInt(year);
+
+if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+else {pepfaryear--;}
+
+yearmonth=pepfaryear+""+tempmonth;   
+String Insertqr= "insert into tb  set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , ID='"+tableid+"' , yearmonth='"+yearmonth+"',user_id='"+userid+"'";
 String updateqr="update  tb set "+col+"='"+achieved+"' where id='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 

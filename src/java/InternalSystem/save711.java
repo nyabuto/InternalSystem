@@ -64,8 +64,18 @@ String tableid=year+"_"+month+"_"+facil;
    if(year.equals("") || month.equals("") ||facil.equals("") ){
        error="<font color=\"red\">ERROR : Please select year and facility.</font>";}
     else{
+       
+           String yearmonth="";
+String tempmonth=month;
+int pepfaryear=Integer.parseInt(year);
+
+if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+else {pepfaryear--;}
+
+yearmonth=pepfaryear+""+tempmonth;
         error="success";  
-String Insertqr= "insert into moh711 set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , ID='"+tableid+"' , userid='"+userid+"'";
+String Insertqr= "insert into moh711 set SubPartnerID='"+facil+"',Annee='"+year+"',Mois='"+month+"', "+col+"='"+achieved+"' , ID='"+tableid+"' ,yearmonth='"+yearmonth+"', userid='"+userid+"'";
+System.out.println(Insertqr);
 String updateqr="update  moh711 set "+col+"='"+achieved+"' where id='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
 

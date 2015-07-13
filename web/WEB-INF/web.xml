@@ -296,6 +296,22 @@
         <servlet-name>nutritionexcel</servlet-name>
         <servlet-class>reports.nutritionexcel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>insertyearmonth</servlet-name>
+        <servlet-class>reports.insertyearmonth</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tbpdf</servlet-name>
+        <servlet-class>reports.tbpdf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>moh711_excelReport</servlet-name>
+        <servlet-class>reports.moh711_excelReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tb_excelReport</servlet-name>
+        <servlet-class>reports.tb_excelReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -591,6 +607,22 @@
     <servlet-mapping>
         <servlet-name>nutritionexcel</servlet-name>
         <url-pattern>/nutritionexcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>insertyearmonth</servlet-name>
+        <url-pattern>/insertyearmonth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tbpdf</servlet-name>
+        <url-pattern>/tbpdf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>moh711_excelReport</servlet-name>
+        <url-pattern>/moh711_excelReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tb_excelReport</servlet-name>
+        <url-pattern>/tb_excelReport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
