@@ -6,6 +6,7 @@
 
 package reports;
 
+import General.IdGenerator;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 
@@ -64,24 +65,23 @@ int HV0401,HV0402,HV0403,HV0406,HV0407,HV0408,HV0409,HV0410,HV0411,HV0412,HV0413
 int HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507,HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514;
 int HV0601,HV0602,HV0605;
         
-  String isValidated,validity;
+  String isValidated,validity,createdOn;
 int maxYearMonth;
-String subcountyid,facility,period;
+String subcountyid,facility,period,url;
 String reportType,duration,reportDuration,quarter,semi_annual;
 int year,prevYear,month;
-String header,facilityName,countyName,districtName,mflcode,monthName;
+String header,facilityName,countyName,districtName,mflcode,monthName,headerInfo;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, DocumentException, CssResolverException {
 
         dbConn conn = new dbConn();
-            session=request.getSession();
+        session=request.getSession();
         
         reportType=request.getParameter("reportType");
         year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
         
-        header="<table><tr><td colspan=\"12\">National AIDS and STI Control Programme</td></tr>";
-        header+="<tr><td colspan=\"12\"> MOH 731-Comprehensive HIV/AIDS Facility Reporting Form - NASCOP</td></tr>";
+        headerInfo="";
 //        reportType="1";
 //        year=2015;
 //        reportDuration="4";
@@ -94,6 +94,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName;
         if(reportDuration.equals("1")){
          duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
       period="Annual Report ";
+      url="ANNUAL_REPORT_YEAR("+year+")";
         }
         else if(reportDuration.equals("2")){
         semi_annual=request.getParameter("semi_annual");
@@ -101,10 +102,12 @@ String header,facilityName,countyName,districtName,mflcode,monthName;
        if(semi_annual.equals("1")){
        duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
       period="Semi-Annual : <b> OCT ("+prevYear+") -  MARCH ("+year+")</b>"; 
+      url="SEMI_ANNUAL_REPORT_FOR_OCT("+prevYear+")_MARCH("+year+")";
        }
            else{
        duration=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
        period="Semi-Annual : <b> APRIL ("+year+") -  SEPT ("+year+")</b>";  
+      url="SEMI_ANNUAL_REPORT_FOR_APRIL("+year+")_SEPT("+year+")";
        }
        }
         
@@ -121,10 +124,12 @@ String header,facilityName,countyName,districtName,mflcode,monthName;
       if(quarter.equals("1")){
       duration=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
      period="Quarter: <b>"+conn.rs.getString(2).replace("-", prevYear+" - ")+" "+prevYear+"</b>";
+     url="QUARTERLY_REPORT_FOR_"+conn.rs.getString(2).replace("-", prevYear+"-")+"_"+prevYear+"";
       }
       else{
      duration=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;
      period="Quarter: <b>"+conn.rs.getString(2).replace("-", year+" - ")+" "+year+"</b>";
+    url="QUARTERLY_REPORT_FOR_"+conn.rs.getString(2).replace("-", year+"-")+"_"+year+"";
       }
         }
         }  
@@ -143,9 +148,11 @@ String header,facilityName,countyName,districtName,mflcode,monthName;
     if(conn.rs.next()==true){
        if(month>=10){
    period="Month : <b>"+conn.rs.getString(1)+"("+prevYear+")</b>"; 
-     }
+   url="MONTHLY_REPORT_FOR_"+conn.rs.getString(1)+"("+prevYear+")";
+       }
        else{
         period="Month : <b>"+conn.rs.getString(1)+"("+year+")</b>";
+        url="MONTHLY_REPORT_FOR_"+conn.rs.getString(1)+"("+year+")";
     }
      
     }
@@ -160,8 +167,9 @@ String header,facilityName,countyName,districtName,mflcode,monthName;
         
       if(reportType.equals("1")){  
     facility="";  
-  header+="<tr><td colspan=\"3\"> All health facilities.</td> <td>Year</td><td> <b>"+year+"</b></td><td colspan=\"7\"> "+period+"</td></tr>"  ;
-     }
+  header+=""  ;
+   headerInfo="All health facilities.  Year: <b>"+year+"</b> "+period+"" ;
+      }
       
       else{
   facilityId=request.getParameter("facility");
@@ -178,7 +186,8 @@ String header,facilityName,countyName,districtName,mflcode,monthName;
       countyName=conn.rs.getString(3);
       mflcode=conn.rs.getString(4);
   }
-  header+="<tr><td>District</td><td> <b>"+districtName+"</b></td><td>  County</td><td> <b>"+countyName+"</b></td><td>   Facility</td><td> <b>"+facilityName+"</b></td><td colspan=\"2\">"+period+"</td><td>   Year</td><td> <b>"+year+"</b></td><td>   MFL Code</td><td> <b>"+mflcode+"</b></td><td></tr>";
+  header+=
+ headerInfo= " County: <b>"+countyName+"</b> District: <b>"+districtName+"</b>  Facility: <b>"+facilityName+"</b>"+period+"  Year: <b>"+year+"</b>   MFL Code: <b>"+mflcode+"</b>";  
       }
      
     header+="</table>";  
@@ -436,60 +445,70 @@ HV0344=conn.rs.getInt(17);
 
        testing=receiving_results=receiving_postive_results="";    
           HIV_CT+="";
-      testing="<table ><tr><td colspan=\"3\"><b>1.1 Testing.</b></td></tr>"
+      testing="<table >"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td ></td><td colspan=\"4\"><b>1HIV COUNSELLING AND TESTING.</b></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+              + "<tr><td colspan=\"5\"><b>1.1 Testing.</b></td></tr>"
               + "<tr>"
-              + "<td>First</td><td >HV01-01</td><td width=\"5%\" >"+HV0101+"</td>"
+              + "<td colspan=\"2\">First</td><td >HV01-01</td><td colspan=\"2\" width=\"5%\" >"+HV0101+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Repeat</td><td >HV01-02</td><td>"+HV0102+"</td>"
+              + "<td colspan=\"2\">Repeat</td><td >HV01-02</td><td colspan=\"2\">"+HV0102+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total Tested (HVO0-01 plus HV01-02)</td><td >HV01-03</td><td>"+HV0103+"</td>"
+              + "<td colspan=\"2\">Total Tested (HVO0-01 plus HV01-02)</td><td >HV01-03</td><td colspan=\"2\">"+HV0103+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Couples</td><td >HV01-05</td><td>"+HV0105+"</td>"
+              + "<td colspan=\"2\">Couples</td><td >HV01-05</td><td colspan=\"2\">"+HV0105+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Static [Facility]</td><td >HV01-06</td><td>"+HV0106+"</td>"
+              + "<td colspan=\"2\">Static [Facility]</td><td >HV01-06</td><td colspan=\"2\">"+HV0106+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Outreach</td><td >HV01-07</td><td>"+HV0107+"</td>"
+              + "<td colspan=\"2\">Outreach</td><td >HV01-07</td><td colspan=\"2\">"+HV0107+"</td>"
               + "</tr>"
               
               + "</table>"
               + "";
       
-       receiving_results="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>1.2 Receiving results - </b>(<i>Couples only</i>)</td></tr>"
+       receiving_results="<table style=\"margin-left:250px;\"><tr><td colspan=\"5\"><b>1.2 Receiving results - </b>(<i>Couples only</i>)</td></tr>"
               + "<tr>"
-              + "<td>Cocordant couples</td><td >HV01-08</td><td>"+HV0108+"</td>"
+              + "<td colspan=\"2\">Cocordant couples</td><td >HV01-08</td><td colspan=\"2\">"+HV0108+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Discordant couples</td><td >HV01-09</td><td>"+HV0109+"</td>"
+              + "<td colspan=\"2\">Discordant couples</td><td >HV01-09</td><td colspan=\"2\">"+HV0109+"</td>"
               + "</tr>"
                + "</table></td>"
               + "";
        
-        receiving_postive_results="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>1.3 Receiving postive results.</b></td></tr>"
+        receiving_postive_results="<table style=\"margin-left:250px;\"><tr><td colspan=\"5\"><b>1.3 Receiving postive results.</b></td></tr>"
               + "<tr>"
-              + "<td>Males - Below 15 years</td><td >HV01-10</td><td>"+HV0110+"</td>"
+              + "<td colspan=\"2\">Males - Below 15 years</td><td >HV01-10</td><td colspan=\"2\">"+HV0110+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Females - Below 15 years.</td><td >HV01-11</td><td>"+HV0111+"</td>"
+              + "<td colspan=\"2\">Females - Below 15 years.</td><td >HV01-11</td><td colspan=\"2\">"+HV0111+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Males 15-24 years </td><td >HV01-12</td><td>"+HV0112+"</td>"
+              + "<td colspan=\"2\">Males 15-24 years </td><td >HV01-12</td><td colspan=\"2\">"+HV0112+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Females 15-24 years </td><td >HV01-13</td><td>"+HV0113+"</td>"
+              + "<td colspan=\"2\">Females 15-24 years </td><td >HV01-13</td><td colspan=\"2\">"+HV0113+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Males 25 years and older</td><td >HV01-14</td><td>"+HV0114+"</td>"
+              + "<td colspan=\"2\">Males 25 years and older</td><td >HV01-14</td><td colspan=\"2\">"+HV0114+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Females 25 years and older</td><td >HV01-15</td><td>"+HV0115+"</td>"
+              + "<td colspan=\"2\">Females 25 years and older</td><td >HV01-15</td><td colspan=\"2\">"+HV0115+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Total receiving postive results <br>(Sum HV01-10 to HV01-15)</td><td >HV01-16</td><td>"+HV0116+"</td>"
+              + "<td colspan=\"2\">Total receiving postive results <br>(Sum HV01-10 to HV01-15)</td><td >HV01-16</td><td colspan=\"2\">"+HV0116+"</td>"
               + "</tr>"
               + "</table>"
               + "";
@@ -504,165 +523,176 @@ HV0344=conn.rs.getInt(17);
         maternal_prophylaxis=assessment_ART=infant_testing=
         confirmed_infant=infant_feeding=infant_ARV="";
            
-          testing_for_HIV="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.1 Testing for HIV.</b></td></tr>"
+          testing_for_HIV="<table >"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td ></td><td colspan=\"4\"><b>2 PREVENTION OF MOTHER TO CHILD TRANSMISSION.</b></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                
+                  + "<tr><td colspan=\"5\"><b>2.1 Testing for HIV.</b></td></tr>"
               + "<tr>"
-              + "<td>Antenatal</td><td >HV02-01</td><td  width=\"1\" >"+HV0201+"</td>"
+              + "<td colspan=\"2\">Antenatal</td><td>HV02-01</td><td  colspan=\"2\"  width=\"1\" >"+HV0201+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Labour and delivery.</td><td >HV02-02</td><td><p >"+HV0202+"</p></td>"
+              + "<td  colspan=\"2\">Labour and delivery.</td><td >HV02-02</td><td colspan=\"2\"><p >"+HV0202+"</p></td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Postnatal (within 72 hrs) </td><td >HV02-03</td><td>"+HV0203+"</td>"
+              + "<td colspan=\"2\">Postnatal (within 72 hrs) </td><td >HV02-03</td><td colspan=\"2\">"+HV0203+"</td>"
               + "</tr>"
-              + "<td>Total Tested (PMTCT) (Sum HV02-01 to HV02-03) </td><td >HV02-04</td><td>"+HV0204+"</td>"
+              + "<td colspan=\"2\">Total Tested (PMTCT) (Sum HV02-01 to HV02-03) </td colspan=\"2\"><td >HV02-04</td><td>"+HV0204+"</td>"
               + "</tr>"
              + "</table>"
               + "";
           
-       HIV_Postive_results="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.2 HIV Postive Results.</b></td></tr>"
+       HIV_Postive_results="<table ><tr><td colspan=\"5\"><b>2.2 HIV Postive Results.</b></td></tr>"
               + "<tr>"
-              + "<td>Known Postive status(at entry into ANC)</td><td >HV02-05</td><td>"+HV0205+"</td>"
+              + "<td colspan=\"2\">Known Postive status(at entry into ANC)</td><td >HV02-05</td><td colspan=\"2\">"+HV0205+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Antenatal</td><td >HV02-06</td><td>"+HV0206+"</td>"
+              + "<td colspan=\"2\">Antenatal</td><td >HV02-06</td><td colspan=\"2\">"+HV0206+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Labour and delivery.</td><td >HV02-07</td><td>"+HV0207+"</td>"
+              + "<td colspan=\"2\">Labour and delivery.</td><td >HV02-07</td><td colspan=\"2\">"+HV0207+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Postnatal (within 72 hrs) </td><td >HV02-08</td><td>"+HV0208+"</td>"
+              + "<td colspan=\"2\">Postnatal (within 72 hrs) </td><td >HV02-08</td><td colspan=\"2\">"+HV0208+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total Tested (PMTCT)<br> (Sum HV02-05 to HV02-08) </td><td >HV02-09</td><td>"+HV0209+"</td>"
+              + "<td colspan=\"2\">Total Tested (PMTCT)<br> (Sum HV02-05 to HV02-08) </td><td >HV02-09</td><td colspan=\"2\">"+HV0209+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Total with known status <br> (Sum HV02-04 to HV02-05) </td><td >HV02-10</td><td>"+HV0210+"</td>"
+              + "<td colspan=\"2\">Total with known status <br> (Sum HV02-04 to HV02-05) </td><td >HV02-10</td><td colspan=\"2\">"+HV0210+"</td>"
               + "</tr>"
               + "</table>"
               + "";   
           
-          partner_involvement="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.3 Partner Involvement.</b></td></tr>"
+          partner_involvement="<table ><tr><td colspan=\"5\"><b>2.3 Partner Involvement.</b></td></tr>"
               + "<tr>"
-              + "<td>Male partners tested (ANC/L&D)</td><td >HV02-11</td><td>"+HV0211+"</td>"
+              + "<td colspan=\"2\">Male partners tested (ANC/L&D)</td><td >HV02-11</td><td colspan=\"2\">"+HV0211+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Discordant couples</td><td >HV02-12</td><td>"+HV0212+"</td>"
+              + "<td colspan=\"2\">Discordant couples</td><td >HV02-12</td><td colspan=\"2\">"+HV0212+"</td>"
               + "</tr>"
               + "</table>"
               + "";
           
           
         
-           maternal_prophylaxis="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.4 Maternal Prophylaxis .</b>(<i>at first contact only</i>)</td></tr>"
+           maternal_prophylaxis="<table ><tr><td colspan=\"5\"><b>2.4 Maternal Prophylaxis .</b>(<i>at first contact only</i>)</td></tr>"
               + "<tr>"
-              + "<td>Prophylaxis - NVP only </td><td >HV02-13</td><td>"+HV0213+"</td>"
+              + "<td colspan=\"2\">Prophylaxis - NVP only </td><td >HV02-13</td><td colspan=\"2\">"+HV0213+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Prophylaxis - (AZT + SdNVP) </td><td >HV02-14</td><td>"+HV0214+"</td>"
+              + "<td colspan=\"2\">Prophylaxis - (AZT + SdNVP) </td><td >HV02-14</td><td colspan=\"2\">"+HV0214+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Prophylaxis -Interrupted HAART </td><td >HV02-15</td><td>"+HV0215+"</td>"
+              + "<td colspan=\"2\">Prophylaxis -Interrupted HAART </td><td >HV02-15</td><td colspan=\"2\">"+HV0215+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>HAART (ART) </td><td >HV02-16</td><td>"+HV0216+"</td>"
+              + "<td colspan=\"2\">HAART (ART) </td><td >HV02-16</td><td colspan=\"2\">"+HV0216+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>total PMTCT prophylaxis (Sum HV02-13 to HV02-16) </td><td >HV02-17</td><td>"+HV0217+"</td>"
+              + "<td colspan=\"2\">total PMTCT prophylaxis (Sum HV02-13 to HV02-16) </td><td >HV02-17</td><td colspan=\"2\">"+HV0217+"</td>"
               + "</tr>"
               + "</table>"
               + "";
            
-          assessment_ART="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.5 Assessment for ART Eligibility in MCH .</b>(<i>at diagnosis</i>)</td></tr>"
+          assessment_ART="<table ><tr><td colspan=\"5\"><b>2.5 Assessment for ART Eligibility in MCH .</b>(<i>at diagnosis</i>)</td></tr>"
               + "<tr>"
-              + "<td>Assessed for eligibility at 1st ANC - WHO staging done </td><td >HV02-18</td><td>"+HV0218+"</td>"
+              + "<td colspan=\"2\">Assessed for eligibility at 1st ANC - WHO staging done </td><td >HV02-18</td><td colspan=\"2\">"+HV0218+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Assessed for eligibility at 1st ANC - CD4 </td><td >HV02-19</td><td>"+HV0219+"</td>"
+              + "<td colspan=\"2\">Assessed for eligibility at 1st ANC - CD4 </td><td >HV02-19</td><td colspan=\"2\">"+HV0219+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Assessed for eligibility in ANC (Sum HV02-18 to HV02-19) </td><td >HV02-20</td><td>"+HV0220+"</td>"
+              + "<td colspan=\"2\">Assessed for eligibility in ANC (Sum HV02-18 to HV02-19) </td><td >HV02-20</td><td colspan=\"2\">"+HV0220+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Started on ART during ANC </td><td >HV02-21</td><td>"+HV0221+"</td>"
+              + "<td colspan=\"2\">Started on ART during ANC </td><td >HV02-21</td><td colspan=\"2\">"+HV0221+"</td>"
               + "</tr>"
               + "</table>"
               + "";
            
-           infant_testing="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.6 Infant Testing</b> (<i>Initial tests only</i>)</td></tr>"
+           infant_testing="<table ><tr><td colspan=\"5\"><b>2.6 Infant Testing</b> (<i>Initial tests only</i>)</td></tr>"
               + "<tr>"
-              + "<td>PCR (within 2 months) </td><td >HV02-24</td><td>"+HV0224+"</td>"
+              + "<td colspan=\"2\">PCR (within 2 months) </td><td >HV02-24</td><td colspan=\"2\">"+HV0224+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>PCR (From 3 to 8 months) </td><td >HV02-25</td><td>"+HV0225+"</td>"
+              + "<td colspan=\"2\">PCR (From 3 to 8 months) </td><td >HV02-25</td><td colspan=\"2\">"+HV0225+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Serology antibody test (from 9 to 12 months)  </td><td >HV02-26</td><td>"+HV0226+"</td>"
+              + "<td colspan=\"2\">Serology antibody test (from 9 to 12 months)  </td colspan=\"2\"><td >HV02-26</td><td colspan=\"2\">"+HV0226+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>PCR (from 9 to 12 months) </td><td >HV02-27</td><td>"+HV0227+"</td>"
+              + "<td colspan=\"2\">PCR (from 9 to 12 months) </td><td >HV02-27</td><td colspan=\"2\">"+HV0227+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total HEI Tested by 12 months (Sum HV02-24 to HV02-26) </td><td >HV02-28</td><td>"+HV0228+"</td>"
+              + "<td colspan=\"2\">Total HEI Tested by 12 months (Sum HV02-24 to HV02-26) </td><td >HV02-28</td><td colspan=\"2\">"+HV0228+"</td>"
               + "</tr>"
               + "</table>"
               + "";
                    
-          confirmed_infant="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.7 Confirmed Infant Test Results.</b> </td></tr>"
+          confirmed_infant="<table ><tr><td colspan=\"5\"><b>2.7 Confirmed Infant Test Results.</b> </td></tr>"
               + "<tr>"
-              + "<td>Postive - (within 2 months) -PCR </td><td >HV02-29</td><td>"+HV0229+"</td>"
+              + "<td colspan=\"2\">Postive - (within 2 months) -PCR </td><td >HV02-29</td><td colspan=\"2\">"+HV0229+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Postive - (From 3 to 8 months) -PCR </td><td >HV02-30</td><td>"+HV0230+"</td>"
+              + "<td colspan=\"2\">Postive - (From 3 to 8 months) -PCR </td><td >HV02-30</td><td colspan=\"2\">"+HV0230+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Postive -  (from 9 to 12 months) -PCR </td><td >HV02-31</td><td>"+HV0231+"</td>"
+              + "<td colspan=\"2\">Postive -  (from 9 to 12 months) -PCR </td><td >HV02-31</td><td colspan=\"2\">"+HV0231+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total Confirmed Postive (Sum HV02-29 to HV02-31) </td><td >HV02-32</td><td>"+HV0232+"</td>"
+              + "<td colspan=\"2\">Total Confirmed Postive (Sum HV02-29 to HV02-31) </td><td >HV02-32</td><td colspan=\"2\">"+HV0232+"</td>"
               + "</tr>"
               + "</table>"
               + "";
               
-          infant_feeding="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.8 Infant feeding.</b> </td></tr>"
+          infant_feeding="<table ><tr><td colspan=\"5\"><b>2.8 Infant feeding.</b> </td></tr>"
               + "<tr>"
-              + "<td>EBF (at 6 months)</td><td >HV02-33</td><td>"+HV0233+"</td>"
+              + "<td colspan=\"2\">EBF (at 6 months)</td><td >HV02-33</td><td colspan=\"2\">"+HV0233+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>ERF (at 6 months) </td><td >HV02-34</td><td>"+HV0234+"</td>"
+              + "<td colspan=\"2\">ERF (at 6 months) </td><td >HV02-34</td><td colspan=\"2\">"+HV0234+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>MF (at 6 months) </td><td >HV02-35</td><td>"+HV0235+"</td>"
+              + "<td colspan=\"2\">MF (at 6 months) </td><td >HV02-35</td><td colspan=\"2\">"+HV0235+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total exposed aged 6 months. </td><td >HV02-36</td><td>"+HV0236+"</td>"
+              + "<td colspan=\"2\">Total exposed aged 6 months. </td><td >HV02-36</td><td colspan=\"2\">"+HV0236+"</td>"
               + "</tr>"
              + "<tr>"
-              + "<td>BF (12 months) </td><td >HV02-37</td><td>"+HV0237+"</td>"
+              + "<td colspan=\"2\">BF (12 months) </td><td >HV02-37</td><td colspan=\"2\">"+HV0237+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Not BF (12 months) </td><td >HV02-38</td><td>"+HV0238+"</td>"
+              + "<td colspan=\"2\">Not BF (12 months) </td><td >HV02-38</td><td colspan=\"2\">"+HV0238+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Not known </td><td >HV02-39</td><td>"+HV0239+"</td>"
+              + "<td colspan=\"2\">Not known </td><td >HV02-39</td><td colspan=\"2\">"+HV0239+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total exposed aged 12 months (Sum HV02-37 to HV02-39) </td><td >HV02-40</td><td>"+HV0240+"</td>"
+              + "<td colspan=\"2\">Total exposed aged 12 months (Sum HV02-37 to HV02-39) </td><td >HV02-40</td><td colspan=\"2\">"+HV0240+"</td>"
               + "</tr>"
               + "</table>"
               + "";
           
-           infant_ARV="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>2.9 Infant ARV Prophlaxis</b> (<i>at first contact only</i>) </td></tr>"
+           infant_ARV="<table ><tr><td colspan=\"5\"><b>2.9 Infant ARV Prophlaxis</b> (<i>at first contact only</i>) </td></tr>"
               + "<tr>"
-              + "<td>Issued in ANC </td><td >HV02-41</td><td>"+HV0241+"</td>"
+              + "<td colspan=\"2\">Issued in ANC </td><td >HV02-41</td><td colspan=\"2\">"+HV0241+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Labour and Delivery </td><td >HV02-42</td><td>"+HV0242+"</td>"
+              + "<td colspan=\"2\">Labour and Delivery </td><td >HV02-42</td><td colspan=\"2\">"+HV0242+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>PNC(<72hrs) </td><td >HV02-43</td><td>"+HV0243+"</td>"
+              + "<td colspan=\"2\">PNC(<72hrs) </td><td >HV02-43</td><td colspan=\"2\">"+HV0243+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total Infants Issued Prophylaxis (Sum HV02-41 to HV02-43) </td><td >HV02-44</td><td>"+HV0244+"</td>"
+              + "<td colspan=\"2\">Total Infants Issued Prophylaxis (Sum HV02-41 to HV02-43) </td><td >HV02-44</td><td colspan=\"2\">"+HV0244+"</td>"
               + "</tr>"
               + "</table>"
               + "";
@@ -677,7 +707,18 @@ HV0344=conn.rs.getInt(17);
          on_CP=enrolled_care=currently_care=starting_ART=revisit_ART=
         current_ART=cumulative_ART=cumulative_ARTPrevious=survival_ART=screening=pwp=HIV_care="";
          
-         on_CP="<table style=\"margin-left:100px;\"><tr><td colspan=\"5\"><b>3.1 On Cotrimoxazole Prophylaxis</b> </td></tr>"
+         on_CP="<table >"
+                 + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                 + "<tr>"
+                + "<td ></td><td colspan=\"4\"><b>3 CARE AND TREATMENT.</b></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                 
+                 + "<tr><td colspan=\"5\"><b>3.1 On Cotrimoxazole Prophylaxis</b> </td></tr>"
               + "<tr>"
               + "<td>HIV Exposed Infant (within 2 months) </td><td >HV03-01</td><td>"+HV0301+"</td><td colspan=\"2\"></td>"
               + "</tr>"
@@ -696,7 +737,7 @@ HV0344=conn.rs.getInt(17);
               + "</table>"
               + "";
          
-         enrolled_care="<table style=\"margin-left:100px;\"><tr><td colspan=\"5\"><b>3.2 Enrolled in Care</b> </td></tr>"
+         enrolled_care="<table ><tr><td colspan=\"5\"><b>3.2 Enrolled in Care</b> </td></tr>"
               + "<tr>"
               + "<td>Enrolled in care - Below 1 year </td><td >HV03-08</td><td>"+HV0308+"</td><td colspan=\"2\"></td>"
               + "</tr>"
@@ -712,7 +753,7 @@ HV0344=conn.rs.getInt(17);
               + "</table>"
               + "";
          
-         currently_care="<table style=\"margin-left:100px;\"><tr><td colspan=\"5\"><b>3.3 Currently in Care</b>(<i>from the tally sheet-this month only and from last 2 months</i>) </td></tr>"
+         currently_care="<table ><tr><td colspan=\"5\"><b>3.3 Currently in Care</b>(<i>from the tally sheet-this month only and from last 2 months</i>) </td></tr>"
               + "<tr>"
               + "<td>Currently in care - Below 1 year </td><td >HV03-14</td><td>"+HV0314+"</td><td colspan=\"2\"></td>"
               + "</tr>"
@@ -728,7 +769,7 @@ HV0344=conn.rs.getInt(17);
               + "</table>"
               + "";
          
-         starting_ART="<table style=\"margin-left:100px;\"><tr><td colspan=\"5\"><b>3.4 Starting ART</b> </td></tr>"
+         starting_ART="<table ><tr><td colspan=\"5\"><b>3.4 Starting ART</b> </td></tr>"
               + "<tr>"
               + "<td>Starting ART - Below 1 year </td><td >HV03-20</td><td>"+HV0320+"</td><td colspan=\"2\"></td>"
               + "</tr>"
@@ -751,7 +792,7 @@ HV0344=conn.rs.getInt(17);
               + "";
          
          
-         revisit_ART="<table style=\"margin-left:100px;\"><tr><td colspan=\"5\"><b>3.5 Revisits on ART</b>(<i>from the tally sheet-this month only and from last 2 months</i>)</td></tr>"
+         revisit_ART="<table ><tr><td colspan=\"5\"><b>3.5 Revisits on ART</b>(<i>from the tally sheet-this month only and from last 2 months</i>)</td></tr>"
               + "<tr>"
               + "<td>Revisits on ART - Below 1 year </td><td >HV03-28</td><td>"+HV0328+"</td><td colspan=\"2\"></td>"
               + "</tr>"
@@ -767,7 +808,7 @@ HV0344=conn.rs.getInt(17);
               + "</table>"
               + "";
          
-          current_ART="<table style=\"margin-left:100px;\"><tr><td colspan=\"5\"><b>3.6 Currently on ART [All]</b>(<i>Add 3.4 and 3.5 e.g HV03-34=HV03-20+HV03-28</i>) </td></tr>"
+          current_ART="<table ><tr><td colspan=\"5\"><b>3.6 Currently on ART [All]</b>(<i>Add 3.4 and 3.5 e.g HV03-34=HV03-20+HV03-28</i>) </td></tr>"
               + "<tr>"
               + "<td>Currently on ART - Below 1 year </td><td >HV03-34</td><td>"+HV0334+"</td><td colspan=\"2\"></td>"
               + "</tr>"
@@ -783,7 +824,7 @@ HV0344=conn.rs.getInt(17);
               + "</table>"
               + "";
           
-         cumulative_ART="<table style=\"margin-left:100px;\"><tr><td colspan=\"5\"><b>3.7 Cumullative ever on ART </b> </td></tr>"
+         cumulative_ART="<table ><tr><td colspan=\"5\"><b>3.7 Cumullative ever on ART </b> </td></tr>"
               + "<tr>"
               + "<td>Ever on ART - Below 15 year </td><td >HV03-40(M)</td><td>"+HV0340+"</td>  <td >HV03-41(F)</td>  <td>"+HV0341+"</td>"
               + "</tr>"
@@ -796,26 +837,26 @@ HV0344=conn.rs.getInt(17);
               + "</table>"
               + "";
           
-         survival_ART="<table style=\"margin-left:200px;\"><tr><td colspan=\"3\"><b>3.8 Survival and Retention on ART at 12 months </b> </td></tr>"
+         survival_ART="<table ><tr><td colspan=\"5\"><b>3.8 Survival and Retention on ART at 12 months </b> </td></tr>"
               + "<tr>"
-              + "<td>ART Net cohort at 12 months </td><td >HV03-45</td><td>"+HV0345+"</td>"
+              + "<td colspan=\"3\">ART Net cohort at 12 months </td><td >HV03-45</td><td>"+HV0345+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>On Original 1st Line at 12 months </td><td >HV03-46</td><td>"+HV0346+"</td>"
+              + "<td colspan=\"3\">On Original 1st Line at 12 months </td><td >HV03-46</td><td>"+HV0346+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>On alternative 1st Line at 12 months </td><td >HV03-47</td><td>"+HV0347+"</td>"
+              + "<td colspan=\"3\">On alternative 1st Line at 12 months </td><td >HV03-47</td><td>"+HV0347+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>On 2nd Line (or higher) at 12 months </td><td >HV03-48</td><td>"+HV0348+"</td>"
+              + "<td colspan=\"3\">On 2nd Line (or higher) at 12 months </td><td >HV03-48</td><td>"+HV0348+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>On therapy at 12 months (Sum HV03-46 to HV03-48) </td><td >HV03-49</td><td>"+HV0349+"</td>"
+              + "<td colspan=\"3\">On therapy at 12 months (Sum HV03-46 to HV03-48) </td><td >HV03-49</td><td>"+HV0349+"</td>"
               + "</tr>"
               + "</table>"
               + ""; 
          
-            screening="<table border=\"0\" style=\"margin-left:100px; color:black;\"><tr><td colspan=\"5\"><b>3.9 Screening </b> </td></tr>"
+            screening="<table ><tr><td colspan=\"5\"><b>3.9 Screening </b> </td></tr>"
              
                + "<tr>"
               + "<td>Screened for TB - Below 15 year </td><td >HV03-50(M)</td><td>"+HV0350+"</td>  <td >HV03-51(F)</td>  <td>"+HV0351+"</td>"
@@ -832,28 +873,28 @@ HV0344=conn.rs.getInt(17);
               + "</table>"
               + ""; 
             
-            pwp="<table style=\"margin-left:200px;\"><tr><td colspan=\"3\"><b>3.10 Prevention with Postive </b> </td></tr>"
+            pwp="<table ><tr><td colspan=\"5\"><b>3.10 Prevention with Postive </b> </td></tr>"
               + "<tr>"
-              + "<td>Modern Contraceptive methods </td><td >HV09-04</td><td>"+HV0904+"</td>"
+              + "<td colspan=\"2\">Modern Contraceptive methods </td><td >HV09-04</td><td colspan=\"2\">"+HV0904+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Provided with Condoms </td><td >HV09-05</td><td>"+HV0905+"</td>"
+              + "<td colspan=\"2\">Provided with Condoms </td><td >HV09-05</td><td colspan=\"2\">"+HV0905+"</td>"
               + "</tr>"
               + "</table>"
               + ""; 
             
-         HIV_care="<table style=\"margin-left:200px;\"><tr><td colspan=\"3\"><b>3.11 HIV Care Visits </b> </td></tr>"
+         HIV_care="<table ><tr><td colspan=\"5\"><b>3.11 HIV Care Visits </b> </td></tr>"
               + "<tr>"
-              + "<td>Females (18+) </td><td >HV03-70</td><td>"+HV0370+"</td>"
+              + "<td colspan=\"2\">Females (18+) </td><td >HV03-70</td><td colspan=\"2\">"+HV0370+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Scheduled </td><td >HV03-71</td><td>"+HV0371+"</td>"
+              + "<td colspan=\"2\">Scheduled </td><td >HV03-71</td><td colspan=\"2\">"+HV0371+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Unscheduled </td><td >HV03-72</td><td>"+HV0372+"</td>"
+              + "<td colspan=\"2\">Unscheduled </td><td >HV03-72</td><td colspan=\"2\">"+HV0372+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Total Visits (Sum HV03-71 to HV03-72) </td><td >HV03-73</td><td>"+HV0373+"</td>"
+              + "<td colspan=\"2\">Total Visits (Sum HV03-71 to HV03-72) </td><td >HV03-73</td><td colspan=\"2\">"+HV0373+"</td>"
               + "</tr>"
               + "</table>"
               + "";   
@@ -863,53 +904,63 @@ HV0344=conn.rs.getInt(17);
          
         number_circumcised=hiv_status=adverse_events;
         
-        number_circumcised="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>4.1  Number Circumcised </b> </td></tr>"
+        number_circumcised="<table style=\"margin-left:250px;\">"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td ></td><td colspan=\"4\"><b>4 VOLUNTARY MEDICAL MALE CIRCUMCISION.</b></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                + "<tr><td colspan=\"5\"><b>4.1  Number Circumcised </b> </td></tr>"
               + "<tr>"
-              + "<td>0 - 14 </td><td >HV04-01</td><td>"+HV0401+"</td>"
+              + "<td colspan=\"2\">0 - 14 </td><td >HV04-01</td><td colspan=\"2\">"+HV0401+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>14 - 24 </td><td >HV04-02</td><td>"+HV0402+"</td>"
+              + "<td colspan=\"2\">14 - 24 </td><td >HV04-02</td><td colspan=\"2\">"+HV0402+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>25+ </td><td >HV04-03</td><td>"+HV0403+"</td>"
+              + "<td colspan=\"2\">25+ </td><td >HV04-03</td><td colspan=\"2\">"+HV0403+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Total (Sum HV04-01 to HV04-02) </td><td >HV04-06</td><td>"+HV0406+"</td>"
+              + "<td colspan=\"2\">Total (Sum HV04-01 to HV04-02) </td><td >HV04-06</td><td colspan=\"2\">"+HV0406+"</td>"
               + "</tr>"
               + "</table>"
               + ""; 
         
-        hiv_status="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>4.2  HIV Status (at circumcision) </b> </td></tr>"
+        hiv_status="<table style=\"margin-left:250px;\"><tr><td colspan=\"5\"><b>4.2  HIV Status (at circumcision) </b> </td></tr>"
               + "<tr>"
-              + "<td>Postive </td><td >HV04-07</td><td>"+HV0407+"</td>"
+              + "<td colspan=\"2\">Postive </td><td >HV04-07</td><td colspan=\"2\">"+HV0407+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Negative </td><td >HV04-08</td><td>"+HV0408+"</td>"
+              + "<td colspan=\"2\">Negative </td><td >HV04-08</td><td colspan=\"2\">"+HV0408+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Unknown </td><td >HV04-09</td><td>"+HV0409+"</td>"
+              + "<td colspan=\"2\">Unknown </td><td >HV04-09</td><td colspan=\"2\">"+HV0409+"</td>"
               + "</tr>"
               + "</table>"
               + ""; 
         
-        adverse_events="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>4.3  Adverse events (Circumcision) </b> </td></tr>"
+        adverse_events="<table style=\"margin-left:250px;\"><tr><td colspan=\"5\"><b>4.3  Adverse events (Circumcision) </b> </td></tr>"
               + "<tr>"
-              + "<td>During AE(s) moderate </td><td >HV04-10</td><td>"+HV0410+"</td>"
+              + "<td colspan=\"2\">During AE(s) moderate </td><td >HV04-10</td><td colspan=\"2\">"+HV0410+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>During AE(s) severe  </td><td >HV04-11</td><td>"+HV0411+"</td>"
+              + "<td colspan=\"2\">During AE(s) severe  </td><td >HV04-11</td><td colspan=\"2\">"+HV0411+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Post AE(s) moderate  </td><td >HV04-12</td><td>"+HV0412+"</td>"
+              + "<td colspan=\"2\">Post AE(s) moderate  </td><td >HV04-12</td><td colspan=\"2\">"+HV0412+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Post AE(s) severe  </td><td >HV04-13</td><td>"+HV0413+"</td>"
+              + "<td colspan=\"2\">Post AE(s) severe  </td><td >HV04-13</td><td colspan=\"2\">"+HV0413+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Total AE During (Sum HV04-10  & HV04-11) </td><td>HV04-14</td><td>"+HV0414+"</td>"
+              + "<td colspan=\"2\">Total AE During (Sum HV04-10  & HV04-11) </td><td>HV04-14</td><td colspan=\"2\">"+HV0414+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Total AE Post (Sum HV04-12  & HV04-13) </td><td >HV04-15</td><td>"+HV0415+"</td>"
+              + "<td colspan=\"2\">Total AE Post (Sum HV04-12  & HV04-13) </td><td >HV04-15</td><td colspan=\"2\">"+HV0415+"</td>"
               + "</tr>"
               + "</table>"
               + "";
@@ -918,7 +969,17 @@ HV0344=conn.rs.getInt(17);
          
         type_exposure=provided_p="";
        
-        type_exposure="<table style=\"border:1px; border-collapse:collapse;\"><tr><td colspan=\"5\"><b>5.1 Type of exposure </b> </td></tr>"
+        type_exposure="<table style=\"border:1px; border-collapse:collapse;\">"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td ></td><td colspan=\"4\"><b>5 POST-EXPOSURE PROPHYLAXIS.</b></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                + "<tr><td colspan=\"5\"><b>5.1 Type of exposure </b> </td></tr>"
               + "<tr style=\"border-bottom:1pt solid black;\">"
               + "<td>Occupational </td><td >HV05-01(M)</td><td>"+HV0501+"</td>  <td >HV05-02(F)</td>  <td>"+HV0502+"</td>"
               + "</tr>"
@@ -956,15 +1017,25 @@ HV0344=conn.rs.getInt(17);
         
         blood_safety="";
         
-         blood_safety="<table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><b>Blood Safety </b> </td></tr>"
+         blood_safety="<table style=\"margin-left:250px;\">"
+                 + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                  + "<tr>"
+                + "<td ></td><td colspan=\"4\"><b>6 BLOOD SAFETY.</b></td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\"><br></td>"
+                + "</tr>"
+                 + "<tr><td colspan=\"5\"><b>Blood Safety </b> </td></tr>"
               + "<tr>"
-              + "<td>Donated Blood Units </td><td >HV06-01</td><td>"+HV0601+"</td>"
+              + "<td colspan=\"3\">Donated Blood Units </td><td >HV06-01</td><td>"+HV0601+"</td>"
               + "</tr>"
                + "<tr>"
-              + "<td>Blood Units screened for TTIs </td><td >HV06-02</td><td>"+HV0602+"</td>"
+              + "<td colspan=\"3\">Blood Units screened for TTIs </td><td >HV06-02</td><td>"+HV0602+"</td>"
               + "</tr>"
               + "<tr>"
-              + "<td>Blood units reactive to HIVH </td><td >HV06-05</td><td>"+HV0605+"</td>"
+              + "<td colspan=\"3\">Blood units reactive to HIVH </td><td >HV06-05</td><td>"+HV0605+"</td>"
               + "</tr>"
               + "</table>"
               + ""; 
@@ -989,27 +1060,24 @@ HV0344=conn.rs.getInt(17);
 //       data+=CT;
 //       data+=PEP;
 //        data+="<p style=\"font-size:7px;\">"+header+""+PMTCT+""+CT+""+PEP+"</p>";
+        
+        
+        header="<table>"
+                + "<tr>"
+                + "<td colspan=\"5\">National AIDS & STIs Control Programme.</td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\">MOH 731 - Comprehensive HIV/AIDS Facility Reporting Form - NASCOP.</td>"
+                + "</tr>"
+                + "<tr>"
+                + "<td colspan=\"5\">"+headerInfo+"</td>"
+                + "</tr>"
+               + "</table>";
+        
+        
        data+="<table style=\"color:black; font-size:6px;\" width=\"90%\">"
               + "<tr>"
-               + "<td>"+header+"</td>"
-               + "</tr>"
-               + "<tr>"
-               + "<td>"+HIV_CT+"</td>"
-              + "</tr>"
-              + "<tr>"
-               + "<td>"+PMTCT+"</td>"
-              + "</tr>"
-                + "<tr>"
-              + "<td>"+CT+"</td>"
-               + "</tr>"
-                + "<tr>"
-               + "<td>"+VMMC+"</td>"
-               + "</tr>"
-               + "<tr>"
-               + "<td>"+PEP+"</td>"
-               + "</tr>"
-                + "<tr>"
-               + "<td>"+Blood+"</td>"
+               + "<td>"+header+""+PMTCT+""+CT+""+PEP+"</td>"
                + "</tr>"
                + "</table>"
                + "";
@@ -1017,6 +1085,10 @@ HV0344=conn.rs.getInt(17);
     data+=" </div></body></html>";
    System.out.println( "PDF Created!" );
 
+   
+   IdGenerator IG = new IdGenerator();
+        createdOn=IG.CreatedOn();
+   
         Document document = new Document();
   ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 PdfWriter.getInstance(document, outByteStream);
@@ -1032,7 +1104,7 @@ cssResolver.addCss("", true);
 response.setContentType("application/pdf");
 response.setContentLength(outByteStream.size());
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=fom731.pdf");
+response.setHeader("Content-Disposition", "attachment; filename=MOH731_"+url.trim().replace(" ", "")+"_CREATED_ON_"+createdOn+".pdf");
 
 ServletOutputStream sos;
 sos = response.getOutputStream();

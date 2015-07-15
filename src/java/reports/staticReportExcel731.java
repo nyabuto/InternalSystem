@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
@@ -167,24 +169,24 @@ int secCounter;
         
    
     //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
-   XSSFWorkbook wb=new XSSFWorkbook();
-  XSSFSheet shet1=wb.createSheet("PMTCT");
-  XSSFSheet shet2=wb.createSheet("Care and Treatment");
-  XSSFSheet shet3=wb.createSheet("PEP");
-  XSSFFont font=wb.createFont();
+   HSSFWorkbook wb=new HSSFWorkbook();
+  HSSFSheet shet1=wb.createSheet("PMTCT");
+  HSSFSheet shet2=wb.createSheet("Care and Treatment");
+  HSSFSheet shet3=wb.createSheet("PEP");
+  HSSFFont font=wb.createFont();
  font.setFontHeightInPoints((short)18);
     font.setFontName("Arial Black");
     font.setColor((short)0000);
     CellStyle style=wb.createCellStyle();
     style.setFont(font);
     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-     XSSFFont font2=wb.createFont();
+     HSSFFont font2=wb.createFont();
     font2.setFontName("Arial Black");
     font2.setColor((short)0000);
     CellStyle style2=wb.createCellStyle();
     style2.setFont(font2);
    
-   XSSFCellStyle stborder = wb.createCellStyle();
+   HSSFCellStyle stborder = wb.createCellStyle();
     stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
@@ -192,7 +194,7 @@ int secCounter;
     stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     stborder.setWrapText(true);
     
-    XSSFCellStyle stylex = wb.createCellStyle();
+    HSSFCellStyle stylex = wb.createCellStyle();
 stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -201,12 +203,12 @@ stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
     stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
-XSSFFont fontx = wb.createFont();
+HSSFFont fontx = wb.createFont();
 fontx.setColor(HSSFColor.DARK_BLUE.index);
 stylex.setFont(fontx);
 stylex.setWrapText(true);
 
-   XSSFCellStyle styleHeader = wb.createCellStyle();
+   HSSFCellStyle styleHeader = wb.createCellStyle();
 styleHeader.setFillForegroundColor(HSSFColor.LIME.index);
 styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -215,7 +217,7 @@ styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
     styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
-XSSFFont fontHeader = wb.createFont();
+HSSFFont fontHeader = wb.createFont();
 fontHeader.setColor(HSSFColor.DARK_BLUE.index);
 styleHeader.setFont(fontHeader);
 styleHeader.setWrapText(true);
@@ -245,13 +247,13 @@ styleHeader.setWrapText(true);
     int headerno=0;int valueNo=0; int arrayCounter=0;
    
 //   XSSFRow rw0S1=shet1.createRow(0);
-   XSSFRow rw1S1=shet1.createRow(0);  
+   HSSFRow rw1S1=shet1.createRow(0);  
    
 //    XSSFRow rw0S2=shet2.createRow(0);
-   XSSFRow rw1S2=shet2.createRow(0);
+   HSSFRow rw1S2=shet2.createRow(0);
     
 //    XSSFRow rw0S3=shet3.createRow(0);
-   XSSFRow rw1S3=shet3.createRow(0);
+   HSSFRow rw1S3=shet3.createRow(0);
 
   
     String getMonth="SELECT name FROM month WHERE id='"+month+"'";
@@ -308,15 +310,15 @@ secCounter=0;
 //   CREATE HEADERS
      for(String headername:arrayHeader){
     headerValue=arrayValues[arrayCounter];
-   XSSFRow rw1S10=shet1.createRow(pos);  
-   XSSFRow rw1S20=shet2.createRow(pos);
-   XSSFRow rw1S30=shet3.createRow(pos);
+   HSSFRow rw1S10=shet1.createRow(pos);  
+   HSSFRow rw1S20=shet2.createRow(pos);
+   HSSFRow rw1S30=shet3.createRow(pos);
     
-    XSSFCell  S1cell=rw1S10.createCell(0);
+    HSSFCell  S1cell=rw1S10.createCell(0);
     S1cell.setCellValue(headername);
     S1cell.setCellStyle(stylex);
     
-    XSSFCell  S1cellX=rw1S10.createCell(1);
+    HSSFCell  S1cellX=rw1S10.createCell(1);
     S1cellX.setCellValue(headerValue);
     S1cellX.setCellStyle(stylex);
     
@@ -328,11 +330,11 @@ secCounter=0;
     S1cellX.setCellValue("");
     S1cellX.setCellStyle(stylex);
    
-    XSSFCell  S2cell=rw1S20.createCell(0);
+    HSSFCell  S2cell=rw1S20.createCell(0);
     S2cell.setCellValue(headername);
     S2cell.setCellStyle(stylex);
     
-    XSSFCell  S2cellX=rw1S20.createCell(1);
+    HSSFCell  S2cellX=rw1S20.createCell(1);
     S2cellX.setCellValue(headerValue);
     S2cellX.setCellStyle(stylex);
     
@@ -345,11 +347,11 @@ secCounter=0;
     S2cellX.setCellStyle(stylex);
     
     
-    XSSFCell  S3cell=rw1S30.createCell(0);
+    HSSFCell  S3cell=rw1S30.createCell(0);
     S3cell.setCellValue(headername);
     S3cell.setCellStyle(stylex);
     
-    XSSFCell  S3cellX=rw1S30.createCell(1);
+    HSSFCell  S3cellX=rw1S30.createCell(1);
     S3cellX.setCellValue(headerValue);
     S3cellX.setCellStyle(stylex);
     
@@ -368,23 +370,23 @@ secCounter=0;
 //     pos+=1;
 //  OUTPUT ELEMENT HEADING
      
-   XSSFRow rw1S10=shet1.createRow(pos);  
-   XSSFRow rw1S20=shet2.createRow(pos);
-   XSSFRow rw1S30=shet3.createRow(pos);
+   HSSFRow rw1S10=shet1.createRow(pos);  
+   HSSFRow rw1S20=shet2.createRow(pos);
+   HSSFRow rw1S30=shet3.createRow(pos);
    
     rw1S10.setHeightInPoints(25);
     rw1S20.setHeightInPoints(25);
     rw1S30.setHeightInPoints(25);
     
-    XSSFCell  S1cell=rw1S10.createCell(0);
+    HSSFCell  S1cell=rw1S10.createCell(0);
     S1cell.setCellValue("SUB SECTION");
     S1cell.setCellStyle(styleHeader);
     
-    XSSFCell  S1cellX=rw1S10.createCell(1);
+    HSSFCell  S1cellX=rw1S10.createCell(1);
     S1cellX.setCellValue("ELEMENT TITLE");
     S1cellX.setCellStyle(styleHeader);
     
-    XSSFCell  S1cellX2=rw1S10.createCell(2);
+    HSSFCell  S1cellX2=rw1S10.createCell(2);
     S1cellX2.setCellValue("LABEL");
     S1cellX2.setCellStyle(styleHeader);
     
@@ -393,15 +395,15 @@ secCounter=0;
     S1cellX2.setCellStyle(styleHeader);
     
    
-    XSSFCell  S2cell=rw1S20.createCell(0);
+    HSSFCell  S2cell=rw1S20.createCell(0);
     S2cell.setCellValue("SUB SECTION");
     S2cell.setCellStyle(styleHeader);
     
-    XSSFCell  S2cellX=rw1S20.createCell(1);
+    HSSFCell  S2cellX=rw1S20.createCell(1);
     S2cellX.setCellValue("ELEMENT TITLE");
     S2cellX.setCellStyle(styleHeader);
     
-    XSSFCell  S2cellX2=rw1S20.createCell(2);
+    HSSFCell  S2cellX2=rw1S20.createCell(2);
     S2cellX2.setCellValue("LABEL");
     S2cellX2.setCellStyle(styleHeader);
     
@@ -409,15 +411,15 @@ secCounter=0;
     S2cellX2.setCellValue("VALUE");
     S2cellX2.setCellStyle(styleHeader);
     
-    XSSFCell  S3cell=rw1S30.createCell(0);
+    HSSFCell  S3cell=rw1S30.createCell(0);
     S3cell.setCellValue("SUB SECTION");
     S3cell.setCellStyle(styleHeader);
     
-    XSSFCell  S3cellX=rw1S30.createCell(1);
+    HSSFCell  S3cellX=rw1S30.createCell(1);
     S3cellX.setCellValue("ELEMENT TITLE");
     S3cellX.setCellStyle(styleHeader);
     
-    XSSFCell  S3cellX2=rw1S30.createCell(2);
+    HSSFCell  S3cellX2=rw1S30.createCell(2);
     S3cellX2.setCellValue("LABEL");
     S3cellX2.setCellStyle(styleHeader);
     
@@ -453,16 +455,16 @@ System.out.println("entered to get cumulatives : "+maxYearMonth);
       if(elementCounter>=17 && elementCounter<=58){
       if(isPMTCT==1 && j<=47){
        int valuePos=j+15-4;
-      XSSFRow rw1S11=shet1.createRow(j);     
-      XSSFCell  S1cell1=rw1S11.createCell(0);
+      HSSFRow rw1S11=shet1.createRow(j);     
+      HSSFCell  S1cell1=rw1S11.createCell(0);
     S1cell1.setCellValue(subsection);
     S1cell1.setCellStyle(stborder);
     
-    XSSFCell  S1cellX1=rw1S11.createCell(1);
+    HSSFCell  S1cellX1=rw1S11.createCell(1);
     S1cellX1.setCellValue(shortlabel);
     S1cellX1.setCellStyle(stborder);
     
-    XSSFCell  S1cellX21=rw1S11.createCell(2);
+    HSSFCell  S1cellX21=rw1S11.createCell(2);
     S1cellX21.setCellValue(label);
     S1cellX21.setCellStyle(stborder);
     
@@ -512,16 +514,16 @@ System.out.println("entered to get cumulatives : "+maxYearMonth);
      if(elementCounter>=59 && elementCounter<=119){ 
           if(isART==1 && i<=66){
       int valuePos=i+57-4;
-      XSSFRow rw1S11=shet2.createRow(i);     
-      XSSFCell  S1cell1=rw1S11.createCell(0);
+      HSSFRow rw1S11=shet2.createRow(i);     
+      HSSFCell  S1cell1=rw1S11.createCell(0);
     S1cell1.setCellValue(subsection);
     S1cell1.setCellStyle(stborder);
     
-    XSSFCell  S1cellX1=rw1S11.createCell(1);
+    HSSFCell  S1cellX1=rw1S11.createCell(1);
     S1cellX1.setCellValue(shortlabel);
     S1cellX1.setCellStyle(stborder);
     
-    XSSFCell  S1cellX21=rw1S11.createCell(2);
+   HSSFCell  S1cellX21=rw1S11.createCell(2);
     S1cellX21.setCellValue(label);
     S1cellX21.setCellStyle(stborder); 
     
@@ -587,16 +589,16 @@ System.out.println("entered to get cumulatives : "+maxYearMonth);
     if(isPEP==1 && k<=18){
       int valuePos=k+131-4;
       System.out.println("k values : "+k);
-      XSSFRow rw1S11=shet3.createRow(k);     
-      XSSFCell  S1cell1=rw1S11.createCell(0);
+      HSSFRow rw1S11=shet3.createRow(k);     
+      HSSFCell  S1cell1=rw1S11.createCell(0);
     S1cell1.setCellValue(subsection);
     S1cell1.setCellStyle(stborder);
     
-    XSSFCell  S1cellX1=rw1S11.createCell(1);
+    HSSFCell  S1cellX1=rw1S11.createCell(1);
     S1cellX1.setCellValue(shortlabel);
     S1cellX1.setCellStyle(stborder);
     
-    XSSFCell  S1cellX21=rw1S11.createCell(2);
+    HSSFCell  S1cellX21=rw1S11.createCell(2);
     S1cellX21.setCellValue(label);
     S1cellX21.setCellStyle(stborder);    
      
@@ -654,11 +656,11 @@ System.out.println("entered to get cumulatives : "+maxYearMonth);
     
     if(conn.st!=null){conn.st.close();}
      if(conn.st1!=null){conn.st1.close();}
-//     if(conn.st2!=null){conn.st2.close();}
+     if(conn.st2!=null){conn.st2.close();}
      
      if(conn.rs!=null){conn.rs.close();}
      if(conn.rs1!=null){conn.rs1.close();}
-//     if(conn.rs2!=null){conn.rs2.close();}
+     if(conn.rs2!=null){conn.rs2.close();}
      if(conn.conn!=null){conn.conn.close();} 
      
         IdGenerator IG = new IdGenerator();
@@ -671,7 +673,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=MOH731_STATIC_REPORT_CREATED_"+createdOn.trim()+".xlsx");
+response.setHeader("Content-Disposition", "attachment; filename=MOH731_STATIC_REPORT_CREATED_"+createdOn.trim()+".xls");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();

@@ -312,6 +312,18 @@
         <servlet-name>tb_excelReport</servlet-name>
         <servlet-class>reports.tb_excelReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>reportsTracker731</servlet-name>
+        <servlet-class>reports.reportsTracker731</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>datimReport</servlet-name>
+        <servlet-class>Datim.datimReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>cleanCumulatives</servlet-name>
+        <servlet-class>General.cleanCumulatives</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -623,6 +635,18 @@
     <servlet-mapping>
         <servlet-name>tb_excelReport</servlet-name>
         <url-pattern>/tb_excelReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reportsTracker731</servlet-name>
+        <url-pattern>/reportsTracker731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimReport</servlet-name>
+        <url-pattern>/datimReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cleanCumulatives</servlet-name>
+        <url-pattern>/cleanCumulatives</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

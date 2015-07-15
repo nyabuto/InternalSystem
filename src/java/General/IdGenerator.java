@@ -27,7 +27,7 @@ int micro=cal.get(Calendar.MILLISECOND);
 String yr,mnth,dater,hr,mn,sc,action="";
 String date2="";
 Timestamp now;
-
+String monthText="";
 Random random = new Random();
  long fraction = (long) ((98725 - 219 ) * random.nextDouble());
  
@@ -64,5 +64,19 @@ String db=Double.toString(fraction);
 String tableID=(db+""+full_date2).replace(".", ""); 
  String id=year+"_"+month+"_"+date+"_"+hour+"_"+min+"_"+sec+"_"+micro;       
        return  tableID;
-    }   
+    }
+  
+  public String CurrentMonth(){
+      if(month<10){
+       monthText="0"+month;   
+      }
+      else{
+        monthText=""+month;  
+      }
+      return monthText;
+  }
+  
+  public int currentYear(){
+      return year;
+  }
 }

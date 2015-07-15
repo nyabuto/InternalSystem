@@ -246,7 +246,7 @@ yearmonth=pepfaryear+""+tempmonth;
 //____We need to get the cumulatives up to the maximum reported yearmonth   as long as its less than the current month and year
 //eg if its 2016 jan, get the max reported yearmonth.from 2014 12 backwards. Also ensure that the value of accumulatives for that max month is not Zero
 //this is the default maxyearmonth
-String maxyearmonth="201505";
+String maxyearmonth="201503";
  
  
 String getmaxmonthandyear="select Max(yearmonth) as yearmo from moh731 where yearmonth < '"+yearmonth+"' and (HV0340 !='0' && HV0340 is not null) and SubPartnerID='"+facilityId+"'";
@@ -263,7 +263,7 @@ maxyearmonth=conn.rs2.getString(1);
 
 }
 int yrmonth=Integer.parseInt(maxyearmonth);
-if(yrmonth>201503){
+//if(yrmonth>201503 && yrmonth<=201504){
  System.out.println("Max Year Month____"+maxyearmonth);
 //After getting the Maximum valid YearMonth,(By Valid I mean a month that was reported with a cumulative greater than zero) select the cumulatives for male, female and totals
 
@@ -302,7 +302,7 @@ HV0344_1=conn.rs.getString(5);
  
     }    
 
-}
+//}
  HV0340=HV0340_1;HV0341=HV0341_1;HV0342=HV0342_1;HV0343=HV0343_1;HV0344=HV0344_1;
      
           String checker="SELECT * FROM moh731 WHERE id=?" ;

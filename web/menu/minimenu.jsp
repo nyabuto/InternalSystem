@@ -102,6 +102,7 @@
                <ul class="sub">
                 <li ><a href="rawdata.jsp">Facility raw data</a></li>
                    <li><a href="staticFormData.jsp">Static Reports</a></li>
+                   <li><a href="reportsTracker.jsp">Reports Tracker</a></li>
                   <li ><a href="DQA.jsp">DQA</a></li>
                   <!--<li ><a href="#">Edit Profile</a></li>-->
            
