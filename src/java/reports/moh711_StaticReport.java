@@ -214,78 +214,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
     String activeclass="";
     activeclass="active";
     int counter=0;
-     isValidated="";
- validity="";
-  expectedFP=0;
-  expectedPMTCT=0;
-  expectedMAT=0;
-  expectedHTC=0;
-  validPMTCT=0;
-  invalidPMTCT=0;
-  totalPMTCT=0;
-    validFP=invalidFP=totalFP=validMAT=invalidMAT=totalMAT=validHTC=invalidHTC=totalHTC;
- String getExpectedForms="SELECT SUM(FP),SUM(PMTCT),SUM(Maternity),SUM(HTC) FROM subpartnera WHERE subpartnera.DistrictID='"+subcountyid+"'" ;
-   conn.rs1=conn.st1.executeQuery(getExpectedForms);
-   if(conn.rs1.next()==true){
-//       System.out.println("pmtct : "+conn.rs1.getString(1)+"  care : "+conn.rs1.getInt(2)+" pep : "+conn.rs1.getInt(3));
-           expectedFP=conn.rs1.getInt(1);
-           expectedPMTCT=conn.rs1.getInt(2);
-           expectedMAT=conn.rs1.getInt(3);
-           expectedHTC=conn.rs1.getInt(4);
-   }
-    validPMTCT=invalidPMTCT=totalPMTCT=0;
-     validFP=invalidFP=totalFP=0;
-     validMAT=invalidMAT=totalMAT=0;
-     validHTC=invalidHTC=totalHTC=0;
-     
-        String getEntered="SELECT moh711.isValidated,SUM(subpartnera.FP),SUM(subpartnera.PMTCT),SUM(subpartnera.Maternity),SUM(subpartnera.HTC)"
-            + " FROM subpartnera JOIN moh711 ON subpartnera.SubPartnerID=moh711.SubPartnerID WHERE "
-            + "moh711.Mois='"+month+"' AND moh711.Annee='"+year+"' AND subpartnera.DistrictID='"+subcountyid+"' GROUP BY moh711.isValidated";
-    conn.rs1=conn.st1.executeQuery(getEntered);
-    while(conn.rs1.next()){
-        System.out.println("isvalidated : "+conn.rs1.getInt(1)+"  num : "+conn.rs1.getInt(2));
-   if(conn.rs1.getInt(1)==1){
-    validFP=conn.rs1.getInt(2);
-    validPMTCT=conn.rs1.getInt(3);
-    validMAT=conn.rs1.getInt(4);
-    validHTC=conn.rs1.getInt(5);
-   }
-   if(conn.rs1.getInt(1)==0){
-      invalidFP=conn.rs1.getInt(2);
-    invalidPMTCT=conn.rs1.getInt(3);
-    invalidMAT=conn.rs1.getInt(4);
-    invalidHTC=conn.rs1.getInt(5);
-      
-   }
-    }
-    totalFP=validFP+invalidFP;
-    totalPMTCT=validPMTCT+invalidPMTCT;
-    totalMAT=validMAT+invalidMAT;
-    totalHTC=validHTC+invalidHTC;
-
-   
-  invalidFPTXT=" Unvalidated Form(s) : 0";
-  invalidPMTCTTXT=" Unvalidated Form(s) : 0";
- invalidMATTXT=" Unvalidated Form(s) : 0";
- invalidHTCTXT=" Unvalidated Form(s) : 0";
- 
-    if(invalidFP>0){
-   invalidFPTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidFP+"</span></button>";
-    }
-    if(invalidPMTCT>0){
-   invalidPMTCTTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidPMTCT+"</span></button>";
-    }
-   
-    if(invalidMAT>0){
-  invalidMATTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidMAT+"</span></button>";       
-    }
-    
-    if(invalidHTC>0){
-  invalidHTCTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidHTC+"</span></button>";       
-    }
-    
- 
-
+  
     String ul="  <ul class=\"nav nav-tabs\">\n" ;
 
                     
@@ -293,7 +222,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
               
               
   // FAMILY PLANNING            
- FPMicrolutN=FPMicrolutR=FPMicrolutT=FPMicrogynonN=FPMicrogynonR=FPMicrogynonT=FPINJECTIONSN=FPINJECTIONSR="";
+FPMicrolutN=FPMicrolutR=FPMicrolutT=FPMicrogynonN=FPMicrogynonR=FPMicrogynonT=FPINJECTIONSN=FPINJECTIONSR="";
 FPINJECTIONST=FPIUCDN=FPIUCDR=FPIUCDT=FPIMPLANTSN=FPIMPLANTSR=FPIMPLANTST=FPBTLN=FPBTLR=FPBTLT=FPVasectomyN=FPVasectomyR="";
 FPVasectomyT=FPCONDOMSN=FPCONDOMSR=FPCONDOMST=FPOTHERN=FPOTHERR=FPOTHERT=FPCLIENTSN=FPCLIENTSR=FPCLIENTST=FPIUCDRemoval=
 FPIMPLANTSRemoval="";
@@ -311,7 +240,26 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
 =DTCC_HIV_In_AF= DTCC_HIV_In_Tot=DTCC_HIV_Out_CM=DTCC_HIV_Out_CF=DTCC_HIV_Out_AM=DTCC_HIV_Out_AF=DTCC_HIV_Out_Tot=Userid="";
 
            
-          String checker="SELECT * FROM moh711 WHERE "+facility+" "+duration ;
+          String checker="SELECT sum(FPMicrolutN),"
+            + " sum(FPMicrolutR), sum(FPMicrolutT), sum(FPMicrogynonN), sum(FPMicrogynonR), sum(FPMicrogynonT),"
+            + " sum(FPINJECTIONSN), sum(FPINJECTIONSR), sum(FPINJECTIONST), sum(FPIUCDN), sum(FPIUCDR),sum(FPIUCDT),sum(FPIMPLANTSN),sum(FPIMPLANTSR), "
+            + " sum(FPIMPLANTST), sum(FPBTLN), sum(FPBTLR),sum(FPBTLT),sum(FPVasectomyN),sum(FPVasectomyR),sum(FPVasectomyT),sum(FPCONDOMSN),sum(FPCONDOMSR), "
+            + "sum(FPCONDOMST), sum(FPOTHERN), sum(FPOTHERR), sum(FPOTHERT), sum(FPCLIENTSN), sum(FPCLIENTSR), sum(FPCLIENTST), sum(FPIUCDRemoval),"
+            + "sum(FPIMPLANTSRemoval), sum(PMCTA_1stVisit_ANC),sum(PMCTA_ReVisit_ANC), sum(PMCTANCClientsT),sum(PMCTHB7), sum(PMCTIPT1),"
+            + "sum(PMCTIPT2), sum(PMCTANCClients4),sum(PMCTITN), sum(MATNormalDelivery), sum(MATCSection), sum(MATBreech),sum(MATAssistedVag), "
+            + "sum(MATDeliveryT),sum(MATLiveBirth), sum(MATStillBirth), sum(MATWeight2500), sum(MATPreTerm), sum(MATDischargealive), sum(MATReferral), sum(MATNeoNatalD),"
+            + " sum(MATMaternalD), sum(MATAPHAlive), sum(MATAPHDead), sum(MATPPHAlive), sum(MATPPHDead), sum(MATEclampAlive),sum( MATEclampDead),"
+            + " sum(MATRupUtAlive), sum(MATRupUtDead), sum(MATObstrLaborAlive), sum(MATObstrLaborDead), sum(MATSepsisAlive), sum(MATSepsisDead), "
+            + "sum(VCTClient_Couns_CM), sum(VCTClient_Couns_CF), sum(VCTClient_Couns_AM), sum(VCTClient_Couns_AF), "
+            + "sum(VCTClient_Couns_TOT), sum(VCTClient_Tested_CM), sum(VCTClient_Tested_CF), sum(VCTClient_Tested_AM),"
+            + "sum( VCTClient_Tested_AF), sum(VCTClient_Tested_TOT), sum(VCTClient_HIV_CM), sum(VCTClient_HIV_CF), sum(VCTClient_HIV_AM),sum(VCTClient_HIV_AF),"
+            + "sum( VCTClient_HIV_TOT), sum(VCTPartner_Couns_TOT), sum(VCTPartner_Tested_TOT), sum(VCTPartner_HIV_TOT),sum(VCTPartner_Disc_TOT),"
+            + " sum(DTCA_Couns_In_CM), sum(DTCA_Couns_In_CF), sum(DTCA_Couns_In_AM), sum(DTCA_Couns_In_AF), sum(DTCA_Couns_In_Tot), sum(DTCA_Couns_Out_CM), "
+            + "sum(DTCA_Couns_Out_CF), sum(DTCA_Couns_Out_AM), sum(DTCA_Couns_Out_AF), sum(DTCA_Couns_Out_Tot),sum(DTCB_Test_In_CM), sum(DTCB_Test_In_CF),"
+            + " sum(DTCB_Test_In_AM), sum(DTCB_Test_In_AF), sum(DTCB_Test_In_Tot), sum(DTCB_Test_Out_CM), sum(DTCB_Test_Out_CF), sum(DTCB_Test_Out_AM),"
+            + " sum(DTCB_Test_Out_AF), sum(DTCB_Test_Out_Tot),sum(DTCC_HIV_In_CM), sum(DTCC_HIV_In_CF), sum(DTCC_HIV_In_AM), sum(DTCC_HIV_In_AF),"
+            + " sum(DTCC_HIV_In_Tot),sum( DTCC_HIV_Out_CM), sum(DTCC_HIV_Out_CF), sum(DTCC_HIV_Out_AM),sum(DTCC_HIV_Out_AF),sum(DTCC_HIV_Out_Tot) "
+            + "FROM moh711 WHERE "+facility+" "+duration ;
           System.out.println(checker);
           
           conn.rs=conn.st.executeQuery(checker);
@@ -322,110 +270,110 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
               
               
   
-          if(conn.rs.getString("FPMicrolutN")!=null){FPMicrolutN=conn.rs.getString("FPMicrolutN");}
+          if(conn.rs.getString(1)!=null){FPMicrolutN=conn.rs.getString(1);}
           else if (FPMicrolutN==null){FPMicrolutN="";}
-          
-  FPMicrolutR=conn.rs.getString("FPMicrolutR");
-  if(FPMicrolutR==null){FPMicrolutR="";}
+    if(conn.rs.getString(2)!=null){       
+  FPMicrolutR=conn.rs.getString(2);}
+    else if(FPMicrolutR==null){FPMicrolutR="";}
   
-  if(conn.rs.getString("FPMicrolutT")!=null){FPMicrolutT=conn.rs.getString("FPMicrolutT");}else{FPMicrolutT="";}
-  if(conn.rs.getString("FPMicrogynonN")!=null){FPMicrogynonN=conn.rs.getString("FPMicrogynonN");}else{FPMicrogynonN="";}
-  if(conn.rs.getString("FPMicrogynonR")!=null){FPMicrogynonR=conn.rs.getString("FPMicrogynonR");}else{FPMicrogynonR="";}
-  if(conn.rs.getString("FPMicrogynonT")!=null){FPMicrogynonT=conn.rs.getString("FPMicrogynonT");}else{FPMicrogynonT="";}
-  if(conn.rs.getString("FPINJECTIONSN")!=null){FPINJECTIONSN=conn.rs.getString("FPINJECTIONSN");}else{FPINJECTIONSN="";}
-  if(conn.rs.getString("FPINJECTIONSR")!=null){FPINJECTIONSR=conn.rs.getString("FPINJECTIONSR");}else{FPINJECTIONSR="";}
-  if(conn.rs.getString("FPINJECTIONST")!=null){FPINJECTIONST=conn.rs.getString("FPINJECTIONST");}else{FPINJECTIONST="";}
-  if(conn.rs.getString("FPIUCDN")!=null){FPIUCDN=conn.rs.getString("FPIUCDN");}else{FPIUCDN="";}
-  if(conn.rs.getString("FPIUCDR")!=null){FPIUCDR=conn.rs.getString("FPIUCDR");}else{FPIUCDR="";}
-  if(conn.rs.getString("FPIUCDT")!=null){FPIUCDT=conn.rs.getString("FPIUCDT");}else{FPIUCDT="";}
-  if(conn.rs.getString("FPIMPLANTSN")!=null){FPIMPLANTSN=conn.rs.getString("FPIMPLANTSN");}else{FPIMPLANTSN="";}
-  if(conn.rs.getString("FPIMPLANTSR")!=null){FPIMPLANTSR=conn.rs.getString("FPIMPLANTSR");}else{FPIMPLANTSR="";}
-  if(conn.rs.getString("FPIMPLANTST")!=null){FPIMPLANTST=conn.rs.getString("FPIMPLANTST");}else{FPIMPLANTST="";}
-  if(conn.rs.getString("FPBTLN")!=null){FPBTLN=conn.rs.getString("FPBTLN");}else{FPBTLN="";}
-  if(conn.rs.getString("FPBTLR")!=null){FPBTLR=conn.rs.getString("FPBTLR");}else{FPBTLR="";}
-  if(conn.rs.getString("FPBTLT")!=null){FPBTLT=conn.rs.getString("FPBTLT");}else{FPBTLT="";}
-  if(conn.rs.getString("FPVasectomyN")!=null){FPVasectomyN=conn.rs.getString("FPVasectomyN");}else{FPVasectomyN="";}
-  if(conn.rs.getString("FPVasectomyR")!=null){FPVasectomyR=conn.rs.getString("FPVasectomyR");}else{FPVasectomyR="";}
-  if(conn.rs.getString("FPVasectomyT")!=null){FPVasectomyT=conn.rs.getString("FPVasectomyT");}else{FPVasectomyT="";}
-  if(conn.rs.getString("FPCONDOMSN")!=null){FPCONDOMSN=conn.rs.getString("FPCONDOMSN");}else{FPCONDOMSN="";}
-  if(conn.rs.getString("FPCONDOMSR")!=null){FPCONDOMSR=conn.rs.getString("FPCONDOMSR");}else{FPCONDOMSR="";}
-  if(conn.rs.getString("FPCONDOMST")!=null){FPCONDOMST=conn.rs.getString("FPCONDOMST");}else{FPCONDOMST="";}
+  if(conn.rs.getString(3)!=null){FPMicrolutT=conn.rs.getString(3);}else{FPMicrolutT="";}
+  if(conn.rs.getString(4)!=null){FPMicrogynonN=conn.rs.getString(4);}else{FPMicrogynonN="";}
+  if(conn.rs.getString(5)!=null){FPMicrogynonR=conn.rs.getString(5);}else{FPMicrogynonR="";}
+  if(conn.rs.getString(6)!=null){FPMicrogynonT=conn.rs.getString(6);}else{FPMicrogynonT="";}
+  if(conn.rs.getString(7)!=null){FPINJECTIONSN=conn.rs.getString(7);}else{FPINJECTIONSN="";}
+  if(conn.rs.getString(8)!=null){FPINJECTIONSR=conn.rs.getString(8);}else{FPINJECTIONSR="";}
+  if(conn.rs.getString(9)!=null){FPINJECTIONST=conn.rs.getString(9);}else{FPINJECTIONST="";}
+  if(conn.rs.getString(10)!=null){FPIUCDN=conn.rs.getString(10);}else{FPIUCDN="";}
+  if(conn.rs.getString(11)!=null){FPIUCDR=conn.rs.getString(11);}else{FPIUCDR="";}
+  if(conn.rs.getString(12)!=null){FPIUCDT=conn.rs.getString(12);}else{FPIUCDT="";}
+  if(conn.rs.getString(13)!=null){FPIMPLANTSN=conn.rs.getString(13);}else{FPIMPLANTSN="";}
+  if(conn.rs.getString(14)!=null){FPIMPLANTSR=conn.rs.getString(14);}else{FPIMPLANTSR="";}
+  if(conn.rs.getString(15)!=null){FPIMPLANTST=conn.rs.getString(15);}else{FPIMPLANTST="";}
+  if(conn.rs.getString(16)!=null){FPBTLN=conn.rs.getString(16);}else{FPBTLN="";}
+  if(conn.rs.getString(17)!=null){FPBTLR=conn.rs.getString(17);}else{FPBTLR="";}
+  if(conn.rs.getString(18)!=null){FPBTLT=conn.rs.getString(18);}else{FPBTLT="";}
+  if(conn.rs.getString(19)!=null){FPVasectomyN=conn.rs.getString(19);}else{FPVasectomyN="";}
+  if(conn.rs.getString(20)!=null){FPVasectomyR=conn.rs.getString(20);}else{FPVasectomyR="";}
+  if(conn.rs.getString(21)!=null){FPVasectomyT=conn.rs.getString(21);}else{FPVasectomyT="";}
+  if(conn.rs.getString(22)!=null){FPCONDOMSN=conn.rs.getString(22);}else{FPCONDOMSN="";}
+  if(conn.rs.getString(23)!=null){FPCONDOMSR=conn.rs.getString(23);}else{FPCONDOMSR="";}
+  if(conn.rs.getString(24)!=null){FPCONDOMST=conn.rs.getString(24);}else{FPCONDOMST="";}
          
-  if(conn.rs.getString("FPOTHERN")!=null){FPOTHERN=conn.rs.getString("FPOTHERN");}else{FPOTHERN="";}
-  if(conn.rs.getString("FPOTHERR")!=null){FPOTHERR=conn.rs.getString("FPOTHERR");}else{FPOTHERR="";}
-  if(conn.rs.getString("FPOTHERT")!=null){FPOTHERT=conn.rs.getString("FPOTHERT");}else{FPOTHERT="";}
+  if(conn.rs.getString(25)!=null){FPOTHERN=conn.rs.getString(25);}else{FPOTHERN="";}
+  if(conn.rs.getString(26)!=null){FPOTHERR=conn.rs.getString(26);}else{FPOTHERR="";}
+  if(conn.rs.getString(27)!=null){FPOTHERT=conn.rs.getString(27);}else{FPOTHERT="";}
          
-  if(conn.rs.getString("FPCLIENTSN")!=null){FPCLIENTSN=conn.rs.getString("FPCLIENTSN");}else{
+  if(conn.rs.getString(28)!=null){FPCLIENTSN=conn.rs.getString(28);}else{
   FPCLIENTSN="";}
-  if(conn.rs.getString("FPCLIENTSR")!=null){FPCLIENTSR=conn.rs.getString("FPCLIENTSR");}else{
+  if(conn.rs.getString(29)!=null){FPCLIENTSR=conn.rs.getString(29);}else{
   FPCLIENTSR="";
   }
-  if(conn.rs.getString("FPCLIENTST")!=null){FPCLIENTST=conn.rs.getString("FPCLIENTST");}
+  if(conn.rs.getString(30)!=null){FPCLIENTST=conn.rs.getString(30);}
   else{FPCLIENTST="";
   }
-  if(conn.rs.getString("FPIUCDRemoval")!=null){FPIUCDRemoval=conn.rs.getString("FPIUCDRemoval");}else{FPIUCDRemoval="";}
-  if(conn.rs.getString("FPIMPLANTSRemoval")!=null){FPIMPLANTSRemoval=conn.rs.getString("FPIMPLANTSRemoval");}else{FPIMPLANTSRemoval="";}
+  if(conn.rs.getString(31)!=null){FPIUCDRemoval=conn.rs.getString(31);}else{FPIUCDRemoval="";}
+  if(conn.rs.getString(32)!=null){FPIMPLANTSRemoval=conn.rs.getString(32);}else{FPIMPLANTSRemoval="";}
          
           
           
           
           // mch 
  
-   if(conn.rs.getString("PMCTA_1stVisit_ANC")!=null){PMCTA_1stVisit_ANC=conn.rs.getString("PMCTA_1stVisit_ANC");}else{PMCTA_1stVisit_ANC="";}
-  if(conn.rs.getString("PMCTA_ReVisit_ANC")!=null){PMCTA_ReVisit_ANC=conn.rs.getString("PMCTA_ReVisit_ANC");}else{PMCTA_ReVisit_ANC="";}
-  if(conn.rs.getString("PMCTANCClientsT")!=null){PMCTANCClientsT=conn.rs.getString("PMCTANCClientsT");}else{PMCTANCClientsT="";}
-  if(conn.rs.getString("PMCTHB7")!=null){PMCTHB7=conn.rs.getString("PMCTHB7");}else{PMCTHB7="";}
-  if(conn.rs.getString("PMCTIPT1")!=null){PMCTIPT1=conn.rs.getString("PMCTIPT1");}else{PMCTIPT1="";}
-  if(conn.rs.getString("PMCTIPT2")!=null){PMCTIPT2=conn.rs.getString("PMCTIPT2");}else{PMCTIPT2="";}
-  if(conn.rs.getString("PMCTANCClients4")!=null){PMCTANCClients4=conn.rs.getString("PMCTANCClients4");}else{PMCTANCClients4="";}
-  if(conn.rs.getString("PMCTITN")!=null){PMCTITN=conn.rs.getString("PMCTITN");}else{PMCTITN="";}
+   if(conn.rs.getString(33)!=null){PMCTA_1stVisit_ANC=conn.rs.getString(33);}else{PMCTA_1stVisit_ANC="";}
+  if(conn.rs.getString(34)!=null){PMCTA_ReVisit_ANC=conn.rs.getString(34);}else{PMCTA_ReVisit_ANC="";}
+  if(conn.rs.getString(35)!=null){PMCTANCClientsT=conn.rs.getString(35);}else{PMCTANCClientsT="";}
+  if(conn.rs.getString(36)!=null){PMCTHB7=conn.rs.getString(36);}else{PMCTHB7="";}
+  if(conn.rs.getString(37)!=null){PMCTIPT1=conn.rs.getString(37);}else{PMCTIPT1="";}
+  if(conn.rs.getString(38)!=null){PMCTIPT2=conn.rs.getString(38);}else{PMCTIPT2="";}
+  if(conn.rs.getString(39)!=null){PMCTANCClients4=conn.rs.getString(39);}else{PMCTANCClients4="";}
+  if(conn.rs.getString(40)!=null){PMCTITN=conn.rs.getString(40);}else{PMCTITN="";}
   
 
-  if(conn.rs.getString("MATNormalDelivery")!=null){MATNormalDelivery=conn.rs.getString("MATNormalDelivery");}else{MATNormalDelivery="";}
-  if(conn.rs.getString("MATCSection")!=null){MATCSection=conn.rs.getString("MATCSection");}else{MATCSection="";}
-  if(conn.rs.getString("MATBreech")!=null){MATBreech=conn.rs.getString("MATBreech");}else{MATBreech="";}
-  if(conn.rs.getString("MATAssistedVag")!=null){MATAssistedVag=conn.rs.getString("MATAssistedVag");}else{MATAssistedVag="";}
-  if(conn.rs.getString("MATDeliveryT")!=null){MATDeliveryT=conn.rs.getString("MATDeliveryT");}else{MATDeliveryT="";}
-  if(conn.rs.getString("MATLiveBirth")!=null){MATLiveBirth=conn.rs.getString("MATLiveBirth");}else{MATLiveBirth="";}
-  if(conn.rs.getString("MATStillBirth")!=null){MATStillBirth=conn.rs.getString("MATStillBirth");}else{MATStillBirth="";}
-  if(conn.rs.getString("FPBTLT")!=null){FPBTLT=conn.rs.getString("FPBTLT");}else{FPBTLT="";}
-  if(conn.rs.getString("MATWeight2500")!=null){MATWeight2500=conn.rs.getString("MATWeight2500");}else{MATWeight2500="";}
-  if(conn.rs.getString("MATPreTerm")!=null){MATPreTerm=conn.rs.getString("MATPreTerm");}else{MATPreTerm="";}
-  if(conn.rs.getString("MATDischargealive")!=null){MATDischargealive=conn.rs.getString("MATDischargealive");}else{MATDischargealive="";}
-  if(conn.rs.getString("MATReferral")!=null){MATReferral=conn.rs.getString("MATReferral");}else{MATReferral="";}
-  if(conn.rs.getString("MATNeoNatalD")!=null){MATNeoNatalD=conn.rs.getString("MATNeoNatalD");}else{MATNeoNatalD="";}
-  if(conn.rs.getString("MATMaternalD")!=null){MATMaternalD=conn.rs.getString("MATMaternalD");}else{MATMaternalD="";}
-  if(conn.rs.getString("MATAPHAlive")!=null){MATAPHAlive=conn.rs.getString("MATAPHAlive");}else{MATAPHAlive="";}
-  if(conn.rs.getString("MATAPHDead")!=null){MATAPHDead=conn.rs.getString("MATAPHDead");}else{MATAPHDead="";}
-  if(conn.rs.getString("MATPPHAlive")!=null){MATPPHAlive=conn.rs.getString("MATPPHAlive");}else{MATPPHAlive="";}
-  if(conn.rs.getString("MATPPHDead")!=null){MATPPHDead=conn.rs.getString("MATPPHDead");}else{MATPPHDead="";}
-  if(conn.rs.getString("MATEclampAlive")!=null){MATEclampAlive=conn.rs.getString("MATEclampAlive");}else{MATEclampAlive="";}
-  if(conn.rs.getString("MATEclampDead")!=null){MATEclampDead=conn.rs.getString("MATEclampDead");}else{MATEclampDead="";}
-  if(conn.rs.getString("MATRupUtAlive")!=null){MATRupUtAlive=conn.rs.getString("MATRupUtAlive");}else{MATRupUtAlive="";}
-  if(conn.rs.getString("MATRupUtDead")!=null){MATRupUtDead=conn.rs.getString("MATRupUtDead");}else{MATRupUtDead="";}
-  if(conn.rs.getString("MATObstrLaborAlive")!=null){MATObstrLaborAlive=conn.rs.getString("MATObstrLaborAlive");}else{MATObstrLaborAlive="";}
-  if(conn.rs.getString("MATObstrLaborDead")!=null){MATObstrLaborDead=conn.rs.getString("MATObstrLaborDead");}else{MATObstrLaborDead="";}
-  if(conn.rs.getString("MATSepsisAlive")!=null){MATSepsisAlive=conn.rs.getString("MATSepsisAlive");}else{MATSepsisAlive="";}
-  if(conn.rs.getString("MATSepsisDead")!=null){MATSepsisDead=conn.rs.getString("MATSepsisDead");}else{MATSepsisDead="";}
-  if(conn.rs.getString("VCTClient_Couns_CM")!=null){VCTClient_Couns_CM=conn.rs.getString("VCTClient_Couns_CM");}else{VCTClient_Couns_CM="";}
-  if(conn.rs.getString("VCTClient_Couns_CF")!=null){VCTClient_Couns_CF=conn.rs.getString("VCTClient_Couns_CF");}else{VCTClient_Couns_CF="";}
-  if(conn.rs.getString("VCTClient_Couns_AM")!=null){VCTClient_Couns_AM=conn.rs.getString("VCTClient_Couns_AM");}else{VCTClient_Couns_AM="";}
-  if(conn.rs.getString("VCTClient_Couns_AF")!=null){VCTClient_Couns_AF=conn.rs.getString("VCTClient_Couns_AF");}else{VCTClient_Couns_AF="";}
-  if(conn.rs.getString("VCTClient_Couns_TOT")!=null){VCTClient_Couns_TOT=conn.rs.getString("VCTClient_Couns_TOT");}else{VCTClient_Couns_TOT="";}
-  if(conn.rs.getString("VCTClient_Tested_CM")!=null){VCTClient_Tested_CM=conn.rs.getString("VCTClient_Tested_CM");}else{VCTClient_Tested_CM="";}
-  if(conn.rs.getString("VCTClient_Tested_CF")!=null){VCTClient_Tested_CF=conn.rs.getString("VCTClient_Tested_CF");}else{VCTClient_Tested_CF="";}
-  if(conn.rs.getString("VCTClient_Tested_AM")!=null){VCTClient_Tested_AM=conn.rs.getString("VCTClient_Tested_AM");}else{VCTClient_Tested_AM="";}
-  if(conn.rs.getString("VCTClient_Tested_AF")!=null){VCTClient_Tested_AF=conn.rs.getString("VCTClient_Tested_AF");}else{VCTClient_Tested_AF="";}
-  if(conn.rs.getString("VCTClient_Tested_TOT")!=null){VCTClient_Tested_TOT=conn.rs.getString("VCTClient_Tested_TOT");}else{VCTClient_Tested_TOT="";}
-  if(conn.rs.getString("VCTClient_HIV_CM")!=null){VCTClient_HIV_CM=conn.rs.getString("VCTClient_HIV_CM");}else{VCTClient_HIV_CM="";}
-  if(conn.rs.getString("VCTClient_HIV_CF")!=null){VCTClient_HIV_CF=conn.rs.getString("VCTClient_HIV_CF");}else{VCTClient_HIV_CF="";}
-  if(conn.rs.getString("VCTClient_HIV_AM")!=null){VCTClient_HIV_AM=conn.rs.getString("VCTClient_HIV_AM");}else{VCTClient_HIV_AM="";}
-  if(conn.rs.getString("VCTClient_HIV_AF")!=null){VCTClient_HIV_AF=conn.rs.getString("VCTClient_HIV_AF");}else{VCTClient_HIV_AF="";}
-  if(conn.rs.getString("VCTClient_HIV_TOT")!=null){VCTClient_HIV_TOT=conn.rs.getString("VCTClient_HIV_TOT");}else{VCTClient_HIV_TOT="";}
-  if(conn.rs.getString("VCTPartner_Couns_TOT")!=null){VCTPartner_Couns_TOT=conn.rs.getString("VCTPartner_Couns_TOT");}else{VCTPartner_Couns_TOT="";}
-  if(conn.rs.getString("VCTPartner_Tested_TOT")!=null){VCTPartner_Tested_TOT=conn.rs.getString("VCTPartner_Tested_TOT");}else{VCTPartner_Tested_TOT="";}
-  if(conn.rs.getString("VCTPartner_HIV_TOT")!=null){VCTPartner_HIV_TOT=conn.rs.getString("VCTPartner_HIV_TOT");}else{VCTPartner_HIV_TOT="";}
-  if(conn.rs.getString("VCTPartner_Disc_TOT")!=null){VCTPartner_Disc_TOT=conn.rs.getString("VCTPartner_Disc_TOT");}else{VCTPartner_Disc_TOT="";}
+  if(conn.rs.getString(41)!=null){MATNormalDelivery=conn.rs.getString(41);}else{MATNormalDelivery="";}
+  if(conn.rs.getString(42)!=null){MATCSection=conn.rs.getString(42);}else{MATCSection="";}
+  if(conn.rs.getString(43)!=null){MATBreech=conn.rs.getString(43);}else{MATBreech="";}
+  if(conn.rs.getString(44)!=null){MATAssistedVag=conn.rs.getString(44);}else{MATAssistedVag="";}
+  if(conn.rs.getString(45)!=null){MATDeliveryT=conn.rs.getString(45);}else{MATDeliveryT="";}
+  if(conn.rs.getString(46)!=null){MATLiveBirth=conn.rs.getString(46);}else{MATLiveBirth="";}
+  if(conn.rs.getString(47)!=null){MATStillBirth=conn.rs.getString(47);}else{MATStillBirth="";}
+
+  if(conn.rs.getString(48)!=null){MATWeight2500=conn.rs.getString(48);}else{MATWeight2500="";}
+  if(conn.rs.getString(49)!=null){MATPreTerm=conn.rs.getString(49);}else{MATPreTerm="";}
+  if(conn.rs.getString(50)!=null){MATDischargealive=conn.rs.getString(50);}else{MATDischargealive="";}
+  if(conn.rs.getString(51)!=null){MATReferral=conn.rs.getString(51);}else{MATReferral="";}
+  if(conn.rs.getString(52)!=null){MATNeoNatalD=conn.rs.getString(52);}else{MATNeoNatalD="";}
+  if(conn.rs.getString(53)!=null){MATMaternalD=conn.rs.getString(53);}else{MATMaternalD="";}
+  if(conn.rs.getString(54)!=null){MATAPHAlive=conn.rs.getString(54);}else{MATAPHAlive="";}
+  if(conn.rs.getString(55)!=null){MATAPHDead=conn.rs.getString(55);}else{MATAPHDead="";}
+  if(conn.rs.getString(56)!=null){MATPPHAlive=conn.rs.getString(56);}else{MATPPHAlive="";}
+  if(conn.rs.getString(57)!=null){MATPPHDead=conn.rs.getString(57);}else{MATPPHDead="";}
+  if(conn.rs.getString(58)!=null){MATEclampAlive=conn.rs.getString(58);}else{MATEclampAlive="";}
+  if(conn.rs.getString(59)!=null){MATEclampDead=conn.rs.getString(59);}else{MATEclampDead="";}
+  if(conn.rs.getString(60)!=null){MATRupUtAlive=conn.rs.getString(60);}else{MATRupUtAlive="";}
+  if(conn.rs.getString(61)!=null){MATRupUtDead=conn.rs.getString(61);}else{MATRupUtDead="";}
+  if(conn.rs.getString(62)!=null){MATObstrLaborAlive=conn.rs.getString(62);}else{MATObstrLaborAlive="";}
+  if(conn.rs.getString(63)!=null){MATObstrLaborDead=conn.rs.getString(63);}else{MATObstrLaborDead="";}
+  if(conn.rs.getString(64)!=null){MATSepsisAlive=conn.rs.getString(64);}else{MATSepsisAlive="";}
+  if(conn.rs.getString(65)!=null){MATSepsisDead=conn.rs.getString(65);}else{MATSepsisDead="";}
+  if(conn.rs.getString(66)!=null){VCTClient_Couns_CM=conn.rs.getString(66);}else{VCTClient_Couns_CM="";}
+  if(conn.rs.getString(67)!=null){VCTClient_Couns_CF=conn.rs.getString(67);}else{VCTClient_Couns_CF="";}
+  if(conn.rs.getString(68)!=null){VCTClient_Couns_AM=conn.rs.getString(68);}else{VCTClient_Couns_AM="";}
+  if(conn.rs.getString(69)!=null){VCTClient_Couns_AF=conn.rs.getString(69);}else{VCTClient_Couns_AF="";}
+  if(conn.rs.getString(70)!=null){VCTClient_Couns_TOT=conn.rs.getString(70);}else{VCTClient_Couns_TOT="";}
+  if(conn.rs.getString(71)!=null){VCTClient_Tested_CM=conn.rs.getString(71);}else{VCTClient_Tested_CM="";}
+  if(conn.rs.getString(72)!=null){VCTClient_Tested_CF=conn.rs.getString(72);}else{VCTClient_Tested_CF="";}
+  if(conn.rs.getString(73)!=null){VCTClient_Tested_AM=conn.rs.getString(73);}else{VCTClient_Tested_AM="";}
+  if(conn.rs.getString(74)!=null){VCTClient_Tested_AF=conn.rs.getString(74);}else{VCTClient_Tested_AF="";}
+  if(conn.rs.getString(75)!=null){VCTClient_Tested_TOT=conn.rs.getString(75);}else{VCTClient_Tested_TOT="";}
+  if(conn.rs.getString(76)!=null){VCTClient_HIV_CM=conn.rs.getString(76);}else{VCTClient_HIV_CM="";}
+  if(conn.rs.getString(77)!=null){VCTClient_HIV_CF=conn.rs.getString(77);}else{VCTClient_HIV_CF="";}
+  if(conn.rs.getString(78)!=null){VCTClient_HIV_AM=conn.rs.getString(78);}else{VCTClient_HIV_AM="";}
+  if(conn.rs.getString(79)!=null){VCTClient_HIV_AF=conn.rs.getString(79);}else{VCTClient_HIV_AF="";}
+  if(conn.rs.getString(80)!=null){VCTClient_HIV_TOT=conn.rs.getString(80);}else{VCTClient_HIV_TOT="";}
+  if(conn.rs.getString(81)!=null){VCTPartner_Couns_TOT=conn.rs.getString(81);}else{VCTPartner_Couns_TOT="";}
+  if(conn.rs.getString(82)!=null){VCTPartner_Tested_TOT=conn.rs.getString(82);}else{VCTPartner_Tested_TOT="";}
+  if(conn.rs.getString(83)!=null){VCTPartner_HIV_TOT=conn.rs.getString(83);}else{VCTPartner_HIV_TOT="";}
+  if(conn.rs.getString(84)!=null){VCTPartner_Disc_TOT=conn.rs.getString(84);}else{VCTPartner_Disc_TOT="";}
   
   
   
@@ -437,93 +385,50 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
 
   
   //dtc
-  if(conn.rs.getString("DTCA_Couns_In_CM")!=null){DTCA_Couns_In_CM=conn.rs.getString("DTCA_Couns_In_CM");}else{DTCA_Couns_In_CM="";}
-  if(conn.rs.getString("DTCA_Couns_In_CF")!=null){DTCA_Couns_In_CF=conn.rs.getString("DTCA_Couns_In_CF");}else{DTCA_Couns_In_CF="";}
-  if(conn.rs.getString("DTCA_Couns_In_AM")!=null){DTCA_Couns_In_AM=conn.rs.getString("DTCA_Couns_In_AM");}else{DTCA_Couns_In_AM="";}
-  if(conn.rs.getString("DTCA_Couns_In_AF")!=null){DTCA_Couns_In_AF=conn.rs.getString("DTCA_Couns_In_AF");}else{DTCA_Couns_In_AF="";}
-  if(conn.rs.getString("DTCA_Couns_In_Tot")!=null){DTCA_Couns_In_Tot=conn.rs.getString("DTCA_Couns_In_Tot");}else{DTCA_Couns_In_Tot="";}
-  if(conn.rs.getString("DTCA_Couns_Out_CM")!=null){DTCA_Couns_Out_CM=conn.rs.getString("DTCA_Couns_Out_CM");}else{DTCA_Couns_Out_CM="";}
-  if(conn.rs.getString("DTCA_Couns_Out_CF")!=null){DTCA_Couns_Out_CF=conn.rs.getString("DTCA_Couns_Out_CF");}else{DTCA_Couns_Out_CF="";}
-  if(conn.rs.getString("DTCA_Couns_Out_AM")!=null){DTCA_Couns_Out_AM=conn.rs.getString("DTCA_Couns_Out_AM");}else{DTCA_Couns_Out_AM="";}
-  if(conn.rs.getString("DTCA_Couns_Out_AF")!=null){DTCA_Couns_Out_AF=conn.rs.getString("DTCA_Couns_Out_AF");}else{DTCA_Couns_Out_AF="";}
-  if(conn.rs.getString("DTCA_Couns_Out_Tot")!=null){DTCA_Couns_Out_Tot=conn.rs.getString("DTCA_Couns_Out_Tot");}else{DTCA_Couns_Out_Tot="";}
-  if(conn.rs.getString("DTCB_Test_In_CM")!=null){DTCB_Test_In_CM=conn.rs.getString("DTCB_Test_In_CM");}else{DTCB_Test_In_CM="";}
-  if(conn.rs.getString("DTCB_Test_In_CF")!=null){DTCB_Test_In_CF=conn.rs.getString("DTCB_Test_In_CF");}else{DTCB_Test_In_CF="";}
-  if(conn.rs.getString("DTCB_Test_In_AM")!=null){DTCB_Test_In_AM=conn.rs.getString("DTCB_Test_In_AM");}else{DTCB_Test_In_AM="";}
-  if(conn.rs.getString("DTCB_Test_In_AF")!=null){DTCB_Test_In_AF=conn.rs.getString("DTCB_Test_In_AF");}else{DTCB_Test_In_AF="";}
-  if(conn.rs.getString("DTCB_Test_In_Tot")!=null){DTCB_Test_In_Tot=conn.rs.getString("DTCB_Test_In_Tot");}else{DTCB_Test_In_Tot="";}
-  if(conn.rs.getString("DTCB_Test_Out_CM")!=null){DTCB_Test_Out_CM=conn.rs.getString("DTCB_Test_Out_CM");}else{DTCB_Test_Out_CM="";}
-  if(conn.rs.getString("DTCB_Test_Out_CF")!=null){DTCB_Test_Out_CF=conn.rs.getString("DTCB_Test_Out_CF");}else{DTCB_Test_Out_CF="";}
-  if(conn.rs.getString("DTCB_Test_Out_AM")!=null){DTCB_Test_Out_AM=conn.rs.getString("DTCB_Test_Out_AM");}else{DTCB_Test_Out_AM="";}
-  if(conn.rs.getString("DTCB_Test_Out_AF")!=null){DTCB_Test_Out_AF=conn.rs.getString("DTCB_Test_Out_AF");}else{DTCB_Test_Out_AF="";}
-  if(conn.rs.getString("DTCB_Test_Out_Tot")!=null){DTCB_Test_Out_Tot=conn.rs.getString("DTCB_Test_Out_Tot");}else{DTCB_Test_Out_Tot="";}
-  if(conn.rs.getString("DTCC_HIV_In_CM")!=null){DTCC_HIV_In_CM=conn.rs.getString("DTCC_HIV_In_CM");}else{DTCC_HIV_In_CM="";}
-  if(conn.rs.getString("DTCC_HIV_In_CF")!=null){DTCC_HIV_In_CF=conn.rs.getString("DTCC_HIV_In_CF");}else{DTCC_HIV_In_CF="";}
-  if(conn.rs.getString("DTCC_HIV_In_AM")!=null){DTCC_HIV_In_AM=conn.rs.getString("DTCC_HIV_In_AM");}else{DTCC_HIV_In_AM="";}
-  if(conn.rs.getString("DTCC_HIV_In_AF")!=null){DTCC_HIV_In_AF=conn.rs.getString("DTCC_HIV_In_AF");}else{DTCC_HIV_In_AF="";}
-  if(conn.rs.getString("DTCC_HIV_In_Tot")!=null){DTCC_HIV_In_Tot=conn.rs.getString("DTCC_HIV_In_Tot");}else{DTCC_HIV_In_Tot="";}
-  if(conn.rs.getString("DTCC_HIV_Out_CM")!=null){DTCC_HIV_Out_CM=conn.rs.getString("DTCC_HIV_Out_CM");}else{DTCC_HIV_Out_CM="";}
-  if(conn.rs.getString("DTCC_HIV_Out_CF")!=null){DTCC_HIV_Out_CF=conn.rs.getString("DTCC_HIV_Out_CF");}else{DTCC_HIV_Out_CF="";}
-  if(conn.rs.getString("DTCC_HIV_Out_AM")!=null){DTCC_HIV_Out_AM=conn.rs.getString("DTCC_HIV_Out_AM");}else{DTCC_HIV_Out_AM="";}
-  if(conn.rs.getString("DTCC_HIV_Out_AF")!=null){DTCC_HIV_Out_AF=conn.rs.getString("DTCC_HIV_Out_AF");}else{DTCC_HIV_Out_AF="";}
-  if(conn.rs.getString("DTCC_HIV_Out_Tot")!=null){DTCC_HIV_Out_Tot=conn.rs.getString("DTCC_HIV_Out_Tot");}else{DTCC_HIV_Out_Tot="";}
+  if(conn.rs.getString(85)!=null){DTCA_Couns_In_CM=conn.rs.getString(85);}else{DTCA_Couns_In_CM="";}
+  if(conn.rs.getString(86)!=null){DTCA_Couns_In_CF=conn.rs.getString(86);}else{DTCA_Couns_In_CF="";}
+  if(conn.rs.getString(87)!=null){DTCA_Couns_In_AM=conn.rs.getString(87);}else{DTCA_Couns_In_AM="";}
+  if(conn.rs.getString(88)!=null){DTCA_Couns_In_AF=conn.rs.getString(88);}else{DTCA_Couns_In_AF="";}
+  if(conn.rs.getString(89)!=null){DTCA_Couns_In_Tot=conn.rs.getString(89);}else{DTCA_Couns_In_Tot="";}
+  if(conn.rs.getString(90)!=null){DTCA_Couns_Out_CM=conn.rs.getString(90);}else{DTCA_Couns_Out_CM="";}
+  if(conn.rs.getString(91)!=null){DTCA_Couns_Out_CF=conn.rs.getString(91);}else{DTCA_Couns_Out_CF="";}
+  if(conn.rs.getString(92)!=null){DTCA_Couns_Out_AM=conn.rs.getString(92);}else{DTCA_Couns_Out_AM="";}
+  if(conn.rs.getString(93)!=null){DTCA_Couns_Out_AF=conn.rs.getString(93);}else{DTCA_Couns_Out_AF="";}
+  if(conn.rs.getString(94)!=null){DTCA_Couns_Out_Tot=conn.rs.getString(94);}else{DTCA_Couns_Out_Tot="";}
+  if(conn.rs.getString(95)!=null){DTCB_Test_In_CM=conn.rs.getString(95);}else{DTCB_Test_In_CM="";}
+  if(conn.rs.getString(96)!=null){DTCB_Test_In_CF=conn.rs.getString(96);}else{DTCB_Test_In_CF="";}
+  if(conn.rs.getString(97)!=null){DTCB_Test_In_AM=conn.rs.getString(97);}else{DTCB_Test_In_AM="";}
+  if(conn.rs.getString(98)!=null){DTCB_Test_In_AF=conn.rs.getString(98);}else{DTCB_Test_In_AF="";}
+  if(conn.rs.getString(99)!=null){DTCB_Test_In_Tot=conn.rs.getString(99);}else{DTCB_Test_In_Tot="";}
+  if(conn.rs.getString(100)!=null){DTCB_Test_Out_CM=conn.rs.getString(100);}else{DTCB_Test_Out_CM="";}
+  if(conn.rs.getString(101)!=null){DTCB_Test_Out_CF=conn.rs.getString(101);}else{DTCB_Test_Out_CF="";}
+  if(conn.rs.getString(102)!=null){DTCB_Test_Out_AM=conn.rs.getString(102);}else{DTCB_Test_Out_AM="";}
+  if(conn.rs.getString(103)!=null){DTCB_Test_Out_AF=conn.rs.getString(103);}else{DTCB_Test_Out_AF="";}
+  if(conn.rs.getString(104)!=null){DTCB_Test_Out_Tot=conn.rs.getString(104);}else{DTCB_Test_Out_Tot="";}
+  if(conn.rs.getString(105)!=null){DTCC_HIV_In_CM=conn.rs.getString(105);}else{DTCC_HIV_In_CM="";}
+  if(conn.rs.getString(106)!=null){DTCC_HIV_In_CF=conn.rs.getString(106);}else{DTCC_HIV_In_CF="";}
+  if(conn.rs.getString(107)!=null){DTCC_HIV_In_AM=conn.rs.getString(107);}else{DTCC_HIV_In_AM="";}
+  if(conn.rs.getString(108)!=null){DTCC_HIV_In_AF=conn.rs.getString(108);}else{DTCC_HIV_In_AF="";}
+  if(conn.rs.getString(109)!=null){DTCC_HIV_In_Tot=conn.rs.getString(109);}else{DTCC_HIV_In_Tot="";}
+  if(conn.rs.getString(110)!=null){DTCC_HIV_Out_CM=conn.rs.getString(110);}else{DTCC_HIV_Out_CM="";}
+  if(conn.rs.getString(111)!=null){DTCC_HIV_Out_CF=conn.rs.getString(111);}else{DTCC_HIV_Out_CF="";}
+  if(conn.rs.getString(112)!=null){DTCC_HIV_Out_AM=conn.rs.getString(112);}else{DTCC_HIV_Out_AM="";}
+  if(conn.rs.getString(113)!=null){DTCC_HIV_Out_AF=conn.rs.getString(113);}else{DTCC_HIV_Out_AF="";}
+  if(conn.rs.getString(114)!=null){DTCC_HIV_Out_Tot=conn.rs.getString(114);}else{DTCC_HIV_Out_Tot="";}
   
-     if(conn.rs.getString("isValidated")!=null){      
-    isValidated=conn.rs.getString("isValidated");
-     }
-     else{isValidated="";}
-        //get the name of the person who entered the form 
-
-        String enterer = "select * from user where userid='" + conn.rs.getString("userid") + "'";
-System.out.println(enterer);
-        conn.rs1 = conn.st1.executeQuery(enterer);
-        //add details of person who entered
-        if (conn.rs1.next()) {
-            enterdby = "<font color='green'>Data 1st entered by:   <b> " + conn.rs1.getString("fname") + " " + conn.rs1.getString("mname") + " " + conn.rs1.getString("lname") + "</b>  on  <b>" + conn.rs.getString("timestamp") + "</b></font>";
-        }
+  
+       
 
 
-        //now check if form was updated and if its one month after data entry
+     
 
-        if (conn.rs.getString("updatedOn") != null) {
-            //get difference in months between entered date and updated date
-            String compdate = "SELECT TIMESTAMPDIFF(MONTH,'" + conn.rs.getString("timestamp") + "','" + conn.rs.getString("updatedOn") + "')";
-            conn.rs2 = conn.st2.executeQuery(compdate);
-            if (conn.rs2.next()) {
-                //now get the details of the person who updated the form
-                //if the difference is greater than or equal to one, 
-
-
-                if (conn.rs2.getInt(1) >= 1) {
-                    String updater = "select * from user where userid='" + conn.rs.getString("updatedBy") + "'";
-
-                    conn.rs1 = conn.st1.executeQuery(updater);
-                    //add details of person who entered
-                    if (conn.rs1.next()) {
-                        enterdby += "<span style='margin-left:30%;'><font color='red'>   Updated  by:   <b> " + conn.rs1.getString("fname") + " " + conn.rs1.getString("mname") + " " + conn.rs1.getString("lname") + "</b>  on  <b>" + conn.rs.getString("updatedOn") + "</b></font></span>";
-                    }
-                } //end of if month >=1 
-            }//end of date comparison if 
-
-        }//end of if updated !=null
-   System.out.println("entry by "+enterdby);
           
     }
-       System.out.println("Validity checker : "+isValidated);
-      if(isValidated.equals("0")){
-  validity="<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;
-}
-      else if(isValidated.equals("1")){
-   validity="<font color=\"green\"><b>Form Validated.<img style=\"margin-left:10px;\" src=\"images/validated.jpg\" width=\"20px\" height=\"20px\"></b></font>"  ;  
-}
-      else{
-     
-        validity="<font color=\"blue\"><b>New Entry</b></font>"  ;          
-              } 
+    
             FamilyPlanninng=pmct=maternity=vct=dtc="";    
           FP_TAB+="";
           
-          validitychecker+="<p id=\"checkValidity\" hidden=\"hidden\">"+validity+"</p>";
+        
 //          FPMicrolutN=FPMicrolutR=FPMicrolutT=FPMicrogynonN=FPMicrogynonR=FPMicrogynonT=FPINJECTIONSN=FPINJECTIONSR=
 //FPINJECTIONST=FPIUCDN=FPIUCDR=FPIUCDT=FPIMPLANTSN=FPIMPLANTSR=FPIMPLANTST=FPBTLN=FPBTLR=FPBTLT=FPVasectomyN=FPVasectomyR="";
 //FPVasectomyT=FPCONDOMSN=FPCONDOMSR=FPCONDOMST=FPOTHERN=FPOTHERR=FPOTHERT=FPCLIENTSN=FPCLIENTSR=FPCLIENTST=FPIUCDRemoval=
