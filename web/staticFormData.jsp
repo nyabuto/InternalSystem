@@ -362,11 +362,17 @@ dbConn conn = new dbConn();
     else if( reportFormat==="excel" && form==="MOH 731") {
  document.getElementById("formActions").action = "staticReportExcel731";
     }
-    else if(reportFormat==="pdf" &&form==="MOH 711A") {
- document.getElementById("formActions").action = "moh711_StaticReport";
-    }
-    else if(reportFormat==="pdf" &&form==="TB") {
- document.getElementById("formActions").action = "tbpdf";
+    else if(form==="MOH 711A") {
+ 
+document.getElementById("formActions").action = "pdf711";
+
+}
+  else if(reportFormat==="pdf" &&form==="MOH 711A") {
+document.getElementById("formActions").action = "moh711_StaticReport";
+   }
+   else if(reportFormat==="pdf" &&form==="TB") {
+document.getElementById("formActions").action = "tbpdf";
+   
     }
      else if(reportFormat==="pdf" && form==="KMMP") {
  document.getElementById("formActions").action = "kmmppdf";
@@ -374,11 +380,30 @@ dbConn conn = new dbConn();
     else if(reportFormat==="excel" && form==="KMMP") {
  document.getElementById("formActions").action = "kmmpexcel";
     }
+    else if(reportFormat==="pdf" && form==="VMMC") {
+ document.getElementById("formActions").action = "Vmmcpdf";
+    }
+      else if(reportFormat==="excel" && form==="VMMC") {
+ document.getElementById("formActions").action = "vmmcexcel";
+    }
+     else if(reportFormat==="pdf" && form==="Gender") {
+ document.getElementById("formActions").action = "Genderpdf";
+    }
+    
+      else if(reportFormat==="excel" && form==="Gender") {
+ document.getElementById("formActions").action = "Genderexcel";
+      }
+       else if(reportFormat==="pdf" && form==="Nutrition") {
+ document.getElementById("formActions").action = "nutritionpdf";
+    }
+    else if(reportFormat==="excel" && form==="Nutrition") {
+ document.getElementById("formActions").action = "nutritionexcel";
+      }
     
 else {
  document.getElementById("formActions").action =  "allStaticReports";
 }
-}
+
 
      }  
        
@@ -393,7 +418,7 @@ else {
          $("#reportSemi").hide();
          $("#reportQuarter").hide();
          $("#reportMonth").hide();
-           $("#reportCounty").hide();
+         $("#reportCounty").hide();
   $("#reportDistrict").hide();
   $("#reportFacility").hide(); 
       //load all the facilities first to enable one to filter by county

@@ -364,7 +364,7 @@ public class vmmcexcel extends HttpServlet {
  clx.setCellValue("");
  clx.setCellStyle(stylex);
                      }
-    shet.addMergedRegion(new CellRangeAddress(2,11,0,0));  
+    shet.addMergedRegion(new CellRangeAddress(2,10,0,0));  
     shet.addMergedRegion(new CellRangeAddress(0,0,0,4));  
     shet.addMergedRegion(new CellRangeAddress(1,1,0,4));  
     shet.addMergedRegion(new CellRangeAddress(2,2,1,4));  
@@ -377,7 +377,7 @@ public class vmmcexcel extends HttpServlet {
     
     
         
-getexistingdata="select sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D19) as P51D24,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53DM) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  ";
+getexistingdata="select sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  ";
 
             System.out.println(getexistingdata);
 String P51D1 = "";
@@ -587,6 +587,10 @@ if(1==1){
       int r=3;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+     
       HSSFCell clx= rwx.createCell(1);
  clx.setCellValue("< 1");
  clx.setCellStyle(style2);
@@ -609,6 +613,10 @@ if(1==1){
       int r=4;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   
    HSSFCell clx= rwx.createCell(1);
  clx.setCellValue("1-9");
  clx.setCellStyle(style2);
@@ -632,6 +640,10 @@ if(1==1){
       int r=5;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   
    HSSFCell clx= rwx.createCell(1);
  clx.setCellValue("10-14");
  clx.setCellStyle(style2);
@@ -656,6 +668,9 @@ if(1==1){
       int r=6;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
    HSSFCell clx= rwx.createCell(1);
  clx.setCellValue("15-19");
  clx.setCellStyle(style2);
@@ -678,6 +693,10 @@ if(1==1){
       int r=7;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   
    HSSFCell clx= rwx.createCell(1);
  clx.setCellValue("20-24");
  clx.setCellStyle(style2);
@@ -702,6 +721,10 @@ if(1==1){
       int r=8;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   
    HSSFCell clx= rwx.createCell(1);
  clx.setCellValue("25-49");
  clx.setCellStyle(style2);
@@ -725,12 +748,16 @@ if(1==1){
       int r=9;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
+   
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
    HSSFCell clx= rwx.createCell(1);
  clx.setCellValue("50 +");
  clx.setCellStyle(style2);
      
   HSSFCell clx1= rwx.createCell(4);
- clx1.setCellValue(P51D49);
+ clx1.setCellValue(P51D50);
  clx1.setCellStyle(style2);
  
   for(int a=2;a<=3;a++){ 
@@ -743,39 +770,576 @@ if(1==1){
   }
   //==================================================================================
  
-  
-                    createdtable +=header+"<br/><table   border='1' style='border-color: #e5e5e5;margin-bottom: 3px;font-size:10;font-family:cambria;'>"
-                            + "<tr><th colspan='5' style='text-align:center;'><b>Voluntary Male Circumcision Reporting Form</b></th></tr>"
-                            + "<tr class='form-actions'><th rowspan='9' style='width:40px;'> <b>P5.1.D </b></th><th colspan='4'><b>Number of Males Circumcised as part of the minimum package of MC for HIV Prevention Services </b></th></tr>"
-                            + "<tr><td colspan='3' style='text-align:left;'><b> <1 </b></td><td>" + P51D1 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 1-9 </b></td></td><td>" + P51D9 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 10-14 </b></td></td><td>" + P51D10 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 15-19 </b></td></td><td>" + P51D19 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 20-24 </b></td></td><td>" + P51D24 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 25-49 </b></td></td><td>" + P51D49 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 50+ </b></td></td><td>" + P51D50 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> Total </b></td></td><td>" + P51DT + "</td></tr>";
-                    createdtable += "<tr class='form-actions'><th rowspan='5'> P5.2.D</th><th colspan='4' > Number of clients circumcised who experienced one or more moderate or severe adverse event(s) within the reporting period</th></tr>";
-                    createdtable += "<tr><td ></td><td><b>Moderate</b></td><td><b>Severe</b></td><td><b>Total</b></td></tr>";
-                    createdtable += "<tr><td><b>During circumcision</b></td><td>" + P521DM + "</td><td>" + P521DS + "</td><td>" + P521DT + "</td></tr>";
-                    createdtable += "<tr><td><b>Post circumcision</b></td><td>" + P522DM + "</td><td>" + P522DS + "</td><td>" + P522DT + "</td></tr>";
-                    createdtable += "<tr><td><b>Total adverse events</b></td><td>" + P52DM + "</td><td>" + P52DS + "</td><td>" + P52DT + "</td></tr>";
-                    createdtable += "<tr class='form-actions'><th rowspan='4' > <b> P5.1.1.K </b></th><th colspan='4' style='background:green;'><b> HIV Status of MC Clients</b></th></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Tested/self-reported positive</b></td><td>" + P511KP + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Tested negative</b></td><td>" + P511KN + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Unknown/self-reported negative</b></td><td>" + P511KU + "</td></tr>";
-                    createdtable += "<tr class='form-actions'><th rowspan='3'> <b> P5.1.1.T </b></th><th colspan='4'><b>Circumcision technique</b></th></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Surgical VMMC</b></td><td>" + P511Surg + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Device-Based VMMC</b></td><td>" + P511Dev + "</td></tr>";
-                    createdtable += "<tr class='form-actions'><th rowspan='5'> <b> P5.3.D </b></th><th colspan='4'><b> Number of locations providing MC surgery as part of the minimum package of MC for HIV prevention services within the reporting period</b> </th></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Fixed/Static</b></td><td>" + P53DF + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Outreach</b></td><td>" + P53DO + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Mobile</b></td><td>" + P53DM + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b>Total</b></td><td>" + P53D + "</td></tr>";
-                    createdtable += "<tr class='form-actions'><th rowspan='2'> <b> P5.4.D </b></th><th colspan='4'>Number of males circumcised within the reporting period who return at least once for postoperative follow‐up care (routine or emergent)</th></tr>";
-                    createdtable += "<tr><td colspan='4' style='text-align:left;'>" + P54D + "</td></tr>"
-                            + "</table>";
 
+    if(1==1){
+      int r=10;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+   
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Total");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P51DT);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+                     }
+   shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+ 
+  }
+  //==================================================================================
+
+   
+
+    if(1==1){
+      int r=11;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+   
+   HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("P5.2.D");
+ clx0.setCellStyle(style2);
+   
+   
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Number of Clients circumcised who experienced one or more moderate or severe adverse events(s)");
+ clx.setCellStyle(stylex);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue("");
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+                     }
+   shet.addMergedRegion(new CellRangeAddress(r,r,1,4));
+   shet.addMergedRegion(new CellRangeAddress(r,r+4,0,0));
+ 
+  }
+  //==================================================================================
+    
+    
+    if(1==1){
+      int r=12;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("");
+ clx.setCellStyle(style2);
+ 
+
+   HSSFCell clxm= rwx.createCell(2);
+ clxm.setCellValue("Moderate");
+ clxm.setCellStyle(stylex);
+    
+ 
+ HSSFCell clxs= rwx.createCell(3);
+ clxs.setCellValue("Severe");
+ clxs.setCellStyle(stylex);
+ 
+ 
+  HSSFCell clxt= rwx.createCell(4);
+ clxt.setCellValue("Total");
+ clxt.setCellStyle(stylex);
+ 
+
+ 
+   //shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+ 
+  }
+  //==================================================================================
+   
+     
+    if(1==1){
+      int r=13;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+   
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("During Circumcission");
+ clx.setCellStyle(stylex);
+ 
+
+   HSSFCell clxm= rwx.createCell(2);
+ clxm.setCellValue(P521DM);
+ clxm.setCellStyle(style2);
+    
+ 
+ HSSFCell clxs= rwx.createCell(3);
+ clxs.setCellValue(P521DS);
+ clxs.setCellStyle(style2);
+ 
+ 
+  HSSFCell clxt= rwx.createCell(4);
+ clxt.setCellValue(P521DT);
+ clxt.setCellStyle(style2);
+ 
+
+ 
+   //shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+ 
+  }
+  //==================================================================================
+   
+     
+    if(1==1){
+      int r=14;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Post CircumCission");
+ clx.setCellStyle(stylex);
+ 
+
+   HSSFCell clxm= rwx.createCell(2);
+ clxm.setCellValue(P522DM);
+ clxm.setCellStyle(style2);
+    
+ 
+ HSSFCell clxs= rwx.createCell(3);
+ clxs.setCellValue(P522DS);
+ clxs.setCellStyle(style2);
+ 
+ 
+  HSSFCell clxt= rwx.createCell(4);
+ clxt.setCellValue(P522DT);
+ clxt.setCellStyle(style2);
+ 
+
+ 
+   //shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+ 
+  }
+  //==================================================================================
+   
+   if(1==1){
+      int r=15;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+   
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Total Adverse Events");
+ clx.setCellStyle(stylex);
+ 
+
+   HSSFCell clxm= rwx.createCell(2);
+ clxm.setCellValue(P52DM);
+ clxm.setCellStyle(style2);
+    
+ 
+ HSSFCell clxs= rwx.createCell(3);
+ clxs.setCellValue(P52DS);
+ clxs.setCellStyle(style2);
+ 
+ 
+  HSSFCell clxt= rwx.createCell(4);
+ clxt.setCellValue(P52DT);
+ clxt.setCellStyle(style2);
+ 
+
+ 
+   //shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+ 
+  }
+  //==================================================================================
+    if(1==1){
+      int r=16;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+   
+   HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("P5.1.1.K");
+ clx0.setCellStyle(style2);
+   
+   
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("HIV Status of MC clients)");
+ clx.setCellStyle(stylex);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue("");
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+                     }
+   shet.addMergedRegion(new CellRangeAddress(r,r,1,4));
+   shet.addMergedRegion(new CellRangeAddress(r,r+3,0,0));
+ 
+  }
+  //==================================================================================
+    if(1==1){
+      int r=17;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Tested/self-reported positive");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P511KP);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  
+   //==================================================================================
+   if(1==1){
+      int r=18;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Tested negative");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P511KN);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  
+   //==================================================================================
+  
+   if(1==1){
+      int r=19;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Unknown/self-reported negative");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P511KU);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  
+   //==================================================================================
+   //==================================================================================
+    if(1==1){
+      int r=20;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+   
+   HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("P5.1.1.T");
+ clx0.setCellStyle(style2);
+   
+   
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Circumcission Technique)");
+ clx.setCellStyle(stylex);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue("");
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+                     }
+   shet.addMergedRegion(new CellRangeAddress(r,r,1,4));
+   shet.addMergedRegion(new CellRangeAddress(r,r+2,0,0));
+ 
+  }
+  //==================================================================================
+    
+     if(1==1){
+      int r=21;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Surgical VMMC");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P511Surg);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  
+   //==================================================================================
+  
+     if(1==1){
+      int r=22;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Device-Based VMMC");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P511Dev);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  
+   //==================================================================================
+   
+      //==================================================================================
+    if(1==1){
+      int r=23;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+   
+   HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("P5.3.D:");
+ clx0.setCellStyle(style2);
+   
+   
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Number of locations providing MC surgery as part of the minimum package of MC for HIV prevention services within the reporting period ");
+ clx.setCellStyle(stylex);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue("");
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+                     }
+   shet.addMergedRegion(new CellRangeAddress(r,r,1,4));
+   shet.addMergedRegion(new CellRangeAddress(r,r+4,0,0));
+ 
+  }
+  //==================================================================================
+    
+     if(1==1){
+      int r=24;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Fixed/Static");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P53DF);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  
+   //==================================================================================
+   if(1==1){
+      int r=25;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Outreach");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P53DO);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  //==============================================================================================
+   //==================================================================================
+   if(1==1){
+      int r=26;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Mobile");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P53DM);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  //==============================================================================================
+   //==================================================================================
+   if(1==1){
+      int r=27;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Total");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P53D);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  //==============================================================================================
+     
+    //==================================================================================
+    if(1==1){
+      int r=28;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(28);
+   
+   HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("P5.3.D:");
+ clx0.setCellStyle(style2);
+   
+   
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("Number of males circumcised within the reporting period who return at least once for postoperative follow‐up care (routine or emergent) within 14 days of surgery");
+ clx.setCellStyle(stylex);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue("");
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+                     }
+   shet.addMergedRegion(new CellRangeAddress(r,r,1,4));
+   shet.addMergedRegion(new CellRangeAddress(r,r+1,0,0));
+ 
+  }
+  //==================================================================================
+    
+     if(1==1){
+      int r=29;
+   HSSFRow rwx=shet.createRow(r);
+     rwx.setHeightInPoints(23);
+      HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+     
+      HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P54D);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+ shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+                     }
+ 
+  }
+  
+   //==================================================================================
+   
+   
+    
     
     }
     
