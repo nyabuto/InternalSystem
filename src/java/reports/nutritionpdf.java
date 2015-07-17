@@ -78,8 +78,8 @@ public class nutritionpdf extends HttpServlet {
     year=request.getParameter("year");
     }
     
-     if(request.getParameter("facil")!=null  && reportType.equals("2")){
-    facil=request.getParameter("facil");
+     if(request.getParameter("facility")!=null  && reportType.equals("2")){
+    facil=request.getParameter("facility");
     
     String getfacil="select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='"+facil+"'";
     conn.rs=conn.st.executeQuery(getfacil);
