@@ -6,6 +6,7 @@
 
 package reports;
 
+import General.IdGenerator;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.html.simpleparser.HTMLWorker;
@@ -164,7 +165,7 @@ public class nutritionpdf extends HttpServlet {
         semi_annual=request.getParameter("semi_annual");
 //        semi_annual="2";
        if(semi_annual.equals("1")){
-            yearmonth+="_Oct_Mar";
+            yearmonth=prevYear+"_Oct_"+year+"_Mar";
        duration=" "+form+".yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
        }
            else{
@@ -180,15 +181,17 @@ public class nutritionpdf extends HttpServlet {
        String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
        conn.rs=conn.st.executeQuery(getMonths);
        if(conn.rs.next()==true){
-           yearmonth+=year+"_"+conn.rs.getString(2);
+           
+          
       String months []=conn.rs.getString(1).split(",");
        startMonth=months[0];
        endMonth=months[2];
       if(quarter.equals("1")){
       duration=" "+form+".yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-
+ yearmonth=prevYear+"_"+conn.rs.getString(2);
       }
       else{
+           yearmonth=year+"_"+conn.rs.getString(2);
      duration=" "+form+".yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
       }
                               }
@@ -196,25 +199,23 @@ public class nutritionpdf extends HttpServlet {
         
       else if(reportDuration.equals("4")){
      monthcopy=Integer.parseInt(request.getParameter("month"));
-     yearmonth+=year+"_("+month+")";
+   
      
 //     month=5;
      if(monthcopy>=10){
+          yearmonth=prevYear+"_"+month;
      duration=" "+form+".yearmonth="+prevYear+""+month;    
      }
      else{
   duration=" "+form+".yearmonth="+year+"0"+month;  
+    yearmonth=year+"_("+month+")";
      }
       }
       else{
      duration="";     
       }
         
-
-
-
-
-//==================================================================================================
+	//======================================================================
    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
    
    
@@ -474,11 +475,15 @@ if(1==1){
                 Logger.getLogger(Vmmcpdf.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-   document.close();    
+   document.close(); 
+   
+   	  IdGenerator IG = new IdGenerator();
+     String   createdOn=IG.CreatedOn();
+
 response.setContentType("application/pdf");
 response.setContentLength(outByteStream.size());
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename="+form+yearmonth+".pdf");
+response.setHeader("Content-Disposition", "attachment; filename="+form+yearmonth+"_Generated_On_"+createdOn+".pdf");
 
 ServletOutputStream sos;
 sos = response.getOutputStream();
