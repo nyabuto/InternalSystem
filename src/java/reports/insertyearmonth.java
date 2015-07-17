@@ -42,7 +42,7 @@ public class insertyearmonth extends HttpServlet {
             String finalym="";
             String id="";
             /* TODO output your page here. You may use following sample code. */
-          String getmonths="select * from tb";
+          String getmonths="select * from moh711";
           conn.rs = conn.st.executeQuery(getmonths);
           while(conn.rs.next()){
           month= conn.rs.getInt("Mois");
@@ -55,7 +55,7 @@ public class insertyearmonth extends HttpServlet {
           finalym=year+"0"+month;
           }
           
-          String insert="update tb set yearmonth='"+finalym+"' where ID='"+id+"'";
+          String insert="update moh711 set yearmonth='"+finalym+"' where ID='"+id+"'";
           System.out.println(insert);
           conn.st2.executeUpdate(insert);
           }
