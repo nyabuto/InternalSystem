@@ -158,7 +158,7 @@ String createdOn,period;
     stborder.setWrapText(true);
     
     HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_80_PERCENT.index);
+stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
@@ -172,7 +172,7 @@ stylex.setFont(fontx);
 stylex.setWrapText(true);
 
    HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_50_PERCENT.index);
+stylemainHeader.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
 stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
    stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
