@@ -354,11 +354,7 @@ if(conn.rs.next()==true){
    XSSFRow rw1S30=shet3.createRow(pos);
    XSSFRow rw1S40=shet4.createRow(pos);
    XSSFRow rw1S50=shet5.createRow(pos);
-      shet1.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
-      shet2.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
-      shet3.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
-      shet4.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
-      shet5.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
+  
     
     XSSFCell  S1cell=rw1S10.createCell(0);
     S1cell.setCellValue(headername+" : "+headerValue);
@@ -443,11 +439,15 @@ if(conn.rs.next()==true){
     S5cellX.setCellStyle(stylex);
    
       arrayCounter++;
+     
+      shet1.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
+      shet2.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
+      shet3.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
+      shet4.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
+      shet5.addMergedRegion(new CellRangeAddress(pos,pos,0,3));
       pos++;
-      
-     
      } 
-     
+      
    
       if(conn.rs.getString(1)!=null){FPMicrolutN=conn.rs.getString(1);}
           else if (FPMicrolutN==null){FPMicrolutN="";}
