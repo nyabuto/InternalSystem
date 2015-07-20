@@ -222,14 +222,14 @@
                            </div> 
                             
                             
-                              <div class="control-group" id="reportFacility">
+<!--                              <div class="control-group" id="reportFacility">
                               <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6 m-wrap" tabindex="-1"  id="facility" name="facility" style="width: 400px;">
                                     <option value=""></option>
                                  </select>
                               </div>
-                           </div>
+                           </div>-->
                             
                            <div class="form-actions">
                               <button type="submit" class="btn blue">Generate Report.</button>
@@ -305,8 +305,8 @@
        
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-        $('#facility').select2(); 
-
+//        $('#facility').select2(); 
+//         $('#facility').hide();
        // FormComponents.init();
          $("#reportTime").hide();
          $("#reportSemi").hide();
@@ -314,25 +314,25 @@
          $("#reportMonth").hide();
  
       //load all the facilities first to enable one to filter by county
-                 $.ajax({
-url:'loadFacilities',
-type:'post',
-dataType:'html',
-success:function (data){
-       $("#facility").html(data);
-         if(document.getElementById("facility").value!==''){
-      updatefacilsession();
-      
-      $('#facility').select2();  
-      }  
-     
-         // $("#facility").chosen();
-       
-       
-}
-
-
-});     
+//                 $.ajax({
+//url:'loadFacilities',
+//type:'post',
+//dataType:'html',
+//success:function (data){
+//       $("#facility").html(data);
+//         if(document.getElementById("facility").value!==''){
+//      updatefacilsession();
+//      
+//      $('#facility').select2();  
+//      }  
+//     
+//         // $("#facility").chosen();
+//       
+//       
+//}
+//
+//
+//});     
          
 $.ajax({
     url:'loadYear',
@@ -466,54 +466,54 @@ success:function (data){
       }
       
     
-      function loadfacils(){
-      var subcounty=document.getElementById("subcounty").value;  
-                    $.ajax({
-url:'loadFacilities?subcounty='+subcounty,
-type:'post',
-dataType:'html',
-success:function (data){
-       $("#facility").html(data);
-         if(document.getElementById("facility").value!==''){
-      updatefacilsession();
-      
-     
-      }  
-      $('#facility').select2();  
-         // $("#facility").chosen();
-       
-       
-}
-
-
-}); 
-         
-         
-        }
+//      function loadfacils(){
+//      var subcounty=document.getElementById("subcounty").value;  
+//                    $.ajax({
+//url:'loadFacilities?subcounty='+subcounty,
+//type:'post',
+//dataType:'html',
+//success:function (data){
+//       $("#facility").html(data);
+//         if(document.getElementById("facility").value!==''){
+//      updatefacilsession();
+//      
+//     
+//      }  
+//      $('#facility').select2();  
+//         // $("#facility").chosen();
+//       
+//       
+//}
+//
+//
+//}); 
+//         
+//         
+//        }
       
     
-    function updatefacilsession(){
-          
-        var facil=document.getElementById("facility").value;
-        $.ajax({
-url:'updatefacilitysession?facil='+facil,
-type:'post',
-dataType:'html',
-success:function (data){      
-    
-    //  $("#"+col).css({'background-color' : '#CCFFCC'});
-     
-     //now load the forms
-     
-     loadfrms();
-     
-}
-             
-             });    
-          
-          
-          
-      }
+//    function updatefacilsession(){
+//          
+//        var facil=document.getElementById("facility").value;
+//        $.ajax({
+//url:'updatefacilitysession?facil='+facil,
+//type:'post',
+//dataType:'html',
+//success:function (data){      
+//    
+//    //  $("#"+col).css({'background-color' : '#CCFFCC'});
+//     
+//     //now load the forms
+//     
+//     loadfrms();
+//     
+//}
+//             
+//             });    
+//          
+//          
+//          
+//      }
       
     
     function loadfrms(){
