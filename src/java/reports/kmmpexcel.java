@@ -7,6 +7,7 @@
 package reports;
 
 
+import General.IdGenerator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -173,7 +174,7 @@ public class kmmpexcel extends HttpServlet {
         semi_annual=request.getParameter("semi_annual");
 //        semi_annual="2";
        if(semi_annual.equals("1")){
-            yearmonth+="_Oct_Mar";
+            yearmonth=prevYear+"_Oct_"+year+"_Mar";
        duration=" "+form+".yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
        }
            else{
@@ -189,15 +190,17 @@ public class kmmpexcel extends HttpServlet {
        String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
        conn.rs=conn.st.executeQuery(getMonths);
        if(conn.rs.next()==true){
-           yearmonth+=year+"_"+conn.rs.getString(2);
+           
+          
       String months []=conn.rs.getString(1).split(",");
        startMonth=months[0];
        endMonth=months[2];
       if(quarter.equals("1")){
       duration=" "+form+".yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-
+ yearmonth=prevYear+"_"+conn.rs.getString(2);
       }
       else{
+           yearmonth=year+"_"+conn.rs.getString(2);
      duration=" "+form+".yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
       }
                               }
@@ -205,22 +208,23 @@ public class kmmpexcel extends HttpServlet {
         
       else if(reportDuration.equals("4")){
      monthcopy=Integer.parseInt(request.getParameter("month"));
-     yearmonth+=year+"_("+month+")";
+   
      
 //     month=5;
      if(monthcopy>=10){
+          yearmonth=prevYear+"_"+month;
      duration=" "+form+".yearmonth="+prevYear+""+month;    
      }
      else{
   duration=" "+form+".yearmonth="+year+"0"+month;  
+    yearmonth=year+"_("+month+")";
      }
       }
       else{
      duration="";     
       }
         
-
-
+	//======================================================================	
 
 
 //==================================================================================================
@@ -717,6 +721,8 @@ if(1==1){
          
      
 
+		  IdGenerator IG = new IdGenerator();
+     String   createdOn=IG.CreatedOn();
 
 
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
@@ -725,7 +731,7 @@ byte[] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=kmmp"+yearmonth+".xls");
+response.setHeader("Content-Disposition", "attachment; filename=kmmp"+yearmonth+"_Generated_On_"+createdOn+".xls");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
