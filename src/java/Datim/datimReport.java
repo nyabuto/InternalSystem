@@ -69,7 +69,7 @@ String ARTSupport,PMTCTSupport,CARESuport;
         period="";
         prevYear=year-1; 
         maxYearMonth=0;
-        facilityIds="";
+        facilityIds="(";
         artpos=carepos=pmtctpos=0;
 //        GET REPORT DURATION============================================
 
@@ -143,7 +143,7 @@ String ARTSupport,PMTCTSupport,CARESuport;
      facilityIds+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
     }
       facilityIds = facilityIds.substring(0, facilityIds.length()-3);
-     facilityIds+=" && ";   
+     facilityIds+=") && ";   
      } 
      else{
         if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
@@ -157,7 +157,7 @@ String ARTSupport,PMTCTSupport,CARESuport;
      facilityIds+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
     }
     facilityIds = facilityIds.substring(0, facilityIds.length()-3);
-     facilityIds+=" && ";     
+     facilityIds+=") && ";     
      }
        
         else{
@@ -511,13 +511,14 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
             + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
             + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
-    + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),subpartnera.SubPartnerID FROM moh731 JOIN subpartnera "
+    + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
+            + "subpartnera.SubPartnerID FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
     + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1) "
-            + "GROUP BY subpartnera.SubPartnerID " ;
+            + "GROUP BY moh731.SubPartnerID " ;
      System.out.println("new : "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
