@@ -966,21 +966,21 @@ splitData--;
        totalCurrentCARE=HV0318+HV0316+HV0317+HV0315;
 
        String dataART []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","+totalCurrentART+","
-           + ""+currentART1M+","+currentART1_4M+","+currentART5_14M+","+currentART15_19M+","
-           + ""+currentART20M+","+currentART1F+","+currentART1_4F+","+currentART5_14F+","
-           + ""+currentART15_19F+","+currentART20F+","+totalNewART+","
+           + ""+currentART1F+","+currentART1_4F+","+currentART5_14F+","+currentART15_19F+","
+           + ""+currentART20F+","+currentART1M+","+currentART1_4M+","+currentART5_14M+","
+           + ""+currentART15_19M+","+currentART20M+","+totalNewART+","
            + ""+newART1F+","+newART1_4F+","+newART5_9F+","+newART10_14F+","+newART15_19F+","+newART20_24F+","
            + ""+newART25_49F+","+newART50F+","+newART1M+","+newART1_4M+","+newART5_9M+","+newART10_14M+","
            + ""+newART15_19M+","+newART20_24M+","+newART25_49M+","+newART50M).split(",");
    
    String dataCARE []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","+totalNewCARE+","
-           + ""+newCARE1M+","+newCARE1_4M+","+newCARE5_9M+","+newCARE10_14M+","+newCARE15_19M+","+newCARE20_24M+","
-           + ""+newCARE25_49M+","+newCARE50M+","+newCARE1F+","+newCARE1_4F+","+newCARE5_9F+","+newCARE10_14F+","
-           + ""+newCARE15_19F+","+newCARE20_24F+","+newCARE25_49F+","+newCARE50F+","+totalCurrentCARE+","
-           + ""+currentCARE1M+","+currentCARE1_4M+","+currentCARE5_9M+","+currentCARE10_14M+","+currentCARE15_19M+","
-           + ""+currentCARE20_24M+","+currentCARE25_49M+","+currentCARE50M+","+currentCARE1F+","+currentCARE1_4F+","
-           + ""+currentCARE5_9F+","+currentCARE10_14F+","+currentCARE15_19F+","+currentCARE20_24F+","
-           + ""+currentCARE25_49F+","+currentCARE50F).split(",");
+           + ""+newCARE1F+","+newCARE1_4F+","+newCARE5_9F+","+newCARE10_14F+","+newCARE15_19F+","+newCARE20_24F+","
+           + ""+newCARE25_49F+","+newCARE50F+","+newCARE1M+","+newCARE1_4M+","+newCARE5_9M+","+newCARE10_14M+","
+           + ""+newCARE15_19M+","+newCARE20_24M+","+newCARE25_49M+","+newCARE50M+","+totalCurrentCARE+","
+           + ""+currentCARE1F+","+currentCARE1_4F+","+currentCARE5_9F+","+currentCARE10_14F+","+currentCARE15_19F+","
+           + ""+currentCARE20_24F+","+currentCARE25_49F+","+currentCARE50F+","+currentCARE1M+","+currentCARE1_4M+","
+           + ""+currentCARE5_9M+","+currentCARE10_14M+","+currentCARE15_19M+","+currentCARE20_24M+","
+           + ""+currentCARE25_49M+","+currentCARE50M).split(",");
     
     artpos++;
     
