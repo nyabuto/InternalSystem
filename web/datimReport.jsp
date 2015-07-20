@@ -149,7 +149,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="datimReport" id="formActions" class="form-horizontal">
+                        <form action="datimHTCReport" id="formActions" class="form-horizontal">
                           
                          
                            <div class="control-group">

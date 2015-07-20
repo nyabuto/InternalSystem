@@ -324,6 +324,14 @@
         <servlet-name>cleanCumulatives</servlet-name>
         <servlet-class>General.cleanCumulatives</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>datimHTCReport</servlet-name>
+        <servlet-class>Datim.datimHTCReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>allformsreportstracker</servlet-name>
+        <servlet-class>reports.allformsreportstracker</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -647,6 +655,14 @@
     <servlet-mapping>
         <servlet-name>cleanCumulatives</servlet-name>
         <url-pattern>/cleanCumulatives</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimHTCReport</servlet-name>
+        <url-pattern>/datimHTCReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allformsreportstracker</servlet-name>
+        <url-pattern>/allformsreportstracker</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
