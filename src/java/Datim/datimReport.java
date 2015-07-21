@@ -1711,7 +1711,7 @@ stylemainHeader.setWrapText(true);
     TestedChildMale=conn.rs.getInt(6);
     HIV_ChildFemale=conn.rs.getInt(7);
     HIV_ChildMale=conn.rs.getInt(8);
-    
+    System.out.println(facilityname+" KKK "+HIV_AdultFemale+" "+HIV_AdultMale+" "+HIV_ChildFemale+"  "+HIV_ChildMale);
     System.out.println(facilityname+"TestedChildFemale "+TestedChildFemale+"  HIV_ChildFemale "+HIV_ChildFemale +"  TestedChildMale "+TestedChildMale+" HIV_ChildMale   "+HIV_ChildMale);
      
 String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+dsdta;
@@ -1820,199 +1820,361 @@ ChildFemaleHIV14=(float)Math.round((0.25*HIV_ChildFemale));
    splitData=0;  adderPos=0;
             childSplitData=0;   
 //   // adult female hiv+
-//splitData=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50 ;
-// adderPos=0;
-// while(splitData<HIV_AdultFemale){ 
-// AdultFemaleHIV49+=1; 
-// splitData++;
-//}
-// 
-//splitData=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50 ;
-// while(splitData>HIV_AdultFemale){ 
-// AdultFemaleHIV49-=1; 
-// splitData--;
-//}
-// //tested female adults
-//splitData=FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested49+FemaleAdultTested50 ;
-// adderPos=0;
-// while(splitData<TestedAdultFemale){ 
-// FemaleAdultTested49+=1; 
-// splitData++;
-//}
-// 
-//splitData=FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested49+FemaleAdultTested50 ;
-// adderPos=0;
-// while(splitData>TestedAdultFemale){ 
-// FemaleAdultTested49-=1; 
-// splitData--;
-//}
-//   
-// 
-// 
-//// adult male hiv+
-// 
-// splitData=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50 ;
-//  adderPos=0;
-// while(splitData<HIV_AdultMale){ 
-// AdultMaleHIV49+=1; 
-// splitData++;
-//}
-// 
-//splitData=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50 ;
-// adderPos=0;
-// while(splitData>HIV_AdultMale){ 
-// AdultMaleHIV49-=1; 
-// splitData--;
-//}
-// 
-// //tested male adults
-//splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested50 ;
-// adderPos=0;
-// while(splitData<TestedAdultMale){ 
-// MaleAdultTested49+=1; 
-// splitData++;
-//}
-// 
-//splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested50 ;
-// adderPos=0;
-// while(splitData>TestedAdultMale){ 
-// MaleAdultTested49-=1; 
-// splitData--;
-//}
-// 
-// // for child female
-//  childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
-//  System.out.println(facilityname+"  mmmm  "+childSplitData+"    "+HIV_ChildFemale);
-//   adderPos=0;
-//while(childSplitData<HIV_ChildFemale){ 
-// if(adderPos<2){
-//  ChildFemaleHIV4+=1;   
-// }
-// else{
-// ChildFemaleHIV9+=1;    
-// }
-//childSplitData++;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==HIV_ChildFemale){}
-//}
+splitData=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50 ;
 //
-//  childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
-//  adderPos=0;
-//  
-//while(childSplitData>HIV_ChildFemale){ 
-// if(adderPos<2){
-//  ChildFemaleHIV4-=1;   
-// }
-// else{
-// ChildFemaleHIV9-=1;    
-// }
-//childSplitData--;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==HIV_ChildFemale){}
-//}
-//   
-//
-//
-//// for child female tested 
-//  childSplitData=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14; 
-//   adderPos=0;
-//while(childSplitData<TestedChildFemale){ 
-// if(adderPos<2){
-//  FemaleTestedChild14+=1;   
-// }
-// else{
-// FemaleTestedChild9+=1;    
-// }
-//childSplitData++;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==TestedChildFemale){}
-//}
-//
-//   childSplitData=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14; 
-//  adderPos=0;
-//  
-//while(childSplitData>TestedChildFemale){ 
-// if(adderPos<2){
-//  FemaleTestedChild14-=1;   
-// }
-// else{
-// FemaleTestedChild9-=1;    
-// }
-//childSplitData--;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==TestedChildFemale){}
-//}
-//
-//// for child male hiv
-//
-//
-// childSplitData=ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14; 
-//  adderPos=0;
-//while(childSplitData<HIV_ChildMale){ 
-// if(adderPos<2){
-//  ChildMaleHIV4+=1;   
-// }
-// else{
-// ChildMaleHIV9+=1;    
-// }
-//childSplitData++;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==HIV_ChildMale){}
-//}
-//
-//  childSplitData=ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14; 
-//  adderPos=0;
-//  
-//while(childSplitData>HIV_ChildMale){ 
-// if(adderPos<2){
-//  ChildMaleHIV4-=1;   
-// }
-// else{
-// ChildMaleHIV9-=1;    
-// }
-//childSplitData--;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==HIV_ChildMale){}
-//}
-//
-//
-/////
-//// for child female tested 
-//  childSplitData=MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14; 
-//   adderPos=0;
-//while(childSplitData<TestedChildMale){ 
-// if(adderPos<2){
-//  MaleTestedChild14+=1;   
-// }
-// else{
-// MaleTestedChild9+=1;    
-// }
-//childSplitData++;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==TestedChildMale){}
-//}
-// childSplitData=MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14; 
-//  adderPos=0;
-//  
-//while(childSplitData>TestedChildMale){ 
-// if(adderPos<2){
-//  MaleTestedChild14-=1;   
-// }
-// else{
-// MaleTestedChild9-=1;    
-// }
-//childSplitData--;
-//adderPos++  ;
-// if(adderPos>2){adderPos=0;}
-// if(childSplitData==TestedChildMale){}
-//}
+System.out.println(facilityname+" lllll added "+splitData+" from db  "+HIV_AdultFemale);
+ adderPos=0;
+ while(splitData<HIV_AdultFemale){ 
+ AdultFemaleHIV49+=1; 
+ splitData++;
+}
+ 
+splitData=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50 ;
+ while(splitData>HIV_AdultFemale){ 
+ AdultFemaleHIV49-=1; 
+ splitData--;
+}
+ //tested female adults
+splitData=FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested49+FemaleAdultTested50 ;
+ adderPos=0;
+ while(splitData<TestedAdultFemale){ 
+ FemaleAdultTested49+=1; 
+ splitData++;
+}
+ 
+splitData=FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested49+FemaleAdultTested50 ;
+ adderPos=0;
+ while(splitData>TestedAdultFemale){ 
+ FemaleAdultTested49-=1; 
+ splitData--;
+}
+   
+ 
+ 
+// adult male hiv+
+ 
+ splitData=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50 ;
+  adderPos=0;
+ while(splitData<HIV_AdultMale){ 
+ AdultMaleHIV49+=1; 
+ splitData++;
+}
+ 
+splitData=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50 ;
+ adderPos=0;
+ while(splitData>HIV_AdultMale){ 
+ AdultMaleHIV49-=1; 
+ splitData--;
+}
+ 
+ //tested male adults
+splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested50 ;
+ adderPos=0;
+ while(splitData<TestedAdultMale){ 
+ MaleAdultTested49+=1; 
+ splitData++;
+}
+ 
+splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested50 ;
+ adderPos=0;
+ while(splitData>TestedAdultMale){ 
+ MaleAdultTested49-=1; 
+ splitData--;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+// for child female tested 
+  childSplitData=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14; 
+  
+  System.out.println(facilityname+" "+childSplitData+" b4 jjj "+TestedChildFemale);
+   adderPos=0;
+while(childSplitData<TestedChildFemale){ 
+if(adderPos==0){
+  FemaleTestedChild14+=1;   
+ }
+if(adderPos==1){
+ FemaleTestedChild9+=1;    
+ }
+if(adderPos==2){
+ FemaleTestedChild4+=1;    
+ }
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==TestedChildFemale){}
+}
+
+   childSplitData=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14; 
+  adderPos=0;
+  
+while(childSplitData>TestedChildFemale){ 
+ if(adderPos==0){
+  FemaleTestedChild14-=1;   
+ }
+if(adderPos==1){
+ FemaleTestedChild9-=1;    
+ }
+if(adderPos==2){
+ FemaleTestedChild4-=1;    
+ }
+childSplitData--;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==TestedChildFemale){}
+}
+System.out.println(facilityname+"     "+childSplitData+" after jjj "+TestedChildFemale);
+// for child male hiv
+
+ 
+ 
+ 
+ // for child female +ve
+  childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
+  System.out.println(facilityname+"  mmmm  "+childSplitData+"    "+HIV_ChildFemale);
+   adderPos=0;
+   double diff=0;
+while(childSplitData<HIV_ChildFemale){ 
+  diff=FemaleTestedChild14-ChildFemaleHIV14;
+ if(adderPos==0){
+  if(FemaleTestedChild14-ChildFemaleHIV14>0){
+  ChildFemaleHIV14+=1;   
+ }
+  else if(FemaleTestedChild9-ChildFemaleHIV9>0){
+   ChildFemaleHIV9+=1;   
+  }
+  else if(FemaleTestedChild4-ChildFemaleHIV4>0){
+   ChildFemaleHIV4+=1;   
+  }
+ 
+ }
+  
+ if(adderPos==1){
+
+   if(FemaleTestedChild9-ChildFemaleHIV9>0){
+   ChildFemaleHIV9+=1;   
+  }
+  else if(FemaleTestedChild4-ChildFemaleHIV4>0){
+   ChildFemaleHIV4+=1;   
+  }
+  else if(FemaleTestedChild14-ChildFemaleHIV14>0){
+  ChildFemaleHIV14+=1;   
+ }
+ }
+ if(adderPos==2){
+  
+   if(FemaleTestedChild4-ChildFemaleHIV4>0){
+   ChildFemaleHIV4+=1;   
+  }
+  else if(FemaleTestedChild14-ChildFemaleHIV14>0){
+  ChildFemaleHIV14+=1;   
+ }
+  else if(FemaleTestedChild9-ChildFemaleHIV9>0){
+   ChildFemaleHIV9+=1;   
+  }
+ }
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==HIV_ChildFemale){}
+}
+
+childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
+  adderPos=0;
+  
+while(childSplitData>HIV_ChildFemale){ 
+  
+  if(adderPos==0){
+  if(FemaleTestedChild14-ChildFemaleHIV14>0){
+  ChildFemaleHIV14-=1;   
+ }
+  else if(FemaleTestedChild9-ChildFemaleHIV9>0){
+   ChildFemaleHIV9-=1;   
+  }
+  else if(FemaleTestedChild4-ChildFemaleHIV4>0){
+   ChildFemaleHIV4-=1;   
+  }
+ 
+ }
+  
+ if(adderPos==1){
+
+   if(FemaleTestedChild9-ChildFemaleHIV9>0){
+   ChildFemaleHIV9-=1;   
+  }
+  else if(FemaleTestedChild4-ChildFemaleHIV4>0){
+   ChildFemaleHIV4-=1;   
+  }
+  else if(FemaleTestedChild14-ChildFemaleHIV14>0){
+  ChildFemaleHIV14-=1;   
+ }
+ }
+ if(adderPos==2){
+  
+   if(FemaleTestedChild4-ChildFemaleHIV4>0){
+   ChildFemaleHIV4-=1;   
+  }
+  else if(FemaleTestedChild14-ChildFemaleHIV14>0){
+  ChildFemaleHIV14-=1;   
+ }
+  else if(FemaleTestedChild9-ChildFemaleHIV9>0){
+   ChildFemaleHIV9-=1;   
+  }
+ }
+childSplitData--;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==HIV_ChildFemale){}
+}
+   
+// tested male _______________________________________________________________________
+  childSplitData=MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14; 
+  adderPos=0;
+while(childSplitData<TestedChildMale){ 
+ if(adderPos==0){
+  MaleTestedChild14+=1;   
+ }
+ else if(adderPos==1){
+ MaleTestedChild9+=1;    
+ }
+ else if(adderPos==2){
+ MaleTestedChild4+=1;    
+ }
+ 
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==TestedChildMale){}
+}
+
+  childSplitData=MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14; 
+  adderPos=0;
+  
+while(childSplitData>TestedChildMale){ 
+ if(adderPos==0){
+  MaleTestedChild14-=1;   
+ }
+ else if(adderPos==1){
+ MaleTestedChild9-=1;    
+ }
+ else if(adderPos==2){
+ MaleTestedChild4-=1;    
+ }
+childSplitData--;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==TestedChildMale){}
+}
+
+
+
+
+// for child male +ve 
+  childSplitData=ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14; 
+ 
+   adderPos=0;
+while(childSplitData<HIV_ChildMale){ 
+  if(adderPos==0){
+   
+     if(MaleTestedChild14-ChildMaleHIV14>0){
+  ChildMaleHIV14+=1;   
+ }
+     else if(MaleTestedChild9-ChildMaleHIV9>0){
+   ChildMaleHIV9+=1;   
+  }
+ else if(MaleTestedChild4-ChildMaleHIV4>0){
+   ChildMaleHIV4+=1;   
+  }
+  
+ }
+ else if(adderPos==1){
+      if(MaleTestedChild9-ChildMaleHIV9>0){
+   ChildMaleHIV9+=1;   
+  }
+ else if(MaleTestedChild4-ChildMaleHIV4>0){
+   ChildMaleHIV4+=1;   
+  }
+  else if(MaleTestedChild14-ChildMaleHIV14>0){
+  ChildMaleHIV14+=1;   
+ }
+    
+ }
+ if(adderPos==2){
+  
+   if(MaleTestedChild4-ChildMaleHIV4>0){
+   ChildMaleHIV4+=1;   
+  }
+  else if(MaleTestedChild14-ChildMaleHIV14>0){
+  ChildMaleHIV14+=1;   
+ }
+  else if(MaleTestedChild9-ChildMaleHIV9>0){
+   ChildMaleHIV9+=1;   
+  }
+ }
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==HIV_ChildMale){}
+}
+ childSplitData=ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14; 
+  adderPos=0;
+  
+while(childSplitData>HIV_ChildMale){ 
+ if(adderPos==0){
+   
+     if(MaleTestedChild14-ChildMaleHIV14>0){
+  ChildMaleHIV14-=1;   
+ }
+     else if(MaleTestedChild9-ChildMaleHIV9>0){
+   ChildMaleHIV9-=1;   
+  }
+ else if(MaleTestedChild4-ChildMaleHIV4>0){
+   ChildMaleHIV4-=1;   
+  }
+  
+ }
+ else if(adderPos==1){
+      if(MaleTestedChild9-ChildMaleHIV9>0){
+   ChildMaleHIV9-=1;   
+  }
+ else if(MaleTestedChild4-ChildMaleHIV4>0){
+   ChildMaleHIV4-=1;   
+  }
+  else if(MaleTestedChild14-ChildMaleHIV14>0){
+  ChildMaleHIV14-=1;   
+ }
+    
+ }
+ if(adderPos==2){
+  
+   if(MaleTestedChild4-ChildMaleHIV4>0){
+   ChildMaleHIV4-=1;   
+  }
+  else if(MaleTestedChild14-ChildMaleHIV14>0){
+  ChildMaleHIV14-=1;   
+ }
+  else if(MaleTestedChild9-ChildMaleHIV9>0){
+   ChildMaleHIV9-=1;   
+  }
+ }
+childSplitData--;
+adderPos++  ;
+ if(adderPos>2){
+     
+     adderPos=0;}
+ if(childSplitData==HIV_ChildMale){}
+}
+
+
+
+
+
+///
+
 
 //  System.out.println("Neg nn  "+ChildMaleHIV1Neg+ " "+ChildMaleHIV4Neg+" "+ChildMaleHIV9Neg+" "+ ChildMaleHIV14Neg);
 //  System.out.println("tested nn  "+MaleTestedChild1+ " "+MaleTestedChild4+" "+MaleTestedChild9+" "+ MaleTestedChild14);
@@ -2020,17 +2182,30 @@ ChildFemaleHIV14=(float)Math.round((0.25*HIV_ChildFemale));
 //  
   // all positives
 
-TotalPositive=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50+AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50+
-        ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 +ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
-  
+//TotalPositive=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50+AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50+
+//        ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 +ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
+//  
 TotalNegative=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+
         ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg +ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
-  
- 
-                TotalTested=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14+FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested49+FemaleAdultTested50+ MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested50+MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14;
-                TotalPositiveFemale=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50+ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 ;
-                TotalPositiveMale=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50+ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
-               
+  System.out.println(facilityname+" KKK "+HIV_AdultFemale+" "+HIV_AdultMale+" "+HIV_ChildFemale+"  "+HIV_ChildMale);
+    System.out.println(facilityname+"TestedChildFemale "+TestedChildFemale+"  HIV_ChildFemale "+HIV_ChildFemale +"  TestedChildMale "+TestedChildMale+" HIV_ChildMale   "+HIV_ChildMale);
+     double totaltestedmale1=0;
+     double totaltestedfemale1=0;
+ TotalTested=TestedChildFemale+TestedChildMale+TestedAdultMale+TestedAdultFemale;
+ totaltestedmale1=TestedChildMale+TestedAdultMale;
+ totaltestedfemale1=TestedChildFemale+TestedAdultFemale;
+ TotalPositiveFemale=HIV_ChildFemale+HIV_AdultFemale;
+ TotalPositiveMale=HIV_ChildMale+HIV_AdultMale;
+ TotalPositive=HIV_ChildFemale+HIV_AdultFemale+HIV_ChildMale+HIV_AdultMale;
+ TotalNegativeFemale=totaltestedfemale1-TotalPositiveFemale;
+ TotalNegativeMale=totaltestedmale1-TotalPositiveMale;
+// TotalNegativeFemale=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+ ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg;
+//TotalNegativeMale=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
+
+//                TotalTested=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14+FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested49+FemaleAdultTested50+ MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested50+MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14;
+//                TotalPositiveFemale=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50+ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 ;
+//                TotalPositiveMale=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50+ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
+//               
 //System.out.println(MaleTestedChild14 +" bbbbb  "+ChildMaleHIV14+"    mmmmm   "+ (MaleTestedChild14-ChildMaleHIV14));
  
 
@@ -2136,33 +2311,33 @@ TotalNegative=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultF
 
   
   //negative
-  AdultMaleHIV19Neg=(float)Math.round(MaleAdultTested19)-(float)Math.round(AdultMaleHIV19);
-  AdultMaleHIV24Neg=(float)Math.round(MaleAdultTested24)-(float)Math.round(AdultMaleHIV24);
-  AdultMaleHIV49Neg=(float)Math.round(MaleAdultTested49)-(float)Math.round(AdultMaleHIV49);
-  AdultMaleHIV50Neg=(float)Math.round(MaleAdultTested50)-(float)Math.round(AdultMaleHIV50);
+  AdultMaleHIV19Neg=(MaleAdultTested19)-(AdultMaleHIV19);
+  AdultMaleHIV24Neg=(MaleAdultTested24)-(AdultMaleHIV24);
+  AdultMaleHIV49Neg=(MaleAdultTested49)-(AdultMaleHIV49);
+  AdultMaleHIV50Neg=(MaleAdultTested50)-(AdultMaleHIV50);
 
  // child male negatives
-  ChildMaleHIV1Neg=(float)Math.round(MaleTestedChild1)-(float)Math.round(ChildMaleHIV1);
-  ChildMaleHIV4Neg=(float)Math.round(MaleTestedChild4)-(float)Math.round(ChildMaleHIV4);
-  ChildMaleHIV9Neg=(float)Math.round(MaleTestedChild9)-(float)Math.round(ChildMaleHIV9);
-  ChildMaleHIV14Neg=(float)Math.round(MaleTestedChild14)-(float)Math.round(ChildMaleHIV14);
+  ChildMaleHIV1Neg=(MaleTestedChild1)-(ChildMaleHIV1);
+  ChildMaleHIV4Neg=(MaleTestedChild4)-(ChildMaleHIV4);
+  ChildMaleHIV9Neg=(MaleTestedChild9)-(ChildMaleHIV9);
+  ChildMaleHIV14Neg=(MaleTestedChild14)-(ChildMaleHIV14);
 
   
   
 //negative
-ChildFemaleHIV1Neg=(float)Math.round(FemaleTestedChild1)-(float)Math.round(ChildFemaleHIV1);
-ChildFemaleHIV4Neg=(float)Math.round(FemaleTestedChild4)-(float)Math.round(ChildFemaleHIV4);
-ChildFemaleHIV9Neg=(float)Math.round(FemaleTestedChild9)-(float)Math.round(ChildFemaleHIV9);
-ChildFemaleHIV14Neg=(float)Math.round(FemaleTestedChild14)-(float)Math.round(ChildFemaleHIV14);
-
+ChildFemaleHIV1Neg=(FemaleTestedChild1)-(ChildFemaleHIV1);
+ChildFemaleHIV4Neg=(FemaleTestedChild4)-(ChildFemaleHIV4);
+ChildFemaleHIV9Neg=(FemaleTestedChild9)-(ChildFemaleHIV9);
+ChildFemaleHIV14Neg=(FemaleTestedChild14)-(ChildFemaleHIV14);
+System.out.println(facilityname+" fffff "+ChildFemaleHIV1Neg+" "+ChildFemaleHIV4Neg+" "+ChildFemaleHIV9Neg +"  "+ChildFemaleHIV14Neg);
 //negative
 
-AdultFemaleHIV19Neg=(float)Math.round(FemaleAdultTested19)-(float)Math.round(AdultFemaleHIV19);
-AdultFemaleHIV24Neg=(float)Math.round(FemaleAdultTested24)-(float)Math.round(AdultFemaleHIV24);
-AdultFemaleHIV49Neg=(float)Math.round(FemaleAdultTested49)-(float)Math.round(AdultFemaleHIV49);
-AdultFemaleHIV50Neg=(float)Math.round(FemaleAdultTested50)-(float)Math.round(AdultFemaleHIV50);
- TotalNegativeFemale=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+ ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg;
-                TotalNegativeMale=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
+AdultFemaleHIV19Neg=(FemaleAdultTested19)-(AdultFemaleHIV19);
+AdultFemaleHIV24Neg=(FemaleAdultTested24)-(AdultFemaleHIV24);
+AdultFemaleHIV49Neg=(FemaleAdultTested49)-(AdultFemaleHIV49);
+AdultFemaleHIV50Neg=(FemaleAdultTested50)-(AdultFemaleHIV50);
+
+
 
       c11.setCellValue((float)Math.round(TotalNegativeFemale));
       c12.setCellValue((float)Math.round(ChildFemaleHIV1Neg));
@@ -2185,7 +2360,7 @@ AdultFemaleHIV50Neg=(float)Math.round(FemaleAdultTested50)-(float)Math.round(Adu
       c116.setCellValue((float)Math.round(AdultMaleHIV24Neg));
       c117.setCellValue((float)Math.round(AdultMaleHIV49Neg));
       c118.setCellValue((float)Math.round(AdultMaleHIV50Neg));
-      System.out.println(AdultMaleHIV19Neg+"__________"+AdultMaleHIV24Neg+"__________"+AdultMaleHIV49Neg+"__________"+AdultMaleHIV50Neg+"__________"+ChildMaleHIV1Neg+"__________"+ChildMaleHIV4Neg+"__________"+ChildMaleHIV9Neg+"__________"+ChildMaleHIV14Neg);
+      System.out.println(facilityname  +"    jjj  "+AdultMaleHIV19Neg+"__________"+AdultMaleHIV24Neg+"__________"+AdultMaleHIV49Neg+"__________"+AdultMaleHIV50Neg+"__________"+ChildMaleHIV1Neg+"__________"+ChildMaleHIV4Neg+"__________"+ChildMaleHIV9Neg+"__________"+ChildMaleHIV14Neg);
       
         for(int i=23; i<=42;i++){
           c11=rw0.getCell(i);
