@@ -284,11 +284,9 @@ dbConn conn = new dbConn();
     if(form==="MOH 731") {
    document.getElementById("formActions").action = "reportsTracker731";
     }
-    else if(form==="MOH 711A") {
- document.getElementById("formActions").action = "pdf711";
-    }
+  
 else {
- document.getElementById("formActions").action =  "allStaticReports";
+ document.getElementById("formActions").action =  "allformsreportstracker";
 }
 }
 
