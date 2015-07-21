@@ -62,8 +62,8 @@ String ARTSupport,PMTCTSupport,CARESuport;
        year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
         
-       String headerART []="County,Sub County,Health Facility,mfl code,type of support,Numerator,<1,1-4Y,5-14Y,15-19Y,20+Y,<1,1-4Y,5-14Y,15-19Y,20+Y,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
-       String headerCARE []="County,Sub County,Health Facility,mfl code,type of support,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,NUMERATOR,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
+       String headerART []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-14Y,15-19Y,20+Y,<1,1-4Y,5-14Y,15-19Y,20+Y,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
+       String headerCARE []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,NUMERATOR,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
 //        year=2015;
 //        reportDuration="4";
           String facilityIds1="";
@@ -86,11 +86,11 @@ String ARTSupport,PMTCTSupport,CARESuport;
        if(semi_annual.equals("1")){
      duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
        
-     period="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : OCT "+prevYear+" to MARCH "+year;
+     period="DATIM SEMI - ANNUAL DATA REPORT FOR : OCT "+prevYear+" to MARCH "+year;
        }
            else{
        duration=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : APRIL "+year+" to SEPT "+year; 
+      period="DATIM SEMI - ANNUAL DATA REPORT FOR : APRIL "+year+" to SEPT "+year; 
        }
        }
         
@@ -106,11 +106,11 @@ String ARTSupport,PMTCTSupport,CARESuport;
        endMonth=months[2];
       if(quarter.equals("1")){
       duration=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
-      period="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
+      period="DATIM QUARTERLY DATA REPORT FOR : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
       }
       else{
      duration=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
-     period="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
+     period="DATIM QUARTERLY DATA REPORT FOR : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
       }
         }
         }  
@@ -324,10 +324,10 @@ styleHeader.setWrapText(true);
    c011.setCellValue(period);
    
    c011=rw00shet2.getCell(5);
-   c011.setCellValue("NEW ON CARE");
+   c011.setCellValue("CURRENTLY ON CARE");
    
    c011=rw00shet2.getCell(22);
-   c011.setCellValue("CURRENTLY ON CARE");
+   c011.setCellValue("NEW ON CARE");
 shet2.addMergedRegion(new CellRangeAddress(1,1,5,21));
 shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
   
@@ -384,13 +384,13 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
    c001=rw0shet2.getCell(6);
    c001.setCellValue("FEMALE");
    
-   c001=rw0shet2.getCell(11);
+   c001=rw0shet2.getCell(14);
    c001.setCellValue("MALE");
    
-   c001=rw0shet2.getCell(17);
+   c001=rw0shet2.getCell(23);
    c001.setCellValue("FEMALE");
    
-   c001=rw0shet2.getCell(25);
+   c001=rw0shet2.getCell(31);
    c001.setCellValue("MALE");
     
   shet2.addMergedRegion(new CellRangeAddress(2,2,6,13));
@@ -995,14 +995,14 @@ splitData--;
            + ""+newART25_49F+","+newART50F+","+newART1M+","+newART1_4M+","+newART5_9M+","+newART10_14M+","
            + ""+newART15_19M+","+newART20_24M+","+newART25_49M+","+newART50M).split(",");
    
-   String dataCARE []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","+totalNewCARE+","
-           + ""+newCARE1F+","+newCARE1_4F+","+newCARE5_9F+","+newCARE10_14F+","+newCARE15_19F+","+newCARE20_24F+","
-           + ""+newCARE25_49F+","+newCARE50F+","+newCARE1M+","+newCARE1_4M+","+newCARE5_9M+","+newCARE10_14M+","
-           + ""+newCARE15_19M+","+newCARE20_24M+","+newCARE25_49M+","+newCARE50M+","+totalCurrentCARE+","
+   String dataCARE []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","+totalCurrentCARE+","
            + ""+currentCARE1F+","+currentCARE1_4F+","+currentCARE5_9F+","+currentCARE10_14F+","+currentCARE15_19F+","
            + ""+currentCARE20_24F+","+currentCARE25_49F+","+currentCARE50F+","+currentCARE1M+","+currentCARE1_4M+","
            + ""+currentCARE5_9M+","+currentCARE10_14M+","+currentCARE15_19M+","+currentCARE20_24M+","
-           + ""+currentCARE25_49M+","+currentCARE50M).split(",");
+           + ""+currentCARE25_49M+","+currentCARE50M+","+totalNewCARE+","
+           + ""+newCARE1F+","+newCARE1_4F+","+newCARE5_9F+","+newCARE10_14F+","+newCARE15_19F+","+newCARE20_24F+","
+           + ""+newCARE25_49F+","+newCARE50F+","+newCARE1M+","+newCARE1_4M+","+newCARE5_9M+","+newCARE10_14M+","
+           + ""+newCARE15_19M+","+newCARE20_24M+","+newCARE25_49M+","+newCARE50M).split(",");
     
     artpos++;
     
