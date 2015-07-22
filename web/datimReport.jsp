@@ -206,8 +206,8 @@
                               <div class="control-group" id="reportCounty">
                               <label class="control-label">County </label>
                               <div class="controls">
-                                 <select placeholder="County" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county" style="width: 400px;">
-                                    <option value=""></option>
+                                 <select placeholder="All Counties" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county" style="width: 400px;">
+                                    <option value="">All Counties</option>
                                  </select>
                               </div>
                            </div>
@@ -215,13 +215,21 @@
                             <div class="control-group" id="reportDistrict">
                               <label class="control-label">Sub-County </label>
                               <div class="controls">
-                                 <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty" style="width: 400px;">
-                                    <option value="">Select County First</option>
+                                 <select data-placeholder="All sub-counties" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty" style="width: 400px;">
+                                    <option value="">All sub-counties</option>
                                  </select>
                               </div>
                            </div> 
                             
-                            
+                             <div class="control-group" id="reporttype">
+                              <label class="control-label">Service Area<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
+                                    <option value="datimReport">ART,CARE AND HTC</option>
+                                    <option value="datimvmmc">VMMC</option>
+                                 </select>
+                              </div>
+                           </div> 
 <!--                              <div class="control-group" id="reportFacility">
                               <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
                               <div class="controls">
@@ -301,6 +309,36 @@
   
    
    <script>
+       
+       
+       
+       
+       function getAction(){
+      var reportFormat="",form="",formActions=""; 
+
+   
+    var reportFormat=$("#service").val();
+    var form=$("#form").val();
+    if(reportFormat==="" || form===""){
+        
+    }
+    else{
+    if( reportFormat==="datimReport") {
+   document.getElementById("formActions").action = "datimReport";
+                                      }
+    else if(reportFormat==="datimvmmc"){
+        
+           document.getElementById("formActions").action = "datimvmmc";
+        
+             }
+    
+
+     }  
+       
+                            }
+      
+       
+       
        
        
       jQuery(document).ready(function() {       

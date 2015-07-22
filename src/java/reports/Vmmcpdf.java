@@ -268,7 +268,7 @@ public class Vmmcpdf extends HttpServlet {
     
     
         
-getexistingdata="select sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  ";
+getexistingdata="select sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  ";
 
             System.out.println(getexistingdata);
 String P51D1 = "";
@@ -276,6 +276,7 @@ String P51D1 = "";
             String P51D10 = "";
             String P51D19 = "";
             String P51D24 = "";
+            String P51D29 = "";
             String P51D49 = "";
             String P51D50 = "";
             String P51DT = "";
@@ -345,6 +346,13 @@ int counter=0;
                     P51D24 = "";
                 }
 
+                  P51D29 = conn.rs.getString("P51D29");
+                if (P51D29 == null) {
+                    P51D29 = "";
+                }
+
+                
+                
                 P51D49 = conn.rs.getString("P51D49");
                 if (P51D49 == null) {
                     P51D49 = "";
@@ -474,13 +482,14 @@ if(1==1){
     
                     createdtable +=header+"<br/><table   border='1' style='border-color: #e5e5e5;margin-bottom: 3px;font-size:10;font-family:cambria;'>"
                             + "<tr><th colspan='5' style='text-align:center;'><b>Voluntary Male Circumcision Reporting Form</b></th></tr>"
-                            + "<tr class='form-actions'><th rowspan='9' style='width:40px;'> <b>P5.1.D </b></th><th colspan='4'><b>Number of Males Circumcised as part of the minimum package of MC for HIV Prevention Services </b></th></tr>"
+                            + "<tr class='form-actions'><th rowspan='10' style='width:40px;'> <b>P5.1.D </b></th><th colspan='4'><b>Number of Males Circumcised as part of the minimum package of MC for HIV Prevention Services </b></th></tr>"
                             + "<tr><td colspan='3' style='text-align:left;'><b> <1 </b></td><td>" + P51D1 + "</td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 1-9 </b></td></td><td>" + P51D9 + "</td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 10-14 </b></td></td><td>" + P51D10 + "</td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 15-19 </b></td></td><td>" + P51D19 + "</td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 20-24 </b></td></td><td>" + P51D24 + "</td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 25-49 </b></td></td><td>" + P51D49 + "</td></tr>";
+                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 25-29 </b></td></td><td>" + P51D29 + "</td></tr>";
+                    createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 30-49 </b></td></td><td>" + P51D49 + "</td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:left;'><b> 50+ </b></td></td><td>" + P51D50 + "</td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:left;'><b> Total </b></td></td><td>" + P51DT + "</td></tr>";
                     createdtable += "<tr class='form-actions'><th rowspan='5'> P5.2.D</th><th colspan='4' > Number of clients circumcised who experienced one or more moderate or severe adverse event(s) within the reporting period</th></tr>";

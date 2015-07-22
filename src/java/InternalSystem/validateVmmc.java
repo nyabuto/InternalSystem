@@ -78,6 +78,10 @@ public class validateVmmc extends HttpServlet {
     String SP51D24=request.getParameter("P51D24");
        if(SP51D24.equals("")){SP51D24=null;} 
     updqr1+="P51D24="+SP51D24 +", ";
+    
+     String SP51D29=request.getParameter("P51D29");
+       if(SP51D29.equals("")){SP51D29=null;} 
+    updqr1+="P51D29="+SP51D29 +", ";
     String SP51D49=request.getParameter("P51D49");
        if(SP51D49.equals("")){SP51D49=null;} 
     updqr1+="P51D49="+SP51D49 +", ";
@@ -98,6 +102,7 @@ public class validateVmmc extends HttpServlet {
     String P51D10="";
     String P51D19="";
     String P51D24="";
+    String P51D29="";
     String P51D49="";
     String P51D50="";
     String P51DT="";
@@ -155,6 +160,11 @@ public class validateVmmc extends HttpServlet {
      updatestring+=" P51D24='0' ,";
     }
 
+     P51D29=conn.rs.getString("P51D29");
+    if(P51D29==null){P51D29="";
+     updatestring+=" P51D29='0' ,";
+    }
+    
     P51D49=conn.rs.getString("P51D49");
     if(P51D49==null){P51D49="";
      updatestring+=" P51D49='0' ,";

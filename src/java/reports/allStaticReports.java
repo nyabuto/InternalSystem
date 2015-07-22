@@ -126,7 +126,7 @@ public class allStaticReports extends HttpServlet {
     //An arralist to store distinct worksheets. This will be derived from the the sections column
     ArrayList distinctsheets=new ArrayList();
     
-    String selectdistinctworksheet="select distinct(section) from pivottable where form='"+form+"' and active='1'";
+    String selectdistinctworksheet="select distinct(section) from pivottable where form='"+form+"' and active='1' order by order_per_form";
     
     conn.rs=conn.st.executeQuery(selectdistinctworksheet);
     
@@ -138,7 +138,7 @@ public class allStaticReports extends HttpServlet {
     
                          }
     
-    String getattribs="select indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='"+form+"' order by tableid, section";
+    String getattribs="select indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='"+form+"' order by order_per_form, section";
     conn.rs=conn.st.executeQuery(getattribs);     
     
     while(conn.rs.next()){

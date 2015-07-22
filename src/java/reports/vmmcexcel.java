@@ -367,7 +367,7 @@ public class vmmcexcel extends HttpServlet {
  clx.setCellValue("");
  clx.setCellStyle(stylex);
                      }
-    shet.addMergedRegion(new CellRangeAddress(2,10,0,0));  
+    shet.addMergedRegion(new CellRangeAddress(2,11,0,0));  
     shet.addMergedRegion(new CellRangeAddress(0,0,0,4));  
     shet.addMergedRegion(new CellRangeAddress(1,1,0,4));  
     shet.addMergedRegion(new CellRangeAddress(2,2,1,4));  
@@ -380,7 +380,7 @@ public class vmmcexcel extends HttpServlet {
     
     
         
-getexistingdata="select sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  ";
+getexistingdata="select sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29, sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  ";
 
             System.out.println(getexistingdata);
 String P51D1 = "";
@@ -388,6 +388,7 @@ String P51D1 = "";
             String P51D10 = "";
             String P51D19 = "";
             String P51D24 = "";
+            String P51D29 = "";
             String P51D49 = "";
             String P51D50 = "";
             String P51DT = "";
@@ -457,6 +458,11 @@ int counter=0;
                     P51D24 = "";
                 }
 
+                P51D29 = conn.rs.getString("P51D29");
+                if (P51D29 == null) {
+                    P51D29 = "";
+                }
+                
                 P51D49 = conn.rs.getString("P51D49");
                 if (P51D49 == null) {
                     P51D49 = "";
@@ -718,8 +724,6 @@ if(1==1){
   }
   //==================================================================================
   
-    
-  
   if(1==1){
       int r=8;
    HSSFRow rwx=shet.createRow(r);
@@ -729,7 +733,33 @@ if(1==1){
  clx0.setCellStyle(style2);
    
    HSSFCell clx= rwx.createCell(1);
- clx.setCellValue("25-49");
+ clx.setCellValue("25-29");
+ clx.setCellStyle(style2);
+     
+  HSSFCell clx1= rwx.createCell(4);
+ clx1.setCellValue(P51D29);
+ clx1.setCellStyle(style2);
+ 
+  for(int a=2;a<=3;a++){ 
+ HSSFCell clx2= rwx.createCell(a);
+ clx2.setCellValue("");
+ clx2.setCellStyle(style2);
+                       }
+   shet.addMergedRegion(new CellRangeAddress(r,r,1,3));
+ 
+  }
+  //==================================================================================  
+  
+  if(1==1){
+      int r=9;
+   HSSFRow rwx=shet.createRow(r);
+   rwx.setHeightInPoints(23);
+    HSSFCell clx0= rwx.createCell(0);
+ clx0.setCellValue("");
+ clx0.setCellStyle(style2);
+   
+   HSSFCell clx= rwx.createCell(1);
+ clx.setCellValue("30-49");
  clx.setCellStyle(style2);
      
   HSSFCell clx1= rwx.createCell(4);
@@ -748,7 +778,7 @@ if(1==1){
   
   
    if(1==1){
-      int r=9;
+      int r=10;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -775,7 +805,7 @@ if(1==1){
  
 
     if(1==1){
-      int r=10;
+      int r=11;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -803,7 +833,7 @@ if(1==1){
    
 
     if(1==1){
-      int r=11;
+      int r=12;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -833,7 +863,7 @@ if(1==1){
     
     
     if(1==1){
-      int r=12;
+      int r=13;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
     HSSFCell clx0= rwx.createCell(0);
@@ -867,7 +897,7 @@ if(1==1){
    
      
     if(1==1){
-      int r=13;
+      int r=14;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -902,7 +932,7 @@ if(1==1){
    
      
     if(1==1){
-      int r=14;
+      int r=15;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
     HSSFCell clx0= rwx.createCell(0);
@@ -936,7 +966,7 @@ if(1==1){
   //==================================================================================
    
    if(1==1){
-      int r=15;
+      int r=16;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -969,7 +999,7 @@ if(1==1){
   }
   //==================================================================================
     if(1==1){
-      int r=16;
+      int r=17;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -997,7 +1027,7 @@ if(1==1){
   }
   //==================================================================================
     if(1==1){
-      int r=17;
+      int r=18;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1022,7 +1052,7 @@ if(1==1){
   
    //==================================================================================
    if(1==1){
-      int r=18;
+      int r=19;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1048,7 +1078,7 @@ if(1==1){
    //==================================================================================
   
    if(1==1){
-      int r=19;
+      int r=20;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1074,7 +1104,7 @@ if(1==1){
    //==================================================================================
    //==================================================================================
     if(1==1){
-      int r=20;
+      int r=21;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -1103,7 +1133,7 @@ if(1==1){
   //==================================================================================
     
      if(1==1){
-      int r=21;
+      int r=22;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1129,7 +1159,7 @@ if(1==1){
    //==================================================================================
   
      if(1==1){
-      int r=22;
+      int r=23;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1156,7 +1186,7 @@ if(1==1){
    
       //==================================================================================
     if(1==1){
-      int r=23;
+      int r=24;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(23);
    
@@ -1185,7 +1215,7 @@ if(1==1){
   //==================================================================================
     
      if(1==1){
-      int r=24;
+      int r=25;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1210,7 +1240,7 @@ if(1==1){
   
    //==================================================================================
    if(1==1){
-      int r=25;
+      int r=26;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1235,7 +1265,7 @@ if(1==1){
   //==============================================================================================
    //==================================================================================
    if(1==1){
-      int r=26;
+      int r=27;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1260,7 +1290,7 @@ if(1==1){
   //==============================================================================================
    //==================================================================================
    if(1==1){
-      int r=27;
+      int r=28;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);
@@ -1286,7 +1316,7 @@ if(1==1){
      
     //==================================================================================
     if(1==1){
-      int r=28;
+      int r=29;
    HSSFRow rwx=shet.createRow(r);
    rwx.setHeightInPoints(28);
    
@@ -1315,7 +1345,7 @@ if(1==1){
   //==================================================================================
     
      if(1==1){
-      int r=29;
+      int r=30;
    HSSFRow rwx=shet.createRow(r);
      rwx.setHeightInPoints(23);
       HSSFCell clx0= rwx.createCell(0);

@@ -535,6 +535,7 @@ success:function (data){
       
       var five=document.getElementById("P51D24").value;
       var six=document.getElementById("P51D49").value;
+      var sixhalf=document.getElementById("P51D29").value;
       
       var seven=document.getElementById("P51D50").value;
    
@@ -544,12 +545,13 @@ success:function (data){
       if(four==""){four=0;}
       if(five==""){five=0;}
       if(six==""){six=0;}
+      if(sixhalf==""){sixhalf=0;}
       if(seven==""){seven=0;}
       
       
   
             
-           var ttl=parseInt(one)+parseInt(two)+parseInt(three)+parseInt(four)+parseInt(five)+parseInt(six)+parseInt(seven);
+           var ttl=parseInt(one)+parseInt(two)+parseInt(three)+parseInt(four)+parseInt(five)+parseInt(six)+parseInt(sixhalf)+parseInt(seven);
          
      
            document.getElementById("P51DT").value=ttl;

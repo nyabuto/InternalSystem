@@ -332,6 +332,10 @@
         <servlet-name>allformsreportstracker</servlet-name>
         <servlet-class>reports.allformsreportstracker</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>datimvmmc</servlet-name>
+        <servlet-class>Datim.datimvmmc</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -663,6 +667,10 @@
     <servlet-mapping>
         <servlet-name>allformsreportstracker</servlet-name>
         <url-pattern>/allformsreportstracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimvmmc</servlet-name>
+        <url-pattern>/datimvmmc</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

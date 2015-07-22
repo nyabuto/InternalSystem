@@ -63,6 +63,7 @@ public class loadVmmc extends HttpServlet {
             String P51D10 = "";
             String P51D19 = "";
             String P51D24 = "";
+            String P51D29 = "";
             String P51D49 = "";
             String P51D50 = "";
             String P51DT = "";
@@ -227,6 +228,11 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                     P51D24 = "";
                 }
 
+                 P51D29 = conn.rs.getString("P51D29");
+                if (P51D29 == null) {
+                    P51D29 = "";
+                }
+                
                 P51D49 = conn.rs.getString("P51D49");
                 if (P51D49 == null) {
                     P51D49 = "";
@@ -353,12 +359,13 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
             if (session.getAttribute("forms_holder") != null) {
                 if (session.getAttribute("forms_holder").toString().contains("VMMC")) {
 
-                    createdtable += "<tr><td rowspan='8'><b>  </b></td><td colspan='3' style='text-align:right;'><b> <1 </b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D1');p51dtotal();\" value='" + P51D1 + "' name='P51D1' id='P51D1' autofocus></td></tr>";
+                    createdtable += "<tr><td rowspan='9'><b>  </b></td><td colspan='3' style='text-align:right;'><b> <1 </b></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D1');p51dtotal();\" value='" + P51D1 + "' name='P51D1' id='P51D1' autofocus></td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 1-9 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D9');p51dtotal();\" value='" + P51D9 + "' name='P51D9' id='P51D9' ></td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 10-14 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D10');p51dtotal();\" value='" + P51D10 + "' name='P51D10' id='P51D10' ></td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 15-19 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D19');p51dtotal();\" value='" + P51D19 + "' name='P51D19' id='P51D19' ></td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 20-24 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D24');p51dtotal();\" value='" + P51D24 + "' name='P51D24' id='P51D24' ></td></tr>";
-                    createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 25-49 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D49');p51dtotal();\" value='" + P51D49 + "' name='P51D49' id='P51D49' ></td></tr>";
+                    createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 25-29 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D29');p51dtotal();\" value='" + P51D29 + "' name='P51D29' id='P51D29' ></td></tr>";
+                    createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 30-49 </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D49');p51dtotal();\" value='" + P51D49 + "' name='P51D49' id='P51D49' ></td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:right;'><b> 50+ </b></td></td><td><input style='width:100px;' type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('P51D50');p51dtotal();\" value='" + P51D50 + "' name='P51D50' id='P51D50' ></td></tr>";
                     createdtable += "<tr><td colspan='3' style='text-align:right;'><b> Total </b></td></td><td><input style='width:100px;' type='text' tabindex='-1' readonly   value='" + P51DT + "' name='P51DT' id='P51DT' ></td></tr>";
 
