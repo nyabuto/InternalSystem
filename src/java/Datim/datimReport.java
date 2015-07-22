@@ -1989,41 +1989,24 @@ childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14;
 while(childSplitData>HIV_ChildFemale){ 
   
   if(adderPos==0){
-  if(FemaleTestedChild14-ChildFemaleHIV14>0){
+ 
   ChildFemaleHIV14-=1;   
- }
-  else if(FemaleTestedChild9-ChildFemaleHIV9>0){
-   ChildFemaleHIV9-=1;   
-  }
-  else if(FemaleTestedChild4-ChildFemaleHIV4>0){
-   ChildFemaleHIV4-=1;   
-  }
+ 
+
  
  }
   
  if(adderPos==1){
 
-   if(FemaleTestedChild9-ChildFemaleHIV9>0){
+  
    ChildFemaleHIV9-=1;   
-  }
-  else if(FemaleTestedChild4-ChildFemaleHIV4>0){
-   ChildFemaleHIV4-=1;   
-  }
-  else if(FemaleTestedChild14-ChildFemaleHIV14>0){
-  ChildFemaleHIV14-=1;   
- }
+  
  }
  if(adderPos==2){
   
-   if(FemaleTestedChild4-ChildFemaleHIV4>0){
+ 
    ChildFemaleHIV4-=1;   
-  }
-  else if(FemaleTestedChild14-ChildFemaleHIV14>0){
-  ChildFemaleHIV14-=1;   
- }
-  else if(FemaleTestedChild9-ChildFemaleHIV9>0){
-   ChildFemaleHIV9-=1;   
-  }
+  
  }
 childSplitData--;
 adderPos++  ;
@@ -2126,40 +2109,24 @@ adderPos++  ;
 while(childSplitData>HIV_ChildMale){ 
  if(adderPos==0){
    
-     if(MaleTestedChild14-ChildMaleHIV14>0){
+  
   ChildMaleHIV14-=1;   
- }
-     else if(MaleTestedChild9-ChildMaleHIV9>0){
-   ChildMaleHIV9-=1;   
-  }
- else if(MaleTestedChild4-ChildMaleHIV4>0){
-   ChildMaleHIV4-=1;   
+ 
+  
   }
   
- }
+
  else if(adderPos==1){
-      if(MaleTestedChild9-ChildMaleHIV9>0){
+     
    ChildMaleHIV9-=1;   
-  }
- else if(MaleTestedChild4-ChildMaleHIV4>0){
-   ChildMaleHIV4-=1;   
-  }
-  else if(MaleTestedChild14-ChildMaleHIV14>0){
-  ChildMaleHIV14-=1;   
- }
+  
     
  }
  if(adderPos==2){
   
-   if(MaleTestedChild4-ChildMaleHIV4>0){
+  
    ChildMaleHIV4-=1;   
-  }
-  else if(MaleTestedChild14-ChildMaleHIV14>0){
-  ChildMaleHIV14-=1;   
- }
-  else if(MaleTestedChild9-ChildMaleHIV9>0){
-   ChildMaleHIV9-=1;   
-  }
+  
  }
 childSplitData--;
 adderPos++  ;
@@ -2185,8 +2152,8 @@ adderPos++  ;
 //TotalPositive=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50+AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50+
 //        ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 +ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
 //  
-TotalNegative=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+
-        ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg +ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
+//TotalNegative=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+
+//        ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg +ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
   System.out.println(facilityname+" KKK "+HIV_AdultFemale+" "+HIV_AdultMale+" "+HIV_ChildFemale+"  "+HIV_ChildMale);
     System.out.println(facilityname+"TestedChildFemale "+TestedChildFemale+"  HIV_ChildFemale "+HIV_ChildFemale +"  TestedChildMale "+TestedChildMale+" HIV_ChildMale   "+HIV_ChildMale);
      double totaltestedmale1=0;
@@ -2194,8 +2161,8 @@ TotalNegative=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultF
  TotalTested=TestedChildFemale+TestedChildMale+TestedAdultMale+TestedAdultFemale;
  totaltestedmale1=TestedChildMale+TestedAdultMale;
  totaltestedfemale1=TestedChildFemale+TestedAdultFemale;
- TotalPositiveFemale=HIV_ChildFemale+HIV_AdultFemale;
- TotalPositiveMale=HIV_ChildMale+HIV_AdultMale;
+ TotalPositiveFemale=HIV_ChildFemale + HIV_AdultFemale;
+ TotalPositiveMale=HIV_ChildMale + HIV_AdultMale;
  TotalPositive=HIV_ChildFemale+HIV_AdultFemale+HIV_ChildMale+HIV_AdultMale;
  TotalNegativeFemale=totaltestedfemale1-TotalPositiveFemale;
  TotalNegativeMale=totaltestedmale1-TotalPositiveMale;
@@ -2311,31 +2278,31 @@ TotalNegative=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultF
 
   
   //negative
-  AdultMaleHIV19Neg=(MaleAdultTested19)-(AdultMaleHIV19);
-  AdultMaleHIV24Neg=(MaleAdultTested24)-(AdultMaleHIV24);
-  AdultMaleHIV49Neg=(MaleAdultTested49)-(AdultMaleHIV49);
-  AdultMaleHIV50Neg=(MaleAdultTested50)-(AdultMaleHIV50);
+  AdultMaleHIV19Neg=(float)Math.round(MaleAdultTested19)-(AdultMaleHIV19);
+  AdultMaleHIV24Neg=(float)Math.round(MaleAdultTested24)-(AdultMaleHIV24);
+  AdultMaleHIV49Neg=(float)Math.round(MaleAdultTested49)-(AdultMaleHIV49);
+  AdultMaleHIV50Neg=(float)Math.round(MaleAdultTested50)-(AdultMaleHIV50);
 
  // child male negatives
-  ChildMaleHIV1Neg=(MaleTestedChild1)-(ChildMaleHIV1);
-  ChildMaleHIV4Neg=(MaleTestedChild4)-(ChildMaleHIV4);
-  ChildMaleHIV9Neg=(MaleTestedChild9)-(ChildMaleHIV9);
-  ChildMaleHIV14Neg=(MaleTestedChild14)-(ChildMaleHIV14);
+  ChildMaleHIV1Neg=(float)Math.round(MaleTestedChild1)-(ChildMaleHIV1);
+  ChildMaleHIV4Neg=(float)Math.round(MaleTestedChild4)-(ChildMaleHIV4);
+  ChildMaleHIV9Neg=(float)Math.round(MaleTestedChild9)-(ChildMaleHIV9);
+  ChildMaleHIV14Neg=(float)Math.round(MaleTestedChild14)-(ChildMaleHIV14);
 
   
   
 //negative
-ChildFemaleHIV1Neg=(FemaleTestedChild1)-(ChildFemaleHIV1);
-ChildFemaleHIV4Neg=(FemaleTestedChild4)-(ChildFemaleHIV4);
-ChildFemaleHIV9Neg=(FemaleTestedChild9)-(ChildFemaleHIV9);
-ChildFemaleHIV14Neg=(FemaleTestedChild14)-(ChildFemaleHIV14);
+ChildFemaleHIV1Neg=(float)Math.round(FemaleTestedChild1)-(ChildFemaleHIV1);
+ChildFemaleHIV4Neg=(float)Math.round(FemaleTestedChild4)-(ChildFemaleHIV4);
+ChildFemaleHIV9Neg=(float)Math.round(FemaleTestedChild9)-(ChildFemaleHIV9);
+ChildFemaleHIV14Neg=(float)Math.round(FemaleTestedChild14)-(ChildFemaleHIV14);
 System.out.println(facilityname+" fffff "+ChildFemaleHIV1Neg+" "+ChildFemaleHIV4Neg+" "+ChildFemaleHIV9Neg +"  "+ChildFemaleHIV14Neg);
 //negative
 
-AdultFemaleHIV19Neg=(FemaleAdultTested19)-(AdultFemaleHIV19);
-AdultFemaleHIV24Neg=(FemaleAdultTested24)-(AdultFemaleHIV24);
-AdultFemaleHIV49Neg=(FemaleAdultTested49)-(AdultFemaleHIV49);
-AdultFemaleHIV50Neg=(FemaleAdultTested50)-(AdultFemaleHIV50);
+AdultFemaleHIV19Neg=(float)Math.round(FemaleAdultTested19)-(AdultFemaleHIV19);
+AdultFemaleHIV24Neg=(float)Math.round(FemaleAdultTested24)-(AdultFemaleHIV24);
+AdultFemaleHIV49Neg=(float)Math.round(FemaleAdultTested49)-(AdultFemaleHIV49);
+AdultFemaleHIV50Neg=(float)Math.round(FemaleAdultTested50)-(AdultFemaleHIV50);
 
 
 
