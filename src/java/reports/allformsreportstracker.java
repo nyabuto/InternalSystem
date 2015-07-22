@@ -72,7 +72,7 @@ String currentCounty,prevCounty;
         String genderor="subpartnera.Gender=1";
         String nutritionor="subpartnera.Gender=1";
         String tbor="subpartnera.TB=1";
-        String form711or="subpartnera.HTC=1";
+        String form711or="subpartnera.HTC=1 OR subpartnera.PMTCT OR subpartnera.FP OR subpartnera.Maternity";
        //Maureen to add more conditions in 711 or
         
         String orquery=kmmpor;
