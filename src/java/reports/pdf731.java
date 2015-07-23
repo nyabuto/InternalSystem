@@ -312,13 +312,13 @@ if(conn.rs.getInt(55)!=0){HV0242=conn.rs.getInt(55);}
 if(conn.rs.getInt(56)!=0){HV0243=conn.rs.getInt(56);}
 if(conn.rs.getInt(57)!=0){HV0244=conn.rs.getInt(57);}
 
-if(conn.rs.getInt(58)!=0){HV0301=conn.rs.getInt(58);}
-if(conn.rs.getInt(59)!=0){HV0302=conn.rs.getInt(59);}
-if(conn.rs.getInt(60)!=0){HV0303=conn.rs.getInt(60);}
-if(conn.rs.getInt(61)!=0){HV0304=conn.rs.getInt(61);}
-if(conn.rs.getInt(62)!=0){HV0305=conn.rs.getInt(62);}
-if(conn.rs.getInt(63)!=0){HV0306=conn.rs.getInt(63);}
-if(conn.rs.getInt(64)!=0){HV0307=conn.rs.getInt(64);}
+//if(conn.rs.getInt(58)!=0){HV0301=conn.rs.getInt(58);}
+//if(conn.rs.getInt(59)!=0){HV0302=conn.rs.getInt(59);}
+//if(conn.rs.getInt(60)!=0){HV0303=conn.rs.getInt(60);}
+//if(conn.rs.getInt(61)!=0){HV0304=conn.rs.getInt(61);}
+//if(conn.rs.getInt(62)!=0){HV0305=conn.rs.getInt(62);}
+//if(conn.rs.getInt(63)!=0){HV0306=conn.rs.getInt(63);}
+//if(conn.rs.getInt(64)!=0){HV0307=conn.rs.getInt(64);}
 if(conn.rs.getInt(65)!=0){HV0308=conn.rs.getInt(65);}
 if(conn.rs.getInt(66)!=0){HV0309=conn.rs.getInt(66);}
 if(conn.rs.getInt(67)!=0){HV0310=conn.rs.getInt(67);}
@@ -414,7 +414,8 @@ if(conn.rs.getInt(148)!=0){HV0605=conn.rs.getInt(148);}
           
           
     String getCummulatives="SELECT SUM(HV0314),SUM(HV0315),SUM(HV0316),SUM(HV0317),SUM(HV0318),SUM(HV0319),SUM(HV0334),SUM(HV0335),"
-    + "SUM(HV0336),SUM(HV0337),SUM(HV0338),SUM(HV0339),SUM(HV0340),SUM(HV0341),SUM(HV0342),SUM(HV0343),SUM(HV0344)"+
+    + "SUM(HV0336),SUM(HV0337),SUM(HV0338),SUM(HV0339),SUM(HV0340),SUM(HV0341),SUM(HV0342),SUM(HV0343),SUM(HV0344),"
+     + "SUM(HV0301),SUM(HV0302),SUM(HV0303),SUM(HV0304),SUM(HV0305),SUM(HV0306),SUM(HV0307) "+
     "FROM moh731 WHERE "+facility+" yearmonth="+maxYearMonth;
     conn.rs=conn.st.executeQuery(getCummulatives);
    if(conn.rs.next()==true){
@@ -436,7 +437,15 @@ HV0341=conn.rs.getInt(14);
 HV0342=conn.rs.getInt(15);
 HV0343=conn.rs.getInt(16);
 HV0344=conn.rs.getInt(17);    
-        
+
+HV0301=conn.rs.getInt(58);
+HV0302=conn.rs.getInt(59);
+HV0303=conn.rs.getInt(60);
+HV0304=conn.rs.getInt(61);
+HV0305=conn.rs.getInt(62);
+HV0306=conn.rs.getInt(63);
+HV0307=conn.rs.getInt(64);
+
     }
           
           

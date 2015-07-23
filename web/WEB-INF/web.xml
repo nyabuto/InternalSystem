@@ -336,6 +336,11 @@
         <servlet-name>datimvmmc</servlet-name>
         <servlet-class>Datim.datimvmmc</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>datimPMTCT</servlet-name>
+        <servlet-class>Datim.datimPMTCT</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -672,6 +677,12 @@
         <servlet-name>datimvmmc</servlet-name>
         <url-pattern>/datimvmmc</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>datimPMTCT</servlet-name>
+        <url-pattern>/datimPMTCT</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>-1</session-timeout>
     </session-config>

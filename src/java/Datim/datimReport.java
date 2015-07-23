@@ -53,6 +53,22 @@ double currentCARE1F,currentCARE1_4F,currentCARE5_9F,currentCARE10_14F,currentCA
 String createdOn,period;
 int artpos,carepos,pmtctpos,totalNewART,totalCurrentART,totalNewCARE,totalCurrentCARE=0; ;
 String ARTSupport,PMTCTSupport,CARESuport;
+
+int HV0210,HV0209,HV0205,HV0217,HV0216;
+int HV0224,HV0225,HV0227,HV0232,HV0229,HV0230,HV0231;
+int HV0301,HV0206,HV0207,HV0208;
+
+Double PMTCT_FO_I_N,PMTCT_FO_I_D,PMTCT_FO_I_LINKED,PMTCT_FO_I_NOT_LINKED,PMTCT_FO_I_UNKNOWN,
+        PMTCT_FO_U_NOT_BREASTFEEDING,PMTCT_FO_U_STILL_BREASTFEEDING,PMTCT_FO_U_BREASTFEEDING_UNKNOWN,
+        PMTCT_FO_OTHER_INCARE,PMTCT_FO_OTHER_NOFOLLOWUP,PMTCT_FO_DIED,PMTCT_FO_TRANSFERRED;
+Double PMTCT_ARV_N,PMTCT_ARV_D,PMTCT_ARV_LIFELONGART_NEW,PMTCT_ARV_LIFELONGART_EXISTING,
+        PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV,PMTCT_ARV_MATERNAL_AZT,PMTCT_ARV_SINGLEDOSE;
+Double PMTCT_EID_N,PMTCT_EID_VIRO_2MONTHS,PMTCT_EID_VIRO_2_12MONTHS,
+        PMTCT_EID_P_VIRO_2MONTHS,PMTCT_EID_P_VIRO_2_12MONTHS;
+Double PMTCT_STATN_N,PMTCT_STATN_KNOWNPOSTIVE,PMTCTN_STAT_NEWPOSTIVE;
+Double PMTCT_STATD_D,PMTCT_STATD_LESS15,PMTCT_STATD_15_19,PMTCT_STATD_20_24,PMTCT_STATD_25;
+Double PMTCT_CTX;
+
     ArrayList allFacilities = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -64,6 +80,8 @@ String ARTSupport,PMTCTSupport,CARESuport;
         
        String headerART []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-14Y,15-19Y,20+Y,<1,1-4Y,5-14Y,15-19Y,20+Y,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
        String headerCARE []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,NUMERATOR,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
+       String headerPMTCT []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,HIV-infected:Linked to ART,HIV-infected: Not linked to ART,HIV-infected : Unknown link,HIV-uninfected:Not beastfeeding,HIV-uninfected: Still breastfeeeding,HIV-uninfected:Breastfeeding unknown,Other outcomes: In care but not test done, Other outcomes:Lost to follow up,Other outcomes : Died,Other outcomes:Transferred out,Numerator,Denominator,Life-long ART:New,Life-long ART: Already on treatment at the beginning of the current pregnancy,Maternal Triple-Drug ARV,Maternal AZT,Single-dose nevirapine(with or without tail),Numerator,Infants who received a virologic test within 2 months of birth, Infants who received their first virologic HIV test between 2 and 12 months of age,Infants with a postive virologic test results within 2 months of birth, Infants with a postive virologic test resultsbetween 2 and 12 months of age,Numerator,Known postive at entry,New postives,Denominator,Numerator ".split(",") ;
+
 //        year=2015;
 //        reportDuration="4";
           String facilityIds1="";
@@ -187,6 +205,7 @@ String ARTSupport,PMTCTSupport,CARESuport;
   HSSFSheet shet1=wb.createSheet("ART");
   HSSFSheet shet2=wb.createSheet("CARE");
   HSSFSheet shet3=wb.createSheet("HTC ");
+  HSSFSheet shetPMTCT=wb.createSheet("PMTCT");
   HSSFFont font=wb.createFont();
  font.setFontHeightInPoints((short)18);
     font.setFontName("Arial Black");
@@ -257,6 +276,17 @@ fontHeader.setColor(HSSFColor.DARK_BLUE.index);
 styleHeader.setFont(fontHeader);
 styleHeader.setWrapText(true);
 
+  for(int i=3;i<=headerPMTCT.length;i++){
+   shetPMTCT.setColumnWidth(i, 4000);     
+    }
+    for (int i=0;i<=1;i++){
+   shetPMTCT.setColumnWidth(i, 5000);     
+    }
+  shetPMTCT.setColumnWidth(2, 8000);  
+ 
+  for(int i=5;i<=16;i++){
+    shetPMTCT.setColumnWidth(i, 4000);   
+  }
  
     for (int i=3;i<=33;i++){
    shet1.setColumnWidth(i, 2000);     
@@ -290,6 +320,10 @@ styleHeader.setWrapText(true);
   
   shet3.setColumnWidth(7, 3500);
   shet3.setColumnWidth(25, 3500);
+  
+  
+//  ART AND CARE HEADERS============================================================================================
+  
   
   HSSFRow  rw00shet1=shet1.createRow(1);
   rw00shet1.setHeightInPoints(30);
@@ -450,19 +484,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
   shet1.addMergedRegion(new CellRangeAddress(3,3,21,24));
   shet1.addMergedRegion(new CellRangeAddress(3,3,25,28));
   shet1.addMergedRegion(new CellRangeAddress(3,3,29,32));
-  
-  
-  
-  
-//  for(int j=0;j<headerART.length;j++){
-//        c01=rw1shet1.createCell(j);
-//         c01.setCellStyle(styleHeader);
-//    }
-//     
-//    for(int j=0;j<headerCARE.length;j++){
-//        c01=rw1shet2.createCell(j);
-//         c01.setCellStyle(styleHeader);
-//    }
+
    c01=rw1shet2.getCell(6);
    c01.setCellValue("Paeds <15yrs");
    
@@ -526,20 +548,92 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     shet1.addMergedRegion(new CellRangeAddress(2,4,16,16));
     shet2.addMergedRegion(new CellRangeAddress(2,4,22,22));
     
-       artpos=4;
+//    PMTCT HEADER=====================================================================================
+    
+    
+    HSSFRow  rw0shetPMTCT=shetPMTCT.createRow(1);
+  rw0shetPMTCT.setHeightInPoints(30);
+
+  
+ for(int j=0;j<headerPMTCT.length;j++){
+        c001=rw0shetPMTCT.createCell(j);
+         c001.setCellStyle(styleHeader);
+    } 
+ c001=rw0shetPMTCT.getCell(0);
+ c001.setCellValue(period); 
+ 
+ c001=rw0shetPMTCT.getCell(5);
+ c001.setCellValue("PMTCT_FO"); 
+ 
+ c001=rw0shetPMTCT.getCell(17);
+ c001.setCellValue("PMTCT_ARV"); 
+ 
+    
+  c001=rw0shetPMTCT.getCell(24);
+ c001.setCellValue("PMTCT_EID");
+   
+   c001=rw0shetPMTCT.getCell(29);
+   c001.setCellValue("PMTCT_STAT (Numerator)");
+   
+   c001=rw0shetPMTCT.getCell(32);
+   c001.setCellValue("PMTCT_STAT (Denominator)");
+   
+   c001=rw0shetPMTCT.getCell(33);
+   c001.setCellValue("PMTCT_CTX");
+    
+  shetPMTCT.addMergedRegion(new CellRangeAddress(1,1,0,4));
+  shetPMTCT.addMergedRegion(new CellRangeAddress(1,1,5,16));
+  shetPMTCT.addMergedRegion(new CellRangeAddress(1,1,17,23));
+  shetPMTCT.addMergedRegion(new CellRangeAddress(1,1,24,28)); 
+  shetPMTCT.addMergedRegion(new CellRangeAddress(1,1,29,31));
+//  shetPMTCT.addMergedRegion(new CellRangeAddress(2,2,25,32)); 
+    
+
+  HSSFRow  rw2shetPMTCT=shetPMTCT.createRow(2);
+  rw2shetPMTCT.setHeightInPoints(50);
+  
+    for(int headerpos=0;headerpos<headerPMTCT.length;headerpos++){
+        String headerInfor=headerPMTCT[headerpos];
+        c11=rw2shetPMTCT.createCell(headerpos);
+         c11.setCellValue(headerInfor);
+         c11.setCellStyle(styleHeader);
+    }
+     System.out.println("art header length : "+headerPMTCT.length);
+ 
+       
+    
+    
+       artpos=4;pmtctpos=3;
       totalNewART= totalCurrentART=totalNewCARE=totalCurrentCARE=0;      
    
-    String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
+//    String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
+//            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
+//            + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
+//    + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
+//            + "subpartnera.SubPartnerID FROM moh731 JOIN subpartnera "
+//            + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
+//            + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+//          + "district.CountyID=county.CountyID"
+//            + " WHERE "
+//    + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1) "
+//            + "GROUP BY moh731.SubPartnerID " ;
+      
+       String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
             + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
             + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
-    + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
-            + "subpartnera.SubPartnerID FROM moh731 JOIN subpartnera "
+            + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
+            + "subpartnera.SubPartnerID,"
+            + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
+            + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
+            + "SUM(HV0301),SUM(HV0206),SUM(HV0207),SUM(HV0208) "
+            + " FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
     + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1) "
             + "GROUP BY moh731.SubPartnerID " ;
+       
      System.out.println("new : "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
@@ -553,7 +647,17 @@ newCARE1M=newCARE1_4M=newCARE5_9M=newCARE10_14M=newCARE15_19M=newCARE20_24M=newC
 newCARE1F=newCARE1_4F=newCARE5_9F=newCARE10_14F=newCARE15_19F=newCARE20_24F=newCARE25_49F=newCARE50F=0;
 currentCARE1M=currentCARE1_4M=currentCARE5_9M=currentCARE10_14M=currentCARE15_19M=currentCARE20_24M=currentCARE25_49M=currentCARE50M=0;
 currentCARE1F=currentCARE1_4F=currentCARE5_9F=currentCARE10_14F=currentCARE15_19F=currentCARE20_24F=currentCARE25_49F=currentCARE50F=0;  
-      
+ 
+PMTCT_FO_I_N=PMTCT_FO_I_D=PMTCT_FO_I_LINKED=PMTCT_FO_I_NOT_LINKED=PMTCT_FO_I_UNKNOWN=
+        PMTCT_FO_U_NOT_BREASTFEEDING=PMTCT_FO_U_STILL_BREASTFEEDING=PMTCT_FO_U_BREASTFEEDING_UNKNOWN=
+        PMTCT_FO_OTHER_INCARE=PMTCT_FO_OTHER_NOFOLLOWUP=PMTCT_FO_DIED=PMTCT_FO_TRANSFERRED=0.0;
+ PMTCT_ARV_N=PMTCT_ARV_D=PMTCT_ARV_LIFELONGART_NEW=PMTCT_ARV_LIFELONGART_EXISTING=
+        PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV=PMTCT_ARV_MATERNAL_AZT=PMTCT_ARV_SINGLEDOSE=0.0;
+ PMTCT_EID_N=PMTCT_EID_VIRO_2MONTHS=PMTCT_EID_VIRO_2_12MONTHS=
+        PMTCT_EID_P_VIRO_2MONTHS=PMTCT_EID_P_VIRO_2_12MONTHS=0.0;
+ PMTCT_STATN_N=PMTCT_STATN_KNOWNPOSTIVE=PMTCTN_STAT_NEWPOSTIVE=0.0;
+ PMTCT_STATD_D=PMTCT_STATD_LESS15=PMTCT_STATD_15_19=PMTCT_STATD_20_24=PMTCT_STATD_25=0.0;
+PMTCT_CTX=0.0;      
       facilityName=conn.rs.getString(1);
       districtName=conn.rs.getString(2);
       countyName=conn.rs.getString(3);
@@ -572,7 +676,25 @@ currentCARE1F=currentCARE1_4F=currentCARE5_9F=currentCARE10_14F=currentCARE15_19
     HV0323=conn.rs.getInt(15);
     HV0324=conn.rs.getInt(16);
     facilityId=conn.rs.getString(17);
-    if(ARTSupport!=null){
+    
+    HV0205=conn.rs.getInt(18);
+        HV0209=conn.rs.getInt(19);
+        HV0210=conn.rs.getInt(20);
+        HV0216=conn.rs.getInt(21);
+        HV0217=conn.rs.getInt(22);
+        HV0224=conn.rs.getInt(23);
+        HV0225=conn.rs.getInt(24);
+        HV0227=conn.rs.getInt(25);
+        HV0229=conn.rs.getInt(26);
+        HV0230=conn.rs.getInt(27);
+        HV0231=conn.rs.getInt(28);
+        HV0232=conn.rs.getInt(29);
+//        HV0301=conn.rs.getInt(30);
+        HV0206=conn.rs.getInt(31);
+        HV0207=conn.rs.getInt(32);
+        HV0208=conn.rs.getInt(33);
+        
+   
      String getMaxYearMonth="SELECT MAX(yearmonth) FROM moh731 WHERE moh731.SubPartnerID='"+facilityId+"' && "+duration ;
     conn.rs2=conn.st2.executeQuery(getMaxYearMonth);
     if(conn.rs2.next()==true){
@@ -580,7 +702,7 @@ currentCARE1F=currentCARE1_4F=currentCARE5_9F=currentCARE10_14F=currentCARE15_19
     }
         
      String getCurrent="SELECT HV0314,HV0315,HV0316,HV0317,HV0318,"
-    + "HV0334,HV0335,HV0336,HV0337,HV0338 FROM moh731 WHERE "
+    + "HV0334,HV0335,HV0336,HV0337,HV0338,HV0301 FROM moh731 WHERE "
     + "moh731.SubPartnerID='"+facilityId+"' && yearmonth='"+maxYearMonth+"'";
      System.out.println("current : "+getCurrent);
      conn.rs1=conn.st1.executeQuery(getCurrent);
@@ -594,8 +716,11 @@ currentCARE1F=currentCARE1_4F=currentCARE5_9F=currentCARE10_14F=currentCARE15_19
      HV0335=conn.rs1.getInt(7);
      HV0336=conn.rs1.getInt(8);
      HV0337=conn.rs1.getInt(9);
-     HV0338=conn.rs1.getInt(10);    
+     HV0338=conn.rs1.getInt(10);
+     HV0301=conn.rs1.getInt(11);
      }
+     
+      if(ARTSupport!=null){
   double splitData; int adderPos=0;
 //    VALUES FOR CURRENT ON ART
  currentART1M=(float)Math.round((0.03*HV0335));
@@ -1028,6 +1153,106 @@ splitData--;
         
               }      
  }
+//  OUTPUT PMTCT DATA HERE +===========================================================================================    
+  if(PMTCTSupport!=null){
+ //        PMTCT_FO===================================================================================================
+        
+        
+//        PMTCT_ARV===================================================================================================
+        
+        
+      PMTCT_ARV_N=(double) HV0217;
+      PMTCT_ARV_D=(double) HV0209;
+      PMTCT_ARV_LIFELONGART_NEW=(double)Math.round((0.75*HV0217));
+      PMTCT_ARV_LIFELONGART_EXISTING=(double)Math.round((0.25*HV0217));
+      
+      double normalizer=PMTCT_ARV_LIFELONGART_NEW+PMTCT_ARV_LIFELONGART_EXISTING;
+      int pmtctnum=0;
+      while(HV0217>normalizer){
+          if(pmtctnum<3){
+           PMTCT_ARV_LIFELONGART_NEW++;   
+          }
+          else{
+          PMTCT_ARV_LIFELONGART_EXISTING++;    
+          }
+          if(pmtctnum==3){pmtctnum=0;}
+          normalizer++;
+         pmtctnum++; 
+      }
+      
+      normalizer=PMTCT_ARV_LIFELONGART_NEW+PMTCT_ARV_LIFELONGART_EXISTING;
+       pmtctnum=0;
+      while(normalizer>HV0217){
+          if(pmtctnum<3){
+           PMTCT_ARV_LIFELONGART_NEW--;   
+          }
+          else{
+          PMTCT_ARV_LIFELONGART_EXISTING--;    
+          }
+          if(pmtctnum==3){pmtctnum=0;}
+          normalizer--;
+         pmtctnum++; 
+      }
+      
+      PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV=0.0;
+      PMTCT_ARV_MATERNAL_AZT=0.0;
+      PMTCT_ARV_SINGLEDOSE=0.0;
+      
+//      PMTCT_EID===================================================================================================
+ PMTCT_EID_N=(double)(HV0224+HV0225+HV0227);     
+ PMTCT_EID_VIRO_2MONTHS=(double) (HV0224);    
+ PMTCT_EID_VIRO_2_12MONTHS=(double) (HV0225+HV0227);     
+ PMTCT_EID_P_VIRO_2MONTHS=(double)  (HV0229);    
+ PMTCT_EID_P_VIRO_2_12MONTHS=(double) (HV0230+HV0231);     
+  
+//  PMTCT_STAT NUMERATOR======================================================================================================
+      
+ PMTCT_STATN_N=(double) HV0210;     
+ PMTCT_STATN_KNOWNPOSTIVE=(double) HV0205;      
+ PMTCTN_STAT_NEWPOSTIVE=(double) (HV0206+HV0207+HV0208);      
+ PMTCT_STATD_D=(double) Math.round((1.03*HV0210));       
+  
+// PMTCT_CTX=====================================================================================================
+ 
+         PMTCT_CTX=(double) HV0301; //Mo clarification whether to um or take most recent
+         
+         
+//         String dataPMTCT []=(countyName+","+districtName+","+facilityName+","+mflcode+","+PMTCTSupport+","+PMTCT_FO_I_N+","
+//           + ""+PMTCT_FO_I_D+","+PMTCT_FO_I_LINKED+","+PMTCT_FO_I_NOT_LINKED+","+PMTCT_FO_I_UNKNOWN+","
+//           + ""+PMTCT_FO_U_NOT_BREASTFEEDING+","+PMTCT_FO_U_STILL_BREASTFEEDING+","+PMTCT_FO_U_BREASTFEEDING_UNKNOWN+","
+//           +PMTCT_FO_OTHER_INCARE+","+PMTCT_FO_OTHER_NOFOLLOWUP+","+PMTCT_FO_DIED+","+PMTCT_FO_TRANSFERRED+","
+//           + ""+PMTCT_ARV_N+","+PMTCT_ARV_D+","+PMTCT_ARV_LIFELONGART_NEW+","+PMTCT_ARV_LIFELONGART_EXISTING+","
+//           +PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV+","+PMTCT_ARV_MATERNAL_AZT+","
+//           + ""+PMTCT_ARV_SINGLEDOSE+","+PMTCT_EID_N+","+PMTCT_EID_VIRO_2MONTHS+","+PMTCT_EID_VIRO_2_12MONTHS+","
+//           +PMTCT_EID_P_VIRO_2MONTHS+","+PMTCT_EID_P_VIRO_2_12MONTHS+","
+//           + ""+PMTCT_STATN_N+","+PMTCT_STATN_KNOWNPOSTIVE+","+PMTCTN_STAT_NEWPOSTIVE+","
+//           + ""+PMTCT_STATD_D+","+PMTCT_CTX).split(","); 
+         
+       if(PMTCTSupport!=null){
+//        HAVE FORMULAS HERE AND THE OUTPUT FOR PMTCT   
+   String dataPMTCT []=(countyName+","+districtName+","+facilityName+","+mflcode+","+PMTCTSupport+",,"
+           + " ,,,,,,,,,,,"
+           + ""+PMTCT_ARV_N+","+PMTCT_ARV_D+","+PMTCT_ARV_LIFELONGART_NEW+","+PMTCT_ARV_LIFELONGART_EXISTING+","
+           +PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV+","+PMTCT_ARV_MATERNAL_AZT+","
+           + ""+PMTCT_ARV_SINGLEDOSE+","+PMTCT_EID_N+","+PMTCT_EID_VIRO_2MONTHS+","+PMTCT_EID_VIRO_2_12MONTHS+","
+           +PMTCT_EID_P_VIRO_2MONTHS+","+PMTCT_EID_P_VIRO_2_12MONTHS+","
+           + ""+PMTCT_STATN_N+","+PMTCT_STATN_KNOWNPOSTIVE+","+PMTCTN_STAT_NEWPOSTIVE+","
+           + ""+PMTCT_STATD_D+",").split(",");   
+           
+      HSSFRow rw3shetPMTCT=shetPMTCT.createRow(pmtctpos); 
+       rw3shetPMTCT.setHeightInPoints(25);
+       for(int positionPMTCT=0;positionPMTCT<dataPMTCT.length;positionPMTCT++){
+       String value=dataPMTCT[positionPMTCT];
+           c11=rw3shetPMTCT.createCell(positionPMTCT);
+        if(positionPMTCT>16 &&positionPMTCT<(dataPMTCT.length)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+         c11.setCellStyle(stborder);
+          if(positionPMTCT==5 || positionPMTCT==6 || positionPMTCT==17 || positionPMTCT==18 || positionPMTCT==24 || positionPMTCT==29 || positionPMTCT==32 || positionPMTCT==33){ c11.setCellStyle(styleHeader);}
+              }      
+        pmtctpos++;   
+       } 
+             
+  }    
+      
     
     }
     

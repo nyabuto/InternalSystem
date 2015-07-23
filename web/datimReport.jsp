@@ -225,7 +225,7 @@
                               <label class="control-label">Service Area<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
-                                    <option value="datimReport">ART,CARE AND HTC</option>
+                                    <option value="datimReport">ART,CARE,HTC and PMTCT</option>
                                     <option value="datimvmmc">VMMC</option>
                                  </select>
                               </div>
