@@ -244,13 +244,13 @@ public class datimvmmc extends HttpServlet {
    
     if(!county.equals("")){
    
-   countywhere=" and countyid = '"+county+"'";    
+   countywhere=" and district.countyid = '"+county+"'";    
    
                           }
     
      if(!subcounty.equals("")){
    
-   subcountywhere=" and DistrictID = '"+subcounty+"'";    
+   subcountywhere=" and subpartnera.DistrictID = '"+subcounty+"'";    
    
                               }
    
@@ -371,21 +371,54 @@ cl3.setCellStyle(stylex);
                        }
   
   HSSFCell cl3b= rw2.createCell(6);
-cl3b.setCellValue("All Sexes ");
+cl3b.setCellValue("Disaggregated by Age ");
 cl3b.setCellStyle(stylex); 
 
    for(int a=7;a<=13;a++){ 
  HSSFCell clx= rw2.createCell(a);
  clx.setCellValue("");
  clx.setCellStyle(stylex);
-                       }
+                         }
 
+     HSSFCell cl3c= rw2.createCell(14);
+cl3c.setCellValue("Disaggregated by HIV Status ");
+cl3c.setCellStyle(stylex); 
 
-     //
-  String VMMCheaders[]={"County","Sub-County","Facility Name","Mfl Code","Type Of Support","Numerator","< 1","1-9","10-14","15-19","20-24","25-29","30-49","50+"};
+   for(int a=15;a<=16;a++){ 
+ HSSFCell clx= rw2.createCell(a);
+ clx.setCellValue("");
+ clx.setCellStyle(stylex);
+                          }
+   
+
+    HSSFCell cl3d= rw2.createCell(17);
+cl3d.setCellValue("Disaggregated by Circumcission Technique ");
+cl3d.setCellStyle(stylex); 
  
-  HSSFRow rw3=shet.createRow(3);
-  rw3.setHeightInPoints(23);
+  HSSFCell cl3e= rw2.createCell(18);
+cl3e.setCellValue("Disaggregated by Followup (For surgical only) ");
+cl3e.setCellStyle(stylex); 
+
+   for(int a=19;a<20;a++){ 
+ HSSFCell clx= rw2.createCell(a);
+ clx.setCellValue("");
+ clx.setCellStyle(stylex);
+                          }
+   
+     HSSFCell cl3f= rw2.createCell(20);
+cl3f.setCellValue("VMMC_AE Disaggregated by AE Type");
+cl3f.setCellStyle(stylex); 
+   
+ for(int a=21;a<27;a++){ 
+ HSSFCell clx= rw2.createCell(a);
+ clx.setCellValue("");
+ clx.setCellStyle(stylex);
+                          }
+     //
+ String VMMCheaders[]={"County","Sub-County","Facility Name","Mfl Code","Type Of Support","Numerator","< 1","1-9","10-14","15-19","20-24","25-29","30-49","50+","HIV-positive clients (tested HIV positive at VMMC site","HIV-negative clients (tested HIV negative at VMMC program","Unknown HIV status/not tested for HIV on site/indeterminate HIV status/undocumented HIV status","Device-Based","Number of surgical VMMC clients who returned at least once for follow-up care within 14 days of surgery","Number of surgical VMMC clients who did not return for follow-up care within 14 days of surgery","Numerator","Surgical Intra- operative: Moderate","Surgical Intra- operative: Severe","Surgical Post- operative: Moderate","Surgical Post- operative: Severe","Medical Device-related: Moderate","Medical Device-related: Severe"};
+ 
+ HSSFRow rw3=shet.createRow(3);
+ rw3.setHeightInPoints(63);
  for(int a=0;a<VMMCheaders.length;a++){ 
  HSSFCell clx= rw3.createCell(a);
  clx.setCellValue(VMMCheaders[a]);
@@ -399,19 +432,36 @@ cl3b.setCellStyle(stylex);
   //shet.addMergedRegion(new CellRangeAddress(1,1,0,4));  
     shet.addMergedRegion(new CellRangeAddress(2,2,1,5));  
     shet.addMergedRegion(new CellRangeAddress(2,2,6,13));  
+    shet.addMergedRegion(new CellRangeAddress(2,2,14,16));  
+    shet.addMergedRegion(new CellRangeAddress(2,2,18,19));  
+    shet.addMergedRegion(new CellRangeAddress(2,2,20,26));  
     shet.setColumnWidth(0, 5000);  
     shet.setColumnWidth(1, 5000);  
     shet.setColumnWidth(2, 6000);  
     shet.setColumnWidth(3, 6000);  
     shet.setColumnWidth(4, 6000);  
     shet.setColumnWidth(5, 2500);  
+    shet.setColumnWidth(14, 6500);  
+    shet.setColumnWidth(15, 6500);  
+    shet.setColumnWidth(16, 6500);  
+    shet.setColumnWidth(17, 6500);  
+    shet.setColumnWidth(18, 6500);  
+    shet.setColumnWidth(19, 6500);  
+    shet.setColumnWidth(20, 3000);  
+    shet.setColumnWidth(21, 6000);  
+    shet.setColumnWidth(22, 6000);  
+    shet.setColumnWidth(23, 6000);  
+    shet.setColumnWidth(24, 6000);  
+    shet.setColumnWidth(25, 6000);  
+    shet.setColumnWidth(26, 6000);  
     
      
 
     
     
         
-getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(P51DT) as P51DT, sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
+//getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(P51DT) as P51DT, sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
+getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(P51DT) as P51DT, sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,     sum(P511KP) as P511KP ,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU ,   sum(P511Dev) as P511Dev ,   sum(P54D) as P54D ,   sum(P511Surg) as P511Surg , sum(P521DM + P521DS + P522DM + P522DS) as aenumerator ,  sum(P521DM) as  P521DM ,  sum(P521DS) as P521DS ,   sum(P522DM) as P522DM ,    sum(P522DS) as P522DS from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
 
             System.out.println(getexistingdata);
             String P51D1 = "";
@@ -423,25 +473,26 @@ getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mfl
             String P51D49 = "";
             String P51D50 = "";
             String P51DT = "";
-//            String P521DM = "";
-//            String P521DS = "";
+            String P511KP = "";
+            String P521DM = "";
+            String P521DS = "";
 //            String P521DT = "";
-//            String P522DM = "";
-//            String P522DS = "";
+            String P522DM = "";
+            String P522DS = "";
 //            String P522DT = "";
 //            String P52DM = "";
 //            String P52DS = "";
 //            String P52DT = "";
 //            String P511KP = "";
-//            String P511KN = "";
-//            String P511KU = "";
-//            String P511Surg ="";
-//            String P511Dev ="";
+           String P511KN = "";
+            String P511KU = "";
+            String P511Surg ="";
+            String P511Dev ="";
 //            String P53DF = "";
 //            String P53DO = "";
 //            String P53DM = "";
 //            String P53D = "";
-//            String P54D = "";
+            String P54D = "";
 
 
 String distid="";
@@ -511,15 +562,15 @@ int counter=0;
                     P51DT = "";
                 }
 
-//                P521DM = conn.rs.getString("P521DM");
-//                if (P521DM == null) {
-//                    P521DM = "";
-//                }
+                P521DM = conn.rs.getString("P521DM");
+                if (P521DM == null) {
+                    P521DM = "";
+                }
 //
-//                P521DS = conn.rs.getString("P521DS");
-//                if (P521DS == null) {
-//                    P521DS = "";
-//                }
+                P521DS = conn.rs.getString("P521DS");
+                if (P521DS == null) {
+                    P521DS = "";
+                }
 //
 //                P521DT = conn.rs.getString("P521DT");
 //                if (P521DT == null) {
@@ -528,15 +579,15 @@ int counter=0;
 //
 //
 //
-//                P522DM = conn.rs.getString("P522DM");
-//                if (P522DM == null) {
-//                    P522DM = "";
-//                }
+                P522DM = conn.rs.getString("P522DM");
+                if (P522DM == null) {
+                    P522DM = "";
+                }
 //
-//                P522DS = conn.rs.getString("P522DS");
-//                if (P522DS == null) {
-//                    P522DS = "";
-//                }
+                P522DS = conn.rs.getString("P522DS");
+                if (P522DS == null) {
+                    P522DS = "";
+                }
 //
 //                P522DT = conn.rs.getString("P522DT");
 //                if (P522DT == null) {
@@ -562,32 +613,32 @@ int counter=0;
 //                }
 //
 //
-//                P511KP = conn.rs.getString("P511KP");
-//                if (P511KP == null) {
-//                    P511KP = "";
-//                }
+                P511KP = conn.rs.getString("P511KP");
+                if (P511KP == null) {
+                    P511KP = "";
+                }
 //
 //
-//                P511KN = conn.rs.getString("P511KN");
-//                if (P511KN == null) {
-//                    P511KN = "";
-//                }
+                P511KN = conn.rs.getString("P511KN");
+                if (P511KN == null) {
+                    P511KN = "";
+                }
+
+                P511KU = conn.rs.getString("P511KU");
+                if (P511KU == null) {
+                    P511KU = "";
+                }
 //
-//                P511KU = conn.rs.getString("P511KU");
-//                if (P511KU == null) {
-//                    P511KU = "";
-//                }
-//
-//                P511Surg = conn.rs.getString("P511Surg");
-//                if (P511Surg == null) {
-//                    P511Surg = "";
-//                }
+                P511Surg = conn.rs.getString("P511Surg");
+                if (P511Surg == null) {
+                    P511Surg = "";
+                }
 //
 //
-//                P511Dev = conn.rs.getString("P511Dev");
-//                if (P511Dev == null) {
-//                    P511Dev = "";
-//                }
+                P511Dev = conn.rs.getString("P511Dev");
+                if (P511Dev == null) {
+                    P511Dev = "";
+                }
 //
 //                P53DF = conn.rs.getString("P53DF");
 //                if (P53DF == null) {
@@ -609,10 +660,10 @@ int counter=0;
 //                    P53D = "";
 //                }
 //
-//                P54D = conn.rs.getString("P54D");
-//                if (P54D == null) {
-//                    P54D = "";
-//                }
+                P54D = conn.rs.getString("P54D");
+                if (P54D == null) {
+                    P54D = "";
+                }
 
         
        
@@ -754,7 +805,7 @@ if(1==1){
   clx1.setCellStyle(style2);
   celpos++;
  celpos1++;
-  }
+        }
   
   
    //50+
@@ -766,7 +817,133 @@ if(1==1){
  celpos1++;
   }
   
+  //tested positive clients  P511KP
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
   
+  //tested negative clients P511KN
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+  }
+  
+  
+  //unknown untested  P511KU
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+  
+  //=============================================================
+  //device based  P511KU
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+  //=============================================================
+  //Returned
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+  if(1==1){
+      
+      int notreturned=0;
+      
+      if(conn.rs.getInt("P51DT")-conn.rs.getInt("P54D")>0){
+      //here im subtracting surgical vmmc and males who returned for postoperative follow
+      notreturned=conn.rs.getInt("P51DT")-conn.rs.getInt("P54D");
+      }
+      
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(notreturned);
+  clx1.setCellStyle(style2);
+  //increment to get past P511Surg
+  celpos++;
+ celpos1++;
+         }
+  
+  
+  //=============================================================
+  //VMMC_AE Numerator
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+  //intra-operative moderate
+    if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+    //intra-operative severe
+    if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+    
+    
+      // surgicalpost-operative moderate
+    if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+  celpos1++;
+         }
+    
+     // surgicalpost-operative severe
+    if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(conn.rs.getInt(celpos1));
+  clx1.setCellStyle(style2);
+  celpos++;
+  celpos1++;
+         }
+    
+     //Medical device related Moderate
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue("");
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+       //Medical device related Severe
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue("");
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+    
+    
   r++;
   }
   
