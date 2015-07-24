@@ -68,7 +68,7 @@ Double PMTCT_EID_N,PMTCT_EID_VIRO_2MONTHS,PMTCT_EID_VIRO_2_12MONTHS,
 Double PMTCT_STATN_N,PMTCT_STATN_KNOWNPOSTIVE,PMTCTN_STAT_NEWPOSTIVE;
 Double PMTCT_STATD_D,PMTCT_STATD_LESS15,PMTCT_STATD_15_19,PMTCT_STATD_20_24,PMTCT_STATD_25;
 Double PMTCT_CTX;
-
+int  numerator,denominator=0;
     ArrayList allFacilities = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -1153,11 +1153,48 @@ splitData--;
         
               }      
  }
+      
 //  OUTPUT PMTCT DATA HERE +===========================================================================================    
   if(PMTCTSupport!=null){
+      numerator=denominator=0;
+      String pmtct_fo_id=year+"_"+quarter+"_"+facilityId;
+      String getPMTCTFO="SELECT numerator,denominator FROM pmtct_fo WHERE id='"+pmtct_fo_id+"' ";
+      conn.rs1=conn.st1.executeQuery(getPMTCTFO);
+      if(conn.rs1.next()==true){
+          numerator=conn.rs1.getInt(1);
+          denominator=conn.rs1.getInt(2);
+      }
+      if(!reportDuration.equals("3")){
+      numerator=denominator=0;    
+      }
+      
  //        PMTCT_FO===================================================================================================
-        
-        
+     PMTCT_FO_I_N=(double) numerator;
+     PMTCT_FO_I_D=(double) denominator;
+     PMTCT_FO_I_LINKED=(double)Math.round((0.05*numerator));
+     PMTCT_FO_I_NOT_LINKED=0.0;
+     PMTCT_FO_I_UNKNOWN=0.0;
+     PMTCT_FO_U_NOT_BREASTFEEDING=(double)Math.round((0.83*numerator));
+     PMTCT_FO_U_STILL_BREASTFEEDING=0.0;
+     PMTCT_FO_U_BREASTFEEDING_UNKNOWN=0.0;
+     PMTCT_FO_OTHER_INCARE=0.0;
+     PMTCT_FO_OTHER_NOFOLLOWUP=(double)Math.round((0.08*numerator));
+     PMTCT_FO_DIED=(double)Math.round((0.02*numerator));
+     PMTCT_FO_TRANSFERRED=(double)Math.round((0.02*numerator));  
+     
+    double normalizer=PMTCT_FO_I_LINKED+PMTCT_FO_I_NOT_LINKED+PMTCT_FO_I_UNKNOWN+PMTCT_FO_U_NOT_BREASTFEEDING+
+            PMTCT_FO_U_STILL_BREASTFEEDING+PMTCT_FO_U_BREASTFEEDING_UNKNOWN+PMTCT_FO_OTHER_INCARE+
+            PMTCT_FO_OTHER_NOFOLLOWUP+PMTCT_FO_DIED+PMTCT_FO_TRANSFERRED;
+     int pmtctnum=0;
+     while(numerator>normalizer){
+    PMTCT_FO_U_NOT_BREASTFEEDING++;
+    normalizer++;
+     }
+     
+     while(numerator<normalizer){
+    PMTCT_FO_U_NOT_BREASTFEEDING--; 
+    normalizer--;
+     }
 //        PMTCT_ARV===================================================================================================
         
         
@@ -1166,8 +1203,8 @@ splitData--;
       PMTCT_ARV_LIFELONGART_NEW=(double)Math.round((0.75*HV0217));
       PMTCT_ARV_LIFELONGART_EXISTING=(double)Math.round((0.25*HV0217));
       
-      double normalizer=PMTCT_ARV_LIFELONGART_NEW+PMTCT_ARV_LIFELONGART_EXISTING;
-      int pmtctnum=0;
+      normalizer=PMTCT_ARV_LIFELONGART_NEW+PMTCT_ARV_LIFELONGART_EXISTING;
+      pmtctnum=0;
       while(HV0217>normalizer){
           if(pmtctnum<3){
            PMTCT_ARV_LIFELONGART_NEW++;   
@@ -1192,6 +1229,7 @@ splitData--;
           if(pmtctnum==3){pmtctnum=0;}
           normalizer--;
          pmtctnum++; 
+         
       }
       
       PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV=0.0;
@@ -1213,47 +1251,58 @@ splitData--;
  PMTCT_STATD_D=(double) Math.round((1.03*HV0210));       
   
 // PMTCT_CTX=====================================================================================================
- 
+
          PMTCT_CTX=(double) HV0301; //Mo clarification whether to um or take most recent
-         
-         
-//         String dataPMTCT []=(countyName+","+districtName+","+facilityName+","+mflcode+","+PMTCTSupport+","+PMTCT_FO_I_N+","
-//           + ""+PMTCT_FO_I_D+","+PMTCT_FO_I_LINKED+","+PMTCT_FO_I_NOT_LINKED+","+PMTCT_FO_I_UNKNOWN+","
-//           + ""+PMTCT_FO_U_NOT_BREASTFEEDING+","+PMTCT_FO_U_STILL_BREASTFEEDING+","+PMTCT_FO_U_BREASTFEEDING_UNKNOWN+","
-//           +PMTCT_FO_OTHER_INCARE+","+PMTCT_FO_OTHER_NOFOLLOWUP+","+PMTCT_FO_DIED+","+PMTCT_FO_TRANSFERRED+","
-//           + ""+PMTCT_ARV_N+","+PMTCT_ARV_D+","+PMTCT_ARV_LIFELONGART_NEW+","+PMTCT_ARV_LIFELONGART_EXISTING+","
-//           +PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV+","+PMTCT_ARV_MATERNAL_AZT+","
-//           + ""+PMTCT_ARV_SINGLEDOSE+","+PMTCT_EID_N+","+PMTCT_EID_VIRO_2MONTHS+","+PMTCT_EID_VIRO_2_12MONTHS+","
-//           +PMTCT_EID_P_VIRO_2MONTHS+","+PMTCT_EID_P_VIRO_2_12MONTHS+","
-//           + ""+PMTCT_STATN_N+","+PMTCT_STATN_KNOWNPOSTIVE+","+PMTCTN_STAT_NEWPOSTIVE+","
-//           + ""+PMTCT_STATD_D+","+PMTCT_CTX).split(","); 
-         
-       if(PMTCTSupport!=null){
-//        HAVE FORMULAS HERE AND THE OUTPUT FOR PMTCT   
-   String dataPMTCT []=(countyName+","+districtName+","+facilityName+","+mflcode+","+PMTCTSupport+",,"
-           + " ,,,,,,,,,,,"
+       if(PMTCTSupport!=null){   
+          if(!reportDuration.equals("3")){
+      numerator=denominator=0;    
+     
+         String dataPMTCT []=(countyName+","+districtName+","+facilityName+","+mflcode+","+PMTCTSupport+",,"
+           + ",,,,,,,,,,,"
            + ""+PMTCT_ARV_N+","+PMTCT_ARV_D+","+PMTCT_ARV_LIFELONGART_NEW+","+PMTCT_ARV_LIFELONGART_EXISTING+","
            +PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV+","+PMTCT_ARV_MATERNAL_AZT+","
            + ""+PMTCT_ARV_SINGLEDOSE+","+PMTCT_EID_N+","+PMTCT_EID_VIRO_2MONTHS+","+PMTCT_EID_VIRO_2_12MONTHS+","
            +PMTCT_EID_P_VIRO_2MONTHS+","+PMTCT_EID_P_VIRO_2_12MONTHS+","
            + ""+PMTCT_STATN_N+","+PMTCT_STATN_KNOWNPOSTIVE+","+PMTCTN_STAT_NEWPOSTIVE+","
-           + ""+PMTCT_STATD_D+",").split(",");   
-           
-      HSSFRow rw3shetPMTCT=shetPMTCT.createRow(pmtctpos); 
+           + ""+PMTCT_STATD_D+","+PMTCT_CTX).split(","); 
+        HSSFRow rw3shetPMTCT=shetPMTCT.createRow(pmtctpos); 
        rw3shetPMTCT.setHeightInPoints(25);
        for(int positionPMTCT=0;positionPMTCT<dataPMTCT.length;positionPMTCT++){
        String value=dataPMTCT[positionPMTCT];
            c11=rw3shetPMTCT.createCell(positionPMTCT);
         if(positionPMTCT>16 &&positionPMTCT<(dataPMTCT.length)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
+          if( positionPMTCT==17 || positionPMTCT==18 || positionPMTCT==24 || positionPMTCT==29 || positionPMTCT==32 || positionPMTCT==33){ c11.setCellStyle(styleHeader);}
+              }      
+        pmtctpos++; 
+          }
+          else{
+//        HAVE FORMULAS HERE AND THE OUTPUT FOR PMTCT   
+   String dataPMTCT []=(countyName+","+districtName+","+facilityName+","+mflcode+","+PMTCTSupport+","+PMTCT_FO_I_N+","
+           + ""+PMTCT_FO_I_D+","+PMTCT_FO_I_LINKED+","+PMTCT_FO_I_NOT_LINKED+","+PMTCT_FO_I_UNKNOWN+","
+           + ""+PMTCT_FO_U_NOT_BREASTFEEDING+","+PMTCT_FO_U_STILL_BREASTFEEDING+","+PMTCT_FO_U_BREASTFEEDING_UNKNOWN+","
+           +PMTCT_FO_OTHER_INCARE+","+PMTCT_FO_OTHER_NOFOLLOWUP+","+PMTCT_FO_DIED+","+PMTCT_FO_TRANSFERRED+","
+           + ""+PMTCT_ARV_N+","+PMTCT_ARV_D+","+PMTCT_ARV_LIFELONGART_NEW+","+PMTCT_ARV_LIFELONGART_EXISTING+","
+           +PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV+","+PMTCT_ARV_MATERNAL_AZT+","
+           + ""+PMTCT_ARV_SINGLEDOSE+","+PMTCT_EID_N+","+PMTCT_EID_VIRO_2MONTHS+","+PMTCT_EID_VIRO_2_12MONTHS+","
+           +PMTCT_EID_P_VIRO_2MONTHS+","+PMTCT_EID_P_VIRO_2_12MONTHS+","
+           + ""+PMTCT_STATN_N+","+PMTCT_STATN_KNOWNPOSTIVE+","+PMTCTN_STAT_NEWPOSTIVE+","
+           + ""+PMTCT_STATD_D+",").split(",");   
+          
+      HSSFRow rw3shetPMTCT=shetPMTCT.createRow(pmtctpos); 
+       rw3shetPMTCT.setHeightInPoints(25);
+       for(int positionPMTCT=0;positionPMTCT<dataPMTCT.length;positionPMTCT++){
+       String value=dataPMTCT[positionPMTCT];
+           c11=rw3shetPMTCT.createCell(positionPMTCT);
+        if(positionPMTCT>4 &&positionPMTCT<(dataPMTCT.length)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+         c11.setCellStyle(stborder);
           if(positionPMTCT==5 || positionPMTCT==6 || positionPMTCT==17 || positionPMTCT==18 || positionPMTCT==24 || positionPMTCT==29 || positionPMTCT==32 || positionPMTCT==33){ c11.setCellStyle(styleHeader);}
               }      
         pmtctpos++;   
-       } 
-             
+        
+          }         
   }    
-      
-    
+  }
     }
     
     

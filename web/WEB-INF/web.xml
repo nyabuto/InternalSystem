@@ -340,7 +340,10 @@
         <servlet-name>datimPMTCT</servlet-name>
         <servlet-class>Datim.datimPMTCT</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>loadPMTCT_FO</servlet-name>
+        <servlet-class>LoadExcels.loadPMTCT_FO</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -677,13 +680,12 @@
         <servlet-name>datimvmmc</servlet-name>
         <url-pattern>/datimvmmc</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
         <servlet-name>datimPMTCT</servlet-name>
         <url-pattern>/datimPMTCT</url-pattern>
     </servlet-mapping>
-    
-    <session-config>
-        <session-timeout>-1</session-timeout>
-    </session-config>
+    <servlet-mapping>
+        <servlet-name>loadPMTCT_FO</servlet-name>
+        <url-pattern>/loadPMTCT_FO</url-pattern>
+    </servlet-mapping>
 </web-app>
