@@ -1524,7 +1524,7 @@ if(conn.rs.next()==true){
      shet5.addMergedRegion(new CellRangeAddress(5,5,0,1));
      
     XSSFCell  rw3_celSH3=rw1S5.createCell(2);
-    rw3_celSH3.setCellValue("15-24 Years");
+    rw3_celSH3.setCellValue("Children(0-14 Yrs)");
     rw3_celSH3.setCellStyle(styleHeader);
    
      
@@ -1535,7 +1535,7 @@ if(conn.rs.next()==true){
    shet5.addMergedRegion(new CellRangeAddress(5,5,2,3));
    
     XSSFCell  rw5_celSH3=rw1S5.createCell(4);
-    rw5_celSH3.setCellValue(">=25 Years");
+    rw5_celSH3.setCellValue("Adults(>=14 Yrs)");
     rw5_celSH3.setCellStyle(styleHeader);
  
    
