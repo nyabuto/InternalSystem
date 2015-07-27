@@ -56,8 +56,8 @@ String ARTSupport,PMTCTSupport,CARESuport;
 
 int HV0210,HV0209,HV0205,HV0217,HV0216;
 int HV0224,HV0225,HV0227,HV0232,HV0229,HV0230,HV0231;
-int HV0301,HV0206,HV0207,HV0208;
-
+int HV0302,HV0206,HV0207,HV0208;
+int HV0319,HV0350,HV0351,HV0352,HV0353,HV0354;
 Double PMTCT_FO_I_N,PMTCT_FO_I_D,PMTCT_FO_I_LINKED,PMTCT_FO_I_NOT_LINKED,PMTCT_FO_I_UNKNOWN,
         PMTCT_FO_U_NOT_BREASTFEEDING,PMTCT_FO_U_STILL_BREASTFEEDING,PMTCT_FO_U_BREASTFEEDING_UNKNOWN,
         PMTCT_FO_OTHER_INCARE,PMTCT_FO_OTHER_NOFOLLOWUP,PMTCT_FO_DIED,PMTCT_FO_TRANSFERRED;
@@ -69,6 +69,7 @@ Double PMTCT_STATN_N,PMTCT_STATN_KNOWNPOSTIVE,PMTCTN_STAT_NEWPOSTIVE;
 Double PMTCT_STATD_D,PMTCT_STATD_LESS15,PMTCT_STATD_15_19,PMTCT_STATD_20_24,PMTCT_STATD_25;
 Double PMTCT_CTX;
 int  numerator,denominator=0;
+int errorPMTCT,errorART,errorCARE;
     ArrayList allFacilities = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -78,9 +79,9 @@ int  numerator,denominator=0;
        year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
         
-       String headerART []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-14Y,15-19Y,20+Y,<1,1-4Y,5-14Y,15-19Y,20+Y,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
-       String headerCARE []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,NUMERATOR,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y".split(",") ;
-       String headerPMTCT []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,HIV-infected:Linked to ART,HIV-infected: Not linked to ART,HIV-infected : Unknown link,HIV-uninfected:Not beastfeeding,HIV-uninfected: Still breastfeeeding,HIV-uninfected:Breastfeeding unknown,Other outcomes: In care but not test done, Other outcomes:Lost to follow up,Other outcomes : Died,Other outcomes:Transferred out,Numerator,Denominator,Life-long ART:New,Life-long ART: Already on treatment at the beginning of the current pregnancy,Maternal Triple-Drug ARV,Maternal AZT,Single-dose nevirapine(with or without tail),Numerator,Infants who received a virologic test within 2 months of birth, Infants who received their first virologic HIV test between 2 and 12 months of age,Infants with a postive virologic test results within 2 months of birth, Infants with a postive virologic test resultsbetween 2 and 12 months of age,Numerator,Known postive at entry,New postives,Denominator,Numerator ".split(",") ;
+        String headerART []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-14Y,15-19Y,20+Y,<1,1-4Y,5-14Y,15-19Y,20+Y,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,Verification Status".split(",") ;
+       String headerCARE []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,NUMERATOR,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,Verification Status".split(",") ;
+       String headerPMTCT []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,HIV-infected:Linked to ART,HIV-infected: Not linked to ART,HIV-infected : Unknown link,HIV-uninfected:Not beastfeeding,HIV-uninfected: Still breastfeeeding,HIV-uninfected:Breastfeeding unknown,Other outcomes: In care but not test done, Other outcomes:Lost to follow up,Other outcomes : Died,Other outcomes:Transferred out,Numerator,Denominator,Life-long ART:New,Life-long ART: Already on treatment at the beginning of the current pregnancy,Maternal Triple-Drug ARV,Maternal AZT,Single-dose nevirapine(with or without tail),Numerator,Infants who received a virologic test within 2 months of birth, Infants who received their first virologic HIV test between 2 and 12 months of age,Infants with a postive virologic test results within 2 months of birth, Infants with a postive virologic test resultsbetween 2 and 12 months of age,Numerator,Known postive at entry,New postives,Denominator,Numerator,Verification Status ".split(",") ;
 
 //        year=2015;
 //        reportDuration="4";
@@ -616,7 +617,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     
        artpos=4;pmtctpos=3;
       totalNewART= totalCurrentART=totalNewCARE=totalCurrentCARE=0;      
-   
+
 //    String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
 //            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
 //            + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
@@ -636,7 +637,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
             + "subpartnera.SubPartnerID,"
             + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
             + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
-            + "SUM(HV0301),SUM(HV0206),SUM(HV0207),SUM(HV0208) "
+            + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208) "
             + " FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -645,7 +646,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1) "
             + "GROUP BY moh731.SubPartnerID " ;
        
-     System.out.println("new : "+getData);
+//     System.out.println("new : "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
 HV0308=HV0309=HV0310=HV0311=HV0312=HV0320=HV0321=HV0322=HV0323=HV0324=0;
@@ -668,7 +669,9 @@ PMTCT_FO_I_N=PMTCT_FO_I_D=PMTCT_FO_I_LINKED=PMTCT_FO_I_NOT_LINKED=PMTCT_FO_I_UNK
         PMTCT_EID_P_VIRO_2MONTHS=PMTCT_EID_P_VIRO_2_12MONTHS=0.0;
  PMTCT_STATN_N=PMTCT_STATN_KNOWNPOSTIVE=PMTCTN_STAT_NEWPOSTIVE=0.0;
  PMTCT_STATD_D=PMTCT_STATD_LESS15=PMTCT_STATD_15_19=PMTCT_STATD_20_24=PMTCT_STATD_25=0.0;
-PMTCT_CTX=0.0;      
+PMTCT_CTX=0.0; 
+errorPMTCT=errorART=errorCARE=0;
+HV0319=HV0350=HV0351=HV0352=HV0353=HV0354;
       facilityName=conn.rs.getString(1);
       districtName=conn.rs.getString(2);
       countyName=conn.rs.getString(3);
@@ -700,12 +703,12 @@ PMTCT_CTX=0.0;
         HV0230=conn.rs.getInt(27);
         HV0231=conn.rs.getInt(28);
         HV0232=conn.rs.getInt(29);
-//        HV0301=conn.rs.getInt(30);
+//        HV0302=conn.rs.getInt(30);
         HV0206=conn.rs.getInt(31);
         HV0207=conn.rs.getInt(32);
         HV0208=conn.rs.getInt(33);
         
-   
+   HV0302=0;
      String getMaxYearMonth="SELECT MAX(yearmonth) FROM moh731 WHERE moh731.SubPartnerID='"+facilityId+"' && "+duration ;
     conn.rs2=conn.st2.executeQuery(getMaxYearMonth);
     if(conn.rs2.next()==true){
@@ -713,9 +716,9 @@ PMTCT_CTX=0.0;
     }
         
      String getCurrent="SELECT HV0314,HV0315,HV0316,HV0317,HV0318,"
-    + "HV0334,HV0335,HV0336,HV0337,HV0338,HV0301 FROM moh731 WHERE "
+    + "HV0334,HV0335,HV0336,HV0337,HV0338,HV0302 FROM moh731 WHERE "
     + "moh731.SubPartnerID='"+facilityId+"' && yearmonth='"+maxYearMonth+"'";
-     System.out.println("current : "+getCurrent);
+//     System.out.println("current : "+getCurrent);
      conn.rs1=conn.st1.executeQuery(getCurrent);
      if(conn.rs1.next()==true){
      HV0314=conn.rs1.getInt(1);
@@ -728,11 +731,14 @@ PMTCT_CTX=0.0;
      HV0336=conn.rs1.getInt(8);
      HV0337=conn.rs1.getInt(9);
      HV0338=conn.rs1.getInt(10);
-     HV0301=conn.rs1.getInt(11);
+     HV0302=conn.rs1.getInt(11);
      }
      
       if(ARTSupport!=null){
   double splitData; int adderPos=0;
+// .>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// >>>>>>>>>>>>>>>>>>>>>>ART STARTS HERE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  
 //    VALUES FOR CURRENT ON ART
  currentART1M=(float)Math.round((0.03*HV0335));
  currentART1_4M=(float)Math.round((0.32*HV0335));
@@ -740,7 +746,8 @@ PMTCT_CTX=0.0;
  
   splitData=currentART1M+currentART1_4M+currentART5_14M;
   adderPos=0;
-  
+ if((splitData-HV0335)>2 ||(HV0335-splitData)>2 ){errorART++;}
+ else{
 while(splitData<HV0335){ 
  if(adderPos<2){
   currentART5_14M+=1;   
@@ -770,11 +777,13 @@ adderPos++  ;
  if(splitData==HV0335){}
 }
 
- 
+ }
  currentART15_19M=(float)Math.round((0.02*HV0337));
  currentART20M=(float)Math.round((0.98*HV0337));
  
  splitData=currentART20M+currentART15_19M;
+  if((splitData-HV0337)>2 ||(HV0337-splitData)>2 ){errorART++;}
+  else{
  while(splitData<HV0337){ 
  currentART20M+=1; 
  splitData++;
@@ -786,14 +795,15 @@ adderPos++  ;
  splitData--;
 }
  
- 
+  }
 currentART1F=(float)Math.round((0.03*HV0336));//NEED CLARIFICATION
 currentART1_4F=(float)Math.round((0.32*HV0336));
 currentART5_14F=(float)Math.round((0.65*HV0336));
 
   splitData=currentART5_14F+currentART1_4F+currentART1F;
   adderPos=0;
-  
+   if((splitData-HV0336)>2 ||(HV0336-splitData)>2 ){errorART++;}
+   else{
 while(splitData<HV0336){ 
  if(adderPos<2){currentART5_14F+=1; }
  else{currentART1_4F+=1; }
@@ -804,6 +814,7 @@ adderPos++  ;
 
 splitData=currentART5_14F+currentART1_4F+currentART1F;
   adderPos=0;
+  
 while(splitData>HV0336){ 
  if(adderPos<2){currentART5_14F-=1; }
  else{currentART1_4F-=1; }
@@ -811,11 +822,13 @@ splitData--;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }
-
+   }
 currentART15_19F=(float)Math.round((0.02*HV0338));
 currentART20F=(float)Math.round((0.98*HV0338));
 
  splitData=currentART20F+currentART15_19F;
+  if((splitData-HV0338)>2 ||(HV0338-splitData)>2 ){errorART++;}
+  else{
  while(splitData<HV0338){ 
  currentART20F+=1;
  splitData++;
@@ -826,7 +839,7 @@ currentART20F=(float)Math.round((0.98*HV0338));
  currentART20F-=1;
  splitData--;
 }
- 
+  }
 totalCurrentART=HV0338+HV0336+HV0337+HV0335;
   //    VALUES
     
@@ -837,6 +850,8 @@ totalCurrentART=HV0338+HV0336+HV0337+HV0335;
         
 splitData=newART10_14M+newART5_9M+newART1_4M+newART1M;
 adderPos=0;
+ if((splitData-HV0321)>2 ||(HV0321-splitData)>2 ){errorART++;}
+ else{
 while(splitData<HV0321){ 
  if(adderPos==0){newART10_14M+=1; }
  else if(adderPos==1){newART5_9M+=1; }
@@ -858,7 +873,7 @@ splitData--;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }
-
+ }
         
         newART15_19M=(float)Math.round((0.008*HV0323));
         newART20_24M=(float)Math.round((0.008*HV0323));
@@ -866,7 +881,9 @@ adderPos++  ;
         newART50M=(float)Math.round((0.209*HV0323));
         
         splitData=newART25_49M+newART50M+newART20_24M+newART15_19M;
-   System.out.println("split data : "+splitData+" all data "+HV0323);     
+         if((splitData-HV0323)>2 ||(HV0323-splitData)>2 ){errorART++;}
+         else{
+//   System.out.println("split data : "+splitData+" all data "+HV0323);     
 adderPos=0;
 while(splitData<HV0323){ 
  if(adderPos<3){newART25_49M+=1; }
@@ -884,7 +901,8 @@ while(splitData>HV0323){
 splitData--;
 adderPos++  ;
  if(adderPos>3){adderPos=0;}
-}      
+}   
+         }
         newART1F=(float)Math.round((0.034*HV0322));
         newART1_4F=(float)Math.round((0.214*HV0322));
         newART5_9F=(float)Math.round((0.37*HV0322));
@@ -892,6 +910,8 @@ adderPos++  ;
     
 splitData=newART10_14F+newART5_9F+newART1_4F+newART1F;
 adderPos=0;
+ if((splitData-HV0322)>2 ||(HV0322-splitData)>2 ){errorART++;}
+ else{
 while(splitData<HV0322){ 
  if(adderPos==0){newART10_14F+=1; }
  else if(adderPos==1){newART5_9F+=1; }
@@ -913,7 +933,7 @@ splitData--;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }
-
+ }
         newART15_19F=(float)Math.round((0.008*HV0324));
         newART20_24F=(float)Math.round((0.008*HV0324));
         newART25_49F=(float)Math.round((0.775*HV0324));
@@ -921,6 +941,9 @@ adderPos++  ;
       
     splitData=newART25_49F+newART50F+newART20_24F+newART15_19F;
 adderPos=0;
+ if((splitData-HV0324)>2 ||(HV0324-splitData)>2 ){errorART++;}
+ else{
+ 
 while(splitData<HV0324){ 
  if(adderPos<3){newART25_49F+=1; }
  else{newART50F+=1; }
@@ -937,11 +960,13 @@ splitData--;
 adderPos++  ;
  if(adderPos>3){adderPos=0;}
 }
-
+ }
         totalNewART=HV0324+HV0322+HV0323+HV0321;
-        System.out.println();
+//        System.out.println();
    //    VALUES
-    
+//  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//     >>>>>>>>>>>>>>>>>>>>>>>>>>.CARE STARTS HERE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        
         newCARE1M=(float)Math.round((0.18*HV0309));
         newCARE1_4M=(float)Math.round((0.34*HV0309));
         newCARE5_9M=(float)Math.round((0.28*HV0309));
@@ -949,6 +974,8 @@ adderPos++  ;
   
 splitData=newCARE10_14M+newCARE5_9M+newCARE1_4M+newCARE1M;
 adderPos=0;
+ if((splitData-HV0309)>2 ||(HV0309-splitData)>2 ){errorCARE++;}
+ else{
 while(splitData<HV0309){ 
  if(adderPos==0){newCARE1_4M+=1; }
  else if(adderPos==1){newCARE5_9M+=1; }
@@ -971,13 +998,16 @@ splitData--;
 adderPos++  ;
  if(adderPos>3){adderPos=0;}
 }
-
+ }
         newCARE15_19M=(float)Math.round((0.02*HV0311));
         newCARE20_24M=(float)Math.round((0.09*HV0311));
         newCARE25_49M=(float)Math.round((0.80*HV0311));
         newCARE50M=(float)Math.round((0.09*HV0311));
         
 splitData=newCARE50M+newCARE25_49M+newCARE20_24M+newCARE15_19M;
+ if((splitData-HV0311)>2 ||(HV0311-splitData)>2 ){errorCARE++;}
+ else{
+ 
 while(splitData<HV0311){ 
 newCARE25_49M+=1; 
 splitData++;
@@ -988,13 +1018,16 @@ while(splitData>HV0311){
 newCARE25_49M-=1; 
 splitData--;
 }        
-        newCARE1F=(float)Math.round((0.18*HV0310));
+ }
+ newCARE1F=(float)Math.round((0.18*HV0310));
         newCARE1_4F=(float)Math.round((0.34*HV0310));
         newCARE5_9F=(float)Math.round((0.28*HV0310));
         newCARE10_14F=(float)Math.round((0.20*HV0310));
         
 splitData=newCARE10_14F+newCARE5_9F+newCARE1_4F+newCARE1F;
 adderPos=0;
+ if((splitData-HV0310)>2 ||(HV0310-splitData)>2 ){errorCARE++;}
+ else{
 while(splitData<HV0310){ 
  if(adderPos==0){newCARE1_4F+=1; }
  else if(adderPos==1){newCARE5_9F+=1; }
@@ -1018,13 +1051,15 @@ splitData--;
 adderPos++  ;
  if(adderPos>3){adderPos=0;}
 }
-
+ }
         newCARE15_19F=(float)Math.round((0.02*HV0312));
         newCARE20_24F=(float)Math.round((0.09*HV0312));
         newCARE25_49F=(float)Math.round((0.80*HV0312));
         newCARE50F=(float)Math.round((0.09*HV0312));
        
 splitData=newCARE50F+newCARE25_49F+newCARE20_24F+newCARE15_19F;
+ if((splitData-HV0312)>2 ||(HV0312-splitData)>2 ){errorCARE++;}
+ else{
 while(splitData<HV0312){ 
 newCARE25_49F+=1; 
 splitData++;
@@ -1034,6 +1069,7 @@ while(splitData>HV0312){
 newCARE25_49F-=1; 
 splitData--;
 }
+ }
         totalNewCARE=HV0312+HV0310+HV0311+HV0309;
      //    VALUES
     
@@ -1044,6 +1080,8 @@ splitData--;
 
 splitData=currentCARE10_14M+currentCARE5_9M+currentCARE1_4M+currentCARE1M;
 adderPos=0;
+ if((splitData-HV0315)>2 ||(HV0315-splitData)>2 ){errorCARE++;}
+ else{
 while(splitData<HV0315){ 
  if(adderPos==0){currentCARE10_14M+=1; }
  else if(adderPos==1){currentCARE5_9M+=1; }
@@ -1063,13 +1101,16 @@ while(splitData>HV0315){
 splitData--;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
-}       
+} 
+ }
         currentCARE15_19M=(float)Math.round((0.02*HV0317));
         currentCARE20_24M=(float)Math.round((0.09*HV0317));
         currentCARE25_49M=(float)Math.round((0.80*HV0317));
         currentCARE50M=(float)Math.round((0.09*HV0317));
         
 splitData=currentCARE50M+currentCARE25_49M+currentCARE20_24M+currentCARE15_19M;
+ if((splitData-HV0317)>2 ||(HV0317-splitData)>2 ){errorCARE++;}
+ else{
 while(splitData<HV0317){ 
 currentCARE25_49M+=1; 
 splitData++;
@@ -1078,13 +1119,16 @@ splitData++;
 while(splitData>HV0317){ 
 currentCARE25_49M-=1; 
 splitData--;
-}       
+} 
+ }
         currentCARE1F=(float)Math.round((0.03*HV0316));
         currentCARE1_4F=(float)Math.round((0.22*HV0316));
         currentCARE5_9F=(float)Math.round((0.37*HV0316));
         currentCARE10_14F=(float)Math.round((0.38*HV0316));
         
 splitData=currentCARE10_14F+currentCARE5_9F+currentCARE1_4F+currentCARE1F;
+ if((splitData-HV0316)>2 ||(HV0316-splitData)>2 ){errorCARE++;}
+ else{
 adderPos=0;
 while(splitData<HV0316){ 
  if(adderPos==0){currentCARE10_14F+=1; }
@@ -1105,13 +1149,16 @@ while(splitData>HV0316){
 splitData--;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
-}       
+} 
+ }
         currentCARE15_19F=(float)Math.round((0.02*HV0318));
         currentCARE20_24F=(float)Math.round((0.09*HV0318));
         currentCARE25_49F=(float)Math.round((0.80*HV0318));
         currentCARE50F=(float)Math.round((0.09*HV0318));
 
 splitData=currentCARE50F+currentCARE25_49F+currentCARE20_24F+currentCARE15_19F;
+ if((splitData-HV0318)>2 ||(HV0318-splitData)>2 ){errorCARE++;}
+ else{
 while(splitData<HV0318){ 
 currentCARE25_49F+=1; 
 splitData++;
@@ -1120,7 +1167,8 @@ splitData++;
 while(splitData>HV0318){ 
 currentCARE25_49F-=1; 
 splitData--;
-}       
+}
+ }
        totalCurrentCARE=HV0318+HV0316+HV0317+HV0315;
 
        String dataART []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","+totalCurrentART+","
@@ -1129,7 +1177,7 @@ splitData--;
            + ""+currentART15_19M+","+currentART20M+","+totalNewART+","
            + ""+newART1F+","+newART1_4F+","+newART5_9F+","+newART10_14F+","+newART15_19F+","+newART20_24F+","
            + ""+newART25_49F+","+newART50F+","+newART1M+","+newART1_4M+","+newART5_9M+","+newART10_14M+","
-           + ""+newART15_19M+","+newART20_24M+","+newART25_49M+","+newART50M).split(",");
+           + ""+newART15_19M+","+newART20_24M+","+newART25_49M+","+newART50M+","+errorART).split(",");
    
    String dataCARE []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","+totalCurrentCARE+","
            + ""+currentCARE1F+","+currentCARE1_4F+","+currentCARE5_9F+","+currentCARE10_14F+","+currentCARE15_19F+","
@@ -1138,7 +1186,7 @@ splitData--;
            + ""+currentCARE25_49M+","+currentCARE50M+","+totalNewCARE+","
            + ""+newCARE1F+","+newCARE1_4F+","+newCARE5_9F+","+newCARE10_14F+","+newCARE15_19F+","+newCARE20_24F+","
            + ""+newCARE25_49F+","+newCARE50F+","+newCARE1M+","+newCARE1_4M+","+newCARE5_9M+","+newCARE10_14M+","
-           + ""+newCARE15_19M+","+newCARE20_24M+","+newCARE25_49M+","+newCARE50M).split(",");
+           + ""+newCARE15_19M+","+newCARE20_24M+","+newCARE25_49M+","+newCARE50M+","+errorCARE).split(",");
     
     artpos++;
     
@@ -1147,10 +1195,15 @@ splitData--;
        for(int positionART=0;positionART<dataART.length;positionART++){
        String value=dataART[positionART];
            c11=rw3shet1.createCell(positionART);
-        if(positionART>4){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+        if(positionART>4 && positionART<dataART.length-1){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
           if(positionART==5 || positionART==16){ c11.setCellStyle(styleHeader);}
-              }
+          
+          if(positionART==dataART.length-1){
+       if(errorART>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
+       else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
+       }
+       }
 // System.out.println("art data length : "+dataART.length);
     
  HSSFRow rw3Shet2=shet2.createRow(artpos); 
@@ -1158,10 +1211,14 @@ splitData--;
        for(int positionCARE=0;positionCARE<dataCARE.length;positionCARE++){
        String value=dataCARE[positionCARE];
            c11=rw3Shet2.createCell(positionCARE);
-          if(positionCARE>4){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+          if(positionCARE>4 && positionCARE<dataCARE.length-1 ){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
          if(positionCARE==5 || positionCARE==22){ c11.setCellStyle(styleHeader);}
-        
+       
+         if(positionCARE==dataCARE.length-1){
+       if(errorCARE>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
+       else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
+       }
               }      
  }
       
@@ -1197,6 +1254,9 @@ splitData--;
             PMTCT_FO_U_STILL_BREASTFEEDING+PMTCT_FO_U_BREASTFEEDING_UNKNOWN+PMTCT_FO_OTHER_INCARE+
             PMTCT_FO_OTHER_NOFOLLOWUP+PMTCT_FO_DIED+PMTCT_FO_TRANSFERRED;
      int pmtctnum=0;
+     
+     if((normalizer-numerator)>2 || (numerator-normalizer)>2 ){errorPMTCT++;}
+     else{
      while(numerator>normalizer){
     PMTCT_FO_U_NOT_BREASTFEEDING++;
     normalizer++;
@@ -1205,6 +1265,7 @@ splitData--;
      while(numerator<normalizer){
     PMTCT_FO_U_NOT_BREASTFEEDING--; 
     normalizer--;
+     }
      }
 //        PMTCT_ARV===================================================================================================
         
@@ -1216,6 +1277,8 @@ splitData--;
       
       normalizer=PMTCT_ARV_LIFELONGART_NEW+PMTCT_ARV_LIFELONGART_EXISTING;
       pmtctnum=0;
+       if((normalizer-HV0217)>2 ||(HV0217-normalizer)>2 ){errorPMTCT++;}
+       else{
       while(HV0217>normalizer){
           if(pmtctnum<3){
            PMTCT_ARV_LIFELONGART_NEW++;   
@@ -1242,7 +1305,8 @@ splitData--;
          pmtctnum++; 
          
       }
-      
+     }
+     
       PMTCT_ARV_MATERNAL_TRIPLEDRUG_ARV=0.0;
       PMTCT_ARV_MATERNAL_AZT=0.0;
       PMTCT_ARV_SINGLEDOSE=0.0;
@@ -1263,7 +1327,7 @@ splitData--;
   
 // PMTCT_CTX=====================================================================================================
 
-         PMTCT_CTX=(double) HV0301; //Mo clarification whether to um or take most recent
+         PMTCT_CTX=(double) HV0302; //Mo clarification whether to um or take most recent
        if(PMTCTSupport!=null){   
           if(!reportDuration.equals("3")){
       numerator=denominator=0;    
@@ -1275,16 +1339,21 @@ splitData--;
            + ""+PMTCT_ARV_SINGLEDOSE+","+PMTCT_EID_N+","+PMTCT_EID_VIRO_2MONTHS+","+PMTCT_EID_VIRO_2_12MONTHS+","
            +PMTCT_EID_P_VIRO_2MONTHS+","+PMTCT_EID_P_VIRO_2_12MONTHS+","
            + ""+PMTCT_STATN_N+","+PMTCT_STATN_KNOWNPOSTIVE+","+PMTCTN_STAT_NEWPOSTIVE+","
-           + ""+PMTCT_STATD_D+","+PMTCT_CTX).split(","); 
+           + ""+PMTCT_STATD_D+","+PMTCT_CTX+","+errorPMTCT).split(","); 
         HSSFRow rw3shetPMTCT=shetPMTCT.createRow(pmtctpos); 
        rw3shetPMTCT.setHeightInPoints(25);
        for(int positionPMTCT=0;positionPMTCT<dataPMTCT.length;positionPMTCT++){
        String value=dataPMTCT[positionPMTCT];
            c11=rw3shetPMTCT.createCell(positionPMTCT);
-        if(positionPMTCT>16 &&positionPMTCT<(dataPMTCT.length)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+        if(positionPMTCT>16 &&positionPMTCT<(dataPMTCT.length-1)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
           if( positionPMTCT==17 || positionPMTCT==18 || positionPMTCT==24 || positionPMTCT==29 || positionPMTCT==32 || positionPMTCT==33){ c11.setCellStyle(styleHeader);}
-              }      
+            
+       if(positionPMTCT==dataPMTCT.length-1){
+       if(errorPMTCT>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
+       else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
+       }
+       }      
         pmtctpos++; 
           }
           else{
@@ -1298,25 +1367,30 @@ splitData--;
            + ""+PMTCT_ARV_SINGLEDOSE+","+PMTCT_EID_N+","+PMTCT_EID_VIRO_2MONTHS+","+PMTCT_EID_VIRO_2_12MONTHS+","
            +PMTCT_EID_P_VIRO_2MONTHS+","+PMTCT_EID_P_VIRO_2_12MONTHS+","
            + ""+PMTCT_STATN_N+","+PMTCT_STATN_KNOWNPOSTIVE+","+PMTCTN_STAT_NEWPOSTIVE+","
-           + ""+PMTCT_STATD_D+",").split(",");   
+           + ""+PMTCT_STATD_D+","+PMTCT_CTX+","+errorPMTCT).split(",");   
           
       HSSFRow rw3shetPMTCT=shetPMTCT.createRow(pmtctpos); 
        rw3shetPMTCT.setHeightInPoints(25);
        for(int positionPMTCT=0;positionPMTCT<dataPMTCT.length;positionPMTCT++){
        String value=dataPMTCT[positionPMTCT];
            c11=rw3shetPMTCT.createCell(positionPMTCT);
-        if(positionPMTCT>4 &&positionPMTCT<(dataPMTCT.length)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+        if(positionPMTCT>4 && positionPMTCT<(dataPMTCT.length-1)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
           if(positionPMTCT==5 || positionPMTCT==6 || positionPMTCT==17 || positionPMTCT==18 || positionPMTCT==24 || positionPMTCT==29 || positionPMTCT==32 || positionPMTCT==33){ c11.setCellStyle(styleHeader);}
-              }      
+//          System.out.println("position "+positionPMTCT+" end v : "+dataPMTCT.length); 
+       if(positionPMTCT==dataPMTCT.length-1){
+//           System.out.println("entered here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+       if(errorPMTCT>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
+       else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
+       }
+       }
+       
         pmtctpos++;   
         
           }         
   }    
   }
     }
-    
-    
     
     // 711 REPORT
     // MALES
