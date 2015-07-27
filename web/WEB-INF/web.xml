@@ -348,6 +348,10 @@
         <servlet-name>verificationreports</servlet-name>
         <servlet-class>reports.verificationreports</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadTBExcel</servlet-name>
+        <servlet-class>LoadExcels.loadTBExcel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -695,5 +699,9 @@
     <servlet-mapping>
         <servlet-name>verificationreports</servlet-name>
         <url-pattern>/verificationreports</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadTBExcel</servlet-name>
+        <url-pattern>/loadTBExcel</url-pattern>
     </servlet-mapping>
 </web-app>

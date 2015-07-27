@@ -313,8 +313,8 @@ styleHeader.setWrapText(true);
     }
     
     // for sheet3
-    for (int i=3;i<=42;i++){
-   shet3.setColumnWidth(i, 2000);     
+    for (int i=3;i<=43;i++){
+   shet3.setColumnWidth(i, 2500);     
     }
     for (int i=0;i<=1;i++){
    shet2.setColumnWidth(i, 5000);     
@@ -332,6 +332,7 @@ styleHeader.setWrapText(true);
   
   shet3.setColumnWidth(7, 3500);
   shet3.setColumnWidth(25, 3500);
+  shet3.setColumnWidth(43, 3500);
   
   
 //  ART AND CARE HEADERS============================================================================================
@@ -1710,9 +1711,9 @@ stylemainHeader.setWrapText(true);
         c216.setCellValue("Total HIV+");
              
         c217.setCellValue("Total HIV+ (F)");
-      c11.setCellValue("POSITIVE");
+      c11.setCellValue("");
   
-      c12.setCellValue("FEMALE");
+      c12.setCellValue("FEMALE(POSITIVE)");
               c216.setCellStyle(stylemainHeader);
               c217.setCellStyle(stylemainHeader);
               c11.setCellStyle(stylemainHeader);
@@ -1727,7 +1728,7 @@ stylemainHeader.setWrapText(true);
       
       c110.setCellValue("");
       
-      c111.setCellValue("MALE");
+      c111.setCellValue("MALE (POSITIVE)");
       c111.setCellStyle(stylemainHeader);
       c112.setCellValue("");
       c113.setCellValue("");
@@ -1744,7 +1745,7 @@ stylemainHeader.setWrapText(true);
         
      
    c119.setCellValue("NEGATIVE");
-      c120.setCellValue("FEMALE");
+      c120.setCellValue("FEMALE (NEGATIVE)");
       c119.setCellStyle(stylemainHeader);
       c120.setCellStyle(stylemainHeader);
       c121.setCellValue("");
@@ -1757,7 +1758,7 @@ stylemainHeader.setWrapText(true);
       
       c128.setCellValue("");
       
-      c129.setCellValue("MALE");
+      c129.setCellValue("MALE (NEGATIVE)");
       c129.setCellStyle(stylemainHeader);
       c130.setCellValue("");
       c131.setCellValue("");
@@ -1880,7 +1881,7 @@ stylemainHeader.setWrapText(true);
       c116.setCellValue("");
       c117.setCellValue("");
       c118.setCellValue("");
-      c119.setCellValue("DQA");
+      c119.setCellValue("Verification Status");
       
        for(int i=0; i<=22;i++){
           c11=rw0.getCell(i);
@@ -2011,7 +2012,7 @@ stylemainHeader.setWrapText(true);
       c116.setCellValue("20-24Y");
       c117.setCellValue("25-49Y");
       c118.setCellValue("50+Y");
-      c119.setCellValue("DQA");
+      c119.setCellValue("Verification Status");
   
   for(int l=20; l<=43;l++){
           c113=rw0.getCell(l);
@@ -2892,7 +2893,7 @@ double TotalNegativeFemale1=0;
       c116.setCellValue((float)Math.round(AdultMaleHIV24Neg));
       c117.setCellValue((float)Math.round(AdultMaleHIV49Neg));
       c118.setCellValue((float)Math.round(AdultMaleHIV50Neg));
-      c119.setCellValue("");
+      c119.setCellValue("PASSED");
       System.out.println(facilityname  +"    jjj  "+AdultMaleHIV19Neg+"__________"+AdultMaleHIV24Neg+"__________"+AdultMaleHIV49Neg+"__________"+AdultMaleHIV50Neg+"__________"+ChildMaleHIV1Neg+"__________"+ChildMaleHIV4Neg+"__________"+ChildMaleHIV9Neg+"__________"+ChildMaleHIV14Neg);
       
         for(int i=23; i<=43;i++){
@@ -2912,6 +2913,7 @@ double TotalNegativeFemale1=0;
             if(finalalert==1){
           c119=rw0.getCell(43);
           c119.setCellStyle(redstyle);
+          c119.setCellValue("FAILED");
       }
             
             
