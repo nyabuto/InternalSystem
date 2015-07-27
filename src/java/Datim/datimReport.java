@@ -70,11 +70,11 @@ Double PMTCT_STATD_D,PMTCT_STATD_LESS15,PMTCT_STATD_15_19,PMTCT_STATD_20_24,PMTC
 Double PMTCT_CTX;
 int  numerator,denominator=0;
 int errorPMTCT,errorART,errorCARE,errorTB;
-Double TB_STAT_N,TB_STAT_D,TB_STAT_FEMALE,TB_STAT_MALE,TB_STAT_1,TB_STAT_4,TB_STAT_9,TB_STAT_14,TB_STAT_19,TB_STAT_20,
+int TB_STAT_N,TB_STAT_D,TB_STAT_FEMALE,TB_STAT_MALE,TB_STAT_1,TB_STAT_4,TB_STAT_9,TB_STAT_14,TB_STAT_19,TB_STAT_20,
         TB_STAT_POSTIVE,TB_STAT_NEGATIVE;
 Double TB_SCREEN_D,TB_SCREEN_N,TB_SCREEN_FEMALE,TB_SCREEN_MALE,TB_SCREEN_LESS15,TB_SCREEN_1,TB_SCREEN_4,TB_SCREEN_9,
        TB_SCREEN_14,TB_SCREEN_MORE15,TB_SCREEN_19,TB_SCREEN_20;
-Double TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_ART_14,TB_ART_19,TB_ART_20;
+int TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_ART_14,TB_ART_19,TB_ART_20;
 
     ArrayList allFacilities = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -630,6 +630,82 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     }
 //     System.out.println("art header length : "+headerPMTCT.length);
  
+    
+    // TB HEADER======================================================================
+    
+          HSSFRow  rw0shetTB=shetTB.createRow(1);
+  rw0shetTB.setHeightInPoints(30);
+
+  
+ for(int j=0;j<headerTB.length;j++){
+        c001=rw0shetTB.createCell(j);
+         c001.setCellStyle(styleHeader);
+    } 
+ c001=rw0shetTB.getCell(0);
+ c001.setCellValue(period); 
+ 
+ c001=rw0shetTB.getCell(5);
+ c001.setCellValue("TB_STAT"); 
+ 
+ c001=rw0shetTB.getCell(17);
+ c001.setCellValue("TB_SCREEN"); 
+ 
+    
+  c001=rw0shetTB.getCell(29);
+  c001.setCellValue("TB_ARV");
+ 
+  shetTB.addMergedRegion(new CellRangeAddress(1,1,5,16));
+  shetTB.addMergedRegion(new CellRangeAddress(1,1,17,28));
+  shetTB.addMergedRegion(new CellRangeAddress(1,1,29,38)); 
+
+
+   
+    
+    
+      HSSFRow  rw1shetTB=shetTB.createRow(2);
+  rw1shetTB.setHeightInPoints(30);
+
+  
+ for(int j=0;j<headerTB.length;j++){
+        c001=rw1shetTB.createCell(j);
+         c001.setCellStyle(styleHeader);
+    } 
+ c001=rw1shetTB.getCell(0);
+ c001.setCellValue(period); 
+ 
+ c001=rw1shetTB.getCell(5);
+ c001.setCellValue("Numerator"); 
+ 
+ c001=rw1shetTB.getCell(6);
+ c001.setCellValue("Denominator"); 
+ 
+    
+  c001=rw1shetTB.getCell(9);
+ c001.setCellValue("Paeds");
+   
+   c001=rw1shetTB.getCell(12);
+   c001.setCellValue("Adults");
+   
+   c001=rw1shetTB.getCell(15);
+   c001.setCellValue("HIV Status");
+   
+   c001=rw1shetTB.getCell(17);
+   c001.setCellValue("Denominator");
+   
+   c001=rw1shetTB.getCell(18);
+ c001.setCellValue("Numerator"); 
+ 
+  shetTB.addMergedRegion(new CellRangeAddress(1,2,0,4));
+  shetTB.addMergedRegion(new CellRangeAddress(2,2,9,11));
+  shetTB.addMergedRegion(new CellRangeAddress(2,2,12,14));
+  shetTB.addMergedRegion(new CellRangeAddress(2,2,15,16)); 
+//  shetTB.addMergedRegion(new CellRangeAddress(2,2,29,31));
+
+    
+    
+ 
+
+    
      HSSFRow  rw2shetTB=shetTB.createRow(3);
   rw2shetTB.setHeightInPoints(50);
   
@@ -701,10 +777,10 @@ errorPMTCT=errorART=errorCARE=errorTB=0;
 HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
 
 TB_STAT_N=TB_STAT_D=TB_STAT_FEMALE=TB_STAT_MALE=TB_STAT_1=TB_STAT_4=TB_STAT_9=TB_STAT_14=TB_STAT_19=TB_STAT_20=
-        TB_STAT_POSTIVE=TB_STAT_NEGATIVE=0.0;
+        TB_STAT_POSTIVE=TB_STAT_NEGATIVE=0;
 TB_SCREEN_D=TB_SCREEN_N=TB_SCREEN_FEMALE=TB_SCREEN_MALE=TB_SCREEN_LESS15=TB_SCREEN_1=TB_SCREEN_4=TB_SCREEN_9=
        TB_SCREEN_14=TB_SCREEN_MORE15=TB_SCREEN_19=TB_SCREEN_20=0.0;
-TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14=TB_ART_19=TB_ART_20=0.0;
+TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14=TB_ART_19=TB_ART_20=0;
 
       facilityName=conn.rs.getString(1);
       districtName=conn.rs.getString(2);
@@ -1260,7 +1336,46 @@ splitData--;
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
               }   
-       
+       // tb query 
+          String Tbid=year+"_"+quarter+"_"+facilityId;
+            String getTB="SELECT numerator,denominator,female,male,less1,1to4,5to9,10to14,15to19,20above,positive,negative"
+                    + ",art_numerator,art_denominator,art_female,"
+            + "art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above FROM tb_stat_art WHERE id='"+Tbid+"' ";
+       conn.rs4= conn.st4.executeQuery(getTB);
+      while(conn.rs4.next()){
+          
+        
+        TB_STAT_N=conn.rs4.getInt(1);
+        TB_STAT_D=conn.rs4.getInt(2);
+        TB_STAT_FEMALE=conn.rs4.getInt(3);
+        TB_STAT_MALE=conn.rs4.getInt(4);
+        TB_STAT_1=conn.rs4.getInt(5);
+        TB_STAT_4=conn.rs4.getInt(6);
+        TB_STAT_9=conn.rs4.getInt(7);
+        TB_STAT_14=conn.rs4.getInt(8);
+        TB_STAT_19=conn.rs4.getInt(9);
+        TB_STAT_20=conn.rs4.getInt(10);
+        TB_STAT_POSTIVE=conn.rs4.getInt(11);
+        TB_STAT_NEGATIVE=conn.rs4.getInt(12);
+
+        TB_ART_N=conn.rs4.getInt(13);
+        TB_ART_D=conn.rs4.getInt(14);
+        TB_ART_FEMALE=conn.rs4.getInt(15);
+        TB_ART_MALE=conn.rs4.getInt(16);
+        TB_ART_1=conn.rs4.getInt(17);
+        TB_ART_4=conn.rs4.getInt(18);
+        TB_ART_9=conn.rs4.getInt(19);
+        TB_ART_14=conn.rs4.getInt(20);
+        TB_ART_19=conn.rs4.getInt(21);
+        TB_ART_20=conn.rs4.getInt(22); 
+          
+          
+          
+          
+      
+      }
+            
+            
 //       TB OUTPUT HERE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
        
 //       TB STAT----------------------------------------------------------------------
@@ -1274,10 +1389,10 @@ splitData--;
       TB_SCREEN_LESS15=(double)(HV0350+HV0351); 
       TB_SCREEN_MORE15=(double)(HV0352+HV0353);
       
-      TB_SCREEN_1= (double)Math.round((0.03*TB_SCREEN_LESS15));
-      TB_SCREEN_4= (double)Math.round((0.21*TB_SCREEN_LESS15));       
+      TB_SCREEN_1= (double)Math.round((0.034*TB_SCREEN_LESS15));
+      TB_SCREEN_4= (double)Math.round((0.214*TB_SCREEN_LESS15));       
       TB_SCREEN_9=(double)Math.round((0.37*TB_SCREEN_LESS15));        
-      TB_SCREEN_14=(double)Math.round((0.38*TB_SCREEN_LESS15)); 
+      TB_SCREEN_14=(double)Math.round((0.382*TB_SCREEN_LESS15)); 
       
       TB_SCREEN_19=(double)Math.round((0.02*TB_SCREEN_MORE15));        
       TB_SCREEN_20=(double)Math.round((0.98*TB_SCREEN_MORE15));  

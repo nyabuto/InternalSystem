@@ -53,7 +53,7 @@ String full_path="";
          try {
       session=request.getSession();
       dbConn conn = new dbConn();
-   nextpage="loadExcel.jsp";
+   nextpage="loadTBExcel.jsp";
 int female_stat,male_stat;
 int less1, stat_1to4,stat_5to9,stat_10to14,stat_15to19,stat_20above,positive,negative;
  
@@ -256,7 +256,10 @@ int art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
                       added++;
                        }
                        else{
-        String inserter="UPDATE pmtct_fo SET SubPartnerID=?,year=?,quarter=?,numerator=?,denominator=? WHERE id=?";
+        String inserter="UPDATE tb_stat_art SET SubPartnerID=?,year=?,quarter=?,numerator=?,denominator=? "
+                +"female=?,male=?,less1=?,1to4=?,5to9=?,10to14=?,15to19=?,20above=?,positive=?,negative=?,art_numerator=?,art_denominator=?,"
+                + "art_female=?,art_male=?,art_less1=?,art_1to4=?,art_5to9=?,art_10to14=?,art_15to19=?,art_20above=?"
+                + "WHERE id=?";
 
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1, facilityID);
@@ -264,7 +267,27 @@ int art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
                         conn.pst.setInt(3, quarter);
                         conn.pst.setInt(4, Numerator);
                         conn.pst.setInt(5, Denominator);
-                        conn.pst.setString(6, id);
+                        conn.pst.setInt(6, female_stat);
+                        conn.pst.setInt(7, male_stat);
+                        conn.pst.setInt(8, less1);
+                        conn.pst.setInt(9, stat_1to4);
+                        conn.pst.setInt(10, stat_5to9);
+                        conn.pst.setInt(11, stat_10to14);
+                        conn.pst.setInt(12, stat_15to19);
+                        conn.pst.setInt(13, stat_20above);
+                        conn.pst.setInt(14, positive);
+                        conn.pst.setInt(15, negative);
+                        conn.pst.setInt(16, art_numerator);
+                        conn.pst.setInt(17, art_denominator);
+                        conn.pst.setInt(18, art_female);
+                        conn.pst.setInt(19, art_male);
+                        conn.pst.setInt(20, art_less1);
+                        conn.pst.setInt(21, art_1to4);
+                        conn.pst.setInt(22, art_5to9);
+                        conn.pst.setInt(23, art_10to14);
+                        conn.pst.setInt(24, art_15to19);
+                        conn.pst.setInt(25, art_20above);
+                        conn.pst.setString(26, id);
                         conn.pst.executeUpdate();
                        
                      updated++;
