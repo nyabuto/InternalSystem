@@ -60,7 +60,7 @@
            <div class="control-group">
                              <div style="float: right; margin-right: 40%;"> 
                           
-                                 <p style="color:white; font-size: 20px;"><b>EDIT HEALTH FACILITY DETAILS.</b></p> 
+                                 <p style="color:white; font-size: 20px;"><b>EDIT USER'S ACCESS LEVEL.</b></p> 
                             <br>
                              </div>
                               
