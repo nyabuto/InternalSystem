@@ -29,6 +29,7 @@ public class login extends HttpServlet {
 HttpSession session;
 String username,password,fname,mname,lname,userid,level,pass,fullname,status,nextPage;
 MessageDigest m;
+String userAccess;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException, SQLException {
       session=request.getSession();
@@ -36,16 +37,19 @@ MessageDigest m;
          conn.st.executeUpdate("Set GLOBAL  max_connections=6000");
           
           username=password=fname=mname=lname=userid=level=pass=fullname=status=nextPage="";
-          
+          userAccess=",";
           username=request.getParameter("username").trim();
           pass=request.getParameter("password").trim();
-          
+         
           System.out.println("username : "+username+" password : "+pass);
           m = MessageDigest.getInstance("MD5");
        m.update(pass.getBytes(), 0, pass.length());
        password = new BigInteger(1, m.digest()).toString(16);
         System.out.println("username : "+username+" password : "+password);  
-        String logger="SELECT userid,fname,mname,lname,level FROM user WHERE username=? && password=?" ;
+        String logger="SELECT userid,fname,mname,lname,level,"
+       + "access_reports,access_maintenance,access_moh711,access_moh731,"
+                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc " 
+                + " FROM user WHERE username=? && password=?" ;
         conn.pst=conn.conn.prepareStatement(logger);
         conn.pst.setString(1, username);
         conn.pst.setString(2, password);
@@ -65,8 +69,21 @@ MessageDigest m;
              session.setAttribute("fname", fname);
              session.setAttribute("mname", mname);
              session.setAttribute("lname", lname);
+             
+             if(conn.rs.getInt("access_reports")==1){userAccess+="reports,";}
+             if(conn.rs.getInt("access_maintenance")==1){userAccess+="maintenance,";}
+             if(conn.rs.getInt("access_moh711")==1){userAccess+="moh711,";}
+             if(conn.rs.getInt("access_moh731")==1){userAccess+="moh731,";}
+             if(conn.rs.getInt("access_tb")==1){userAccess+="tb,";}
+             if(conn.rs.getInt("access_gender")==1){userAccess+="gender,";}
+             if(conn.rs.getInt("access_nutrition")==1){userAccess+="nutrition,";}
+             if(conn.rs.getInt("access_kmmp")==1){userAccess+="kmmp,";}
+             if(conn.rs.getInt("access_vmmc")==1){userAccess+="vmmc,";}
+           session.setAttribute("userAccess", userAccess);  
           status="success"; 
           nextPage="home.jsp";
+          
+          System.out.println("access rights : "+session.getAttribute("userAccess"));
          }
          else{
              status="<font color=\"red\"><b>Failed:</b> Wrong username and password combination.</font>";

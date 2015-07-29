@@ -275,7 +275,7 @@ dbConn conn = new dbConn();
                             
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Go to Form</button>
+                              <button type="submit" class="btn blue">Generate Report</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>

@@ -85,14 +85,18 @@
                </a>
                <ul class="sub">
      <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
+     <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>     
+                 <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
                   <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                   <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
-                  <%}else{}}%>
+                  <%}}}else{}}%>
                   
                   <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
            
                </ul>
             </li>
+            
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
             <li class="has-sub ">
                <a href="#">
                 <i class="icon-bar-chart"></i>
@@ -109,7 +113,7 @@
            
                </ul>
             </li>
-            
+            <%}}%>
             <li class="">
                <a href="logout.jsp">
                <i class="icon-user"></i> 

@@ -54,7 +54,8 @@
                <span class="title">Home</span>
                </a>
             </li>
-              <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711A")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh711,")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711A")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
            
                <a href="load711.jsp">
                <!--<i class="icon-bookmark-empty"></i>--> 
@@ -63,6 +64,8 @@
                </a>
               
             </li>
+            <%}}%>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh731,")){%> 
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 731")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
             
                <a href="Form731.jsp">
@@ -73,6 +76,8 @@
                </a>
 <!--              forms_holder-->
             </li>
+            <%}}%>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){out.println("____hey");  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
                <a href="loadGender.jsp">
                <!--<i class="icon-th-list"></i>--> 
@@ -81,6 +86,8 @@
                </a>
               
             </li>
+            <%}}%>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",vmmc,")){%> 
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("VMMC")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
                <a href="loadVmmc.jsp">
                <!--<i class="icon-th-list"></i>--> 
@@ -89,6 +96,8 @@
                </a>
               
             </li>
+            <%}}%>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",nutrition,")){%> 
             <li class="has-sub"  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Nutrition")){  %> style="display:none;" <%} } else { %> style="display:none;"<% } %>>
                <a href="loadNutrition.jsp">
                <!--<i class="icon-map-marker"></i>--> 
@@ -97,18 +106,25 @@
                </a>
               
             </li>
+            <%}}%>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",kmmp,")){%> 
             <li class=""  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("KMMP")){  %> style="display:none;" <%} } else { %> style="display:none;"<%} %>>
-               <a href="loadKmmp.jsp">
+             
+                <a href="loadKmmp.jsp">
                <!--<i class="icon-bar-chart"></i>--> 
                <span class="title">KMMP</span>
                </a>
             </li>
+            <%}}%>
+           <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",tb,")){%>  
             <li class="" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("TB")){  %> style="display:none;" <%} } else { %> style="display:none;"<%} %>>
                <a href="loadTb.jsp">
                <!--<i class="icon-calendar"></i>--> 
                <span class="title">TB</span>
                </a>
             </li>
+            <%}}%>
+            
 <!--             <li class="">
                <a href="#">
                <i class="icon-calendar"></i> 
@@ -124,9 +140,11 @@
                 <ul class="sub">
                     
                   <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
+                 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%> 
+                  <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
                   <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                   <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
-                  <%}else{}}%>
+                  <%}}}else{}}%>
                   
                   <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
                   
@@ -134,6 +152,8 @@
                  
                </ul>
             </li>
+            
+          <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%>   
             <li class="has-sub ">
                <a href="#">
                <i class="icon-bar-chart"></i>
@@ -151,7 +171,7 @@
            
                </ul>
             </li>
-            
+            <%}}%>
             <li class="">
                <a href="logout.jsp">
                <i class="icon-user"></i> 

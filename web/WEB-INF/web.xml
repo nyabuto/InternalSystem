@@ -352,6 +352,14 @@
         <servlet-name>loadTBExcel</servlet-name>
         <servlet-class>LoadExcels.loadTBExcel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadUsers</servlet-name>
+        <servlet-class>General.loadUsers</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_accessRights</servlet-name>
+        <servlet-class>General.save_accessRights</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -703,5 +711,13 @@
     <servlet-mapping>
         <servlet-name>loadTBExcel</servlet-name>
         <url-pattern>/loadTBExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadUsers</servlet-name>
+        <url-pattern>/loadUsers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_accessRights</servlet-name>
+        <url-pattern>/save_accessRights</url-pattern>
     </servlet-mapping>
 </web-app>
