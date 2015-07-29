@@ -339,12 +339,12 @@ if(conn.rs.getInt(81)!=0){HV0324=conn.rs.getInt(81);}
 if(conn.rs.getInt(82)!=0){HV0325=conn.rs.getInt(82);}
 if(conn.rs.getInt(83)!=0){HV0326=conn.rs.getInt(83);}
 if(conn.rs.getInt(84)!=0){HV0327=conn.rs.getInt(84);}
-if(conn.rs.getInt(85)!=0){HV0328=conn.rs.getInt(85);}
-if(conn.rs.getInt(86)!=0){HV0329=conn.rs.getInt(86);}
-if(conn.rs.getInt(87)!=0){HV0330=conn.rs.getInt(87);}
-if(conn.rs.getInt(88)!=0){HV0331=conn.rs.getInt(88);}
-if(conn.rs.getInt(89)!=0){HV0332=conn.rs.getInt(89);}
-if(conn.rs.getInt(90)!=0){HV0333=conn.rs.getInt(90);}
+//if(conn.rs.getInt(85)!=0){HV0328=conn.rs.getInt(85);}
+//if(conn.rs.getInt(86)!=0){HV0329=conn.rs.getInt(86);}
+//if(conn.rs.getInt(87)!=0){HV0330=conn.rs.getInt(87);}
+//if(conn.rs.getInt(88)!=0){HV0331=conn.rs.getInt(88);}
+//if(conn.rs.getInt(89)!=0){HV0332=conn.rs.getInt(89);}
+//if(conn.rs.getInt(90)!=0){HV0333=conn.rs.getInt(90);}
 //if(conn.rs.getInt(91)!=0){HV0334=conn.rs.getInt(91);}
 //if(conn.rs.getInt(92)!=0){HV0335=conn.rs.getInt(92);}
 //if(conn.rs.getInt(93)!=0){HV0336=conn.rs.getInt(93);}
@@ -361,12 +361,12 @@ if(conn.rs.getInt(103)!=0){HV0346=conn.rs.getInt(103);}
 if(conn.rs.getInt(104)!=0){HV0347=conn.rs.getInt(104);}
 if(conn.rs.getInt(105)!=0){HV0348=conn.rs.getInt(105);}
 if(conn.rs.getInt(106)!=0){HV0349=conn.rs.getInt(106);}
-if(conn.rs.getInt(107)!=0){HV0350=conn.rs.getInt(107);}
-if(conn.rs.getInt(108)!=0){HV0351=conn.rs.getInt(108);}
-if(conn.rs.getInt(109)!=0){HV0352=conn.rs.getInt(109);}
-if(conn.rs.getInt(110)!=0){HV0353=conn.rs.getInt(110);}
-if(conn.rs.getInt(111)!=0){HV0354=conn.rs.getInt(111);}
-if(conn.rs.getInt(112)!=0){HV0355=conn.rs.getInt(112);}
+//if(conn.rs.getInt(107)!=0){HV0350=conn.rs.getInt(107);}
+//if(conn.rs.getInt(108)!=0){HV0351=conn.rs.getInt(108);}
+//if(conn.rs.getInt(109)!=0){HV0352=conn.rs.getInt(109);}
+//if(conn.rs.getInt(110)!=0){HV0353=conn.rs.getInt(110);}
+//if(conn.rs.getInt(111)!=0){HV0354=conn.rs.getInt(111);}
+//if(conn.rs.getInt(112)!=0){HV0355=conn.rs.getInt(112);}
 if(conn.rs.getInt(113)!=0){HV0904=conn.rs.getInt(113);}
 if(conn.rs.getInt(114)!=0){HV0905=conn.rs.getInt(114);}
 if(conn.rs.getInt(115)!=0){HV0370=conn.rs.getInt(115);}
@@ -413,38 +413,52 @@ if(conn.rs.getInt(148)!=0){HV0605=conn.rs.getInt(148);}
 //   CUMULATIVE EVER ON ART HV03-40 -> HV03-44
           
           
-    String getCummulatives="SELECT SUM(HV0314),SUM(HV0315),SUM(HV0316),SUM(HV0317),SUM(HV0318),SUM(HV0319),SUM(HV0334),SUM(HV0335),"
-    + "SUM(HV0336),SUM(HV0337),SUM(HV0338),SUM(HV0339),SUM(HV0340),SUM(HV0341),SUM(HV0342),SUM(HV0343),SUM(HV0344),"
-     + "SUM(HV0301),SUM(HV0302),SUM(HV0303),SUM(HV0304),SUM(HV0305),SUM(HV0306),SUM(HV0307) "+
-    "FROM moh731 WHERE "+facility+" yearmonth="+maxYearMonth;
+   String getCummulatives="SELECT SUM(HV0301),SUM(HV0302),SUM(HV0303),SUM(HV0304),SUM(HV0305),SUM(HV0306),SUM(HV0307),"
+     + "SUM(HV0314),SUM(HV0315),SUM(HV0316),SUM(HV0317),SUM(HV0318),SUM(HV0319),"
+     + "SUM(HV0328),SUM(HV0329),SUM(HV0330),SUM(HV0331),SUM(HV0332),SUM(HV0333),SUM(HV0334),SUM(HV0335),"
+     + "SUM(HV0336),SUM(HV0337),SUM(HV0338),SUM(HV0339),SUM(HV0340),SUM(HV0341),SUM(HV0342),SUM(HV0343),SUM(HV0344), "
+     + "SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),SUM(HV0355) "
+     +"FROM moh731 join subpartnera on moh731.subpartnerid=subpartnera.subpartnerid WHERE "+facility+" art=1 && yearmonth="+maxYearMonth;
     conn.rs=conn.st.executeQuery(getCummulatives);
    if(conn.rs.next()==true){
 System.out.println("entered to get culum]latives : "+maxYearMonth);
-HV0314=conn.rs.getInt(1);
-HV0315=conn.rs.getInt(2);
-HV0316=conn.rs.getInt(3);
-HV0317=conn.rs.getInt(4);
-HV0318=conn.rs.getInt(5);
-HV0319=conn.rs.getInt(6);      
-HV0334=conn.rs.getInt(7);
-HV0335=conn.rs.getInt(8);
-HV0336=conn.rs.getInt(9);
-HV0337=conn.rs.getInt(10);
-HV0338=conn.rs.getInt(11);
-HV0339=conn.rs.getInt(12);
-HV0340=conn.rs.getInt(13);
-HV0341=conn.rs.getInt(14);
-HV0342=conn.rs.getInt(15);
-HV0343=conn.rs.getInt(16);
-HV0344=conn.rs.getInt(17);    
+HV0301=conn.rs.getInt(1);
+HV0302=conn.rs.getInt(2);
+HV0303=conn.rs.getInt(3);
+HV0304=conn.rs.getInt(4);
+HV0305=conn.rs.getInt(5);
+HV0306=conn.rs.getInt(6);
+HV0307=conn.rs.getInt(7);
+HV0314=conn.rs.getInt(8);
+HV0315=conn.rs.getInt(9);
+HV0316=conn.rs.getInt(10);
+HV0317=conn.rs.getInt(11);
+HV0318=conn.rs.getInt(12);
+HV0319=conn.rs.getInt(13);
+HV0328=conn.rs.getInt(14);
+HV0329=conn.rs.getInt(15);
+HV0330=conn.rs.getInt(16);
+HV0331=conn.rs.getInt(17);
+HV0332=conn.rs.getInt(18);
+HV0333=conn.rs.getInt(19);
+HV0334=conn.rs.getInt(20);
+HV0335=conn.rs.getInt(21);
+HV0336=conn.rs.getInt(22);
+HV0337=conn.rs.getInt(23);
+HV0338=conn.rs.getInt(24);
+HV0339=conn.rs.getInt(25);
+HV0340=conn.rs.getInt(26);
+HV0341=conn.rs.getInt(27);
+HV0342=conn.rs.getInt(28);
+HV0343=conn.rs.getInt(29);
+HV0344=conn.rs.getInt(30);    
+HV0350=conn.rs.getInt(31);
+HV0351=conn.rs.getInt(32);
+HV0352=conn.rs.getInt(33);
+HV0353=conn.rs.getInt(34);
+HV0354=conn.rs.getInt(35);
+HV0355=conn.rs.getInt(36);
 
-HV0301=conn.rs.getInt(58);
-HV0302=conn.rs.getInt(59);
-HV0303=conn.rs.getInt(60);
-HV0304=conn.rs.getInt(61);
-HV0305=conn.rs.getInt(62);
-HV0306=conn.rs.getInt(63);
-HV0307=conn.rs.getInt(64);
 
     }
           
