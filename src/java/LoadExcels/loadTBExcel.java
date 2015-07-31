@@ -113,6 +113,10 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
 			facilityName = cellFacilityName.getStringCellValue();
                         HSSFCell cellMFLCODE = rowi.getCell((short) 5);
 			mflcode = cellMFLCODE.getStringCellValue();
+                        
+                         HSSFCell cellstype = rowi.getCell((short) 6);
+			String supporttype = cellstype.getStringCellValue();
+                        
                         HSSFCell cellNumerator = rowi.getCell((short) 7);
 			Numerator = ""+(int)cellNumerator.getNumericCellValue();
                         HSSFCell cellDenominator = rowi.getCell((short) 8);
@@ -222,8 +226,8 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
 //                       
                        if(checker==0){
   String inserter="INSERT INTO tb_stat_art (id,SubPartnerID,year,quarter,numerator,denominator,female,male,less1,1to4,5to9,10to14,15to19,20above,positive,negative,art_numerator,art_denominator,art_female,"
-                                + "art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                + "art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above,supporttype) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1, id);
                         conn.pst.setString(2, facilityID);
@@ -251,6 +255,7 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
                         conn.pst.setString(24, art_10to14);
                         conn.pst.setString(25, art_15to19);
                         conn.pst.setString(26, art_20above);
+                        conn.pst.setString(27, supporttype);
                        
                         conn.pst.executeUpdate();
                    
@@ -259,7 +264,7 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
                        else{
         String inserter="UPDATE tb_stat_art SET SubPartnerID=?,year=?,quarter=?,numerator=?,denominator=?, "
                 +"female=?,male=?,less1=?,1to4=?,5to9=?,10to14=?,15to19=?,20above=?,positive=?,negative=?,art_numerator=?,art_denominator=?,"
-                + "art_female=?,art_male=?,art_less1=?,art_1to4=?,art_5to9=?,art_10to14=?,art_15to19=?,art_20above=?"
+                + "art_female=?,art_male=?,art_less1=?,art_1to4=?,art_5to9=?,art_10to14=?,art_15to19=?,art_20above=?,supporttype=?"
                 + "WHERE id=?";
 
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -288,7 +293,8 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
                         conn.pst.setString(23, art_10to14);
                         conn.pst.setString(24, art_15to19);
                         conn.pst.setString(25, art_20above);
-                        conn.pst.setString(26, id);
+                        conn.pst.setString(26, supporttype);
+                        conn.pst.setString(27, id);
                         conn.pst.executeUpdate();
                        
                      updated++;

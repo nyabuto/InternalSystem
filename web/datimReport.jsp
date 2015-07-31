@@ -226,6 +226,7 @@
                               <div class="controls">
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
                                     <option value="datimReport">ART,CARE,HTC and PMTCT</option>
+                                    <option value="datimHTCResults">HTC RESULTS BY SDP</option>
                                     <option value="datimvmmc">VMMC</option>
                                  </select>
                               </div>
@@ -326,6 +327,11 @@
     if( reportFormat==="datimReport") {
    document.getElementById("formActions").action = "datimReport";
                                       }
+      else if(reportFormat==="datimHTCResults"){
+        
+           document.getElementById("formActions").action = "datimHTCResults";
+        
+             }
     else if(reportFormat==="datimvmmc"){
         
            document.getElementById("formActions").action = "datimvmmc";

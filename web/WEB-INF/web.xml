@@ -360,6 +360,10 @@
         <servlet-name>save_accessRights</servlet-name>
         <servlet-class>General.save_accessRights</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>datimHTCResults</servlet-name>
+        <servlet-class>Datim.datimHTCResults</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -719,5 +723,9 @@
     <servlet-mapping>
         <servlet-name>save_accessRights</servlet-name>
         <url-pattern>/save_accessRights</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimHTCResults</servlet-name>
+        <url-pattern>/datimHTCResults</url-pattern>
     </servlet-mapping>
 </web-app>
