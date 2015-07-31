@@ -24,9 +24,9 @@ import javax.servlet.http.HttpSession;
  */
 public class loadUsers extends HttpServlet {
 HttpSession session;
-String checkedReport,checkedManagement,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC;
+String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC;
 String data;
-int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc;
+int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads;
 String userid,fname,mname,lname,username,fullname,Access;
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -43,7 +43,8 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 + "<th>Username</th>"
 + "<th>Access Level</th>"
  + "<th>Access Reports</th>"
-+ "<th>Access Management</th>"               
++ "<th>Access Management</th>" 
++ "<th>Access Upload Excel</th>"
 + "<th>Access MOH711A</th>"
 + "<th>Access MOH731</th>"
 + "<th>Access Gender</th>"
@@ -56,7 +57,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
           String getAllUsers="SELECT * FROM user";
           conn.rs=conn.st.executeQuery(getAllUsers);
           while(conn.rs.next()){
-checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedKMMP="";
+checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP="";
          position++;
          
         userid=conn.rs.getString("userid");
@@ -79,6 +80,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         nutrition=conn.rs.getInt("access_nutrition");
         kmmp=conn.rs.getInt("access_kmmp");
         vmmc=conn.rs.getInt("access_vmmc");
+        uploads=conn.rs.getInt("access_uploads");
         
         if(report==1){checkedReport="checked";}      
         if(management==1){checkedManagement="checked";}      
@@ -89,6 +91,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         if(nutrition==1){checkedNutrition="checked";}
         if(kmmp==1){checkedKMMP="checked";}
         if(vmmc==1){checkedVMMC="checked";}
+        if(uploads==1){checkedUploads="checked";}
 
  data+="<tr id="+userid+">"
          + "<input type=\"hidden\" name=\"userid_"+position+"\" value=\""+userid+"\" id=\"userid_"+position+"\">";       
@@ -98,6 +101,7 @@ data+="<td>"+username+"</td>";
 data+="<td>"+Access+"</td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_reports_"+position+"\" onchange=\"return updator('access_reports##"+position+"');\" id=\"access_reports##"+position+"\" style=\"width:20px;\" "+checkedReport+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_maintenance_"+position+"\" onchange=\"return updator('access_maintenance##"+position+"');\" id=\"access_maintenance##"+position+"\" style=\"width:20px;\" "+checkedManagement+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"access_uploads_"+position+"\" onchange=\"return updator('access_uploads##"+position+"');\" id=\"access_uploads##"+position+"\" style=\"width:20px;\" "+checkedUploads+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_moh711_"+position+"\" onchange=\"return updator('access_moh711##"+position+"');\" id=\"access_moh711##"+position+"\" style=\"width:20px;\" "+checked711A+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_moh731_"+position+"\" onchange=\"return updator('access_moh731##"+position+"');\" id=\"access_moh731##"+position+"\" style=\"width:20px;\" "+checkedmoh731+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_gender_"+position+"\" onchange=\"return updator('access_gender##"+position+"');\" id=\"access_gender##"+position+"\" style=\"width:20px;\" "+checkedGender+" ></td>"; 

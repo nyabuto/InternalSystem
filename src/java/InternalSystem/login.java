@@ -48,7 +48,7 @@ String userAccess;
         System.out.println("username : "+username+" password : "+password);  
         String logger="SELECT userid,fname,mname,lname,level,"
        + "access_reports,access_maintenance,access_moh711,access_moh731,"
-                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc " 
+                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads " 
                 + " FROM user WHERE username=? && password=?" ;
         conn.pst=conn.conn.prepareStatement(logger);
         conn.pst.setString(1, username);
@@ -79,6 +79,7 @@ String userAccess;
              if(conn.rs.getInt("access_nutrition")==1){userAccess+="nutrition,";}
              if(conn.rs.getInt("access_kmmp")==1){userAccess+="kmmp,";}
              if(conn.rs.getInt("access_vmmc")==1){userAccess+="vmmc,";}
+             if(conn.rs.getInt("access_uploads")==1){userAccess+="uploads,";}
            session.setAttribute("userAccess", userAccess);  
           status="success"; 
           nextPage="home.jsp";

@@ -155,7 +155,9 @@
             
             
             
-            
+             <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
+                 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",uploads,")){%> 
+                 
                <li class="has-sub ">
                <a href="#">
                <i class="icon-upload"></i>
@@ -164,19 +166,11 @@
                </a>
                 <ul class="sub">
                     
-                  <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
-                 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%> 
                   <li ><a href="loadTBExcel.jsp" Title="Tb stat and Tb ART"><i class="icon-plus"></i>Upload Tb Data (.xls)</a></li>
-                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>Load PMTCT Data(.xlsx)</a></li>
-               
-                  <%}}}else{}}%>
-                  
-               
-                  
-                 
-                 
+                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>Load PMTCT Data(.xls)</a></li>
                </ul>
             </li>
+             <%}}}else{}}%>
             
             
           <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%>   
