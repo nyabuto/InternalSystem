@@ -162,7 +162,7 @@ public class datimHTCResults extends HttpServlet {
                 } else {
                     yearmonth = "Semi Annual Report for Apr to  Sep " + year;
                     duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
-                     tbstatduration="year='"+year+"' and (quarter='2' || quarter='3') ";
+                     tbstatduration="year='"+year+"' and (quarter='3' || quarter='4') ";
                 }
             } else if (reportDuration.equals("3")) {
                 try {

@@ -75,7 +75,7 @@ int TB_STAT_N,TB_STAT_D,TB_STAT_FEMALE,TB_STAT_MALE,TB_STAT_1,TB_STAT_4,TB_STAT_
 Double TB_SCREEN_D,TB_SCREEN_N,TB_SCREEN_FEMALE,TB_SCREEN_MALE,TB_SCREEN_LESS15,TB_SCREEN_1,TB_SCREEN_4,TB_SCREEN_9,
        TB_SCREEN_14,TB_SCREEN_MORE15,TB_SCREEN_19,TB_SCREEN_20;
 int TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_ART_14,TB_ART_19,TB_ART_20;
-
+String excelDuration;
     ArrayList allFacilities = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -92,7 +92,8 @@ int TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_AR
  
 //        year=2015;
 //        reportDuration="4";
-          String facilityIds1="";
+       String facilityIds1="";
+       excelDuration="";
        
         period="";
         prevYear=year-1; 
@@ -105,6 +106,7 @@ int TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_AR
         if(reportDuration.equals("1")){
          duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
         period="DATIM ANNUAL DATA REPORT FOR PEPFAR YEAR : "+year;
+        excelDuration="year='"+year+"' && ";
         }
         else if(reportDuration.equals("2")){
         semi_annual=request.getParameter("semi_annual");
@@ -113,10 +115,13 @@ int TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_AR
      duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
        
      period="DATIM SEMI - ANNUAL DATA REPORT FOR : OCT "+prevYear+" to MARCH "+year;
+     
+     excelDuration=" year='"+year+"' && quarter<=2 && ";
        }
            else{
        duration=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
       period="DATIM SEMI - ANNUAL DATA REPORT FOR : APRIL "+year+" to SEPT "+year; 
+      excelDuration=" year='"+year+"' && quarter>=3 && ";
        }
        }
         
@@ -138,10 +143,12 @@ int TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_AR
      duration=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
      period="DATIM QUARTERLY DATA REPORT FOR : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
       }
+      excelDuration=" year='"+year+"' && quarter='"+quarter+"' && ";
         }
         }  
         
       else if(reportDuration.equals("4")){
+          excelDuration="";
      month=Integer.parseInt(request.getParameter("month"));
 //            month=5;
            String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
@@ -1337,12 +1344,18 @@ splitData--;
        }
               }   
        // tb query 
-          String Tbid=year+"_"+quarter+"_"+facilityId;
-            String getTB="SELECT numerator,denominator,female,male,less1,1to4,5to9,10to14,15to19,20above,positive,negative"
-                    + ",art_numerator,art_denominator,art_female,"
-            + "art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above FROM tb_stat_art WHERE id='"+Tbid+"' ";
+    
+         if(reportDuration.equals("4")){
+  
+      }
+      else{
+             
+         
+            String getTB="SELECT SUM(numerator),SUM(denominator),SUM(female),SUM(male),SUM(less1),SUM(1to4),SUM(5to9),SUM(10to14),SUM(15to19),SUM(20above),SUM(positive),SUM(negative"
+                    + "),SUM(art_numerator),SUM(art_denominator),SUM(art_female),SUM("
+            + "art_male),SUM(art_less1),SUM(art_1to4),SUM(art_5to9),SUM(art_10to14),SUM(art_15to19),SUM(art_20above) FROM tb_stat_art WHERE "+excelDuration+" SubPartnerID='"+facilityId+"'  ";
        conn.rs4= conn.st4.executeQuery(getTB);
-      while(conn.rs4.next()){
+      if(conn.rs4.next()==true){
           
         
         TB_STAT_N=conn.rs4.getInt(1);
@@ -1374,6 +1387,7 @@ splitData--;
           
       
       }
+         }
             
             
 //       TB OUTPUT HERE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1453,7 +1467,34 @@ splitData--;
        
        
 //       OUTPUT----------------------------------------------------------------------------
+     if(reportDuration.equals("4")){
+        
+      
+        String dataTB []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","
+        + ",,,,,"
+        + ",,,,,,,"+TB_SCREEN_D+","+TB_SCREEN_N+","+TB_SCREEN_FEMALE+","
+        + ""+TB_SCREEN_MALE+","+TB_SCREEN_LESS15+","+TB_SCREEN_1+","+TB_SCREEN_4+","+TB_SCREEN_9+","+
+       TB_SCREEN_14+","+TB_SCREEN_MORE15+","+TB_SCREEN_19+","+TB_SCREEN_20+",,,,,,,,,,,"+errorTB).split(",");
      
+     
+        HSSFRow rw3shet5=shetTB.createRow(tbpos); 
+       rw3shet5.setHeightInPoints(25);
+       for(int positionTB=0;positionTB<dataTB.length;positionTB++){
+       String value=dataTB[positionTB];
+           c11=rw3shet5.createCell(positionTB);
+        if(positionTB>=17 && positionTB<=28){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+         c11.setCellStyle(stborder);
+          if(positionTB==5 || positionTB==6 || positionTB==17 || positionTB==18 || positionTB==29 || positionTB==30){ c11.setCellStyle(styleHeader);}
+          
+          if(positionTB==dataTB.length-1){
+       if(errorTB>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
+       else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
+       }
+       }
+     
+     
+     }
+      else{
      String dataTB []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","
         + ""+TB_STAT_N+","+TB_STAT_D+","+TB_STAT_FEMALE+","+TB_STAT_MALE+","+TB_STAT_1+","
         + ""+TB_STAT_4+","+TB_STAT_9+","+TB_STAT_14+","+TB_STAT_19+","+TB_STAT_20+","+
@@ -1478,6 +1519,7 @@ splitData--;
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
        }
+     }
          
   tbpos++;     
  }
@@ -1485,15 +1527,17 @@ splitData--;
 //  OUTPUT PMTCT DATA HERE +===========================================================================================    
   if(PMTCTSupport!=null){
       numerator=denominator=0;
-      String pmtct_fo_id=year+"_"+quarter+"_"+facilityId;
-      String getPMTCTFO="SELECT numerator,denominator FROM pmtct_fo WHERE id='"+pmtct_fo_id+"' ";
+     
+      if(reportDuration.equals("4")){
+      numerator=denominator=0;    
+      }
+      else{
+      String getPMTCTFO="SELECT SUM(numerator),SUM(denominator) FROM pmtct_fo WHERE "+excelDuration+" SubPartnerID='"+facilityId+"' ";
       conn.rs1=conn.st1.executeQuery(getPMTCTFO);
       if(conn.rs1.next()==true){
           numerator=conn.rs1.getInt(1);
           denominator=conn.rs1.getInt(2);
       }
-      if(!reportDuration.equals("3")){
-      numerator=denominator=0;    
       }
       
  //        PMTCT_FO===================================================================================================
@@ -1589,7 +1633,7 @@ splitData--;
 
          PMTCT_CTX=(double) HV0302; //Mo clarification whether to um or take most recent
        if(PMTCTSupport!=null){   
-          if(!reportDuration.equals("3")){
+         if(reportDuration.equals("4")){
       numerator=denominator=0;    
      
          String dataPMTCT []=(countyName+","+districtName+","+facilityName+","+mflcode+","+PMTCTSupport+",,"
