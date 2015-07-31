@@ -38,13 +38,15 @@ HV0214,HV0215,HV0216,HV0217,HV0218,HV0219,HV0220,HV0221,HV0224,HV0225,HV0226,HV0
         HV0243,HV0244;
 String HV0301,HV0302,HV0303,HV0304,HV0305,HV0306,HV0307,HV0308,HV0309,HV0310,HV0311,HV0312,HV0313,HV0314,
         HV0315,HV0316,HV0317,HV0318,HV0319,HV0320,HV0321,HV0322,HV0323,HV0324,HV0325,HV0326,HV0327,HV0328,
-        HV0329,HV0330,HV0331,HV0332,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0340,HV0341,
-        HV0342,HV0343,HV0344,HV0345,HV0346,HV0347,HV0348,HV0349,HV0350,HV0351,HV0352,HV0353,
+        HV0329,HV0330,HV0331,HV0332,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,
+        HV0345,HV0346,HV0347,HV0348,HV0349,HV0350,HV0351,HV0352,HV0353,
         HV0354,HV0355,HV0904,HV0905,HV0370,HV0371,HV0372,HV0373;
 String HV0401,HV0402,HV0403,HV0406,HV0407,HV0408,HV0409,HV0410,HV0411,HV0412,HV0413,HV0414,HV0415;
 String HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507,HV0508,HV0509,HV0510,HV0511,HV0512,HV0513,HV0514;
 String HV0601,HV0602,HV0605;
 String data_elements,description;
+int HV0340_1,HV0341_1,HV0342_1,HV0343_1,HV0344_1;
+int HV0340,HV0341,HV0342,HV0343,HV0344;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -77,13 +79,15 @@ HV0214=HV0215=HV0216=HV0217=HV0218=HV0219=HV0220=HV0221=HV0224=HV0225=HV0226=HV0
         HV0243=HV0244="0";
 HV0301=HV0302=HV0303=HV0304=HV0305=HV0306=HV0307=HV0308=HV0309=HV0310=HV0311=HV0312=HV0313=HV0314=
         HV0315=HV0316=HV0317=HV0318=HV0319=HV0320=HV0321=HV0322=HV0323=HV0324=HV0325=HV0326=HV0327=HV0328=
-        HV0329=HV0330=HV0331=HV0332=HV0333=HV0334=HV0335=HV0336=HV0337=HV0338=HV0339=HV0340=HV0341=
-        HV0342=HV0343=HV0344=HV0345=HV0346=HV0347=HV0348=HV0349=HV0350=HV0351=HV0352=HV0353=
+        HV0329=HV0330=HV0331=HV0332=HV0333=HV0334=HV0335=HV0336=HV0337=HV0338=HV0339=
+        HV0345=HV0346=HV0347=HV0348=HV0349=HV0350=HV0351=HV0352=HV0353=
         HV0354=HV0355=HV0904=HV0905=HV0370=HV0371=HV0372=HV0373="0";
 HV0401=HV0402=HV0403=HV0406=HV0407=HV0408=HV0409=HV0410=HV0411=HV0412=HV0413=HV0414=HV0415="0";
  HV0501=HV0502=HV0503=HV0504=HV0505=HV0506=HV0507=HV0508=HV0509=HV0510=HV0511=HV0512=HV0513=HV0514="0";
  HV0601=HV0602=HV0605="0";
  
+HV0340_1=HV0341_1=HV0342_1=HV0343_1=HV0344_1=0;
+HV0340=HV0341=HV0342=HV0343=HV0344=0;
 //          String checker="SELECT * FROM moh731 WHERE id=?" ;
 //          conn.pst=conn.conn.prepareStatement(checker);
 //          conn.pst.setString(1, id);
@@ -195,11 +199,11 @@ if(request.getParameter("HV0336")!=null && !request.getParameter("HV0336").equal
 if(request.getParameter("HV0337")!=null && !request.getParameter("HV0337").equals("")){HV0337=request.getParameter("HV0337");}
 if(request.getParameter("HV0338")!=null && !request.getParameter("HV0338").equals("")){HV0338=request.getParameter("HV0338");}
 if(request.getParameter("HV0339")!=null && !request.getParameter("HV0339").equals("")){HV0339=request.getParameter("HV0339");}
-if(request.getParameter("HV0340")!=null && !request.getParameter("HV0340").equals("")){HV0340=request.getParameter("HV0340");}
-if(request.getParameter("HV0341")!=null && !request.getParameter("HV0341").equals("")){HV0341=request.getParameter("HV0341");}
-if(request.getParameter("HV0342")!=null && !request.getParameter("HV0342").equals("")){HV0342=request.getParameter("HV0342");}
-if(request.getParameter("HV0343")!=null && !request.getParameter("HV0343").equals("")){HV0343=request.getParameter("HV0343");}
-if(request.getParameter("HV0344")!=null && !request.getParameter("HV0344").equals("")){HV0344=request.getParameter("HV0344");}
+if(request.getParameter("HV0340")!=null && !request.getParameter("HV0340").equals("")){HV0340=Integer.parseInt(request.getParameter("HV0340"));}
+if(request.getParameter("HV0341")!=null && !request.getParameter("HV0341").equals("")){HV0341=Integer.parseInt(request.getParameter("HV0341"));}
+if(request.getParameter("HV0342")!=null && !request.getParameter("HV0342").equals("")){HV0342=Integer.parseInt(request.getParameter("HV0342"));}
+if(request.getParameter("HV0343")!=null && !request.getParameter("HV0343").equals("")){HV0343=Integer.parseInt(request.getParameter("HV0343"));}
+if(request.getParameter("HV0344")!=null && !request.getParameter("HV0344").equals("")){HV0344=Integer.parseInt(request.getParameter("HV0344"));}
 if(request.getParameter("HV0345")!=null && !request.getParameter("HV0345").equals("")){HV0345=request.getParameter("HV0345");}
 if(request.getParameter("HV0346")!=null && !request.getParameter("HV0346").equals("")){HV0346=request.getParameter("HV0346");}
 if(request.getParameter("HV0347")!=null && !request.getParameter("HV0347").equals("")){HV0347=request.getParameter("HV0347");}
@@ -251,8 +255,20 @@ if(request.getParameter("HV0601")!=null && !request.getParameter("HV0601").equal
 if(request.getParameter("HV0602")!=null && !request.getParameter("HV0602").equals("")){HV0602=request.getParameter("HV0602");}
 if(request.getParameter("HV0605")!=null && !request.getParameter("HV0605").equals("")){HV0605=request.getParameter("HV0605");}
          
-          
-          
+// CUMULATIVES EVER PREVIOUS MONTH==========================================
+if(request.getParameter("HV0340_1")!=null && !request.getParameter("HV0340_1").equals("")){HV0340_1=Integer.parseInt(request.getParameter("HV0340"));}
+if(request.getParameter("HV0341_1")!=null && !request.getParameter("HV0341_1").equals("")){HV0341_1=Integer.parseInt(request.getParameter("HV0341"));}
+if(request.getParameter("HV0342_1")!=null && !request.getParameter("HV0342_1").equals("")){HV0342_1=Integer.parseInt(request.getParameter("HV0342"));}
+if(request.getParameter("HV0343_1")!=null && !request.getParameter("HV0343_1").equals("")){HV0343_1=Integer.parseInt(request.getParameter("HV0343"));}
+if(request.getParameter("HV0344_1")!=null && !request.getParameter("HV0344_1").equals("")){HV0344_1=Integer.parseInt(request.getParameter("HV0344"));}
+
+    
+HV0340=Integer.parseInt(HV0321)+HV0340_1;
+HV0341=Integer.parseInt(HV0322)+HV0341_1;
+HV0342=Integer.parseInt(HV0323)+HV0342_1;
+HV0343=Integer.parseInt(HV0324)+HV0343_1;
+HV0344=Integer.parseInt(HV0325)+HV0344_1;
+
   String runValidate="UPDATE moh731 SET HV0101=?,HV0102=?,HV0103=?,HV0105=?,HV0106=?,HV0107=?,HV0108=?,HV0109=?,HV0110=?,HV0111=?,HV0112=?,HV0113=?,HV0114=?," +
 "        HV0115=?,HV0116=?," +
 "HV0201=?,HV0202=?,HV0203=?,HV0204=?,HV0205=?,HV0206=?,HV0207=?,HV0208=?,HV0209=?,HV0210=?,HV0211=?,HV0212=?,HV0213=?," +
@@ -368,11 +384,11 @@ if(request.getParameter("HV0605")!=null && !request.getParameter("HV0605").equal
    conn.pst.setString(94, HV0337);
    conn.pst.setString(95, HV0338);
    conn.pst.setString(96, HV0339);
-   conn.pst.setString(97, HV0340);
-   conn.pst.setString(98, HV0341);
-   conn.pst.setString(99, HV0342);
-   conn.pst.setString(100, HV0343);
-   conn.pst.setString(101, HV0344);
+   conn.pst.setInt(97, HV0340);
+   conn.pst.setInt(98, HV0341);
+   conn.pst.setInt(99, HV0342);
+   conn.pst.setInt(100, HV0343);
+   conn.pst.setInt(101, HV0344);
    conn.pst.setString(102, HV0345);
    conn.pst.setString(103, HV0346);
    conn.pst.setString(104, HV0347);

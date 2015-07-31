@@ -232,7 +232,7 @@ return true;
   $("#example").html(data);
               oTable=$('#example').dataTable().makeEditable({  
                   sUpdateURL: "save_accessRights" ,
-               "aoColumns": [ null,null,null,null,null,null,null,null,null,null,null,null,null]      
+               "aoColumns": [ null,null,null,null,null,null,null,null,null,null,null,null,null,null]      
               });
               
                $('form').submit(function(){
