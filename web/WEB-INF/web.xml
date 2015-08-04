@@ -364,6 +364,10 @@
         <servlet-name>datimHTCResults</servlet-name>
         <servlet-class>Datim.datimHTCResults</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LockData</servlet-name>
+        <servlet-class>General.LockData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -727,5 +731,9 @@
     <servlet-mapping>
         <servlet-name>datimHTCResults</servlet-name>
         <url-pattern>/datimHTCResults</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LockData</servlet-name>
+        <url-pattern>/LockData</url-pattern>
     </servlet-mapping>
 </web-app>

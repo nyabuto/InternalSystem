@@ -820,7 +820,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
         HV0230=conn.rs.getInt(27);
         HV0231=conn.rs.getInt(28);
         HV0232=conn.rs.getInt(29);
-//        HV0302=conn.rs.getInt(30);
+        HV0302=conn.rs.getInt(30);
         HV0206=conn.rs.getInt(31);
         HV0207=conn.rs.getInt(32);
         HV0208=conn.rs.getInt(33);
@@ -830,7 +830,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
         HV0353=conn.rs.getInt(37);
         HV0354=conn.rs.getInt(38);
         
-   HV0302=0;
+//   HV0302=0;
      String getMaxYearMonth="SELECT MAX(yearmonth) FROM moh731 WHERE moh731.SubPartnerID='"+facilityId+"' && "+duration ;
     conn.rs2=conn.st2.executeQuery(getMaxYearMonth);
     if(conn.rs2.next()==true){
@@ -853,7 +853,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
      HV0336=conn.rs1.getInt(8);
      HV0337=conn.rs1.getInt(9);
      HV0338=conn.rs1.getInt(10);
-     HV0302=conn.rs1.getInt(11);
+//     HV0302=conn.rs1.getInt(11);
      HV0319=conn.rs1.getInt(12);
      }
      
