@@ -87,6 +87,7 @@
      <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
      <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>     
                  <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
+                 <li ><a href="LockData.jsp"><i class="icon-plus"></i>Lock / Un lock Editing </a></li>
                   <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                   <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
                   <%}}}else{}}%>

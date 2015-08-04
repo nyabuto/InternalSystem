@@ -256,7 +256,7 @@ legend.formatter {
                          <!--<p style="margin-left: 450px; margin-top: 200px;">  Management module here....</p>-->
 
                  <div class="form-actions">
-                              <button type="submit" id="submit" disabled="true" class="btn red">Lock Data </button>
+                              <button type="submit" id="submit" disabled="true" class="btn red">No action Chosen </button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                  </div>
