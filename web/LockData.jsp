@@ -225,9 +225,9 @@ legend.formatter {
                    
                    <tr><td><br></td></tr>
                                    <tr><td> 
-                                   Form : <font color="red"></font>
+                                   Form : <font color="red">*</font>
                                </td><td>
-                                 <select onchange="" multiple style="width:300px;float:right;color:black;" data-placeholder="Form" class="span6" tabindex="-1"  id="form" name="form">
+                                 <select onchange="" multiple required style="width:300px;float:right;color:black;" data-placeholder="Form" class="span6" tabindex="-1"  id="form" name="form">
                                     <option value="">Select form </option>
                                     <option value="moh711">MOH 711 A</option>
                                     <option value="moh731">MOH 731</option>
