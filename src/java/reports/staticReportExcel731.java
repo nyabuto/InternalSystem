@@ -430,7 +430,8 @@ secCounter=0;
      elementCounter=1;
      valueCounter=1;
      specialElement=0;
-      String getCummulatives="SELECT SUM(HV0301),SUM(HV0302),SUM(HV0303),SUM(HV0304),SUM(HV0305),SUM(HV0306),SUM(HV0307),"
+      String getCummulatives="SELECT "
+//              + "SUM(HV0301),SUM(HV0302),SUM(HV0303),SUM(HV0304),SUM(HV0305),SUM(HV0306),SUM(HV0307),"
      + "SUM(HV0314),SUM(HV0315),SUM(HV0316),SUM(HV0317),SUM(HV0318),SUM(HV0319),"
      + "SUM(HV0328),SUM(HV0329),SUM(HV0330),SUM(HV0331),SUM(HV0332),SUM(HV0333),SUM(HV0334),SUM(HV0335),"
      + "SUM(HV0336),SUM(HV0337),SUM(HV0338),SUM(HV0339),SUM(HV0340),SUM(HV0341),SUM(HV0342),SUM(HV0343),SUM(HV0344), "
@@ -530,15 +531,15 @@ System.out.println("entered to get cumulatives : "+maxYearMonth);
     S1cellX21.setCellValue(label);
     S1cellX21.setCellStyle(stborder); 
     
-    if(elementCounter>=59 && elementCounter<=65){
-        specialElement++;
-    S1cellX21=rw1S11.createCell(3);
-    S1cellX21.setCellValue(conn.rs2.getInt(specialElement));
-    S1cellX21.setCellStyle(stborder);    
-          
-    }
+//    if(elementCounter>=59 && elementCounter<=65){
+//        specialElement++;
+//    S1cellX21=rw1S11.createCell(3);
+//    S1cellX21.setCellValue(conn.rs2.getInt(specialElement));
+//    S1cellX21.setCellStyle(stborder);    
+//          
+//    }
     
-   else if(elementCounter>=72 && elementCounter<=77){
+   if(elementCounter>=72 && elementCounter<=77){
         specialElement++;
     S1cellX21=rw1S11.createCell(3);
     S1cellX21.setCellValue(conn.rs2.getInt(specialElement));

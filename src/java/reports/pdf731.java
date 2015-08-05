@@ -174,7 +174,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName,headerInfo;
       else{
   facilityId=request.getParameter("facility");
 //  facilityId="403";
-  facility="SubPartnerID='"+facilityId+"' &&";    
+  facility=" moh731.SubPartnerID='"+facilityId+"' &&";    
   
   String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
           + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -312,13 +312,13 @@ if(conn.rs.getInt(55)!=0){HV0242=conn.rs.getInt(55);}
 if(conn.rs.getInt(56)!=0){HV0243=conn.rs.getInt(56);}
 if(conn.rs.getInt(57)!=0){HV0244=conn.rs.getInt(57);}
 
-//if(conn.rs.getInt(58)!=0){HV0301=conn.rs.getInt(58);}
-//if(conn.rs.getInt(59)!=0){HV0302=conn.rs.getInt(59);}
-//if(conn.rs.getInt(60)!=0){HV0303=conn.rs.getInt(60);}
-//if(conn.rs.getInt(61)!=0){HV0304=conn.rs.getInt(61);}
-//if(conn.rs.getInt(62)!=0){HV0305=conn.rs.getInt(62);}
-//if(conn.rs.getInt(63)!=0){HV0306=conn.rs.getInt(63);}
-//if(conn.rs.getInt(64)!=0){HV0307=conn.rs.getInt(64);}
+if(conn.rs.getInt(58)!=0){HV0301=conn.rs.getInt(58);}
+if(conn.rs.getInt(59)!=0){HV0302=conn.rs.getInt(59);}
+if(conn.rs.getInt(60)!=0){HV0303=conn.rs.getInt(60);}
+if(conn.rs.getInt(61)!=0){HV0304=conn.rs.getInt(61);}
+if(conn.rs.getInt(62)!=0){HV0305=conn.rs.getInt(62);}
+if(conn.rs.getInt(63)!=0){HV0306=conn.rs.getInt(63);}
+if(conn.rs.getInt(64)!=0){HV0307=conn.rs.getInt(64);}
 if(conn.rs.getInt(65)!=0){HV0308=conn.rs.getInt(65);}
 if(conn.rs.getInt(66)!=0){HV0309=conn.rs.getInt(66);}
 if(conn.rs.getInt(67)!=0){HV0310=conn.rs.getInt(67);}
@@ -421,14 +421,14 @@ if(conn.rs.getInt(148)!=0){HV0605=conn.rs.getInt(148);}
      +"FROM moh731 join subpartnera on moh731.subpartnerid=subpartnera.subpartnerid WHERE "+facility+" art=1 && yearmonth="+maxYearMonth;
     conn.rs=conn.st.executeQuery(getCummulatives);
    if(conn.rs.next()==true){
-System.out.println("entered to get culum]latives : "+maxYearMonth);
-HV0301=conn.rs.getInt(1);
-HV0302=conn.rs.getInt(2);
-HV0303=conn.rs.getInt(3);
-HV0304=conn.rs.getInt(4);
-HV0305=conn.rs.getInt(5);
-HV0306=conn.rs.getInt(6);
-HV0307=conn.rs.getInt(7);
+System.out.println("entered to get cumulatives : "+maxYearMonth);
+//HV0301=conn.rs.getInt(1);
+//HV0302=conn.rs.getInt(2);
+//HV0303=conn.rs.getInt(3);
+//HV0304=conn.rs.getInt(4);
+//HV0305=conn.rs.getInt(5);
+//HV0306=conn.rs.getInt(6);
+//HV0307=conn.rs.getInt(7);
 HV0314=conn.rs.getInt(8);
 HV0315=conn.rs.getInt(9);
 HV0316=conn.rs.getInt(10);
