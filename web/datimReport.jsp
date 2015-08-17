@@ -227,7 +227,7 @@
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
                                     <option value="datimReport">ART,CARE,and PMTCT</option>
                                     <option value="datimHTCResults">HTC_SDP, VMMC, HTC</option>
-                                    <!--<option value="datimvmmc">TB , VIRAL LOAD </option>-->
+                                    <option value="datimTbViralRetention">TB , VIRAL LOAD, RETENTION </option>
                                  </select>
                               </div>
                            </div> 
@@ -337,7 +337,11 @@
            document.getElementById("formActions").action = "datimvmmc";
         
              }
-    
+    else if(reportFormat==="datimTbViralRetention"){
+        
+        document.getElementById("formActions").action = "datimTbViralRetention";
+        
+                                                   }
 
      }  
        

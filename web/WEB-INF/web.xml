@@ -368,6 +368,14 @@
         <servlet-name>LockData</servlet-name>
         <servlet-class>General.LockData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>datimTbViralRetention</servlet-name>
+        <servlet-class>Datim.datimTbViralRetention</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadViralLoad</servlet-name>
+        <servlet-class>LoadExcels.loadViralLoad</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -735,5 +743,13 @@
     <servlet-mapping>
         <servlet-name>LockData</servlet-name>
         <url-pattern>/LockData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimTbViralRetention</servlet-name>
+        <url-pattern>/datimTbViralRetention</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadViralLoad</servlet-name>
+        <url-pattern>/loadViralLoad</url-pattern>
     </servlet-mapping>
 </web-app>

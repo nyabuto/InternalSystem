@@ -28,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 
 /**
  *
@@ -2026,6 +2027,7 @@ double TotalNegativeFemale1=0;
             HSSFFont fontx = wb.createFont();
             fontx.setColor(HSSFColor.BLACK.index);
             fontx.setFontName("Cambria");
+            fontx.setBoldweight(Font.BOLDWEIGHT_BOLD);
             stylex.setFont(fontx);
             stylex.setWrapText(true);
 
@@ -2675,6 +2677,8 @@ if(1==1){
             
             
  //==================================================================================================
+ //HTC RESULTS BY SDP           
+ //==================================================================================================
             
             
             
@@ -2974,6 +2978,7 @@ if(1==1){
             HSSFFont fontx = wb.createFont();
             fontx.setColor(HSSFColor.BLACK.index);
             fontx.setFontName("Cambria");
+             fontx.setBoldweight(Font.BOLDWEIGHT_BOLD);
             stylex.setFont(fontx);
             stylex.setWrapText(true);
             
