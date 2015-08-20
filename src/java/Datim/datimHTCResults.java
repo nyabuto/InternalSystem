@@ -88,7 +88,7 @@ String facilityName,mflcode,countyName,districtName,facilityIds,facilityId;
      allFacilities.add(conn.rs.getString(1));
     
      facilityIds1+=" moh711.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-    }
+                         }
    
     facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
      facilityIds1+=") && ";     
@@ -100,7 +100,7 @@ String facilityName,mflcode,countyName,districtName,facilityIds,facilityId;
         }   
         
      }      
-            int TestedAdultMale=0,TestedAdultFemale=0;
+ int TestedAdultMale=0,TestedAdultFemale=0;
  int TestedChildMale=0,TestedChildFemale=0;
  int HIV_AdultMale=0,HIV_AdultFemale=0;
  int HIV_ChildMale=0,HIV_ChildFemale=0;
@@ -2711,7 +2711,7 @@ if(1==1){
             
             
             String subheaders[]={"Tested","Positive","Negative"};
-            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Outpatient Department","","","Inpatient","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","",""};
+            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","Tuberculosis","","","Outpatient Department","","","Inpatient","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","",""};
             //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
             
             String reportType = "";
@@ -3656,7 +3656,6 @@ if(1==1){
         
              System.out.println("%%%%%======______RoWno::"+tbstat.get(a));    
                 
-   
                 
                 if(1==1){
                 
@@ -3665,7 +3664,6 @@ if(1==1){
                HSSFRow rwx = shet.createRow(rowpos); 
                rwx.setHeightInPoints(25); 
           
-               
            String getstat=    "select  county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype, sum(positive) as positive ,sum(negative) as negative, tb_stat_art.SubPartnerID as SubPartnerID from tb_stat_art  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on tb_stat_art.SubPartnerID = subpartnera.SubPartnerID  WHERE "+tbstatduration+" and  tb_stat_art.SubPartnerID='"+tbstat.get(a)+"'";
            conn.rs=conn.st.executeQuery(getstat);
            

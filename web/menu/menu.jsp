@@ -168,7 +168,8 @@
                 <ul class="sub">
                     
                   <li ><a href="loadTBExcel.jsp" Title="Tb stat and Tb ART"><i class="icon-plus"></i>Upload Tb Data (.xls)</a></li>
-                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>Load PMTCT Data(.xls)</a></li>
+                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>Upload PMTCT Data(.xls)</a></li>
+                  <li ><a href="loadViralLoad.jsp"><i class="icon-plus"></i>Upload Viral Load (.xls)</a></li>
                </ul>
             </li>
              <%}}}else{}}%>
