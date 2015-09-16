@@ -376,6 +376,22 @@
         <servlet-name>loadViralLoad</servlet-name>
         <servlet-class>LoadExcels.loadViralLoad</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>moh711AccessData</servlet-name>
+        <servlet-class>AccessData.moh711AccessData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>accessDBTrial</servlet-name>
+        <servlet-class>AccessData.accessDBTrial</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>processingLevel</servlet-name>
+        <servlet-class>AccessData.processingLevel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getKEPMSDATABASE</servlet-name>
+        <servlet-class>KePMS.getKEPMSDATABASE</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -751,5 +767,21 @@
     <servlet-mapping>
         <servlet-name>loadViralLoad</servlet-name>
         <url-pattern>/loadViralLoad</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>moh711AccessData</servlet-name>
+        <url-pattern>/moh711AccessData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>accessDBTrial</servlet-name>
+        <url-pattern>/accessDBTrial</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>processingLevel</servlet-name>
+        <url-pattern>/processingLevel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getKEPMSDATABASE</servlet-name>
+        <url-pattern>/getKEPMSDATABASE</url-pattern>
     </servlet-mapping>
 </web-app>

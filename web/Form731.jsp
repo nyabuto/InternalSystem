@@ -631,7 +631,7 @@ success:function (data){
   
    </script>
    <script type="text/javascript" src="js/form731Totals.js"></script>
-<script type="text/javascript" src="js/val731.js"></script>
+   <script type="text/javascript" src="js/validator731.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
    var errorsHCT=0,errorsPMTCT=0,errorsCT=0,errorsVMMC=0,errorsPEP=0,errorBLOOD=0;

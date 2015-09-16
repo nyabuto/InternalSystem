@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 public class loadDQA extends HttpServlet {
 HttpSession session;
 int counter;
-String county,facilityName,form;
+String county,facilityName,form,districtName;
 int elementsCounter;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -37,7 +37,7 @@ int elementsCounter;
         String allerrors []=null;
         String data="";
            dbConn conn = new dbConn();
-           county=facilityName=form="";
+           county=facilityName=form=districtName="";
            elementsCounter=0;
         try {
 //         System.out.println("entered here for dqa");
@@ -51,9 +51,9 @@ int elementsCounter;
             month=request.getParameter("month");
 
   System.out.println("to process data for dqa");
-            data+="<thead><th>No.</th><th>COUNTY</th><th>HEALTH FACILITY</th><th>FORM </th><th>COLUMN</th><th>ERROR</th> </thead><tbody>";
+            data+="<thead><th>No.</th><th>COUNTY</th><th>SUB COUNTY</th><th>HEALTH FACILITY</th><th>FORM </th><th>COLUMN</th><th>ERROR</th> </thead><tbody>";
             
-            String getdata="SELECT county.County,subpartnera.SubPartnerNom,dqa.columns,dqa.errors,dqa.form "
+            String getdata="SELECT county.County,subpartnera.SubPartnerNom,dqa.columns,dqa.errors,dqa.form,district.DistrictNom "
         + "FROM dqa JOIN subpartnera ON subpartnera.SubPartnerID=dqa.facilityid "
         + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
         + "JOIN county ON county.CountyID=district.CountyID "
@@ -67,13 +67,14 @@ int elementsCounter;
           allcolumns=conn.rs.getString(3).split("@");
           allerrors=conn.rs.getString(4).split("@");
           form=conn.rs.getString(5);
+          districtName=conn.rs.getString(6);
           System.out.println(conn.rs.getString(1));
          counter=0;
           for(String column:allcolumns){
         if(!allcolumns[counter].equals("") && !allerrors[counter].equals("") ){
             elementsCounter++;
         data+="<tr>"
-         + "<td>"+elementsCounter+"</td><td>"+county+"</td><td>"+facilityName+"</td><td>"+form+"</td><td>"+allcolumns[counter]+"</td><td>"+allerrors[counter] +"</td>"
+         + "<td>"+elementsCounter+"</td><td>"+county+"</td><td>"+districtName+"</td><td>"+facilityName+"</td><td>"+form+"</td><td>"+allcolumns[counter]+"</td><td>"+allerrors[counter] +"</td>"
          + "</tr>";     
           }
          counter++; 

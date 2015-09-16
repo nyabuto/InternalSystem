@@ -200,17 +200,17 @@ description+="@Sum of HV0201,HV0202,HV0203 is not equal to HV0204";
    
  //2.2++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //    PRIMARY
-   if((HV0206)>(HV0210)){checker++;
-data+="@HV0206,HV0210";
-description+="@HV0210 is less than HV0206";
+   if((HV0206)>(HV0209)){checker++;
+data+="@HV0206,HV0209";
+description+="@HV0209 is less than HV0206";
 }
-   if((HV0208)>(HV0210)){checker++;
-data+="@HV0208,HV0210";
-description+="@HV0210 is less than HV0208";
+      if((HV0207)>(HV0209)){checker++;
+data+="@HV0207,HV0209";
+description+="@HV0209 is less than HV0207";
 }
-   if((HV0207)>(HV0210)){checker++;
-data+="@HV0207,HV0210";
-description+="@HV0210 is less than HV0207";
+   if((HV0208)>(HV0209)){checker++;
+data+="@HV0208,HV0209";
+description+="@HV0209 is less than HV0208";
 }
   
 //2.3++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -251,6 +251,10 @@ description+="@HV0209 is not equal to HV0217";
 
 //   2.5+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //PRIMARY
+     if((HV0218)>(HV0209)){checker++;
+data+="@HV0218,HV0209";
+description+="@HV0209 is less than HV0218";
+}
    if((HV0219)>(HV0209)){checker++;
 data+="@HV0219,HV0209";
 description+="@HV0209 is less than HV0219";
@@ -259,10 +263,7 @@ description+="@HV0209 is less than HV0219";
 data+="@HV0220,HV0209";
 description+="@HV0209 is less than HV0220";
 }
-   if((HV0221)>(HV0209)){checker++;
-data+="@HV0221,HV0209";
-description+="@HV0209 is less than HV0221";
-}
+
    
 //   2.7+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //PRIMARY
@@ -278,52 +279,101 @@ description+="@HV0228 is less than HV0225";
 data+="@HV0226,HV0228";
 description+="@HV0228 is less than HV0226";
 }
-   
-   if((HV0228)>(HV0240)){checker++;
-data+="@HV0228,HV0240";
-description+="@HV0240 is less than HV0228";
+      if((HV0227)>(HV0228)){checker++;
+data+="@HV0227,HV0228";
+description+="@HV0228 is less than HV0227";
 }
+         
+if((HV0228)!=(HV0224+HV0225+HV0226)){checker++;
+data+="@HV0224,HV0225,HV0226,HV0228";
+description+="@HV0228 is not equal to the sum of HV0224,HV0225,HV0226";
+}
+   
+//   if((HV0228)>(HV0240)){checker++;
+//data+="@HV0228,HV0240";
+//description+="@HV0240 is less than HV0228";
+//}
  
     
   //   2.8+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //PRIMARY
-   if((HV0229)>(HV0224)){checker++;
-data+="@HV0229,HV0224";
-description+="@HV0224 is less than HV0229";
+   if((HV0229)>(HV0232)){checker++;
+data+="@HV0229,HV0232";
+description+="@HV0232 is less than HV0229";
 }
-   if((HV0230)>(HV0225)){checker++;
-data+="@HV0225,HV0230";
-description+="@HV0225 is less than HV0230";
+   if((HV0230)>(HV0232)){checker++;
+data+="@HV0232,HV0230";
+description+="@HV0232 is less than HV0230";
 }
-   if((HV0231)>(HV0227)){checker++;
-data+="@HV0227,HV0231";
-description+="@HV0227 is less than HV0231";
+   if((HV0231)>(HV0232)){checker++;
+data+="@HV0232,HV0231";
+description+="@HV0232 is less than HV0231";
 }
-   if((HV0232)>(HV0228)){checker++;
-data+="@HV0228,HV0232";
-description+="@HV0228 is less than HV0232";
-}  
+   
+   if((HV0232)!=(HV0229+HV0230+HV0231)){checker++;
+data+="@HV0229,HV0230,HV0231,HV0232";
+description+="@HV0232 is not equal to the sum of HV0229,HV0230,HV0231";
+}
+   
+//   if((HV0232)>(HV0228)){checker++;
+//data+="@HV0228,HV0232";
+//description+="@HV0228 is less than HV0232";
+//} 
+   
    
    //   2.9+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //PRIMARY
-   if((HV0236)>(HV0240)){checker++;
-data+="@HV0236,HV0240";
-description+="@HV0240 is less than HV0236";
+   if((HV0233)>(HV0236)){checker++;
+data+="@HV0236,HV0233";
+description+="@HV0236 is less than HV0233";
 }
    
+      if((HV0234)>(HV0236)){checker++;
+data+="@HV0236,HV0234";
+description+="@HV0236 is less than HV0234";
+}
+      
+         if((HV0235)>(HV0236)){checker++;
+data+="@HV0236,HV0235";
+description+="@HV0236 is less than HV0235";
+}
+  if((HV0236)!=(HV0233+HV0234+HV0235)){checker++;
+data+="@HV0233,HV0234,HV0235,HV0236";
+description+="@HV0236 is not equal to the sum of HV0233,HV0234,HV0235";
+}
+  
+   if((HV0237)>(HV0240)){checker++;
+data+="@HV0237,HV0240";
+description+="@HV0240 is less than HV0237";
+}
+   
+      if((HV0238)>(HV0240)){checker++;
+data+="@HV0238,HV0240";
+description+="@HV0240 is less than HV0238";
+}
+      
+         if((HV0239)>(HV0240)){checker++;
+data+="@HV0239,HV0240";
+description+="@HV0240 is less than HV0239";
+}
+  if((HV0240)!=(HV0237+HV0238+HV0239)){checker++;
+data+="@HV0237,HV0238,HV0239,HV0240";
+description+="@HV0240 is not equal to the sum of HV0237,HV0238,HV0239";
+}
+         
   //   2.10+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //PRIMARY
    if((HV0241)>((HV0206)+(HV0205))){checker++;
 data+="@HV0205,HVO2O6,HV0241";
 description+="@HV0241 is greater than th sum of HV0206 and HV0205";
 }
-   if((HV0241)>(HV0207)){checker++;
-data+="@HV0207,HV0241";
-description+="@HV0207 is less than HV0241";
+   if((HV0242)>(HV0207)){checker++;
+data+="@HV0207,HV0242";
+description+="@HV0207 is less than HV0242";
 }
-   if((HV0241)>(HV0208)){checker++;
-data+="@HV0208,HV0241";
-description+="@HV0208 is less than HV0241";
+   if((HV0243)>(HV0208)){checker++;
+data+="@HV0208,HV0243";
+description+="@HV0208 is less than HV0243";
 }
 
  //SECONDARY
@@ -522,9 +572,9 @@ description+="@HV0339 is less than sum of HV0335 and HV0336";
 data+="@HV0337,HV0338,HV0339";
 description+="@HV0339 is less than sum of HV0337 and HV0338";
 }
-   if((HV0333)!=((HV0335)+(HV0336)+(HV0337)+(HV0338))){checker++;
-data+="@HV0333,HV0335,HV0336,HV0337,HV0338";
-description+="@HV0333 is not equal to sum of HV0335,HV0336,HV0337 and HV0338";
+   if((HV0339)!=((HV0335)+(HV0336)+(HV0337)+(HV0338))){checker++;
+data+="@HV0339,HV0335,HV0336,HV0337,HV0338";
+description+="@HV0339 is not equal to sum of HV0335,HV0336,HV0337 and HV0338";
  }
  //SECONDARY
   if(((HV0335)+(HV0336))>((HV0340)+(HV0341))){checker++;
@@ -535,9 +585,9 @@ description+="@sum of HV0335 and HV0336  is greater than sum of HV0340 and HV034
 data+="@HV0337,HV0338,HV0342,HV0343";
 description+="@sum of HV0337 and HV0338  is greater than sum of HV0342 and HV0343";
 }
-   if((HV0333)>(HV0344)){checker++;
-data+="@HV0333,HV0344";
-description+="@HV0333 is greater than HV0344";
+   if((HV0339)>(HV0344)){checker++;
+data+="@HV0339,HV0344";
+description+="@HV0339 is greater than HV0344";
 }  
    
   //   3.7+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -546,11 +596,25 @@ description+="@HV0333 is greater than HV0344";
 data+="@HV0340,HV0341,HV0344";
 description+="@HV0344 is less than sum of HV0340 and HV0341";
 }
+//   ***************************************************************************
+   if(((HV0335)+(HV0336))>((HV0340)+(HV0341))){checker++;
+data+="@HV0335,HV0336,HV0341,HV0344";
+description+="@sum of HV0335,HV0336 is greater than sum of HV0340 and HV0341";
+} 
+//   ***************************************************************************
+           
    if((HV0344)<((HV0342)+(HV0343))){checker++;
 data+="@HV0342,HV0343,HV0344";
 description+="@HV0344 is less than sum of HV0342 and HV0343";
 }
-   if((HV0333)!=((HV0340)+(HV0341)+(HV0342)+(HV0343))){checker++;
+// ***************************************************************************  
+      if(((HV0337)+(HV0338))>((HV0342)+(HV0343))){checker++;
+data+="@HV0337,HV0338,HV0342,HV0343";
+description+="@sum of HV0337,HV0338 is greater than sum of HV0342 and HV0343";
+      }
+//***************************************************************************
+
+   if((HV0344)!=((HV0340)+(HV0341)+(HV0342)+(HV0343))){checker++;
 data+="@HV0333,HV0340,HV0341,HV0341,HV0342,HV0343";
 description+="@HV0333 is not equal to sum of HV0340,HV0341,HV0342 and HV0343";
 }
@@ -593,30 +657,63 @@ description+="@HV0348 is greater than HV0345";
    
     //   3.9+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //PRIMARY
+      if((HV0354)<(HV0350+HV0351)){checker++;
+data+="@HV0350,HV0351,HV0354";
+description+="@HV0354 is less than the sum of HV0350,HV0351";
+}
+          if((HV0354)<(HV0352+HV0353)){checker++;
+data+="@HV0352,HV0353,HV0354";
+description+="@HV0354 is less than the sum of HV0352,HV0353";
+}
+ if((HV0354)!=(HV0350+HV0351+HV0352+HV0353)){checker++;
+data+="@HV0350,HV0351,HV0352,HV0353,HV0354";
+description+="@HV0354 is not equal to the sum of HV0350,HV0351,HV0352,HV0353";
+}
+          
    if((HV0354)>(HV0373)){checker++;
 data+="@HV0354,HV0373";
 description+="@HV0354 is greater than HV0373";
 }
-   if((HV0355)>(HV0370)){checker++;
-data+="@HV0355,HV0370";
-description+="@HV0355 is greater than HV0370";
-} 
-   
+                 
    //   3.10+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //PRIMARY
    if((HV0904)>(HV0373)){checker++;
 data+="@HV0373,HV0904";
 description+="@HV0904 is greater than HV0373";
 }
-
-  
-   //   3.11+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//PRIMARY
-   if((HV0373)!=(HV0319)){checker++;
-data+="@HV0373,HV0319";
-description+="@HV0319 is not be equal to HV0373";
+ if((HV0905)>(HV0373)){checker++;
+data+="@HV0905,HV0373";
+description+="@HV0905 is greater than HV0373";
 }
+  //   3.11+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//PRIMARY
  
+   if((HV0355)>(HV0370)){checker++;
+data+="@HV0355,HV0370";
+description+="@HV0355 is greater than HV0370";
+} 
+      if((HV0371)>(HV0373)){checker++;
+data+="@HV0371,HV0373";
+description+="@HV0371 is greater than HV0373";
+}
+        if((HV0372)>(HV0373)){checker++;
+data+="@HV0372,HV0373";
+description+="@HV0372 is greater than HV0373";
+} 
+    
+                 if((HV0354)!=(HV0371+HV0372)){checker++;
+data+="@HV0354,HV0371,HV0372";
+description+="@HV0354 is less than the sum of HV0371,HV0372";
+}
+  
+  
+//   if((HV0373)!=(HV0319)){checker++;
+//data+="@HV0373,HV0319";
+//description+="@HV0319 is not be equal to HV0373";
+//}
+ 
+  //   5  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//PRIMARY               
  if((HV0507)!=((HV0501)+(HV0502)+(HV0503)+(HV0504)+(HV0505)+(HV0506))){checker++;
 data+="@HV0501,HV0502,HV0503,HV0504,HV0505,HV0506,HV0507";
 description+="@HV0507 is not equal to the sum of  HV0501,HV0502,HV0503,HV0504,HV0505 and HV0506.";
