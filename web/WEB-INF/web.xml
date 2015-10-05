@@ -392,6 +392,10 @@
         <servlet-name>getKEPMSDATABASE</servlet-name>
         <servlet-class>KePMS.getKEPMSDATABASE</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>yearMonth</servlet-name>
+        <servlet-class>Datim.yearMonth</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -783,5 +787,9 @@
     <servlet-mapping>
         <servlet-name>getKEPMSDATABASE</servlet-name>
         <url-pattern>/getKEPMSDATABASE</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>yearMonth</servlet-name>
+        <url-pattern>/yearMonth</url-pattern>
     </servlet-mapping>
 </web-app>

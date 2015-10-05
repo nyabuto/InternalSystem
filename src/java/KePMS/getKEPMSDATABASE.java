@@ -326,10 +326,10 @@ id=year+"_"+month+"_"+SubPartnerID.toString().replace(".0", "");
        updatedOn="";
        
                if(month<10){
-       yearmonth=year+""+month;
+       yearmonth=year+"0"+month;
                }
                else{
-              yearmonth=year+"0"+month;     
+              yearmonth=year+""+month;     
                }
        isLocked="0";
 //          System.out.println("id Is : "+id);
@@ -706,10 +706,10 @@ id=year+"_"+month+"_"+SubPartnerID.toString().replace(".0", "");
        updatedOn="";
        
                if(month<10){
-       yearmonth=year+""+month;
+       yearmonth=year+"0"+month;
                }
                else{
-              yearmonth=year+"0"+month;     
+              yearmonth=year+""+month;     
                }
        isLocked="0";
 //          System.out.println("id Is : "+id);
