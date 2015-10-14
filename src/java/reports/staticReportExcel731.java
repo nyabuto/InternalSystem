@@ -292,7 +292,7 @@ secCounter=0;
 "SUM(HV0601),SUM(HV0602),SUM(HV0605),subpartnera.PMTCT,subpartnera.ART,subpartnera.PEP "
  +"FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID WHERE "+facility+" "+duration;
  
-          
+        System.out.println("@@@  "+checker);   
           conn.rs=conn.st.executeQuery(checker);
           if(conn.rs.next()==true){
 //              countyName=conn.rs.getString(1);

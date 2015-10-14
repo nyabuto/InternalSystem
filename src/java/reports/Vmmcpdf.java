@@ -243,7 +243,7 @@ public class Vmmcpdf extends HttpServlet {
    
    }
    
-   if(!facil.equals("")){
+   if(!facil.equals("")&& reportType.equalsIgnoreCase("2")){
    
    facilitywhere=" and "+form+".SubPartnerID = '"+facil+"'";    
    
@@ -251,8 +251,9 @@ public class Vmmcpdf extends HttpServlet {
    
     
     
- String joinedwhwere=" where 1=1 "+yearwhere+" && "+duration;  
-    
+ //String joinedwhwere=" where 1=1 "+yearwhere+" && "+duration;  
+ String joinedwhwere=" where 1=1 "+facilitywhere+"  "+yearwhere+" && "+duration;  
+     
     
     
 //=====================================================================================================    

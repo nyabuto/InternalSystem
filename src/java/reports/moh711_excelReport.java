@@ -336,7 +336,7 @@ MATMaternalD=MATAPHAlive=MATAPHDead=MATPPHAlive=MATPPHDead=MATEclampAlive=MATEcl
             + " sum(DTCB_Test_Out_AF), sum(DTCB_Test_Out_Tot),sum(DTCC_HIV_In_CM), sum(DTCC_HIV_In_CF), sum(DTCC_HIV_In_AM), sum(DTCC_HIV_In_AF),"
             + " sum(DTCC_HIV_In_Tot),sum( DTCC_HIV_Out_CM), sum(DTCC_HIV_Out_CF), sum(DTCC_HIV_Out_AM),sum(DTCC_HIV_Out_AF),sum(DTCC_HIV_Out_Tot) "
             + "FROM moh711 WHERE "+facility+" "+duration ;
-          System.out.println(checker);
+          System.out.println("@@@"+checker);
           
           conn.rs=conn.st.executeQuery(checker);
       

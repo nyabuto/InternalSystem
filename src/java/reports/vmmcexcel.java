@@ -253,15 +253,15 @@ public class vmmcexcel extends HttpServlet {
    
    }
    
-   if(!facil.equals("")){
+   if(!facil.equals("")&& reportType.equalsIgnoreCase("2")){
    
-   facilitywhere=" and "+form+".SubPartnerID = '"+facil+"'";    
+   facilitywhere=" and "+form+".SubPartnerID = '"+facil+"' ";    
    
    } 
    
     
     
- String joinedwhwere=" where 1=1 "+yearwhere+" && "+duration;  
+ String joinedwhwere=" where 1=1 "+facilitywhere+"  "+yearwhere+" && "+duration;  
     
     
     
