@@ -396,6 +396,10 @@
         <servlet-name>yearMonth</servlet-name>
         <servlet-class>Datim.yearMonth</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Correct731art</servlet-name>
+        <servlet-class>scripts.Correct731art</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -791,5 +795,9 @@
     <servlet-mapping>
         <servlet-name>yearMonth</servlet-name>
         <url-pattern>/yearMonth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Correct731art</servlet-name>
+        <url-pattern>/Correct731art</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -884,7 +884,7 @@ stylemainHeader.setWrapText(true);
             + ",(sum(VCTClient_HIV_CM)+sum(VCTClient_HIV_AM)+ sum(DTCC_HIV_In_AM) +sum(DTCC_HIV_Out_AM)) " // ADULTS HIV+ MALE
             + ", (sum(DTCB_Test_Out_CF) + sum(DTCB_Test_In_CF))" // CHILDREN TOTAL TESTED FEMALE
             + ", (sum(DTCB_Test_Out_CM) + sum(DTCB_Test_In_CM))" // CHILDREN TOTAL TESTED MALE
-            + ", ( sum(DTCC_HIV_In_CF)+ sum(DTCC_HIV_Out_CF))" // CHILDREN OSITIVE FEMALE
+            + ", ( sum(DTCC_HIV_In_CF)+ sum(DTCC_HIV_Out_CF))" // CHILDREN POSITIVE FEMALE
             + ", (sum(DTCC_HIV_In_CM)+ sum(DTCC_HIV_Out_CM)),county.County,district.DistrictNom,"
             + "subpartnera.SubPartnerNom,subpartnera.CentreSanteId,subpartnera.HTC_Support1"// CHILDREN POSITIVE MALE
            +" FROM moh711 JOIN subpartnera "
@@ -4230,7 +4230,7 @@ double  ChildMaleHIV9=0;
      duration1="";     
       }
         
-      HSSFSheet shet3=wb.createSheet("PMTCT & HTC ");   
+      HSSFSheet shet3=wb.createSheet("PMTCT , HTC & VMMC ");   
             HSSFCell  c11;
          FemaleAdultTested=0;
  FemaleTestedChild=0;
@@ -4863,7 +4863,9 @@ stylemainHeader.setWrapText(true);
             
             //======================added later 20151010
             + " sum(HV0204) as PMTCTTESTED , (sum(HV0206)+sum(HV0207)+sum(HV0208) ) as PMTCTPOS "//pmtct tested and positive added on 201510
-           +" FROM moh711 left join moh731 on moh711.ID=moh731.id  JOIN subpartnera "
+            +",P51D1 asVMMCunder1,P51D9 as VMMC1to9,P51D10 as VMMC10to14,P51D19 as VMMC15to19,P51D24 as VMMC20to24,P51D29 as VMMC25to29,P51D49 as VMMC30to49,P51D50 as VMMC50,P51DT as VMMCT "//vmmc added 20151016
+            + ",HV0232,HV0228 "//under five
+            + "FROM moh711 left join moh731 on moh711.ID=moh731.id left join vmmc on moh711.ID=vmmc.tableid   JOIN subpartnera "
             + "ON moh711.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
@@ -4874,6 +4876,8 @@ stylemainHeader.setWrapText(true);
     conn.rs=conn.st.executeQuery(get711data);
     while(conn.rs.next()){
      
+        //=============================================now add vmmc and add under 1
+        
      county=conn.rs.getString(9);
      district=conn.rs.getString(10);
      district=district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase();

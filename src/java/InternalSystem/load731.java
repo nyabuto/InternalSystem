@@ -236,12 +236,12 @@ HV0401=HV0402=HV0403=HV0406=HV0407=HV0408=HV0409=HV0410=HV0411=HV0412=HV0413=HV0
  HV0344_1="0";
  
  
-    String yearmonth="";
+   
 String tempmonth=month;
 int pepfaryear=Integer.parseInt(year);
 if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
 else {pepfaryear--;}
-
+ String yearmonth="";
 yearmonth=pepfaryear+""+tempmonth;
 
 //____We need to get the cumulatives up to the maximum reported yearmonth   as long as its less than the current month and year

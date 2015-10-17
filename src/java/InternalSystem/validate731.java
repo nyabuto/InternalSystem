@@ -256,11 +256,11 @@ if(request.getParameter("HV0602")!=null && !request.getParameter("HV0602").equal
 if(request.getParameter("HV0605")!=null && !request.getParameter("HV0605").equals("")){HV0605=Integer.parseInt(request.getParameter("HV0605"));}
          
 // CUMULATIVES EVER PREVIOUS MONTH==========================================
-if(request.getParameter("HV0340_1")!=null && !request.getParameter("HV0340_1").equals("")){HV0340_1=Integer.parseInt(request.getParameter("HV0340"));}
-if(request.getParameter("HV0341_1")!=null && !request.getParameter("HV0341_1").equals("")){HV0341_1=Integer.parseInt(request.getParameter("HV0341"));}
-if(request.getParameter("HV0342_1")!=null && !request.getParameter("HV0342_1").equals("")){HV0342_1=Integer.parseInt(request.getParameter("HV0342"));}
-if(request.getParameter("HV0343_1")!=null && !request.getParameter("HV0343_1").equals("")){HV0343_1=Integer.parseInt(request.getParameter("HV0343"));}
-if(request.getParameter("HV0344_1")!=null && !request.getParameter("HV0344_1").equals("")){HV0344_1=Integer.parseInt(request.getParameter("HV0344"));}
+if(request.getParameter("HV0340_1")!=null && !request.getParameter("HV0340_1").equals("")){HV0340_1=Integer.parseInt(request.getParameter("HV0340_1"));}
+if(request.getParameter("HV0341_1")!=null && !request.getParameter("HV0341_1").equals("")){HV0341_1=Integer.parseInt(request.getParameter("HV0341_1"));}
+if(request.getParameter("HV0342_1")!=null && !request.getParameter("HV0342_1").equals("")){HV0342_1=Integer.parseInt(request.getParameter("HV0342_1"));}
+if(request.getParameter("HV0343_1")!=null && !request.getParameter("HV0343_1").equals("")){HV0343_1=Integer.parseInt(request.getParameter("HV0343_1"));}
+if(request.getParameter("HV0344_1")!=null && !request.getParameter("HV0344_1").equals("")){HV0344_1=Integer.parseInt(request.getParameter("HV0344_1"));}
   
 System.out.println("hv0201 : "+HV0201+" HV0202 : "+HV0202+" HV0203 : "+HV0203+" HV0204 : "+HV0204);
 HV0204=HV0201+HV0202+HV0203;

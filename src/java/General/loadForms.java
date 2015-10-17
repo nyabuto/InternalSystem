@@ -30,7 +30,7 @@ public class loadForms extends HttpServlet {
         try {
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
-    
+    user_access="";
     dbConn conn= new dbConn();
    String forms="<option value=''> Select Form</option>"; 
     String getForms="select * from forms";
