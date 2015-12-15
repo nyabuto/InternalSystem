@@ -57,10 +57,49 @@ String isValidated;
       year=request.getParameter("year");
       month=request.getParameter("month");
        
+      
+      //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        //added later to accomodate the years
+           String subpartnerid="SubPartnerID";
+       int monthint=0;
+       int yearint=0;
+       
+       monthint=Integer.parseInt(month);
+       yearint=Integer.parseInt(year);
+        String subpartnera="subpartnera";
+       if(yearint==2015){
+           
+       if(monthint==10|| monthint==11 || monthint==12 || monthint==1||monthint==2|| monthint==3){
+       //here use a different subpartner id
+        subpartnerid="SP_ID";   
+       subpartnera="subpartnera2014";
+                                                                                                }
+       else  {
+       subpartnerid="SubPartnerID";
+       subpartnera="subpartnera";
+             }
+           
+                        }
+       else  if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+       //---------------------------------------------------------------------------------------
+       //---------------------------------------------------------------------------------------
+      
+      
 //      year="2015";
 //      month="5";
       counter=0;
       monthName="";
+      
+      
+      
       //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
    XSSFWorkbook wb=new XSSFWorkbook();
   XSSFSheet shet1=wb.createSheet("PMTCT");
@@ -214,9 +253,11 @@ stylex.setWrapText(true);
 //  counterART=counterART-5;
 //  counterPEP=counterPEP-5;
   
+ 
+  
   
      counterPMTCT1=counterART1=counterPEP1=0;
-      String getData="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,"
+      String getData="SELECT county.County,district.DistrictNom,"+subpartnera+".SubPartnerNom,"+subpartnera+".CentreSanteId,"
 + "moh731.HV0201,moh731.HV0202,moh731.HV0203,moh731.HV0204,moh731.HV0205,moh731.HV0206,moh731.HV0207,moh731.HV0208,moh731.HV0209,moh731.HV0210,moh731.HV0211,moh731.HV0212,moh731.HV0213," +
 "moh731.HV0214,moh731.HV0215,moh731.HV0216,moh731.HV0217,moh731.HV0218,moh731.HV0219,moh731.HV0220,moh731.HV0221,moh731.HV0224,moh731.HV0225,moh731.HV0226,moh731.HV0227,moh731.HV0228,moh731.HV0229," +
 "        moh731.HV0230,moh731.HV0231,moh731.HV0232,moh731.HV0233,moh731.HV0234,moh731.HV0235,moh731.HV0236,moh731.HV0237,moh731.HV0238,moh731.HV0239,moh731.HV0240,moh731.HV0241,moh731.HV0242," +
@@ -226,13 +267,15 @@ stylex.setWrapText(true);
 "        moh731.HV0342,moh731.HV0343,moh731.HV0344,moh731.HV0345,moh731.HV0346,moh731.HV0347,moh731.HV0348,moh731.HV0349,moh731.HV0350,moh731.HV0351,moh731.HV0352,moh731.HV0353," +
 "        moh731.HV0354,moh731.HV0355,moh731.HV0904,moh731.HV0905,moh731.HV0370,moh731.HV0371,moh731.HV0372,moh731.HV0373,"+
 "        moh731.HV0501,moh731.HV0502,moh731.HV0503,moh731.HV0504,moh731.HV0505,moh731.HV0506,moh731.HV0507,moh731.HV0508,moh731.HV0509,moh731.HV0510,moh731.HV0511,moh731.HV0512,moh731.HV0513,moh731.HV0514,"
-+ "subpartnera.PMTCT,subpartnera.ART,subpartnera.PEP,isValidated "
- + " FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID "
-              + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
++ ""+subpartnera+".PMTCT,"+subpartnera+".ART,"+subpartnera+".PEP,isValidated "
+ + " FROM moh731 JOIN "+subpartnera+" ON moh731.SubPartnerID="+subpartnera+"."+subpartnerid+" "
+              + "JOIN district ON "+subpartnera+".DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
               + " WHERE moh731.Mois='"+month+"' && moh731.Annee='"+year+"'"
-              + " ORDER BY county.County,district.DistrictNom,subpartnera.SubPartnerNom";
+              + " ORDER BY county.County,district.DistrictNom,"+subpartnera+"."+subpartnerid+"";
       conn.rs=conn.st.executeQuery(getData);
+      
+        System.out.println("|__"+getData);
      while (conn.rs.next()){
        counter++;  
   

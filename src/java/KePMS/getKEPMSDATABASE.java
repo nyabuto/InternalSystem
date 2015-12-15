@@ -131,7 +131,7 @@ db = DatabaseBuilder.open(dbFile);
 //             position=0;
                  rowCount=table.getRowCount();
      
-                 tableDescription+=tableNo+". Merging Table  : <b>"+tableName+"  >>>> <b>"+rowCount+"</b> rows to be merged.</b> <br>"+tableName+"currentPosition <br>";
+          tableDescription+=tableNo+". Merging Table  : <b>"+tableName+"  >>>> <b>"+rowCount+"</b> rows to be merged.</b> <br>"+tableName+"currentPosition <br>";
           session.setAttribute("mergingAccess", tableDescription);
           
                  for(Row row : table) {
@@ -172,11 +172,13 @@ Counter=Updated=DistrictID=SubPartnerID=Annee=Mois="0";
  
  String yr=(Annee.toString()).replace(".0", "");
  String mnth=(Mois.toString()).replace(".0", "");
+ int yearcopy=year;
  
   year=Integer.parseInt(yr);
   month=Integer.parseInt(mnth);
 
-  if(month<4){year-=1;month+=9;}
+  if(month<4){yearcopy-=1;month+=9;} // i removed year-=1 since we are both using the same system of year but month is different
+  //if(month<4){month+=9;}
   else{month-=3;}
 //     System.out.println("year : "+year+" month : "+month);
 //          System.out.println("date received : "+row.get("DateMAJ"));
@@ -326,10 +328,10 @@ id=year+"_"+month+"_"+SubPartnerID.toString().replace(".0", "");
        updatedOn="";
        
                if(month<10){
-       yearmonth=year+"0"+month;
+       yearmonth=yearcopy+"0"+month;
                }
                else{
-              yearmonth=year+""+month;     
+              yearmonth=yearcopy+""+month;     
                }
        isLocked="0";
 //          System.out.println("id Is : "+id);
@@ -534,11 +536,12 @@ Counter=Updated=DistrictID=SubPartnerID=Annee=Mois="0";
   
  String yr=(Annee.toString()).replace(".0", "");
  String mnth=(Mois.toString()).replace(".0", "");
- 
+
   year=Integer.parseInt(yr);
   month=Integer.parseInt(mnth);
-        
-  if(month<4){year-=1;month+=9;}
+    int yearcopy=year;     
+  if(month<4){yearcopy-=1;month+=9;}  // i commented the part of removing year by one
+  //if(month<4){month+=9;}
   else{month-=3;}
 //    System.out.println("year : "+year+" month : "+month+" date maj : "+row.get("DateMAJ")+" facil id : "+SubPartnerID);
   if(row.get("DateMAJ")!=null && !row.get("DateMAJ").equals("")){
@@ -706,10 +709,10 @@ id=year+"_"+month+"_"+SubPartnerID.toString().replace(".0", "");
        updatedOn="";
        
                if(month<10){
-       yearmonth=year+"0"+month;
+       yearmonth=yearcopy+"0"+month;
                }
                else{
-              yearmonth=year+""+month;     
+              yearmonth=yearcopy+""+month;     
                }
        isLocked="0";
 //          System.out.println("id Is : "+id);

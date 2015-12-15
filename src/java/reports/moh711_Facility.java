@@ -64,10 +64,47 @@ HttpSession session;
         if(request.getParameter("month")!=null && !request.getParameter("month").equals("")){
        month=request.getParameter("month");}
      
+        
+     
+      //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        //added later to accomodate the years
+           String subpartnerid="SubPartnerID";
+       int monthint=0;
+       int yearint=0;
+       
+       monthint=Integer.parseInt(month);
+       yearint=Integer.parseInt(year);
+        String subpartnera="subpartnera";
+       if(yearint==2015){
+           
+       if(monthint==10|| monthint==11 || monthint==12 || monthint==1||monthint==2|| monthint==3){
+       //here use a different subpartner id
+        subpartnerid="SP_ID";   
+       subpartnera="subpartnera2014";
+                                                                                                }
+       else  {
+       subpartnerid="SubPartnerID";
+       subpartnera="subpartnera";
+             }
+           
+                        }
+       else  if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+       //---------------------------------------------------------------------------------------
+       //---------------------------------------------------------------------------------------
+      
       try{
           String isValidated="";
       counter=0;
       int rowcounter=0;
+      
       int fprows=1;
       int pmtctrows=1;
       int matrows=1;
@@ -235,7 +272,7 @@ stylex.setWrapText(true);
 //     System.out.println("bbbb "+counterMAT);
     }
     
-    System.out.println("nnnnnn     "+counterFP+"   "+counterPMTCT+" "+counterMAT+" "+counterVCT+"  "+counterDTC);
+   // System.out.println("nnnnnn     "+counterFP+"   "+counterPMTCT+" "+counterMAT+" "+counterVCT+"  "+counterDTC);
     XSSFCell  S1cell=rw1S1.createCell(37);
     S1cell.setCellValue("Validation Run(Yes/No)");
     S1cell.setCellStyle(stylex); 
@@ -256,7 +293,7 @@ stylex.setWrapText(true);
     S5cell.setCellValue("Validation Run(Yes/No)");
     S5cell.setCellStyle(stylex);
      
-    String getdata="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,FPMicrolutN,"
+    String getdata="SELECT county.County,district.DistrictNom,"+subpartnera+".SubPartnerNom,"+subpartnera+".CentreSanteId,FPMicrolutN,"
             + " FPMicrolutR, FPMicrolutT, FPMicrogynonN, FPMicrogynonR, FPMicrogynonT,"
             + " FPINJECTIONSN, FPINJECTIONSR, FPINJECTIONST, FPIUCDN, FPIUCDR,FPIUCDT,FPIMPLANTSN, FPIMPLANTSR, "
             + "FPIMPLANTST, FPBTLN, FPBTLR, FPBTLT, FPVasectomyN, FPVasectomyR, FPVasectomyT, FPCONDOMSN, FPCONDOMSR, "
@@ -275,11 +312,13 @@ stylex.setWrapText(true);
             + " DTCB_Test_In_AM, DTCB_Test_In_AF, DTCB_Test_In_Tot, DTCB_Test_Out_CM, DTCB_Test_Out_CF, DTCB_Test_Out_AM,"
             + " DTCB_Test_Out_AF, DTCB_Test_Out_Tot, DTCC_HIV_In_CM, DTCC_HIV_In_CF, DTCC_HIV_In_AM, DTCC_HIV_In_AF,"
             + " DTCC_HIV_In_Tot, DTCC_HIV_Out_CM, DTCC_HIV_Out_CF, DTCC_HIV_Out_AM, DTCC_HIV_Out_AF, DTCC_HIV_Out_Tot, "
-            + "subpartnera.FP,subpartnera.PMTCT,subpartnera.Maternity,subpartnera.HTC, isValidated  "
-            + "FROM moh711 JOIN subpartnera ON moh711.SubPartnerID=subpartnera.SubPartnerID "
-              + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+            + ""+subpartnera+".FP,"+subpartnera+".PMTCT,"+subpartnera+".Maternity,"+subpartnera+".HTC, isValidated  "
+            + "FROM moh711 JOIN "+subpartnera+" ON moh711.SubPartnerID="+subpartnera+"."+subpartnerid+" "
+              + "JOIN district ON "+subpartnera+".DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
               + " WHERE moh711.Mois='"+month+"' && moh711.Annee='"+year+"' ";
+          System.out.println(""+getdata);
+    
     conn.rs = conn.st.executeQuery(getdata);
     while(conn.rs.next()){
 //        county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,
@@ -310,7 +349,7 @@ System.out.println(counterFP   +"  "+basicDetails);
   for (int i=4;i<=counterFP;i++){
    XSSFCell  S3cell=rw2S1.createCell(i);
    pos=i;
-   System.out.println("cell no 1 : "+i+" value no : "+pos);
+   //System.out.println("cell no 1 : "+i+" value no : "+pos);
     S3cell.setCellValue(conn.rs.getInt(pos));
     
     S3cell.setCellStyle(stborder);    

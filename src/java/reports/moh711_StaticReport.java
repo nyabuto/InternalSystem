@@ -37,12 +37,17 @@ import javax.servlet.http.HttpSession;
  */
 public class moh711_StaticReport extends HttpServlet {
     HttpSession session;
-String data,id;
+
 //String facilityId,year,month;
 //HttpSession session;
 //String data,id;
 //String facilityId,year,month;
 
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException, DocumentException, CssResolverException {
+       session=request.getSession();
+       String data,id = null;
+       
 String FPMicrolutN,FPMicrolutR,FPMicrolutT,FPMicrogynonN,FPMicrogynonR,FPMicrogynonT,FPINJECTIONSN,FPINJECTIONSR,
 FPINJECTIONST,FPIUCDN,FPIUCDR,FPIUCDT,FPIMPLANTSN,FPIMPLANTSR,FPIMPLANTST,FPBTLN,FPBTLR,FPBTLT,FPVasectomyN,FPVasectomyR;
 String FPVasectomyT,FPCONDOMSN,FPCONDOMSR,FPCONDOMST,FPOTHERN,FPOTHERR,FPOTHERT,FPCLIENTSN,FPCLIENTSR,FPCLIENTST,FPIUCDRemoval,
@@ -75,9 +80,21 @@ String subcountyid,facility,period;
 String reportType,duration,reportDuration,quarter,semi_annual;
 int year=0,prevYear=0,month=0;
 String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, DocumentException, CssResolverException {
-       session=request.getSession();
+       
+      
+
+    //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        //added later to accomodate the years
+           String subpartnerid="SubPartnerID";
+           String subpartnera="subpartnera";
+           
+           
+           int monthint=0;
+           int yearint=0;
+           yearint=year;
+         
+
        dbConn conn = new dbConn();
  String validitychecker="";
             session=request.getSession();
@@ -87,7 +104,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
             String VCT_TAB="";
             String DTC_TAB="";
                String enterdby="";
-                String isValidated,validity;
+                // String validity;
 
 //           if(session.getAttribute("forms_holder")!=null && !(session.getAttribute("forms_holder").toString().equals(","))){
            data="";
@@ -112,17 +129,88 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
 //        GET REPORT DURATION============================================
         
         if(reportDuration.equals("1")){
+            
+             //_________________________________annualy_____________________________________
+	   
+	       //solve subpartner table and facil_id first            
+        if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+                             }
+       else if(yearint==2015) {
+           //this should be skipped since it picks both facil tables. 
+		   //It has been disabled at the interface position
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+                              }
+            
          duration=" moh711.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
       period="Annual Report ";
         }
         else if(reportDuration.equals("2")){
         semi_annual=request.getParameter("semi_annual");
+        
+        //_________________________________SemiAnnualy_________________________________
+	   
+	   
+	  
 //        semi_annual="2";
        if(semi_annual.equals("1")){
+           
+           
+                                  }
+           else{
+           
+       
+       }
+        
+//        semi_annual="2";
+       if(semi_annual.equals("1")){
+           
+           //oct-mar 
+           
+           if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+               //for oct-mar, use old database list
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";	   
+		   
+	   }
+           
        duration=" moh711.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
       period="Semi-Annual : <b> OCT ("+prevYear+") -  MARCH ("+year+")</b>"; 
+      
+      
+      
        }
            else{
+           //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   } 
+           
        duration=" moh711.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
        period="Semi-Annual : <b> APRIL ("+year+") -  SEPT ("+year+")</b>";  
        }
@@ -131,6 +219,53 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
         else if(reportDuration.equals("3")){
             String startMonth,endMonth;
        quarter=request.getParameter("quarter");
+       
+       //_________________________________Quarterly__________________________________
+	   
+	   
+	   quarter=request.getParameter("quarter");
+            //specify subparter table and facil id first
+            
+              //oct-mar
+          if(quarter.equals("1")||quarter.equals("2")){
+	   if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+		   //for oct-mar, use old database list
+	 subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";  
+		   
+	   }
+            
+          }
+          else if(quarter.equals("3")||quarter.equals("4")){
+          //apr-sep
+          
+               //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	     subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+              
+          }
+	   
+       
 //       quarter="3";
        String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
        conn.rs=conn.st.executeQuery(getMonths);
@@ -150,6 +285,42 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
         }  
         
       else if(reportDuration.equals("4")){
+          
+	//__________________________monthly reports_________________________
+
+
+     //deal with subpartnertable and facilid first
+      
+        monthint=month;
+       
+    
+       if(yearint==2015){
+           
+       if(monthint==10|| monthint==11 || monthint==12 || monthint==1||monthint==2|| monthint==3){
+       //here use a different subpartner id
+        subpartnerid="SP_ID";   
+       subpartnera="subpartnera2014";
+                                                                                                }
+       else  {
+           
+       subpartnerid="SubPartnerID";
+       subpartnera="subpartnera";
+       
+             }
+           
+                        }
+       else  if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+       //---------------------------------------------------------------------------------------
+       //---------------------------------------------------------------------------------------
+	   
+          
      month=Integer.parseInt(request.getParameter("month"));
 //     month=4;
      if(month>=10){
@@ -157,7 +328,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
      }
      else{
   duration=" moh711.yearmonth="+year+"0"+month;  
-     }
+         }
     String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
     conn.rs=conn.st.executeQuery(getMonthName);
     if(conn.rs.next()==true){
@@ -183,12 +354,15 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
   header+="<tr><td colspan=\"3\"> All health facilities.</td> <td>Year</td><td> <b>"+year+"</b></td><td colspan=\"7\"> "+period+"</td></tr>"  ;
      }
       
-      else{
+      else 
+      {
+          String spid="";
   facilityId=request.getParameter("facility");
 //  facilityId="403";
   facility="SubPartnerID='"+facilityId+"' &&";    
+  //this part should remain constant since the facility parameters being passed are using the subpartnera table
   
-  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
+  String getName=" SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId, SP_ID FROM subpartnera "
           + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID WHERE subpartnera.SubPartnerID='"+facilityId+"'";
   conn.rs=conn.st.executeQuery(getName);
@@ -197,7 +371,19 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
       districtName=conn.rs.getString(2);
       countyName=conn.rs.getString(3);
       mflcode=conn.rs.getString(4);
+       spid= conn.rs.getString(5);
   }
+  
+   //if its subpartner2014, use SP_ID not subpartnerid
+  
+          System.out.println("____SubPartnerID::"+subpartnerid);
+  if(subpartnerid.equalsIgnoreCase("SP_ID"))
+  {
+      
+  facility="moh711.SubPartnerID='"+spid+"' &&";
+  
+  }
+  
   header+="<tr><td>District</td><td> <b>"+districtName+"</b></td><td>  County</td><td> <b>"+countyName+"</b></td><td>   Facility</td><td> <b>"+facilityName+"</b></td><td colspan=\"2\">"+period+"</td><td>   Year</td><td> <b>"+year+"</b></td><td>   MFL Code</td><td> <b>"+mflcode+"</b></td><td></tr>";
       }
      

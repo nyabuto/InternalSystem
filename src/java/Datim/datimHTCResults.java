@@ -3102,6 +3102,18 @@ if(1==1){
             stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
             stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             
+            //this font will be used to show errors on negatives
+            HSSFCellStyle errorstyle = wb.createCellStyle();
+            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
+            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            
             HSSFCellStyle stylex = wb.createCellStyle();
             stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
             stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
@@ -4230,7 +4242,7 @@ double  ChildMaleHIV9=0;
      duration1="";     
       }
         
-      HSSFSheet shet3=wb.createSheet("PMTCT , HTC & VMMC ");   
+      HSSFSheet shet3=wb.createSheet("PMTCT , HTC ,UNDER 5 & VMMC ");   
             HSSFCell  c11;
          FemaleAdultTested=0;
  FemaleTestedChild=0;
@@ -4827,7 +4839,7 @@ stylemainHeader.setWrapText(true);
     int pmtcttestedtotal=0;
     int pmtctpositivestotal=0;
     int pmtctnegativetotal=0;
-    
+     
     double pmtct15to19tes=0;
     double pmtct20to24tes=0;
     double pmtct25to49tes=0;
@@ -4839,9 +4851,54 @@ stylemainHeader.setWrapText(true);
     double pmtct20to24pos=0;
     double pmtct25to49pos=0;
     double pmtct50pos=0;
+    
+   int vmmctes=0;
+   int vmmcpos=0;
+   int vmmcneg=0;
    
+   double vmmcless1neg=0;
+   double vmmc1to9neg=0;
+   double vmmc10to14neg=0;
+   double vmmc15to19neg=0;
+   double vmmc20to24neg=0;
+   double vmmc25to29neg=0;
+   double vmmc30to49neg=0;
+   double vmmc50neg=0;
+   
+   
+   double vmmcless1pos=0;
+   double vmmc1to9pos=0;
+   double vmmc10to14pos=0;
+   double vmmc15to19pos=0;
+   double vmmc20to24pos=0;
+   double vmmc25to29pos=0;
+   double vmmc30to49pos=0;
+   double vmmc50pos=0;
     
+   
+   
+   double vmmcless1tes=0;
+   double vmmc1to9tes=0;
+   double vmmc10to14tes=0;
+   double vmmc15to19tes=0;
+   double vmmc20to24tes=0;
+   double vmmc25to29tes=0;
+   double vmmc30to49tes=0;
+   double vmmc50tes=0;
     
+   
+   
+   double vmmcless15=0;
+   double vmmcgret15=0;
+   
+   //=========================================
+    double under5pos=0;
+    double under5tes=0;
+    double under5neg=0;
+    double under5posf=0;
+    double under5posm=0;
+    double under5negf=0;
+    double under5negm=0;
     
     double pmtct15to19neg=0;
     double pmtct20to24neg=0;
@@ -4858,20 +4915,20 @@ stylemainHeader.setWrapText(true);
             + ", ( sum(DTCC_HIV_In_CF)+ sum(DTCC_HIV_Out_CF))" // CHILDREN OSITIVE FEMALE
             + ", (sum(DTCC_HIV_In_CM)+ sum(DTCC_HIV_Out_CM)), "
             
-            + "county.County,district.DistrictNom," //
+            + " county.County,district.DistrictNom," //
             + " subpartnera.SubPartnerNom,subpartnera.CentreSanteId,subpartnera.HTC_Support1, "// CHILDREN POSITIVE MALE
             
             //======================added later 20151010
             + " sum(HV0204) as PMTCTTESTED , (sum(HV0206)+sum(HV0207)+sum(HV0208) ) as PMTCTPOS "//pmtct tested and positive added on 201510
-            +",P51D1 asVMMCunder1,P51D9 as VMMC1to9,P51D10 as VMMC10to14,P51D19 as VMMC15to19,P51D24 as VMMC20to24,P51D29 as VMMC25to29,P51D49 as VMMC30to49,P51D50 as VMMC50,P51DT as VMMCT "//vmmc added 20151016
-            + ",HV0232,HV0228 "//under five
-            + "FROM moh711 left join moh731 on moh711.ID=moh731.id left join vmmc on moh711.ID=vmmc.tableid   JOIN subpartnera "
-            + "ON moh711.SubPartnerID=subpartnera.SubPartnerID "
-            + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+            +",SUM(P51D1) as VMMCunder1,SUM(P51D9) as VMMC1to9,SUM(P51D10) as VMMC10to14, SUM(P51D19) as VMMC15to19 , SUM(P51D24) as VMMC20to24, SUM(P51D29) as VMMC25to29, SUM(P51D49) as VMMC30to49, SUM(P51D50) as VMMC50,SUM(P51DT) as VMMCTESTED ,SUM(P511KP) as VMMCPOS, SUM(P511KN) as VMMCNEG "//vmmc added 20151016
+            + ",SUM(HV0232) as HV0232,SUM(HV0228) as HV0228 "//under five
+            + " FROM moh711 left join moh731 on moh711.ID=moh731.id left join vmmc on moh711.ID=vmmc.tableid   JOIN subpartnera "
+            + " ON moh711.SubPartnerID=subpartnera.SubPartnerID "
+            + " JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
-    + " "+facilityIds1+" "+duration1+" && subpartnera.HTC=1  "
-            + "GROUP BY moh711.SubPartnerID " ;
+    + " "+facilityIds1+" "+duration1+" && (subpartnera.HTC=1 || subpartnera.PMTCT=1 || subpartnera.VMMC=1)  "
+            + " GROUP BY moh711.SubPartnerID " ;
      System.out.println("711 : "+get711data);
     conn.rs=conn.st.executeQuery(get711data);
     while(conn.rs.next()){
@@ -4886,13 +4943,30 @@ stylemainHeader.setWrapText(true);
      dsdta=conn.rs.getString(13);   
      
      pmtcttestedtotal=conn.rs.getInt("PMTCTTESTED");     
-     pmtctpositivestotal=conn.rs.getInt("PMTCTPOS");     
+     pmtctpositivestotal=conn.rs.getInt("PMTCTPOS"); 
+     //under 5 computations
      
-        //System.out.println("(((((((("+conn.rs.getInt("PMTCTPOS"));
-              //15-19	20-24   25-49
-//PMTCT TESTED	13.9%	27.8%	58.3%
-//PMTCT Posit	5.3%	17.5%	77.2%
-
+     under5tes=conn.rs.getInt("HV0228");  //under5 tested    
+     under5pos=conn.rs.getInt("HV0232");  //under5 positives   
+     under5neg=under5tes-under5pos;       //under 5 negatives
+     //vmmc
+     //VMMC50,SUM(P51DT) as VMMCTESTED ,SUM(P511KP) as VMMCPOS, SUM(P511KN) as VMMCNEG "//vmmc added 20151016
+            
+     
+     vmmcpos=conn.rs.getInt("VMMCPOS");
+     vmmcneg=conn.rs.getInt("VMMCNEG");
+     vmmctes=conn.rs.getInt("VMMCTESTED");
+      
+ //     SUM(P51D50) as 
+     vmmcless1tes=conn.rs.getInt("VMMCunder1");
+     vmmc1to9tes=conn.rs.getInt("VMMC1to9");
+     vmmc10to14tes=conn.rs.getInt("VMMC10to14");
+     vmmc15to19tes=conn.rs.getInt("VMMC15to19");
+     vmmc20to24tes=conn.rs.getInt("VMMC20to24");
+     vmmc25to29tes=conn.rs.getInt("VMMC25to29");
+     vmmc30to49tes=conn.rs.getInt("VMMC30to49");
+     vmmc50tes=conn.rs.getInt("VMMC50");
+ 
      
      
      
@@ -4930,7 +5004,113 @@ String arrayDetails []=basicDetails.split("@");
          
    System.out.println(facilityname  +"   TestedAdultFemale "+TestedAdultFemale+"TestedAdultMale  "+TestedAdultMale+" TestedChildFemale  "+TestedChildFemale+" TestedChildMale "+TestedChildMale +" HIV_AdultFemale  "+HIV_AdultFemale+" HIV_AdultMale "+HIV_AdultMale+" HIV_ChildFemale "+HIV_ChildFemale +" HIV_ChildMale "+HIV_ChildMale); 
  
+   
+   
+     
+//< 1	1-9	10-14	15-19	20-24	25-29	30-49	50+
+//0%	1%	45%	25%	15%	8%	6%	0%
+//vmmc positives
+   
+   double vmmcposverify=0;
+   double vmmcnegverify=0;
+   
+     vmmc1to9pos=(float)Math.round((0.01*vmmcpos));
+     vmmc10to14pos=(float)Math.round((0.45*vmmcpos));
+     vmmc15to19pos=(float)Math.round((0.25*vmmcpos));
+     vmmc20to24pos=(float)Math.round((0.15*vmmcpos));
+     vmmc25to29pos=(float)Math.round((0.08*vmmcpos));
+     vmmc30to49pos=(float)Math.round((0.06*vmmcpos));
+     //do a verification before subtracting the negatives
+   
+     vmmcposverify=vmmc1to9pos+vmmc10to14pos+vmmc15to19pos+vmmc20to24pos+vmmc25to29pos+vmmc30to49pos;
+     
+             
+             //------------------------------------------//do normalization for the tested
+  // if the two are not equal, do a distribution
+  double tofauti=0;
+  if(vmmcposverify<vmmcpos){
+     tofauti=vmmcpos-vmmcposverify;
+     if(tofauti>2){
+     //raise an alarm
+     //redalert++;
+     }
+  //add to the male first until equal
+        //
+        while(tofauti>0){ 
+ vmmc10to14pos+=1; 
+ tofauti--;
+ 
+}//end of while tofauti
+  
+  }
+  else if(vmmcposverify>vmmcpos) {
+  //minus  until equal
+    tofauti=vmmcposverify-vmmcpos;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+        while(tofauti>0){ 
+       vmmc10to14pos-=1; 
+       tofauti--;
+ 
+                        }
+  } //end of else 
+  
+  //Now do the deductions for the negatives from the tes
+//     vmmcless1neg=vmmcless1tes;//pos =0% 
+//     vmmc1to9neg=vmmc1to9tes-vmmc1to9pos;
+//     vmmc10to14neg=vmmc10to14tes-vmmc10to14pos;
+//     vmmc15to19neg=vmmc15to19tes-vmmc15to19pos;
+//     vmmc20to24neg=vmmc20to24tes-vmmc20to24pos;
+//     vmmc25to29neg=vmmc20to24tes-vmmc20to24pos;
+//     vmmc30to49neg=vmmc20to24tes-vmmc20to24pos;
+//     vmmc50neg=vmmc20to24tes;//vmmc50positives =0%
+  //******I HAVE USED THE SAME RATIOS AS THE POSITIVE THOH THATS NOT THE CASE
+     vmmcless1neg=(float)Math.round((0.00*vmmcneg));
+     vmmc1to9neg=(float)Math.round((0.01*vmmcneg));
+     vmmc10to14neg=(float)Math.round((0.45*vmmcneg));
+     vmmc15to19neg=(float)Math.round((0.25*vmmcneg));
+     vmmc20to24neg=(float)Math.round((0.15*vmmcneg));
+     vmmc25to29neg=(float)Math.round((0.08*vmmcneg));
+     vmmc30to49neg=(float)Math.round((0.06*vmmcneg));
+     vmmc50neg=(float)Math.round((0.00*vmmcneg));
+  //verify the negatives
+      vmmcnegverify=vmmcless1neg+vmmc1to9neg+vmmc10to14neg+vmmc15to19neg+vmmc20to24neg+vmmc25to29neg+vmmc30to49neg+vmmc50neg;
+     
+        //------------------------------------------//do normalization for the tested
+  // if the two are not equal, do a distribution
+   tofauti=0;
+  if(vmmcnegverify<vmmcneg){
+     tofauti=vmmcneg-vmmcnegverify;
+     if(tofauti>2){
+     //raise an alarm
+     //redalert++;
+     }
+  //add to the male first until equal
+        //
+        while(tofauti>0){ 
+ vmmc10to14neg+=1; 
+ tofauti--;
+ 
+}//end of while tofauti
+  
+  }
+  else if(vmmcnegverify>vmmcneg) {
+  //minus  until equal
+    tofauti=vmmcnegverify-vmmcneg;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+        while(tofauti>0){ 
+       vmmc10to14neg-=1; 
+       tofauti--;
+ 
+                        }
+  } //end of else 
+  
       
+  vmmcless15= vmmcless1neg+vmmc1to9neg+vmmc10to14neg+vmmcless1pos+vmmc1to9pos+vmmc10to14pos;
+  vmmcgret15= vmmc15to19neg+vmmc20to24neg+vmmc25to29neg+vmmc30to49neg+vmmc50neg+vmmc15to19pos+vmmc20to24pos+vmmc25to29pos+vmmc30to49pos+vmmc50pos;
+     
+  
 //      FEMALES
 
 FemaleAdultTested19=(float)Math.round((0.05*TestedAdultFemale));
@@ -4989,7 +5169,98 @@ ChildFemaleHIV14=(float)Math.round((0.25*HIV_ChildFemale));
   ChildMaleHIV4=(float)Math.round((0.37*HIV_ChildMale));
   ChildMaleHIV9=(float)Math.round((0.25*HIV_ChildMale));
   ChildMaleHIV14=(float)Math.round((0.25*HIV_ChildMale));
- 
+ //under 5 distribution
+  
+
+//         femalepos, malepos, femaleneg,  maleneg
+//         50%        50%      49%         51%
+  
+  double under5testedverify=0;
+  double under5posverify=0;
+  double under5negverify=0;
+  
+    under5posf=(float)Math.round((0.50*under5pos));
+    under5posm=(float)Math.round((0.50*under5pos));
+    under5negf=(float)Math.round((0.49*under5neg));
+    under5negm=(float)Math.round((0.51*under5neg));
+  
+  under5posverify=under5posf+under5posm;
+  under5negverify=under5negf+under5negm;
+  
+   //do normalization for the tested
+  // if the two are not equal, do a distribution
+   tofauti=0;
+  if(under5posverify<under5pos){
+     tofauti=under5pos-under5posverify;
+     if(tofauti>2){
+     //raise an alarm
+     //redalert++;
+     }
+  //add to the male first until equal
+        //
+        while(tofauti>0){ 
+ under5posm+=1; 
+ tofauti--;
+ if(tofauti!=0){
+ under5posf+=1; 
+ tofauti--;
+ }
+}//end of while tofauti
+  
+  }
+  else if(under5posverify>under5pos) {
+  //minus  until equal
+    tofauti=under5posverify-under5pos;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+        while(tofauti>0){ 
+ under5posm-=1; 
+ tofauti--;
+ if(tofauti!=0){
+ under5posf-=1; 
+ tofauti--;
+ }
+                       }
+  } //end of else 
+  
+  
+ //====================normalize negatives==========================
+        if(under5negverify<under5neg){
+     tofauti=under5neg-under5negverify;
+     if(tofauti>2){
+     //raise an alarm
+     //redalert++;
+     }
+  //add to the groupings with the larger percentage until equal
+        //25-49
+        while(tofauti>0){ 
+ under5negm+=1; 
+ tofauti--;
+ if(tofauti!=0){
+ under5negf+=1; 
+ tofauti--;
+ }
+}
+  
+  }
+  else if(under5negverify>under5neg) {
+  //minus  until equal
+    tofauti=under5negverify-under5neg;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+        while(tofauti>0){ 
+ under5negm-=1; 
+ tofauti--;
+ if(tofauti!=0){
+ under5negf-=1; 
+ tofauti--;
+ }
+                       }
+        
+}
+  
+  //end of under 5 distribution
+  
   
               //15-19	20-24   25-49
 //PMTCT TESTED	13.9%	27.8%	58.3%
@@ -5622,15 +5893,19 @@ adderPos++  ;
          shet3.addMergedRegion(new CellRangeAddress(2,4,3,3));
          shet3.addMergedRegion(new CellRangeAddress(2,4,4,4));
 //      Female   
-      c11.setCellValue(TotalTested+pmtcttestedtotal);
-      c216.setCellValue(TotalPositive+pmtctpositivestotal);
-      //pmtct belongs to female
-      c217.setCellValue(TotalPositiveFemale+pmtctpositivestotal);
+      c11.setCellValue(TotalTested+pmtcttestedtotal+under5tes+vmmctes);
+        System.out.println(facilityname+"####### HTC: "+TotalTested+" Pmtct : "+pmtcttestedtotal+": Under5 "+under5tes);
+      c216.setCellValue(TotalPositive+pmtctpositivestotal+under5pos+vmmcpos);
+      //since pmtct belongs to female
+      double under5femalestotal=under5posf+under5negf;
+      double under5malestotal=under5posm+under5negm;
+      c217.setCellValue(TotalPositiveFemale+pmtctpositivestotal+under5femalestotal);
       
          shet3.addMergedRegion(new CellRangeAddress(2,4,5,5));
          shet3.addMergedRegion(new CellRangeAddress(2,4,6,6));
          shet3.addMergedRegion(new CellRangeAddress(3,4,7,7));
-      c12.setCellValue((float)Math.round(ChildFemaleHIV1));
+         //rem under5 are children 
+      c12.setCellValue((float)Math.round(ChildFemaleHIV1+under5posf));
       c13.setCellValue((float)Math.round(ChildFemaleHIV4));
       c14.setCellValue((float)Math.round(ChildFemaleHIV9));
       c15.setCellValue((float)Math.round(ChildFemaleHIV14));
@@ -5640,17 +5915,17 @@ adderPos++  ;
       c19.setCellValue((float)Math.round(AdultFemaleHIV50));
       
      
-      c20.setCellValue(TotalPositiveMale);
+      c20.setCellValue(TotalPositiveMale+under5posm+vmmcpos);
       
       //male
-      c110.setCellValue((float)Math.round(ChildMaleHIV1));
-      c111.setCellValue((float)Math.round(ChildMaleHIV4));
-      c112.setCellValue((float)Math.round(ChildMaleHIV9));
-      c113.setCellValue((float)Math.round(ChildMaleHIV14));
-      c114.setCellValue((float)Math.round(AdultMaleHIV19));
-      c115.setCellValue((float)Math.round(AdultMaleHIV24));
-      c116.setCellValue((float)Math.round(AdultMaleHIV49));
-      c117.setCellValue((float)Math.round(AdultMaleHIV50));
+      c110.setCellValue((float)Math.round(ChildMaleHIV1+under5posm+vmmcless1pos));
+      c111.setCellValue((float)Math.round(ChildMaleHIV4));//skip this for vmmc
+      c112.setCellValue((float)Math.round(ChildMaleHIV9+vmmc1to9pos));
+      c113.setCellValue((float)Math.round(ChildMaleHIV14+vmmc10to14pos));
+      c114.setCellValue((float)Math.round(AdultMaleHIV19+vmmc15to19pos));
+      c115.setCellValue((float)Math.round(AdultMaleHIV24+vmmc20to24pos));
+      c116.setCellValue((float)Math.round(AdultMaleHIV49+vmmc25to29pos+vmmc30to49pos));//two vmmc options
+      c117.setCellValue((float)Math.round(AdultMaleHIV50+vmmc50pos));
     
       for(int i=0; i<=22;i++){
           c11=rw0.getCell(i);
@@ -5802,8 +6077,8 @@ double TotalNegativeFemale1=0;
  redalert3=1;
  }
 
-      c11.setCellValue((float)Math.round(TotalNegativeFemale+pmtctnegativetotal));
-      c12.setCellValue((float)Math.round(ChildFemaleHIV1Neg));
+      c11.setCellValue((float)Math.round(TotalNegativeFemale+pmtctnegativetotal+under5negf));//pmtct if for women
+      c12.setCellValue((float)Math.round(ChildFemaleHIV1Neg+under5negf));
       c13.setCellValue((float)Math.round(ChildFemaleHIV4Neg));
       c14.setCellValue((float)Math.round(ChildFemaleHIV9Neg));
       c15.setCellValue((float)Math.round(ChildFemaleHIV14Neg));
@@ -5813,17 +6088,18 @@ double TotalNegativeFemale1=0;
       c19.setCellValue((float)Math.round(AdultFemaleHIV50Neg));
       
         
-      c110.setCellValue((float)Math.round(TotalNegativeMale));
+      c110.setCellValue((float)Math.round(TotalNegativeMale+under5negm+vmmcneg));
       
-      c111.setCellValue((float)Math.round(ChildMaleHIV1Neg));
+      c111.setCellValue((float)Math.round(ChildMaleHIV1Neg+under5negm+vmmcless1neg));
       c112.setCellValue((float)Math.round(ChildMaleHIV4Neg));
-      c113.setCellValue((float)Math.round(ChildMaleHIV9Neg));
-      c114.setCellValue((float)Math.round(ChildMaleHIV14Neg));
-      c115.setCellValue((float)Math.round(AdultMaleHIV19Neg));
-      c116.setCellValue((float)Math.round(AdultMaleHIV24Neg));
-      c117.setCellValue((float)Math.round(AdultMaleHIV49Neg));
-      c118.setCellValue((float)Math.round(AdultMaleHIV50Neg));
-      c119.setCellValue(less15f);
+      c113.setCellValue((float)Math.round(ChildMaleHIV9Neg+vmmc1to9neg));
+      c114.setCellValue((float)Math.round(ChildMaleHIV14Neg+vmmc10to14neg));
+      c115.setCellValue((float)Math.round(AdultMaleHIV19Neg+vmmc15to19neg));
+      c116.setCellValue((float)Math.round(AdultMaleHIV24Neg+vmmc20to24neg));
+      c117.setCellValue((float)Math.round(AdultMaleHIV49Neg+vmmc25to29neg+vmmc30to49neg));//here we join two vmmc age sets
+      c118.setCellValue((float)Math.round(AdultMaleHIV50Neg+vmmc50neg));
+     // rem under 5 are all children
+      c119.setCellValue(less15f+under5femalestotal);
       
    
          c120=rw0.createCell(44);
@@ -5848,13 +6124,14 @@ double TotalNegativeFemale1=0;
       
      //this is the new addition 
       c120.setCellValue(gret15f+pmtcttestedtotal);
-      c121.setCellValue(less15m);
-      c122.setCellValue(gret15m);
-      c123.setCellValue(TotalTested+pmtcttestedtotal);
+      //add the males too
+      c121.setCellValue(less15m+under5malestotal+vmmcless15);
+      c122.setCellValue(gret15m+vmmcgret15);
+      c123.setCellValue(TotalTested+pmtcttestedtotal+under5tes+vmmctes);
       
-       c124.setCellValue(TotalPositive+pmtctpositivestotal);
-       c125.setCellValue(TotalNegative+pmtctnegativetotal);
-       c126.setCellValue(TotalTested+pmtcttestedtotal);
+       c124.setCellValue(TotalPositive+pmtctpositivestotal+under5pos+vmmcpos);
+       c125.setCellValue(TotalNegative+pmtctnegativetotal+under5neg+vmmcneg);
+       c126.setCellValue(TotalTested+pmtcttestedtotal+under5tes+vmmctes);
        c127.setCellValue("PASSED");
        
       
@@ -5875,8 +6152,8 @@ double TotalNegativeFemale1=0;
           c110.setCellStyle(redstyle);
       }
            
-            if(finalalert==1){
-          c119=rw0.getCell(43);
+      if(finalalert==1){
+          c119=rw0.getCell(51);
           c119.setCellStyle(redstyle);
           c119.setCellValue("FAILED");
       }
@@ -5991,6 +6268,7 @@ double TotalNegativeFemale1=0;
             outStream.write(outArray);
             outStream.flush();
             outStream.close();
+        
         } catch (SQLException ex) {
             Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
         }

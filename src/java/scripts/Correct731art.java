@@ -65,7 +65,7 @@ int yearmonth=a;
 //this is the default maxyearmonth
 maxyearmonth=a-1; 
  
- String all731="";
+String all731="";
 
 
 //if(yrmonth>201503 && yrmonth<=201504){

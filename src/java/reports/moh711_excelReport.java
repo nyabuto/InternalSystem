@@ -46,7 +46,13 @@ public class moh711_excelReport extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     HttpSession session;
-String data,id;
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        response.setContentType("text/html;charset=UTF-8");
+        
+        
+        String data,id;
 String facilityId;
 String county,district,facilityname,mflcode;       
   String isValidated,validity;
@@ -57,7 +63,7 @@ int year,prevYear,month;
 String header,facilityName,countyName,districtName,monthName;
 int pos=0;
 int newpos=0;
-
+month=0;
 String FPMicrolutN,FPMicrolutR,FPMicrolutT,FPMicrogynonN,FPMicrogynonR,FPMicrogynonT,FPINJECTIONSN,FPINJECTIONSR,
 FPINJECTIONST,FPIUCDN,FPIUCDR,FPIUCDT,FPIMPLANTSN,FPIMPLANTSR,FPIMPLANTST,FPBTLN,FPBTLR,FPBTLT,FPVasectomyN,FPVasectomyR;
 String FPVasectomyT,FPCONDOMSN,FPCONDOMSR,FPCONDOMST,FPOTHERN,FPOTHERR,FPOTHERT,FPCLIENTSN,FPCLIENTSR,FPCLIENTST,FPIUCDRemoval,
@@ -72,9 +78,8 @@ String DTCA_Couns_In_CM,DTCA_Couns_In_CF,DTCA_Couns_In_AM,DTCA_Couns_In_AF,DTCA_
 
 
 String FamilyPlanninng, pmct,maternity,vct,dtc;
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+      header="";  
+      duration="";
 //        PrintWriter out = response.getWriter();
         try {
             dbConn conn = new dbConn();
@@ -86,28 +91,148 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
 //        year=2015;
 //        reportDuration="3";
         
+        
+        
+        
+        //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        //added later to accomodate the years
+           String subpartnerid="SubPartnerID";
+           String subpartnera="subpartnera";
+           
+           
+           int monthint=0;
+           int yearint=0;
+           yearint=year;
+         
+      
+        
+        
+        
+        
         prevYear=year-1; 
         maxYearMonth=0;
         
 //        GET REPORT DURATION============================================
 //        startPMTCT=startART=startPEP=noPMTCT=noART=noPEP=0;
         if(reportDuration.equals("1")){
+           
+            //solve subpartner table and facil_id first            
+        if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+                         }
+       else if(yearint==2015) {
+           //this should be skipped since it picks both facil tables. It has been disabled at the interface position
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+                              }
+            
          duration=" moh711.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
-        }
+         
+         
+         
+                                      }
         else if(reportDuration.equals("2")){
         semi_annual=request.getParameter("semi_annual");
 //        semi_annual="2";
        if(semi_annual.equals("1")){
-       duration=" moh711.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
+           //oct-mar 
+           
+           if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
        }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+               //for oct-mar, use old database list
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";	   
+		   
+	   }
+           
+           
+       duration=" moh711.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
+       
+       
+       
+                                  }
            else{
-       duration=" moh711.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-           }
+           //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
        }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+           
+       duration=" moh711.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
+               }
+                                            }
         
         else if(reportDuration.equals("3")){
-            String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
+            //quarterly
+          quarter=request.getParameter("quarter");
+            //specify subparter table and facil id first
+            
+              //oct-mar
+          if(quarter.equals("1")||quarter.equals("2")){
+	   if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+		   //for oct-mar, use old database list
+	 subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";  
+		   
+	   }
+            
+          }
+          else if(quarter.equals("3")||quarter.equals("4")){
+          //apr-sep
+          
+               //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	     subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+              
+          }
+            
+            
+            
+       String startMonth,endMonth;
+     
 //       quarter="3";
        String getMonths="SELECT months FROM quarter WHERE id='"+quarter+"'";
        conn.rs=conn.st.executeQuery(getMonths);
@@ -126,6 +251,42 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
         
       else if(reportDuration.equals("4")){
      month=Integer.parseInt(request.getParameter("month"));
+     
+     //deal with subpartnertable and facilid first
+      
+        monthint=month;
+       
+        
+       if(yearint==2015){
+           
+       if(monthint==10|| monthint==11 || monthint==12 || monthint==1||monthint==2|| monthint==3){
+       //here use a different subpartner id
+        subpartnerid="SP_ID";   
+       subpartnera="subpartnera2014";
+                                                                                                }
+       else  {
+           
+       subpartnerid="SubPartnerID";
+       subpartnera="subpartnera";
+       
+             }
+           
+                        }
+       else  if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+       //---------------------------------------------------------------------------------------
+       //---------------------------------------------------------------------------------------
+      
+     
+     
+     
+     
 //     month=5;
      if(month>=10){
      duration=" moh711.yearmonth="+prevYear+""+month;    
@@ -145,7 +306,7 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
       if(reportType.equals("1")){  
     facility=""; 
     
-      facilityName="ALL APHIA PLUS SUPPORTED HEALTH FACILITIES";
+      facilityName="ALL APHIAPLUS SUPPORTED HEALTH FACILITIES";
       districtName="ALL";
       countyName="ALL COUNTIES";
       mflcode="NONE";
@@ -153,19 +314,40 @@ String FamilyPlanninng, pmct,maternity,vct,dtc;
       
       else{
   facilityId=request.getParameter("facility");
+  String spid="";
+  //get the correct facil id based on the year id...
 //  facilityId="403";
   facility="moh711.SubPartnerID='"+facilityId+"' &&";    
-  
-  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
+  //this part should remain constant since the facility parameters being passed are using the subpartnera table
+  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId, SP_ID FROM subpartnera "
           + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID WHERE subpartnera.SubPartnerID='"+facilityId+"'";
+  
+  
+   System.out.println("getname__"+getName);
   conn.rs=conn.st.executeQuery(getName);
+  
+         
   if(conn.rs.next()==true){
       facilityName=conn.rs.getString(1);
       districtName=conn.rs.getString(2);
       countyName=conn.rs.getString(3);
       mflcode=conn.rs.getString(4);
+      spid= conn.rs.getString(5);
+      
   }
+  //if its subpartner2014, use SP_ID not subpartnerid
+  
+          System.out.println("____SubPartnerID::"+subpartnerid);
+  if(subpartnerid.equalsIgnoreCase("SP_ID"))
+  {
+      
+  facility="moh711.SubPartnerID='"+spid+"' &&";
+  
+  }
+  
+  
+  
      }
      
     header+="</table>";  
@@ -503,11 +685,11 @@ if(conn.rs.next()==true){
     rw1cell1.setCellStyle(styleHeader);
     
   XSSFCell  rw1cell2=rw1S10.createCell(1);
-    rw1cell2.setCellValue("NEW CLIENTS");
+    rw1cell2.setCellValue("");
     rw1cell2.setCellStyle(styleHeader);
     
   XSSFCell  rw1cell3=rw1S10.createCell(2);
-    rw1cell3.setCellValue("REVISITS");
+    rw1cell3.setCellValue("NEW CLIENTS");
     rw1cell3.setCellStyle(styleHeader);
     
   XSSFCell  rw1cell4=rw1S10.createCell(3);
@@ -1804,7 +1986,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=MOH711_STATIC_REPORT_CREATED_"+createdOn.trim()+".xlsx");
+response.setHeader("Content-Disposition", "attachment; filename=MOH711_STATIC_REPORT_CREATED_ON_"+createdOn.trim()+".xlsx");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();

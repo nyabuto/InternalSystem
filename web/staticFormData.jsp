@@ -492,7 +492,7 @@ $("#reportDuration").change(function(){
     $("#reportSemi").hide();
     $("#reportQuarter").hide();
     $("#reportMonth").hide();  
-  }
+                 }
   else if(report==="1"){
    $("#reportSemi").hide();
     $("#reportQuarter").hide();
@@ -553,8 +553,11 @@ $("#year").change(function(){
       
       
       function reportingPeriod(){
+          
+          var yea=$("#year").val();
     $.ajax({
-url:'loadReportingPeriod',
+         
+url:"loadReportingPeriod?yr="+yea,
 type:'post',
 dataType:'html',
 success:function (data){

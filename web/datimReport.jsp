@@ -227,7 +227,7 @@
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
                                     <option value="datimReport">ART,CARE,and PMTCT </option>
                                     <option value="datimHTCResults">HTC_SDP, VMMC and HTC</option>
-                                    <option value="datimTbViralRetention"> TB,RETENTION and VIRAL LOAD</option>
+                                    <option value="datimTbViralRetention"> TB,RETENTION , VIRAL LOAD,POST-GBV CARE</option>
                                  </select>
                               </div>
                            </div> 
@@ -468,8 +468,11 @@ $("#year").change(function(){
       
       
       function reportingPeriod(){
+          
+          var yea=$("#year").val();
     $.ajax({
-url:'loadReportingPeriod',
+         
+url:"loadReportingPeriod?yr="+yea,
 type:'post',
 dataType:'html',
 success:function (data){

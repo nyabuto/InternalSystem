@@ -66,7 +66,19 @@ int secCounter;
             throws ServletException, IOException, SQLException {
         
         dbConn conn = new dbConn();
-            session=request.getSession();
+        session=request.getSession();
+        
+        
+          //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        //added later to accomodate the years
+           String subpartnerid="SubPartnerID";
+           String subpartnera="subpartnera";
+           
+           
+           int monthint=0;
+           int yearint=0;
+           yearint=year;
         
         reportType=request.getParameter("reportType");
         year=Integer.parseInt(request.getParameter("year"));
@@ -82,22 +94,171 @@ int secCounter;
 //        GET REPORT DURATION============================================
         startPMTCT=startART=startPEP=noPMTCT=noART=noPEP=0;
         if(reportDuration.equals("1")){
+            
+            //_________________________________annualy_____________________________________
+	   
+	       //solve subpartner table and facil_id first            
+        if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+                         }
+       else if(yearint==2015) {
+           //this should be skipped since it picks both facil tables. 
+		   //It has been disabled at the interface position
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+            
          duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
         }
         else if(reportDuration.equals("2")){
+        //_________________________________SemiAnnualy_________________________________
+	 
+	     //oct-mar
+          if(quarter.equals("1")||quarter.equals("2")){
+	   if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+		   //for oct-mar, use old database list
+	 subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";  
+		   
+	   }
+            
+          }
+          else if(quarter.equals("3")||quarter.equals("4")){
+          //apr-sep
+          
+               //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	     subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+              
+          }
+	      
+            
         semi_annual=request.getParameter("semi_annual");
 //        semi_annual="2";
        if(semi_annual.equals("1")){
+           
+           //oct-mar            
+           if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+               //for oct-mar, use old database list
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";	   
+		   
+	                         }
+           
        duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
        }
            else{
+           
+                //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+	  
+           
        duration=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
            }
        }
         
         else if(reportDuration.equals("3")){
+            //quarterly
+            
             String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
+     
+       
+       
+       //_________________________________Quarterly__________________________________
+	   
+	   
+	   quarter=request.getParameter("quarter");
+            //specify subparter table and facil id first
+            
+              //oct-mar
+          if(quarter.equals("1")||quarter.equals("2")){
+	   if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+		   //for oct-mar, use old database list
+	 subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";  
+		   
+	   }
+            
+          }
+          else if(quarter.equals("3")||quarter.equals("4")){
+          //apr-sep
+          
+               //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	     subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+              
+          }
+	   
+       
+       
+       
+       
 //       quarter="3";
        String getMonths="SELECT months FROM quarter WHERE id='"+quarter+"'";
        conn.rs=conn.st.executeQuery(getMonths);
@@ -115,6 +276,44 @@ int secCounter;
         }  
         
       else if(reportDuration.equals("4")){
+          
+//_____________________________monthly________________________________
+          
+ //__________________________monthly reports_________________________
+
+
+     //deal with subpartnertable and facilid first
+      
+        monthint=month;
+     
+       if(yearint==2015){
+           
+       if(monthint==10|| monthint==11 || monthint==12 || monthint==1||monthint==2|| monthint==3){
+       //here use a different subpartner id
+        subpartnerid="SP_ID";   
+       subpartnera="subpartnera2014";
+                                                                                                }
+       else  {
+           
+       subpartnerid="SubPartnerID";
+       subpartnera="subpartnera";
+       
+             }
+           
+                        }
+       else  if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+       //---------------------------------------------------------------------------------------
+       //---------------------------------------------------------------------------------------
+	        
+          
+          
      month=Integer.parseInt(request.getParameter("month"));
 //     month=5;
      if(month>=10){
@@ -143,19 +342,37 @@ int secCounter;
       
       else{
   facilityId=request.getParameter("facility");
+  
+  String spid="";
+	   
+	 
 //  facilityId="403";
   facility="moh731.SubPartnerID='"+facilityId+"' &&";    
   
-  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
+  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId   , SP_ID FROM subpartnera "
           + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID WHERE subpartnera.SubPartnerID='"+facilityId+"'";
   conn.rs=conn.st.executeQuery(getName);
+  
   if(conn.rs.next()==true){
       facilityName=conn.rs.getString(1);
       districtName=conn.rs.getString(2);
       countyName=conn.rs.getString(3);
       mflcode=conn.rs.getString(4);
+     
+	   
+	   spid= conn.rs.getString(5);
+	   
+                         }
+  
+   if(subpartnerid.equalsIgnoreCase("SP_ID"))
+  {
+      
+  facility="moh731.SubPartnerID='"+spid+"' &&";
+  
   }
+  
+  
      }
      
     header+="</table>";  
@@ -275,6 +492,7 @@ styleHeader.setWrapText(true);
 prevSection=currentSection="";
 secCounter=0;
 
+
           String checker="SELECT "
 + "SUM(HV0101),SUM(HV0102),SUM(HV0103),SUM(HV0105),SUM(HV0106),SUM(HV0107),SUM(HV0108),SUM(HV0109),SUM(HV0110),SUM(HV0111),SUM(HV0112),SUM(HV0113),SUM(HV0114)," +
 "SUM(HV0115),SUM(HV0116)," +
@@ -289,8 +507,8 @@ secCounter=0;
 "SUM(HV0354),SUM(HV0355),SUM(HV0904),SUM(HV0905),SUM(HV0370),SUM(HV0371),SUM(HV0372),SUM(HV0373)," +
 "SUM(HV0401),SUM(HV0402),SUM(HV0403),SUM(HV0406),SUM(HV0407),SUM(HV0408),SUM(HV0409),SUM(HV0410),SUM(HV0411),SUM(HV0412),SUM(HV0413),SUM(HV0414),SUM(HV0415)," +
 "SUM(HV0501),SUM(HV0502),SUM(HV0503),SUM(HV0504),SUM(HV0505),SUM(HV0506),SUM(HV0507),SUM(HV0508),SUM(HV0509),SUM(HV0510),SUM(HV0511),SUM(HV0512),SUM(HV0513),SUM(HV0514)," +
-"SUM(HV0601),SUM(HV0602),SUM(HV0605),subpartnera.PMTCT,subpartnera.ART,subpartnera.PEP "
- +"FROM moh731 JOIN subpartnera ON moh731.SubPartnerID=subpartnera.SubPartnerID WHERE "+facility+" "+duration;
+"SUM(HV0601),SUM(HV0602),SUM(HV0605),"+subpartnera+".PMTCT, "+subpartnera+".ART,"+subpartnera+".PEP "
+ +"FROM moh731 JOIN "+subpartnera+" ON moh731.SubPartnerID="+subpartnera+"."+subpartnerid+" WHERE "+facility+" "+duration;
  
         System.out.println("@@@  "+checker);   
           conn.rs=conn.st.executeQuery(checker);

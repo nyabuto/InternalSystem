@@ -677,7 +677,7 @@ int percentage,retentionPOS,errorRETENTION;
         
 //              year=2015;
 //        reportDuration="3";
-        
+          reportDuration=request.getParameter("reportDuration");
        facilityIds1="";
        excelDuration="";
        
@@ -713,8 +713,8 @@ int percentage,retentionPOS,errorRETENTION;
         
         else if(reportDuration.equals("3")){
             String startMonth,endMonth;
-//       quarter=request.getParameter("quarter");
-       quarter="3";
+       quarter=request.getParameter("quarter");
+     //  quarter="3";
        String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
        conn.rs=conn.st.executeQuery(getMonths);
        if(conn.rs.next()==true){
@@ -949,16 +949,17 @@ shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,i,i));
  retentionPOS=3;
  String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
             + "subpartnera.CentreSanteId,ART_Support,"
-            + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),SUM(HV0325) "
+           // + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),SUM(HV0325) "
+            + "SUM(HV0349) as HV0349,SUM(HV0345) as HV0345 "
             + " FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
-    + " "+facilityIds+" "+duration+" && subpartnera.ART=1 "
+    + " "+facilityIds+" "+duration+" && (subpartnera.ART=1 ||subpartnera.PMTCT=1 ) && ART_Support is not NULL "
             + "GROUP BY moh731.SubPartnerID " ;
        
-//     System.out.println("new : "+getData);
+     System.out.println("!!!!: "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
         retentionPOS++;errorRETENTION=0;
@@ -968,11 +969,14 @@ shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,i,i));
       mflcode=conn.rs.getString(4);
       ARTSupport=conn.rs.getString(5);
       
- HV0321=conn.rs.getInt(6);
- HV0322=conn.rs.getInt(7);
- HV0323=conn.rs.getInt(8);
- HV0324=conn.rs.getInt(9);
- HV0325=conn.rs.getInt(10);       
+ //HV0321=conn.rs.getInt(6);
+ //HV0322=conn.rs.getInt(7);
+ //HV0323=conn.rs.getInt(8);
+ //HV0324=conn.rs.getInt(9);
+ //HV0325=conn.rs.getInt(10);
+ 
+    int numerator=conn.rs.getInt("HV0349");
+    int denominator=conn.rs.getInt("HV0345");
  
  SA_F_Paeds=(float)Math.round((percentage*HV0322)/100);
  SA_F_Adult=(float)Math.round((percentage*HV0324)/100);
@@ -987,258 +991,150 @@ shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,i,i));
  IA_M_Adult=(float)Math.round((percentage*HV0323)/100);
  
  
-SA_5F=(float)Math.round((percentage*35*HV0322)/(100*100)); 
-SA_14F=(float)Math.round((percentage*65*HV0322)/(100*100));
-SA_19F=(float)Math.round((percentage*2*HV0324)/(100*100)); 
-SA_20F=(float)Math.round((percentage*98*HV0324)/(100*100));
+SA_5F=(float)Math.round(0*numerator); 
+SA_14F=(float)Math.round(0.035*numerator);
+SA_19F=(float)Math.round(0.002*numerator); 
+SA_20F=(float)Math.round(0.653*numerator);
 
-SA_5M=(float)Math.round((percentage*35*HV0321)/(100*100)); 
-SA_14M=(float)Math.round((percentage*65*HV0321)/(100*100));
-SA_19M=(float)Math.round((percentage*2*HV0323)/(100*100)); 
-SA_20M=(float)Math.round((percentage*98*HV0323)/(100*100)); 
+SA_5M=(float)Math.round(0.001*numerator); 
+SA_14M=(float)Math.round(0.035*numerator);
+SA_19M=(float)Math.round(0.004*numerator); 
+SA_20M=(float)Math.round(0.26*numerator); 
 
-SA_Sub1= (float)Math.round(SA_BF+SA_PG);
+SA_Sub1= SA_BF+SA_PG;
+double numeratorverify=Math.round(SA_5F+SA_14F+SA_19F+SA_20F+SA_5M+SA_14M+SA_19M+SA_20M);
 
-SA_Sub2= SA_F_Paeds+SA_F_Adult+SA_M_Paeds+SA_M_Adult;
-SA_Numerator=SA_Sub2+SA_Sub1; 
+SA_Sub2= numerator; //???????????
+SA_Numerator=numerator; 
 
-IA_5F=(float)Math.round((percentage*35*HV0322)/(100*100)); 
-IA_14F=(float)Math.round((percentage*65*HV0322)/(100*100));
-IA_19F=(float)Math.round((percentage*2*HV0324)/(100*100)); 
-IA_20F=(float)Math.round((percentage*98*HV0324)/(100*100));
+IA_5F=(float)Math.round(0*denominator); 
+IA_14F=(float)Math.round(0.035*denominator);
+IA_19F=(float)Math.round(0.002*denominator); 
+IA_20F=(float)Math.round(0.653*denominator);
 
-IA_5M=(float)Math.round((percentage*35*HV0321)/(100*100)); 
-IA_14M=(float)Math.round((percentage*65*HV0321)/(100*100));
-IA_19M=(float)Math.round((percentage*2*HV0323)/(100*100)); 
-IA_20M=(float)Math.round((percentage*98*HV0323)/(100*100)); 
+IA_5M=(float)Math.round(0.01*denominator); 
+IA_14M=(float)Math.round(0.035*denominator);
+IA_19M=(float)Math.round(0.004*denominator); 
+IA_20M=(float)Math.round(0.26*denominator); 
 
-IA_Sub1= (float)Math.round(IA_BF+IA_PG);
-IA_Sub2= IA_F_Paeds+IA_F_Adult+IA_M_Paeds+IA_M_Adult;
-IA_Denominator=IA_Sub1+IA_Sub2; 
+double denominatorverify=Math.round(IA_5F+IA_14F+IA_19F+IA_20F+IA_5M+IA_14M+IA_19M+IA_20M);
+
+IA_Sub1= denominator;
+
+IA_Sub2=denominator;
+
+IA_Denominator=denominator; 
 //Normalizer code here========================================================================
 
-//Normalize SA FEMALE PAEDS
-
-double totalAdded=SA_5F+SA_14F;
-if(totalAdded!=SA_F_Paeds){
-if(totalAdded-SA_F_Paeds >2 || SA_F_Paeds-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>SA_F_Paeds) {
-    if(pos<2){SA_14F--;} 
-    else if(pos==2){SA_5F--;}
-    else{pos=0;}
-     totalAdded--;  
-       pos++;
-   }  
- 
-   while(totalAdded<SA_F_Paeds) {
-    if(pos<2){SA_14F++;} 
-    else if(pos==2){SA_5F++;}
-    else{pos=0;}
-     totalAdded++;  
-       pos++;
-   }
-   
-    
-}
-}
-//NOMARLIZE SA FEMALE ADULTS
-totalAdded=SA_19F+SA_20F;
-if(totalAdded!=SA_F_Adult){
-if(totalAdded-SA_F_Adult >2 || SA_F_Adult-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>SA_F_Adult) {
-   SA_20F--; 
-totalAdded--;  
- pos++;
-   }  
- 
-   while(totalAdded<SA_F_Adult) {
-    SA_20F++; 
-totalAdded++;  
- pos++;
-   }
-   
-    
-}
-}
+//Normalize NUMERATOR
 
 
+//do normalization for the tested
+  // if the two are not equal, do a distribution
+  double tofauti=0;
+  if(numeratorverify<numerator){
+     tofauti=numerator-numeratorverify;
+      System.out.println("****TOFAUTI NI "+tofauti);
+     if(tofauti>5){
+     //raise an alarm
+   errorRETENTION++;
+     }
+  //add to the male first until equal
+        //
+        while(tofauti>0){ 
+            //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
+ SA_20F+=1; 
+ tofauti--;
+ if(tofauti!=0){
+ SA_20F+=1; 
+ tofauti--;
+ }
+  if(tofauti!=0){
+ SA_20M+=1; 
+ tofauti--;
+ }
+}//end of while tofauti
+  
+  }
+  else if(numeratorverify>numerator) {
+      
+       if(tofauti>2){
+     //raise an alarm
+   errorRETENTION++;
+     }
+  //minus  until equal
+    tofauti=numeratorverify-numerator;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+        while(tofauti>0){ 
+           //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
+ SA_20F-=1; 
+ tofauti--;
+ if(tofauti!=0){
+ SA_20F-=1; 
+ tofauti--;
+ }
+  if(tofauti!=0){
+ SA_20M-=1; 
+ tofauti--;
+ }
+                       }
+  } //end of else 
+  
+  
 
-//Normalize SA MALE PAEDS
-
-totalAdded=SA_5M+SA_14M;
-if(totalAdded!=SA_M_Paeds){
-if(totalAdded-SA_M_Paeds >2 || SA_M_Paeds-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>SA_M_Paeds) {
-    if(pos<2){SA_14M--;} 
-    else if(pos==2){SA_5M--;}
-    else{pos=0;}
-     totalAdded--;  
-       pos++;
-   }  
- 
-   while(totalAdded<SA_M_Paeds) {
-    if(pos<2){SA_14M++;} 
-    else if(pos==2){SA_5M++;}
-    else{pos=0;}
-     totalAdded++;  
-       pos++;
-   }
-   
-    
-}
-}
-//NOMARLIZE SA MALE ADULTS
-totalAdded=SA_19M+SA_20M;
-if(totalAdded!=SA_M_Adult){
-if(totalAdded-SA_M_Adult >2 || SA_M_Adult-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>SA_M_Adult) {
-   SA_20M--; 
-totalAdded--;  
- pos++;
-   }  
- 
-   while(totalAdded<SA_M_Adult) {
-    SA_20M++; 
-totalAdded++;  
- pos++;
-   }
-   
-    
-}
-}
-
-//IA NORMALIZER
-
-//Normalize IA FEMALE PAEDS
-
-totalAdded=IA_5F+IA_14F;
-if(totalAdded!=IA_F_Paeds){
-if(totalAdded-IA_F_Paeds >2 || IA_F_Paeds-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>IA_F_Paeds) {
-    if(pos<2){IA_14F--;} 
-    else if(pos==2){IA_5F--;}
-    else{pos=0;}
-     totalAdded--;  
-       pos++;
-   }  
- 
-   while(totalAdded<IA_F_Paeds) {
-    if(pos<2){IA_14F++;} 
-    else if(pos==2){IA_5F++;}
-    else{pos=0;}
-     totalAdded++;  
-       pos++;
-   }
-   
-    
-}
-}
-//NOMARLIZE IA FEMALE ADULTS
-totalAdded=IA_19F+IA_20F;
-if(totalAdded!=IA_F_Adult){
-if(totalAdded-IA_F_Adult >2 || IA_F_Adult-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>IA_F_Adult) {
-   IA_20F--; 
-totalAdded--;  
- pos++;
-   }  
- 
-   while(totalAdded<IA_F_Adult) {
-    IA_20F++; 
-totalAdded++;  
- pos++;
-   }
-   
-    
-}
-}
-
-
-
-//Normalize IA MALE PAEDS
-
-totalAdded=IA_5M+IA_14M;
-if(totalAdded!=IA_M_Paeds){
-if(totalAdded-IA_M_Paeds >2 || IA_M_Paeds-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>IA_M_Paeds) {
-    if(pos<2){IA_14M--;} 
-    else if(pos==2){IA_5M--;}
-    else{pos=0;}
-     totalAdded--;  
-       pos++;
-   }  
- 
-   while(totalAdded<IA_M_Paeds) {
-    if(pos<2){IA_14M++;} 
-    else if(pos==2){IA_5M++;}
-    else{pos=0;}
-     totalAdded++;  
-       pos++;
-   }
-   
-    
-}
-}
-//NOMARLIZE IA MALE ADULTS
-totalAdded=IA_19M+IA_20M;
-if(totalAdded!=IA_M_Adult){
-if(totalAdded-IA_M_Adult >2 || IA_M_Adult-totalAdded>2 ){
-    errorRETENTION++;
-}
-//nomarlixer code
-else{
- int pos=0;   
-   while(totalAdded>IA_M_Adult) {
-   IA_20M--; 
-totalAdded--;  
- pos++;
-   }  
- 
-   while(totalAdded<IA_M_Adult) {
-    IA_20M++; 
-totalAdded++;  
- pos++;
-   }
-   
-    
-}
-}
-
+//________________________do normalization for the denominator
+  
+  if(denominatorverify<denominator){
+     tofauti=denominator-denominatorverify;
+      System.out.println("****TOFAUTI NI "+tofauti);
+     if(tofauti>5){
+     //raise an alarm
+   errorRETENTION++;
+     }
+  //add to the male first until equal
+        //
+        while(tofauti>0){ 
+            //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
+ IA_20F+=1; 
+ tofauti--;
+ if(tofauti!=0){
+ IA_20F+=1; 
+ tofauti--;
+ }
+  if(tofauti!=0){
+ IA_20M+=1; 
+ tofauti--;
+ }
+}//end of while tofauti
+  
+  }
+  else if(denominatorverify>denominator) {
+      
+       if(tofauti>2){
+     //raise an alarm
+   errorRETENTION++;
+     }
+  //minus  until equal
+    tofauti=denominatorverify-denominator;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+        while(tofauti>0){ 
+           //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
+ IA_20F-=1; 
+ tofauti--;
+ if(tofauti!=0){
+ IA_20F-=1; 
+ tofauti--;
+ }
+  if(tofauti!=0){
+ IA_20M-=1; 
+ tofauti--;
+ }
+                       }
+  } //end of else 
+  
+  
 
 
 
@@ -2054,9 +1950,9 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
     
  //============================================================================================
     
-   // new report pep smear
+   // new report post gbv
  //============================================================================================
-    if(4==5){
+    if(4==4){
     
      
         
@@ -2073,10 +1969,10 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             
             
             
-            String mainheaders[]={"","","Female","","","","","","Male","","","","","Disagggregated by Type of Service",""};
-            String sectionheaders[]={"Numerator","Female","<10","10-14","15-17","18-24","25+","Male","<10","10-14","15-17","18-24","25+","Sexual Violence (Post Rape Care)","PHYSICAL and/or EMOTIONAL Violence (Other Post GBV Care)"};
+            String mainheaders[]={"","","","","","Female","","","","","","Male","","","","","Disagggregated by Type of Service","",""};
+            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Female","<10","10-14","15-17","18-24","25+","Male","<10","10-14","15-17","18-24","25+","Sexual Violence (Post Rape Care)","PHYSICAL and/or EMOTIONAL Violence (Other Post GBV Care)","Verification"};
             //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
-            String merge_row_col[]={"0,0,0,14","1,1,0,1","1,1,2,6","1,1,8,12","1,1,13,14"};
+            String merge_row_col[]={"0,0,0,20","1,1,0,4","1,1,5,6","1,1,7,11","1,1,13,17","1,1,18,19"};
             
             String reportType = "";
             if (request.getParameter("reportType") != null) {
@@ -2172,18 +2068,18 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             if (reportDuration.equals("1")) {
                 yearmonth = "Annual Report For " + year;
                 duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
-                viralloadduration="year='"+year+"'";
+                viralloadduration="Annee='"+year+"'";
             } else if (reportDuration.equals("2")) {
                 semi_annual = request.getParameter("semi_annual");
 //        semi_annual="2";
                 if (semi_annual.equals("1")) {
                     yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
                     duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
-                     viralloadduration="year='"+year+"' and (quarter='1' || quarter='2') ";
+                     viralloadduration="Annee='"+year+"' and (quarter='1' || quarter='2') ";
                 } else {
                     yearmonth = "Semi Annual Report for Apr to  Sep " + year;
                     duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
-                     viralloadduration="year='"+year+"' and (quarter='2' || quarter='3') ";
+                     viralloadduration="Annee='"+year+"' and (quarter='2' || quarter='3') ";
                 }
             } else if (reportDuration.equals("3")) {
                 try {
@@ -2193,7 +2089,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
                     quarter = request.getParameter("quarter");
                     //       quarter="3";
                     
-                     viralloadduration="year='"+year+"' and quarter='"+quarter+"'  ";
+                     viralloadduration="Annee='"+year+"' and quarter='"+quarter+"'  ";
                      
                     String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
                     conn.rs = conn.st.executeQuery(getMonths);
@@ -2272,10 +2168,19 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
                 
             }
             
-            String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " + subcountywhere;
+            String joinedwhwere = " where (subpartnera.PEP=1) " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
+        
+            
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
+            
+            
+            
+            
             
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
-            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(HV0508) as numerator  ,(sum(HV0502)+sum(HV0504)+sum(HV0506)) as femaletotal,(sum(HV0501)+sum(HV0503)+sum(HV0505)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
+           //    getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , sum(HV0507) as numerator  ,(sum(HV0502)+sum(HV0504)+sum(HV0506)) as femaletotal, (sum(HV0501)+sum(HV0503)+sum(HV0505)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
+            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , (sum(HV0503)+sum(HV0504)) as numerator  ,(sum(HV0504)) as femaletotal, (sum(HV0503)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
             System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
@@ -2324,6 +2229,18 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
             stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
             stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            
+             //this font will be used to show errors on negatives
+            HSSFCellStyle errorstyle = wb.createCellStyle();
+            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
+            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             
             HSSFCellStyle stylex = wb.createCellStyle();
             stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
@@ -2458,11 +2375,214 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             clx.setCellStyle(style2);
 
             colpos++;
-            conpos++;
+            conpos++;//connection position
 
         }
         
-    } 
+                    //support type
+          if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;//connection position
+
+        }
+          
+        //get the variables
+          int Numerator=0;
+          int gbvfemaletotal=0;
+          int gbvmaletotal=0;
+          
+          //female proportions
+          double gbvless10f=0;
+          double gbv10to14f=0;
+          double gbv15to17f=0;
+          double gbv18to24f=0;
+          double gbv25f=0;          
+          
+          //male proportions
+          double gbvless10m=0;
+          double gbv10to14m=0;
+          double gbv15to17m=0;
+          double gbv18to24m=0;
+          double gbv25m=0;
+         int redalert=0;
+          
+          double maleverify=0; 
+          double femaleverify=0;
+          
+          int postrapecare=0;
+          int otherpostgbv=0;
+          
+          // (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID 
+          
+          Numerator=conn.rs.getInt("numerator");
+          gbvmaletotal=conn.rs.getInt("maletotal");
+          gbvfemaletotal=conn.rs.getInt("femaletotal");
+          postrapecare=conn.rs.getInt("postrapecare");
+          //otherpostgbv=conn.rs.getInt("otherpostgbv"); this was ignored later
+          
+          
+         //begin the distributions 
+        //< 10	10-14	15-17	18-24	25+	Male	< 10	10-14	15-17	18-24	25+
+        //11.8%	18.4%	23.3%	10.3%	36.3%		4.3%	20.2%	14.6%	32.2%	28.8%
+
+          
+           gbvless10f=(float)Math.round((0.118*gbvfemaletotal));
+           gbv10to14f=(float)Math.round((0.184*gbvfemaletotal));
+           gbv15to17f=(float)Math.round((0.233*gbvfemaletotal));
+           gbv18to24f=(float)Math.round((0.103*gbvfemaletotal));
+           gbv25f=(float)Math.round((0.363*gbvfemaletotal));
+          
+           //then do the normalization
+          femaleverify= gbvless10f+gbv10to14f+gbv15to17f+gbv18to24f+gbv25f;
+          //do normalization for the female
+  // if the two are not equal, do a distribution
+  double currdiff=0;
+  if(femaleverify<gbvfemaletotal){
+     currdiff=gbvfemaletotal-femaleverify;
+     if(currdiff>2){
+     //raise an alarm
+     redalert++;
+     }
+  //add to the groupings with the larger percentage until equal
+        //25-49
+      while(currdiff>0){ 
+      gbv25f+=1; 
+      currdiff--;
+                       }
+  
+  }
+  else if(femaleverify>gbvfemaletotal) {
+  //minus  until equal
+    currdiff=femaleverify-gbvfemaletotal;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+     if(currdiff>2){
+     //raise an alarm
+     redalert++;
+     }
+    
+        while(currdiff>0){ 
+ gbv25f-=1; 
+ currdiff--;
+                         }
+  
+                                               }
+  
+  //=====================work on males now==========================================================
+     //begin the distributions 
+        //< 10	10-14	15-17	18-24	25+	Male	< 10	10-14	15-17	18-24	25+
+        //11.8%	18.4%	23.3%	10.3%	36.3%		4.3%	20.2%	14.6%	32.2%	28.8%
+
+          
+           gbvless10m=(float)Math.round((0.043*gbvmaletotal));
+           gbv10to14m=(float)Math.round((0.202*gbvmaletotal));
+           gbv15to17m=(float)Math.round((0.146*gbvmaletotal));
+           gbv18to24m=(float)Math.round((0.322*gbvmaletotal));
+               gbv25m=(float)Math.round((0.288*gbvmaletotal));
+          
+           //then do the normalization
+          maleverify= gbvless10m+gbv10to14m+gbv15to17m+gbv18to24m+gbv25m;
+        
+   
+                    //do normalization for the male
+  // if the two are not equal, do a distribution
+   currdiff=0;
+  if(maleverify<gbvmaletotal){
+     currdiff=gbvmaletotal-maleverify;
+     if(currdiff>2){
+     //raise an alarm
+     redalert++;
+     }
+  //add to the groupings with the larger percentage until equal
+        //25-49
+      while(currdiff>0){ 
+      gbv18to24m+=1; 
+      currdiff--;
+                       }
+  
+  }
+  else if(maleverify>gbvmaletotal) {
+  //minus  until equal
+    currdiff=maleverify-gbvmaletotal;
+  //add to the groupings with the larger percentage until equal
+        //25-49
+     if(currdiff>2){
+     //raise an alarm
+     redalert++;
+     }
+    
+        while(currdiff>0){ 
+ gbv18to24m-=1; 
+ currdiff--;
+                         }
+  
+                                               }
+          
+  ArrayList al=new ArrayList();
+  al.add(Numerator);
+  al.add(gbvfemaletotal);
+  al.add(gbvless10f);
+  al.add(gbv10to14f);
+  al.add(gbv15to17f);
+  al.add(gbv18to24f);
+  al.add(gbv25f);
+  al.add(gbvmaletotal);
+  al.add(gbvless10m);
+  al.add(gbv10to14m);
+  al.add(gbv15to17m);
+  al.add(gbv18to24m);
+  al.add(gbv25m);
+  al.add(postrapecare);
+  al.add(otherpostgbv);
+  
+  
+
+  
+  
+  //________________________________________________________________________________________________________
+  //FINISH UP THE POST GBV
+  //________________________________________________________________________________________________________
+  for(int a=0;a<al.size();a++){
+  
+  
+             //data from the arraylist
+         
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Double.parseDouble(al.get(a).toString()));
+            clx.setCellStyle(style2);
+
+            colpos++;
+          //
+        
+  
+  
+  }
+  
+  if(1==1){
+  
+  HSSFCell clx = rwx.createCell(colpos);
+  if(redalert==0){
+            clx.setCellValue("PASSED");
+            clx.setCellStyle(style2);
+  }
+  else {
+  clx.setCellValue("FAILED");
+            clx.setCellStyle(errorstyle);
+  }
+  }
+  
+         //all the rows should come before this line  
+          rowpos++;
+          
+          
+          
+    }//end of while loop 
         
         
     

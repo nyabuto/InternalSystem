@@ -89,16 +89,99 @@ String header,facilityName,countyName,districtName,mflcode,monthName,headerInfo;
         prevYear=year-1; 
         maxYearMonth=0;
         
+        	    //--------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------
+        //added later to accomodate the years
+           String subpartnerid="SubPartnerID";
+           String subpartnera="subpartnera";
+           
+           
+           int monthint=0;
+           int yearint=0;
+           yearint=year;
+        
+        
 //        GET REPORT DURATION============================================
         
         if(reportDuration.equals("1")){
+            
+            	   //_________________________________annualy_____________________________________
+	   
+	       //solve subpartner table and facil_id first            
+        if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+                         }
+       else if(yearint==2015) {
+           //this should be skipped since it picks both facil tables. 
+		   //It has been disabled at the interface position
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   
+            
+            
          duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
       period="Annual Report ";
       url="ANNUAL_REPORT_YEAR("+year+")";
         }
         else if(reportDuration.equals("2")){
         semi_annual=request.getParameter("semi_annual");
+
+        
+        //_________________________________SemiAnnualy_________________________________
+	   
+	   
+
 //        semi_annual="2";
+       if(semi_annual.equals("1")){
+           //oct-mar 
+           
+           if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+               //for oct-mar, use old database list
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";	   
+		   
+	   }
+           
+      
+       
+       
+                                  }
+           else{
+           //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+	  
+		   }
+        
+        
+        
+        
        if(semi_annual.equals("1")){
        duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
       period="Semi-Annual : <b> OCT ("+prevYear+") -  MARCH ("+year+")</b>"; 
@@ -113,7 +196,57 @@ String header,facilityName,countyName,districtName,mflcode,monthName,headerInfo;
         
         else if(reportDuration.equals("3")){
             String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
+       //_________________________________Quarterly__________________________________
+	   
+	   
+	   quarter=request.getParameter("quarter");
+            //specify subparter table and facil id first
+            
+              //oct-mar
+          if(quarter.equals("1")||quarter.equals("2")){
+	   if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+		   //for oct-mar, use old database list
+	 subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";  
+		   
+	   }
+            
+          }
+          else if(quarter.equals("3")||quarter.equals("4")){
+          //apr-sep
+          
+               //apr-sep
+           
+              if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+       }
+	   else if(yearint==2015){
+	     subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";	   
+		   
+	   }
+              
+          }
+	   
+       
+       
+       
+       
+       
+       
 //       quarter="3";
        String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
        conn.rs=conn.st.executeQuery(getMonths);
@@ -136,6 +269,44 @@ String header,facilityName,countyName,districtName,mflcode,monthName,headerInfo;
         
       else if(reportDuration.equals("4")){
      month=Integer.parseInt(request.getParameter("month"));
+     
+     
+     //__________________________monthly reports_________________________
+
+
+     //deal with subpartnertable and facilid first
+      
+        monthint=month;
+     
+       if(yearint==2015){
+           
+       if(monthint==10|| monthint==11 || monthint==12 || monthint==1||monthint==2|| monthint==3){
+       //here use a different subpartner id
+        subpartnerid="SP_ID";   
+       subpartnera="subpartnera2014";
+                                                                                                }
+       else  {
+           
+       subpartnerid="SubPartnerID";
+       subpartnera="subpartnera";
+       
+             }
+           
+                        }
+       else  if(yearint<=2014){
+       subpartnerid="SP_ID";
+       subpartnera="subpartnera2014";
+       }
+       else if(yearint>2015) {
+        subpartnerid="SubPartnerID";
+        subpartnera="subpartnera";
+                             }
+       //---------------------------------------------------------------------------------------
+       //---------------------------------------------------------------------------------------
+	   
+     
+     
+     
 //     month=4;
      if(month>=10){
      duration=" moh731.yearmonth="+prevYear+""+month;    
@@ -172,11 +343,15 @@ String header,facilityName,countyName,districtName,mflcode,monthName,headerInfo;
       }
       
       else{
+            String spid="";
+	   
+	
+          
   facilityId=request.getParameter("facility");
 //  facilityId="403";
   facility=" moh731.SubPartnerID='"+facilityId+"' &&";    
   
-  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
+  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId   , SP_ID FROM subpartnera "
           + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID WHERE subpartnera.SubPartnerID='"+facilityId+"'";
   conn.rs=conn.st.executeQuery(getName);
@@ -185,7 +360,21 @@ String header,facilityName,countyName,districtName,mflcode,monthName,headerInfo;
       districtName=conn.rs.getString(2);
       countyName=conn.rs.getString(3);
       mflcode=conn.rs.getString(4);
+      
+      
+	   
+	   spid= conn.rs.getString(5);
+	   
+	   
   }
+  
+  	    if(subpartnerid.equalsIgnoreCase("SP_ID"))
+  {
+      
+  facility="moh731.SubPartnerID='"+spid+"' &&";
+  
+  }
+  
   header+=
  headerInfo= " County: <b>"+countyName+"</b> District: <b>"+districtName+"</b>  Facility: <b>"+facilityName+"</b>"+period+"  Year: <b>"+year+"</b>   MFL Code: <b>"+mflcode+"</b>";  
       }
