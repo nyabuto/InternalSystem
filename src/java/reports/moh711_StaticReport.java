@@ -92,7 +92,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
            
            int monthint=0;
            int yearint=0;
-           yearint=year;
+           
          
 
        dbConn conn = new dbConn();
@@ -116,7 +116,7 @@ String header,facilityName,countyName,districtName,mflcode,monthName,facilityId;
         reportType=request.getParameter("reportType");
         year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
-        
+        yearint=year;
         header="<table><tr><td colspan=\"12\">REPUBLIC OF KENYA-MINISTRY OF HEALTH</td></tr>";
         header+="<tr><td colspan=\"12\"> NATIONAL INTEGRATED FORM FOR REPRODUCTIVE HEALTH,HIV/AIDS,MALARIA,TB and CHILD NUTRITION</td></tr>";
 //        reportType="1";

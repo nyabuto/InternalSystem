@@ -167,10 +167,10 @@
                </a>
                 <ul class="sub">
                     
-                  <li ><a href="loadTBExcel.jsp" Title="Tb stat and Tb ART"><i class="icon-plus"></i>Upload Tb Data (.xls)</a></li>
-                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>Upload PMTCT Data(.xls)</a></li>
-                  <li ><a href="loadViralLoad.jsp"><i class="icon-plus"></i>Upload Viral Load (.xls)</a></li>
-                   <li ><a href="loadKEPMS.jsp"><i class="icon-plus"></i>Load Access Data (.mdb)</a></li>
+                  <li ><a href="upload_tb_raw_data.jsp" Title="Tb raw data"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>
+                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Data(.xls)</a></li>
+                  <li ><a href="loadviralloadraw.jsp"><i class="icon-plus"></i>Viral Load raw (.xls)</a></li>
+                   <li ><a href="loadKEPMS.jsp"><i class="icon-plus"></i>Kepms Access Data (.mdb)</a></li>
                </ul>
             </li>
              <%}}}else{}}%>
@@ -188,7 +188,8 @@
                   <li><a href="staticFormData.jsp">Static Reports</a></li>
                   <li><a href="reportsTracker.jsp">Reports Tracker</a></li>
                    <li><a href="datimReport.jsp">Datim Report</a></li>
-                  <li ><a href="DQA.jsp">DQA</a></li>
+                  <li ><a href="DQA.jsp">DQA per Form</a></li>
+                  <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>
                  
                   <!--<li ><a href="#">Edit Profile</a></li>-->
            

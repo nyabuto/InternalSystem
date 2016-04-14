@@ -78,12 +78,12 @@ int secCounter;
            
            int monthint=0;
            int yearint=0;
-           yearint=year;
+           
         
         reportType=request.getParameter("reportType");
         year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
-        
+        yearint=year;
 //        reportType="2";
 //        year=2015;
 //        reportDuration="3";

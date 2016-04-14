@@ -26,10 +26,17 @@ import java.util.Date;
  */
 public class validate731 extends HttpServlet {
 HttpSession session;
-String data,id;
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        response.setContentType("text/html;charset=UTF-8");
+        
+        String data,id;
 String facilityId,year,month;
 String HIV_CT,PMTCT,CT,VMMC,PEP,Blood;
-
+ year="";
+        month="";
+        facilityId="";
 int HV0101,HV0102,HV0103,HV0105,HV0106,HV0107,HV0108,HV0109,HV0110,HV0111,HV0112,HV0113,HV0114,
         HV0115,HV0116;
 int HV0201,HV0202,HV0203,HV0204,HV0205,HV0206,HV0207,HV0208,HV0209,HV0210,HV0211,HV0212,HV0213,
@@ -47,9 +54,8 @@ int HV0601,HV0602,HV0605;
 String data_elements,description;
 int HV0340_1,HV0341_1,HV0342_1,HV0343_1,HV0344_1;
 int HV0340,HV0341,HV0342,HV0343,HV0344;
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        
+        
         PrintWriter out = response.getWriter();
         try {
             dbConn conn = new dbConn();
@@ -67,6 +73,7 @@ int HV0340,HV0341,HV0342,HV0343,HV0344;
         if(session.getAttribute("facilityid")!=null){        
    facilityId=session.getAttribute("facilityid").toString();
     }
+       
     id=year+"_"+month+"_"+facilityId; 
       
         
@@ -100,7 +107,8 @@ HV0340=HV0341=HV0342=HV0343=HV0344=0;
  
  data_elements=request.getParameter("data_elements");
   description=request.getParameter("description");
- 
+            System.out.println("**********"+request.getParameter("HV00229"));
+            System.out.println("**********"+request.getParameter("HV00230"));
   if(request.getParameter("HV0101")!=null && !request.getParameter("HV0101").equals("")){HV0101=Integer.parseInt(request.getParameter("HV0101"));}
   if(request.getParameter("HV0102")!=null && !request.getParameter("HV0102").equals("")){HV0102=Integer.parseInt(request.getParameter("HV0102"));}
   if(request.getParameter("HV0103")!=null && !request.getParameter("HV0103").equals("")){HV0103=Integer.parseInt(request.getParameter("HV0103"));}
@@ -143,8 +151,8 @@ if(request.getParameter("HV0225")!=null && !request.getParameter("HV0225").equal
 if(request.getParameter("HV0226")!=null && !request.getParameter("HV0226").equals("")){HV0226=Integer.parseInt(request.getParameter("HV0226"));}
 if(request.getParameter("HV0227")!=null && !request.getParameter("HV0227").equals("")){HV0227=Integer.parseInt(request.getParameter("HV0227"));}
 if(request.getParameter("HV0228")!=null && !request.getParameter("HV0228").equals("")){HV0228=Integer.parseInt(request.getParameter("HV0228"));}
-if(request.getParameter("HV0229")!=null && !request.getParameter("HV0229").equals("")){HV0229=Integer.parseInt(request.getParameter("HV0229"));}
-if(request.getParameter("HV0230")!=null && !request.getParameter("HV0230").equals("")){HV0230=Integer.parseInt(request.getParameter("HV0230"));}
+if(request.getParameter("HV00229")!=null && !request.getParameter("HV00229").equals("")){HV0229=Integer.parseInt(request.getParameter("HV00229"));}
+if(request.getParameter("HV00230")!=null && !request.getParameter("HV00230").equals("")){HV0230=Integer.parseInt(request.getParameter("HV00230"));}
 if(request.getParameter("HV0231")!=null && !request.getParameter("HV0231").equals("")){HV0231=Integer.parseInt(request.getParameter("HV0231"));}
 if(request.getParameter("HV0232")!=null && !request.getParameter("HV0232").equals("")){HV0232=Integer.parseInt(request.getParameter("HV0232"));}
 if(request.getParameter("HV0233")!=null && !request.getParameter("HV0233").equals("")){HV0233=Integer.parseInt(request.getParameter("HV0233"));}

@@ -317,7 +317,7 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
          Logger.getLogger(loadTBExcel.class.getName()).log(Level.SEVERE, null, ex);
      }
     String sessionText=added+ "New data added <> "+updated+" updated facilities<br> and "+missing+" missing facilities";    
-         
+      session.setAttribute("upload_success", sessionText);
  response.sendRedirect(nextpage);  
       
     }

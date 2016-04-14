@@ -60,11 +60,13 @@ int validCARE,invalidCARE,totalCARE;
 int validPEP,invalidPEP,totalPEP;
 String enterdby,tabs,subcountyid;
 String invalidPMTCTTXT,invalidCARETXT,invalidPEPTXT;
-String unvalidatedFacilities="",lock;
-int isLocked=0;
+String unvalidatedFacilities="";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+       String lock = null;
+int isLocked=0;
+        
         PrintWriter out = response.getWriter();
         try {
             dbConn conn = new dbConn();

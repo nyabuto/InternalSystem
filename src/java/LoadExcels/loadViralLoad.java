@@ -96,7 +96,7 @@ String full_path="";
         if(!fileName.endsWith(".xls")){
          nextpage="loadExcel.jsp"; 
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose the correct File.</font>");   
-        }
+                                      }
         else{
             
         
@@ -201,17 +201,20 @@ String full_path="";
                           HSSFCell cl27 = rowi.getCell((short) 27);
 			mvi_less1 =  ""+(int)cl27.getNumericCellValue();
                         
-                         HSSFCell cl28= rowi.getCell((short) 28);
+                         HSSFCell cl27a= rowi.getCell((short) 28);
+			mvi_1to4 = ""+(int)cl27a.getNumericCellValue();
+                        
+                         HSSFCell cl28= rowi.getCell((short) 29);
 			mvi_5to14 = ""+(int)cl28.getNumericCellValue();
                         
-                         HSSFCell cl29= rowi.getCell((short) 29);
+                         HSSFCell cl29= rowi.getCell((short) 30);
 			mvi_15to19= ""+(int)cl29.getNumericCellValue();
 //                        
-                         HSSFCell cl30= rowi.getCell((short) 30);
+                         HSSFCell cl30= rowi.getCell((short) 31);
 			mvi_20 = ""+(int)cl30.getNumericCellValue();
                         
                         
-                        HSSFCell cl31= rowi.getCell((short) 31);
+                        HSSFCell cl31= rowi.getCell((short) 32);
 			subtotal_vi = ""+(int)cl31.getNumericCellValue();
                         
 //                        int female_stat,male_stat;
@@ -254,7 +257,8 @@ String full_path="";
 //                       
 //                       
                        if(checker==0){
-  String inserter="INSERT INTO viral_load (id,SubPartnerID,year,quarter,numerator_un ,denominator_un,fun_less1,fun_1to4,fun_5to14,fun_15to19,fun_20,mun_less1,mun_1to4,mun_5to14,mun_15to19,mun_20,subtotal_un,numerator_vi,denominator_vi,fvi_less1,fvi_1to4 ,fvi_5to14,fvi_15to19,fvi_20,mvi_less1,mvi_1to4,mvi_5to14,mvi_15to19,mvi_20 ,subtotal_vi,supporttype) "
+                           System.out.println("INSERT >> "+numerator_un);
+  String inserter="INSERT INTO viral_load (id,SubPartnerID,year,quarter,numerator_un ,denominator_un,less1_fun,1to4_fun,5to14_fun,15to19_fun,20_fun,less1_mun,1to4_mun,5to14_mun,15to19_mun,20_mun,subtotal_un,numerator_vi,denominator_vi,less1_fvi,1to4_fvi ,5to14_fvi,15to19_fvi,20_fvi,less1_mvi,1to4_mvi,5to14_mvi,15to19_mvi,20_mvi ,subtotal_vi,supporttype) "
                          + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1, id);
@@ -293,7 +297,7 @@ String full_path="";
                       added++;
                        }
                        else{
-        String inserter="UPDATE viral_load SET SubPartnerID=?,year=?,quarter=?,numerator_un =?,denominator_un=?,fun_less1=?,fun_1to4=?,fun_5to14=?,fun_15to19=?,fun_20=?,mun_less1=?,mun_1to4=?,mun_5to14=?,mun_15to19=?,mun_20=?,subtotal_un=?,numerator_vi=?,denominator_vi=?,fvi_less1=?,fvi_1to4=? ,fvi_5to14=?,fvi_15to19=?,fvi_20=?,mvi_less1=?,mvi_1to4=?,mvi_5to14=?,mvi_15to19=?,mvi_20=?,subtotal_vi=?,supporttype=?"
+        String inserter="UPDATE viral_load SET SubPartnerID=?,year=?,quarter=?,numerator_un =?,denominator_un=?,less1_fun=?,1to4_fun=?,5to14_fun=?,15to19_fun=?,20_fun=?,less1_mun=?,1to4_mun=?,5to14_mun=?,15to19_mun=?,20_mun=?,subtotal_un=?,numerator_vi=?,denominator_vi=?,less1_fvi=?,1to4_fvi=? ,5to14_fvi=?,15to19_fvi=?,20_fvi=?,less1_mvi=?,1to4_mvi=?,5to14_mvi=?,15to19_mvi=?,20_mvi=?,subtotal_vi=?,supporttype=?"
                 + "WHERE id=?";
 
                         conn.pst=conn.conn.prepareStatement(inserter);

@@ -7,24 +7,14 @@
 package reports;
 
 import General.IdGenerator;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.html.simpleparser.HTMLWorker;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
-import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,7 +72,8 @@ public class vmmcexcel extends HttpServlet {
       reportType=request.getParameter("reportType");
     }
     String  reportDuration="";
-    if(request.getParameter("reportDuration")!=null){
+    if(request.getParameter("reportDuration")!=null)
+    {
     reportDuration=request.getParameter("reportDuration");
     }
     
@@ -90,7 +81,8 @@ public class vmmcexcel extends HttpServlet {
     year=request.getParameter("year");
     }
     
-     if(request.getParameter("facility")!=null && reportType.equals("2")){
+     if(request.getParameter("facility")!=null && reportType.equals("2"))
+     {
     facil=request.getParameter("facility");
     
     String getfacil="select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='"+facil+"'";

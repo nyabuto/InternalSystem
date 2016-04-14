@@ -15,7 +15,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Load viral load Excel Data.</title>
+   <title>Load viral Excel Data.</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -41,7 +41,23 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
+<link rel="stylesheet" href="css/animate.css">
 
+
+                
+                <style>
+                    
+                    [data-notify="progressbar"] {
+	margin-bottom: 0px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 5px;
+}
+                    
+                </style>
+                
   
 </head>
 <!-- END HEAD -->
@@ -104,10 +120,15 @@
                     
 <!--                    Internal System-->
                   </h3>
+                  
+                  
+                  
+                  
+                  
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Load Viral Load Excel data to IMIS.</a> 
+                        <a href="#" style="margin-left:40%;">Load Viral Load raw Excel data to IMIS.</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -126,10 +147,11 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="loadViralLoad" method="post" enctype="multipart/form-data" class="form-horizontal" >
-                       <h4 style="text-align: center; color:red;">Note: Kindly ensure no hidden cells in your worksheet</h4>
-                       <h4 style="text-align: center; color:red;">This page is used when viral load data has already been arranged in the datim format and not in raw form.</h4>
-                            <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
+                        <form action="Load_viral_load_raw" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                       
+                            
+                          
+                          <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
                         <br><br><br><br>
 
 
@@ -139,6 +161,12 @@
                               <button type="submit" class="btn blue">Load Excel.</button>
 
                            </div>
+                        <div class="form-actions">
+                              <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the viral load raw data has the following order </h4>
+                            
+                               <table border="1"><tr><td>(1) #</td><td>(2) Batch No</td><td>(3) Patient CCC No</td><td>(4) Testing Lab</td><td>(5) County</td><td>(6) District</td><td>(7) Facility Name</td><td>(8) MFL Code</td><td>(9) Sex</td><td>(10) Age</td><td>(11) Sample Type</td><td>(12) Collection Date</td><td>(13) Received Status</td><td>(14) Reason for Repeat</td><td>(15) Regimen</td><td>(16) Justification</td><td>(17) ART Initiation Date</td><td>(18) Date of Receiving</td><td>(19) Date of Testing</td><td>(20) Date of Dispatch</td><td>(21) Result(cp/ml)</td><td>(22) Result(Log)</td><td>(23) Suppressed?</td></tr></table>
+                           
+                        </div>
                         </form>
                         <!-- END FORM-->           
                      </div>
@@ -176,7 +204,15 @@
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   
+<script src="assets/js/jquery-1.8.3.min.js"></script>
+   
+
+<script type="text/javascript" src="js/bootstrap-notify.js"></script>
+
+
+      
+   
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -203,7 +239,42 @@
    <script src="assets/js/app.js"></script>  
    <script src="select2/js/select2.js"></script>
   
+     
+
+<script > 
+                
+</script>
    
+ <%if (session.getAttribute("upload_success") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    
+                    
+                         
+      $.notify(
+      {icon: "images/validated.jpg", 
+  message:'<%=session.getAttribute("upload_success")%>'},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       
+            ); 
+                    
+                </script>
+                
+                <%
+                session.removeAttribute("upload_success");
+                            }
+
+                        %>
+     
+
    <script>
     
 //       function getAction(){

@@ -91,10 +91,12 @@ if(HV0116==""){HV0116="0";}
 
 //1.3++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //    PRIMARY
-   if(parseInt(HV0110)>=parseInt(HV0116)){checker++;
+   if(parseInt(HV0110)>=parseInt(HV0116))
+   {
+       checker++;
     $("#HV0110").css({'background-color' : 'yellow'});
     $("#HV0116").css({'background-color' : 'yellow'});
-}
+   }
    if(parseInt(HV0111)>=parseInt(HV0116)){checker++;
     $("#HV0111").css({'background-color' : 'yellow'});
     $("#HV0116").css({'background-color' : 'yellow'});
@@ -256,7 +258,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
    var description=$("#description").val();
-    description+="@HV0201 is greater than HV0204";
+    description+="@Antenatal tested is greater than Total tested (PMTCT)";
    $("#description").val(description);
     
  }
@@ -271,7 +273,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
    var description=$("#description").val();
-    description+="@HV0204 is less than HV0202";
+    description+="@Total tested (PMTCT) is less than Labour and delivery tested";
    $("#description").val(description);
    
  }
@@ -285,7 +287,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0204 is less than HV0203";
+    description+="@Total tested (PMTCT) is less than Postnatal tested (within 72 hrs)";
    $("#description").val(description);
    
    
@@ -306,7 +308,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@Sum of HV0201,HV0202,HV0203 is not equal to HV0204";
+    description+="@Sum of Antenatal tested,Labour and delivery tested,Postnatal tested (within 72 hrs) is not equal to Total tested (PMTCT)";
    $("#description").val(description);
    
    
@@ -325,7 +327,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data);
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0206";
+    description+="@Total postive (PMTCT) is less than Antenatal positive";
    $("#description").val(description);
    
    
@@ -341,7 +343,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0208";
+    description+="@Total positive (PMTCT) is less than Postnatal (within 72hrs) positive";
    $("#description").val(description);
    
    
@@ -358,7 +360,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0207";
+    description+="@Total positive (PMTCT) is less than Labour and delivery positive";
    $("#description").val(description);
    
    
@@ -389,7 +391,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0204 is less than HV0211";
+    description+="@Total tested (PMTCT) is less than Male partner tested (ANC/L&D)";
    $("#description").val(description);
    
  }
@@ -404,7 +406,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0204 is less than HV0210";
+    description+="@Total tested (PMTCT) is less than Total with known status(PMTCT)";
    $("#description").val(description);
  }
    
@@ -422,7 +424,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0213";
+    description+="@Total positive (PMTCT) is less than Prophylaxis - NVP only";
    $("#description").val(description);
    
  }
@@ -437,7 +439,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0214";
+    description+="@Total positive (PMTCT) is less than Prophylaxis - (AZT + SdNVP)";
    $("#description").val(description);
    
  }
@@ -452,7 +454,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0215";
+    description+="@Total positive (PMTCT) is less than Prophylaxis - Interrupted HAART";
    $("#description").val(description);
  }
    if(parseInt(HV0216)>parseInt(HV0209)){checker++;
@@ -467,7 +469,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0216";
+    description+="@Total positive (PMTCT) is less than HAART (ART)";
    $("#description").val(description);
    
    
@@ -484,7 +486,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is not equal to HV0217";
+    description+="@Total positive (PMTCT) is not equal to Total PMTCT Prophylaxis";
    $("#description").val(description);
    
 }
@@ -504,7 +506,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0218";
+    description+="@Total positive (PMTCT) is less than Assessed for eligibility at 1st ANC- WHO Staging done";
    $("#description").val(description);
    
    
@@ -522,7 +524,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0219";
+    description+="@Total positive (PMTCT) is less than Assessed for eligibility 1st ANC - CD4";
    $("#description").val(description);
    
    
@@ -538,7 +540,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0220";
+    description+="@Total positive (PMTCT) is less than Assessed for eligibility in ANC";
    $("#description").val(description);
    
  }
@@ -556,7 +558,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0228 is less than HV0224";
+    description+="@Total HEI Tested by 12 months is less than PCR (within 2 months)";
    $("#description").val(description);
    
  }
@@ -572,7 +574,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0228 is less than HV0225";
+    description+="@Total HEI Tested by 12 months  is less than PCR (from 23 to 8 months)";
    $("#description").val(description);
    
 }
@@ -588,7 +590,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0228 is less than HV0226";
+    description+="@Total HEI Tested by 12 months is less than Serology antibody test (from 9 to 12 months)";
    $("#description").val(description);
    
    
@@ -606,7 +608,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0228 is less than HV0227";
+    description+="@Total HEI Tested by 12 months  is less than PCR (from 9 to 12 months)";
    $("#description").val(description);
    
    
@@ -630,7 +632,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0228 is not equal to the sum of HV0224,HV0225,HV0226";
+    description+="@Total HEI Tested by 12 months  is not equal to the sum of PCR (within 2 months),PCR (from 23 to 8 months),Serology antibody test (from 9 to 12 months)";
    $("#description").val(description);
    
 }
@@ -668,7 +670,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0232 is less than HV0229";
+    description+="@Total confirmed positive is less than Postive -(Within 2 months) - PCR";
    $("#description").val(description);
    
    
@@ -686,7 +688,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0232 is less than HV0230";
+    description+="@Total confirmed positive  is less than Positive - (Within 3-8 months) - PCR";
    $("#description").val(description);
    
    
@@ -703,7 +705,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0232 is less than HV0231";
+    description+="@Total confirmed positive is less than Positive - (Within 9-12 months)- PCR";
    $("#description").val(description);
    
    
@@ -728,7 +730,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0232 is not equal to the sum of HV0229,HV0230,HV0231";
+    description+="@Total confirmed positive is not equal to the sum of Positive -(Within 2 months) - PCR, Positive - (Within 3-8 months) - PCR,Positive - (Within 9-12 months)- PCR";
    $("#description").val(description);
    
 }
@@ -764,7 +766,7 @@ if(HV0244==""){HV0244="0";}
    data+="@HV0233_HV0236";
    $("#data_elements").val(data); 
    var description=$("#description").val();
-    description+="@HV0236 is less than HV0233";
+    description+="@BF (12 months) is less than ERF (at 6 months)";
    $("#description").val(description);
  }
  
@@ -778,7 +780,7 @@ if(HV0244==""){HV0244="0";}
    data+="@HV0234_HV0236";
    $("#data_elements").val(data); 
    var description=$("#description").val();
-    description+="@HV0236 is less than HV0234";
+    description+="@BF (12 months) is less than MF (at 6 months)";
    $("#description").val(description);
  }
   
@@ -792,7 +794,7 @@ if(HV0244==""){HV0244="0";}
    data+="@HV0235_HV0236";
    $("#data_elements").val(data); 
    var description=$("#description").val();
-    description+="@HV0236 is less than HV0235";
+    description+="@BF (12 months) is less than MF (at 6 months)";
    $("#description").val(description);
  }
   if(parseInt(HV0236)!==(parseInt(HV0233)+parseInt(HV0234)+parseInt(HV0235))){checker++;
@@ -811,7 +813,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0236 is not equal to the sum of HV0233,HV0234,HV0235";
+    description+="@BF (12 months) is not equal to the sum of EBF (at 6 months),ERF (at 6 months),MF (at 6 months)";
    $("#description").val(description);
    
 }
@@ -826,7 +828,7 @@ if(HV0244==""){HV0244="0";}
    data+="@HV0237_HV0240";
    $("#data_elements").val(data); 
    var description=$("#description").val();
-    description+="@HV0240 is less than HV0237";
+    description+="@Total exposed aged 12 months is less than BF (12 months)";
    $("#description").val(description);
  }
  
@@ -840,7 +842,7 @@ if(HV0244==""){HV0244="0";}
    data+="@HV0238_HV0240";
    $("#data_elements").val(data); 
    var description=$("#description").val();
-    description+="@HV0240 is less than HV0238";
+    description+="@Total exposed aged 12 months is less than Not BF (12 months)";
    $("#description").val(description);
  }
   
@@ -854,7 +856,7 @@ if(HV0244==""){HV0244="0";}
    data+="@HV0239_HV0240";
    $("#data_elements").val(data); 
    var description=$("#description").val();
-    description+="@HV0240 is less than HV0239";
+    description+="@Total exposed aged 12 months  is less than Not known";
    $("#description").val(description);
  }
   if(parseInt(HV0240)!==(parseInt(HV0237)+parseInt(HV0238)+parseInt(HV0239))){checker++;
@@ -873,7 +875,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0240 is not equal to the sum of HV0237,HV0238,HV0239";
+    description+="@Total exposed aged 12 months  is not equal to the sum of BF (12 months),Not BF (12 months),Not known";
    $("#description").val(description);
    
 }
@@ -895,7 +897,7 @@ if(HV0244==""){HV0244="0";}
    
    
     var description=$("#description").val();
-    description+="@HV0241 is greater than th sum of HV0206 and HV0205";
+    description+="@Issued in ANC is greater than the sum of Antenatal positive PMTCT and Known positive status (at entry into ANC) PMTCT";
    $("#description").val(description);
    
 }
@@ -910,7 +912,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0207 is less than HV0242";
+    description+="@Labour and delivery positive  is less than Labour and delivery infant ARV Prophylaxis";
    $("#description").val(description);
    
  }
@@ -925,7 +927,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0208 is less than HV0243";
+    description+="@Postnatal (within 72hrs) positive is less than PNC (<72hrs) Infant ARV Prophylaxis";
    $("#description").val(description);
    
  }
@@ -942,7 +944,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0241";
+    description+="@Total positive (PMTCT)  is less than Infant ARV prophylaxis Issued in ANC";
    $("#description").val(description);
    
    
@@ -958,7 +960,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0242";
+    description+="@Total positive (PMTCT) is less than Labour and delivery Infant ARV prophylaxis";
    $("#description").val(description);
    
  }
@@ -973,7 +975,7 @@ if(HV0244==""){HV0244="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0209 is less than HV0243";
+    description+="@Total positive (PMTCT) is less than PNC (<72hrs)  infant  ARV Prophylaxis";
    $("#description").val(description);
    
  }
@@ -1132,7 +1134,7 @@ if(HV0373==""){HV0373="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0240 is less than HV0301";
+    description+="@Total exposed aged 12 months is less than HIV Exposed Infants (within 12 months)";
    $("#description").val(description);
    
  }
@@ -1147,7 +1149,7 @@ if(HV0373==""){HV0373="0";}
    $("#data_elements").val(data); 
    
     var description=$("#description").val();
-    description+="@HV0240 is not equal HV0302";
+    description+="@Total exposed aged 12 months is not equal HV0302";
    $("#description").val(description);
    
  }

@@ -405,6 +405,26 @@
         <servlet-name>correct711_totals</servlet-name>
         <servlet-class>scripts.correct711_totals</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>gapAnalysis</servlet-name>
+        <servlet-class>GapAnalysis.gapAnalysis</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>copytemplates</servlet-name>
+        <servlet-class>scripts.copytemplates</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Load_viral_load_raw</servlet-name>
+        <servlet-class>LoadExcels.Load_viral_load_raw</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>syncviralload</servlet-name>
+        <servlet-class>LoadExcels.syncviralload</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Load_tb_raw</servlet-name>
+        <servlet-class>LoadExcels.Load_tb_raw</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -808,6 +828,26 @@
     <servlet-mapping>
         <servlet-name>correct711_totals</servlet-name>
         <url-pattern>/correct711_totals</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gapAnalysis</servlet-name>
+        <url-pattern>/gapAnalysis</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>copytemplates</servlet-name>
+        <url-pattern>/copytemplates</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Load_viral_load_raw</servlet-name>
+        <url-pattern>/Load_viral_load_raw</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>syncviralload</servlet-name>
+        <url-pattern>/syncviralload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Load_tb_raw</servlet-name>
+        <url-pattern>/Load_tb_raw</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

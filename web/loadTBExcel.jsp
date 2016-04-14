@@ -174,7 +174,8 @@
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   <script src="assets/js/jquery-1.8.3.min.js"></script>   
+   <script type="text/javascript" src="js/bootstrap-notify.js"></script>
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -202,6 +203,34 @@
    <script src="select2/js/select2.js"></script>
   
    
+                   <script > 
+                 
+
+</script>
+   
+ <%if (session.getAttribute("upload_success") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    
+                    
+                         
+      $.notify('<%=session.getAttribute("upload_success")%>', {
+	offset: {
+		x: 600,
+		y: 300
+	}
+}
+       
+            ); 
+                    
+                </script>
+                
+                <%
+                session.removeAttribute("upload_success");
+                            }
+
+                        %>
+     
    <script>
     
 //       function getAction(){

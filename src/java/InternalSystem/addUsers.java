@@ -67,7 +67,7 @@ MessageDigest m;
     }
     
     
-    else{
+    else {
 //     ADD THE USER
         String inserter="INSERT INTO user(userid,fname,mname,lname,username,password,level) "
                 + "VALUES(?,?,?,?,?,?,?)";
