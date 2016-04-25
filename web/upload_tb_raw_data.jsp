@@ -147,11 +147,17 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="Load_viral_load_raw" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                        <form action="Load_tb_raw" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        
                             
-                          
-                          <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
+                          <table >
+                         <tr> <td><b>(1) Select File :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>
+<!--                         <tr> <td><b>(2) Data category to upload :</b> </td><td><select style="width:100%;" name="datacategory">
+                                     <option title="" value="incompleteoutcome">Quarterly data(incomplete treatment outcome) </option>
+                                     <option title="" value="completeoutcome">Annual data( complete treatment outcome)</option>
+                                 
+                                 </select></td> </tr>-->
+                          </table>
                         <br><br><br><br>
 
 
@@ -161,10 +167,10 @@
                               <button type="submit" class="btn blue">Load Excel.</button>
 
                            </div>
-                        <div class="form-actions">
-                              <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the raw data has the following order </h4>
+                        <div class="form-actions" style="overflow-x: scroll;">
+                              <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the raw data being uploaded is of extension <b>XLS</b> and has all the following column headers arranged in the following order </h4>
                             
-                               <!--<table border="1"><tr><td>(1) #</td><td>(2) Batch No</td><td>(3) Patient CCC No</td><td>(4) Testing Lab</td><td>(5) County</td><td>(6) District</td><td>(7) Facility Name</td><td>(8) MFL Code</td><td>(9) Sex</td><td>(10) Age</td><td>(11) Sample Type</td><td>(12) Collection Date</td><td>(13) Received Status</td><td>(14) Reason for Repeat</td><td>(15) Regimen</td><td>(16) Justification</td><td>(17) ART Initiation Date</td><td>(18) Date of Receiving</td><td>(19) Date of Testing</td><td>(20) Date of Dispatch</td><td>(21) Result(cp/ml)</td><td>(22) Result(Log)</td><td>(23) Suppressed?</td></tr></table>-->
+                               <table border="1"><tr><td>(0)<br/>Serial Number</td><td>(1)<br/>Date of Registration</td><td>(2)<br/>District Registration Number</td><td>(3)<br/>Province</td><td>(4) <br/>County</td><td>(5)<br/>District</td><td>(6)<br/>Zone</td><td>(7)<br/>Health Facility</td><td>(8)<br/>Year</td><td>(9)<br/>Quarter</td><td>(10)<br/>Sector</td><td>(11)<br/>Patient Name</td><td>(12)<br/>Sex M/F</td><td>(13)<br/>Age on registration</td><td>(14)<br/>Weight (Kgs)</td><td>(15)<br/>Height (Mtrs)</td><td>(16)<br/>BMI</td><td>(17)<br/>MUAC</td><td>(18)<br/>Physical address (Neighbor,Primary School) Cell Phone</td><td>(19)<br/>DOT by</td><td>(20)<br/>Type of TB P/EP</td><td>(21)EPTB Sub Type</td><td>(22)<br/>EPTB Others</td><td>(23)<br/>Type of patient	</td><td>(24)<br/>CD4 First Date</td><td>(25)<br/>CD4 Last Date</td><td>(26)<br/>Culture S</td><td>(27)<br/>Culture R</td><td>(28)<br/>Culture E	</td><td>(29)<br/>Culture H</td><td>(30)<br/>X-ray Y/N</td><td>(31)<br/>Sputum Smear Examination</td><td>(32)<br/>0th Month Result</td><td>(33)<br/>0th Month Serial No and Quantification</td><td>(34)<br/>Sputum Smear Examination 2by3 Month Result</td><td>(35)<br/>2by3 Month Serial No and Quantification</td><td>(36)<br/>Sputum Smear Examination 5th Month Result</td><td>(37)<br/>5th Month Serial No and Quantification</td><td>(38)<br/>Sputum Smear Examination 6by8 Month Result</td><td>(39)<br/>6by8 Month Serial No and Quantification</td><td>(40)<br/>Regimen</td><td>(41)<br/>Date of treatment started</td><td>(42)<br/>Gen expert</td><td>(43)<br/>Lipa Hain Rifampicin</td><td>(44)<br/>Lipa Hain Isoniazid</td><td>(45)<br/>HIV Test Date</td><td>(46)<br/>HIV Status</td><td>(47)<br/>Partner HIV Test Date</td><td>(48)<br/>Partner HIV Status</td><td>(49)<br/>Referred BY: VCT/HCC/STI/HBC/PS/ANC/SR/CI</td><td>(50)<br/>Referred TO VCT/HCC/STI/HBC/PS/ANC</td><td>(51)<br/>Cotrimoxazole Preventive Therapy Y/N</td><td>(52)<br/>Cotrimoxazole Preventive Therapy (Date Started)</td><td>(53)<br/>ART Y/N</td><td>(54)<br/>ART (Date Started)</td><td>(55)<br/>Nutrition Support</td><td>(56)<br/>Treatment Outcome</td><td>(57)<br/>Treatment Outcome Date</td><td>(58)<br/>Remarks</td></tr></table>
                            
                         </div>
                         </form>

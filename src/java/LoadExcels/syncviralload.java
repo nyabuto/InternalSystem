@@ -126,6 +126,7 @@ public class syncviralload extends HttpServlet {
                     " COUNT( case when (suppression_status like 'Y' || suppression_status like 'N') and (sex='F'||sex='M') then suppression_status end ) as subtotal_vi " +
                     "" +
                     " FROM viral_load_raw  where year='"+yearval+"' and quarter='"+passedquarter+"' group by SubPartnerID;  ";
+            System.out.println(""+getfacils);
             conn.rs=conn.st.executeQuery(getfacils);
            
             while (conn.rs.next()){

@@ -63,6 +63,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
      String distregno="";   
      String agebracket="";
      String registrationdate="";
+     String registrationdatecopy="";
      int age=0;
      String agestring="";
      String sex="F";
@@ -74,6 +75,24 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
      String treatmentoutcome="";
      String treatmentoutcomedate="";
      int ageinteger=0;
+     String supporttype="";
+     
+     
+     String datacategory="";
+     String dbname="tibu_tb_raw";
+     
+     
+//     if(request.getParameter("datacategory")!=null){
+//     datacategory=request.getParameter("datacategory");
+//         System.out.println(" data category fetched"); 
+//     }
+     
+     if(datacategory.equals("completeoutcome"))
+     {
+     //this is the data for monthly uploads
+     dbname="tibu_tb_raw_outcome";
+     
+     }
      
          try {
       session=request.getSession();
@@ -104,7 +123,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
             System.out.println("file name is  :  "+fileName);
         }
         if(!fileName.endsWith(".xls")){
-         nextpage="sync_viral_load.jsp";
+         nextpage="upload_tb_raw_data.jsp";
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose the correct File.</font>");   
         }
         else{
@@ -120,15 +139,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 			HSSFSheet worksheet = workbook.getSheetAt(0);
 			Iterator rowIterator = worksheet.iterator();
                         
-                        int i=2,y=0;
+                        int i=1,y=0;
 			while(rowIterator.hasNext()){
-                            System.out.println(" in while");
+//                            System.out.println(" in while");
 			HSSFRow rowi = worksheet.getRow(i);
                         if( rowi==null){
-                                nextpage="sync_viral_load.jsp";
+                                nextpage="sync_tb.jsp";
                          break;
-                        }
-//([0])Serial Number	([1])Date of Registration	([2])District Registration Number	(3)Province	(4)County	(5)District	(6)Zone	([7])Health Facility	([8])Year	([9])Quarter	(10)Sector	(11)Patient Name	([12])Sex M/F	([13])Age on registration	(14)Weight (Kgs)	(15)Height (Mtrs)	(16)BMI	(17)MUAC	(18)Physical address (Neighbor,Primary School) Cell Phone	(19)DOT by	(20)Type of TB P/EP	(21)EPTB Sub Type	(22)EPTB Others	(23)Type of patient	(24)CD4 First Date	(25)CD4 Last Date	(26)Culture S	(27)Culture R	(28)Culture E	(29)Culture H	(30)X-ray Y/N	(31)Sputum Smear Examination (32)0th Month Result	(33)0th Month Serial No and Quantification	(34)Sputum Smear Examination 2by3 Month Result	(35)2by3 Month Serial No and Quantification	(36)Sputum Smear Examination 5th Month Result	(37)5th Month Serial No and Quantification	(38)Sputum Smear Examination 6by8 Month Result	(39)6by8 Month Serial No and Quantification	(40)Regimen	([41])Date of treatment started	(42)Gen expert	(43)Lipa Hain Rifampicin	(44)Lipa Hain Isoniazid	([45])HIV Test Date	([46])HIV Status	(47)Partner HIV Test Date	(48)Partner HIV Status	(49)Referred BY: VCT/HCC/STI/HBC/PS/ANC/SR/CI	(49)Referred TO VCT/HCC/STI/HBC/PS/ANC	(50)Cotrimoxazole Preventive Therapy Y/N	(51)Cotrimoxazole Preventive Therapy (Date Started)	([52])ART Y/N	([53])ART (Date Started)	(54)Nutrition Support	([55])Treatment Outcome	([56])Treatment Outcome Date	([57])Remarks
+                                        }
+//([0])Serial Number	([1])Date of Registration	([2])District Registration Number	(3)Province	(4)County	(5)District	(6)Zone	([7])Health Facility	([8])Year	([9])Quarter	(10)Sector	(11)Patient Name	([12])Sex M/F	([13])Age on registration	(14)Weight (Kgs)	(15)Height (Mtrs)	(16)BMI	(17)MUAC	(18)Physical address (Neighbor,Primary School) Cell Phone	(19)DOT by	(20)Type of TB P/EP	(21)EPTB Sub Type	(22)EPTB Others	(23)Type of patient	(24)CD4 First Date	(25)CD4 Last Date	(26)Culture S	(27)Culture R	(28)Culture E	(29)Culture H	(30)X-ray Y/N	(31)Sputum Smear Examination (32)0th Month Result	(33)0th Month Serial No and Quantification	(34)Sputum Smear Examination 2by3 Month Result	(35)2by3 Month Serial No and Quantification	(36)Sputum Smear Examination 5th Month Result	(37)5th Month Serial No and Quantification	(38)Sputum Smear Examination 6by8 Month Result	(39)6by8 Month Serial No and Quantification	(40)Regimen	([41])Date of treatment started	(42)Gen expert	(43)Lipa Hain Rifampicin	(44)Lipa Hain Isoniazid	([45])HIV Test Date	([46])HIV Status	(47)Partner HIV Test Date	(48)Partner HIV Status	(49)Referred BY: VCT/HCC/STI/HBC/PS/ANC/SR/CI	(50)Referred TO VCT/HCC/STI/HBC/PS/ANC	(51)Cotrimoxazole Preventive Therapy Y/N	(52)Cotrimoxazole Preventive Therapy (Date Started)	([53])ART Y/N	([54])ART (Date Started)	(55)Nutrition Support	([56])Treatment Outcome	([57])Treatment Outcome Date	([58])Remarks
+//<tr><td>(0)Serial Number</td><td>(1)Date of Registration</td><td>(2)District Registration Number</td><td>(3)Province</td><td>(4) County</td><td>(5)District</td><td>(6)Zone</td><td>(7)Health Facility</td><td>(8)Year</td><td>(9)Quarter</td><td>(10)Sector</td><td>(11)Patient Name</td><td>(12)Sex M/F</td><td>(13)Age on registration</td><td>(14)Weight (Kgs)</td><td>(15)Height (Mtrs)</td><td>(16)BMI</td><td>(17)MUAC</td><td>(18)Physical address (Neighbor,Primary School) Cell Phone</td><td>(19)DOT by</td><td>(20)Type of TB P/EP</td><td>(21)EPTB Sub Type</td><td>(22)	EPTB Others</td><td>(23)Type of patient	</td><td>(24)CD4 First Date</td><td>(25)CD4 Last Date</td><td>(26)Culture S</td><td>(27)Culture R</td><td>(28)Culture E	</td><td>(29)Culture H</td><td>(30)X-ray Y/N</td><td>(31)Sputum Smear Examination</td><td>(32) 0th Month Result</td><td>(33)0th Month Serial No and Quantification</td><td>(34)Sputum Smear Examination 2by3 Month Result</td><td>(35)2by3 Month Serial No and Quantification</td><td>(36)Sputum Smear Examination 5th Month Result</td><td>(37)5th Month Serial No and Quantification</td><td>(38)Sputum Smear Examination 6by8 Month Result</td><td>(39)6by8 Month Serial No and Quantification</td><td>(40)Regimen</td><td>(41)Date of treatment started</td><td>(42)Gen expert</td><td>(43)Lipa Hain Rifampicin</td><td>(44)Lipa Hain Isoniazid</td><td>(45)HIV Test Date</td><td>(46)HIV Status</td><td>(47)Partner HIV Test Date</td><td>(48)Partner HIV Status</td><td>(49)Referred BY: VCT/HCC/STI/HBC/PS/ANC/SR/CI</td><td>(50)Referred TO VCT/HCC/STI/HBC/PS/ANC</td><td>(51)Cotrimoxazole Preventive Therapy Y/N</td><td>(52)Cotrimoxazole Preventive Therapy (Date Started)</td><td>(53)ART Y/N</td><td>(54)ART (Date Started)</td><td>(55)Nutrition Support</td><td>(56)Treatment Outcome</td><td>(57)Treatment Outcome Date</td><td>(58)Remarks</td></tr>
 
                         
 //______________________________________________________________________                        
@@ -143,9 +163,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 //([9])Quarter 
 //([12])Sex M/F	
 //([13])Age on registration
-//([41])Date of treatment started	
-//([45])HIV Test Date	
-//([46])HIV Status  
+//([40])Date of treatment started	
+//([44])HIV Test Date	
+//([45])HIV Status  
 //([52])ART Y/N	
 //([53])ART (Date Started)	
 //([55])Treatment Outcome	
@@ -166,7 +186,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                          }
                         
                         HSSFCell cellregdate = rowi.getCell((short)1);
-                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
+//                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
                             if(cellregdate.getCellType()==1){
                                 //this is a string
 			registrationdate = (String)cellregdate.getStringCellValue();
@@ -180,6 +200,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                             registrationdate = ""+cellregdate.getDateCellValue();
                         
                             }
+                         
+                           // System.out.println("Reg Date "+registrationdate);
                             
                          //District Reg number
                              HSSFCell celldistreg = rowi.getCell((short) 2);
@@ -221,8 +243,17 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                          
                           }
                           HSSFCell agestringcell = rowi.getCell((short)13);
-			  agestring =(String) agestringcell.getStringCellValue();
-                        
+                           if(agestringcell.getCellType()==1){
+                              //string
+			 agestring = (String) agestringcell.getStringCellValue();
+                          }
+                          else {
+                              //numeric
+                           agestring = ""+(int)agestringcell.getNumericCellValue();
+                         
+                          }
+                          
+                         
                        
                           if(agestring.contains("Y")){
                               //age is in years
@@ -230,8 +261,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                           }
                           else if(agestring.contains("M")){
                           //age is in months
-                          age=Math.round((new Integer(agestring.replace("M",""))/12)*100);
-                              
+                              //System.out.println("agestring "+agestring+" _ "+age);
+                          age=(int) Math.ceil((new Integer(agestring.replace("M",""))/12)+0.5);
+                         //  System.out.println("agestring "+agestring+" _ "+age);    
                               
                           }
                           
@@ -239,46 +271,68 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                           agebracket=getageBracket(ageinteger);
                          
                           
-                          HSSFCell celltreatmentdate=rowi.getCell((short)41);
-			  treatmentstartdate=""+celltreatmentdate.getDateCellValue();
+                          HSSFCell celltreatmentdate=rowi.getCell((short)40);
+                          
+                           if(cellregdate.getCellType()==1){
+                                //this is a string
+			treatmentstartdate = (String)celltreatmentdate.getStringCellValue();
+                            }
+                            else if(cellregdate.getCellType()==0){
+                           //this is a numeric value     
+                            treatmentstartdate =""+(int)celltreatmentdate.getNumericCellValue();
+                            
+                            }
+                            else {
+                            treatmentstartdate = ""+celltreatmentdate.getDateCellValue();
+                        
+                            }
+                          
+                          
+			  //treatmentstartdate=""+celltreatmentdate.getDateCellValue();
                          
-                           Format formatter = new SimpleDateFormat("MM/dd/yyyy");
-                         registrationdate= new SimpleDateFormat("MM/dd/yyyy").format(cellregdate.getDateCellValue());
-                           registrationdate = formatter.format(registrationdate);
+                           //Format formatter = new SimpleDateFormat("MM/dd/yyyy");
+                         //registrationdatecopy= new SimpleDateFormat("MM/dd/yyyy").format(registrationdate);
+                          // registrationdatecopy = formatter.format(registrationdatecopy);
                           //hiv test date 
-                           HSSFCell cellhivtestdate=rowi.getCell((short)45);
-			  hivtestdate=""+cellhivtestdate.getDateCellValue();
+                           HSSFCell cellhivtestdate=rowi.getCell((short)44);
+			  hivtestdate=""+cellhivtestdate.getStringCellValue();
                            
                            //hiv status
-                          HSSFCell cellhivstatus = rowi.getCell((short)46);
+                          HSSFCell cellhivstatus = rowi.getCell((short)45);
 			  hivstatus =(String) cellhivstatus.getStringCellValue();
                          
                           
                           //art status
-                           HSSFCell cellartstatus = rowi.getCell((short)13);
-			  hivstatus =(String) cellartstatus.getStringCellValue();
+                           HSSFCell cellartstatus = rowi.getCell((short)52);
+			  artstatus =(String) cellartstatus.getStringCellValue();
                           
-                          HSSFCell cellsuppression=rowi.getCell((short)22);
-                          if(cellsuppression.getCellType()==1){
-                          //string
-                                suppression=cellsuppression.getStringCellValue();
+                          
+                          //art date
+                        
+                           HSSFCell cellartdate=rowi.getCell((short)53);
+			  artdate=""+cellartdate.getStringCellValue();
+                          
+                          //treatment outcome
+                            HSSFCell celltreatmentoutcome = rowi.getCell((short)55);
+			  treatmentoutcome =(String) celltreatmentoutcome.getStringCellValue();
+                          
+                          
+                          //treatment outcome date 
+                          HSSFCell celltreatmentoutcomedate=rowi.getCell((short)56);
+			  treatmentoutcomedate=""+celltreatmentoutcomedate.getStringCellValue();
+                          
+                          
                          
-                          }
-                          else {
-                              
-			  suppression=""+(int)cellsuppression.getNumericCellValue();
-                          
-                          }
                           //split the date, year and month
-                          //raw date is of form m/d/yyyy
+                          //raw date is of form dd mmm yyyy eg 08 Jul 2015
                          
-                          String dateparameters[]=dateoftesting.split("/");
+                          String dateparameters[]=registrationdate.split(" ");
                         if(dateparameters.length==3){
                             
                          if(!dateparameters[0].equals("")){
                            String month="";
-                           month=dateparameters[0];
-                           if(month.equals("01")||month.equals("02")||month.equals("03")){
+                           month=dateparameters[1];
+                           if(month.equalsIgnoreCase("Jan")||month.equalsIgnoreCase("Feb")||month.equalsIgnoreCase("Mar")){
                            
                            quarterName="January-March"; 
                            
@@ -289,7 +343,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                            
                           
                            }
-                           else if(month.equals("04")||month.equals("05")||month.equals("06")){
+                           else if(month.equalsIgnoreCase("Apr")||month.equalsIgnoreCase("May")||month.equalsIgnoreCase("Jun")){
                           
                                quarterName="April-June"; 
                                if(dateparameters[2].length()==4)
@@ -299,7 +353,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                                
                            }
                            
-                           else if(month.equals("07")||month.equals("08")||month.equals("09")){
+                           else if(month.equalsIgnoreCase("Jul")||month.equalsIgnoreCase("Aug")||month.equalsIgnoreCase("Sep")){
                            
                                quarterName="July-September";  
                                  if(dateparameters[2].length()==4)
@@ -308,7 +362,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                            }
                                
                            }
-                            else if(month.equals("10")||month.equals("11")||month.equals("12")){
+                            else if(month.equalsIgnoreCase("Oct")||month.equalsIgnoreCase("Nov")||month.equalsIgnoreCase("Dec")){
                            
                                quarterName="October-December";  
                                 if(dateparameters[2].length()==4)
@@ -324,24 +378,30 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                         }
                         else {
                         
-                            System.out.println("Error in date of testing _ :"+dateoftesting);
+                            System.out.println("Error in date of testing _ :"+registrationdate);
                               
                               }
                               
-                        System.out.println("Quarter "+quarterName + "Year "+year); 
+                       // System.out.println("Quarter "+quarterName + "Year "+year); 
                        
                       facilityID="";
-                      checker=0;     
+                      checker=0;  
+                      supporttype="DSD";
            
-                   String get_id="SELECT SubPartnerID,ART_Support FROM subpartnera WHERE CentreSanteId=?";
+                   String get_id="SELECT SubPartnerID,ART_Support,CentreSanteId as mflcode,HTC_Support1,PMTCT_Support FROM subpartnera WHERE SubPartnerNom like ? or tibu_name like ?";
                    conn.pst=conn.conn.prepareStatement(get_id);
-                   conn.pst.setInt(1,mflcode);
+                   conn.pst.setString(1,"%"+facilityName+"%");
+                   conn.pst.setString(2,"%"+facilityName+"%");
                    conn.rs=conn.pst.executeQuery();
                    if(conn.rs.next()==true)
                    {
                        facilityID=conn.rs.getString(1);
-                       supporttype=conn.rs.getString(2);
-                       if(supporttype==null){supporttype="";}
+                       //supporttype=conn.rs.getString("ART_Support");
+                       mflcode=conn.rs.getInt(3);
+                      
+                      //if(supporttype==null){supporttype=conn.rs.getString("HTC_Support1");}
+                      //if(supporttype==null){supporttype=conn.rs.getString("PMTCT_Support");}
+                      //if(supporttype==null){supporttype="";}
                    }
                     if(facilityID.length()>0) {
 //                        DISTRICT FOUND ADD THE HF TO THE SYSTEM.........................
@@ -361,10 +421,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                        
                        
 //                     CHECK IF ALREADY ADDED TO PMTCT_FO TABLE
-                       id=batchno+"_"+patientccc+"_"+dateoftesting; 
+                       id=serialnumber+"_"+registrationdate+"_"+distregno; 
 //                   System.out.println("to add data : "+facilityName+" id : "+facilityID+"mfl code "+mflcode+" year : "+year+" quarter : "+quarter+" numerator : "+Numerator+" denominator : "+Denominator);
                        
-                       String checkerExisting="SELECT id FROM viral_load_raw WHERE id='"+id+"'";
+                       String checkerExisting="SELECT id FROM "+dbname+" WHERE id='"+id+"'";
                        conn.rs=conn.st.executeQuery(checkerExisting);
                        if(conn.rs.next()==true){
                            checker++;
@@ -387,8 +447,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
   if(checker==0){
 
   
-  String inserter="INSERT INTO viral_load_raw (id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype,suppression_status) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  String inserter="INSERT INTO "+dbname+" (id,SubPartnerID,year,quarter,Mflcode,sex ,age,agebracket,SubPartnerNom,registrationdate,treatmentdate,supporttype,hivstatus,hivtestdate, "
+          + " artstatus,artdate,outcomedate,treatmentoutcome) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1,id);
                         conn.pst.setString(2,facilityID);
@@ -399,20 +460,28 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                         conn.pst.setInt(7, age);
                         conn.pst.setString(8, agebracket);
                         conn.pst.setString(9, facilityName);
-                        conn.pst.setString(10, dateoftesting);
-                        conn.pst.setString(11, patientccc);
-                        conn.pst.setString(12, batchno);
-                        conn.pst.setString(13, supporttype);
-                        conn.pst.setString(14, suppression);
+                        conn.pst.setString(10, registrationdate);
+                        conn.pst.setString(11,treatmentstartdate );
+                        conn.pst.setString(12, supporttype);
+                        conn.pst.setString(13, hivstatus);
+                        conn.pst.setString(14, hivtestdate);
+                        conn.pst.setString(15,artstatus );
+                        conn.pst.setString(16, artdate);
+                        conn.pst.setString(17,treatmentoutcomedate );
+                        conn.pst.setString(18, treatmentoutcome);
+                        
+                        
                         conn.pst.executeUpdate();
                    
                       added++;
                        }
                        else{
           //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
-        String inserter=" UPDATE viral_load_raw SET SubPartnerID=?,Year=?,Quarter=?,Mflcode =?,Sex=?,age=?,agebracket=?,SubPartnerNom=?,dateoftesting=?,patientccc=?,batchno=?,supporttype=?,suppression_status=? "
+        String inserter=" UPDATE "+dbname+" SET SubPartnerID=?,year=?,quarter=?,Mflcode=?,sex=? ,age=?,agebracket=?,SubPartnerNom=?,registrationdate=?,treatmentdate=?,supporttype=?,"
+                + " hivstatus=?,hivtestdate=?, "
+          + " artstatus=?,artdate=?,outcomedate=?,treatmentoutcome=? "
                 + " WHERE id=?";
-
+//
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1, facilityID);
                         conn.pst.setInt(2, year);
@@ -422,12 +491,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                         conn.pst.setInt(6, age);
                         conn.pst.setString(7, agebracket);
                         conn.pst.setString(8, facilityName);
-                        conn.pst.setString(9, dateoftesting);
-                        conn.pst.setString(10, patientccc);
-                        conn.pst.setString(11, batchno);
-                        conn.pst.setString(12, supporttype);
-                        conn.pst.setString(13, suppression);
-                        conn.pst.setString(14, id);
+                        conn.pst.setString(9, registrationdate);
+                        conn.pst.setString(10, treatmentoutcomedate);
+                        conn.pst.setString(11, supporttype);
+                        conn.pst.setString(12, hivstatus);
+                        conn.pst.setString(13, hivtestdate);
+                        conn.pst.setString(14, artstatus);
+                        conn.pst.setString(15,artdate);
+                        conn.pst.setString(16,treatmentoutcomedate);
+                        conn.pst.setString(17,treatmentoutcome);
+                        conn.pst.setString(18,id);
                         conn.pst.executeUpdate();
                        
                      updated++;
@@ -439,7 +512,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                        missing++; 
 //                        missing facilities
                      missingFacility+="facility name : "+facilityName+" mfl code : "+mflcode+" excel row num : "+i+"<br>"; 
-                        System.out.println(facilityName+ "facility is missing mflcode on subpartner :"+mflcode);
+                        System.out.println(facilityName+ "_missing");
                     }
                     i++;
                         }
@@ -523,7 +596,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
     }
     
     public String getageBracket(int age){
-    //<1	1-4	5-14	15-19	20+
+    //<1	1-4	5-9  10-14	15-19	20+
         String finalbracket="";
 if(age<1){
 finalbracket="<1";
@@ -531,8 +604,11 @@ finalbracket="<1";
 else if(age>=1&&age<=4){
 finalbracket="1-4";
                         }
-else if(age>=5&&age<=14){
-finalbracket="5-14";
+else if(age>=5&&age<=9){
+finalbracket="5-9";
+                        }
+else if(age>=10&&age<=14){
+finalbracket="10-14";
                         }
 else if(age>=15&&age<=19){
 finalbracket="15-19";

@@ -425,6 +425,10 @@
         <servlet-name>Load_tb_raw</servlet-name>
         <servlet-class>LoadExcels.Load_tb_raw</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>synctbdata</servlet-name>
+        <servlet-class>LoadExcels.synctbdata</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -848,6 +852,10 @@
     <servlet-mapping>
         <servlet-name>Load_tb_raw</servlet-name>
         <url-pattern>/Load_tb_raw</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>synctbdata</servlet-name>
+        <url-pattern>/synctbdata</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

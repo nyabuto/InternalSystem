@@ -70,7 +70,7 @@ int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
                   
        year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
-            String headerTB[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+Y,Positive,Negative,Total PLVHIV enrolled in clinical care (HVO319),Ho of PLV in HIV clinical care screened for TB (HV0354),Female,Male, Screened for TB <15 Years,<1,1-4Y,5-9Y,10-14Y,Screened for TB >15 years,15-19Y,20+Y,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+,Verification Status".split(",") ;
+            String headerTB[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+Y,Positive,Negative,Total PLVHIV enrolled in clinical care (HV0319),Ho of PLV in HIV clinical care screened for TB (HV0354),Female,Male, Screened for TB <15 Years,<1,1-4Y,5-9Y,10-14Y,Screened for TB >15 years,15-19Y,20+Y,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+,Verification Status".split(",") ;
  
             String facilityIds1="";
        excelDuration="";
@@ -362,15 +362,38 @@ HSSFCell c001;
             + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
             + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
             + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208)"
-            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354) "
+            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354) ,moh731.SubPartnerID as subpartnerid"
             + " FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
-          + "district.CountyID=county.CountyID"
+          + "district.CountyID=county.CountyID   "
+            + "  "
             + " WHERE "
-    + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1) "
-            + "GROUP BY moh731.SubPartnerID " ;
-       
+    + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1)  "
+            + "GROUP BY moh731.SubPartnerID   "
+            + " union "
+            + "SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
+            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
+            + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
+            + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
+            + "subpartnera.SubPartnerID,"
+            + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
+            + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
+            + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208)"
+            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),tb_stat_art.SubPartnerID as subpartnerid "
+            + " FROM moh731 JOIN subpartnera "
+            + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
+            + " JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+          + "district.CountyID=county.CountyID   "
+            + " Right join tb_stat_art on tb_stat_art.SubPartnerID=moh731.SubpartnerID "
+            + " WHERE   moh731.subPartnerID in ( " +
+
+" SELECT tb_stat_art.SubPartnerID FROM tb_stat_art join subpartnera on  tb_stat_art.SubPartnerID=subpartnera.SubPartnerID "
+            + " where  ART=1 and tb_stat_art.SubPartnerID not in  "
+            + " ( select moh731.subPartnerID from moh731 join subpartnera on moh731.SubPartnerID=subpartnera.SubPartnerID where "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1)  ) " +
+
+" )   " ;
+       System.out.println("^"+getData);
 //     System.out.println("new : "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
@@ -427,6 +450,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
         HV0354=conn.rs.getInt(38);
         
 //   HV0302=0;
+        //get values for cumulative indicators 
      String getMaxYearMonth="SELECT MAX(yearmonth) FROM moh731 WHERE moh731.SubPartnerID='"+facilityId+"' && "+duration ;
     conn.rs2=conn.st2.executeQuery(getMaxYearMonth);
     if(conn.rs2.next()==true){
@@ -607,7 +631,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
      
      }
       else{
-     String dataTB []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","
+     String dataTB []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"
         + ""+TB_STAT_N+","+TB_STAT_D+","+TB_STAT_FEMALE+","+TB_STAT_MALE+","+TB_STAT_1+","
         + ""+TB_STAT_4+","+TB_STAT_9+","+TB_STAT_14+","+TB_STAT_19+","+TB_STAT_20+","+
         TB_STAT_POSTIVE+","+TB_STAT_NEGATIVE+","+TB_SCREEN_D+","+TB_SCREEN_N+","+TB_SCREEN_FEMALE+","
