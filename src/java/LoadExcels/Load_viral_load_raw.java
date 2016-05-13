@@ -199,10 +199,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                          
                           
                           HSSFCell celldate=rowi.getCell((short)18);
-			  dateoftesting=""+celldate.getDateCellValue();
+			  dateoftesting=""+celldate.getStringCellValue();
                          
                            //Format formatter = new SimpleDateFormat("MM/dd/yyyy");
-                         dateoftesting= new SimpleDateFormat("MM/dd/yyyy").format(celldate.getDateCellValue());
+                        // dateoftesting= new SimpleDateFormat("MM/dd/yyyy").format(celldate.getDateCellValue());
                            //dateoftesting = formatter.format(dateoftesting);
                           
                           HSSFCell cellsuppression=rowi.getCell((short)22);
@@ -219,19 +219,19 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                           //split the date, year and month
                           //raw date is of form m/d/yyyy
                          
-                          String dateparameters[]=dateoftesting.split("/");
+                          String dateparameters[]=dateoftesting.split("-");
                         if(dateparameters.length==3){
                             
                          if(!dateparameters[0].equals("")){
                            String month="";
-                           month=dateparameters[0];
+                           month=dateparameters[1];
                            if(month.equals("01")||month.equals("02")||month.equals("03")){
                            
                            quarterName="January-March"; 
                            
-                               if(dateparameters[2].length()==4)
+                               if(dateparameters[0].length()==4)
                            {
-                           year=Integer.parseInt(dateparameters[2]);
+                           year=Integer.parseInt(dateparameters[0]);
                            }
                            
                           
@@ -239,9 +239,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                            else if(month.equals("04")||month.equals("05")||month.equals("06")){
                           
                                quarterName="April-June"; 
-                               if(dateparameters[2].length()==4)
+                               if(dateparameters[0].length()==4)
                            {
-                           year=Integer.parseInt(dateparameters[2]);
+                           year=Integer.parseInt(dateparameters[0]);
                            }
                                
                            }
@@ -249,19 +249,19 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                            else if(month.equals("07")||month.equals("08")||month.equals("09")){
                            
                                quarterName="July-September";  
-                                 if(dateparameters[2].length()==4)
+                                 if(dateparameters[0].length()==4)
                            {
-                           year=Integer.parseInt(dateparameters[2]);
+                           year=Integer.parseInt(dateparameters[0]);
                            }
                                
                            }
                             else if(month.equals("10")||month.equals("11")||month.equals("12")){
                            
                                quarterName="October-December";  
-                                if(dateparameters[2].length()==4)
+                                if(dateparameters[0].length()==4)
                            {
                                //assume
-                           year=Integer.parseInt(dateparameters[2])+1;
+                           year=Integer.parseInt(dateparameters[0])+1;
                            }
                                
                             }

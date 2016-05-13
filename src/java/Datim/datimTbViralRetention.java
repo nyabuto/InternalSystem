@@ -1627,7 +1627,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
           if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1636,9 +1636,13 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
         } 
 //support type//######################################################################################
         if (1 == 1) {
-
+String supporttype=conn.rs.getString(conpos);
+if(supporttype.equals("")){
+supporttype="DSD";
+}
+            
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(supporttype);
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1649,7 +1653,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
       if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1660,7 +1664,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
         if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1671,7 +1675,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
         if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1683,7 +1687,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
            if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1695,7 +1699,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
                if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1707,7 +1711,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
                        if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1720,7 +1724,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1732,7 +1736,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1746,7 +1750,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1758,7 +1762,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
         if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1772,7 +1776,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
          if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1783,7 +1787,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
           if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1795,7 +1799,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1806,7 +1810,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
               if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1819,7 +1823,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
                 if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1831,7 +1835,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1843,7 +1847,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
          if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1855,7 +1859,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
            if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1867,7 +1871,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
         if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1881,7 +1885,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
           if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1894,7 +1898,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
      if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1907,7 +1911,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1920,7 +1924,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
          if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1932,7 +1936,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
            if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1945,7 +1949,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
@@ -1958,7 +1962,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
      if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(conn.rs.getInt(conpos));
             clx.setCellStyle(style2);
 
             colpos++;
