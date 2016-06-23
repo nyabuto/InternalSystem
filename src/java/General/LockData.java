@@ -97,7 +97,7 @@ String facilityIds,year,month,lockStatus,updateStatus,lockText,monthname;
       String update=" UPDATE "+form+" SET isLocked='"+lockStatus+"' WHERE "+facilityIds+" Annee='"+year+"' && Mois='"+month+"'";
      updated= conn.st.executeUpdate(update);
      updateStatus+=" <font color=\"blue\">"+updated+"</font> . Health facilities  in "+form+". <br> ";     
-         
+          System.out.println(""+update);   
       }
          
      }
