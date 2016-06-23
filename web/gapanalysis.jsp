@@ -281,7 +281,7 @@
                            <div class="form-actions">
                               <button type="submit" class="btn blue">Generate Report</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
-<h4 style="color:green;margin-left: 160px;font-family: cambria;">Note:  Ensure You Enable Macros After generating your excel report.<br/> This helps you to get a summary of sites per section per county per yearmonth. <br/>Gsn Sites are not counted in the summary report but are displayed in the .</h4>
+<h4 style="color:green;margin-left: 160px;font-family: cambria;">Note:  Ensure You Enable Macros After generating your excel report.<br/> This helps you to get a summary of sites per section per county per yearmonth. <br/>Gsn Sites are not counted in the summary report but are displayed in the ART section .</h4>
                            </div>
                         </form>
                         <!-- END FORM-->           

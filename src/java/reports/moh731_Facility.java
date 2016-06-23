@@ -45,7 +45,7 @@ public class moh731_Facility extends HttpServlet {
 String data,id;
 String facilityId,year,month;
 String county,district,facilityname,mflcode;
-int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counterPEP1;
+int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counterPEP1,counterHTC,counterHTC1;
 String sheets,headers,elementName,monthName,createdOn;
 String isValidated;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -102,13 +102,15 @@ String isValidated;
       
       //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
    XSSFWorkbook wb=new XSSFWorkbook();
+  XSSFSheet shet4=wb.createSheet("HTC");
   XSSFSheet shet1=wb.createSheet("PMTCT");
   XSSFSheet shet2=wb.createSheet("Care and Treatment");
   XSSFSheet shet3=wb.createSheet("PEP");
   XSSFFont font=wb.createFont();
  font.setFontHeightInPoints((short)18);
-    font.setFontName("Arial Black");
+    font.setFontName("Cambria");
     font.setColor((short)0000);
+    
     CellStyle style=wb.createCellStyle();
     style.setFont(font);
     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
@@ -123,7 +125,7 @@ String isValidated;
     stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
     
     XSSFCellStyle stylex = wb.createCellStyle();
 stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
@@ -132,7 +134,7 @@ stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
     stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
     stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    stylex.setAlignment(HSSFCellStyle.ALIGN_LEFT);
     
 XSSFFont fontx = wb.createFont();
 fontx.setColor(HSSFColor.DARK_BLUE.index);
@@ -165,6 +167,14 @@ stylex.setWrapText(true);
    shet3.setColumnWidth(i, 3000);     
     }
     
+    
+     for (int i=0;i<=3;i++){
+   shet4.setColumnWidth(i, 6000);     
+    }
+     for (int i=4;i<=14;i++){
+   shet4.setColumnWidth(i, 3000);     
+    }
+    
     headers="COUNTY,SUB COUNTY,FACILITY NAME,MFL CODE";
    
     String arrayHeader []=headers.split(",");
@@ -178,6 +188,9 @@ stylex.setWrapText(true);
     
 //    XSSFRow rw0S3=shet3.createRow(0);
    XSSFRow rw1S3=shet3.createRow(0);
+    
+//    XSSFRow rw0S3=shet3.createRow(0);
+   XSSFRow rw1S4=shet4.createRow(0);
 
     
 //    LOOP THROUGH AND WRITE STATIC HEADERS TO THE ELEMENTS
@@ -194,6 +207,10 @@ stylex.setWrapText(true);
     XSSFCell  S3cell=rw1S3.createCell(headerno);
     S3cell.setCellValue(headername);
     S3cell.setCellStyle(stylex);
+    
+    XSSFCell  S4cell=rw1S4.createCell(headerno);
+    S4cell.setCellValue(headername);
+    S4cell.setCellStyle(stylex);
       headerno++;
      }
   
@@ -205,14 +222,21 @@ stylex.setWrapText(true);
      
      
    
-  counterPMTCT=counterART=counterPEP=3; 
+  counterPMTCT=counterART=counterPEP=counterHTC=3; 
           
     String getVariables="SELECT * FROM moh731_indicators ORDER BY id"; 
     conn.rs1=conn.st1.executeQuery(getVariables);
     while(conn.rs1.next()){
         elementName=conn.rs1.getString("indicator")+" \n"+conn.rs1.getString("code");
         
-        if(conn.rs1.getString("section").equals("2. Prevention of Mother-to-Child Transmission")){
+        if (conn.rs1.getString("section").equals("1. HIV Counselling and Testing")){    
+      counterHTC++; 
+      XSSFCell  S4cell=rw1S4.createCell(counterHTC);
+    S4cell.setCellValue(elementName);
+    S4cell.setCellStyle(stylex);
+     
+        }
+       else if(conn.rs1.getString("section").equals("2. Prevention of Mother-to-Child Transmission")){
      counterPMTCT++;
    XSSFCell  S1cell=rw1S1.createCell(counterPMTCT);
     S1cell.setCellValue(elementName);
@@ -232,6 +256,9 @@ stylex.setWrapText(true);
     S3cell.setCellStyle(stylex);
      
         }
+         
+           
+         
          else{} 
     
     }
@@ -247,8 +274,12 @@ stylex.setWrapText(true);
     S3cell3a.setCellValue("Validation Run");
     S3cell3a.setCellStyle(stylex);  
     
+   XSSFCell  S4cell3a=rw1S4.createCell(19);
+    S4cell3a.setCellValue("Validation Run");
+    S4cell3a.setCellStyle(stylex);  
+    
 //   counter=1; 
-  System.out.println("pmtct : "+counterPMTCT+" art : "+counterART+" PEPE : "+counterPEP);
+  System.out.println("pmtct : "+counterPMTCT+" art : "+counterART+" PEP : "+counterPEP+" HTC : "+counterHTC);
 //  counterPMTCT=counterPMTCT-5;
 //  counterART=counterART-5;
 //  counterPEP=counterPEP-5;
@@ -256,9 +287,10 @@ stylex.setWrapText(true);
  
   
   
-     counterPMTCT1=counterART1=counterPEP1=0;
+     counterPMTCT1=counterART1=counterPEP1=counterHTC1=0;
       String getData="SELECT county.County,district.DistrictNom,"+subpartnera+".SubPartnerNom,"+subpartnera+".CentreSanteId,"
-+ "moh731.HV0201,moh731.HV0202,moh731.HV0203,moh731.HV0204,moh731.HV0205,moh731.HV0206,moh731.HV0207,moh731.HV0208,moh731.HV0209,moh731.HV0210,moh731.HV0211,moh731.HV0212,moh731.HV0213," +
+              
++ " moh731.HV0201,moh731.HV0202,moh731.HV0203,moh731.HV0204,moh731.HV0205,moh731.HV0206,moh731.HV0207,moh731.HV0208,moh731.HV0209,moh731.HV0210,moh731.HV0211,moh731.HV0212,moh731.HV0213," +
 "moh731.HV0214,moh731.HV0215,moh731.HV0216,moh731.HV0217,moh731.HV0218,moh731.HV0219,moh731.HV0220,moh731.HV0221,moh731.HV0224,moh731.HV0225,moh731.HV0226,moh731.HV0227,moh731.HV0228,moh731.HV0229," +
 "        moh731.HV0230,moh731.HV0231,moh731.HV0232,moh731.HV0233,moh731.HV0234,moh731.HV0235,moh731.HV0236,moh731.HV0237,moh731.HV0238,moh731.HV0239,moh731.HV0240,moh731.HV0241,moh731.HV0242," +
 "        moh731.HV0243,moh731.HV0244,moh731.HV0301,moh731.HV0302,moh731.HV0303,moh731.HV0304,moh731.HV0305,moh731.HV0306,moh731.HV0307,moh731.HV0308,moh731.HV0309,moh731.HV0310,moh731.HV0311,moh731.HV0312,moh731.HV0313,moh731.HV0314," +
@@ -267,7 +299,8 @@ stylex.setWrapText(true);
 "        moh731.HV0342,moh731.HV0343,moh731.HV0344,moh731.HV0345,moh731.HV0346,moh731.HV0347,moh731.HV0348,moh731.HV0349,moh731.HV0350,moh731.HV0351,moh731.HV0352,moh731.HV0353," +
 "        moh731.HV0354,moh731.HV0355,moh731.HV0904,moh731.HV0905,moh731.HV0370,moh731.HV0371,moh731.HV0372,moh731.HV0373,"+
 "        moh731.HV0501,moh731.HV0502,moh731.HV0503,moh731.HV0504,moh731.HV0505,moh731.HV0506,moh731.HV0507,moh731.HV0508,moh731.HV0509,moh731.HV0510,moh731.HV0511,moh731.HV0512,moh731.HV0513,moh731.HV0514,"
-+ ""+subpartnera+".PMTCT,"+subpartnera+".ART,"+subpartnera+".PEP,isValidated "
+              + " moh731.HV0101,moh731.HV0102,moh731.HV0103,moh731.HV0105,moh731.HV0106,moh731.HV0107,moh731.HV0108,moh731.HV0109,moh731.HV0110,moh731.HV0111,moh731.HV0112,moh731.HV0113,moh731.HV0114,moh731.HV0115,moh731.HV0116 "
++ ","+subpartnera+".PMTCT,"+subpartnera+".ART,"+subpartnera+".PEP,"+subpartnera+".HTC,isValidated "
  + " FROM moh731 JOIN "+subpartnera+" ON moh731.SubPartnerID="+subpartnera+"."+subpartnerid+" "
               + "JOIN district ON "+subpartnera+".DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
@@ -287,7 +320,7 @@ stylex.setWrapText(true);
 String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode;
 String arrayDetails []=basicDetails.split("@");
 
-   if(conn.rs.getInt(122)==1) { 
+   if(conn.rs.getInt(subpartnera+".PMTCT")==1) { 
   counterPMTCT1++;
   XSSFRow rw2S1=shet1.createRow(counterPMTCT1);
   int facilno=0;
@@ -309,7 +342,7 @@ String arrayDetails []=basicDetails.split("@");
     S3cell.setCellStyle(stborder);    
       
   }
-  isValidated=conn.rs.getString(125);
+  isValidated=conn.rs.getString("isValidated");
   if(isValidated.equals("1")){
       isValidated="Yes";
   }
@@ -323,7 +356,7 @@ String arrayDetails []=basicDetails.split("@");
    }
    
    
-   if(conn.rs.getInt(123)==1){
+   if(conn.rs.getInt(subpartnera+".ART")==1){
   counterART1++;
    
   XSSFRow rw2S2=shet2.createRow(counterART1);
@@ -349,7 +382,7 @@ String arrayDetails []=basicDetails.split("@");
       
   }
   
-   isValidated=conn.rs.getString(125);
+   isValidated=conn.rs.getString("isValidated");
   if(isValidated.equals("1")){
       isValidated="Yes";
   }
@@ -364,7 +397,7 @@ String arrayDetails []=basicDetails.split("@");
   
    }
    
-   if(conn.rs.getInt(124)==1){
+   if(conn.rs.getInt(subpartnera+".PEP")==1){
 counterPEP1++;
 
   XSSFRow rw2S3=shet3.createRow(counterPEP1);
@@ -389,7 +422,7 @@ counterPEP1++;
   }
 
     
-   isValidated=conn.rs.getString(125);
+   isValidated=conn.rs.getString("isValidated");
   if(isValidated.equals("1")){
       isValidated="Yes";
   }
@@ -402,6 +435,57 @@ counterPEP1++;
     
   
    }
+   
+   //HTC_____________________added 2016
+   
+   
+   if(conn.rs.getInt(subpartnera+".HTC")==1){
+counterHTC1++;
+
+  XSSFRow rw2S4=shet4.createRow(counterHTC1);
+  int facilno=0;
+   for(String facilityDetails:arrayDetails){
+    
+  XSSFCell  S4cell=rw2S4.createCell(facilno);
+    S4cell.setCellValue(facilityDetails);
+    S4cell.setCellStyle(stborder); 
+    
+     facilno++;  
+   }
+  
+  String pos;
+  int cellpos=0;
+  for (int i=1;i<=16;i++){
+      
+     
+      
+       if(i!=4){
+            cellpos++;
+   XSSFCell  S4cell=rw2S4.createCell(cellpos+3);
+   pos="0"+i;
+   if(i>=10){pos=""+i;}
+  
+    S4cell.setCellValue(conn.rs.getInt("moh731.HV01"+pos));
+    S4cell.setCellStyle(stborder);    
+   }
+       
+  }
+
+    
+   isValidated=conn.rs.getString("isValidated");
+  if(isValidated.equals("1")){
+      isValidated="Yes";
+  }
+  else{
+      isValidated="No";
+  }
+   XSSFCell  S4cell=rw2S4.createCell(19);
+    S4cell.setCellValue(isValidated);
+    S4cell.setCellStyle(stborder); 
+    
+  
+   }
+   
 System.out.println("counter : "+counter);
      } 
       

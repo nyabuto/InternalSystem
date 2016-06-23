@@ -64,7 +64,9 @@ public class allStaticReports extends HttpServlet {
      if(request.getParameter("form")!=null){
     form=request.getParameter("form");
     }
-    
+    String pivotform=form;
+     if(form.equalsIgnoreCase("MOH 731")){form="MOH731";}
+     if(form.equalsIgnoreCase("MOH 711 (New)")){form="moh711_new";}
    String facilitywhere="";
    String yearwhere="";
    String monthwhere="";
@@ -121,12 +123,13 @@ public class allStaticReports extends HttpServlet {
     
     
    // ArrayList isactive=new ArrayList();
-     //An arralist to store a list of worksheets that will be selected from the sections
+     //An arralist to store a list of worksheets that will be selected from the sections and the respective service area to determine the facilities whose data will appear in that sheet
     ArrayList worksheets=new ArrayList();
     //An arralist to store distinct worksheets. This will be derived from the the sections column
     ArrayList distinctsheets=new ArrayList();
+    ArrayList distinctservicearea=new ArrayList();
     
-    String selectdistinctworksheet="select distinct(section) from pivottable where form='"+form+"' and active='1' order by order_per_form";
+    String selectdistinctworksheet="select section,servicearea from pivottable where form='"+form.replace("_", "")+"' and active='1' group by section order by order_per_form";
     
     conn.rs=conn.st.executeQuery(selectdistinctworksheet);
     
@@ -134,11 +137,15 @@ public class allStaticReports extends HttpServlet {
         //add the name of distinct sections
     distinctsheets.add(conn.rs.getString(1).replace("/", "_"));
   
-    
+    String servicearea="  2=2 ";
+    if(conn.rs.getString(2)!=null){
+    servicearea="  "+conn.rs.getString(2)+"=1";
+    }
+    distinctservicearea.add(servicearea);
     
                          }
     
-    String getattribs="select indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='"+form+"' order by order_per_form, section";
+    String getattribs="select indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='"+form.replace("_", "")+"' order by order_per_form, section";
     conn.rs=conn.st.executeQuery(getattribs);     
     
     while(conn.rs.next()){
@@ -182,7 +189,7 @@ public class allStaticReports extends HttpServlet {
         
         }//end of active 
         
-      }  //end of worksheet
+      }  //end of pivot table active
     
     //if
     
@@ -214,11 +221,11 @@ public class allStaticReports extends HttpServlet {
         
         //if the item is not the last, append a comma
         
-       if(a<dbcolumns.size()-1){
+       //if(a<dbcolumns.size()-1){
        
            perfacilselect+=" ,";
        
-       } 
+      // } 
         
     
     }
@@ -227,7 +234,7 @@ public class allStaticReports extends HttpServlet {
   //     FROM  
   //------------------------------------------------------------------------------------  
   
- perfacilselect+=" , isValidated as Form_Validated from "+form+"  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID ";   
+ perfacilselect+="  isValidated as Form_Validated from "+form+"  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID ";   
   
  
 //------------------------------------------------------------------------------------------
@@ -248,7 +255,7 @@ public class allStaticReports extends HttpServlet {
  perfacilselect+=" group by subpartnera.SubPartnerID";
  
  
-            System.out.println(perfacilselect);
+            //System.out.println(perfacilselect);
   //______________________________________________________________________________________
   //                       NOW CREATE THE WORKSHEETS          
   //______________________________________________________________________________________  
@@ -352,14 +359,13 @@ public class allStaticReports extends HttpServlet {
        headercellpos++;
      
                                             }         
-            
-    conn.rs=conn.st.executeQuery(perfacilselect);
+           
     String sectioncopy="";
    
     int sheetpos=0;
     int rowpos=2;
     
-    while(conn.rs.next()){
+  
     //-----------------INSIDE THE DATA FORM---------------------------------
     //if the section changes, change the position of the worksheet too
     //also, reset the position counter to begin from 2 again. 
@@ -368,21 +374,31 @@ public class allStaticReports extends HttpServlet {
       
 //      if(--!sectioncopy.equals(shet)){}
         
+      //create the org unit data values e.g BARINGO | BARINGO CENTRAL |KABARNET DISTRICT HOSPITAL | MFL CODE
       
       
      for(int g=0;g<distinctsheets.size();g++){
+         
        shet=wb.getSheetAt(g);  
         int colpos=0;
+        
+           String finalquery=perfacilselect.replace("1=1",distinctservicearea.get(g).toString());
+           System.out.println(""+finalquery);
+    conn.rs=conn.st.executeQuery(finalquery);
+       while(conn.rs.next()){
+        
         //the fourth cell should     
       XSSFRow rw=shet.createRow(rowpos);
      for(int e=0;e<Headerorgunits.size();e++){
        XSSFCell cell0=rw.createCell(colpos);
-       cell0.setCellValue(conn.rs.getString(e+1));
+       //for mfl code, last header, print integers
+       if(Headerorgunits.get(e).toString().equals("MFL CODE")){cell0.setCellValue(conn.rs.getInt(e+1));}else {cell0.setCellValue(conn.rs.getString(e+1));}
+       
        cell0.setCellStyle(style2);
        colpos++;        
        
-                                               }
-     
+                                              }
+    
      //_________________________________________________________________
      //VALUES
      //_________________________________________________________________
@@ -397,7 +413,7 @@ public class allStaticReports extends HttpServlet {
             if (worksheets.get(c).equals(distinctsheets.get(g))) {
 
                 XSSFCell cell0 = rw.createCell(colpos);
-                cell0.setCellValue(conn.rs.getString(dbcolumns.get(c).toString()));
+                cell0.setCellValue(conn.rs.getInt(dbcolumns.get(c).toString()));
                 cell0.setCellStyle(stborder);
                 colpos++;
             }//end of comparing if
@@ -412,24 +428,25 @@ public class allStaticReports extends HttpServlet {
                 cell0.setCellStyle(stborder);
                 colpos++;
      
-     
+       rowpos++;
+       colpos=0;
      }
      
         
      
      
-     rowpos++;
+   
      
     
     
-    
+    rowpos=2;
     }
             
             
     IdGenerator IG = new IdGenerator();
      String   createdOn=IG.CreatedOn();
     
-            System.out.println(""+form.toUpperCase().trim()+"_REPORT_FOR_"+year.trim()+"("+month.trim()+")_CREATED_"+createdOn.trim()+".xlsx");
+System.out.println(""+form.toUpperCase().trim()+"_REPORT_FOR_"+year.trim()+"("+month.trim()+")_CREATED_"+createdOn.trim()+".xlsx");
      
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);

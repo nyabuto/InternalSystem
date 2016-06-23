@@ -194,6 +194,7 @@ dbConn conn = new dbConn();
 %>
                                        <option value="<%=conn.rs.getString("form")%>"><%=conn.rs.getString("form")%></option>                              
                                    <%}%>
+                                   <option value="MOH 731 HTC">MOH 731 HTC</option>   
                                  </select>
                               </div>
                              </div>
@@ -284,7 +285,10 @@ dbConn conn = new dbConn();
     if(form==="MOH 731") {
    document.getElementById("formActions").action = "reportsTracker731";
     }
-  
+    else if (form==="MOH 731 HTC") {
+   document.getElementById("formActions").action = "htctracker731";
+    }
+    
 else {
  document.getElementById("formActions").action =  "allformsreportstracker";
 }

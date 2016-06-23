@@ -54,35 +54,39 @@ String HV0601,HV0602,HV0605,isValidated,validity;
 int markActive;
 String classType="";
 String HV0340_1,HV0341_1,HV0342_1,HV0343_1,HV0344_1;
-int expectedPMTCT,expectedCARE,expectedPEP;
+int expectedPMTCT,expectedCARE,expectedPEP,expectedHTC;
 int validPMTCT,invalidPMTCT,totalPMTCT;
 int validCARE,invalidCARE,totalCARE;
 int validPEP,invalidPEP,totalPEP;
+int validHTC,invalidHTC,totalHTC;
+
 String enterdby,tabs,subcountyid;
-String invalidPMTCTTXT,invalidCARETXT,invalidPEPTXT;
+String invalidPMTCTTXT,invalidCARETXT,invalidPEPTXT,invalidHTCTXT;
 String unvalidatedFacilities="";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
        String lock = null;
 int isLocked=0;
-        
+        HIV_CT="";
         PrintWriter out = response.getWriter();
         try {
             dbConn conn = new dbConn();
             session=request.getSession();
            markActive=0; 
            classType="";
-           expectedPMTCT=expectedCARE=expectedPEP=0;
+           expectedHTC=expectedPMTCT=expectedCARE=expectedPEP=0;
      validPMTCT=invalidPMTCT=totalPMTCT=0;
      validCARE=invalidCARE=totalCARE=0;
      validPEP=invalidPEP=totalPEP=0;
+     validHTC=invalidHTC=totalHTC=0;
+     
 enterdby=tabs="";
 subcountyid="";
 unvalidatedFacilities="";
      if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
          if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",ART,") || 
-   session.getAttribute("forms_holder").toString().contains(",PEP,")){
+   session.getAttribute("forms_holder").toString().contains(",PEP,") ||  session.getAttribute("forms_holder").toString().contains(",HTC,") ){
            data="";
            if(session.getAttribute("year")!=null){        
    year=session.getAttribute("year").toString();
@@ -102,18 +106,28 @@ unvalidatedFacilities="";
     data="";
     tabs=" <div class=\"tabbable tabbable-custom boxless\">" +
 "                     <ul class=\"nav nav-tabs\">"; 
+    
+     markActive=0;
+     if(session.getAttribute("forms_holder").toString().contains(",HTC,")){
+        if(markActive==0){classType="class=\"active\"";}else{classType="";}
+         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. HIV Counselling and Testing.</b></a></li>";
+    markActive++; 
+    }
+    
     if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
         markActive++;
-         tabs+=" <li class=\"active\"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. Prevention of Mother-to-Child Transmission.</b></a></li>";
+          if(markActive==0){classType="class=\"active\"";}else{classType="";}
+        
+         tabs+=" <li  "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\"><b>2. Prevention of Mother-to-Child Transmission.</b></a></li>";
          }
     if(session.getAttribute("forms_holder").toString().contains(",ART,")){
         if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\"><b>2. Care and Treatment.</b></a></li>";
+         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. Care and Treatment.</b></a></li>";
     markActive++; 
     }
     if(session.getAttribute("forms_holder").toString().contains(",PEP,")){
          if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. Post-Exposure Prophylaxis.</b></a></li>";
+         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. Post-Exposure Prophylaxis.</b></a></li>";
      markActive++;
     }
 //    if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
@@ -130,19 +144,21 @@ unvalidatedFacilities="";
 //          id="2015_1_14498";
     
    
-   String getExpectedForms="SELECT SUM(PMTCT),SUM(ART),SUM(PEP) FROM subpartnera WHERE subpartnera.DistrictID='"+subcountyid+"'" ;
+   String getExpectedForms="SELECT SUM(PMTCT),SUM(ART),SUM(PEP),SUM(HTC) FROM subpartnera WHERE subpartnera.DistrictID='"+subcountyid+"'" ;
    conn.rs1=conn.st1.executeQuery(getExpectedForms);
    if(conn.rs1.next()==true){
 //       System.out.println("pmtct : "+conn.rs1.getString(1)+"  care : "+conn.rs1.getInt(2)+" pep : "+conn.rs1.getInt(3));
            expectedPMTCT=conn.rs1.getInt(1);
            expectedCARE=conn.rs1.getInt(2);
            expectedPEP=conn.rs1.getInt(3);
+           expectedHTC=conn.rs1.getInt(4);
    }
     validPMTCT=invalidPMTCT=totalPMTCT=0;
      validCARE=invalidCARE=totalCARE=0;
      validPEP=invalidPEP=totalPEP=0;
+     validHTC=invalidHTC=totalHTC=0;
      
-    String getEntered="SELECT moh731.isValidated,SUM(subpartnera.PMTCT),SUM(subpartnera.ART),SUM(subpartnera.PEP)"
+    String getEntered="SELECT moh731.isValidated,SUM(subpartnera.PMTCT),SUM(subpartnera.ART),SUM(subpartnera.PEP),SUM(subpartnera.HTC)"
             + " FROM subpartnera JOIN moh731 ON subpartnera.SubPartnerID=moh731.SubPartnerID WHERE "
             + "moh731.Mois='"+month+"' AND moh731.Annee='"+year+"' AND subpartnera.DistrictID='"+subcountyid+"' GROUP BY moh731.isValidated";
     conn.rs1=conn.st1.executeQuery(getEntered);
@@ -152,17 +168,20 @@ unvalidatedFacilities="";
     validPMTCT=conn.rs1.getInt(2);
     validCARE=conn.rs1.getInt(3);
     validPEP=conn.rs1.getInt(4);
+    validHTC=conn.rs1.getInt(5);
    }
    if(conn.rs1.getInt(1)==0){
       invalidPMTCT=conn.rs1.getInt(2);
       invalidCARE=conn.rs1.getInt(3);
       invalidPEP=conn.rs1.getInt(4);
+      invalidHTC=conn.rs1.getInt(5);
       
    }
     }
     totalPMTCT=validPMTCT+invalidPMTCT;
     totalCARE=validCARE+invalidCARE;
     totalPEP=validPEP+invalidPEP;
+    totalHTC=validHTC+invalidHTC;
 // invalidPMTCTTXT="Unvalidated Form(s) : "+invalidPMTCT;
 // invalidCARETXT="Unvalidated Form(s) : "+invalidCARE;
 // invalidPEPTXT="Unvalidated Form(s) : "+invalidPEP;
@@ -170,50 +189,71 @@ unvalidatedFacilities="";
   invalidPMTCTTXT=" Unvalidated Form(s) : 0";
  invalidCARETXT=" Unvalidated Form(s) : 0";
  invalidPEPTXT=" Unvalidated Form(s) : 0";
+ invalidHTCTXT=" Unvalidated Form(s) : 0";
  
-    if(invalidPMTCT>0){
+    if(invalidPMTCT>0)
+    {
    invalidPMTCTTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidPMTCT+"</span></button>";
     }
    
-    if(invalidCARE>0){
+    if(invalidCARE>0)
+    {
   invalidCARETXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidCARE+"</span></button>";       
     }
     
-    if(invalidPEP>0){
+    if(invalidPEP>0)
+    {
   invalidPEPTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidPEP+"</span></button>";       
     }
-    
-//        HIV_CT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
-//                              "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:40%;\">1. HIV Counselling and Testing</h4>" +
-//                              "</div><div class=\"portlet-body form\">";
-//    markActive=0;
-        if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
-        markActive++;
-        PMTCT="<div class=\"tab-pane active\" id=\"tab_1\"><div class=\"portlet box blue\">" +
-                              "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>1. Prevention of Mother-to-Child Transmission.</b><b style=\"color:yellow; font-family:cambria;  margin-left:10%; font-size:16px;\"> Record Counter: "+totalPMTCT+" out of "+expectedPMTCT+" &nbsp; Validated Form(s) : "+validPMTCT+"  &nbsp; "+invalidPMTCTTXT+"</b></h4>" +
+    if(invalidHTC>0)
+    {
+  invalidHTCTXT="<button type=\"button\" class=\"btn btn-primary btn-lg\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#unvalidatedModal\"> Unvalidated Form(s) : <span class=\"badge badge-important\">"+invalidHTC+"</span></button>";       
+    }
+    int tabcount=1;
+     markActive=0;
+     String myclass="";
+     if(session.getAttribute("forms_holder").toString().contains(",HTC,"))
+        {
+            if(markActive==0){classType="active";}else{classType="";}
+            
+        HIV_CT="<div class=\"tab-pane "+classType+" \" id=\"tab_1\"><div class=\"portlet box blue\">" +
+                              "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"> <b>1. HIV Counselling and Testing</b> <b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalHTC+" out of "+expectedHTC+" &nbsp; Validated Form(s) : "+validHTC+"  &nbsp; "+invalidHTCTXT+"</b></h4>" +
                               "<br></div><div class=\"portlet-body form\">";
+   markActive++;
+    tabcount++;
+         }
+        if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){
+                if(markActive==0){classType="active";}else{classType="";}
+       
+        PMTCT="<div class=\"tab-pane "+classType+" \"   id=\"tab_2\"><div class=\"portlet box blue\">" +
+                              "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>2. Prevention of Mother-to-Child Transmission.</b><b style=\"color:yellow; font-family:cambria;  margin-left:10%; font-size:16px;\"> Record Counter: "+totalPMTCT+" out of "+expectedPMTCT+" &nbsp; Validated Form(s) : "+validPMTCT+"  &nbsp; "+invalidPMTCTTXT+"</b></h4>" +
+                              "<br></div><div class=\"portlet-body form\">";
+         markActive++; 
+        tabcount++;
         }
          if(session.getAttribute("forms_holder").toString().contains(",ART,")){
         if(markActive==0){classType="active";}else{classType="";}
-        CT="<div class=\"tab-pane "+classType+"\" id=\"tab_2\"><div class=\"portlet box blue\">" +
-                              "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>2. Care and Treatment.</b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalCARE+" out of "+expectedCARE+" &nbsp; Validated Form(s) : "+validCARE+"  &nbsp; "+invalidCARETXT+"</b></h4>" +
+        CT="<div class=\"tab-pane "+classType+" \" id=\"tab_3\"><div class=\"portlet box blue\">" +
+                              "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>3. Care and Treatment.</b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalCARE+" out of "+expectedCARE+" &nbsp; Validated Form(s) : "+validCARE+"  &nbsp; "+invalidCARETXT+"</b></h4>" +
                               "<br></div><div class=\"portlet-body form\">";
          markActive++;
+          tabcount++;
          }
 //        VMMC="<div class=\"tab-pane \" id=\"tab_4\"><div class=\"portlet box blue\">" +
 //                              "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:40%;\">4. Voluntary Medical Male Circumcision</h4>" +
 //                              "</div><div class=\"portlet-body form\">";
          if(session.getAttribute("forms_holder").toString().contains(",PEP,")){
               if(markActive==0){classType="active";}else{classType="";}
-        PEP="<div class=\"tab-pane "+classType+" \" id=\"tab_3\"><div class=\"portlet box blue\">" +
-                             "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>3. Post-Exposure Prophylaxis. </b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalPEP+" out of "+expectedPEP+" &nbsp; Validated Form(s) : "+validPEP+"  &nbsp; "+invalidPEPTXT+"</b></h4>" +
+        PEP="<div class=\"tab-pane "+classType+" \" id=\"tab_4\"><div class=\"portlet box blue\">" +
+                             "<br><div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:0%;\"><b>4. Post-Exposure Prophylaxis. </b><b style=\"color:yellow; font-family:cambria;  margin-left:25%; font-size:16px;\"> Record Counter: "+totalPEP+" out of "+expectedPEP+" &nbsp; Validated Form(s) : "+validPEP+"  &nbsp; "+invalidPEPTXT+"</b></h4>" +
                               "<br></div><div class=\"portlet-body form\">";
          markActive++;
+          tabcount++;
          }
 //             if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){
 //         if(markActive==0){classType="active";}else{classType="";}
 //        Blood="<div class=\"tab-pane "+classType+" \" id=\"tab_4\"><div class=\"portlet box blue\">" +
-//                              "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:40%;\">4. Blood Safety.</h4>" +
+//                              "<div class=\"portlet-autocomplete=\"off\" title\"><h4 style=\"margin-left:40%;\">"+tabcount+". Blood Safety.</h4>" +
 //                              "</div><div class=\"portlet-body form\">";
 //             }
              
@@ -1103,7 +1143,7 @@ isValidated=conn.rs.getString("isValidated");
         else if(isLocked==1){validationText="<b>Data Locked !</b>";buttonColor="red";titleText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style=\"color:red;\">Sorry: Data editing has been locked for this health facility, year and month.</b>";}
         else{}
         
-          HIV_CT+="</div></div></div>";
+        HIV_CT+="</div></div></div>";
         PMTCT+="</div></div></div>";
         CT+="</div></div></div>";
         VMMC+="</div></div></div>";
@@ -1111,7 +1151,8 @@ isValidated=conn.rs.getString("isValidated");
 //        Blood+="</div></div></div>";
       
         data+=""+enterdby+""+titleText+"<br><br><br>"+tabs;
-        
+             System.out.println("____"+HIV_CT);
+        if(session.getAttribute("forms_holder").toString().contains("HTC,")){data+=HIV_CT;}
         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){data+=PMTCT;}
         if(session.getAttribute("forms_holder").toString().contains(",ART,")){data+=CT;}
         if(session.getAttribute("forms_holder").toString().contains(",PEP,")){data+=PEP;}

@@ -35,7 +35,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
  *
  * @author Geofrey Nyabuto
  */
-public class reportsTracker731 extends HttpServlet {
+public class htctracker731 extends HttpServlet {
 HttpSession session;
 int year,prevYear,month,isPMTCT,isART,isPEP;
 String header,facilityName,countyName,districtName,mflcode,monthName,createdOn;
@@ -59,7 +59,7 @@ String currentCounty,prevCounty;
         IdGenerator IG = new IdGenerator();
         allMonths.clear();
         allReports.clear();
-        duration="WHERE (moh731.yearmonth BETWEEN "+prevYear+""+10+" AND "+year+"09) AND (subpartnera.PMTCT=1 OR subpartnera.ART=1 OR subpartnera.PEP=1 OR subpartnera.HTC=1)";
+        duration="WHERE (moh731.yearmonth BETWEEN "+prevYear+""+10+" AND "+year+"09) AND ( subpartnera.HTC=1) AND ( HV0103 > 0)";
         
         currentMonth=IG.CurrentMonth();
        
@@ -67,7 +67,7 @@ String currentCounty,prevCounty;
         monthsData="";
  //            ^^^^^^^^^^^^^CREATE STATIC AND WRITE STATIC DATA TO THE EXCELL^^^^^^^^^^^^
    HSSFWorkbook wb=new HSSFWorkbook();
-  HSSFSheet shet1=wb.createSheet("MOH 731 REPORTS TRACKER");
+  HSSFSheet shet1=wb.createSheet("MOH 731 HTC REPORTS TRACKER");
 
   HSSFFont font=wb.createFont();
  font.setFontHeightInPoints((short)18);
@@ -373,7 +373,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=Reporting_summary_for_PEPFAR_YEAR("+year+")_"+createdOn.trim()+".xls");
+response.setHeader("Content-Disposition", "attachment; filename=HTC_Tracker_summary_for_PEPFAR_YEAR("+year+")_"+createdOn.trim()+".xls");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();

@@ -442,7 +442,7 @@ HV0401=HV0402=HV0403=HV0406=HV0407=HV0408=HV0409=HV0410=HV0411=HV0412=HV0413=HV0
               
  System.out.println("Data already exist loading............................");
 
- if(conn.rs.getInt(1)==0){HV0101=conn.rs.getInt(1);}
+  if(conn.rs.getInt(1)!=0){HV0101=conn.rs.getInt(1);}
   if(conn.rs.getInt(2)!=0){HV0102=conn.rs.getInt(2);}
   if(conn.rs.getInt(3)!=0){HV0103=conn.rs.getInt(3);}
   if(conn.rs.getInt(4)!=0){HV0105=conn.rs.getInt(4);}
@@ -1293,7 +1293,7 @@ HV0355=conn.rs.getInt(36);
         
        data+="<table style=\"color:black; font-size:6px;\" width=\"90%\">"
               + "<tr>"
-               + "<td>"+header+""+PMTCT+""+CT+""+PEP+"</td>"
+               + "<td>"+header+""+HIV_CT+""+PMTCT+""+CT+""+PEP+"</td>"
                + "</tr>"
                + "</table>"
                + "";

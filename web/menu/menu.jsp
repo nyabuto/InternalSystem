@@ -55,14 +55,16 @@
                </a>
             </li>
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh711,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711A")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
            
-               <a href="load711.jsp">
+           
+              
+                <a href="load711.jsp">
                <!--<i class="icon-bookmark-empty"></i>--> 
-               <span class="title">MOH 711A</span>
+               <span class="title">MOH 711 A</span>
                <!--<span class="arrow "></span>-->
                </a>
-              
+                
             </li>
             <%}}%>
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh731,")){%> 
@@ -122,6 +124,20 @@
                <!--<i class="icon-calendar"></i>--> 
                <span class="title">TB</span>
                </a>
+            </li>
+            <%}}%>
+            
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh711,")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
+           
+             <a href="loadnew711.jsp">
+               <!--<i class="icon-bookmark-empty"></i>--> 
+               <span class="title">MOH 711 (New)</span>
+               <!--<span class="arrow "></span>-->
+               </a> 
+              
+               
+                
             </li>
             <%}}%>
             

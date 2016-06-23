@@ -43,7 +43,8 @@ public class loadForms extends HttpServlet {
  System.out.println("form session "+form);
     
     while(conn.rs.next()){
-      if(conn.rs.getString("form").equals("MOH 711A")){user_access="moh711";}  
+        
+      if(conn.rs.getString("form").equals("MOH 711A") || conn.rs.getString("form").equalsIgnoreCase("MOH 711 (New)")){user_access="moh711";}  
       if(conn.rs.getString("form").equals("MOH 731")){user_access="moh731";}   
       if(conn.rs.getString("form").equals("Gender")){user_access="gender";}  
       if(conn.rs.getString("form").equals("VMMC")){user_access="vmmc";}  
@@ -60,9 +61,9 @@ public class loadForms extends HttpServlet {
       if(session.getAttribute("userAccess")!=null){ if(session.getAttribute("userAccess").toString().contains(","+user_access+",")) {  
         forms+="<option selected value='"+conn.rs.getString("nextpage") +"'>"+conn.rs.getString("form")+"</option>";   
      }
-     else{
+      else {
      forms+="<option selected value='"+conn.rs.getString("nextpage") +"' disabled>"+conn.rs.getString("form")+"  [ Inaccessible form ]</option>";   
-        }  
+         }  
       }
          }
         

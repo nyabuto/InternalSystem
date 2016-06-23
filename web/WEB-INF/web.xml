@@ -429,6 +429,30 @@
         <servlet-name>synctbdata</servlet-name>
         <servlet-class>LoadExcels.synctbdata</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load711_new</servlet-name>
+        <servlet-class>InternalSystem.load711_new</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load711_new1</servlet-name>
+        <servlet-class>General.load711_new1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>htctracker731</servlet-name>
+        <servlet-class>reports.htctracker731</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save711new</servlet-name>
+        <servlet-class>InternalSystem.save711new</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate711new</servlet-name>
+        <servlet-class>InternalSystem.validate711new</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>new711report</servlet-name>
+        <servlet-class>reports.new711report</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -856,6 +880,30 @@
     <servlet-mapping>
         <servlet-name>synctbdata</servlet-name>
         <url-pattern>/synctbdata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load711_new</servlet-name>
+        <url-pattern>/load711_new</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load711_new1</servlet-name>
+        <url-pattern>/load711_new1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>htctracker731</servlet-name>
+        <url-pattern>/htctracker731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save711new</servlet-name>
+        <url-pattern>/save711new</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate711new</servlet-name>
+        <url-pattern>/validate711new</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>new711report</servlet-name>
+        <url-pattern>/new711report</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
