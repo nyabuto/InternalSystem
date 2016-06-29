@@ -110,43 +110,43 @@ int secCounter;
         //_________________________________SemiAnnualy_________________________________
 	 
 	     //oct-mar
-          if(quarter.equals("1")||quarter.equals("2")){
-	   if(yearint<=2014){
-       subpartnerid="SP_ID";
-       subpartnera="subpartnera2014";
-       }
-       else if(yearint>2015) {
-        subpartnerid="SubPartnerID";
-        subpartnera="subpartnera";
-       }
-	   else if(yearint==2015){
-		   //for oct-mar, use old database list
-	 subpartnerid="SP_ID";
-       subpartnera="subpartnera2014";  
-		   
-	   }
-            
-          }
-          else if(quarter.equals("3")||quarter.equals("4")){
-          //apr-sep
-          
-               //apr-sep
-           
-              if(yearint<=2014){
-       subpartnerid="SP_ID";
-       subpartnera="subpartnera2014";
-       }
-       else if(yearint>2015) {
-        subpartnerid="SubPartnerID";
-        subpartnera="subpartnera";
-       }
-	   else if(yearint==2015){
-	     subpartnerid="SubPartnerID";
-        subpartnera="subpartnera";	   
-		   
-	   }
-              
-          }
+//          if(quarter.equals("1")||quarter.equals("2")){
+//	   if(yearint<=2014){
+//       subpartnerid="SP_ID";
+//       subpartnera="subpartnera2014";
+//       }
+//       else if(yearint>2015) {
+//        subpartnerid="SubPartnerID";
+//        subpartnera="subpartnera";
+//       }
+//	   else if(yearint==2015){
+//		   //for oct-mar, use old database list
+//	 subpartnerid="SP_ID";
+//       subpartnera="subpartnera2014";  
+//		   
+//	   }
+//            
+//          }
+//          else if(quarter.equals("3")||quarter.equals("4")){
+//          //apr-sep
+//          
+//               //apr-sep
+//           
+//              if(yearint<=2014){
+//       subpartnerid="SP_ID";
+//       subpartnera="subpartnera2014";
+//       }
+//       else if(yearint>2015) {
+//        subpartnerid="SubPartnerID";
+//        subpartnera="subpartnera";
+//       }
+//	   else if(yearint==2015){
+//	     subpartnerid="SubPartnerID";
+//        subpartnera="subpartnera";	   
+//		   
+//	   }
+//              
+//          }
 	      
             
         semi_annual=request.getParameter("semi_annual");

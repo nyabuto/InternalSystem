@@ -453,6 +453,10 @@
         <servlet-name>new711report</servlet-name>
         <servlet-class>reports.new711report</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>newmoh711_StaticReport</servlet-name>
+        <servlet-class>reports.newmoh711_StaticReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -904,6 +908,10 @@
     <servlet-mapping>
         <servlet-name>new711report</servlet-name>
         <url-pattern>/new711report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newmoh711_StaticReport</servlet-name>
+        <url-pattern>/newmoh711_StaticReport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

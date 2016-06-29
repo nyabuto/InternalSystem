@@ -89,8 +89,9 @@
       </div>
       <div>
           
-          <h4><font color='orange'><b>* Note: </b></font><font color='green'><b>New Moh 711 form (July. 2015) is now active  from 8th June 2016.</b></font></h4>
-          <h4><font color='orange'>* <b>The old MOH 711 is still active</b></font></h4>
+          <!--<h4><font color='orange'><b>* Note: </b></font><font color='green'><b>New Moh 711 form (July. 2015) is now active  from 8th June 2016.</b></font></h4>-->
+          <!--<h4><font color='orange'>* <b>The old MOH 711 is still active</b></font></h4>-->
+          <h4 class="well"><font color='orange'>* <b>New 711 static excel report is now available</b></font></h4>
       </div>
     </form>
     

@@ -368,6 +368,14 @@ dbConn conn = new dbConn();
   else if(reportFormat==="pdf" &&form==="MOH 711A") {
 document.getElementById("formActions").action = "moh711_StaticReport";
    }
+   
+    else if( reportFormat==="excel" && form==="MOH 711 (New)") {
+ document.getElementById("formActions").action = "newmoh711_StaticReport";
+    }
+     else if( reportFormat==="pdf" && form==="MOH 711 (New)") {
+ document.getElementById("formActions").action = "newmoh711_StaticReport";
+    }
+    
    else if(reportFormat==="pdf" &&form==="TB") {
 document.getElementById("formActions").action = "tbpdf";
    
