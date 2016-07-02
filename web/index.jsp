@@ -57,7 +57,7 @@
       
     <!-- BEGIN LOGIN FORM -->
     <form action="login" class="form-vertical login-form" method="post" style="">
-      <h3 class="form-title">Login to your account.</h3>
+      <h3 class="form-title well">Login to your account.</h3>
       <div class="alert alert-error hide">
         <button class="close" data-dismiss="alert"></button>
         <span>Enter your username and password.</span>
@@ -87,11 +87,13 @@
         Login <i class="m-icon-swapright m-icon-white"></i>
         </button>            
       </div>
-      <div>
+      <div class="well">
           
           <!--<h4><font color='orange'><b>* Note: </b></font><font color='green'><b>New Moh 711 form (July. 2015) is now active  from 8th June 2016.</b></font></h4>-->
           <!--<h4><font color='orange'>* <b>The old MOH 711 is still active</b></font></h4>-->
-          <h4 class="well"><font color='orange'>* <b>New 711 static excel report is now available</b></font></h4>
+         
+          <h4 ><font color='orange'>* <b>New 711 static excel report is now available</b></font></h4>
+          <h4 ><font color='orange'>* <b>731 HTC ratios applied in datim HTC report</b></font></h4>
       </div>
     </form>
     

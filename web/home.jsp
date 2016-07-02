@@ -144,7 +144,7 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i></h4>
+                        <h4 style="color:white;"> <i class="icon-reorder"></i> </h4>
                        
                      </div>
                      <div class="portlet-body form">

@@ -457,6 +457,10 @@
         <servlet-name>newmoh711_StaticReport</servlet-name>
         <servlet-class>reports.newmoh711_StaticReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>newdatimHTCResults_2016</servlet-name>
+        <servlet-class>Datim.newdatimHTCResults_2016</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -912,6 +916,10 @@
     <servlet-mapping>
         <servlet-name>newmoh711_StaticReport</servlet-name>
         <url-pattern>/newmoh711_StaticReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newdatimHTCResults_2016</servlet-name>
+        <url-pattern>/newdatimHTCResults_2016</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

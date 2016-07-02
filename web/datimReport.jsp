@@ -226,7 +226,8 @@
                               <div class="controls">
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
                                     <option value="datimReport">ART,CARE,and PMTCT </option>
-                                    <option value="datimHTCResults">HTC_SDP, VMMC and HTC</option>
+                                    <option value="newdatimHTCResults_2016" title="HTC data source is 731">(New) HTC_SDP, VMMC and HTC</option>
+                                    <option value="newdatimHTCResults_2016" title="HTC data source is 711">(Old) HTC_SDP, VMMC and HTC</option>
                                     <option value="datimTbViralRetention"> TB,RETENTION , VIRAL LOAD,POST-GBV CARE</option>
                                  </select>
                               </div>
@@ -327,6 +328,11 @@
     if( reportFormat==="datimReport") {
    document.getElementById("formActions").action = "datimReport";
                                       }
+      else if(reportFormat==="newdatimHTCResults_2016"){
+        
+           document.getElementById("formActions").action = "newdatimHTCResults_2016";
+        
+             }
       else if(reportFormat==="datimHTCResults"){
         
            document.getElementById("formActions").action = "datimHTCResults";
