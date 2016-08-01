@@ -461,6 +461,18 @@
         <servlet-name>newdatimHTCResults_2016</servlet-name>
         <servlet-class>Datim.newdatimHTCResults_2016</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NEWANDOLD711_REPORT</servlet-name>
+        <servlet-class>reports.NEWANDOLD711_REPORT</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sync_tb_from_opd</servlet-name>
+        <servlet-class>LoadExcels.sync_tb_from_opd</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>highvolumescript</servlet-name>
+        <servlet-class>scripts.highvolumescript</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -920,6 +932,18 @@
     <servlet-mapping>
         <servlet-name>newdatimHTCResults_2016</servlet-name>
         <url-pattern>/newdatimHTCResults_2016</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NEWANDOLD711_REPORT</servlet-name>
+        <url-pattern>/NEWANDOLD711_REPORT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sync_tb_from_opd</servlet-name>
+        <url-pattern>/sync_tb_from_opd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>highvolumescript</servlet-name>
+        <url-pattern>/highvolumescript</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

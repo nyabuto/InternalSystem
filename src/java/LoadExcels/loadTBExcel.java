@@ -112,7 +112,15 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
                         HSSFCell cellFacilityName = rowi.getCell((short) 4);
 			facilityName = cellFacilityName.getStringCellValue();
                         HSSFCell cellMFLCODE = rowi.getCell((short) 5);
-			mflcode = cellMFLCODE.getStringCellValue();
+                           if(cellMFLCODE.getCellType()==0){                             //numeric
+			
+                        mflcode = ""+(int)cellMFLCODE.getNumericCellValue();
+                         } else if(cellMFLCODE.getCellType()==1){
+			
+                        mflcode = cellMFLCODE.getStringCellValue();
+                         }
+                        
+			
                         
                          HSSFCell cellstype = rowi.getCell((short) 6);
 			String supporttype = cellstype.getStringCellValue();

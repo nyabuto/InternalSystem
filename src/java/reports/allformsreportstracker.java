@@ -64,7 +64,7 @@ String currentCounty,prevCounty;
         if(form.equalsIgnoreCase("MOH 711A")){ tablename="moh711"; }
         
         //for now, redirect Hei to 711. this will be corrected later
-        
+         if(form.equalsIgnoreCase("MOH 711 (New)")){tablename="moh711_new";}
         else if (tablename.equals("hei")){ tablename="moh711"; }
         
         String kmmpor="subpartnera.KMMP=1";

@@ -92,8 +92,10 @@
           <!--<h4><font color='orange'><b>* Note: </b></font><font color='green'><b>New Moh 711 form (July. 2015) is now active  from 8th June 2016.</b></font></h4>-->
           <!--<h4><font color='orange'>* <b>The old MOH 711 is still active</b></font></h4>-->
          
-          <h4 ><font color='orange'>* <b>New 711 static excel report is now available</b></font></h4>
-          <h4 ><font color='orange'>* <b>731 HTC ratios applied in datim HTC report</b></font></h4>
+          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>29/Jun/2016</b> ] </font><font color='orange'>  <b>New 711 static excel report added</b></font></h4>-->
+          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>01/Jul/2016]</b> </font><font color='orange'>  <b>731 HTC ratios applied in datim HTC report</b></font></h4>-->
+          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>06/Jul/2016]</b> </font><font color='orange'>  <b>No. of sites in datim HTC excel report is now static for all periods, regardless of whether the site has data or not for the selected period.  </b></font></h4>-->
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>26/Jul/2016]</b> </font><font color='orange'>  <b>High Volume Sites labels added on Datim HTC/PMTCT/HTC_SDP and ART/CARE/PMTCT Report   </b></font></h4>
       </div>
     </form>
     

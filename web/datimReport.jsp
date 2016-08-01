@@ -227,7 +227,7 @@
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
                                     <option value="datimReport">ART,CARE,and PMTCT </option>
                                     <option value="newdatimHTCResults_2016" title="HTC data source is 731">(New) HTC_SDP, VMMC and HTC</option>
-                                    <option value="newdatimHTCResults_2016" title="HTC data source is 711">(Old) HTC_SDP, VMMC and HTC</option>
+                                    <option value="datimHTCResults" title="HTC data source is 711">(Old) HTC_SDP, VMMC and HTC</option>
                                     <option value="datimTbViralRetention"> TB,RETENTION , VIRAL LOAD,POST-GBV CARE</option>
                                  </select>
                               </div>

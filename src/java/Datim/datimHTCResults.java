@@ -376,486 +376,90 @@ stylemainHeader.setWrapText(true);
   shet3.setColumnWidth(0, 4000);  
   shet3.setColumnWidth(1, 5000);  
   shet3.setColumnWidth(2,7000);  
-  shet3.setColumnWidth(6,5000);  
-//    for (int i=1;i<=42;i++){
-//   shet3.setColumnWidth(i, 2000);     
-//    }
- HSSFRow rw0=shet3.createRow(0);
- rw0.setHeightInPoints(30);
- HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
+  //shet3.setColumnWidth(6,5000);
+  
+   HSSFCell  c12,c13,c14,c15,c16,c17,c18,c19,c20,c110,c111,c112,c113,c114,c115,c116,c117,c118,c219;
+      HSSFCell    c119,c120,c121,c122,c123,c124,c125,c126,c127,c128,c129,c130,c131,c132,c133,c134,c135,c136,c137;  
+   HSSFCell c211,c212,c213,c214,c215,c216,c217,cARTHV,cHTCHV,cPMTCTHV;
+  
+  
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXnew 20160725
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXnew 20160725
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXnew 20160725
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXnew 20160725
+
+
+  String newheader0="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,FEMALE(POSITIVE),,,,,,,,,MALE (POSITIVE),,,,,,,,NEGATIVE,FEMALE (NEGATIVE),,,,,,,,,MALE (NEGATIVE),,,,,,,, ,,,,,,,,";
+  String newheader1="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,Paeds <15Yr,,,,Adults 15+Yr,,,,TOTAL +VE MALE,Paeds < 15Yr,,,,Adults 15+Yr,,,,TOTAL -VE(F),Paeds <15Yr,,,,Adults 15+Yr,,,,TOTAL -VE(M),Paeds <15Yr,,,,Adults 15+Yr,,,,Female,,Male,,Sub-total,Positive,Negative,Sub-total,Verification Status";
+  String newheader2="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL +VE MALE,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL -VE(F),<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL -VE(M),<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,< 15,15 +,< 15,15 +,Sub-total,Positive,Negative,Sub-total,Verification Status";
+
+  String header0array[]=newheader0.split(",");
+  String header1array[]=newheader1.split(",");
+  String header2array[]=newheader2.split(",");
+  
+  //create header1
+   HSSFRow rw0=shet3.createRow(0);
+           rw0.setHeightInPoints(30);
+           
+           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
          c1=rw0.createCell(0);
          
-         
+      //_____________________________________________________________report heading row 0   
       c1.setCellValue(period1);
       c1.setCellStyle(stylemainHeader);
-      for(int j=1;j<=51;j++){
+      for(int j=1;j<=header0array.length-1;j++){
       c1=rw0.createCell(j);
        c1.setCellStyle(stylemainHeader);
       }
-      shet3.addMergedRegion(new CellRangeAddress(0,0,0,17));
-     HSSFCell  c12,c13,c14,c15,c16,c17,c18,c19,c20,c110,c111,c112,c113,c114,c115,c116,c117,c118,c219;
-      HSSFCell    c119,c120,c121,c122,c123,c124,c125,c126,c127,c128,c129,c130,c131,c132,c133,c134,c135,c136,c137;  
-   HSSFCell c211,c212,c213,c214,c215,c216,c217;
-        rw0=shet3.createRow(2); 
-        rw0.setHeightInPoints(30);
+      
+      //-----------------------------------row 1 header 
+       rw0=shet3.createRow(2); 
+       rw0.setHeightInPoints(30);
  
       
-       
-        
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
-        
-        
-        
-         c211.setCellValue("COUNTY");
-         c212.setCellValue("SUB-COUNTY");
-         c213.setCellValue("FACILITY");
-         c214.setCellValue("MFL-CODE");
-         c215.setCellValue("TYPE OF SUPPORT");
-        
-         c11=rw0.createCell(7);
-         
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c110=rw0.createCell(16);
-         c111=rw0.createCell(17);
-         c112=rw0.createCell(18);
-         c113=rw0.createCell(19);
-         c114=rw0.createCell(20);
-         c115=rw0.createCell(21);
-         c116=rw0.createCell(22);
-         c117=rw0.createCell(23);
-         c118=rw0.createCell(24);
-         
+    for (int i=0;i<header0array.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(header0array[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
+ //-----------------------------------row 2 header 
+       rw0=shet3.createRow(3); 
+       rw0.setHeightInPoints(30);
+ 
       
-         c119=rw0.createCell(25);
-         c120=rw0.createCell(26);
-         c121=rw0.createCell(27);
-         c122=rw0.createCell(28);
-         c123=rw0.createCell(29);
-         c124=rw0.createCell(30);
-         c125=rw0.createCell(31);
-         c126=rw0.createCell(32);
-         c127=rw0.createCell(33);
-         c128=rw0.createCell(34);
-         c129=rw0.createCell(35);
-         c130=rw0.createCell(36);
-         c131=rw0.createCell(37);
-         c132=rw0.createCell(38);
-         c133=rw0.createCell(39);
-         c134=rw0.createCell(40);
-         c135=rw0.createCell(41);
-         c136=rw0.createCell(42);
-         c137=rw0.createCell(43);
-         
-        c216.setCellValue("Total HIV+");
-             
-        c217.setCellValue("Total HIV+ (F)");
-      c11.setCellValue("");
-  
-      c12.setCellValue("FEMALE(POSITIVE)");
-              c216.setCellStyle(stylemainHeader);
-              c217.setCellStyle(stylemainHeader);
-              c11.setCellStyle(stylemainHeader);
-              c12.setCellStyle(stylemainHeader);
-      c13.setCellValue("");
-      c14.setCellValue("");
-      c15.setCellValue("");
-      c16.setCellValue("");
-      c17.setCellValue("");
-      c18.setCellValue("");
-      c19.setCellValue("");
+    for (int i=0;i<header1array.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(header1array[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
       
-      c110.setCellValue("");
-      
-      c111.setCellValue("MALE (POSITIVE)");
-      c111.setCellStyle(stylemainHeader);
-      c112.setCellValue("");
-      c113.setCellValue("");
-      c114.setCellValue("");
-      c115.setCellValue("");
-      c116.setCellValue("");
-      c117.setCellValue("");
-      c118.setCellValue("");
-    
-      
-//      
-//       rw0=shet3.createRow(2);
-//        rw0.setHeightInPoints(20);
-        
-     
-   c119.setCellValue("NEGATIVE");
-      c120.setCellValue("FEMALE (NEGATIVE)");
-      c119.setCellStyle(stylemainHeader);
-      c120.setCellStyle(stylemainHeader);
-      c121.setCellValue("");
-      c122.setCellValue("");
-      c123.setCellValue("");
-      c124.setCellValue("");
-      c125.setCellValue("");
-      c126.setCellValue("");
-      c127.setCellValue("");
-      
-      c128.setCellValue("");
-      
-      c129.setCellValue("MALE (NEGATIVE)");
-      c129.setCellStyle(stylemainHeader);
-      c130.setCellValue("");
-      c131.setCellValue("");
-      c132.setCellValue("");
-      c133.setCellValue("");
-      c134.setCellValue("");
-      c135.setCellValue("");
-      c136.setCellValue("");
-      c137.setCellValue("");
-     for(int i=0; i<=22;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(stylemainHeader);
-      }
-     //add a blank header
-      for(int i=43; i<=51;i++){
-          c11=rw0.createCell(i);
-          c11.setCellStyle(stylemainHeader);
-      }
       
      
-     
-    for(int i=23; i<=43;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(stylemainHeader);
-      }
-      
-   
-     shet3.addMergedRegion(new CellRangeAddress(2,2,8,15));
-     shet3.addMergedRegion(new CellRangeAddress(2,2,17,24));
-     
-     shet3.addMergedRegion(new CellRangeAddress(2,2,26,33));
-     shet3.addMergedRegion(new CellRangeAddress(2,2,35,42));
-     shet3.addMergedRegion(new CellRangeAddress(2,2,43,51));
-     
-      
-   rw0=shet3.createRow(3);
+    //-----------------------------------row 3 header 
+   rw0=shet3.createRow(4); 
    rw0.setHeightInPoints(30);
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
-        
-         
-         // other data
-         c11=rw0.createCell(7);
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c110=rw0.createCell(16);
-         c111=rw0.createCell(17);
-         c112=rw0.createCell(18);
-         c113=rw0.createCell(19);
-         c114=rw0.createCell(20);
-         c115=rw0.createCell(21);
-         c116=rw0.createCell(22);
-         c117=rw0.createCell(23);
-         c118=rw0.createCell(24);
-         
-        
-         
-      c11.setCellValue("Num");
-      c216.setCellValue("TOTAL HIV+");
-      c217.setCellValue("TOTAL +VE (F)");
-      c12.setCellValue("Paeds <15Yr");
-      c13.setCellValue("");
-      c14.setCellValue("");
-      c15.setCellValue("");
-      c16.setCellValue("Adults 15+Yr");
-      c17.setCellValue("");
-      c18.setCellValue("");
-      c19.setCellValue("");
+ 
       
-      c110.setCellValue("TOTAL +VE MALE");
-      
-      c111.setCellValue("Paeds <15Yr");
-      c112.setCellValue("");
-      c113.setCellValue("");
-      c114.setCellValue("");
-      c115.setCellValue("Adults 15+Yr");
-      c116.setCellValue("");
-      c117.setCellValue("");
-      c118.setCellValue("");
-      
-      
-         c11=rw0.createCell(25);
-         c12=rw0.createCell(26);
-         c13=rw0.createCell(27);
-         c14=rw0.createCell(28);
-         c15=rw0.createCell(29);
-         c16=rw0.createCell(30);
-         c17=rw0.createCell(31);
-         c18=rw0.createCell(32);
-         c19=rw0.createCell(33);
-         c110=rw0.createCell(34);
-         c111=rw0.createCell(35);
-         c112=rw0.createCell(36);
-         c113=rw0.createCell(37);
-         c114=rw0.createCell(38);
-         c115=rw0.createCell(39);
-         c116=rw0.createCell(40);
-         c117=rw0.createCell(41);
-         c118=rw0.createCell(42);
-        
-         
-      c11.setCellValue("TOTAL -VE(F)");
-      c12.setCellValue("Paeds <15Yr");
-      c13.setCellValue("");
-      c14.setCellValue("");
-      c15.setCellValue("");
-      c16.setCellValue("Adults 15+Yr");
-      c17.setCellValue("");
-      c18.setCellValue("");
-      c19.setCellValue("");
-      
-      c110.setCellValue("TOTAL -VE(M)");
-      
-      c111.setCellValue("Paeds <15Yr");
-      c112.setCellValue("");
-      c113.setCellValue("");
-      c114.setCellValue("");
-      c115.setCellValue("Adults 15+Yr");
-      c116.setCellValue("");
-      c117.setCellValue("");
-      c118.setCellValue("");
-      //201510
-      
-         c119=rw0.createCell(43);
-         c119.setCellStyle(stylemainHeader);
-         c120=rw0.createCell(44);
-         c120.setCellStyle(stylemainHeader);
-         c121=rw0.createCell(45);
-         c121.setCellStyle(stylemainHeader);
-         c122=rw0.createCell(46);
-         c122.setCellStyle(stylemainHeader);
-         c123=rw0.createCell(47);
-         c123.setCellStyle(stylemainHeader);
-         c124=rw0.createCell(48);
-         c124.setCellStyle(stylemainHeader);
-         c125=rw0.createCell(49);
-         c125.setCellStyle(stylemainHeader);
-         c126=rw0.createCell(50);
-         c126.setCellStyle(stylemainHeader);
-         c127=rw0.createCell(51);
-         c127.setCellStyle(stylemainHeader);
-         c128=rw0.createCell(52);
-       
-      c119.setCellValue("Female");
-      c120.setCellValue("");
-      c121.setCellValue("Male");
-      c122.setCellValue("");
-      c123.setCellValue("Sub-Total");
-      c124.setCellValue("Positive");
-      c125.setCellValue("Negative");
-      c126.setCellValue("Sub-total");
-      c127.setCellValue("Verification Status");
-      
-      
-       for(int i=0; i<=22;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(styleHeader);
-      }
-      
-      shet3.addMergedRegion(new CellRangeAddress(3,3,8,11));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,12,15));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,17,20));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,21,24)); 
-//     
-      for(int k=23; k<=42;k++){
-          c113=rw0.getCell(k);
-          c113.setCellStyle(styleHeader);
-      }
-     
-     shet3.addMergedRegion(new CellRangeAddress(3,3,26,29));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,30,33));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,35,38));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,39,42)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,3,43,44)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,3,45,46)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,47,47)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,48,48)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,49,49)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,50,50)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,51,51)); 
-     
-      rw0=shet3.createRow(4);
-      rw0.setHeightInPoints(30);
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
-         
-         
-         // for ther est
-         c11=rw0.createCell(7);
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c110=rw0.createCell(16);
-         c111=rw0.createCell(17);
-         c112=rw0.createCell(18);
-         c113=rw0.createCell(19);
-         c114=rw0.createCell(20);
-         c115=rw0.createCell(21);
-         c116=rw0.createCell(22);
-         c117=rw0.createCell(23);
-         c118=rw0.createCell(24);
-         
-         
-      c11.setCellValue("NUM");
-      c216.setCellValue("TOTAL HIV+");
-      c217.setCellValue("TOTAL +VE(F)");
-      c12.setCellValue("<1 ");
-      c13.setCellValue("1-4Y");
-      c14.setCellValue("5-9Y");
-      c15.setCellValue("10-14Y");
-      c16.setCellValue("15-19Y");
-      c17.setCellValue("20-24Y");
-      c18.setCellValue("25-49Y");
-      c19.setCellValue("50+Y");
-      
-      c110.setCellValue("TOTAL +VE MALE");
-      shet3.addMergedRegion(new CellRangeAddress(3,4,16,16));
-      c111.setCellValue("<1");
-      c112.setCellValue("1-4Y");
-      c113.setCellValue("5-9Y");
-      c114.setCellValue("10-14Y");
-      c115.setCellValue("15-19Y");
-      c116.setCellValue("20-24Y");
-      c117.setCellValue("25-49Y");
-      c118.setCellValue("50+Y");
-      
-      
-         for(int i=0; i<=22;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(styleHeader);
-      }
-//     
-      
-      // for negative
-      
-
-  
-         c11=rw0.createCell(25);
-         c12=rw0.createCell(26);
-         c13=rw0.createCell(27);
-         c14=rw0.createCell(28);
-         c15=rw0.createCell(29);
-         c16=rw0.createCell(30);
-         c17=rw0.createCell(31);
-         c18=rw0.createCell(32);
-         c19=rw0.createCell(33);
-         c110=rw0.createCell(34);
-         c111=rw0.createCell(35);
-         c112=rw0.createCell(36);
-         c113=rw0.createCell(37);
-         c114=rw0.createCell(38);
-         c115=rw0.createCell(39);
-         c116=rw0.createCell(40);
-         c117=rw0.createCell(41);
-         c118=rw0.createCell(42);
-         c119=rw0.createCell(43);
-         
-         
-      c11.setCellValue("TOTAL -VE(F)");
-       shet3.addMergedRegion(new CellRangeAddress(3,4,25,25));
-      c12.setCellValue("<1");
-      c13.setCellValue("1-4Y");
-      c14.setCellValue("5-9Y");
-      c15.setCellValue("10-14Y");
-      c16.setCellValue("15-19Y");
-      c17.setCellValue("20-24Y");
-      c18.setCellValue("25-49Y");
-      c19.setCellValue("50+Y");
-      
-      c110.setCellValue("TOTAL -VE(M)");
-        shet3.addMergedRegion(new CellRangeAddress(3,4,34,34));
-      c111.setCellValue("<1");
-      c112.setCellValue("1-4Y");
-      c113.setCellValue("5-9Y");
-      c114.setCellValue("10-14Y");
-      c115.setCellValue("15-19Y");
-      c116.setCellValue("20-24Y");
-      c117.setCellValue("25-49Y");
-      c118.setCellValue("50+Y");
-     
-      
-  //20151009
-      
-       
-         c119=rw0.createCell(43);
-         c119.setCellStyle(stylemainHeader);
-         c120=rw0.createCell(44);
-         c120.setCellStyle(stylemainHeader);
-         c121=rw0.createCell(45);
-         c121.setCellStyle(stylemainHeader);
-         c122=rw0.createCell(46);
-         c122.setCellStyle(stylemainHeader);
-         c123=rw0.createCell(47);
-         c123.setCellStyle(stylemainHeader);
-         c124=rw0.createCell(48);
-         c124.setCellStyle(stylemainHeader);
-         c125=rw0.createCell(49);
-         c125.setCellStyle(stylemainHeader);
-         c126=rw0.createCell(50);
-         c126.setCellStyle(stylemainHeader);
-         c127=rw0.createCell(51);
-         c127.setCellStyle(stylemainHeader);
-         c128=rw0.createCell(52);
-       
-      
-      
-      c119.setCellValue("< 15");
-      c120.setCellValue("15 +");
-      c121.setCellValue("< 15");
-      c122.setCellValue("15 + ");
-      c123.setCellValue("Sub-total ");
-      
-       c124.setCellValue("Positive");
-       c125.setCellValue("Negative");
-       c126.setCellValue("Sub-total");
-       c127.setCellValue("Verification Status");
-       
-  for(int l=20; l<=43;l++){
-          c113=rw0.getCell(l);
-          c113.setCellStyle(styleHeader);
-      }
-       
+    for (int i=0;i<header2array.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(header2array[i]);
+      clx.setCellStyle(stylemainHeader);
+       }
+    String mergeinfor[]={"0,0,0,54","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,4,6,6","2,4,7,7","2,4,8,8","2,4,9,9","2,4,10,10","2,2,11,19","2,2,20,27","2,2,29,37","2,2,38,45","2,2,46,54","3,3,11,14","3,3,15,18","3,3,20,23","3,3,24,27","3,3,29,32","3,3,11,14","3,3,33,36","3,3,38,41","3,3,42,45","3,3,46,47","3,3,48,49"};  
+   
+    //do the merging
     
+    for(int d=0;d<mergeinfor.length;d++){
+    if(!mergeinfor[d].equals("")){
+        String pos[]=mergeinfor[d].split(",");
+     shet3.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
+    }
+                                         }
     
-    
+ 
     
     
     
@@ -886,7 +490,7 @@ stylemainHeader.setWrapText(true);
             + ", (sum(DTCB_Test_Out_CM) + sum(DTCB_Test_In_CM))" // CHILDREN TOTAL TESTED MALE
             + ", ( sum(DTCC_HIV_In_CF)+ sum(DTCC_HIV_Out_CF))" // CHILDREN POSITIVE FEMALE
             + ", (sum(DTCC_HIV_In_CM)+ sum(DTCC_HIV_Out_CM)),county.County,district.DistrictNom,"
-            + "subpartnera.SubPartnerNom,subpartnera.CentreSanteId,subpartnera.HTC_Support1"// CHILDREN POSITIVE MALE
+            + "subpartnera.SubPartnerNom,subpartnera.CentreSanteId,subpartnera.HTC_Support1 ,ART_highvolume, HTC_highvolume,PMTCT_highvolume"// CHILDREN POSITIVE MALE
            +" FROM moh711 JOIN subpartnera "
             + "ON moh711.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -898,13 +502,28 @@ stylemainHeader.setWrapText(true);
     conn.rs=conn.st.executeQuery(get711data);
     while(conn.rs.next()){
      
+         String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+      
+        
        county=conn.rs.getString(9);
      district=conn.rs.getString(10);
      district=district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase();
      facilityname=conn.rs.getString(11);
-     mflcode=conn.rs.getString(12);   
-     dsdta=conn.rs.getString(13);   
+     mflcode=conn.rs.getString(12); 
      
+    
+    if(conn.rs.getString("HTC_Support1")==null){
+     dsdta="DSD";   
+    }
+    else {
+     dsdta=conn.rs.getString("HTC_Support1");   
+    }
      
      
     TestedAdultFemale=conn.rs.getInt(1);
@@ -1495,33 +1114,46 @@ adderPos++  ;
  
 
          rw0.setHeightInPoints(25);
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
+         int mypos=0;
+         
+         c211=rw0.createCell(mypos);mypos++;
+         c212=rw0.createCell(mypos);mypos++;
+         c213=rw0.createCell(mypos);mypos++;
+         c214=rw0.createCell(mypos);mypos++;
+         c215=rw0.createCell(mypos);mypos++;
+         cARTHV = rw0.createCell(mypos);
+        mypos++;
+        cARTHV.setCellValue(arthv);
+
+        cHTCHV = rw0.createCell(mypos);
+        mypos++;
+        cHTCHV.setCellValue(htchv);
+
+        cPMTCTHV = rw0.createCell(mypos);
+        mypos++;
+        cPMTCTHV.setCellValue(pmtcthv);
+         c216=rw0.createCell(mypos);mypos++;
+         c217=rw0.createCell(mypos);mypos++;
         
          // the rest
-         c11=rw0.createCell(7);
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c20=rw0.createCell(16);
-         c110=rw0.createCell(17);
-         c111=rw0.createCell(18);
-         c112=rw0.createCell(19);
-         c113=rw0.createCell(20);
-         c114=rw0.createCell(21);
-         c115=rw0.createCell(22);
-         c116=rw0.createCell(23);
-         c117=rw0.createCell(24);
+         c11=rw0.createCell(mypos);mypos++;
+         c12=rw0.createCell(mypos);mypos++;
+         c13=rw0.createCell(mypos);mypos++;
+         c14=rw0.createCell(mypos);mypos++;
+         c15=rw0.createCell(mypos);mypos++;
+         c16=rw0.createCell(mypos);mypos++;
+         c17=rw0.createCell(mypos);mypos++;
+         c18=rw0.createCell(mypos);mypos++;
+         c19=rw0.createCell(mypos);mypos++;
+         c20=rw0.createCell(mypos);mypos++;
+         c110=rw0.createCell(mypos);mypos++;
+         c111=rw0.createCell(mypos);mypos++;
+         c112=rw0.createCell(mypos);mypos++;
+         c113=rw0.createCell(mypos);mypos++;
+         c114=rw0.createCell(mypos);mypos++;
+         c115=rw0.createCell(mypos);mypos++;
+         c116=rw0.createCell(mypos);mypos++;
+         c117=rw0.createCell(mypos);mypos++;
         
          
         //c11.setCellValue(facilname);
@@ -1585,25 +1217,25 @@ adderPos++  ;
 //      shet3.addMergedRegion(new CellRangeAddress(2,5,0,0));
      
    
-         c11=rw0.createCell(25);
-         c12=rw0.createCell(26);
-         c13=rw0.createCell(27);
-         c14=rw0.createCell(28);
-         c15=rw0.createCell(29);
-         c16=rw0.createCell(30);
-         c17=rw0.createCell(31);
-         c18=rw0.createCell(32);
-         c19=rw0.createCell(33);
-         c110=rw0.createCell(34);
-         c111=rw0.createCell(35);
-         c112=rw0.createCell(36);
-         c113=rw0.createCell(37);
-         c114=rw0.createCell(38);
-         c115=rw0.createCell(39);
-         c116=rw0.createCell(40);
-         c117=rw0.createCell(41);
-         c118=rw0.createCell(42);
-         c119=rw0.createCell(43);
+         c11=rw0.createCell(mypos);mypos++;
+         c12=rw0.createCell(mypos);mypos++;
+         c13=rw0.createCell(mypos);mypos++;
+         c14=rw0.createCell(mypos);mypos++;
+         c15=rw0.createCell(mypos);mypos++;
+         c16=rw0.createCell(mypos);mypos++;
+         c17=rw0.createCell(mypos);mypos++;
+         c18=rw0.createCell(mypos);mypos++;
+         c19=rw0.createCell(mypos);mypos++;
+         c110=rw0.createCell(mypos);mypos++;
+         c111=rw0.createCell(mypos);mypos++;
+         c112=rw0.createCell(mypos);mypos++;
+         c113=rw0.createCell(mypos);mypos++;
+         c114=rw0.createCell(mypos);mypos++;
+         c115=rw0.createCell(mypos);mypos++;
+         c116=rw0.createCell(mypos);mypos++;
+         c117=rw0.createCell(mypos);mypos++;
+         c118=rw0.createCell(mypos);mypos++;
+         c119=rw0.createCell(mypos);mypos++;
   
 
 
@@ -1737,27 +1369,29 @@ double TotalNegativeFemale1=0;
       c115.setCellValue((float)Math.round(AdultMaleHIV19Neg));
       c116.setCellValue((float)Math.round(AdultMaleHIV24Neg));
       c117.setCellValue((float)Math.round(AdultMaleHIV49Neg));
+      c117.setCellStyle(stborder);
       c118.setCellValue((float)Math.round(AdultMaleHIV50Neg));
+      c118.setCellStyle(stborder);
       c119.setCellValue(less15f);
-      
+      c119.setCellStyle(stborder);
    
-         c120=rw0.createCell(44);
+         c120=rw0.createCell(mypos);mypos++;
          c120.setCellStyle(stborder);
-         c121=rw0.createCell(45);
+         c121=rw0.createCell(mypos);mypos++;
          c121.setCellStyle(stborder);
-         c122=rw0.createCell(46);
+         c122=rw0.createCell(mypos);mypos++;
          c122.setCellStyle(stborder);
-         c123=rw0.createCell(47);
+         c123=rw0.createCell(mypos);mypos++;
          c123.setCellStyle(stborder);
-         c124=rw0.createCell(48);
+         c124=rw0.createCell(mypos);mypos++;
          c124.setCellStyle(stborder);
-         c125=rw0.createCell(49);
+         c125=rw0.createCell(mypos);mypos++;
          c125.setCellStyle(stborder);
-         c126=rw0.createCell(50);
+         c126=rw0.createCell(mypos);mypos++;
          c126.setCellStyle(stborder);
-         c127=rw0.createCell(51);
+         c127=rw0.createCell(mypos);mypos++;
          c127.setCellStyle(stborder);
-         c128=rw0.createCell(52);
+         c128=rw0.createCell(mypos);mypos++;
        
       
       
@@ -2299,8 +1933,34 @@ cl3f.setCellStyle(stylex);
     
      
 
+       //BEFORE WHILE LOOP
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    ArrayList staticfacility= new ArrayList();
+    ArrayList staticcounty= new ArrayList();
+    ArrayList staticdistrict= new ArrayList();
+    ArrayList staticmfl= new ArrayList();
+    ArrayList staticdsd_ta= new ArrayList();
+    int blankrows=27;
     
+   String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
+            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport "
+           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where ( VMMC='1') group by subpartnera.SubPartnerID   "; 
+    
+   conn.rs=conn.st.executeQuery(getstaticfacilities);
+    while(conn.rs.next()){
+    
+     staticcounty.add(conn.rs.getString("county"));
+     String district=conn.rs.getString("district");
+     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
+     staticfacility.add(conn.rs.getString("facility"));
+     staticmfl.add(conn.rs.getString("mflcode"));   
+     //dsdta=conn.rs.getString("htcsupport");   
+     String dsdta="DSD"; //static as of 201606 
+     staticdsd_ta.add(dsdta);   
+    }
+   
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
 //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(P51DT) as P51DT, sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
 getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(P51DT) as P51DT, sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,     sum(P511KP) as P511KP ,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU ,   sum(P511Dev) as P511Dev ,   sum(P54D) as P54D ,   sum(P511Surg) as P511Surg , sum(P521DM + P521DS + P522DM + P522DS) as aenumerator ,  sum(P521DM) as  P521DM ,  sum(P521DS) as P521DS ,   sum(P522DM) as P522DM ,    sum(P522DS) as P522DS from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
@@ -2353,6 +2013,30 @@ int counter=0;
     
     int r=4;
     while(conn.rs.next()){
+        
+        
+        
+	 //INSIDE WHILE LOOP
+	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("mflcode"));
+        
+        if(mflindex!=-1){        
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+        
+                         }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        
    //now check if form was updated and if its one month after data entry
 //now load the column values here
         
@@ -2796,15 +2480,80 @@ if(1==1){
 
     
     
-    }
+    }//end of if 1==1
     
-    }
+    }//end of while loop
      
       //System.out.println(createdtable);
       
    
             
-            
+     
+
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	HSSFRow rwx=null;                     
+ for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
+     
+  rwx=shet.createRow(r);  
+ rwx.setHeightInPoints(23);  
+ r++;
+ for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
+ //create a row
+  if(z==0){
+    //county  
+   HSSFCell cellcounty=rwx.createCell(0); 
+   cellcounty.setCellValue(staticcounty.get(a).toString());
+   cellcounty.setCellStyle(style2);
+  }
+  else if(z==1){
+    //sub-county  
+   HSSFCell cellsubcounty=rwx.createCell(1); 
+   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
+   cellsubcounty.setCellStyle(style2);
+  }
+  else if(z==2){
+   //facility
+   HSSFCell cellfacil=rwx.createCell(2); 
+   cellfacil.setCellValue(staticfacility.get(a).toString());
+   cellfacil.setCellStyle(style2);
+  }
+  else if(z==3){
+   //mfl
+   HSSFCell cellmfl=rwx.createCell(3); 
+   cellmfl.setCellValue(staticmfl.get(a).toString());
+   cellmfl.setCellStyle(style2);
+  }
+   
+  else if(z==4){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(4); 
+   celldsd.setCellValue(staticdsd_ta.get(a).toString());
+   celldsd.setCellStyle(style2);
+   
+        }
+		 else if(z==blankrows-1){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(blankrows-1); 
+   celldsd.setCellValue(0);
+   celldsd.setCellStyle(style2);
+   
+        }
+  else {
+                     
+   HSSFCell celldata=rwx.createCell(z); 
+   celldata.setCellValue(0);
+   celldata.setCellStyle(style2);
+   
+  
+  }//end of else
+  
+ }//end of inner loop                    
+ } //end of outer loop                    
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	    
+    
+    
             
             
             
@@ -2846,7 +2595,7 @@ if(1==1){
             
             
             String subheaders[]={"Tested","Positive","Negative"};
-            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","Tuberculosis","","","Outpatient Department","","","Inpatient","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","",""};
+            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","ART High Volume","HTC High Volume","PMTCT High Volume","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","Tuberculosis","","","Outpatient Department","","","Inpatient","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","",""};
             //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
             
             String reportType = "";
@@ -3040,9 +2789,51 @@ if(1==1){
             
             String joinedwhwere = " where 1=1 " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
             
+            
+                   //BEFORE WHILE LOOP
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    ArrayList staticfacility= new ArrayList();
+    ArrayList staticcounty= new ArrayList();
+    ArrayList staticdistrict= new ArrayList();
+    ArrayList staticmfl= new ArrayList();
+    ArrayList staticdsd_ta= new ArrayList();
+    ArrayList staticart_hv= new ArrayList();
+ArrayList statichtc_hv= new ArrayList();
+ArrayList staticpmtct_hv= new ArrayList();
+
+    int blankrows=35;
+    
+   String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
+            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID     where (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID   "; 
+    
+   conn.rs=conn.st.executeQuery(getstaticfacilities);
+    while(conn.rs.next()){
+    
+     staticcounty.add(conn.rs.getString("county"));
+     String district=conn.rs.getString("district");
+     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
+     staticfacility.add(conn.rs.getString("facility"));
+     staticmfl.add(conn.rs.getString("mflcode"));   
+     //dsdta=conn.rs.getString("htcsupport");   
+     String dsdta="DSD"; //static as of 201606 
+     staticdsd_ta.add(dsdta); 
+     
+      if(conn.rs.getString("ART_highvolume")!=null){staticart_hv.add(conn.rs.getString("ART_highvolume"));} else {staticart_hv.add(""); }
+     if(conn.rs.getString("HTC_highvolume")!=null){ statichtc_hv.add(conn.rs.getString("HTC_highvolume"));} else { statichtc_hv.add(""); }
+     if(conn.rs.getString("PMTCT_highvolume")!=null){staticpmtct_hv.add(conn.rs.getString("PMTCT_highvolume"));} else {staticpmtct_hv.add("");}
+
+
+     
+    }
+   
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+            
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID   union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
-           getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, (sum(P511KN) + sum(P511KU)) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID   ";
+           getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, (sum(P511KN) + sum(P511KU)) as P511KN, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID   ";
             System.out.println("@@"+getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
@@ -3159,7 +2950,7 @@ if(1==1){
                 clx.setCellValue(sectionheaders[a]);
                 clx.setCellStyle(stylex);
               
-                if(a>4&&a<sectionheaders.length){
+                if(a>7&&a<sectionheaders.length){
                     if(sectionheaders[a].equals("")){}
                     else {
                         shet.addMergedRegion(new CellRangeAddress(1,1,a,a+2));
@@ -3176,7 +2967,7 @@ if(1==1){
             HSSFRow rw2 = shet.createRow(rowpos);
             rw2.setHeightInPoints(25);
             
-            for (int a = 0; a <5; a++) {
+            for (int a = 0; a <8; a++) {
                 HSSFCell clx = rw2.createCell(a);
                 clx.setCellValue("");
                 clx.setCellStyle(stylex);
@@ -3184,7 +2975,7 @@ if(1==1){
                                        }
             
             int b=0;
-            for (int a = 5; a <sectionheaders.length; a++) {
+            for (int a = 8; a <sectionheaders.length; a++) {
                 HSSFCell clx = rw2.createCell(a);
                 clx.setCellValue(subheaders[b]);
                 b++;
@@ -3196,10 +2987,42 @@ if(1==1){
           
             conn.rs= conn.st.executeQuery(getexistingdata);
             while(conn.rs.next()){
+                
+           //INSIDE WHILE LOOP
+	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("mflcode"));
+        
+        if(mflindex!=-1){        
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+             staticart_hv.remove(mflindex);
+            statichtc_hv.remove(mflindex);
+            staticpmtct_hv.remove(mflindex);
+        
+                         }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     
                 int colpos=0; 
            int conpos=1; 
                HSSFRow rwx = shet.createRow(rowpos); 
                rwx.setHeightInPoints(25);
+               
+               
+     String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
                
                //county
                if(1==1){
@@ -3249,11 +3072,11 @@ if(1==1){
 //support type//######################################################################################
                     if(1==1){
                          
- String support="NA";
+ String support="DSD";
  if(conn.rs.getString("HTC_Support1")==null||conn.rs.getString("HTC_Support1").equals("")){
-    if(conn.rs.getString("PMTCT_Support")!=null&&!conn.rs.getString("PMTCT_Support").equals("null")){              
- support=conn.rs.getString("PMTCT_Support");
-    }         
+    /** if(conn.rs.getString("PMTCT_Support")!=null&&!conn.rs.getString("PMTCT_Support").equals("null")){              
+ support=conn.rs.getString("PMTCT_Support"); 
+    }     **/    
                   }
  else {
     
@@ -3262,7 +3085,7 @@ if(1==1){
    System.out.println("______:"+conn.rs.getString("HTC_Support1")+":__"+support);                
                   
                 HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(support);
+                clx.setCellValue(support/**"DSD"/*support*/);
                 clx.setCellStyle(style2);
                
             colpos++;
@@ -3273,6 +3096,36 @@ if(1==1){
                } 
                 
  
+            //arthv
+                   if(1==1){
+                         
+                HSSFCell clx = rwx.createCell(colpos);
+                clx.setCellValue(arthv);
+                clx.setCellStyle(style2);               
+            colpos++;           
+                           
+               }          
+                    
+            //htchv
+                   if(1==1){
+                         
+                HSSFCell clx = rwx.createCell(colpos);
+                clx.setCellValue(htchv);
+                clx.setCellStyle(style2);               
+            colpos++;           
+                           
+               }        
+               
+                   
+                   //pmtcthv
+                   if(1==1){
+                         
+                HSSFCell clx = rwx.createCell(colpos);
+                clx.setCellValue(pmtcthv);
+                clx.setCellStyle(style2);               
+            colpos++;           
+                           
+                          }
                     
    //____________________Totals begin here______________                 
                     
@@ -3812,11 +3665,43 @@ if(1==1){
                HSSFRow rwx = shet.createRow(rowpos); 
                rwx.setHeightInPoints(25); 
           
-           String getstat=    "select  county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype, sum(positive) as positive ,sum(negative) as negative, tb_stat_art.SubPartnerID as SubPartnerID from tb_stat_art  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on tb_stat_art.SubPartnerID = subpartnera.SubPartnerID  WHERE "+tbstatduration+" and  tb_stat_art.SubPartnerID='"+tbstat.get(a)+"'";
+           String getstat=    "select  county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype, sum(positive) as positive ,sum(negative) as negative, tb_stat_art.SubPartnerID as SubPartnerID, ART_highvolume, HTC_highvolume,PMTCT_highvolume from tb_stat_art  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on tb_stat_art.SubPartnerID = subpartnera.SubPartnerID  WHERE "+tbstatduration+" and  tb_stat_art.SubPartnerID='"+tbstat.get(a)+"'";
            conn.rs=conn.st.executeQuery(getstat);
            
-           if(conn.rs.next()){      
+           if(conn.rs.next()){
                
+               //INSIDE WHILE LOOP
+	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("mflcode"));
+        
+        if(mflindex!=-1){        
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+             staticart_hv.remove(mflindex);
+statichtc_hv.remove(mflindex);
+staticpmtct_hv.remove(mflindex);
+                         }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+               
+              
+         String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+        
+        
             //county
                if(1==1){
                        
@@ -3873,7 +3758,7 @@ if(1==1){
              
                   
                 HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(support);
+                clx.setCellValue("DSD" /*support*/);
                 clx.setCellStyle(style2);
                
             colpos++;
@@ -3882,6 +3767,41 @@ if(1==1){
           
                            
                } 
+                    
+                    
+                    
+            //arthv
+                   if(1==1){
+                         
+                HSSFCell clx = rwx.createCell(colpos);
+                clx.setCellValue(arthv);
+                clx.setCellStyle(style2);               
+            colpos++;           
+                           
+               }          
+                    
+            //htchv
+                   if(1==1){
+                         
+                HSSFCell clx = rwx.createCell(colpos);
+                clx.setCellValue(htchv);
+                clx.setCellStyle(style2);               
+            colpos++;           
+                           
+               }        
+               
+                   
+                   //pmtcthv
+                   if(1==1){
+                         
+                HSSFCell clx = rwx.createCell(colpos);
+                clx.setCellValue(pmtcthv);
+                clx.setCellStyle(style2);               
+            colpos++;           
+                           
+                          }
+                    
+                    
                 
     //enter blanks in columns from Facility type  up to the tb column
                     
@@ -3994,6 +3914,106 @@ if(1==1){
                 rowpos++;
                 
             }//end of for loop
+          
+            
+            
+    
+            	 
+
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	HSSFRow rwx=null;                     
+ for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
+     
+  rwx=shet.createRow(rowpos);  
+ rwx.setHeightInPoints(23);  
+ rowpos++;
+ for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
+ //create a row
+  if(z==0){
+    //county  
+   HSSFCell cellcounty=rwx.createCell(0); 
+   cellcounty.setCellValue(staticcounty.get(a).toString());
+   cellcounty.setCellStyle(style2);
+  }
+  else if(z==1){
+    //sub-county  
+   HSSFCell cellsubcounty=rwx.createCell(1); 
+   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
+   cellsubcounty.setCellStyle(style2);
+  }
+  else if(z==2){
+   //facility
+   HSSFCell cellfacil=rwx.createCell(2); 
+   cellfacil.setCellValue(staticfacility.get(a).toString());
+   cellfacil.setCellStyle(style2);
+  }
+  else if(z==3){
+   //mfl
+   HSSFCell cellmfl=rwx.createCell(3); 
+   cellmfl.setCellValue(staticmfl.get(a).toString());
+   cellmfl.setCellStyle(style2);
+  }
+   
+  else if(z==4){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(4); 
+   celldsd.setCellValue(staticdsd_ta.get(a).toString());
+   celldsd.setCellStyle(style2);
+   
+        }
+  
+  
+
+else if(z==5){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(5); 
+   celldsd.setCellValue(staticart_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+   
+    else if(z==6){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(6); 
+   celldsd.setCellValue(statichtc_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+    else if(z==7){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(7); 
+   celldsd.setCellValue(staticpmtct_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+
+  
+  
+		 else if(z==blankrows-1){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(blankrows-1); 
+   celldsd.setCellValue("");
+   celldsd.setCellStyle(style2);
+   
+        }
+  else {
+                     
+   HSSFCell celldata=rwx.createCell(z); 
+   celldata.setCellValue("");
+   celldata.setCellStyle(style2);
+   
+  
+  }//end of else
+  
+ }//end of inner loop                    
+ } //end of outer loop                    
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+            
+            
+            
+            
             
             }
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4336,488 +4356,84 @@ stylemainHeader.setWrapText(true);
   shet3.setColumnWidth(0, 4000);  
   shet3.setColumnWidth(1, 5000);  
   shet3.setColumnWidth(2,7000);  
-  shet3.setColumnWidth(6,5000);  
-//    for (int i=1;i<=42;i++){
-//   shet3.setColumnWidth(i, 2000);     
-//    }
- HSSFRow rw0=shet3.createRow(0);
- rw0.setHeightInPoints(30);
- HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
+  //shet3.setColumnWidth(6,5000); 
+  
+   HSSFCell  c12,c13,c14,c15,c16,c17,c18,c19,c20,c110,c111,c112,c113,c114,c115,c116,c117,c118,c219;
+      HSSFCell    c119,c120,c121,c122,c123,c124,c125,c126,c127,c128,c129,c130,c131,c132,c133,c134,c135,c136,c137;  
+   HSSFCell c211,c212,c213,c214,c215,c216,c217,cARTHV,cHTCHV,cPMTCTHV;
+  
+    
+  String newheader0="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,FEMALE(POSITIVE),,,,,,,,,MALE (POSITIVE),,,,,,,,NEGATIVE,FEMALE (NEGATIVE),,,,,,,,,MALE (NEGATIVE),,,,,,,, ,,,,,,,,";
+  String newheader1="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,Paeds <15Yr,,,,Adults 15+Yr,,,,TOTAL +VE MALE,Paeds < 15Yr,,,,Adults 15+Yr,,,,TOTAL -VE(F),Paeds <15Yr,,,,Adults 15+Yr,,,,TOTAL -VE(M),Paeds <15Yr,,,,Adults 15+Yr,,,,Female,,Male,,Sub-total,Positive,Negative,Sub-total,Verification Status";
+  String newheader2="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL +VE MALE,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL -VE(F),<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL -VE(M),<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,< 15,15 +,< 15,15 +,Sub-total,Positive,Negative,Sub-total,Verification Status";
+
+  String header0array[]=newheader0.split(",");
+  String header1array[]=newheader1.split(",");
+  String header2array[]=newheader2.split(",");
+  
+  //create header1
+   HSSFRow rw0=shet3.createRow(0);
+           rw0.setHeightInPoints(30);
+           
+           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
          c1=rw0.createCell(0);
          
-         
+      //_____________________________________________________________report heading row 0   
       c1.setCellValue(period1);
       c1.setCellStyle(stylemainHeader);
-      for(int j=1;j<=51;j++){
+      for(int j=1;j<=header0array.length-1;j++){
       c1=rw0.createCell(j);
        c1.setCellStyle(stylemainHeader);
       }
-      shet3.addMergedRegion(new CellRangeAddress(0,0,0,17));
-     HSSFCell  c12,c13,c14,c15,c16,c17,c18,c19,c20,c110,c111,c112,c113,c114,c115,c116,c117,c118,c219;
-      HSSFCell    c119,c120,c121,c122,c123,c124,c125,c126,c127,c128,c129,c130,c131,c132,c133,c134,c135,c136,c137;  
-   HSSFCell c211,c212,c213,c214,c215,c216,c217;
-        rw0=shet3.createRow(2); 
-        rw0.setHeightInPoints(30);
+      
+      //-----------------------------------row 1 header 
+       rw0=shet3.createRow(2); 
+       rw0.setHeightInPoints(30);
  
       
-       
-        
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
-        
-        
-        
-         c211.setCellValue("COUNTY");
-         c212.setCellValue("SUB-COUNTY");
-         c213.setCellValue("FACILITY");
-         c214.setCellValue("MFL-CODE");
-         c215.setCellValue("TYPE OF SUPPORT");
-        
-         c11=rw0.createCell(7);
-         
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c110=rw0.createCell(16);
-         c111=rw0.createCell(17);
-         c112=rw0.createCell(18);
-         c113=rw0.createCell(19);
-         c114=rw0.createCell(20);
-         c115=rw0.createCell(21);
-         c116=rw0.createCell(22);
-         c117=rw0.createCell(23);
-         c118=rw0.createCell(24);
-         
+    for (int i=0;i<header0array.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(header0array[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
+ //-----------------------------------row 2 header 
+       rw0=shet3.createRow(3); 
+       rw0.setHeightInPoints(30);
+ 
       
-         c119=rw0.createCell(25);
-         c120=rw0.createCell(26);
-         c121=rw0.createCell(27);
-         c122=rw0.createCell(28);
-         c123=rw0.createCell(29);
-         c124=rw0.createCell(30);
-         c125=rw0.createCell(31);
-         c126=rw0.createCell(32);
-         c127=rw0.createCell(33);
-         c128=rw0.createCell(34);
-         c129=rw0.createCell(35);
-         c130=rw0.createCell(36);
-         c131=rw0.createCell(37);
-         c132=rw0.createCell(38);
-         c133=rw0.createCell(39);
-         c134=rw0.createCell(40);
-         c135=rw0.createCell(41);
-         c136=rw0.createCell(42);
-         c137=rw0.createCell(43);
-         
-        c216.setCellValue("Total HIV+");
-             
-        c217.setCellValue("Total HIV+ (F)");
-      c11.setCellValue("");
-  
-      c12.setCellValue("FEMALE(POSITIVE)");
-              c216.setCellStyle(stylemainHeader);
-              c217.setCellStyle(stylemainHeader);
-              c11.setCellStyle(stylemainHeader);
-              c12.setCellStyle(stylemainHeader);
-      c13.setCellValue("");
-      c14.setCellValue("");
-      c15.setCellValue("");
-      c16.setCellValue("");
-      c17.setCellValue("");
-      c18.setCellValue("");
-      c19.setCellValue("");
+    for (int i=0;i<header1array.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(header1array[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
       
-      c110.setCellValue("");
-      
-      c111.setCellValue("MALE (POSITIVE)");
-      c111.setCellStyle(stylemainHeader);
-      c112.setCellValue("");
-      c113.setCellValue("");
-      c114.setCellValue("");
-      c115.setCellValue("");
-      c116.setCellValue("");
-      c117.setCellValue("");
-      c118.setCellValue("");
-    
-      
-//      
-//       rw0=shet3.createRow(2);
-//        rw0.setHeightInPoints(20);
-        
-     
-   c119.setCellValue("NEGATIVE");
-      c120.setCellValue("FEMALE (NEGATIVE)");
-      c119.setCellStyle(stylemainHeader);
-      c120.setCellStyle(stylemainHeader);
-      c121.setCellValue("");
-      c122.setCellValue("");
-      c123.setCellValue("");
-      c124.setCellValue("");
-      c125.setCellValue("");
-      c126.setCellValue("");
-      c127.setCellValue("");
-      
-      c128.setCellValue("");
-      
-      c129.setCellValue("MALE (NEGATIVE)");
-      c129.setCellStyle(stylemainHeader);
-      c130.setCellValue("");
-      c131.setCellValue("");
-      c132.setCellValue("");
-      c133.setCellValue("");
-      c134.setCellValue("");
-      c135.setCellValue("");
-      c136.setCellValue("");
-      c137.setCellValue("");
-     for(int i=0; i<=22;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(stylemainHeader);
-      }
-     //add a blank header
-      for(int i=43; i<=51;i++){
-          c11=rw0.createCell(i);
-          c11.setCellStyle(stylemainHeader);
-      }
       
      
-     
-    for(int i=23; i<=43;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(stylemainHeader);
-      }
-      
-   
-     shet3.addMergedRegion(new CellRangeAddress(2,2,8,15));
-     shet3.addMergedRegion(new CellRangeAddress(2,2,17,24));
-     
-     shet3.addMergedRegion(new CellRangeAddress(2,2,26,33));
-     shet3.addMergedRegion(new CellRangeAddress(2,2,35,42));
-     shet3.addMergedRegion(new CellRangeAddress(2,2,43,51));
-     
-      
-   rw0=shet3.createRow(3);
+    //-----------------------------------row 3 header 
+   rw0=shet3.createRow(4); 
    rw0.setHeightInPoints(30);
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
-        
-         
-         // other data
-         c11=rw0.createCell(7);
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c110=rw0.createCell(16);
-         c111=rw0.createCell(17);
-         c112=rw0.createCell(18);
-         c113=rw0.createCell(19);
-         c114=rw0.createCell(20);
-         c115=rw0.createCell(21);
-         c116=rw0.createCell(22);
-         c117=rw0.createCell(23);
-         c118=rw0.createCell(24);
-         
-        
-         
-      c11.setCellValue("Num");
-      c216.setCellValue("TOTAL HIV+");
-      c217.setCellValue("TOTAL +VE (F)");
-      c12.setCellValue("Paeds <15Yr");
-      c13.setCellValue("");
-      c14.setCellValue("");
-      c15.setCellValue("");
-      c16.setCellValue("Adults 15+Yr");
-      c17.setCellValue("");
-      c18.setCellValue("");
-      c19.setCellValue("");
+ 
       
-      c110.setCellValue("TOTAL +VE MALE");
-      
-      c111.setCellValue("Paeds <15Yr");
-      c112.setCellValue("");
-      c113.setCellValue("");
-      c114.setCellValue("");
-      c115.setCellValue("Adults 15+Yr");
-      c116.setCellValue("");
-      c117.setCellValue("");
-      c118.setCellValue("");
-      
-      
-         c11=rw0.createCell(25);
-         c12=rw0.createCell(26);
-         c13=rw0.createCell(27);
-         c14=rw0.createCell(28);
-         c15=rw0.createCell(29);
-         c16=rw0.createCell(30);
-         c17=rw0.createCell(31);
-         c18=rw0.createCell(32);
-         c19=rw0.createCell(33);
-         c110=rw0.createCell(34);
-         c111=rw0.createCell(35);
-         c112=rw0.createCell(36);
-         c113=rw0.createCell(37);
-         c114=rw0.createCell(38);
-         c115=rw0.createCell(39);
-         c116=rw0.createCell(40);
-         c117=rw0.createCell(41);
-         c118=rw0.createCell(42);
-        
-         
-      c11.setCellValue("TOTAL -VE(F)");
-      c12.setCellValue("Paeds <15Yr");
-      c13.setCellValue("");
-      c14.setCellValue("");
-      c15.setCellValue("");
-      c16.setCellValue("Adults 15+Yr");
-      c17.setCellValue("");
-      c18.setCellValue("");
-      c19.setCellValue("");
-      
-      c110.setCellValue("TOTAL -VE(M)");
-      
-      c111.setCellValue("Paeds <15Yr");
-      c112.setCellValue("");
-      c113.setCellValue("");
-      c114.setCellValue("");
-      c115.setCellValue("Adults 15+Yr");
-      c116.setCellValue("");
-      c117.setCellValue("");
-      c118.setCellValue("");
-      //201510
-      
-         c119=rw0.createCell(43);
-         c119.setCellStyle(stylemainHeader);
-         c120=rw0.createCell(44);
-         c120.setCellStyle(stylemainHeader);
-         c121=rw0.createCell(45);
-         c121.setCellStyle(stylemainHeader);
-         c122=rw0.createCell(46);
-         c122.setCellStyle(stylemainHeader);
-         c123=rw0.createCell(47);
-         c123.setCellStyle(stylemainHeader);
-         c124=rw0.createCell(48);
-         c124.setCellStyle(stylemainHeader);
-         c125=rw0.createCell(49);
-         c125.setCellStyle(stylemainHeader);
-         c126=rw0.createCell(50);
-         c126.setCellStyle(stylemainHeader);
-         c127=rw0.createCell(51);
-         c127.setCellStyle(stylemainHeader);
-         c128=rw0.createCell(52);
-       
-      c119.setCellValue("Female");
-      c120.setCellValue("");
-      c121.setCellValue("Male");
-      c122.setCellValue("");
-      c123.setCellValue("Sub-Total");
-      c124.setCellValue("Positive");
-      c125.setCellValue("Negative");
-      c126.setCellValue("Sub-total");
-      c127.setCellValue("Verification Status");
-      
-       for(int i=0; i<=22;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(styleHeader);
-      }
-      
-      shet3.addMergedRegion(new CellRangeAddress(3,3,8,11));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,12,15));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,17,20));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,21,24)); 
-//     
-      for(int k=23; k<=42;k++){
-          c113=rw0.getCell(k);
-          c113.setCellStyle(styleHeader);
-      }
-     
-     shet3.addMergedRegion(new CellRangeAddress(3,3,26,29));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,30,33));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,35,38));
-     shet3.addMergedRegion(new CellRangeAddress(3,3,39,42)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,3,43,44)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,3,45,46)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,47,47)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,48,48)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,49,49)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,50,50)); 
-     shet3.addMergedRegion(new CellRangeAddress(3,4,51,51)); 
-     
-      rw0=shet3.createRow(4);
-      rw0.setHeightInPoints(30);
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
-         
-         
-         // for ther est
-         c11=rw0.createCell(7);
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c110=rw0.createCell(16);
-         c111=rw0.createCell(17);
-         c112=rw0.createCell(18);
-         c113=rw0.createCell(19);
-         c114=rw0.createCell(20);
-         c115=rw0.createCell(21);
-         c116=rw0.createCell(22);
-         c117=rw0.createCell(23);
-         c118=rw0.createCell(24);
-         
-         
-      c11.setCellValue("NUM");
-      c216.setCellValue("TOTAL HIV+");
-      c217.setCellValue("TOTAL +VE(F)");
-      c12.setCellValue("<1 ");
-      c13.setCellValue("1-4Y");
-      c14.setCellValue("5-9Y");
-      c15.setCellValue("10-14Y");
-      c16.setCellValue("15-19Y");
-      c17.setCellValue("20-24Y");
-      c18.setCellValue("25-49Y");
-      c19.setCellValue("50+Y");
-      
-      c110.setCellValue("TOTAL +VE MALE");
-      shet3.addMergedRegion(new CellRangeAddress(3,4,16,16));
-      c111.setCellValue("<1");
-      c112.setCellValue("1-4Y");
-      c113.setCellValue("5-9Y");
-      c114.setCellValue("10-14Y");
-      c115.setCellValue("15-19Y");
-      c116.setCellValue("20-24Y");
-      c117.setCellValue("25-49Y");
-      c118.setCellValue("50+Y");
-      
-      
-         for(int i=0; i<=22;i++){
-          c11=rw0.getCell(i);
-          c11.setCellStyle(styleHeader);
-      }
-//     
-      
-      // for negative
-      
-
-  
-         c11=rw0.createCell(25);
-         c12=rw0.createCell(26);
-         c13=rw0.createCell(27);
-         c14=rw0.createCell(28);
-         c15=rw0.createCell(29);
-         c16=rw0.createCell(30);
-         c17=rw0.createCell(31);
-         c18=rw0.createCell(32);
-         c19=rw0.createCell(33);
-         c110=rw0.createCell(34);
-         c111=rw0.createCell(35);
-         c112=rw0.createCell(36);
-         c113=rw0.createCell(37);
-         c114=rw0.createCell(38);
-         c115=rw0.createCell(39);
-         c116=rw0.createCell(40);
-         c117=rw0.createCell(41);
-         c118=rw0.createCell(42);
-         c119=rw0.createCell(43);
-         
-         
-      c11.setCellValue("TOTAL -VE(F)");
-       shet3.addMergedRegion(new CellRangeAddress(3,4,25,25));
-      c12.setCellValue("<1");
-      c13.setCellValue("1-4Y");
-      c14.setCellValue("5-9Y");
-      c15.setCellValue("10-14Y");
-      c16.setCellValue("15-19Y");
-      c17.setCellValue("20-24Y");
-      c18.setCellValue("25-49Y");
-      c19.setCellValue("50+Y");
-      
-      c110.setCellValue("TOTAL -VE(M)");
-        shet3.addMergedRegion(new CellRangeAddress(3,4,34,34));
-      c111.setCellValue("<1");
-      c112.setCellValue("1-4Y");
-      c113.setCellValue("5-9Y");
-      c114.setCellValue("10-14Y");
-      c115.setCellValue("15-19Y");
-      c116.setCellValue("20-24Y");
-      c117.setCellValue("25-49Y");
-      c118.setCellValue("50+Y");
-     
-      
-  //20151009
-      
-       
-         c119=rw0.createCell(43);
-         c119.setCellStyle(stylemainHeader);
-         c120=rw0.createCell(44);
-         c120.setCellStyle(stylemainHeader);
-         c121=rw0.createCell(45);
-         c121.setCellStyle(stylemainHeader);
-         c122=rw0.createCell(46);
-         c122.setCellStyle(stylemainHeader);
-         c123=rw0.createCell(47);
-         c123.setCellStyle(stylemainHeader);
-         c124=rw0.createCell(48);
-         c124.setCellStyle(stylemainHeader);
-         c125=rw0.createCell(49);
-         c125.setCellStyle(stylemainHeader);
-         c126=rw0.createCell(50);
-         c126.setCellStyle(stylemainHeader);
-         c127=rw0.createCell(51);
-         c127.setCellStyle(stylemainHeader);
-         c128=rw0.createCell(52);
-       
-      
-      
-      c119.setCellValue("< 15");
-      c120.setCellValue("15 +");
-      c121.setCellValue("< 15");
-      c122.setCellValue("15 + ");
-      c123.setCellValue("Sub-total ");
-      
-       c124.setCellValue("Positive");
-       c125.setCellValue("Negative");
-       c126.setCellValue("Sub-total");
-       c127.setCellValue("Verification Status");
-       
-  for(int l=20; l<=43;l++){
-          c113=rw0.getCell(l);
-          c113.setCellStyle(styleHeader);
-      }
-       
+    for (int i=0;i<header2array.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(header2array[i]);
+      clx.setCellStyle(stylemainHeader);
+       }
+    String mergeinfor[]={"0,0,0,54","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,4,6,6","2,4,7,7","2,4,8,8","2,4,9,9","2,4,10,10","2,2,11,19","2,2,20,27","2,2,29,37","2,2,38,45","2,2,46,54","3,3,11,14","3,3,15,18","3,3,20,23","3,3,24,27","3,3,29,32","3,3,11,14","3,3,33,36","3,3,38,41","3,3,42,45","3,3,46,47","3,3,48,49"};  
+   
+    //do the merging
     
+    for(int d=0;d<mergeinfor.length;d++){
+    if(!mergeinfor[d].equals("")){
+        String pos[]=mergeinfor[d].split(",");
+     shet3.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
+    }
+                                         }
     
-    
-    
-    
-    
+ 
     
     
     
@@ -4906,6 +4522,48 @@ stylemainHeader.setWrapText(true);
     double pmtct50neg=0;
     
     
+    //BEFORE WHILE LOOP
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    ArrayList staticfacility= new ArrayList();
+    ArrayList staticcounty= new ArrayList();
+    ArrayList staticdistrict= new ArrayList();
+    ArrayList staticmfl= new ArrayList();
+    ArrayList staticdsd_ta= new ArrayList();
+    ArrayList staticart_hv= new ArrayList();
+ArrayList statichtc_hv= new ArrayList();
+ArrayList staticpmtct_hv= new ArrayList();
+    int blankrows=55;
+    
+   String getstaticfacilities="SELECT county.County as county,district.DistrictNom as district," //
+            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM subpartnera  JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+          + " district.CountyID=county.CountyID "
+            + " WHERE (subpartnera.HTC=1 || subpartnera.PMTCT=1 || subpartnera.VMMC=1)  "
+            + " GROUP BY SubPartnerID "; 
+    
+   conn.rs=conn.st.executeQuery(getstaticfacilities);
+    while(conn.rs.next()){
+    
+     staticcounty.add(conn.rs.getString("county"));
+     district=conn.rs.getString("district");
+     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
+     staticfacility.add(conn.rs.getString("facility"));
+     staticmfl.add(conn.rs.getString("mflcode"));   
+     //dsdta=conn.rs.getString("htcsupport");   
+     dsdta="DSD"; //static as of 201606 
+     staticdsd_ta.add(dsdta); 
+      if(conn.rs.getString("ART_highvolume")!=null){staticart_hv.add(conn.rs.getString("ART_highvolume"));} else {staticart_hv.add(""); }
+     if(conn.rs.getString("HTC_highvolume")!=null){ statichtc_hv.add(conn.rs.getString("HTC_highvolume"));} else { statichtc_hv.add(""); }
+     if(conn.rs.getString("PMTCT_highvolume")!=null){staticpmtct_hv.add(conn.rs.getString("PMTCT_highvolume"));} else {staticpmtct_hv.add("");}
+
+     
+    }
+   
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    
+    
     String get711data="SELECT(sum(VCTClient_Tested_CF) +sum( VCTClient_Tested_AF)+sum(DTCB_Test_Out_AF)+sum(DTCB_Test_In_AF))" //ADULTS TESTED FEMALE  
             + ",(sum(VCTClient_Tested_CM)+ sum(VCTClient_Tested_AM) +  sum(DTCB_Test_Out_AM) + sum(DTCB_Test_In_AM))"//ADULTS TESTED MALES
             + ", (sum(VCTClient_HIV_CF)+ sum(VCTClient_HIV_AF)+sum(DTCC_HIV_In_AF)+ sum(DTCC_HIV_Out_AF))" // ADULTS HIV+ FEMALE
@@ -4916,12 +4574,12 @@ stylemainHeader.setWrapText(true);
             + ", (sum(DTCC_HIV_In_CM)+ sum(DTCC_HIV_Out_CM)), "
             
             + " county.County,district.DistrictNom," //
-            + " subpartnera.SubPartnerNom,subpartnera.CentreSanteId,subpartnera.HTC_Support1, "// CHILDREN POSITIVE MALE
+            + " subpartnera.SubPartnerNom,subpartnera.CentreSanteId as mflcode,subpartnera.HTC_Support1, "// CHILDREN POSITIVE MALE
             
             //======================added later 20151010
             + " sum(HV0204) as PMTCTTESTED , (sum(HV0206)+sum(HV0207)+sum(HV0208) ) as PMTCTPOS "//pmtct tested and positive added on 201510
             +",SUM(P51D1) as VMMCunder1,SUM(P51D9) as VMMC1to9,SUM(P51D10) as VMMC10to14, SUM(P51D19) as VMMC15to19 , SUM(P51D24) as VMMC20to24, SUM(P51D29) as VMMC25to29, SUM(P51D49) as VMMC30to49, SUM(P51D50) as VMMC50,SUM(P51DT) as VMMCTESTED ,SUM(P511KP) as VMMCPOS, (SUM(P511KN)+SUM(P511KU)) as VMMCNEG "//vmmc added 20151016
-            + ",SUM(HV0232) as HV0232,SUM(HV0228) as HV0228 "//under five
+            + ",SUM(HV0232) as HV0232,SUM(HV0228) as HV0228 ,ART_highvolume, HTC_highvolume,PMTCT_highvolume"//under five
             + " FROM moh711 left join moh731 on moh711.ID=moh731.id left join vmmc on moh711.ID=vmmc.tableid   JOIN subpartnera "
             + " ON moh711.SubPartnerID=subpartnera.SubPartnerID "
             + " JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -4933,6 +4591,42 @@ stylemainHeader.setWrapText(true);
      System.out.println("711 : "+get711data);
     conn.rs=conn.st.executeQuery(get711data);
     while(conn.rs.next()){
+        
+        	 //INSIDE WHILE LOOP
+	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("mflcode"));
+        
+        if(mflindex!=-1){        
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+        
+             staticart_hv.remove(mflindex);
+statichtc_hv.remove(mflindex);
+staticpmtct_hv.remove(mflindex);
+             
+             
+                         }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+	
+          String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+ 
+        
      
         //=============================================now add vmmc and add under 1
         
@@ -4941,8 +4635,12 @@ stylemainHeader.setWrapText(true);
      district=district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase();
      facilityname=conn.rs.getString(11);
      mflcode=conn.rs.getString(12);   
+      if(conn.rs.getString("HTC_Support1")==null){
+     dsdta="DSD";   
+    }
+    else {
      dsdta=conn.rs.getString(13);   
-     
+    }
      pmtcttestedtotal=conn.rs.getInt("PMTCTTESTED");     
      pmtctpositivestotal=conn.rs.getInt("PMTCTPOS"); 
      //under 5 computations
@@ -5854,33 +5552,45 @@ adderPos++  ;
  
 
          rw0.setHeightInPoints(25);
-         c211=rw0.createCell(0);
-         c212=rw0.createCell(1);
-         c213=rw0.createCell(2);
-         c214=rw0.createCell(3);
-         c215=rw0.createCell(4);
-         c216=rw0.createCell(5);
-         c217=rw0.createCell(6);
+         int mypos=0;
+         c211=rw0.createCell(mypos);mypos++;
+         c212=rw0.createCell(mypos);mypos++;
+         c213=rw0.createCell(mypos);mypos++;
+         c214=rw0.createCell(mypos);mypos++;
+         c215=rw0.createCell(mypos);mypos++;
+        cARTHV = rw0.createCell(mypos);
+        mypos++;
+        cARTHV.setCellValue(arthv);
+
+        cHTCHV = rw0.createCell(mypos);
+        mypos++;
+        cHTCHV.setCellValue(htchv);
+
+        cPMTCTHV = rw0.createCell(mypos);
+        mypos++;
+        cPMTCTHV.setCellValue(pmtcthv);
+         c216=rw0.createCell(mypos);mypos++;
+         c217=rw0.createCell(mypos);mypos++;
         
          // the rest
-         c11=rw0.createCell(7);
-         c12=rw0.createCell(8);
-         c13=rw0.createCell(9);
-         c14=rw0.createCell(10);
-         c15=rw0.createCell(11);
-         c16=rw0.createCell(12);
-         c17=rw0.createCell(13);
-         c18=rw0.createCell(14);
-         c19=rw0.createCell(15);
-         c20=rw0.createCell(16);
-         c110=rw0.createCell(17);
-         c111=rw0.createCell(18);
-         c112=rw0.createCell(19);
-         c113=rw0.createCell(20);
-         c114=rw0.createCell(21);
-         c115=rw0.createCell(22);
-         c116=rw0.createCell(23);
-         c117=rw0.createCell(24);
+         c11=rw0.createCell(mypos);mypos++;
+         c12=rw0.createCell(mypos);mypos++;
+         c13=rw0.createCell(mypos);mypos++;
+         c14=rw0.createCell(mypos);mypos++;
+         c15=rw0.createCell(mypos);mypos++;
+         c16=rw0.createCell(mypos);mypos++;
+         c17=rw0.createCell(mypos);mypos++;
+         c18=rw0.createCell(mypos);mypos++;
+         c19=rw0.createCell(mypos);mypos++;
+         c20=rw0.createCell(mypos);mypos++;
+         c110=rw0.createCell(mypos);mypos++;
+         c111=rw0.createCell(mypos);mypos++;
+         c112=rw0.createCell(mypos);mypos++;
+         c113=rw0.createCell(mypos);mypos++;
+         c114=rw0.createCell(mypos);mypos++;
+         c115=rw0.createCell(mypos);mypos++;
+         c116=rw0.createCell(mypos);mypos++;
+         c117=rw0.createCell(mypos);mypos++;
         
          
         //c11.setCellValue(facilname);
@@ -5889,7 +5599,7 @@ adderPos++  ;
          c212.setCellValue(district);
          c213.setCellValue(facilityname);
          c214.setCellValue(mflcode);
-         c215.setCellValue(dsdta);
+         c215.setCellValue(/*"DSD"*/dsdta);
          shet3.addMergedRegion(new CellRangeAddress(2,4,0,0));
          shet3.addMergedRegion(new CellRangeAddress(2,4,1,1));
          shet3.addMergedRegion(new CellRangeAddress(2,4,2,2));
@@ -5949,25 +5659,26 @@ adderPos++  ;
 //      shet3.addMergedRegion(new CellRangeAddress(2,5,0,0));
      
    
-         c11=rw0.createCell(25);
-         c12=rw0.createCell(26);
-         c13=rw0.createCell(27);
-         c14=rw0.createCell(28);
-         c15=rw0.createCell(29);
-         c16=rw0.createCell(30);
-         c17=rw0.createCell(31);
-         c18=rw0.createCell(32);
-         c19=rw0.createCell(33);
-         c110=rw0.createCell(34);
-         c111=rw0.createCell(35);
-         c112=rw0.createCell(36);
-         c113=rw0.createCell(37);
-         c114=rw0.createCell(38);
-         c115=rw0.createCell(39);
-         c116=rw0.createCell(40);
-         c117=rw0.createCell(41);
-         c118=rw0.createCell(42);
-         c119=rw0.createCell(43);
+         c11=rw0.createCell(mypos);mypos++;
+         c12=rw0.createCell(mypos);mypos++;
+         c13=rw0.createCell(mypos);mypos++;
+         c14=rw0.createCell(mypos);mypos++;
+         c15=rw0.createCell(mypos);mypos++;
+         c16=rw0.createCell(mypos);mypos++;
+         c17=rw0.createCell(mypos);mypos++;
+         c18=rw0.createCell(mypos);mypos++;
+         c19=rw0.createCell(mypos);mypos++;
+         c110=rw0.createCell(mypos);mypos++;
+         c111=rw0.createCell(mypos);mypos++;
+         c112=rw0.createCell(mypos);mypos++;
+         c113=rw0.createCell(mypos);mypos++;
+         c114=rw0.createCell(mypos);mypos++;
+         c115=rw0.createCell(mypos);mypos++;
+         c116=rw0.createCell(mypos);mypos++;
+         c117=rw0.createCell(mypos);mypos++;
+         c118=rw0.createCell(mypos);mypos++;
+         c119=rw0.createCell(mypos);mypos++;
+         c119.setCellStyle(stborder);
   
 
 
@@ -6101,28 +5812,30 @@ double TotalNegativeFemale1=0;
       c115.setCellValue((float)Math.round(AdultMaleHIV19Neg+vmmc15to19neg));
       c116.setCellValue((float)Math.round(AdultMaleHIV24Neg+vmmc20to24neg));
       c117.setCellValue((float)Math.round(AdultMaleHIV49Neg+vmmc25to29neg+vmmc30to49neg));//here we join two vmmc age sets
+      c117.setCellStyle(stborder);
       c118.setCellValue((float)Math.round(AdultMaleHIV50Neg+vmmc50neg));
+      c118.setCellStyle(stborder);
      // rem under 5 are all children
       c119.setCellValue(less15f+under5femalestotal);
-      
+      c119.setCellStyle(stborder);
    
-         c120=rw0.createCell(44);
+         c120=rw0.createCell(mypos);mypos++;
          c120.setCellStyle(stborder);
-         c121=rw0.createCell(45);
+         c121=rw0.createCell(mypos);mypos++;
          c121.setCellStyle(stborder);
-         c122=rw0.createCell(46);
+         c122=rw0.createCell(mypos);mypos++;
          c122.setCellStyle(stborder);
-         c123=rw0.createCell(47);
+         c123=rw0.createCell(mypos);mypos++;
          c123.setCellStyle(stborder);
-         c124=rw0.createCell(48);
+         c124=rw0.createCell(mypos);mypos++;
          c124.setCellStyle(stborder);
-         c125=rw0.createCell(49);
+         c125=rw0.createCell(mypos);mypos++;
          c125.setCellStyle(stborder);
-         c126=rw0.createCell(50);
+         c126=rw0.createCell(mypos);mypos++;
          c126.setCellStyle(stborder);
-         c127=rw0.createCell(51);
+         c127=rw0.createCell(mypos);mypos++;
          c127.setCellStyle(stborder);
-         c128=rw0.createCell(52);
+         c128=rw0.createCell(mypos);mypos++;
        
       
       
@@ -6221,7 +5934,95 @@ double TotalNegativeFemale1=0;
            
       }
 //      shet3.addMergedRegion(new CellRangeAddress(2,5,20,20));
-}
+}//end of while
+    
+    	 //AFTER END OF WHILE LOOP
+
+             
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	                     
+ for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
+     count++;
+  rw0=shet3.createRow(count);  
+ rw0.setHeightInPoints(23);  
+ for(int b=0;b<blankrows;b++){ //inner loop taking care of the number of columns
+ //create a row
+  if(b==0){
+    //county  
+   HSSFCell cellcounty=rw0.createCell(0); 
+   cellcounty.setCellValue(staticcounty.get(a).toString());
+   cellcounty.setCellStyle(stborder);
+  }
+  else if(b==1){
+    //sub-county  
+   HSSFCell cellsubcounty=rw0.createCell(1); 
+   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
+   cellsubcounty.setCellStyle(stborder);
+  }
+  else if(b==2){
+   //facility
+   HSSFCell cellfacil=rw0.createCell(2); 
+   cellfacil.setCellValue(staticfacility.get(a).toString());
+   cellfacil.setCellStyle(stborder);
+  }
+  else if(b==3){
+   //mfl
+   HSSFCell cellmfl=rw0.createCell(3); 
+   cellmfl.setCellValue(staticmfl.get(a).toString());
+   cellmfl.setCellStyle(stborder);
+  }
+   
+  else if(b==4){
+  //dsdta
+   HSSFCell celldsd=rw0.createCell(4); 
+   celldsd.setCellValue(staticdsd_ta.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+  
+  else if(b==5){
+  //dsdta
+   HSSFCell celldsd=rw0.createCell(5); 
+   celldsd.setCellValue(staticart_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+   
+    else if(b==6){
+  //dsdta
+   HSSFCell celldsd=rw0.createCell(6); 
+   celldsd.setCellValue(statichtc_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+    else if(b==7){
+  //dsdta
+   HSSFCell celldsd=rw0.createCell(7); 
+   celldsd.setCellValue(staticpmtct_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+else if(b==blankrows-1){
+  //dsdta
+   HSSFCell celldsd=rw0.createCell(blankrows-1); 
+   celldsd.setCellValue("NO DATA");
+   celldsd.setCellStyle(stborder);
+   
+        }
+  else {
+   HSSFCell celldata=rw0.createCell(b); 
+   celldata.setCellValue(0);
+   celldata.setCellStyle(stborder);
+   
+  
+  }//end of else
+  
+ }//end of inner loop                    
+ } //end of outer loop                    
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	 
                      
                      
                      
@@ -6267,7 +6068,7 @@ double TotalNegativeFemale1=0;
             response.setContentType("application/ms-excel");
             response.setContentLength(outArray.length);
             response.setHeader("Expires:", "0"); // eliminates browser caching
-            response.setHeader("Content-Disposition", "attachment; filename=HTC-SDP_VMMC_HTC_Generatted_On_" + createdOn + ".xls");
+            response.setHeader("Content-Disposition", "attachment; filename=OLD_HTC-SDP_VMMC_HTC_Generatted_On_" + createdOn + ".xls");
             OutputStream outStream = response.getOutputStream();
             outStream.write(outArray);
             outStream.flush();

@@ -63,14 +63,16 @@ int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
             throws ServletException, IOException {
      
               try {
+               String    subcounty_countywhere=" (1=1) and ";
+                  
             response.setContentType("text/html;charset=UTF-8");
             allFacilities.clear();
             session = request.getSession();
             dbConn conn = new dbConn();
                   
-       year=Integer.parseInt(request.getParameter("year"));
+        year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
-            String headerTB[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+Y,Positive,Negative,Total PLVHIV enrolled in clinical care (HV0319),Ho of PLV in HIV clinical care screened for TB (HV0354),Female,Male, Screened for TB <15 Years,<1,1-4Y,5-9Y,10-14Y,Screened for TB >15 years,15-19Y,20+Y,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+,Verification Status".split(",") ;
+            String headerTB[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+Y,Positive,Negative,Total PLVHIV enrolled in clinical care (HV0319),Ho of PLV in HIV clinical care screened for TB (HV0354),Female,Male, Screened for TB <15 Years,<1,1-4Y,5-9Y,10-14Y,Screened for TB >15 years,15-19Y,20+Y,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
  
             String facilityIds1="";
        excelDuration="";
@@ -160,6 +162,8 @@ if(2==2){
     String getDist="SELECT subpartnera.SubPartnerID FROM subpartnera "
     + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
+     subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
+    
     conn.rs=conn.st.executeQuery(getDist);
     while(conn.rs.next()){
      allFacilities.add(conn.rs.getString(1));
@@ -176,6 +180,9 @@ if(2==2){
          String getCounty="SELECT subpartnera.SubPartnerID FROM subpartnera "
     + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
      + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+         
+           subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711
+         
     conn.rs=conn.st.executeQuery(getCounty);
     while(conn.rs.next()){
      allFacilities.add(conn.rs.getString(1));
@@ -353,6 +360,44 @@ HSSFCell c001;
     }  
     
     tbpos=4;
+    
+           //BEFORE WHILE LOOP
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    ArrayList staticfacility= new ArrayList();
+    ArrayList staticcounty= new ArrayList();
+    ArrayList staticdistrict= new ArrayList();
+    ArrayList staticmfl= new ArrayList();
+    ArrayList staticdsd_ta= new ArrayList();
+    ArrayList staticart_hv= new ArrayList();
+ArrayList statichtc_hv= new ArrayList();
+ArrayList staticpmtct_hv= new ArrayList();
+    int blankrows=43;
+    
+   String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
+            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where "+subcounty_countywhere+" ( PMTCT=1 || ART=1) group by subpartnera.SubPartnerID   "; 
+    
+   conn.rs=conn.st.executeQuery(getstaticfacilities);
+    while(conn.rs.next())
+    {
+    
+     staticcounty.add(conn.rs.getString("county"));
+     String district=conn.rs.getString("district");
+     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
+     staticfacility.add(conn.rs.getString("facility"));
+     staticmfl.add(conn.rs.getString("mflcode"));   
+     //dsdta=conn.rs.getString("htcsupport");   
+     String dsdta="DSD"; //static as of 201606 
+     staticdsd_ta.add(dsdta); 
+      if(conn.rs.getString("ART_highvolume")!=null){staticart_hv.add(conn.rs.getString("ART_highvolume"));} else {staticart_hv.add(""); }
+     if(conn.rs.getString("HTC_highvolume")!=null){ statichtc_hv.add(conn.rs.getString("HTC_highvolume"));} else { statichtc_hv.add(""); }
+     if(conn.rs.getString("PMTCT_highvolume")!=null){staticpmtct_hv.add(conn.rs.getString("PMTCT_highvolume"));} else {staticpmtct_hv.add("");}
+     
+    }
+   
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
   
     String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
             + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
@@ -362,7 +407,7 @@ HSSFCell c001;
             + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
             + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
             + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208)"
-            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354) ,moh731.SubPartnerID as subpartnerid"
+            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354) ,moh731.SubPartnerID as subpartnerid ,ART_highvolume, HTC_highvolume,PMTCT_highvolume"
             + " FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -380,7 +425,7 @@ HSSFCell c001;
             + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
             + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
             + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208)"
-            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),tb_stat_art.SubPartnerID as subpartnerid "
+            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),tb_stat_art.SubPartnerID as subpartnerid ,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
             + " FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + " JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -397,6 +442,43 @@ HSSFCell c001;
 //     System.out.println("new : "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
+        
+        
+    	 //INSIDE WHILE LOOP
+	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("CentreSanteId"));
+        
+        if(mflindex!=-1){
+            
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+             
+             staticart_hv.remove(mflindex);
+             statichtc_hv.remove(mflindex);
+             staticpmtct_hv.remove(mflindex);
+        
+                        }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+     
+        
+         String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+        
+        
 HV0308=HV0309=HV0310=HV0311=HV0312=HV0320=HV0321=HV0322=HV0323=HV0324=0;
 HV0314=HV0315=HV0316=HV0317=HV0318=HV0334=HV0335=HV0336=HV0337=HV0338=0;
 errorTB=0;
@@ -606,11 +688,11 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
      if(reportDuration.equals("4")){
         
       
-        String dataTB []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","
+        String dataTB []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"
         + ",,,,,"
         + ",,,,,,,"+TB_SCREEN_D+","+TB_SCREEN_N+","+TB_SCREEN_FEMALE+","
         + ""+TB_SCREEN_MALE+","+TB_SCREEN_LESS15+","+TB_SCREEN_1+","+TB_SCREEN_4+","+TB_SCREEN_9+","+
-       TB_SCREEN_14+","+TB_SCREEN_MORE15+","+TB_SCREEN_19+","+TB_SCREEN_20+",,,,,,,,,,,"+errorTB).split(",");
+       TB_SCREEN_14+","+TB_SCREEN_MORE15+","+TB_SCREEN_19+","+TB_SCREEN_20+",,,,,,,,,,,"+errorTB+","+arthv+","+htchv+","+pmtcthv).split(",");
      
      
         HSSFRow rw3shet5=shetTB.createRow(tbpos); 
@@ -622,7 +704,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
          c11.setCellStyle(stborder);
           if(positionTB==5 || positionTB==6 || positionTB==17 || positionTB==18 || positionTB==29 || positionTB==30){ c11.setCellStyle(styleHeader);}
           
-          if(positionTB==dataTB.length-1){
+          if(positionTB==dataTB.length-4){
        if(errorTB>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
@@ -638,7 +720,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
         + ""+TB_SCREEN_MALE+","+TB_SCREEN_LESS15+","+TB_SCREEN_1+","+TB_SCREEN_4+","+TB_SCREEN_9+","+
        TB_SCREEN_14+","+TB_SCREEN_MORE15+","+TB_SCREEN_19+","+TB_SCREEN_20+","+
 	   TB_ART_N+","+TB_ART_D+","+TB_ART_FEMALE+","+TB_ART_MALE+","+TB_ART_1+","+TB_ART_4+","
-        + ""+TB_ART_9+","+TB_ART_14+","+TB_ART_19+","+TB_ART_20+","+errorTB).split(",");
+        + ""+TB_ART_9+","+TB_ART_14+","+TB_ART_19+","+TB_ART_20+","+errorTB+","+arthv+","+htchv+","+pmtcthv).split(",");
      
      
         HSSFRow rw3shet5=shetTB.createRow(tbpos); 
@@ -646,11 +728,11 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
        for(int positionTB=0;positionTB<dataTB.length;positionTB++){
        String value=dataTB[positionTB];
            c11=rw3shet5.createCell(positionTB);
-        if(positionTB>4 && positionTB<dataTB.length-1){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+        if(positionTB>4 && positionTB<dataTB.length-4){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
           if(positionTB==5 || positionTB==6 || positionTB==17 || positionTB==18 || positionTB==29 || positionTB==30){ c11.setCellStyle(styleHeader);}
           
-          if(positionTB==dataTB.length-1){
+          if(positionTB==dataTB.length-4){
        if(errorTB>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
@@ -660,7 +742,99 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
   tbpos++;     
  }
 
-    }
+    }//end of while
+    
+ 
+    
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	HSSFRow rwx=null;                     
+ for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
+     
+  rwx=shetTB.createRow(tbpos);  
+ rwx.setHeightInPoints(23);  
+ tbpos++;
+ for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
+ //create a row
+  if(z==0){
+    //county  
+   HSSFCell cellcounty=rwx.createCell(0); 
+   cellcounty.setCellValue(staticcounty.get(a).toString());
+   cellcounty.setCellStyle(stborder);
+  }
+  else if(z==1){
+    //sub-county  
+   HSSFCell cellsubcounty=rwx.createCell(1); 
+   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
+   cellsubcounty.setCellStyle(stborder);
+  }
+  else if(z==2){
+   //facility
+   HSSFCell cellfacil=rwx.createCell(2); 
+   cellfacil.setCellValue(staticfacility.get(a).toString());
+   cellfacil.setCellStyle(stborder);
+  }
+  else if(z==3){
+   //mfl
+   HSSFCell cellmfl=rwx.createCell(3); 
+   cellmfl.setCellValue(staticmfl.get(a).toString());
+   cellmfl.setCellStyle(stborder);
+  }
+   
+  else if(z==4){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(4); 
+   celldsd.setCellValue(staticdsd_ta.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+		 
+ else if(z==blankrows-4){
+  //data status
+   HSSFCell celldsd=rwx.createCell(blankrows-4); 
+   celldsd.setCellValue("NO DATA");
+   celldsd.setCellStyle(stborder);
+   
+        }
+                 	 else if(z==blankrows-3){
+  //art high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-3); 
+   celldsd.setCellValue(staticart_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+                         
+                        else if(z==blankrows-2){
+  //ht high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-2); 
+   celldsd.setCellValue(statichtc_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+                        
+                        else if(z==blankrows-1){
+  //pmtct high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-1); 
+   celldsd.setCellValue(staticpmtct_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+                                                  }
+  else {
+                     
+   HSSFCell celldata=rwx.createCell(z); 
+   celldata.setCellValue(0);
+   celldata.setCellStyle(stborder);
+   
+  
+  }//end of else
+  
+ }//end of inner loop                    
+ } //end of outer loop                    
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+    
+    
+    
   
 }      
         
@@ -696,7 +870,7 @@ int percentage,retentionPOS,errorRETENTION;
 //        reportDuration=request.getParameter("reportDuration");
         
         
-        String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Pregnant,Breastfeeding,sub-total,<5,10-14Y,15-19Y,20+Y,<5,10-14Y,15-19Y,20+Y,sub-total,Denominator,Pregnant,Breastfeeding,sub-total,<5,10-14Y,15-19Y,20+Y,<5,10-14Y,15-19Y,20+Y,sub-total,Verification Status ".split(",") ;
+String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Pregnant,Breastfeeding,sub-total,<5,10-14Y,15-19Y,20+Y,<5,10-14Y,15-19Y,20+Y,sub-total,Denominator,Pregnant,Breastfeeding,sub-total,<5,10-14Y,15-19Y,20+Y,<5,10-14Y,15-19Y,20+Y,sub-total,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
  percentage=81;
         
 //              year=2015;
@@ -783,6 +957,8 @@ int percentage,retentionPOS,errorRETENTION;
     String getDist="SELECT subpartnera.SubPartnerID FROM subpartnera "
     + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
+     subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
+    
     conn.rs=conn.st.executeQuery(getDist);
     while(conn.rs.next()){
      allFacilities.add(conn.rs.getString(1));
@@ -800,6 +976,9 @@ int percentage,retentionPOS,errorRETENTION;
          String getCounty="SELECT subpartnera.SubPartnerID FROM subpartnera "
     + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
      + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+         
+           subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711
+         
     conn.rs=conn.st.executeQuery(getCounty);
     while(conn.rs.next()){
      allFacilities.add(conn.rs.getString(1));
@@ -809,7 +988,8 @@ int percentage,retentionPOS,errorRETENTION;
     facilityIds = facilityIds.substring(0, facilityIds.length()-3);
      facilityIds+=") && ";     
     facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";     
+     facilityIds1+=") && "; 
+     
      }
        
         else{
@@ -967,14 +1147,55 @@ shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,i,i));
   shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,17,17)); 
   shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,18,18));
   shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,30,30)); 
+  
+  
+         //BEFORE WHILE LOOP
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    ArrayList staticfacility= new ArrayList();
+    ArrayList staticcounty= new ArrayList();
+    ArrayList staticdistrict= new ArrayList();
+    ArrayList staticmfl= new ArrayList();
+    ArrayList staticdsd_ta= new ArrayList();
+    ArrayList staticart_hv= new ArrayList();
+ArrayList statichtc_hv= new ArrayList();
+ArrayList staticpmtct_hv= new ArrayList();
+
+    int blankrows=35;
+    
+   String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
+            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where ( ART='1' || PMTCT='1') group by subpartnera.SubPartnerID   "; 
+    
+   conn.rs=conn.st.executeQuery(getstaticfacilities);
+    while(conn.rs.next()){
+    
+     staticcounty.add(conn.rs.getString("county"));
+     String district=conn.rs.getString("district");
+     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
+     staticfacility.add(conn.rs.getString("facility"));
+     staticmfl.add(conn.rs.getString("mflcode"));   
+     //dsdta=conn.rs.getString("htcsupport");   
+     String dsdta="DSD"; //static as of 201606 
+     staticdsd_ta.add(dsdta); 
+     
+      if(conn.rs.getString("ART_highvolume")!=null){staticart_hv.add(conn.rs.getString("ART_highvolume"));} else {staticart_hv.add(""); }
+     if(conn.rs.getString("HTC_highvolume")!=null){ statichtc_hv.add(conn.rs.getString("HTC_highvolume"));} else { statichtc_hv.add(""); }
+     if(conn.rs.getString("PMTCT_highvolume")!=null){staticpmtct_hv.add(conn.rs.getString("PMTCT_highvolume"));} else {staticpmtct_hv.add("");}
+
+     
+    }
+   
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  
 // GET STARTING ART DATA
  
  retentionPOS=3;
  String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
             + "subpartnera.CentreSanteId,ART_Support,"
            // + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),SUM(HV0325) "
-            + "SUM(HV0349) as HV0349,SUM(HV0345) as HV0345 "
+            + "SUM(HV0349) as HV0349,SUM(HV0345) as HV0345 ,ART_highvolume, HTC_highvolume,PMTCT_highvolume"
             + " FROM moh731 JOIN subpartnera "
             + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
@@ -986,6 +1207,41 @@ shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,i,i));
      System.out.println("!!!!: "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
+        
+        
+        	 //INSIDE WHILE LOOP
+	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("CentreSanteId"));
+        
+        if(mflindex!=-1) {        
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+             staticart_hv.remove(mflindex);
+statichtc_hv.remove(mflindex);
+staticpmtct_hv.remove(mflindex);
+        
+                        }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        
+     String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+        
+        
         retentionPOS++;errorRETENTION=0;
       facilityName=conn.rs.getString(1);
       districtName=conn.rs.getString(2);
@@ -1162,22 +1418,22 @@ IA_Denominator=denominator;
 
 
 
-String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcode+","+ARTSupport+","+SA_Numerator+","
+String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+SA_Numerator+","
            + ""+SA_PG+","+SA_BF+","+SA_Sub1+","+SA_5F+","
            + ""+SA_14F+","+SA_19F+","+SA_20F+","+SA_5M+","+SA_14M+","+SA_19M+","+SA_20M+","+SA_Sub2+","
            + ""+IA_Denominator+","+IA_PG+","+IA_BF+","+IA_Sub1+","+IA_5F+","+IA_14F+","
-           + ""+IA_19F+","+IA_20F+","+IA_5M+","+IA_14M+","+IA_19M+","+IA_20M+","+IA_Sub2+",status").split(","); 
+           + ""+IA_19F+","+IA_20F+","+IA_5M+","+IA_14M+","+IA_19M+","+IA_20M+","+IA_Sub2+",status"+","+arthv+","+htchv+","+pmtcthv).split(","); 
 
   HSSFRow rw4shetRETENTION=shetRETENTION.createRow(retentionPOS); 
        rw4shetRETENTION.setHeightInPoints(25);
        for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++){
        String value=dataRETENTION[positionRETENTION];
        HSSFCell    c11=rw4shetRETENTION.createCell(positionRETENTION);
-        if(positionRETENTION>4 && positionRETENTION<(dataRETENTION.length-1)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+        if(positionRETENTION>4 && positionRETENTION<(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
           if(positionRETENTION==5 || positionRETENTION==8 || positionRETENTION==17 || positionRETENTION==18 || positionRETENTION==21 || positionRETENTION==30){ c11.setCellStyle(styleHeader);}
 //          System.out.println("position "+positionPMTCT+" end v : "+dataPMTCT.length); 
-       if(positionRETENTION==dataRETENTION.length-1){
+       if(positionRETENTION==dataRETENTION.length-4){
 //           System.out.println("entered here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
        if(errorRETENTION>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
@@ -1188,7 +1444,93 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
     
         
         
-        
+ 
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ retentionPOS++;
+    HSSFRow rwx=null;                     
+ for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
+     
+  rwx=shetRETENTION.createRow(retentionPOS);  
+ rwx.setHeightInPoints(23);  
+ retentionPOS++;
+ for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
+ //create a row
+  if(z==0){
+    //county  
+   HSSFCell cellcounty=rwx.createCell(0); 
+   cellcounty.setCellValue(staticcounty.get(a).toString());
+   cellcounty.setCellStyle(stborder);
+  }
+  else if(z==1){
+    //sub-county  
+   HSSFCell cellsubcounty=rwx.createCell(1); 
+   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
+   cellsubcounty.setCellStyle(stborder);
+  }
+  else if(z==2){
+   //facility
+   HSSFCell cellfacil=rwx.createCell(2); 
+   cellfacil.setCellValue(staticfacility.get(a).toString());
+   cellfacil.setCellStyle(stborder);
+  }
+  else if(z==3){
+   //mfl
+   HSSFCell cellmfl=rwx.createCell(3); 
+   cellmfl.setCellValue(staticmfl.get(a).toString());
+   cellmfl.setCellStyle(stborder);
+  }
+   
+  else if(z==4){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(4); 
+   celldsd.setCellValue(staticdsd_ta.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+else if(z==blankrows-4){
+  //data status
+   HSSFCell celldsd=rwx.createCell(blankrows-4); 
+   celldsd.setCellValue("NO DATA");
+   celldsd.setCellStyle(stborder);
+   
+        }
+                 	 else if(z==blankrows-3){
+  //art high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-3); 
+   celldsd.setCellValue(staticart_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+                         
+                        else if(z==blankrows-2){
+  //ht high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-2); 
+   celldsd.setCellValue(statichtc_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+                        
+                        else if(z==blankrows-1){
+  //pmtct high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-1); 
+   celldsd.setCellValue(staticpmtct_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+                                                  }
+  else {
+                     
+   HSSFCell celldata=rwx.createCell(z); 
+   celldata.setCellValue(0);
+   celldata.setCellStyle(stborder);
+   
+  
+  }//end of else
+  
+ }//end of inner loop                    
+ } //end of outer loop                    
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
         
         
         
@@ -1222,17 +1564,19 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             
             
             String subheaders[]={"Tested","Positive","Negative"};
-            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Numerator","Denominator","<1","1-4","5-14","15-19","20+","<1","1-4","5-14","15-19","20+","Sub- Total","Numerator","Denominator","<1","1-4","5-14","15-19","20+","<1","1-4","5-14","15-19","20+","Sub-Total"};
-            String sectionheaders0[]={"","","","","","No. Of Viral load tests conducted in the past 12 months with < 1000","No. of load tests performed in the reporting period","Female","","","","","Male","","","","","","No. of ART patients with viral load result documented within the past 12 months","No. on ART at least 6 months whose medical records were reviewed by Age and Sex","Female","","","","","Male","","","","","Sub-Total"};
+            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Numerator","Denominator","<1","1-4","5-14","15-19","20+","<1","1-4","5-14","15-19","20+","Sub- Total","Numerator","Denominator","<1","1-4","5-14","15-19","20+","<1","1-4","5-14","15-19","20+","Sub-Total","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders0[]={"","","","","","No. Of Viral load tests conducted in the past 12 months with < 1000","No. of load tests performed in the reporting period","Female","","","","","Male","","","","","","No. of ART patients with viral load result documented within the past 12 months","No. on ART at least 6 months whose medical records were reviewed by Age and Sex","Female","","","","","Male","","","","","Sub-Total","ART High Volume","HTC High Volume","PMTCT High Volume"};
             //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
-            String merge_row_col[]={"0,1,0,4","0,1,5,5","0,1,6,6","0,0,7,17","0,1,18,18","0,1,19,19","0,0,20,30","1,1,7,11","1,1,12,17","1,1,20,24","1,1,25,29"};
+            String merge_row_col[]={"0,1,0,4","0,1,5,5","0,1,6,6","0,0,7,17","0,1,18,18","0,1,19,19","0,0,20,30","1,1,7,11","1,1,12,17","1,1,20,24","1,1,25,29","1,2,31,31","1,2,32,32","1,2,33,33"};
             
             String reportType = "";
-            if (request.getParameter("reportType") != null) {
+            if (request.getParameter("reportType") != null) 
+            {
                 reportType = request.getParameter("reportType");
             }
             String reportDuration = "";
-            if (request.getParameter("reportDuration") != null) {
+            if (request.getParameter("reportDuration") != null) 
+            {
                 reportDuration = request.getParameter("reportDuration");
             }
             
@@ -1424,7 +1768,7 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " + subcountywhere;
             
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
-            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,sum(denominator_vi) as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID  FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
+            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,sum(denominator_vi) as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
             System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
@@ -1537,7 +1881,19 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
             cl2.setCellStyle(stylex);
            // shet.addMergedRegion(new CellRangeAddress(0,0,20,30));
             
+            HSSFCell cl3 = rw.createCell(31);
+            cl3.setCellValue("");
+            cl3.setCellStyle(stylex);
           
+            HSSFCell cl4 = rw.createCell(32);
+            cl4.setCellValue("");
+            cl4.setCellStyle(stylex);
+            
+            
+            HSSFCell cl5 = rw.createCell(33);
+            cl5.setCellValue("");
+            cl5.setCellStyle(stylex);
+            
             rowpos++;
             
             
@@ -1583,6 +1939,17 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
     
     while(conn.rs.next()){
     
+        
+        
+        String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+        
+        
     
          int colpos=0; 
            int conpos=1; 
@@ -1969,7 +2336,39 @@ supporttype="DSD";
             conpos++;
 
         }     
-               
+           
+      if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(arthv);
+            clx.setCellStyle(style2);
+
+            colpos++;
+            //conpos++;
+
+        }  
+     
+       if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(htchv);
+            clx.setCellStyle(style2);
+
+            colpos++;
+            //conpos++;
+
+        }
+       
+        if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(pmtcthv);
+            clx.setCellStyle(style2);
+
+            colpos++;
+            //conpos++;
+        }
+     
         rowpos++;
     }
     
@@ -1998,9 +2397,9 @@ supporttype="DSD";
             
             
             String mainheaders[]={"","","","","","Female","","","","","","Male","","","","","Disagggregated by Type of Service","",""};
-            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Female","<10","10-14","15-17","18-24","25+","Male","<10","10-14","15-17","18-24","25+","Sexual Violence (Post Rape Care)","PHYSICAL and/or EMOTIONAL Violence (Other Post GBV Care)","Verification"};
+            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Female","<10","10-14","15-17","18-24","25+","Male","<10","10-14","15-17","18-24","25+","Sexual Violence (Post Rape Care)","PHYSICAL and/or EMOTIONAL Violence (Other Post GBV Care)","Verification","ART High Volume","HTC High Volume","PMTCT High Volume"};
             //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
-            String merge_row_col[]={"0,0,0,20","1,1,0,4","1,1,5,6","1,1,7,11","1,1,13,17","1,1,18,19"};
+            String merge_row_col[]={"0,0,0,23","1,1,0,4","1,1,5,6","1,1,7,11","1,1,13,17","1,1,18,19"};
             
             String reportType = "";
             if (request.getParameter("reportType") != null) {
@@ -2170,10 +2569,16 @@ supporttype="DSD";
             
             String subcounty = "";
             
+             if (!request.getParameter("county").equals("")) {
+                
+                county = request.getParameter("county");
+                  subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711
+             }
+            
             if (!request.getParameter("subcounty").equals("")) {
                 
                 subcounty = request.getParameter("subcounty");
-                
+                 subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
             }
             
             String getexistingdata = "";
@@ -2181,7 +2586,7 @@ supporttype="DSD";
             if (!county.equals("")) {
                 
                 countywhere = " and district.countyid = '" + county + "'";
-                
+                subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711  
             }
             
             if (!subcounty.equals("")) {
@@ -2203,12 +2608,52 @@ supporttype="DSD";
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
             
             
+       
+            
+          //BEFORE WHILE LOOP
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    ArrayList staticfacility= new ArrayList();
+    ArrayList staticcounty= new ArrayList();
+    ArrayList staticdistrict= new ArrayList();
+    ArrayList staticmfl= new ArrayList();
+    ArrayList staticdsd_ta= new ArrayList();
+    ArrayList staticart_hv= new ArrayList();
+ArrayList statichtc_hv= new ArrayList();
+ArrayList staticpmtct_hv= new ArrayList();
+    
+    int blankrows=24;
+    
+   String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
+            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where ( PEP='1') group by subpartnera.SubPartnerID   "; 
+    
+   conn.rs=conn.st.executeQuery(getstaticfacilities);
+    while(conn.rs.next()){
+    
+     staticcounty.add(conn.rs.getString("county"));
+     String district=conn.rs.getString("district");
+     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
+     staticfacility.add(conn.rs.getString("facility"));
+     staticmfl.add(conn.rs.getString("mflcode"));   
+     //dsdta=conn.rs.getString("htcsupport");   
+     String dsdta="DSD"; //static as of 201606 
+     staticdsd_ta.add(dsdta);  
+      if(conn.rs.getString("ART_highvolume")!=null){staticart_hv.add(conn.rs.getString("ART_highvolume"));} else {staticart_hv.add(""); }
+     if(conn.rs.getString("HTC_highvolume")!=null){ statichtc_hv.add(conn.rs.getString("HTC_highvolume"));} else { statichtc_hv.add(""); }
+     if(conn.rs.getString("PMTCT_highvolume")!=null){staticpmtct_hv.add(conn.rs.getString("PMTCT_highvolume"));} else {staticpmtct_hv.add("");}
+
+     
+    }
+   
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%         
+            
             
             
             
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
            //    getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , sum(HV0507) as numerator  ,(sum(HV0502)+sum(HV0504)+sum(HV0506)) as femaletotal, (sum(HV0501)+sum(HV0503)+sum(HV0505)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
-            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , (sum(HV0503)+sum(HV0504)) as numerator  ,(sum(HV0504)) as femaletotal, (sum(HV0503)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
+            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , (sum(HV0503)+sum(HV0504)) as numerator  ,(sum(HV0504)) as femaletotal, (sum(HV0503)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
             System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
@@ -2355,7 +2800,51 @@ supporttype="DSD";
     
     while(conn.rs.next()){
     
-    
+   	 
+	 
+	 
+	 
+	 //INSIDE WHILE LOOP
+	 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("mflcode"));
+        
+        if(mflindex!=-1){        
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+             
+staticart_hv.remove(mflindex);
+statichtc_hv.remove(mflindex);
+staticpmtct_hv.remove(mflindex);
+        
+                         }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+	 
+	 
+	 
+	    String arthv=" ";
+     String htchv=" ";
+     String pmtcthv=" ";
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+        
+        
+        
+        
+        
+        
+        
          int colpos=0; 
            int conpos=1; 
                HSSFRow rwx = shet.createRow(rowpos); 
@@ -2411,7 +2900,8 @@ supporttype="DSD";
           if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            //clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue("DSD");
             clx.setCellStyle(style2);
 
             colpos++;
@@ -2605,6 +3095,32 @@ supporttype="DSD";
   }
   }
   
+   if(1==1){
+  colpos++;
+  HSSFCell clx = rwx.createCell(colpos);
+ 
+            clx.setCellValue(arthv);
+            clx.setCellStyle(style2);
+  
+          }
+   if(1==1){
+  colpos++;
+  HSSFCell clx = rwx.createCell(colpos);
+ 
+            clx.setCellValue(htchv);
+            clx.setCellStyle(style2);
+  
+          }
+   
+     if(1==1){
+  colpos++;
+  HSSFCell clx = rwx.createCell(colpos);
+ 
+            clx.setCellValue(pmtcthv);
+            clx.setCellStyle(style2);
+  
+            }
+  
          //all the rows should come before this line  
           rowpos++;
           
@@ -2613,7 +3129,93 @@ supporttype="DSD";
     }//end of while loop 
         
         
-    
+   
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	HSSFRow rwx=null;                     
+ for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
+     
+  rwx=shet.createRow(rowpos);  
+ rwx.setHeightInPoints(23);  
+ rowpos++;
+ for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
+ //create a row
+  if(z==0){
+    //county  
+   HSSFCell cellcounty=rwx.createCell(0); 
+   cellcounty.setCellValue(staticcounty.get(a).toString());
+   cellcounty.setCellStyle(style2);
+  }
+  else if(z==1){
+    //sub-county  
+   HSSFCell cellsubcounty=rwx.createCell(1); 
+   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
+   cellsubcounty.setCellStyle(style2);
+  }
+  else if(z==2){
+   //facility
+   HSSFCell cellfacil=rwx.createCell(2); 
+   cellfacil.setCellValue(staticfacility.get(a).toString());
+   cellfacil.setCellStyle(style2);
+  }
+  else if(z==3){
+   //mfl
+   HSSFCell cellmfl=rwx.createCell(3); 
+   cellmfl.setCellValue(staticmfl.get(a).toString());
+   cellmfl.setCellStyle(style2);
+  }
+   
+  else if(z==4){
+  //dsdta
+   HSSFCell celldsd=rwx.createCell(4); 
+   celldsd.setCellValue(staticdsd_ta.get(a).toString());
+   celldsd.setCellStyle(style2);
+   
+        }
+else if(z==blankrows-4){
+  //data status
+   HSSFCell celldsd=rwx.createCell(blankrows-4); 
+   celldsd.setCellValue("NO DATA");
+   celldsd.setCellStyle(stborder);
+   
+        }
+                 	 else if(z==blankrows-3){
+  //art high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-3); 
+   celldsd.setCellValue(staticart_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+        }
+                         
+                        else if(z==blankrows-2){
+  //ht high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-2); 
+   celldsd.setCellValue(statichtc_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+                                             }
+                        
+                        else if(z==blankrows-1){
+  //pmtct high volume site
+   HSSFCell celldsd=rwx.createCell(blankrows-1); 
+   celldsd.setCellValue(staticpmtct_hv.get(a).toString());
+   celldsd.setCellStyle(stborder);
+   
+                                                  }
+  else {
+                     
+   HSSFCell celldata=rwx.createCell(z); 
+   celldata.setCellValue(0);
+   celldata.setCellStyle(style2);
+   
+  
+  }//end of else
+  
+ }//end of inner loop                    
+ } //end of outer loop                    
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+ 
     
     }
     //======================================================================================
