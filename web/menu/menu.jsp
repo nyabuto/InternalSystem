@@ -55,7 +55,7 @@
                </a>
             </li>
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh711,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
+            <li class="has-sub" <%   /**if(session.getAttribute("forms_holder")!=null)  */ if(1==2){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
            
            
               

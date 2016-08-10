@@ -183,7 +183,7 @@
                                    <option value="">Select form</option>   
                                      <%  
 dbConn conn = new dbConn();                                 
-                                 String getForms="select * from forms";
+                                 String getForms="select * from forms ";
                                  conn.rs=conn.st.executeQuery(getForms);
                                  while(conn.rs.next()){
                                  

@@ -33,7 +33,7 @@ public class loadForms extends HttpServlet {
     user_access="";
     dbConn conn= new dbConn();
    String forms="<option value=''> Select Form</option>"; 
-    String getForms="select * from forms";
+    String getForms="select * from forms where form !='MOH 711A'";
    
     conn.rs=conn.st.executeQuery(getForms);
  String form="";
