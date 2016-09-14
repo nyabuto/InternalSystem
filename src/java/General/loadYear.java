@@ -33,13 +33,18 @@ session = request.getSession();
               Calendar cal = Calendar.getInstance();
                     int year = cal.get(Calendar.YEAR);
          String sessionyear="";   
-                    
-                    year=year+1;
+                   int currentmonth= cal.get(Calendar.MONTH)+1;
+if(currentmonth>=10 && currentmonth<=12){
+
+year+=1;
+    
+                                        } 
+                   
             dbConn conn = new dbConn();
 if(session.getAttribute("year")!=null){
     
     sessionyear=session.getAttribute("year").toString();
-    }
+                                      }
             String getyears = "select * from year";
 
             String years = "<option value=''>Select Year</option>";

@@ -40,12 +40,30 @@ System.out.println("sessionmonth   "+sessionmonth);
 
 Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);  
+int currentmonth= cal.get(Calendar.MONTH)+1;
+if(currentmonth>=10){
+
+year+=1;
+    
+}
+
             String passedyear =""+year;
 
+            //String mywhere=" where id <='"+currentmonth+"' ";
+            String mywhere="  ";
+            
             if (request.getParameter("year") != null&&!request.getParameter("year").equals("")) {
 
                 passedyear = request.getParameter("year");
-
+                //if the passsed year is the current year, then disable future months from appearing in data entry and report generation selects.
+             if(year==new Integer(passedyear)){
+             //mywhere=" where id <='"+currentmonth+"' ";
+                 
+             }
+             else {
+             mywhere="";
+             }
+             
             }
             //get the previous year
 
@@ -59,8 +77,8 @@ int year= cal.get(Calendar.YEAR);
 
             dbConn conn = new dbConn();
 
-            String getmonths = "select * from month order by mois asc";
-
+            String getmonths = "select * from month "+mywhere+" order by mois asc";
+            System.out.println(""+getmonths);
             String months = "<option value=''>Select Month </option>";
 
 
@@ -71,7 +89,7 @@ int year= cal.get(Calendar.YEAR);
                 
                if(sessionmonth.equalsIgnoreCase(conn.rs.getString("id"))){
                
-                  //If selected month is 2015, prev year is 2014  . Oct, Nov Dec will appear like October, 2014 while the others will appear like jan , 2015
+                  //If selected year is 2015, prev year is 2014  . Oct, Nov, Dec will appear like October, 2014 while the others will appear like jan , 2015
                 //if no year passed, show october only
                 if (conn.rs.getInt("id") >= 10) {
                     if (prevyear != 0) {
@@ -80,7 +98,8 @@ int year= cal.get(Calendar.YEAR);
                     } else {
                         months += "<option  selected value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + "</option> ";
                     }
-                } else if (conn.rs.getInt("id") < 10) {
+                                                } 
+                else if (conn.rs.getInt("id") < 10) {
 
                     if (!passedyear.equals("")) {
 
@@ -106,7 +125,8 @@ int year= cal.get(Calendar.YEAR);
                     if (!passedyear.equals("")) {
 
                         months += "<option value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + " ," + passedyear + "</option> ";
-                    } else {
+                                                } 
+                    else {
                         months += "<option value='" + conn.rs.getString("id") + "'>" + conn.rs.getString("name") + "</option> ";
                     }
                 }

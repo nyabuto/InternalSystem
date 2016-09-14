@@ -696,7 +696,7 @@ secCounter=0;
      + "SUM(HV0328),SUM(HV0329),SUM(HV0330),SUM(HV0331),SUM(HV0332),SUM(HV0333),SUM(HV0334),SUM(HV0335),"
      + "SUM(HV0336),SUM(HV0337),SUM(HV0338),SUM(HV0339),SUM(HV0340),SUM(HV0341),SUM(HV0342),SUM(HV0343),SUM(HV0344), "
      + "SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),SUM(HV0355) "
-     +"FROM moh731 join subpartnera on moh731.subpartnerid=subpartnera.subpartnerid WHERE "+facility+" art=1 && yearmonth="+maxYearMonth;
+     + "FROM moh731 join subpartnera on moh731.subpartnerid=subpartnera.subpartnerid WHERE "+facility+" art=1 && yearmonth="+maxYearMonth;
     conn.rs2=conn.st2.executeQuery(getCummulatives);
     if(conn.rs2.next()==true){
 System.out.println("entered to get cumulatives : "+maxYearMonth);

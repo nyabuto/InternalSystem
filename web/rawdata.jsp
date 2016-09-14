@@ -149,7 +149,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="" name="forms" class="form-horizontal">
+                        <form action="allStaticReports" name="forms" class="form-horizontal">
                            
                            <div class="control-group">
                               <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
@@ -164,7 +164,7 @@
                              <div class="control-group">
                               <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
+                                  <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1" style="height:200px;" multiple title="Note:" data-toggle="popover" data-trigger="hover" data-content="You may select multiple months. Press and hold the Ctrl button as you choose the months of interest  "  id="month" name="month">
                                     <option value="">Choose reporting year first</option>                                 
                                    
                                  </select>
@@ -270,10 +270,10 @@ dbConn conn = new dbConn();
                                var form= document.getElementById("form").value
 //                               alert(form);
                                if( form=="MOH 711A" ) {
-                           document.forms.action = "moh711_Facility";
+                           document.forms.action = "allStaticReports";
                             }
                             else if( form=="MOH 731" ) {
-                                document.forms.action = "moh731_Facility";
+                                document.forms.action = "allStaticReports";
                             }
 else {
     
@@ -320,7 +320,7 @@ $.ajax({
     
     function loadfrms(){
         
-        alert("fornm");
+        //alert("fornm");
         $.ajax({
             url:'loadForms',
             type:'post',
@@ -358,7 +358,8 @@ url:'loadMonth?year='+yr,
 type:'post',
 dataType:'html',
 success:function (data){
-    $("#month").html(data);     
+    $("#month").html(data.replace("<option value=''>Select Month </option>","")); 
+     //$('#month').select2();
     // loadfrms();
        //document.getElementById("month").innerHTML=data;
       // App.init();  
@@ -373,6 +374,15 @@ success:function (data){
       
       //load default facilities
     // loadcounty();
+      
+      
+      
+      $(document).ready(function(){
+          
+          $('[data-toggle="popover"]').popover();
+          
+      });
+      
       
    </script>
    <!-- END JAVASCRIPTS -->   

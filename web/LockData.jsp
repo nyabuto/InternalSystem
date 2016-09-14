@@ -175,7 +175,7 @@ legend.formatter {
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
                   <form action="LockData" method="post" class="form-horizontal" style="min-height: 450px;">
 
-                      
+                      <h4 style='text-align:center;background:#4B8DF8;color:white;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional </h4>
                       <div>  
 
                        <table style="margin-left:20%;">

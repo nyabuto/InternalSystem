@@ -259,7 +259,7 @@
                            </div> -->
                             
                              <div class="control-group">
-                              <label class="control-label">Select Section<font color='red'><b>*</b></font></label>
+                              <label class="control-label">Select Service Area<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                   <select required data-placeholder="Section" class="span6 m-wrap" multiple="multiple"  tabindex="-1" id="gapsection" name="gapsection" required  style="width: 400px;">
                                    <option value="">Select section</option>   

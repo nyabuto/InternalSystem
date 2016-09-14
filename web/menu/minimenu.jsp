@@ -73,7 +73,7 @@
                 <li class="active" style="border-top: 1px solid #e2e2e2 !important;">
                 <a href="home.jsp">
                <i class="icon-home"></i> 
-               <span class="title">Home</span>
+               <span class="title">Data Entry</span>
                </a>
             </li>
            
@@ -85,15 +85,13 @@
                </a>
                <ul class="sub">
      <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
-     <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>     
+     <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%> 
+                 <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
+                 <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Your Account</a></li>
                  <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
-                 <li ><a href="LockData.jsp"><i class="icon-plus"></i>Lock / Un lock Editing </a></li>
-                  <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
-                  <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
-                  <%}}}else{}}%>
-                  
-                  <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
-           
+                 <li ><a href="LockData.jsp"><i class="icon-lock"></i>Lock  Data Editing </a></li>                  
+                 <li ><a href="editFacility.jsp"><i class="icon-hospital"></i>Facility management</a></li>
+                 <%}}}else{}}%>
                </ul>
             </li>
             

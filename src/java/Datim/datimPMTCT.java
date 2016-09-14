@@ -427,7 +427,7 @@ PMTCT_CTX=0.0;
   
 //  PMTCT_STAT NUMERATOR======================================================================================================
       
- PMTCT_STATN_N=(double) HV0210;     
+ PMTCT_STATN_N=(double)HV0210;     
  PMTCT_STATN_KNOWNPOSTIVE=(double) HV0205;      
  PMTCTN_STAT_NEWPOSTIVE=(double) (HV0206+HV0207+HV0208);      
  PMTCT_STATD_D=(double) Math.round((1.03*HV0210));       

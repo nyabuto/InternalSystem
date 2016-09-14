@@ -473,6 +473,10 @@
         <servlet-name>highvolumescript</servlet-name>
         <servlet-class>scripts.highvolumescript</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>changesubcounties</servlet-name>
+        <servlet-class>scripts.changesubcounties</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -944,6 +948,10 @@
     <servlet-mapping>
         <servlet-name>highvolumescript</servlet-name>
         <url-pattern>/highvolumescript</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>changesubcounties</servlet-name>
+        <url-pattern>/changesubcounties</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

@@ -61,7 +61,7 @@ int percentage,retentionPOS,errorRETENTION;
 //        reportDuration=request.getParameter("reportDuration");
         
         
-        String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Pregnant,Breastfeeding,sub-total,<5,10-14Y,15-19Y,20+Y,<5,10-14Y,15-19Y,20+Y,sub-total,Denominator,Pregnant,Breastfeeding,sub-total,<5,10-14Y,15-19Y,20+Y,<5,10-14Y,15-19Y,20+Y,sub-total,Verification Status ".split(",") ;
+        String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Pregnant,Breastfeeding,sub-total,<5,5-14Y,15-19Y,20+Y,<5,5-14Y,15-19Y,20+Y,sub-total,Denominator,Pregnant,Breastfeeding,sub-total,<5,5-14Y,15-19Y,20+Y,<5,5-14Y,15-19Y,20+Y,sub-total,Verification Status ".split(",") ;
  percentage=81;
         
               year=2015;

@@ -132,7 +132,7 @@
 
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Load Excel.</button>
+                              <button type="submit" class="btn blue">Upload.</button>
 
                            </div>
                         </form>

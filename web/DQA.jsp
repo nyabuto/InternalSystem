@@ -229,7 +229,7 @@ label {
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="#" method="post" class="form-horizontal">
-                           
+                         <h5 style='text-align: center;'> This DQA shows errors that as a result of data entry validation rules. </h5>  
                         <div class="tabbable tabbable-custom boxless" id="demo"  >
                    
         

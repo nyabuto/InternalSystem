@@ -95,7 +95,9 @@
           <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>29/Jun/2016</b> ] </font><font color='orange'>  <b>New 711 static excel report added</b></font></h4>-->
           <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>01/Jul/2016]</b> </font><font color='orange'>  <b>731 HTC ratios applied in datim HTC report</b></font></h4>-->
           <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>06/Jul/2016]</b> </font><font color='orange'>  <b>No. of sites in datim HTC excel report is now static for all periods, regardless of whether the site has data or not for the selected period.  </b></font></h4>-->
-          <h4 style="font-family:cambria;"><font color='red'>* [<b>26/Jul/2016]</b> </font><font color='orange'>  <b>High Volume Sites labels added on Datim HTC/PMTCT/HTC_SDP and ART/CARE/PMTCT Report   </b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>26/Jul/2016]</b> <br></font><font color='orange'>  <b>High Volume Sites labels added on Datim HTC/PMTCT/HTC_SDP , ART/CARE/PMTCT Report, Raw Data Reports   </b></font></h4>
+            <hr>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>7/Sep/2016]</b> <br/></font><font color='orange'>  <b>The Raw data report has the following features added <br/>(1) Autofilter <br/>(2) Autosum at the end of all rows <br/>(3) Ability to select multiple months <br/>(4) Auto column width <br/>(5) Auto freezed pane for easy scrolling and navigation  </b></font></h4>
       </div>
     </form>
     

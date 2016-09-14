@@ -47,13 +47,16 @@ String facilityId,year,month;
 String county,district,facilityname,mflcode;
 int counter,counterPMTCT,counterART,counterPEP,counterPMTCT1,counterART1,counterPEP1,counterHTC,counterHTC1;
 String sheets,headers,elementName,monthName,createdOn;
+int pmtcthv, htchv,arthv;
 String isValidated;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
        session=request.getSession();
        dbConn conn = new dbConn();
        
-       
+      pmtcthv=0;
+      htchv=0;
+      arthv=0; 
       year=request.getParameter("year");
       month=request.getParameter("month");
        
@@ -175,7 +178,7 @@ stylex.setWrapText(true);
    shet4.setColumnWidth(i, 3000);     
     }
     
-    headers="COUNTY,SUB COUNTY,FACILITY NAME,MFL CODE";
+    headers="COUNTY,SUB COUNTY,FACILITY NAME,MFL CODE,ART HIGH VOLUME,HTC HIGH VOLUME,PMTCT HIGH VOLUME";
    
     String arrayHeader []=headers.split(",");
     int headerno=0;
@@ -191,6 +194,7 @@ stylex.setWrapText(true);
     
 //    XSSFRow rw0S3=shet3.createRow(0);
    XSSFRow rw1S4=shet4.createRow(0);
+
 
     
 //    LOOP THROUGH AND WRITE STATIC HEADERS TO THE ELEMENTS
@@ -222,8 +226,8 @@ stylex.setWrapText(true);
      
      
    
-  counterPMTCT=counterART=counterPEP=counterHTC=3; 
-          
+  counterPMTCT=counterART=counterPEP=counterHTC=6; 
+     //get the specifc indicator names and the respective section and a count of indicators in each section which dictates the number of  columns in the whole excel    
     String getVariables="SELECT * FROM moh731_indicators ORDER BY id"; 
     conn.rs1=conn.st1.executeQuery(getVariables);
     while(conn.rs1.next()){
@@ -262,19 +266,19 @@ stylex.setWrapText(true);
          else{} 
     
     }
-    XSSFCell  S3cella=rw1S1.createCell(46);
+    XSSFCell  S3cella=rw1S1.createCell(49);
     S3cella.setCellValue("Validation Run");
     S3cella.setCellStyle(stylex); 
     
-    XSSFCell  S3cell2a=rw1S2.createCell(65);
+    XSSFCell  S3cell2a=rw1S2.createCell(68);
     S3cell2a.setCellValue("Validation Run");
     S3cell2a.setCellStyle(stylex); 
     
-   XSSFCell  S3cell3a=rw1S3.createCell(17);
+   XSSFCell  S3cell3a=rw1S3.createCell(20);
     S3cell3a.setCellValue("Validation Run");
     S3cell3a.setCellStyle(stylex);  
     
-   XSSFCell  S4cell3a=rw1S4.createCell(19);
+   XSSFCell  S4cell3a=rw1S4.createCell(22);
     S4cell3a.setCellValue("Validation Run");
     S4cell3a.setCellStyle(stylex);  
     
@@ -300,13 +304,14 @@ stylex.setWrapText(true);
 "        moh731.HV0354,moh731.HV0355,moh731.HV0904,moh731.HV0905,moh731.HV0370,moh731.HV0371,moh731.HV0372,moh731.HV0373,"+
 "        moh731.HV0501,moh731.HV0502,moh731.HV0503,moh731.HV0504,moh731.HV0505,moh731.HV0506,moh731.HV0507,moh731.HV0508,moh731.HV0509,moh731.HV0510,moh731.HV0511,moh731.HV0512,moh731.HV0513,moh731.HV0514,"
               + " moh731.HV0101,moh731.HV0102,moh731.HV0103,moh731.HV0105,moh731.HV0106,moh731.HV0107,moh731.HV0108,moh731.HV0109,moh731.HV0110,moh731.HV0111,moh731.HV0112,moh731.HV0113,moh731.HV0114,moh731.HV0115,moh731.HV0116 "
-+ ","+subpartnera+".PMTCT,"+subpartnera+".ART,"+subpartnera+".PEP,"+subpartnera+".HTC,isValidated "
++ ","+subpartnera+".PMTCT,"+subpartnera+".ART,"+subpartnera+".PEP,"+subpartnera+".HTC,isValidated ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
  + " FROM moh731 JOIN "+subpartnera+" ON moh731.SubPartnerID="+subpartnera+"."+subpartnerid+" "
               + "JOIN district ON "+subpartnera+".DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
               + " WHERE moh731.Mois='"+month+"' && moh731.Annee='"+year+"'"
               + " ORDER BY county.County,district.DistrictNom,"+subpartnera+"."+subpartnerid+"";
       conn.rs=conn.st.executeQuery(getData);
+      int valuesstartrow=7;
       
         System.out.println("|__"+getData);
      while (conn.rs.next()){
@@ -316,8 +321,16 @@ stylex.setWrapText(true);
      county=conn.rs.getString(1);
      district=conn.rs.getString(2);
      facilityname=conn.rs.getString(3);
-     mflcode=conn.rs.getString(4);    
-String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode;
+     mflcode=conn.rs.getString(4); 
+     
+     arthv=conn.rs.getInt("ART_highvolume");
+     htchv=conn.rs.getInt("HTC_highvolume");
+     pmtcthv=conn.rs.getInt("PMTCT_highvolume");
+         System.out.println("@@@@@@"+arthv+"_"+htchv+"_"+pmtcthv);
+     //ART High Volume	HTC High Volume	PMTCT High Volume
+
+
+String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+arthv+"@"+htchv+"@"+pmtcthv;
 String arrayDetails []=basicDetails.split("@");
 
    if(conn.rs.getInt(subpartnera+".PMTCT")==1) { 
@@ -325,20 +338,27 @@ String arrayDetails []=basicDetails.split("@");
   XSSFRow rw2S1=shet1.createRow(counterPMTCT1);
   int facilno=0;
   
-   for(String facilityDetails:arrayDetails){
-     
+   for(int b=0;b<arrayDetails.length;b++){
+    
+      
+       
   XSSFCell  S3cell=rw2S1.createCell(facilno);
-    S3cell.setCellValue(facilityDetails);
+   if(b<3){
+    S3cell.setCellValue(arrayDetails[b]);
+   }
+   else {
+     S3cell.setCellValue(Integer.parseInt(arrayDetails[b]));      
+           }
     S3cell.setCellStyle(stborder); 
     
      facilno++; 
    }
   int pos;
-  for (int i=4;i<=counterPMTCT;i++){
+  for (int i=valuesstartrow;i<=counterPMTCT;i++){
    XSSFCell  S3cell=rw2S1.createCell(i);
    pos=i+1;
-   System.out.println("cell no 1 : "+i+" value no : "+pos);
-    S3cell.setCellValue(conn.rs.getInt(pos));
+   //System.out.println("cell no 1 : "+i+" value no : "+pos);
+    S3cell.setCellValue(conn.rs.getInt(pos-3));
     S3cell.setCellStyle(stborder);    
       
   }
@@ -349,7 +369,7 @@ String arrayDetails []=basicDetails.split("@");
   else{
       isValidated="No";
   }
-   XSSFCell  S3cell=rw2S1.createCell(46);
+   XSSFCell  S3cell=rw2S1.createCell(49);
     S3cell.setCellValue(isValidated);
     S3cell.setCellStyle(stborder); 
     
@@ -362,22 +382,29 @@ String arrayDetails []=basicDetails.split("@");
   XSSFRow rw2S2=shet2.createRow(counterART1);
   
   int facilno=0;
-   for(String facilityDetails:arrayDetails){
+     for(int b=0;b<arrayDetails.length;b++){
     
+      
+       
   XSSFCell  S3cell=rw2S2.createCell(facilno);
-    S3cell.setCellValue(facilityDetails);
-    S3cell.setCellStyle(stborder);
+   if(b<3){
+    S3cell.setCellValue(arrayDetails[b]);
+   }
+   else {
+     S3cell.setCellValue(Integer.parseInt(arrayDetails[b]));      
+           }
+    S3cell.setCellStyle(stborder); 
     
-      facilno++; 
+     facilno++; 
    }
    
    
   int pos;
-  for (int i=4;i<=counterART;i++){
+  for (int i=valuesstartrow;i<=counterART;i++){
    XSSFCell  S3cell=rw2S2.createCell(i);
    pos=i+43;
    System.out.println("cell no 2 : "+i+" value no : "+pos);
-    S3cell.setCellValue(conn.rs.getInt(pos));
+    S3cell.setCellValue(conn.rs.getInt(pos-3));
     S3cell.setCellStyle(stborder);    
       
   }
@@ -389,7 +416,7 @@ String arrayDetails []=basicDetails.split("@");
   else{
       isValidated="No";
   }
-   XSSFCell  S3cell=rw2S2.createCell(65);
+   XSSFCell  S3cell=rw2S2.createCell(68);
     S3cell.setCellValue(isValidated);
     S3cell.setCellStyle(stborder); 
     
@@ -402,21 +429,28 @@ counterPEP1++;
 
   XSSFRow rw2S3=shet3.createRow(counterPEP1);
   int facilno=0;
-   for(String facilityDetails:arrayDetails){
+    for(int b=0;b<arrayDetails.length;b++){
     
+      
+       
   XSSFCell  S3cell=rw2S3.createCell(facilno);
-    S3cell.setCellValue(facilityDetails);
+   if(b<3){
+    S3cell.setCellValue(arrayDetails[b]);
+   }
+   else {
+     S3cell.setCellValue(Integer.parseInt(arrayDetails[b]));      
+           }
     S3cell.setCellStyle(stborder); 
     
-     facilno++;  
+     facilno++; 
    }
   
   int pos;
-  for (int i=4;i<=counterPEP;i++){
+  for (int i=valuesstartrow;i<=counterPEP;i++){
    XSSFCell  S3cell=rw2S3.createCell(i);
    pos=i+104;
-   System.out.println("cell no 3 : "+i+" value no : "+pos);
-    S3cell.setCellValue(conn.rs.getInt(pos));
+   //System.out.println("cell no 3 : "+i+" value no : "+pos);
+    S3cell.setCellValue(conn.rs.getInt(pos-3));
     S3cell.setCellStyle(stborder);    
       
   }
@@ -429,7 +463,7 @@ counterPEP1++;
   else{
       isValidated="No";
   }
-   XSSFCell  S3cell=rw2S3.createCell(17);
+   XSSFCell  S3cell=rw2S3.createCell(20);
     S3cell.setCellValue(isValidated);
     S3cell.setCellStyle(stborder); 
     
@@ -444,13 +478,20 @@ counterHTC1++;
 
   XSSFRow rw2S4=shet4.createRow(counterHTC1);
   int facilno=0;
-   for(String facilityDetails:arrayDetails){
+    for(int b=0;b<arrayDetails.length;b++){
     
-  XSSFCell  S4cell=rw2S4.createCell(facilno);
-    S4cell.setCellValue(facilityDetails);
-    S4cell.setCellStyle(stborder); 
+      
+       
+  XSSFCell  S3cell=rw2S4.createCell(facilno);
+   if(b<3){
+    S3cell.setCellValue(arrayDetails[b]);
+   }
+   else {
+      S3cell.setCellValue(Integer.parseInt(arrayDetails[b]));      
+           }
+    S3cell.setCellStyle(stborder); 
     
-     facilno++;  
+     facilno++; 
    }
   
   String pos;
@@ -461,7 +502,7 @@ counterHTC1++;
       
        if(i!=4){
             cellpos++;
-   XSSFCell  S4cell=rw2S4.createCell(cellpos+3);
+   XSSFCell  S4cell=rw2S4.createCell(cellpos+6);
    pos="0"+i;
    if(i>=10){pos=""+i;}
   
@@ -479,7 +520,7 @@ counterHTC1++;
   else{
       isValidated="No";
   }
-   XSSFCell  S4cell=rw2S4.createCell(19);
+   XSSFCell  S4cell=rw2S4.createCell(22);
     S4cell.setCellValue(isValidated);
     S4cell.setCellStyle(stborder); 
     
