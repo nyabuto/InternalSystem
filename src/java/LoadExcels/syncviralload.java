@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import scripts.AddLastMonth;
 
 /**
  *
@@ -74,6 +75,8 @@ public class syncviralload extends HttpServlet {
             
             String passedquarter = "";
             
+            int maxYearMonth=0;
+            
             if(request.getParameter("year")!=null){
                 yearval = request.getParameter("year").toString();
             }
@@ -125,12 +128,14 @@ public class syncviralload extends HttpServlet {
                     " COUNT( case when agebracket like '20+' and sex like 'M' and (suppression_status like 'Y' || suppression_status like 'N')    then agebracket end ) as mvi_20, " +
                     " COUNT( case when (suppression_status like 'Y' || suppression_status like 'N') and (sex='F'||sex='M') then suppression_status end ) as subtotal_vi " +
                     "" +
-                    " FROM viral_load_raw  where year='"+yearval+"' and quarter='"+passedquarter+"' group by SubPartnerID;  ";
-            System.out.println(""+getfacils);
+                    " FROM viral_load_raw  where year='"+yearval+"' and quarter='"+passedquarter+"' group by SubPartnerID  ";
+            
+            System.out.println("@@"+getfacils);
+            
             conn.rs=conn.st.executeQuery(getfacils);
            
             while (conn.rs.next()){
-               
+               denominator_vi="0";
                        //do everything else
                 
                        id=conn.rs.getString("id");
@@ -194,9 +199,32 @@ public class syncviralload extends HttpServlet {
                     
 			numerator_vi =  ""+conn.rs.getString("numerator_vi");
                         
-                      
-			denominator_vi = ""+conn.rs.getString("denominator_vi");
+                      //initially was coming from viral load but now its coming from 711
+                      denominator_vi = ""+conn.rs.getString("denominator_vi");
                         
+                       if(1==2){//commented for now 
+                        
+                          String getMaxYearMonth="SELECT MAX(yearmonth) FROM moh731 WHERE moh731.SubPartnerID='"+facilityID+"' && yearmonth <= "+getyearmonth(year,quarter) ;
+                          System.out.println(" Max year month"+getMaxYearMonth);
+    conn.rs2=conn.st2.executeQuery(getMaxYearMonth);
+    
+    if(conn.rs2.next()==true){
+                            maxYearMonth = conn.rs2.getInt(1);
+    }
+        
+     String getCurrent="SELECT HV0339  FROM moh731 WHERE "
+    + " moh731.SubPartnerID='"+facilityID+"' && yearmonth='"+maxYearMonth+"'";
+//     System.out.println("current : "+getCurrent);
+     conn.rs1=conn.st1.executeQuery(getCurrent);
+     if(conn.rs1.next()==true){
+     //HV0314=conn.rs1.getInt(1);
+      
+	//denominator_vi =conn.rs1.getString(1);
+         System.out.println("Num / Den = "+numerator_vi+"/"+denominator_vi);
+	 }
+                        
+			
+            }     
                        
 			fvi_less1 =   ""+conn.rs.getString("fvi_less1");
                         
@@ -335,6 +363,11 @@ public class syncviralload extends HttpServlet {
                         
                         
             }
+             //a code to loop through all synced records without a last month
+            //the affected tables are "eid_datim","viral_load","pmtct_fo","tb_stat_art"
+            AddLastMonth am= new AddLastMonth();
+            am.addfirstmonth();
+            //end of sync last month
             PrintWriter out = response.getWriter();
             try {
                 
@@ -393,4 +426,45 @@ public class syncviralload extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    public int getyearmonth(int year, int quarter){
+    
+    String yrval=""+year;
+    String monthval="";
+    int yearmonthis=0;
+    
+    if(quarter==1){
+        monthval="12";
+        yrval=""+(year-1);
+   
+    }
+    else if(quarter==2){
+        monthval="03";
+        yrval=""+(year);
+      
+    }
+    
+     else if(quarter==3){
+        monthval="06";
+        yrval=""+(year);
+        
+    }
+    
+    else if(quarter==4){
+        monthval="09";
+        yrval=""+(year);
+       
+    }
+    else {
+    monthval="00";
+        yrval=""+(year);
+    
+    }
+    
+     yearmonthis=new Integer(yrval+monthval);
+    
+    return yearmonthis;
+    } 
+    
+    
 }

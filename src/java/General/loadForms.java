@@ -34,6 +34,10 @@ public class loadForms extends HttpServlet {
     dbConn conn= new dbConn();
    String forms="<option value=''> Select Form</option>"; 
     String getForms="select * from forms where form !='MOH 711A'";
+    
+    if(session.getAttribute("username").equals("fhi360")|| session.getAttribute("username").equals("christopher") ){
+     getForms="select * from forms ";
+    }
    
     conn.rs=conn.st.executeQuery(getForms);
  String form="";

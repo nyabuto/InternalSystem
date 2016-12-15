@@ -459,7 +459,7 @@ OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
 }       catch (SQLException ex) {
-            Logger.getLogger(allStaticReports.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(allStaticReportsMonthly.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -13,7 +13,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Load PMTCT Excel Data.</title>
+   <title>Load PMTCT FO Excel Data.</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -105,7 +105,7 @@
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Load PMTCT Excel data to IMIS.</a> 
+                        <a href="#" style="margin-left:40%;">Load PMTCT FO Excel data to IMIS.</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -132,6 +132,11 @@
 
                          
                            <div class="form-actions">
+                               <table border="1">
+                                   <tr><td>Year</td><td>Quarter</td><td>County</td><td>Sub County</td><td>Health Facility</td><td>MFL Code</td><td>Type of support</td><td>Numerator</td><td>Denominator</td>
+<td>Linked to ART</td><td>Not linked to ART</td><td>Unknown link</td><td>Not beastfeeding</td><td>Still breastfeeeding</td><td>Breastfeeding unknown</td><td>In care but not test done</td><td>Lost to follow up</td></tr>
+                                   
+                               </table> 
                               <button type="submit" class="btn blue">Upload.</button>
 
                            </div>
@@ -198,7 +203,8 @@
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>  
    <script src="select2/js/select2.js"></script>
-  
+   
+  <script type="text/javascript" src="js/bootstrap-notify.js"></script>
    
    <script>
     
@@ -224,8 +230,39 @@
 //
 //     }  
 //   }
+
    
-   </script>
+ <%if (session.getAttribute("pmtctresponse") != null) { %>
+     
+  
+                    
+                    
+                    
+                         
+      $.notify(
+      {icon: "images/validated.jpg", 
+  message:'<%=session.getAttribute("pmtctresponse")%>'},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       
+            ); 
+                    
+                </script>
+                
+                <%
+                session.removeAttribute("pmtctresponse");
+                            }
+
+                        %>
+   
+   
    
    <!-- END JAVASCRIPTS -->   
 </body>

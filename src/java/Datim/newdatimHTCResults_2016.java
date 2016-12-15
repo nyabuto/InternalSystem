@@ -25,7 +25,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -49,7 +49,7 @@ public class newdatimHTCResults_2016 extends HttpServlet {
 //HTC CODE FROM MAUREEN -OLD 711 VCT / DTC SECTION
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
                  
-                 if(1==1){ //deactivated on 29th june 2016
+                 if(1==1){ //deactivated on 29th june 2016 and activated again
                      
               int less15m=0;
               int less15f=0;

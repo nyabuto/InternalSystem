@@ -164,7 +164,7 @@
                         <div class="form-actions">
                               <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the viral load raw data has column headers arranged in following order </h4>
                             
-                               <table border="1"><tr><td>(1) #</td><td>(2) Batch No</td><td>(3) Patient CCC No</td><td>(4) Testing Lab</td><td>(5) County</td><td>(6) District</td><td>(7) Facility Name</td><td>(8) MFL Code</td><td>(9) Sex</td><td>(10) Age</td><td>(11) Sample Type</td><td>(12) Collection Date</td><td>(13) Received Status</td><td>(14) Reason for Repeat</td><td>(15) Regimen</td><td>(16) Justification</td><td>(17) ART Initiation Date</td><td>(18) Date of Receiving</td><td>(19) Date of Testing</td><td>(20) Date of Dispatch</td><td>(21) Result(cp/ml)</td><td>(22) Result(Log)</td><td>(23) Suppressed?</td></tr></table>
+                               <table border="1" class="table"><tr><td>(1) #</td><td>(2) Batch No</td><td>(3) Patient CCC No</td><td>(4) Testing Lab</td><td>(5) County</td><td>(6) District</td><td>(7) Facility Name</td><td>(8) MFL Code</td><td>(9) Sex</td><td>(10) Age</td><td>(11) Sample Type</td><td>(12) Collection Date</td><td>(13) Received Status</td><td>(14) Reason for Repeat</td><td>(15) Regimen</td><td>(16) Justification</td><td>(17) ART Initiation Date</td><td>(18) Date of Receiving</td><td>(19) Date of Testing</td><td>(20) Date of Dispatch</td><td>(21) Result(cp/ml)</td><td>(22) Result(Log)</td><td>(23) Suppressed?</td></tr></table>
                            
                         </div>
                         </form>

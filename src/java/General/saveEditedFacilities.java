@@ -42,7 +42,17 @@ conn.pst.setString(1, data);
 conn.pst.setString(2, facilityID);
 
  conn.pst.executeUpdate();
-     
+    
+   IdGenerator IG = new IdGenerator();
+   
+   String createdOn = IG.toDay();
+
+  
+  String qry="insert into facility_history (SubPartnerID,service,status,startdate) values ('"+facilityID+"','"+columnName+"','"+data+"','"+createdOn+"')";
+ 
+  conn.st.executeUpdate(qry);
+  
+  
      if(conn.pst!=null){conn.pst.close();}
      if(conn.conn!=null){conn.conn.close();}
  

@@ -26,7 +26,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -76,7 +76,7 @@ int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
  
             String facilityIds1="";
        excelDuration="";
-       
+       String tbscreenperiod="";
         period="";
         prevYear=year-1; 
         maxYearMonth=0;
@@ -124,17 +124,21 @@ if(2==2){
       String months []=conn.rs.getString(1).split(",");
        startMonth=months[0];
        endMonth=months[2];
+       int tbstartmonth=new Integer(startMonth)+1;
       if(quarter.equals("1")){
-      duration=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
+      duration=" moh731.yearmonth BETWEEN '"+prevYear+""+startMonth+"' AND '"+prevYear+""+endMonth+"'";    
+      tbscreenperiod=" moh731.yearmonth BETWEEN '"+prevYear+""+tbstartmonth+"' AND '"+prevYear+""+endMonth+"'";    
       period="DATIM QUARTERLY DATA REPORT FOR : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
       }
-      else{
-     duration=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
+      else {
+          
+     duration=" moh731.yearmonth BETWEEN '"+year+""+startMonth+"' AND '"+year+""+endMonth+"'";
+     tbscreenperiod=" moh731.yearmonth BETWEEN '"+year+"0"+tbstartmonth+"' AND '"+year+"0"+endMonth+"'"; //eg 20161101 and 20161230 
      period="DATIM QUARTERLY DATA REPORT FOR : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
       }
       excelDuration=" year='"+year+"' && quarter='"+quarter+"' && ";
         }
-        }  
+                                                            }  
         
       else if(reportDuration.equals("4")){
           excelDuration="";
@@ -397,7 +401,8 @@ ArrayList staticpmtct_hv= new ArrayList();
     }
    
      //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+    //For tb screen , when a quarterly report is generated, we need to get data for the last two months.
+    //otherwise, get data from the specified period
   
     String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
             + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
@@ -417,19 +422,19 @@ ArrayList staticpmtct_hv= new ArrayList();
     + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1)  "
             + "GROUP BY moh731.SubPartnerID   "
             + " union "
-            + "SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
-            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
-            + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
-            + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
+            + "SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County, "
+            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support, "
+            + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312), "
+            + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324), "
             + "subpartnera.SubPartnerID,"
-            + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
-            + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
-            + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208)"
+            + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217), "
+            + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232), "
+            + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208) "
             + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),tb_stat_art.SubPartnerID as subpartnerid ,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
             + " FROM moh731 JOIN subpartnera "
-            + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
+            + " ON moh731.SubPartnerID=subpartnera.SubPartnerID "
             + " JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
-          + "district.CountyID=county.CountyID   "
+          + " district.CountyID=county.CountyID   "
             + " Right join tb_stat_art on tb_stat_art.SubPartnerID=moh731.SubpartnerID "
             + " WHERE   moh731.subPartnerID in ( " +
 
@@ -509,7 +514,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
     HV0324=conn.rs.getInt(16);
     facilityId=conn.rs.getString(17);
     
-    HV0205=conn.rs.getInt(18);
+        HV0205=conn.rs.getInt(18);
         HV0209=conn.rs.getInt(19);
         HV0210=conn.rs.getInt(20);
         HV0216=conn.rs.getInt(21);
@@ -525,7 +530,7 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
         HV0206=conn.rs.getInt(31);
         HV0207=conn.rs.getInt(32);
         HV0208=conn.rs.getInt(33);
-        HV0350=conn.rs.getInt(34);
+        HV0350=conn.rs.getInt(34);//note that in quarterly report, this value will be replaced by the rsults of the query below
         HV0351=conn.rs.getInt(35);
         HV0352=conn.rs.getInt(36);
         HV0353=conn.rs.getInt(37);
@@ -566,7 +571,31 @@ TB_ART_N=TB_ART_D=TB_ART_FEMALE=TB_ART_MALE=TB_ART_1=TB_ART_4=TB_ART_9=TB_ART_14
          if(reportDuration.equals("4")){
   
       }
-      else{
+  
+       
+      
+         else {
+             
+                if(reportDuration.equals("3")){
+  //get the data for the two months for the quarter
+     
+    //SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354)   
+      String gettbscreenquarterly="SELECT SUM(HV0350) as HV0350,SUM(HV0351) as HV0351,SUM(HV0352) as HV0352,SUM(HV0353) as HV0353,SUM(HV0354) as HV0354 FROM moh731 WHERE "
+    + "moh731.SubPartnerID='"+facilityId+"' && "+tbscreenperiod+"";
+     //System.out.println("tbscreen : "+gettbscreenquarterly);
+     conn.rs1=conn.st1.executeQuery(gettbscreenquarterly);
+     if(conn.rs1.next()){
+         
+       
+        HV0350=conn.rs1.getInt("HV0350");
+        HV0351=conn.rs1.getInt("HV0351");
+        HV0352=conn.rs1.getInt("HV0352");
+        HV0353=conn.rs1.getInt("HV0353");
+        HV0354=conn.rs1.getInt("HV0354");
+         
+         
+     }
+     }  
              
          
             String getTB="SELECT SUM(numerator),SUM(denominator),SUM(female),SUM(male),SUM(less1),SUM(1to4),SUM(5to9),SUM(10to14),SUM(15to19),SUM(20above),SUM(positive),SUM(negative"
@@ -1426,7 +1455,8 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
 
   HSSFRow rw4shetRETENTION=shetRETENTION.createRow(retentionPOS); 
        rw4shetRETENTION.setHeightInPoints(25);
-       for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++){
+       for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++)
+       {
        String value=dataRETENTION[positionRETENTION];
        HSSFCell    c11=rw4shetRETENTION.createCell(positionRETENTION);
         if(positionRETENTION>4 && positionRETENTION<(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
@@ -1660,12 +1690,14 @@ else if(z==blankrows-4){
             int prevYear = yearcopy - 1;
             int maxYearMonth = 0;
             int monthcopy = 0;
+            String viralloadquarter="";
 //        GET REPORT DURATION============================================
             //annually
             if (reportDuration.equals("1")) {
                 yearmonth = "Annual Report For " + year;
                 duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
                 viralloadduration="year='"+year+"'";
+                viralloadquarter="4";
             } else if (reportDuration.equals("2")) {
                 semi_annual = request.getParameter("semi_annual");
 //        semi_annual="2";
@@ -1673,10 +1705,12 @@ else if(z==blankrows-4){
                     yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
                     duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
                      viralloadduration="year='"+year+"' and (quarter='1' || quarter='2') ";
+                     viralloadquarter="2";
                 } else {
                     yearmonth = "Semi Annual Report for Apr to  Sep " + year;
                     duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
-                     viralloadduration="year='"+year+"' and (quarter='2' || quarter='3') ";
+                     viralloadduration="year='"+year+"' and (quarter='3' || quarter='4') ";
+                     viralloadquarter="3";
                 }
             } else if (reportDuration.equals("3")) {
                 try {
@@ -1685,7 +1719,7 @@ else if(z==blankrows-4){
                     String startMonth, endMonth;
                     quarter = request.getParameter("quarter");
                     //       quarter="3";
-                    
+                    viralloadquarter=quarter;
                      viralloadduration="year='"+year+"' and quarter='"+quarter+"'  ";
                      
                     String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
@@ -1713,7 +1747,7 @@ else if(z==blankrows-4){
             } else if (reportDuration.equals("4")) {
                 //on monthly reports, i dont expect any output since viral load is entered quarterly
                 monthcopy = Integer.parseInt(request.getParameter("month"));
-                
+                viralloadquarter="";
                 //since we dont want data to appear for monthly reports, we set an impossible 
                 viralloadduration=" 1=2 "; 
 //     month=5;
@@ -1768,7 +1802,8 @@ else if(z==blankrows-4){
             String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " + subcountywhere;
             
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
-            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,sum(denominator_vi) as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
+            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,denominator_vi as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
+            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,sum(denominator_vi) as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  group by subpartnera.SubPartnerID ";//and subpartnera.ART='1'
             System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
@@ -2190,9 +2225,37 @@ supporttype="DSD";
                 if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
+            
+            if(1==2){ //commeted for now 
+              String myval="";
+   
+        
+     String getCurrent="SELECT denominator_vi  FROM viral_load WHERE "
+    + " year='"+year+"' && quarter='"+viralloadquarter+"' and SubPartnerID='"+conn.rs.getString("SubPartnerID")+"'";
+    System.out.println("current : "+getCurrent);
+     conn.rs1=conn.st1.executeQuery(getCurrent);
+     if(conn.rs1.next()==true){
+     //HV0314=conn.rs1.getInt(1);
+       myval=""+conn.rs1.getInt(1);
+        
+	
+        // System.out.println("Num / Den = "+numerator_vi+"/"+denominator_vi);
+	 }
+            
+            
+     if(myval.equals("")){
+     myval="0";
+     }
+      clx.setCellValue(new Integer(myval));
+                }
+     
+     /** old code .*/ 
             clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
+           
+            
+     
+     
+             clx.setCellStyle(style2);
             colpos++;
             conpos++;
 

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import scripts.AddQuarter;
 
 /**
  *
@@ -98,6 +99,12 @@ else {
    }
         System.out.println("error : "+error);
  out.println(error);
+ 
+  //a code to loop through all synced records without a quarter
+            //the affected tables are "moh711","moh731","moh711_new","kmmp","gender","tb","vmmc","nutrition"
+            AddQuarter am= new AddQuarter();
+            am.addQuarter();
+            //end of sync last month
  
   if(conn.st!=null){conn.st.close();}
      if(conn.st1!=null){conn.st1.close();}

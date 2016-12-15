@@ -149,7 +149,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="datimReport" id="formActions" class="form-horizontal">
+                        <form action="datimReport_jul_2016" id="formActions" class="form-horizontal">
                           
                          
                            <div class="control-group">
@@ -225,8 +225,10 @@
                               <label class="control-label">Service Area<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
-                                    <option value="datimReport">ART,CARE,and PMTCT </option>
-                                    <option value="newdatimHTCResults_2016" title="HTC data source is 731">(New) HTC_SDP, VMMC and HTC</option>
+                                    <option title="started being used in July september 2016" value="datimReport_jul_2016">ART,CARE,and PMTCT (New Jul-Sep 16) </option>
+                                    <option title="used up to April-June 2016" value="datimReport">ART,CARE,and PMTCT (old) </option>
+                                    <option value="newdatimHTCResults_10_2016" title="Vmmc htc removed, eid data source is nascop website. Started being used in July september 2016">HTC_SDP, EID and HTC (New Jul-Sep 16) </option>
+                                    <option value="newdatimHTCResults_2016" title="HTC data source is 731. used only in April - June 2016. ">HTC_SDP, VMMC and HTC (New Apr-Jun 16)</option>
                                     <option value="datimHTCResults" title="HTC data source is 711">(Old) HTC_SDP, VMMC and HTC</option>
                                     <option value="datimTbViralRetention"> TB,RETENTION , VIRAL LOAD,POST-GBV CARE</option>
                                  </select>
@@ -328,11 +330,20 @@
     if( reportFormat==="datimReport") {
    document.getElementById("formActions").action = "datimReport";
                                       }
+   else if( reportFormat==="datimReport_jul_2016") {
+   document.getElementById("formActions").action = "datimReport_jul_2016";
+                                      }
       else if(reportFormat==="newdatimHTCResults_2016"){
         
            document.getElementById("formActions").action = "newdatimHTCResults_2016";
         
              }
+              else if(reportFormat==="newdatimHTCResults_10_2016"){
+        
+           document.getElementById("formActions").action = "newdatimHTCResults_10_2016";
+        
+             }
+             
       else if(reportFormat==="datimHTCResults"){
         
            document.getElementById("formActions").action = "datimHTCResults";

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import scripts.AddLastMonth;
 
 
 /**
@@ -324,7 +325,11 @@ conn.rs_5=conn.st_5.executeQuery(getdata);
                     i++;
                         }
 
-       
+        //a code to loop through all synced records without a last month
+            //the affected tables are "eid_datim","viral_load","pmtct_fo","tb_stat_art"
+            AddLastMonth am= new AddLastMonth();
+            am.addfirstmonth();
+            //end of sync last month
                 PrintWriter out = response.getWriter();
             try {
                 

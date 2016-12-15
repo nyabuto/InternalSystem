@@ -41,8 +41,7 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
-
-  
+ 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

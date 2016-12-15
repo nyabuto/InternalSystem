@@ -26,6 +26,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import scripts.AddLastMonth;
 @MultipartConfig(fileSizeThreshold=1024*1024*20, 	// 20 MB 
                  maxFileSize=1024*1024*50,      	// 50 MB
                  maxRequestSize=1024*1024*100) 
@@ -51,6 +52,20 @@ String full_path="";
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          try {
+            year=quarter=mflcode=Numerator=Denominator=checker=missing=added=updated=0; 
+           
+             String linked_art = "0";
+             String not_linked_art = "0";
+             String unknown_link = "0";
+             String not_breastfeeding = "0";
+             String breastfeeding = "0";
+             String breastfeeding_unknown = "0";
+             String care_no_test = "0";
+             String ltfu = "0";
+             String died = "0";
+             String transferred_out = "0";
+             
+             
       session=request.getSession();
       dbConn conn = new dbConn();
    nextpage="loadExcel.jsp";
@@ -86,26 +101,189 @@ String full_path="";
 			HSSFSheet worksheet = workbook.getSheet("PMTCT-FO");
 			Iterator rowIterator = worksheet.iterator();
                         
-                        int i=2,y=0;
+                        int i=1,y=0;
 			while(rowIterator.hasNext()) {
 			HSSFRow rowi = worksheet.getRow(i);
                         if( rowi==null){
                                 nextpage="loadExcel.jsp";
                          break;
                         }
-                        HSSFCell cellYear = rowi.getCell((short) 0);
+                        //Year	Quarter	County	Sub County	Health Facility	MFL Code	Type of support	Numerator	Denominator	HIV-infected:Linked to ART	HIV-infected: Not linked to ART	HIV-infected : Unknown link	HIV-uninfected:Not beastfeeding	HIV-uninfected: Still breastfeeeding	HIV-uninfected:Breastfeeding unknown	Other outcomes: In care but not test done	 Other outcomes:Lost to follow up	Other outcomes : Died	Other outcomes:Transferred out
+
+                        int rowcount=0;
+                        HSSFCell cellYear = rowi.getCell((short) rowcount); rowcount++;
 			year = (int) cellYear.getNumericCellValue();
-			HSSFCell cellQuarter = rowi.getCell((short) 1);
+			HSSFCell cellQuarter = rowi.getCell((short) rowcount); rowcount=rowcount+3;
 			quarterName = cellQuarter.getStringCellValue();
-                        HSSFCell cellFacilityName = rowi.getCell((short) 4);
-			facilityName = cellFacilityName.getStringCellValue();
-                        HSSFCell cellMFLCODE = rowi.getCell((short) 5);
-			mflcode = Integer.parseInt(cellMFLCODE.getStringCellValue());
-                        HSSFCell cellNumerator = rowi.getCell((short) 7);
+                        HSSFCell cellFacilityName = rowi.getCell((short)  rowcount);
+			facilityName = cellFacilityName.getStringCellValue();rowcount++;
+                        //HSSFCell cellMFLCODE = rowi.getCell((short)  rowcount); 
+			//mflcode = Integer.parseInt(cellMFLCODE.getStringCellValue());
+                        
+                         if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount=rowcount+2;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        mflcode = (int)cellrow.getNumericCellValue();
+                         } 
+                         else if(cellrow.getCellType()==1){
+			
+                        mflcode = new Integer(cellrow.getStringCellValue());
+                        
+                         }
+                                }
+                        
+                        HSSFCell cellNumerator = rowi.getCell((short)  rowcount); rowcount++;
 			Numerator = (int) cellNumerator.getNumericCellValue();
-                        HSSFCell cellDenominator = rowi.getCell((short) 8);
+                        HSSFCell cellDenominator = rowi.getCell((short)  rowcount); rowcount++;
 			Denominator = (int) cellDenominator.getNumericCellValue();
                     
+                        //linked_art
+                        if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        linked_art = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        linked_art = cellrow.getStringCellValue();
+                         }
+                                }
+                        
+                        
+                        
+                        //not_linked_art
+                        
+                        if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        not_linked_art = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        not_linked_art = cellrow.getStringCellValue();
+                         }
+                                }
+                        
+                        
+                        
+                        //unknown_link
+                        
+                        if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        unknown_link = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        unknown_link = cellrow.getStringCellValue();
+                         }
+                                }
+                        //
+                        
+                        
+                        //not_breastfeeding
+                        
+                        if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        not_breastfeeding = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        not_breastfeeding = cellrow.getStringCellValue();
+                         }
+                                }
+                        
+                        //breastfeeding
+                        
+                        if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        breastfeeding = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        breastfeeding = cellrow.getStringCellValue();
+                         }
+                                }
+                        
+                        //breastfeeding_unknown
+                        
+                        if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        breastfeeding_unknown = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        breastfeeding_unknown = cellrow.getStringCellValue();
+                         }
+                                }
+                        //care_no_test
+                        
+                         if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        care_no_test = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        care_no_test = cellrow.getStringCellValue();
+                         }
+                                }
+                        
+                         //ltfu	
+                         
+                         if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        ltfu = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        ltfu = cellrow.getStringCellValue();
+                         }
+                                }
+                         
+                         //died	
+                         
+                         if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        died = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        died = cellrow.getStringCellValue();
+                         }
+                                }
+                         
+                         //transferred_out
+                        
+                        if(1==1){
+                            
+                        HSSFCell cellrow = rowi.getCell((short)  rowcount); rowcount++;
+                         if(cellrow.getCellType()==0){                             //numeric
+			
+                        transferred_out = ""+(int)cellrow.getNumericCellValue();
+                         } else if(cellrow.getCellType()==1){
+			
+                        transferred_out = cellrow.getStringCellValue();
+                         }
+                                } 
+                         
+                        
            facilityID="";
             checker=0;     
            
@@ -138,10 +316,11 @@ String full_path="";
                        }
 //                       
 //                       
-//                       
+//                    //,,,,,,,,,,
+   
                        if(checker==0){
-                        String inserter="INSERT INTO pmtct_fo (id,SubPartnerID,year,quarter,numerator,denominator) "
-                         + "VALUES(?,?,?,?,?,?)";
+                        String inserter="INSERT INTO pmtct_fo (id,SubPartnerID,year,quarter,numerator,denominator,linked_art,not_linked_art,unknown_link,not_breastfeeding,breastfeeding,breastfeeding_unknown,care_no_test,ltfu,died,transferred_out) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1, id);
                         conn.pst.setString(2, facilityID);
@@ -149,12 +328,22 @@ String full_path="";
                         conn.pst.setInt(4, quarter);
                         conn.pst.setInt(5, Numerator);
                         conn.pst.setInt(6, Denominator);
+                        conn.pst.setString(7,linked_art );
+                        conn.pst.setString(8,not_linked_art );
+                        conn.pst.setString(9, unknown_link);
+                        conn.pst.setString(10, not_breastfeeding);
+                        conn.pst.setString(11,breastfeeding );
+                        conn.pst.setString(12,breastfeeding_unknown );
+                        conn.pst.setString(13, care_no_test);
+                        conn.pst.setString(14, ltfu);
+                        conn.pst.setString(15, died);
+                        conn.pst.setString(16, transferred_out);
                         conn.pst.executeUpdate();
                    
                       added++;
                        }
                        else{
-        String inserter="UPDATE pmtct_fo SET SubPartnerID=?,year=?,quarter=?,numerator=?,denominator=? WHERE id=?";
+        String inserter="UPDATE pmtct_fo SET SubPartnerID=?,year=?,quarter=?,numerator=?,denominator=? ,linked_art=? ,not_linked_art = ? ,unknown_link = ? ,not_breastfeeding = ? ,breastfeeding = ? ,breastfeeding_unknown = ? ,care_no_test = ? ,ltfu = ? ,died = ? ,	transferred_out = ?  WHERE id=?";
 
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1, facilityID);
@@ -162,9 +351,23 @@ String full_path="";
                         conn.pst.setInt(3, quarter);
                         conn.pst.setInt(4, Numerator);
                         conn.pst.setInt(5, Denominator);
-                        conn.pst.setString(6, id);
+                        conn.pst.setString(6, linked_art);
+                        conn.pst.setString(7, not_linked_art);
+                        conn.pst.setString(8, unknown_link);
+                        conn.pst.setString(9, not_breastfeeding);
+                        conn.pst.setString(10, breastfeeding);
+                        conn.pst.setString(11, breastfeeding_unknown);
+                        conn.pst.setString(12, care_no_test);
+                        conn.pst.setString(13, ltfu);
+                        conn.pst.setString(14, died);
+                        conn.pst.setString(15, transferred_out);
+                        conn.pst.setString(16, id);
                         conn.pst.executeUpdate();
                        
+                        
+                       
+                        
+                        
                      updated++;
                        }
     
@@ -178,14 +381,19 @@ String full_path="";
                     }
                     i++;
                         }
+                         //a code to loop through all synced records without a last month
+            //the affected tables are "eid_datim","viral_load","pmtct_fo","tb_stat_art"
+            AddLastMonth am= new AddLastMonth();
+            am.addfirstmonth();
+            //end of sync last month
 
         }
          }
          catch (SQLException ex) {
          Logger.getLogger(loadPMTCT_FO.class.getName()).log(Level.SEVERE, null, ex);
      }
-    String sessionText=added+ "New data added <> "+updated+" updated facilities<br> and "+missing+" missing facilities";    
-         
+    String sessionText="Data for  <b>"+added+ "</b> sites newly added. <br/> Data for <b>"+updated+"</b> updated. <br/>Data for <b>"+missing+"</b> sites skipped because they are missing in IMIS";    
+     session.setAttribute("pmtctresponse", sessionText);
  response.sendRedirect(nextpage);  
       
     }

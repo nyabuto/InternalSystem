@@ -28,7 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 /**
@@ -1940,8 +1940,8 @@ else if(z==pmtct_blankrows-4){
      if(conn.rs2!=null){conn.rs2.close();}
      if(conn.conn!=null){conn.conn.close();} 
      
-        IdGenerator IG = new IdGenerator();
-        createdOn=IG.CreatedOn();
+     IdGenerator IG = new IdGenerator();
+     createdOn=IG.CreatedOn();
      
       // write it as an excel attachment
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();

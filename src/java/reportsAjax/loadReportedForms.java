@@ -28,21 +28,52 @@ public class loadReportedForms extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             
-            String selectforms="select distinct(form) as forms from pivottable";
+            String selectforms="select distinct(form) as forms from pivottable where active='1'";
+            
             String table="<option value=''>Select Form</option>";
             
             dbConn conn= new dbConn();
             conn.rs=conn.st.executeQuery(selectforms);
+            
             while(conn.rs.next()){
-             
-                conn.rs1=conn.st1.executeQuery("select 1 from "+conn.rs.getString(1)+" limit 1 ");
+                
+               String form=conn.rs.getString(1);
+               
+            if(form.equalsIgnoreCase("moh711new"))
+            {
+            
+            form="moh711_new";                
+                
+            }
+            else if(form.equals("MOH 711A"))
+            {
+            
+            form="moh711";
+            
+            }
+            else {            
+            
+            form=form.replace(" ", "").toLowerCase();
+                 
+                 }
+                
+                
+                System.out.println("select * from "+form+"  "+conn.rs.getString(1)+" limit 1 ");
+             //get the form that is atleast reported
+                conn.rs1=conn.st1.executeQuery("select * from "+form+" limit 1 ");
                 if(conn.rs1.next()){
                 
               table+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1).toUpperCase()+"</option>";  
-                }
+                
+                                   }
                 
                 
             }
+            
+             if(conn.rs!=null){conn.rs.close();}
+             if(conn.rs1!=null){conn.rs1.close();}
+             if(conn.st1!=null){conn.st1.close();}
+             if(conn.st!=null){conn.st.close();}
             
             
             PrintWriter out = response.getWriter();

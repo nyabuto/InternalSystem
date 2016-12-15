@@ -65,7 +65,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
      String agebracket="";
      String dateoftesting="";
      int age=0;
-     String sex="F";
+     String sex="";
      String batchno="";
      String supporttype="";
      int ageinteger=0;
@@ -178,7 +178,17 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 			facilityName = cellfacil.getStringCellValue();
                         
                           HSSFCell cellmfl = rowi.getCell((short) 7);
-			mflcode = (int) cellmfl.getNumericCellValue();
+			
+                        
+                        if(cellmfl.getCellType()==1){
+                              //string
+			 mflcode = new Integer(cellmfl.getStringCellValue());
+                          }
+                          else {
+                              //numeric
+                           mflcode =(int)cellmfl.getNumericCellValue();
+                         
+                          }
                         
                           HSSFCell cellsex = rowi.getCell((short)8);
                           if(cellsex.getCellType()==1){
@@ -290,7 +300,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                        supporttype=conn.rs.getString(2);
                        if(supporttype==null){supporttype="";}
                    }
-                    if(facilityID.length()>0) {
+                    if(facilityID.length()>0 && !sex.equals("")) {
 //                        DISTRICT FOUND ADD THE HF TO THE SYSTEM.........................
                         
                         String getQuarterID="SELECT id FROM quarter WHERE pmtct_fo_name like ?";
@@ -298,7 +308,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                        conn.pst.setString(1, quarterName);
                        conn.rs=conn.pst.executeQuery();
                        
-                       if(conn.rs.next()==true){
+                        if(conn.rs.next()==true){
                         quarter=conn.rs.getInt(1);
                                                 }
                        

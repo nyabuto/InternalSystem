@@ -107,10 +107,13 @@
                </a>
                 <ul class="sub">
                     
-                  <li ><a href="upload_tb_raw_data.jsp" Title="Tb rawdata"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>
-                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Data(.xls)</a></li>
+                  <li ><a href="upload_tb_raw_data.jsp" Title="Tb raw data"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>
+                  <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Fo Data(.xls)</a></li>
                   <li ><a href="loadviralloadraw.jsp"><i class="icon-plus"></i>Viral Load raw (.xls)</a></li>
-                  <li ><a href="loadKEPMS.jsp"><i class="icon-plus"></i>kepms Access Data (.mdb)</a></li>
+                  <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>EID Positive raw (.xlsx)</a></li>
+                  <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>EID tested raw (.xlsx)</a></li>
+                  
+                   <!--<li ><a href="loadKEPMS.jsp"><i class="icon-plus"></i>Kepms Access Data (.mdb)</a></li>-->
                </ul>
             </li>
              <%}}}else{}}%>
@@ -130,6 +133,7 @@
                    <li><a href="datimReport.jsp">Datim Report</a></li>
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
                   <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>
+                  <li ><a href="masterlist.jsp">Master List</a></li>
                   <!--<li ><a href="#">Edit Profile</a></li>-->
            
                </ul>

@@ -33,7 +33,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Geofrey Nyabuto
  */
-public class allStaticReports extends HttpServlet {
+public class allStaticReportsMonthly extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,8 +46,8 @@ public class allStaticReports extends HttpServlet {
     //a page to get Report of all the servlets
             String months[] = null;
 
-            String year = "2015";
-            String month = "";
+            String year = "2016";
+            String month = "7";
             String county = "";
             String form = "moh731";
 
@@ -424,7 +424,7 @@ public class allStaticReports extends HttpServlet {
                     cumulativestatingpoint=rowstartpersheet[0];   
                    
                     cumstartpointnoted=true;  //this ensures that we are fetching dataonce.
-                    System.out.println("LAST STARTING POINT__"+cumulativestatingpoint);
+                   // System.out.println("LAST STARTING POINT__"+cumulativestatingpoint);
                    
                 }
                     
@@ -606,7 +606,7 @@ public class allStaticReports extends HttpServlet {
                                                                                 }
                                                                    }  
                        //merge last cell
-                        shet.addMergedRegion(new org.apache.poi.hssf.util.CellRangeAddress(rowpos,rowpos,0,4));
+                        shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,0,4));
                     }
 
                     //
@@ -636,7 +636,7 @@ public class allStaticReports extends HttpServlet {
             outStream.write(outArray);
             outStream.flush();
         } catch (SQLException ex) {
-            Logger.getLogger(allStaticReports.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(allStaticReportsMonthly.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
