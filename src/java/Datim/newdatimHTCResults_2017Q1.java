@@ -841,7 +841,7 @@ ChildFemaleHIV14=(float)Math.round((0.30*HIV_ChildFemale));
   MaleTestedChild1=(float)Math.round((0*TestedChildMale));
   MaleTestedChild4=(float)Math.round((0.26*TestedChildMale));
   MaleTestedChild9=(float)Math.round((0.29*TestedChildMale));
-  MaleTestedChild14=(float)Math.round((0.49*TestedChildMale));
+  MaleTestedChild14=(float)Math.round((0.45*TestedChildMale));
 
 //positive
   //adult ** remaining 
@@ -8000,10 +8000,7 @@ supporttype="DSD";
                      
                      
                      
-              int less15m=0;
-              int less15f=0;
-              int gret15m=0;
-              int gret15f=0;
+             
               
               
                      ArrayList allFacilities = new ArrayList();
@@ -8088,112 +8085,9 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
        facilityIds1="";    
         }   
         
-     }      
- int TestedAdultMale=0,TestedAdultFemale=0;
- int TestedChildMale=0,TestedChildFemale=0;
- int HIV_AdultMale=0,HIV_AdultFemale=0;
- int HIV_ChildMale=0,HIV_ChildFemale=0;
- 
-double FemaleAdultTested;
-double FemaleTestedChild;
-double AdultFemaleHIV;
-double ChildFemaleHIV;
- 
- double  MaleAdultTested;
- double MaleTestedChild;
- double  AdultMaleHIV;
- double ChildMaleHIV;
- 
- 
-  
-  
-  double FemaleAdultTested1=0;
-double FemaleAdultTested4=0;
-double FemaleAdultTested9=0;
-double FemaleAdultTested14=0;
-double FemaleAdultTested19=0;
-double FemaleAdultTested24=0;
-double FemaleAdultTested49=0;
-double FemaleAdultTested50=0;
-
-double FemaleTestedChild1=0;
-double FemaleTestedChild4=0;
-double FemaleTestedChild9=0;
-double FemaleTestedChild14=0;
-double FemaleTestedChild19=0;
-double FemaleTestedChild24=0;
-double FemaleTestedChild49=0;
-double FemaleTestedChild50=0;
-
-double AdultFemaleHIV19Neg=0;
-double AdultFemaleHIV24Neg=0;
-double AdultFemaleHIV49Neg=0;
-double AdultFemaleHIV50Neg=0;
-
-double AdultFemaleHIV19=0;
-double AdultFemaleHIV24=0;
-double AdultFemaleHIV49=0;
-double AdultFemaleHIV50=0;
-
-double ChildFemaleHIV1=0;
-double ChildFemaleHIV4=0;
-double ChildFemaleHIV9=0;
-double ChildFemaleHIV14=0;
-
-double ChildFemaleHIV1Neg=0;
-double ChildFemaleHIV4Neg=0;
-double ChildFemaleHIV9Neg=0;
-double ChildFemaleHIV14Neg=0;
- 
- 
-// MALES
-  double MaleAdultTested19Neg=0;
-  double MaleAdultTested21Neg=0;
-  double MaleAdultTested49Neg=0;
-  double MaleAdultTested50Neg=0;
-  
-  double MaleAdultTested19=0;
- double  MaleAdultTested24=0;
- double MaleAdultTested49=0;
- double MaleAdultTested50=0;
-  
-  
-  double MaleTestedChild1=0;
-  double MaleTestedChild4=0;
-  double MaleTestedChild9=0;
-  double MaleTestedChild14=0;
-  
-  double MaleTestedChild1Neg=0;
-  double MaleTestedChild4Neg=0;
-  double MaleTestedChild9Neg=0;
-  double MaleTestedChild14Neg=0;
-  
-  double AdultMaleHIV19Neg=0;
-  double AdultMaleHIV24Neg=0;
-  double AdultMaleHIV49Neg=0;
-  double AdultMaleHIV50Neg=0;
-  
-  double AdultMaleHIV19=0;
- double  AdultMaleHIV24=0;
-  double AdultMaleHIV49=0;
-  double AdultMaleHIV50=0;
-  
-  
- double ChildMaleHIV1=0;
- double ChildMaleHIV4=0;
-double  ChildMaleHIV9=0;
- double ChildMaleHIV14=0;
- 
- double ChildMaleHIV1Neg=0;
- double ChildMaleHIV4Neg=0;
- double ChildMaleHIV9Neg=0;
-  double ChildMaleHIV14Neg=0;
-  
-  double splitData=0; int adderPos=0;
-           double childSplitData=0;  
+     }
            
-           int redalert=0;
-      
+            
         reportDuration=request.getParameter("reportDuration");
         
 //        year=2015;
@@ -8266,24 +8160,8 @@ double  ChildMaleHIV9=0;
         
       HSSFSheet shet3=wb.createSheet("PITC IPD");   
             HSSFCell  c11;
-         FemaleAdultTested=0;
- FemaleTestedChild=0;
- AdultFemaleHIV=0;
- ChildFemaleHIV=0;
-          double TotalTested=0;
-            double    TotalPositiveFemale=0;
-             double   TotalPositiveMale=0;
-             double   TotalNegativeFemale=0;
-             double   TotalNegativeMale=0;
- 
-// MALES
-   MaleAdultTested=0;
-  MaleTestedChild=0;
-   AdultMaleHIV=0;
-  ChildMaleHIV=0;
-  double TotalPositive=0;
-  double TotalNegative=0;
-  
+            
+            
    String county="";
    String  district="";
     String facilityname="";
@@ -8445,15 +8323,10 @@ stylemainHeader.setWrapText(true);
     
     double checkdiff=0;
     int count=4;
-    TestedAdultMale=0;TestedAdultFemale=0;
- TestedChildMale=0;TestedChildFemale=0;
- HIV_AdultMale=0;HIV_AdultFemale=0;
- HIV_ChildMale=0;HIV_ChildFemale=0;
     
-    //---------------------------------------------------------------------------
     
- 
- 
+    
+    
  
       //BEFORE WHILE LOOP
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -8566,6 +8439,147 @@ stylemainHeader.setWrapText(true);
         
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	 
+    
+        int less15m=0;
+              int less15f=0;
+              int gret15m=0;
+              int gret15f=0;
+ int TestedAdultMale=0,TestedAdultFemale=0;
+ int TestedChildMale=0,TestedChildFemale=0;
+ int HIV_AdultMale=0,HIV_AdultFemale=0;
+ int HIV_ChildMale=0,HIV_ChildFemale=0;
+ 
+double FemaleAdultTested;
+double FemaleTestedChild;
+double AdultFemaleHIV;
+double ChildFemaleHIV;
+ 
+ double  MaleAdultTested;
+ double MaleTestedChild;
+ double  AdultMaleHIV;
+ double ChildMaleHIV;
+ 
+ 
+  
+  
+  double FemaleAdultTested1=0;
+double FemaleAdultTested4=0;
+double FemaleAdultTested9=0;
+double FemaleAdultTested14=0;
+double FemaleAdultTested19=0;
+double FemaleAdultTested24=0;
+double FemaleAdultTested49=0;
+double FemaleAdultTested50=0;
+
+double FemaleTestedChild1=0;
+double FemaleTestedChild4=0;
+double FemaleTestedChild9=0;
+double FemaleTestedChild14=0;
+double FemaleTestedChild19=0;
+double FemaleTestedChild24=0;
+double FemaleTestedChild49=0;
+double FemaleTestedChild50=0;
+
+double AdultFemaleHIV19Neg=0;
+double AdultFemaleHIV24Neg=0;
+double AdultFemaleHIV49Neg=0;
+double AdultFemaleHIV50Neg=0;
+
+double AdultFemaleHIV19=0;
+double AdultFemaleHIV24=0;
+double AdultFemaleHIV49=0;
+double AdultFemaleHIV50=0;
+
+double ChildFemaleHIV1=0;
+double ChildFemaleHIV4=0;
+double ChildFemaleHIV9=0;
+double ChildFemaleHIV14=0;
+
+double ChildFemaleHIV1Neg=0;
+double ChildFemaleHIV4Neg=0;
+double ChildFemaleHIV9Neg=0;
+double ChildFemaleHIV14Neg=0;
+ 
+ 
+// MALES
+  double MaleAdultTested19Neg=0;
+  double MaleAdultTested21Neg=0;
+  double MaleAdultTested49Neg=0;
+  double MaleAdultTested50Neg=0;
+  
+  double MaleAdultTested19=0;
+ double  MaleAdultTested24=0;
+ double MaleAdultTested49=0;
+ double MaleAdultTested50=0;
+  
+  
+  double MaleTestedChild1=0;
+  double MaleTestedChild4=0;
+  double MaleTestedChild9=0;
+  double MaleTestedChild14=0;
+  
+  double MaleTestedChild1Neg=0;
+  double MaleTestedChild4Neg=0;
+  double MaleTestedChild9Neg=0;
+  double MaleTestedChild14Neg=0;
+  
+  double AdultMaleHIV19Neg=0;
+  double AdultMaleHIV24Neg=0;
+  double AdultMaleHIV49Neg=0;
+  double AdultMaleHIV50Neg=0;
+  
+  double AdultMaleHIV19=0;
+ double  AdultMaleHIV24=0;
+  double AdultMaleHIV49=0;
+  double AdultMaleHIV50=0;
+  
+  
+ double ChildMaleHIV1=0;
+ double ChildMaleHIV4=0;
+double  ChildMaleHIV9=0;
+ double ChildMaleHIV14=0;
+ 
+ double ChildMaleHIV1Neg=0;
+ double ChildMaleHIV4Neg=0;
+ double ChildMaleHIV9Neg=0;
+  double ChildMaleHIV14Neg=0;
+  
+  double splitData=0; int adderPos=0;
+           double childSplitData=0;  
+           
+           int redalert=0;
+      
+            
+         FemaleAdultTested=0;
+ FemaleTestedChild=0;
+ AdultFemaleHIV=0;
+ ChildFemaleHIV=0;
+          double TotalTested=0;
+            double    TotalPositiveFemale=0;
+             double   TotalPositiveMale=0;
+             double   TotalNegativeFemale=0;
+             double   TotalNegativeMale=0;
+ 
+// MALES
+   MaleAdultTested=0;
+  MaleTestedChild=0;
+   AdultMaleHIV=0;
+  ChildMaleHIV=0;
+  double TotalPositive=0;
+  double TotalNegative=0;
+  
+    
+    TestedAdultMale=0;TestedAdultFemale=0;
+ TestedChildMale=0;TestedChildFemale=0;
+ HIV_AdultMale=0;HIV_AdultFemale=0;
+ HIV_ChildMale=0;HIV_ChildFemale=0;
+    
+    //---------------------------------------------------------------------------
+    
+ 
+ 
+        
+        
         
         
        county=conn.rs.getString(9);
@@ -8753,7 +8767,8 @@ stylemainHeader.setWrapText(true);
   //%%%%%%%%%%%%%%%%added 201606 %%%%%%%%%%%%%%%%%%%%%% 
      // 38 (M)%  ---	62% (F)
 
-  int tested_new711=(int) (conn.rs.getInt("711_totaltested")*htctestedratio);
+  double tested_new711=(float)Math.round((conn.rs.getInt("711_totaltested")*htctestedratio));
+ 
   //|__|
         System.out.println(" 2017Q1__"+tested_new711);
   
@@ -8883,7 +8898,7 @@ ChildFemaleHIV14=(float)Math.round((0.30*HIV_ChildFemale));
   MaleTestedChild1=(float)Math.round((0*TestedChildMale));
   MaleTestedChild4=(float)Math.round((0.26*TestedChildMale));
   MaleTestedChild9=(float)Math.round((0.29*TestedChildMale));
-  MaleTestedChild14=(float)Math.round((0.49*TestedChildMale));
+  MaleTestedChild14=(float)Math.round((0.45*TestedChildMale));
 
 //positive
   //adult ** remaining 
@@ -9703,10 +9718,7 @@ HSSFCell  cxy;
                      
                      
                      
-              int less15m=0;
-              int less15f=0;
-              int gret15m=0;
-              int gret15f=0;
+             
               
               
                      ArrayList allFacilities = new ArrayList();
@@ -9792,111 +9804,6 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
         }   
         
      }      
- int TestedAdultMale=0,TestedAdultFemale=0;
- int TestedChildMale=0,TestedChildFemale=0;
- int HIV_AdultMale=0,HIV_AdultFemale=0;
- int HIV_ChildMale=0,HIV_ChildFemale=0;
- 
-double FemaleAdultTested;
-double FemaleTestedChild;
-double AdultFemaleHIV;
-double ChildFemaleHIV;
- 
- double  MaleAdultTested;
- double MaleTestedChild;
- double  AdultMaleHIV;
- double ChildMaleHIV;
- 
- 
-  
-  
-  double FemaleAdultTested1=0;
-double FemaleAdultTested4=0;
-double FemaleAdultTested9=0;
-double FemaleAdultTested14=0;
-double FemaleAdultTested19=0;
-double FemaleAdultTested24=0;
-double FemaleAdultTested49=0;
-double FemaleAdultTested50=0;
-
-double FemaleTestedChild1=0;
-double FemaleTestedChild4=0;
-double FemaleTestedChild9=0;
-double FemaleTestedChild14=0;
-double FemaleTestedChild19=0;
-double FemaleTestedChild24=0;
-double FemaleTestedChild49=0;
-double FemaleTestedChild50=0;
-
-double AdultFemaleHIV19Neg=0;
-double AdultFemaleHIV24Neg=0;
-double AdultFemaleHIV49Neg=0;
-double AdultFemaleHIV50Neg=0;
-
-double AdultFemaleHIV19=0;
-double AdultFemaleHIV24=0;
-double AdultFemaleHIV49=0;
-double AdultFemaleHIV50=0;
-
-double ChildFemaleHIV1=0;
-double ChildFemaleHIV4=0;
-double ChildFemaleHIV9=0;
-double ChildFemaleHIV14=0;
-
-double ChildFemaleHIV1Neg=0;
-double ChildFemaleHIV4Neg=0;
-double ChildFemaleHIV9Neg=0;
-double ChildFemaleHIV14Neg=0;
- 
- 
-// MALES
-  double MaleAdultTested19Neg=0;
-  double MaleAdultTested21Neg=0;
-  double MaleAdultTested49Neg=0;
-  double MaleAdultTested50Neg=0;
-  
-  double MaleAdultTested19=0;
- double  MaleAdultTested24=0;
- double MaleAdultTested49=0;
- double MaleAdultTested50=0;
-  
-  
-  double MaleTestedChild1=0;
-  double MaleTestedChild4=0;
-  double MaleTestedChild9=0;
-  double MaleTestedChild14=0;
-  
-  double MaleTestedChild1Neg=0;
-  double MaleTestedChild4Neg=0;
-  double MaleTestedChild9Neg=0;
-  double MaleTestedChild14Neg=0;
-  
-  double AdultMaleHIV19Neg=0;
-  double AdultMaleHIV24Neg=0;
-  double AdultMaleHIV49Neg=0;
-  double AdultMaleHIV50Neg=0;
-  
-  double AdultMaleHIV19=0;
- double  AdultMaleHIV24=0;
-  double AdultMaleHIV49=0;
-  double AdultMaleHIV50=0;
-  
-  
- double ChildMaleHIV1=0;
- double ChildMaleHIV4=0;
-double  ChildMaleHIV9=0;
- double ChildMaleHIV14=0;
- 
- double ChildMaleHIV1Neg=0;
- double ChildMaleHIV4Neg=0;
- double ChildMaleHIV9Neg=0;
-  double ChildMaleHIV14Neg=0;
-  
-  double splitData=0; int adderPos=0;
-           double childSplitData=0;  
-           
-           int redalert=0;
-      
         reportDuration=request.getParameter("reportDuration");
         
 //        year=2015;
@@ -9969,24 +9876,8 @@ double  ChildMaleHIV9=0;
         
       HSSFSheet shet3=wb.createSheet("Other PITC (OPD)");   
             HSSFCell  c11;
-         FemaleAdultTested=0;
- FemaleTestedChild=0;
- AdultFemaleHIV=0;
- ChildFemaleHIV=0;
-          double TotalTested=0;
-            double    TotalPositiveFemale=0;
-             double   TotalPositiveMale=0;
-             double   TotalNegativeFemale=0;
-             double   TotalNegativeMale=0;
- 
-// MALES
-   MaleAdultTested=0;
-  MaleTestedChild=0;
-   AdultMaleHIV=0;
-  ChildMaleHIV=0;
-  double TotalPositive=0;
-  double TotalNegative=0;
-  
+            
+            
    String county="";
    String  district="";
     String facilityname="";
@@ -10148,10 +10039,7 @@ stylemainHeader.setWrapText(true);
     
     double checkdiff=0;
     int count=4;
-    TestedAdultMale=0;TestedAdultFemale=0;
- TestedChildMale=0;TestedChildFemale=0;
- HIV_AdultMale=0;HIV_AdultFemale=0;
- HIV_ChildMale=0;HIV_ChildFemale=0;
+   
     
     //---------------------------------------------------------------------------
     
@@ -10231,7 +10119,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
-    + " "+facilityIds1+" "+duration1+" && "+facilitiestable+".HTC=1  "
+    + " "+facilityIds1+" "+duration1+" && ("+facilitiestable+".HTC=1 or PMTCT=1)  "
             + "GROUP BY moh731.SubPartnerID " ;
     
     
@@ -10242,7 +10130,134 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
     while(conn.rs.next()){
      
         
-         
+ int TestedAdultMale=0,TestedAdultFemale=0;
+ int TestedChildMale=0,TestedChildFemale=0;
+ int HIV_AdultMale=0,HIV_AdultFemale=0;
+ int HIV_ChildMale=0,HIV_ChildFemale=0;
+ 
+double FemaleAdultTested;
+double FemaleTestedChild;
+double AdultFemaleHIV;
+double ChildFemaleHIV;
+ 
+ double  MaleAdultTested;
+ double MaleTestedChild;
+ double  AdultMaleHIV;
+ double ChildMaleHIV;
+ 
+ 
+  
+  
+  double FemaleAdultTested1=0;
+double FemaleAdultTested4=0;
+double FemaleAdultTested9=0;
+double FemaleAdultTested14=0;
+double FemaleAdultTested19=0;
+double FemaleAdultTested24=0;
+double FemaleAdultTested49=0;
+double FemaleAdultTested50=0;
+
+double FemaleTestedChild1=0;
+double FemaleTestedChild4=0;
+double FemaleTestedChild9=0;
+double FemaleTestedChild14=0;
+double FemaleTestedChild19=0;
+double FemaleTestedChild24=0;
+double FemaleTestedChild49=0;
+double FemaleTestedChild50=0;
+
+double AdultFemaleHIV19Neg=0;
+double AdultFemaleHIV24Neg=0;
+double AdultFemaleHIV49Neg=0;
+double AdultFemaleHIV50Neg=0;
+
+double AdultFemaleHIV19=0;
+double AdultFemaleHIV24=0;
+double AdultFemaleHIV49=0;
+double AdultFemaleHIV50=0;
+
+double ChildFemaleHIV1=0;
+double ChildFemaleHIV4=0;
+double ChildFemaleHIV9=0;
+double ChildFemaleHIV14=0;
+
+double ChildFemaleHIV1Neg=0;
+double ChildFemaleHIV4Neg=0;
+double ChildFemaleHIV9Neg=0;
+double ChildFemaleHIV14Neg=0;
+ 
+ 
+// MALES
+  double MaleAdultTested19Neg=0;
+  double MaleAdultTested21Neg=0;
+  double MaleAdultTested49Neg=0;
+  double MaleAdultTested50Neg=0;
+  
+  double MaleAdultTested19=0;
+ double  MaleAdultTested24=0;
+ double MaleAdultTested49=0;
+ double MaleAdultTested50=0;
+  
+  
+  double MaleTestedChild1=0;
+  double MaleTestedChild4=0;
+  double MaleTestedChild9=0;
+  double MaleTestedChild14=0;
+  
+  double MaleTestedChild1Neg=0;
+  double MaleTestedChild4Neg=0;
+  double MaleTestedChild9Neg=0;
+  double MaleTestedChild14Neg=0;
+  
+  double AdultMaleHIV19Neg=0;
+  double AdultMaleHIV24Neg=0;
+  double AdultMaleHIV49Neg=0;
+  double AdultMaleHIV50Neg=0;
+  
+  double AdultMaleHIV19=0;
+ double  AdultMaleHIV24=0;
+  double AdultMaleHIV49=0;
+  double AdultMaleHIV50=0;
+  
+  
+ double ChildMaleHIV1=0;
+ double ChildMaleHIV4=0;
+double  ChildMaleHIV9=0;
+ double ChildMaleHIV14=0;
+ 
+ double ChildMaleHIV1Neg=0;
+ double ChildMaleHIV4Neg=0;
+ double ChildMaleHIV9Neg=0;
+  double ChildMaleHIV14Neg=0;
+  
+  double splitData=0; int adderPos=0;
+           double childSplitData=0;  
+           
+           int redalert=0;
+      
+            
+         FemaleAdultTested=0;
+ FemaleTestedChild=0;
+ AdultFemaleHIV=0;
+ ChildFemaleHIV=0;
+          double TotalTested=0;
+            double    TotalPositiveFemale=0;
+             double   TotalPositiveMale=0;
+             double   TotalNegativeFemale=0;
+             double   TotalNegativeMale=0;
+ 
+// MALES
+   MaleAdultTested=0;
+  MaleTestedChild=0;
+   AdultMaleHIV=0;
+  ChildMaleHIV=0;
+  double TotalPositive=0;
+  double TotalNegative=0;
+  
+          TestedAdultMale=0;TestedAdultFemale=0;
+ TestedChildMale=0;TestedChildFemale=0;
+ HIV_AdultMale=0;HIV_AdultFemale=0;
+ HIV_ChildMale=0;HIV_ChildFemale=0;
 	 
 	 //INSIDE WHILE LOOP
 	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -10323,7 +10338,7 @@ staticispmtct.remove(mflindex);
       //do a query that calculates the sites supporting inpatient and outpatient for the last six months
       //since we are already in a loop, see if the current site calculates 
        String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
-                System.out.println("%%"+issiteipd);
+                //System.out.println("%%"+issiteipd);
                 
         conn.rs1=conn.st1.executeQuery(issiteipd);
        if(conn.rs1.next()){
@@ -10468,13 +10483,10 @@ staticispmtct.remove(mflindex);
   //%%%%%%%%%%%%%%%%added 201606 %%%%%%%%%%%%%%%%%%%%%% 
      // 38 (M)%  ---	62% (F)
 
-       int balancingvalue=(int) (conn.rs.getInt("711_totaltested")-(ipd_tes_balancing+opd_tes_balancing+vct_tes_balancing));
-       
-   //this balancing value will be used to stabilize HTC numerator from 731 against the achievements in SDP (VCT+OPD+IPD)
-       
-  int tested_new711=(int) (conn.rs.getInt("711_totaltested")*htctestedratio);
+     
+   
+  double tested_new711=(float)Math.round((conn.rs.getInt("711_totaltested")*htctestedratio));
   
-  tested_new711+=balancingvalue;//add the missing value that you got when you deducted vct+opd+IPD from HTC in moh731 
   //|__|
         System.out.println(" 2017Q1__"+tested_new711);
   
@@ -10604,7 +10616,7 @@ ChildFemaleHIV14=(float)Math.round((0.30*HIV_ChildFemale));
   MaleTestedChild1=(float)Math.round((0*TestedChildMale));
   MaleTestedChild4=(float)Math.round((0.26*TestedChildMale));
   MaleTestedChild9=(float)Math.round((0.29*TestedChildMale));
-  MaleTestedChild14=(float)Math.round((0.49*TestedChildMale));
+  MaleTestedChild14=(float)Math.round((0.45*TestedChildMale));
 
 //positive
   //adult ** remaining 
@@ -11096,10 +11108,7 @@ adderPos++  ;
   //201510
  //this code was added later
  
- less15f=TestedChildFemale;
- less15m=TestedChildMale;
- gret15m=TestedAdultMale;
- gret15f=TestedAdultFemale;
+
  
 
 // TotalNegativeFemale=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+ ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg;
@@ -11236,6 +11245,11 @@ double TotalNegativeFemale1=0;
  }
  
  
+   int balancingvalue=(int) (conn.rs.getInt("711_totaltested")-(ipd_tes_balancing+tested_new711+vct_tes_balancing));
+        tested_new711+=balancingvalue;//add the missing value that you got when you deducted vct+opd+IPD from HTC in moh731 
+        AdultMaleHIV24Neg+=balancingvalue;//add the missing value that you got when you deducted vct+opd+IPD from HTC in moh731 to male 20-25 negative 
+ 
+ 
   String alldatavals[]={county,district,facilityname,""+mflcode,dsdta
         ,"0","0"
         ,""+ChildFemaleHIV1,""+ChildMaleHIV1
@@ -11257,7 +11271,9 @@ double TotalNegativeFemale1=0;
           
         }; 
 
-totalopdglobal+=(tested_new711-(ChildMaleHIV4Neg+ChildMaleHIV4));
+totalopdglobal+=(ipd_tes_balancing+opd_tes_balancing+vct_tes_balancing);
+
+        System.out.println("Facility | "+facilityname+"| OPD unedited | "+opd_tes_balancing+" | OPD edited |"+tested_new711+" | Difference |"+(opd_tes_balancing-tested_new711));
 HSSFCell  cxy;
  
 
@@ -11407,7 +11423,7 @@ HSSFCell  cxy;
                  
                  
                  
-                 System.out.println("__TOTAL_OPD"+totalopdglobal);
+                 System.out.println("__TOTAL_HTC"+totalopdglobal);
                  
                  
                  
@@ -11955,7 +11971,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
-    + " "+facilityIds1+" "+duration1+" && "+facilitiestable+".HTC=1  "
+    + " "+facilityIds1+" "+duration1+" && ("+facilitiestable+".HTC=1 or PMTCT=1)  "
             + "GROUP BY moh731.SubPartnerID " ;
     
     
@@ -12180,7 +12196,8 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
   //%%%%%%%%%%%%%%%%added 201606 %%%%%%%%%%%%%%%%%%%%%% 
      // 38 (M)%  ---	62% (F)
 
-  int tested_new711=(int) (conn.rs.getInt("711_totaltested")*htctestedratio);
+  double tested_new711=(float)Math.round((conn.rs.getInt("711_totaltested")*htctestedratio));
+ 
   //|__|
         System.out.println(" 2017Q1__"+tested_new711);
   
@@ -12310,7 +12327,7 @@ ChildFemaleHIV14=(float)Math.round((0.30*HIV_ChildFemale));
   MaleTestedChild1=(float)Math.round((0*TestedChildMale));
   MaleTestedChild4=(float)Math.round((0.26*TestedChildMale));
   MaleTestedChild9=(float)Math.round((0.29*TestedChildMale));
-  MaleTestedChild14=(float)Math.round((0.49*TestedChildMale));
+  MaleTestedChild14=(float)Math.round((0.45*TestedChildMale));
 
 //positive
   //adult ** remaining 

@@ -865,7 +865,7 @@ ChildFemaleHIV14=(float)Math.round((0.30*HIV_ChildFemale));
   MaleTestedChild1=(float)Math.round((0*TestedChildMale));
   MaleTestedChild4=(float)Math.round((0.26*TestedChildMale));
   MaleTestedChild9=(float)Math.round((0.29*TestedChildMale));
-  MaleTestedChild14=(float)Math.round((0.49*TestedChildMale));
+  MaleTestedChild14=(float)Math.round((0.45*TestedChildMale));
 
 //positive
   //adult ** remaining 
