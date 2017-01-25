@@ -58,6 +58,7 @@ String pathtodelete=null;
             ArrayList scountyal= new ArrayList();
             ArrayList facilal= new ArrayList();
             ArrayList yearmonthal= new ArrayList();
+            ArrayList monthal= new ArrayList();
             ArrayList sectional= new ArrayList();
             
          XSSFWorkbook wb;    
@@ -156,10 +157,11 @@ pathtodelete=filepth;
           periodname=yearval+"_(Jul_Sep)";
           }
           
-          int colsmerging=4;
+          int colsmerging=6;
             String Sections[]={"ART","HTC","PMTCT"};
-            String headers[]={"County","Sub-County","Facility","YearMonth"};
+            String headers[]={"County","Sub-County","Facility","Year","Month"};
             String headergsn[]={"County","Sub-County","Facility"};
+            //if one wants gaps for one service area
            if(request.getParameterValues("gapsection")!=null){
                
            Sections=request.getParameterValues("gapsection");
@@ -219,6 +221,25 @@ pathtodelete=filepth;
             stylex1.setBorderRight(HSSFCellStyle.BORDER_THIN);
             stylex1.setAlignment(HSSFCellStyle.ALIGN_LEFT);
             
+            
+            CellStyle stylex2 = wb.createCellStyle();
+            stylex2.setFillForegroundColor(HSSFColor.SKY_BLUE.index);
+            stylex2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            stylex2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            stylex2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            stylex2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            stylex2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            stylex2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            CellStyle stylex3 = wb.createCellStyle();
+            stylex3.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
+            stylex3.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            stylex3.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            stylex3.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            stylex3.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            stylex3.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            stylex3.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
             Font fontx = wb.createFont();
             fontx.setColor(HSSFColor.BLACK.index);
             fontx.setFontName("Cambria");
@@ -226,6 +247,9 @@ pathtodelete=filepth;
             stylex.setWrapText(true);
             stylex1.setFont(fontx);
             stylex1.setWrapText(true);
+            
+            stylex2.setFont(fontx);
+            stylex2.setWrapText(true);
    
             //==================================================
             
@@ -255,12 +279,14 @@ pathtodelete=filepth;
                                  }
          
  //now go to the database and do a query for each section
- 
+ int determinant=2;
  String getqueries=" Select * from gap_analysis where active=1 and section='"+Sections[a]+"' ";
  
  conn.rs=conn.st.executeQuery(getqueries); 
  while(conn.rs.next()){
   
+     //if an excel sheet exists, then get the row number 1
+     
         if(shet.getRow(1)!=null){
      rw1=shet.getRow(1);
      }
@@ -270,6 +296,7 @@ pathtodelete=filepth;
           }
         
         //print blanks before printing real header
+        //for gsns, we only print three columns and no period
          if(conn.rs.getString("id").equals("1")){
   
              for(int p=0;p< headergsn.length;p++){
@@ -290,12 +317,23 @@ pathtodelete=filepth;
                                                  }
              
          }
-   
-        
+   determinant++;
+       if(determinant%2==0)
+       { 
+           
       Cell cl1= rw1.createCell(column);
       cl1.setCellValue(conn.rs.getString("rule"));
-      cl1.setCellStyle(stylex); 
-   
+      cl1.setCellStyle(stylex3); 
+      
+       }
+       else 
+       {
+       
+       Cell cl1= rw1.createCell(column);
+      cl1.setCellValue(conn.rs.getString("rule"));
+      cl1.setCellStyle(stylex2); 
+      
+       }
         
 //Create the column header  
   
@@ -368,11 +406,21 @@ pathtodelete=filepth;
       cly1.setCellValue(conn.rs1.getString("SubPartnerNom"));
       cly1.setCellStyle(style2);
      
+      //if the current list is not inclusive of GSNs
       
       if(!conn.rs.getString(1).equals("1")){
+          
        Cell cly3= rwx.createCell(column+3);
-      cly3.setCellValue(conn.rs1.getString("yearmonth"));
+      cly3.setCellValue(new Integer(conn.rs1.getString("yearmonth").substring(0,4)));
       cly3.setCellStyle(style2);
+      
+      //the month section
+      
+       Cell cly3x= rwx.createCell(column+4);
+      cly3x.setCellValue(new Integer(conn.rs1.getString("yearmonth").substring(4)));
+      cly3x.setCellStyle(style2);
+      
+      
       //my key is a 
       String mykey=Sections[a]+conn.rs1.getString("SubPartnerNom")+"_"+conn.rs1.getString("yearmonth")+"_";
       //add all the facilities at this point
@@ -384,6 +432,7 @@ pathtodelete=filepth;
       facilal.add(conn.rs1.getString("SubPartnerNom"));
       sectional.add(Sections[a]);
       yearmonthal.add(conn.rs1.getString("yearmonth"));
+      monthal.add(conn.rs1.getString("yearmonth").substring(4));
       
       }
       
@@ -400,13 +449,13 @@ pathtodelete=filepth;
  column+=3;
  }
  else{
- column+=4;
+ column+=5;
  }
      if(conn.rs.getString("id").equals("1")){
  shet.addMergedRegion(new CellRangeAddress(1,1,0,column-1));
                                       }
        else {
- shet.addMergedRegion(new CellRangeAddress(1,1,column-4,column-1));  
+ shet.addMergedRegion(new CellRangeAddress(1,1,column-5,column-1));  
        }
  
                          }//end of all queries per section
@@ -440,12 +489,16 @@ pathtodelete=filepth;
       cl2.setCellStyle(stylex1);
          
       Cell cl3= rw.createCell(3);
-      cl3.setCellValue("yearmonth");
+      cl3.setCellValue("year");
       cl3.setCellStyle(stylex1);
        
       Cell cl4= rw.createCell(4);
-      cl4.setCellValue("section");
+      cl4.setCellValue("month");
       cl4.setCellStyle(stylex1);
+      
+      Cell cl5= rw.createCell(5);
+      cl5.setCellValue("section");
+      cl5.setCellStyle(stylex1);
       
       for(int q=0;q< keyal.size();q++){
     
@@ -465,12 +518,16 @@ pathtodelete=filepth;
       cl21.setCellStyle(style2);
          
       Cell cl31= rwx.createCell(3);
-      cl31.setCellValue(yearmonthal.get(q).toString());
+      cl31.setCellValue(new Integer(yearmonthal.get(q).toString().substring(0, 4)));
       cl31.setCellStyle(style2);
        
       Cell cl41= rwx.createCell(4);
-      cl41.setCellValue(sectional.get(q).toString());
-      cl41.setCellStyle(style2);  
+      cl41.setCellValue(new Integer(monthal.get(q).toString()));
+      cl41.setCellStyle(style2); 
+      
+      Cell cl51= rwx.createCell(5);
+      cl51.setCellValue(sectional.get(q).toString());
+      cl51.setCellStyle(style2); 
           
       
       }

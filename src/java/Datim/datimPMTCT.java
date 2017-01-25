@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -63,6 +64,36 @@ Double PMTCT_CTX;
             throws ServletException, IOException, SQLException {
         session = request.getSession();
        dbConn conn = new dbConn();
+       
+       
+        
+
+  Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
+  
+  String mwaka=request.getParameter("year");
+  
+  String facilitiestable="subpartnera";
+  
+  int selectedyear=new Integer(mwaka);
+  
+  if(selectedyear<currentyear){
+      
+      if(selectedyear<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+       
        allFacilities.clear();
 //       year=Integer.parseInt(request.getParameter("year"));
 //        reportDuration=request.getParameter("reportDuration");
@@ -139,8 +170,8 @@ Double PMTCT_CTX;
         
      if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
          String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT subpartnera.SubPartnerID FROM subpartnera "
-    + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
     conn.rs=conn.st.executeQuery(getDist);
     while(conn.rs.next()){
@@ -153,8 +184,8 @@ Double PMTCT_CTX;
      else{
         if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
          String county=request.getParameter("county");
-         String getCounty="SELECT subpartnera.SubPartnerID FROM subpartnera "
-    + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
     conn.rs=conn.st.executeQuery(getCounty);
     while(conn.rs.next()){
@@ -320,20 +351,20 @@ styleHeader.setWrapText(true);
        pmtctpos=3;
       
 //      MAIN QUERY HERE ---------------------------------------------
-    String getPMTCTData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
-            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
+    String getPMTCTData="SELECT "+facilitiestable+".SubPartnerNom,district.DistrictNom,county.County,"
+            + ""+facilitiestable+".CentreSanteId,ART_Support,PMTCT_Support,"
             + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
             + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
-            + "subpartnera.SubPartnerID,"
+            + ""+facilitiestable+".SubPartnerID,"
             + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
             + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
             + "SUM(HV0301),SUM(HV0206),SUM(HV0207),SUM(HV0208) "
-            + " FROM moh731 JOIN subpartnera "
-            + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
-            + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+            + " FROM moh731 JOIN "+facilitiestable+" "
+            + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
-    + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1) "
+    + " "+facilityIds+" "+duration+" && ("+facilitiestable+".PMTCT=1 || ART=1) "
             + "GROUP BY moh731.SubPartnerID " ;
      System.out.println("new : "+getPMTCTData);
     conn.rs=conn.st.executeQuery(getPMTCTData);

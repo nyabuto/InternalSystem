@@ -149,7 +149,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="allStaticReports" id="formActions" class="form-horizontal">
+                        <form  id="formActions" action="#" class="form-horizontal">
                           
                          
                            <div class="control-group">
@@ -246,7 +246,7 @@
                            <div class="control-group" id="reportFormats">
                               <label class="control-label">Report Format<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Report Format" required="true" onchange="getAction();" class="span6 m-wrap" tabindex="-1"  id="reportFormat" name="reportFormat" style="width: 400px;">
+                                  <select data-placeholder="Report Format" required="true" onchange="changeform();" class="span6 m-wrap" tabindex="-1"  id="reportFormat" name="reportFormat" style="width: 400px;">
                                     <option value="">Choose report Format</option>
                                     <option value="excel">Excel Report</option>
                                     <option value="pdf">PDF Report</option>
@@ -257,7 +257,7 @@
                              <div class="control-group">
                               <label class="control-label">Select Form<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <select required data-placeholder="Form" class="span6 m-wrap" onchange="getAction();" tabindex="-1" id="form" name="form"  style="width: 400px;">
+                                  <select required data-placeholder="Form" class="span6 m-wrap" onchange="changeform();" tabindex="-1" id="form" name="form"  style="width: 400px;">
                                    <option value="">Select form</option>   
                                      <%  
 dbConn conn = new dbConn();                                 
@@ -342,25 +342,25 @@ dbConn conn = new dbConn();
    <script src="assets/js/app.js"></script>  
    <script src="select2/js/select2.js"></script>
   
-   
-   <script>
-     function getAction(){
-      var reportFormat="",form="",formActions=""; 
-
-    var formActions=$("#formActions").val();
-    var reportFormat=$("#reportFormat").val();
-    var form=$("#form").val();
-//    alert("format : "+reportFormat+" form : "+form);
+    <script>
+                  function changeform(){
+                  
+                               var form= document.getElementById("form").value;
+                               var reportFormat= document.getElementById("reportFormat").value;
+                             
+                               if(1==2) {
+                           document.forms.action = "allStaticReportsMonthly";
+                                         }
+                           
+else{
     
-    if(reportFormat==="" || form===""){
-        
-    }
-    else{
     if( reportFormat==="pdf" && form==="MOH 731") {
    document.getElementById("formActions").action = "pdf731";
+
     }
     else if( reportFormat==="excel" && form==="MOH 731") {
  document.getElementById("formActions").action = "staticReportExcel731";
+    console.log("moh731report");
     }
     else if( reportFormat==="excel" && form==="MOH 711A") {
  document.getElementById("formActions").action = "moh711_excelReport";
@@ -368,22 +368,11 @@ dbConn conn = new dbConn();
   else if(reportFormat==="pdf" &&form==="MOH 711A") {
 document.getElementById("formActions").action = "moh711_StaticReport";
    }
-   
-    else if( reportFormat==="excel" && form==="MOH 711 (New)") {
- document.getElementById("formActions").action = "newmoh711_StaticReport";
-    }
-     else if( reportFormat==="pdf" && form==="MOH 711 (New)") {
- document.getElementById("formActions").action = "newmoh711_StaticReport";
-    }
-    
-   else if(reportFormat==="pdf" &&form==="TB") {
-document.getElementById("formActions").action = "tbpdf";
-   
-    }
+
      else if(reportFormat==="excel" &&form==="TB") {
 document.getElementById("formActions").action = "tb_excelReport";
-   
-    }
+                               
+                           }
      else if(reportFormat==="pdf" && form==="KMMP") {
  document.getElementById("formActions").action = "kmmppdf";
     }
@@ -399,7 +388,7 @@ document.getElementById("formActions").action = "tb_excelReport";
      else if(reportFormat==="pdf" && form==="Gender") {
  document.getElementById("formActions").action = "genderpdf";
     }
-    
+                                
       else if(reportFormat==="excel" && form==="Gender") {
  document.getElementById("formActions").action = "genderexcel";
       }
@@ -409,15 +398,19 @@ document.getElementById("formActions").action = "tb_excelReport";
     else if(reportFormat==="excel" && form==="Nutrition") {
  document.getElementById("formActions").action = "nutritionexcel";
       }
+   
+        }
+                               
+                           }
+                                
+                            </script>
+   
+   
+   <script>
     
-else {
- document.getElementById("formActions").action =  "allStaticReports";
-}
-
-
-     }  
-       
-    }
+    
+    
+    
        
       jQuery(document).ready(function() {       
          // initiate layout and plugins

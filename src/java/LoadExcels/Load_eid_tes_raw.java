@@ -171,7 +171,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //______________________________________________________________________
                          //-----------serial number-----------------------
                          XSSFCell cellserialno = rowi.getCell((short) 0);
-                         
+                            System.out.println("___i is__"+i);
                          if(cellserialno.getCellType()==0){
                              //numeric
 			order_0 =""+(int)cellserialno.getNumericCellValue();
@@ -554,8 +554,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   //id	SubPartnerID 	Mflcode	samplecode	collectiondate	testingdate	validation	enrollment	treatment_init_date	enroll_cccno	other_reasons	year	quarter
 
   String inserter="INSERT INTO "+dbname+" ( id,orderno,batchno,samplecode,SubPartnerID,Mflcode,sex,age,agebracket,infantprophylaxis,datecollected,spots,receivedstatus,"
-          + "repeat_rejection_reason,hivstatus_mum,pmtct_intervention,breastfeeding,entrypoint,datereceived,datetested,datedispatched,testresult,year,quarter) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          + "repeat_rejection_reason,hivstatus_mum,pmtct_intervention,breastfeeding,entrypoint,datereceived,datetested,datedispatched,testresult,year,quarter,age_months) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1,id);
                         conn.pst.setString(2,order_0);
@@ -581,6 +581,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         conn.pst.setString(22,testresult_24);
                         conn.pst.setInt(23,year);
                         conn.pst.setInt(24,quarter);                        
+                        conn.pst.setString(25,ageString_11);                        
                         conn.pst.executeUpdate();  
                         
                         added++;
@@ -589,7 +590,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   else {
           //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
         String inserter=" UPDATE "+dbname+" SET orderno=? ,batchno=? ,samplecode=? ,SubPartnerID=? ,Mflcode=? ,sex=? ,age=? ,agebracket=? ,infantprophylaxis=? ,datecollected=? ,spots=? ,receivedstatus=? ,"
-          + "repeat_rejection_reason=? ,hivstatus_mum=? ,pmtct_intervention=? ,breastfeeding=? ,entrypoint=? ,datereceived=? ,datetested=? ,datedispatched=? ,testresult=? ,year=? ,quarter=? "
+          + "repeat_rejection_reason=? ,hivstatus_mum=? ,pmtct_intervention=? ,breastfeeding=? ,entrypoint=? ,datereceived=? ,datetested=? ,datedispatched=? ,testresult=? ,year=? ,quarter=?, age_months=? "
                 + " WHERE id=?";
 //
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -617,7 +618,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         conn.pst.setString(21,testresult_24);
                         conn.pst.setInt(22,year);
                         conn.pst.setInt(23,quarter);
-                         conn.pst.setString(24,id);
+                        conn.pst.setString(24,ageString_11);
+                         conn.pst.setString(25,id);
                         conn.pst.executeUpdate();
                        
                      updated++;

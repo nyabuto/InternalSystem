@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -69,6 +70,35 @@ int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
             allFacilities.clear();
             session = request.getSession();
             dbConn conn = new dbConn();
+            
+            
+             
+
+  Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
+  
+  String mwaka=request.getParameter("year");
+  
+  String facilitiestable="subpartnera";
+  
+  int selectedyear=new Integer(mwaka);
+  
+  if(selectedyear<currentyear){
+      
+      if(selectedyear<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
                   
         year=Integer.parseInt(request.getParameter("year"));
         reportDuration=request.getParameter("reportDuration");
@@ -163,8 +193,8 @@ if(2==2){
      
      if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
          String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT subpartnera.SubPartnerID FROM subpartnera "
-    + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
      subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
     
@@ -181,8 +211,8 @@ if(2==2){
      else{
         if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
          String county=request.getParameter("county");
-         String getCounty="SELECT subpartnera.SubPartnerID FROM subpartnera "
-    + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
          
            subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711
@@ -379,8 +409,8 @@ ArrayList staticpmtct_hv= new ArrayList();
     int blankrows=43;
     
    String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
-            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where "+subcounty_countywhere+" ( PMTCT=1 || ART=1) group by subpartnera.SubPartnerID   "; 
+            + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where "+subcounty_countywhere+" ( PMTCT=1 || ART=1) group by "+facilitiestable+".SubPartnerID   "; 
     
    conn.rs=conn.st.executeQuery(getstaticfacilities);
     while(conn.rs.next())
@@ -404,43 +434,43 @@ ArrayList staticpmtct_hv= new ArrayList();
     //For tb screen , when a quarterly report is generated, we need to get data for the last two months.
     //otherwise, get data from the specified period
   
-    String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
-            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support,"
+    String getData="SELECT "+facilitiestable+".SubPartnerNom,district.DistrictNom,county.County,"
+            + ""+facilitiestable+".CentreSanteId,ART_Support,PMTCT_Support,"
             + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
             + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
-            + "subpartnera.SubPartnerID,"
+            + ""+facilitiestable+".SubPartnerID,"
             + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
             + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
             + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208)"
             + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354) ,moh731.SubPartnerID as subpartnerid ,ART_highvolume, HTC_highvolume,PMTCT_highvolume"
-            + " FROM moh731 JOIN subpartnera "
-            + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
-            + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+            + " FROM moh731 JOIN "+facilitiestable+" "
+            + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID   "
             + "  "
             + " WHERE "
-    + " "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1)  "
+    + " "+facilityIds+" "+duration+" && ("+facilitiestable+".PMTCT=1 || ART=1)  "
             + "GROUP BY moh731.SubPartnerID   "
             + " union "
-            + "SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County, "
-            + "subpartnera.CentreSanteId,ART_Support,PMTCT_Support, "
+            + "SELECT "+facilitiestable+".SubPartnerNom,district.DistrictNom,county.County, "
+            + ""+facilitiestable+".CentreSanteId,ART_Support,PMTCT_Support, "
             + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312), "
             + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324), "
-            + "subpartnera.SubPartnerID,"
+            + ""+facilitiestable+".SubPartnerID,"
             + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217), "
             + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232), "
             + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208) "
             + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),tb_stat_art.SubPartnerID as subpartnerid ,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-            + " FROM moh731 JOIN subpartnera "
-            + " ON moh731.SubPartnerID=subpartnera.SubPartnerID "
-            + " JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+            + " FROM moh731 JOIN "+facilitiestable+" "
+            + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + " district.CountyID=county.CountyID   "
             + " Right join tb_stat_art on tb_stat_art.SubPartnerID=moh731.SubpartnerID "
             + " WHERE   moh731.subPartnerID in ( " +
 
-" SELECT tb_stat_art.SubPartnerID FROM tb_stat_art join subpartnera on  tb_stat_art.SubPartnerID=subpartnera.SubPartnerID "
+" SELECT tb_stat_art.SubPartnerID FROM tb_stat_art join "+facilitiestable+" on  tb_stat_art.SubPartnerID="+facilitiestable+".SubPartnerID "
             + " where  ART=1 and tb_stat_art.SubPartnerID not in  "
-            + " ( select moh731.subPartnerID from moh731 join subpartnera on moh731.SubPartnerID=subpartnera.SubPartnerID where "+facilityIds+" "+duration+" && (subpartnera.PMTCT=1 || ART=1)  ) " +
+            + " ( select moh731.subPartnerID from moh731 join "+facilitiestable+" on moh731.SubPartnerID="+facilitiestable+".SubPartnerID where "+facilityIds+" "+duration+" && ("+facilitiestable+".PMTCT=1 || ART=1)  ) " +
 
 " )   " ;
        System.out.println("^"+getData);
@@ -983,8 +1013,8 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
      
      if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
          String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT subpartnera.SubPartnerID FROM subpartnera "
-    + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
      subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
     
@@ -1002,8 +1032,8 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
      else{
         if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
          String county=request.getParameter("county");
-         String getCounty="SELECT subpartnera.SubPartnerID FROM subpartnera "
-    + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
          
            subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711
@@ -1193,8 +1223,8 @@ ArrayList staticpmtct_hv= new ArrayList();
     int blankrows=35;
     
    String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
-            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where ( ART='1' || PMTCT='1') group by subpartnera.SubPartnerID   "; 
+            + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( ART='1' || PMTCT='1') group by "+facilitiestable+".SubPartnerID   "; 
     
    conn.rs=conn.st.executeQuery(getstaticfacilities);
     while(conn.rs.next()){
@@ -1221,16 +1251,16 @@ ArrayList staticpmtct_hv= new ArrayList();
 // GET STARTING ART DATA
  
  retentionPOS=3;
- String getData="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,"
-            + "subpartnera.CentreSanteId,ART_Support,"
+ String getData="SELECT "+facilitiestable+".SubPartnerNom,district.DistrictNom,county.County,"
+            + ""+facilitiestable+".CentreSanteId,ART_Support,"
            // + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),SUM(HV0325) "
             + "SUM(HV0349) as HV0349,SUM(HV0345) as HV0345 ,ART_highvolume, HTC_highvolume,PMTCT_highvolume"
-            + " FROM moh731 JOIN subpartnera "
-            + "ON moh731.SubPartnerID=subpartnera.SubPartnerID "
-            + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
+            + " FROM moh731 JOIN "+facilitiestable+" "
+            + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
-    + " "+facilityIds+" "+duration+" && (subpartnera.ART=1 ||subpartnera.PMTCT=1 ) && ART_Support is not NULL "
+    + " "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 ) && ART_Support is not NULL "
             + "GROUP BY moh731.SubPartnerID " ;
        
      System.out.println("!!!!: "+getData);
@@ -1618,7 +1648,7 @@ else if(z==blankrows-4){
                 try {
                     facil = request.getParameter("facility");
                     
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='" + facil + "'";
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
                     conn.rs = conn.st.executeQuery(getfacil);
                     
                     while (conn.rs.next()) {
@@ -1789,7 +1819,7 @@ else if(z==blankrows-4){
             
             if (!subcounty.equals("")) {
                 
-                subcountywhere = " and subpartnera.DistrictID = '" + subcounty + "'";
+                subcountywhere = " and "+facilitiestable+".DistrictID = '" + subcounty + "'";
                 
             }
             
@@ -1801,9 +1831,9 @@ else if(z==blankrows-4){
             
             String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " + subcountywhere;
             
-            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
+            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, "+facilitiestable+".SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,denominator_vi as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
-            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,sum(denominator_vi) as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+"  group by subpartnera.SubPartnerID ";//and subpartnera.ART='1'
+            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,sum(denominator_vi) as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on viral_load.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+"  group by "+facilitiestable+".SubPartnerID ";//and "+facilitiestable+".ART='1'
             System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
@@ -2481,7 +2511,7 @@ supporttype="DSD";
                 try {
                     facil = request.getParameter("facility");
                     
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='" + facil + "'";
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
                     conn.rs = conn.st.executeQuery(getfacil);
                     
                     while (conn.rs.next()) {
@@ -2654,7 +2684,7 @@ supporttype="DSD";
             
             if (!subcounty.equals("")) {
                 
-                subcountywhere = " and subpartnera.DistrictID = '" + subcounty + "'";
+                subcountywhere = " and "+facilitiestable+".DistrictID = '" + subcounty + "'";
                 
             }
             
@@ -2664,7 +2694,7 @@ supporttype="DSD";
                 
             }
             
-            String joinedwhwere = " where (subpartnera.PEP=1) " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
+            String joinedwhwere = " where ("+facilitiestable+".PEP=1) " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
         
             
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
@@ -2688,8 +2718,8 @@ ArrayList staticpmtct_hv= new ArrayList();
     int blankrows=24;
     
    String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
-            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where ( PEP='1') group by subpartnera.SubPartnerID   "; 
+            + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( PEP='1') group by "+facilitiestable+".SubPartnerID   "; 
     
    conn.rs=conn.st.executeQuery(getstaticfacilities);
     while(conn.rs.next()){
@@ -2714,9 +2744,9 @@ ArrayList staticpmtct_hv= new ArrayList();
             
             
             
-            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
+            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, "+facilitiestable+".SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
            //    getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , sum(HV0507) as numerator  ,(sum(HV0502)+sum(HV0504)+sum(HV0506)) as femaletotal, (sum(HV0501)+sum(HV0503)+sum(HV0505)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
-            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , (sum(HV0503)+sum(HV0504)) as numerator  ,(sum(HV0504)) as femaletotal, (sum(HV0503)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
+            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , (sum(HV0503)+sum(HV0504)) as numerator  ,(sum(HV0504)) as femaletotal, (sum(HV0503)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM moh731 join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on moh731.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" group by "+facilitiestable+".SubPartnerID ";
             System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;

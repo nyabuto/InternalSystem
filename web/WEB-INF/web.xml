@@ -182,8 +182,8 @@
         <servlet-class>General.errors731</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>allStaticReports</servlet-name>
-        <servlet-class>reports.allStaticReports</servlet-class>
+        <servlet-name>allStaticReportsMonthly</servlet-name>
+        <servlet-class>reports.allStaticReportsMonthly</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DQA711</servlet-name>
@@ -477,6 +477,78 @@
         <servlet-name>changesubcounties</servlet-name>
         <servlet-class>scripts.changesubcounties</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>allStaticReportsdynamic</servlet-name>
+        <servlet-class>reports.allStaticReportsdynamic</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSections</servlet-name>
+        <servlet-class>reportsAjax.loadSections</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSubsections</servlet-name>
+        <servlet-class>reportsAjax.loadSubsections</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Load_eid_pos_raw</servlet-name>
+        <servlet-class>LoadExcels.Load_eid_pos_raw</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Load_eid_tes_raw</servlet-name>
+        <servlet-class>LoadExcels.Load_eid_tes_raw</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sync_eid</servlet-name>
+        <servlet-class>LoadExcels.sync_eid</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newdatimHTCResults_10_2016</servlet-name>
+        <servlet-class>Datim.newdatimHTCResults_10_2016</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>datimReport_jul_2016</servlet-name>
+        <servlet-class>Datim.datimReport_jul_2016</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddQuarter</servlet-name>
+        <servlet-class>scripts.AddQuarter</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddLastMonth</servlet-name>
+        <servlet-class>scripts.AddLastMonth</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadPMTCT_FO_OLD</servlet-name>
+        <servlet-class>LoadExcels.loadPMTCT_FO_OLD</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Old_PMTFO_BREAKDOWN</servlet-name>
+        <servlet-class>scripts.Old_PMTFO</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updatePmtct_othercolumns</servlet-name>
+        <servlet-class>scripts.updatePmtct_othercolumns</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>masterlist</servlet-name>
+        <servlet-class>quickreports.masterlist</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newlistofsites</servlet-name>
+        <servlet-class>scripts.newlistofsites</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>facilityautobackup</servlet-name>
+        <servlet-class>backups.facilityautobackup</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newdatimHTCResults_2017Q1</servlet-name>
+        <servlet-class>Datim.newdatimHTCResults_2017Q1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>datimReport_2017</servlet-name>
+        <servlet-class>Datim.datimReport_2017</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -662,8 +734,8 @@
         <url-pattern>/errors731</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>allStaticReports</servlet-name>
-        <url-pattern>/allStaticReports</url-pattern>
+        <servlet-name>allStaticReportsMonthly</servlet-name>
+        <url-pattern>/allStaticReportsMonthly</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DQA711</servlet-name>
@@ -952,6 +1024,78 @@
     <servlet-mapping>
         <servlet-name>changesubcounties</servlet-name>
         <url-pattern>/changesubcounties</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allStaticReportsdynamic</servlet-name>
+        <url-pattern>/allStaticReportsdynamic</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSections</servlet-name>
+        <url-pattern>/loadSections</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSubsections</servlet-name>
+        <url-pattern>/loadSubsections</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Load_eid_pos_raw</servlet-name>
+        <url-pattern>/Load_eid_pos_raw</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Load_eid_tes_raw</servlet-name>
+        <url-pattern>/Load_eid_tes_raw</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sync_eid</servlet-name>
+        <url-pattern>/sync_eid</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newdatimHTCResults_10_2016</servlet-name>
+        <url-pattern>/newdatimHTCResults_10_2016</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimReport_jul_2016</servlet-name>
+        <url-pattern>/datimReport_jul_2016</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddQuarter</servlet-name>
+        <url-pattern>/AddQuarter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddLastMonth</servlet-name>
+        <url-pattern>/AddLastMonth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadPMTCT_FO_OLD</servlet-name>
+        <url-pattern>/loadPMTCT_FO_OLD</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Old_PMTFO_BREAKDOWN</servlet-name>
+        <url-pattern>/Old_PMTFO</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatePmtct_othercolumns</servlet-name>
+        <url-pattern>/updatePmtct_othercolumns</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>masterlist</servlet-name>
+        <url-pattern>/masterlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newlistofsites</servlet-name>
+        <url-pattern>/newlistofsites</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>facilityautobackup</servlet-name>
+        <url-pattern>/facilityautobackup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newdatimHTCResults_2017Q1</servlet-name>
+        <url-pattern>/newdatimHTCResults_2017Q1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimReport_2017</servlet-name>
+        <url-pattern>/datimReport_2017</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

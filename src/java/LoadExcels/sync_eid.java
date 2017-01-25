@@ -54,6 +54,7 @@ public class sync_eid extends HttpServlet {
             String less1_ftes,	oneto4_ftes,less1_mtes,oneto4_mtes;
             String less1_fpos,oneto4_fpos,less1_mpos,oneto4_mpos,less1_fneg,oneto4_fneg,less1_mneg,oneto4_mneg;
             String dead,enrolled,ltfu,other,tested,positive,negative,hivenrollment;
+            String _0_2mpos, _2_12mpos, _0_2mneg, _2_12mneg, _0_2mno_result, _2_12mno_result;
 
            
 //---------------------------------------------------------------------
@@ -61,6 +62,7 @@ public class sync_eid extends HttpServlet {
             less1_ftes=oneto4_ftes=less1_mtes=oneto4_mtes="";
              less1_fpos=oneto4_fpos=less1_mpos=oneto4_mpos=less1_fneg=oneto4_fneg=less1_mneg=oneto4_mneg="";
              dead=enrolled=ltfu=other=tested=positive=negative=hivenrollment="";
+             _0_2mpos= _2_12mpos= _0_2mneg= _2_12mneg= _0_2mno_result= _2_12mno_result="";
             
             //now get the unique facilities for that period from the raw data..
             
@@ -114,10 +116,17 @@ public class sync_eid extends HttpServlet {
 "  COUNT( case when testresult ='Positive'  and (sex='M' || sex='F' ) and agebracket!='' then testresult end ) as positive, " +
 "  COUNT( case when testresult ='Negative'  and (sex='M' || sex='F' ) and agebracket!='' then testresult end ) as negative, " +
 "  COUNT( case when enrollment like 'Dead' || enrollment like 'Enrolled'  || enrollment like 'Lost to Follow Up' || enrollment like 'Other'  then enrollment end ) as hivenrollment  " +
-" " +
-"   " +
+" , COUNT( case when testresult like 'Positive'  and (sex='M' || sex='F' ) and (age_months between 0 and 2) then age_months end ) as 0_2mpos " +
+" , COUNT( case when testresult like 'Positive'  and (sex='M' || sex='F' ) and (age_months between 3 and 12) then age_months end ) as 2_12mpos " +
+" , COUNT( case when testresult like 'Negative'  and (sex='M' || sex='F' ) and (age_months between 0 and 2) then age_months end ) as 0_2mneg " +
+" , COUNT( case when testresult like 'Negative'  and (sex='M' || sex='F' ) and (age_months between 3 and 12) then age_months end ) as 2_12mneg  " +
+" ,COUNT( case when (testresult not like 'Negative' && testresult not like 'Positive')   and (sex='M' || sex='F' ) and (age_months between 0 and 2) then age_months end ) as 0_2mno_result " +
+" ,COUNT( case when (testresult not like 'Negative' && testresult not like 'Positive')  and (sex='M' || sex='F' ) and (age_months between 3 and 12) then age_months end ) as 2_12mno_result " +
+"  " +
 " FROM eid_raw_tested left join eid_raw_pos on eid_raw_tested.samplecode like eid_raw_pos.samplecode  where eid_raw_tested.year='"+yearval+"' and eid_raw_tested.quarter='"+passedquarter+"' group by eid_raw_tested.SubPartnerID , eid_raw_tested.year,eid_raw_tested.quarter ";
+            
             System.out.println(""+getfacils);
+            
             conn.rs=conn.st.executeQuery(getfacils);
            
             while (conn.rs.next()){
@@ -171,6 +180,16 @@ public class sync_eid extends HttpServlet {
                 negative = "" + conn.rs.getString("negative");
                 
                 hivenrollment = "" + conn.rs.getString("hivenrollment");
+                
+                
+                _0_2mpos = "" + conn.rs.getString("0_2mpos");
+                _2_12mpos = "" + conn.rs.getString("2_12mpos");
+                _0_2mneg = "" + conn.rs.getString("0_2mneg");
+                _2_12mneg = "" + conn.rs.getString("2_12mneg");
+                _0_2mno_result = "" + conn.rs.getString("0_2mno_result");
+                _2_12mno_result = "" + conn.rs.getString("2_12mno_result");
+                
+                  //_0_2mpos= _2_12mpos= _0_2mneg= _2_12mneg= _0_2mno_result= _2_12mno_result="";
 			
           //____________________complete the sysncing______________________      
                 
@@ -193,8 +212,8 @@ public class sync_eid extends HttpServlet {
                        if(checker==0){
                            newcount++;
                            System.out.println("INSERT >> "+tested);
-  String inserter="INSERT INTO eid_datim (id,SubPartnerID,less1_ftes,1to4_ftes,less1_mtes,1to4_mtes,less1_fpos,1to4_fpos,less1_mpos,1to4_mpos,less1_fneg,1to4_fneg,less1_mneg,1to4_mneg,dead,enrolled,ltfu,other,tested,positive,negative,hivenrollment,year,quarter) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  String inserter="INSERT INTO eid_datim (id,SubPartnerID,less1_ftes,1to4_ftes,less1_mtes,1to4_mtes,less1_fpos,1to4_fpos,less1_mpos,1to4_mpos,less1_fneg,1to4_fneg,less1_mneg,1to4_mneg,dead,enrolled,ltfu,other,tested,positive,negative,hivenrollment,year,quarter,0_2mpos, 2_12mpos, 0_2mneg, 2_12mneg, 0_2mno_result, 2_12mno_result) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1, id);
                         conn.pst.setString(2, facilityID);
@@ -221,13 +240,20 @@ public class sync_eid extends HttpServlet {
                         conn.pst.setInt(23, year);
                         conn.pst.setInt(24, quarter);
                         
+                        conn.pst.setString(25, _0_2mpos);
+                        conn.pst.setString(26, _2_12mpos);
+                        conn.pst.setString(27, _0_2mneg);
+                        conn.pst.setString(28, _2_12mneg);
+                        conn.pst.setString(29, _0_2mno_result);
+                        conn.pst.setString(30, _2_12mno_result);
+                        //,_0_2mpos=?, _2_12mpos=?, _0_2mneg=?, _2_12mneg=?, _0_2mno_result=?, _2_12mno_result=?
                         conn.pst.executeUpdate();
                    
                       added++;
                                      }
                        else{
                            updatecount++;
-        String inserter="UPDATE eid_datim SET SubPartnerID=?,less1_ftes=?,1to4_ftes=?,less1_mtes=?,1to4_mtes=?,less1_fpos=?,1to4_fpos=?,less1_mpos=?,1to4_mpos=?,less1_fneg=?,1to4_fneg=?,less1_mneg=?,1to4_mneg=?,dead=?,enrolled=?,ltfu=?,other=?,tested=?,positive=?,negative=?,hivenrollment=?,year=?,quarter=? "
+        String inserter="UPDATE eid_datim SET SubPartnerID=?,less1_ftes=?,1to4_ftes=?,less1_mtes=?,1to4_mtes=?,less1_fpos=?,1to4_fpos=?,less1_mpos=?,1to4_mpos=?,less1_fneg=?,1to4_fneg=?,less1_mneg=?,1to4_mneg=?,dead=?,enrolled=?,ltfu=?,other=?,tested=?,positive=?,negative=?,hivenrollment=?,year=?,quarter=?,0_2mpos=?, 2_12mpos=?, 0_2mneg=?, 2_12mneg=?, 0_2mno_result=?, 2_12mno_result=? "
                 + " WHERE id=?";
 
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -253,9 +279,18 @@ public class sync_eid extends HttpServlet {
                         conn.pst.setString(19, positive);
                         conn.pst.setString(20, negative);
                         conn.pst.setString(21, hivenrollment);
-                        conn.pst.setInt(22, year);
-                        conn.pst.setInt(23, quarter);
-                        conn.pst.setString(24, id);
+                           conn.pst.setInt(22, year);
+                           conn.pst.setInt(23, quarter);
+                        
+                        conn.pst.setString(24, _0_2mpos);
+                        conn.pst.setString(25, _2_12mpos);
+                        conn.pst.setString(26, _0_2mneg);
+                        conn.pst.setString(27, _2_12mneg);
+                        conn.pst.setString(28, _0_2mno_result);
+                        conn.pst.setString(29, _2_12mno_result);
+                        conn.pst.setString(30, id);                      
+                        
+                        
                         conn.pst.executeUpdate();
                        
                      updated++;

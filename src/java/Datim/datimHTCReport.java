@@ -11,8 +11,8 @@ import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -30,8 +30,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 /**
  *
  * @author Geofrey Nyabuto
@@ -339,9 +337,36 @@ styleHeader.setWrapText(true);
       }
       shet3.addMergedRegion(new CellRangeAddress(0,0,0,17));
       
-  String getName="SELECT subpartnera.SubPartnerNom,district.DistrictNom,county.County,subpartnera.CentreSanteId FROM subpartnera "
-          + "JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON "
-          + "district.CountyID=county.CountyID WHERE subpartnera.SubPartnerID='"+facilityId+"'";
+       Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
+  
+  String facilitiestable="subpartnera";
+  
+  int selectedyear=year;
+  
+  if(selectedyear<currentyear){
+      
+      if(year<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+  
+      
+      
+      
+  String getName="SELECT "+facilitiestable+".SubPartnerNom,district.DistrictNom,county.County,"+facilitiestable+".CentreSanteId FROM "+facilitiestable+" "
+          + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
+          + "district.CountyID=county.CountyID WHERE "+facilitiestable+".SubPartnerID='"+facilityId+"'";
   conn.rs=conn.st.executeQuery(getName);
   if(conn.rs.next()==true){
       facilityName=conn.rs.getString(1);
@@ -744,7 +769,7 @@ rw0.setHeightInPoints(20);
     String facilid="";
     String facilname="";
     String dsdta="";
-     String getfacils="select SubPartnerId,SubPartnerNom from subpartnera  where HTC='1' order by SubPartnerNom ";
+     String getfacils="select SubPartnerId,SubPartnerNom from "+facilitiestable+"  where HTC='1' order by SubPartnerNom ";
       conn.rs2= conn.st2.executeQuery(getfacils);
             while(conn.rs2.next()) {
                 
@@ -757,9 +782,9 @@ rw0.setHeightInPoints(20);
             + ", (sum(DTCB_Test_Out_CF) +sum(DTCB_Test_In_CF))" // CHILDREN TOTAL TESTED FEMALE
             + ", (sum(DTCB_Test_Out_CM) +sum(DTCB_Test_In_CM))" // CHILDREN TOTAL TESTED MALE
             + ", ( sum(DTCC_HIV_In_CF)+ sum(DTCC_HIV_Out_CF))" // CHILDREN OSITIVE FEMALE
-            + ", (sum(DTCC_HIV_In_CM)+ sum(DTCC_HIV_Out_CM)),county.County,district.DistrictNom,subpartnera.SubPartnerNom,subpartnera.CentreSanteId,subpartnera.HTC_Support1"// CHILDREN POSITIVE MALE
-           +" from moh711 JOIN subpartnera ON moh711.SubPartnerID=subpartnera.SubPartnerID "
-              + "JOIN district ON subpartnera.DistrictID=district.DistrictID "
+            + ", (sum(DTCC_HIV_In_CM)+ sum(DTCC_HIV_Out_CM)),county.County,district.DistrictNom,"+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".HTC_Support1"// CHILDREN POSITIVE MALE
+           +" from moh711 JOIN "+facilitiestable+" ON moh711.SubPartnerID="+facilitiestable+".SubPartnerID "
+              + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
               + "JOIN county ON county.CountyID=district.CountyID "
             + " WHERE "+duration+" and moh711.SubPartnerID='"+facilid+"' " ;
      System.out.println("new : "+getData);

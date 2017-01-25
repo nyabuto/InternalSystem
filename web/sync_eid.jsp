@@ -13,7 +13,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>new raw data reports</title>
+   <title>SYNC EID DATA</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -130,7 +130,7 @@
                   <ul class="breadcrumb">
                      <li>
                         <i class="icon-home"></i>
-                        <a href="#" >IMIS REPORTS</a> 
+                        <a href="#" style="margin-left:40%;"></a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -144,12 +144,12 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i> FACILITY RAW REPORTS </h4>
+                        <h4><i class="icon-reorder"></i>  SYNC EID DATA</h4>
                        
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="allStaticReportsdynamic" id="formActions" class="form-horizontal">
+                        <form action="sync_eid" id="formActions" class="form-horizontal">
                           
                          
                            <div class="control-group">
@@ -162,20 +162,20 @@
                               </div>
                            </div>
                           
-                             <div class="control-group" id="reportTime">
+                            <!-- <div class="control-group" id="reportTime">
                               <label class="control-label">Reporting Period<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <select required data-placeholder="Reporting Period" onchange="grouplabel();" class="span6 m-wrap" tabindex="-1"  id="reportDuration" name="reportDuration" style="width: 400px;">
+                                 <select  data-placeholder="Reporting Period" class="span6 m-wrap" tabindex="-1"  id="reportDuration" name="reportDuration" style="width: 400px;">
                                     <option value="">Choose reporting period</option>                                 
                                    
                                  </select>
                               </div>
-                           </div>
+                           </div> -->
                             
                            <div class="control-group" id="reportSemi">
                               <label class="control-label">Semi-annual<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Sem annual" class="span6 " tabindex="-1" multiple title="Note:" data-toggle="popover" data-trigger="hover" data-content="You may select more than one period. Press and hold the Ctrl button as you choose the period of interest  " id="semi_annual" name="semi_annual" style="width: 400px;height:45px;">
+                                 <select data-placeholder="Sem annual" class="span6 m-wrap" tabindex="-1"  id="semi_annual" name="semi_annual" style="width: 400px;">
                                     <option value="">Choose period</option>                                 
                                    
                                  </select>
@@ -185,9 +185,13 @@
                             <div class="control-group" id="reportQuarter">
                               <label class="control-label">Quarter<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Reporting Quarter" class="span6 " title="Note:" data-toggle="popover" data-trigger="hover" data-content="You may select multiple quarters. Press and hold the Ctrl button as you choose the quarter of interest  " multiple tabindex="-1"  id="quarter" name="quarter" style="width: 400px;height:100%;">
-                                    <option value="">Choose Quarter</option>                                 
-                                   
+                                 <select data-placeholder="Reporting Quarter" class="span6 m-wrap" tabindex="-1"  id="quarter" name="quarter" style="width: 400px;">
+                                                                  
+                                   <option value="">Choose Quarter</option>
+                                   <option value="1">OCT (2014) - DEC (2014)</option>
+                                   <option value="2">JAN (2015) - MAR 2015)</option>
+                                   <option value="3">APR (2015) - JUN 2015)</option>
+                                   <option value="4">JUL (2015) - SEP 2015)</option>
                                  </select>
                               </div>
                            </div>
@@ -196,55 +200,54 @@
                             <div class="control-group" id="reportMonth">
                               <label class="control-label">Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Reporting Month" class="span6 " multiple title="Note:" data-toggle="popover" data-trigger="hover" data-content="You may select multiple months. Press and hold the Ctrl button as you choose the months of interest  " tabindex="-1"  id="month" name="month" style="width: 400px;height:220px;">
+                                 <select data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month" style="width: 400px;">
                                     <option value="">Choose month</option>                                 
                                    
                                  </select>
                               </div>
-                           </div>
+                           </div> 
                             
-                             <div class="control-group">
+                           <!--  <div class="control-group" style="display:none;">
                               <label class="control-label">Report Type </label>
                               <div class="controls">
                                  <select required placeholder="County" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="reportType" name="reportType" style="width: 400px;">
                                     <option value="">Choose report type</option>
                                     <option value="1">All Facilities</option>
-                                    <option value="2" title="You can either select one facility  or get data for all facilities belonging to a specified subcounty or county" >Specify Facilities</option>
+                                    <option value="2">One Facility</option>
                                  </select>
                               </div>
-                           </div>
+                           </div>-->
                             
                             
-                              <div class="control-group" id="reportCounty">
-                              <label class="control-label">County <font color='red'><b>*</b></font></label>
+                            <!--  <div class="control-group" id="reportCounty">
+                              <label class="control-label">County </label>
                               <div class="controls">
                                  <select placeholder="County" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county" style="width: 400px;">
                                     <option value=""></option>
                                  </select>
                               </div>
-                           </div>
+                           </div> -->
                             
-                            <div class="control-group" id="reportDistrict">
+                            <!--<div class="control-group" id="reportDistrict">
                               <label class="control-label">Sub-County </label>
                               <div class="controls">
                                  <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty" style="width: 400px;">
                                     <option value="">Select County First</option>
                                  </select>
                               </div>
-                           </div> 
+                           </div> -->
                             
                             
-                              <div class="control-group" id="reportFacility">
-                              <label class="control-label">Activity Site<font color='red'><b></b></font></label>
+                           <!--   <div class="control-group" id="reportFacility">
+                              <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6 m-wrap" tabindex="-1"  id="facility" name="facility" style="width: 400px;">
                                     <option value=""></option>
                                  </select>
-                                  <i onclick="clearfacil();" style="width:30px;" class="icon-refresh"></i>
-                              </div>                                                                                                                                                                                                    
-                           </div>
+                              </div>
+                           </div>-->
                             
-                           <!--<div class="control-group" id="reportFormats">
+                         <!--  <div class="control-group" id="reportFormats" style="display:none;">
                               <label class="control-label">Report Format<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select data-placeholder="Report Format" required="true" onchange="getAction();" class="span6 m-wrap" tabindex="-1"  id="reportFormat" name="reportFormat" style="width: 400px;">
@@ -255,93 +258,12 @@
                               </div>
                            </div> -->
                             
-                             <div class="control-group">
-                              <label class="control-label">Select Form<font color='red'><b>*</b></font></label>
-                              <div class="controls">
-                                  <select required data-placeholder="Form" class="span6 m-wrap" onchange="getAction();loadsection();" tabindex="-1" id="form" name="form"  style="width: 400px;">
-                                   <option value="">Select form</option>   
-                                     <%  
-dbConn conn = new dbConn();                                 
-                                 String getForms="select * from forms";
-                                 conn.rs=conn.st.executeQuery(getForms);
-                                 while(conn.rs.next()){
-                                 
                              
-%>
-                                       <option value="<%=conn.rs.getString("form")%>"><%=conn.rs.getString("form")%></option>                              
-                                   <%}%>
-                                 </select>
-                              </div>
-                             </div>
-                            
-                                 <div class="control-group" >
-                              <label class="control-label" >Show advanced Options<font color='red'></font></label>
-                              <div class="controls">
-                                <input type='checkbox' id='advanced' onclick='toggleadvanced();'>
-                              </div>
-                           </div>
-                                 
-                                 <div id='advancedoption' style='display:none;'>
-                                  <div class="control-group" style='display:none;' >
-                              <label class="control-label" >Organizational Unit<font color='red'></font></label>
-                              <div class="controls">
-                                 <select data-placeholder="Report Format" required="true" title="Note:" data-toggle="popover" data-trigger="hover" data-content=" Specify if you want report grouped by facility, Subcounty or county  "  class="span6 m-wrap" tabindex="-1"  id="orgunit" name="orgunit" style="width: 400px;">
-                                    
-                                    <option title='All facilities' value="facility">Facility</option>
-                                    <option title='Subcounty' value="subcounty">Sub county</option>
-                                    <option title='county' value="county">County</option>
-                                 </select>
-                              </div>
-                           </div>
-                                 
                          
-                                 <div class="control-group" >
-                              <label class="control-label" id="periodlabel">Group by period?<font color='red'><b>*</b></font></label>
-                              <div class="controls">
-                                 <select data-placeholder="Report Format" required="true" title="Note:" data-toggle="popover" data-trigger="hover" data-content="Selecting yes means your report will be grouped by the period you will select. eg For a monthly report, data will be grouped by each month"  class="span6 m-wrap" tabindex="-1"  id="groupby" name="groupby" style="width: 400px;">
-                                    
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                 </select>
-                              </div>
-                           </div> 
-                                 
-                           
-                                  <div class="control-group" >
-                              <label class="control-label" >Indicators List<font color='red'><b>*</b></font></label>
-                              <div class="controls">
-                                 <select name="indicators" data-placeholder="Report Format" required="true" title="Note:" data-toggle="popover" data-trigger="hover" data-content=" Specify if you want report for all indicators "  class="span6 m-wrap" tabindex="-1"  id="indicators"  style="width: 400px;">
-                                    
-                                    <option title='All active indicators for the selected form' value="all">All Indicators</option>
-                                    <option title='specific indicators that are key for each form. The list of indicators is defined at the backend' value="special">Special Indicators</option>
-                                 </select>
-                              </div>
-                           </div>
-                                     
-                                     
-                              <div class="control-group" >
-                              <label class="control-label" >Sections</label>
-                              <div class="controls">
-                                 <select name="sections" multiple data-placeholder="Report Format" onchange='loadsubsection();'  title="Note:" data-toggle="popover" data-trigger="hover" data-content=" Specify if you want report for all sections "  class="span6 m-wrap" tabindex="-1"  id="sections"  style="width: 400px;">
-                                   <option title='All active indicators for the selected form' value="all">All Sections</option>
-                                </select>
-                              </div>
-                           </div>        
-                                     
-                            <div class="control-group" >
-                              <label class="control-label"  >Sub Sections</label>
-                              <div class="controls">
-                                 <select multiple name="subsection" data-placeholder="Report Format"  title="Note:" data-toggle="popover" data-trigger="hover" data-content=" Specify if you want report for all sub sections "  class="span6 m-wrap" tabindex="-1"  id="subsection"  style="width: 400px;">
-                                   <option title='All active indicators for the selected form' value="all">All sub Sections</option>
-                                </select>
-                              </div>
-                           </div> 
-                                 
-                             </div>    
-                                 
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Generate Report</button>
+                              <button type="submit" id="generate" class="btn blue">SYNC DATA</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
+<h4 id="msg" style="color:green;margin-left: 160px;font-family: cambria;">Note:  This section is used to sync eid data from raw form into a Datim format for report generation.<br/>After uploading the raw data, always select the year and quarter of the data that you want to sync.Ensure that you have uploaded raw data from the tested worksheet and the positive worksheet. </h4>
                            </div>
                         </form>
                         <!-- END FORM-->           
@@ -381,6 +303,9 @@ dbConn conn = new dbConn();
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
    <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   
+<script type="text/javascript" src="js/bootstrap-notify.js"></script>
+
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -407,23 +332,72 @@ dbConn conn = new dbConn();
    <script src="assets/js/app.js"></script>  
    <script src="select2/js/select2.js"></script>
   
+   <script type="text/javascript" src="js/jquery.fileDownload.js"></script>
+
    
    <script>
+      
      function getAction(){
       var reportFormat="",form="",formActions=""; 
 
     var formActions=$("#formActions").val();
-    var reportduration=$("#reportDuration").val();
+    var reportFormat=$("#reportFormat").val();
     var form=$("#form").val();
 //    alert("format : "+reportFormat+" form : "+form);
     
-    if(reportduration==="4"){
-      document.getElementById("formActions").action ="allStaticReportsdynamic";   
+    if(reportFormat==="" || form===""){
+        
     }
     else{
+    if( reportFormat==="pdf" && form==="MOH 731") {
+   document.getElementById("formActions").action = "pdf731";
+    }
+    else if( reportFormat==="excel" && form==="MOH 731") {
+ document.getElementById("formActions").action = "staticReportExcel731";
+    }
+    else if( reportFormat==="excel" && form==="MOH 711A") {
+ document.getElementById("formActions").action = "moh711_excelReport";
+    }
+  else if(reportFormat==="pdf" &&form==="MOH 711A") {
+document.getElementById("formActions").action = "moh711_StaticReport";
+   }
+   else if(reportFormat==="pdf" &&form==="TB") {
+document.getElementById("formActions").action = "tbpdf";
    
- document.getElementById("formActions").action ="allStaticReportsdynamic";
-
+    }
+     else if(reportFormat==="excel" &&form==="TB") {
+document.getElementById("formActions").action = "tb_excelReport";
+   
+    }
+     else if(reportFormat==="pdf" && form==="KMMP") {
+ document.getElementById("formActions").action = "kmmppdf";
+    }
+    else if(reportFormat==="excel" && form==="KMMP") {
+ document.getElementById("formActions").action = "kmmpexcel";
+    }
+    else if(reportFormat==="pdf" && form==="VMMC") {
+ document.getElementById("formActions").action = "Vmmcpdf";
+    }
+      else if(reportFormat==="excel" && form==="VMMC") {
+ document.getElementById("formActions").action = "vmmcexcel";
+    }
+     else if(reportFormat==="pdf" && form==="Gender") {
+ document.getElementById("formActions").action = "genderpdf";
+    }
+    
+      else if(reportFormat==="excel" && form==="Gender") {
+ document.getElementById("formActions").action = "genderexcel";
+      }
+       else if(reportFormat==="pdf" && form==="Nutrition") {
+ document.getElementById("formActions").action = "nutritionpdf";
+    }
+    else if(reportFormat==="excel" && form==="Nutrition") {
+ document.getElementById("formActions").action = "nutritionexcel";
+      }
+    
+else {
+ document.getElementById("formActions").action =  "allStaticReports";
+}
 
 
      }  
@@ -432,36 +406,18 @@ dbConn conn = new dbConn();
        
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-        $('#facility').select2(); 
-
+        
+   $('#gapsection').select2(); 
        // FormComponents.init();
          $("#reportTime").hide();
          $("#reportSemi").hide();
-         $("#reportQuarter").hide();
+         //$("#reportQuarter").hide();
          $("#reportMonth").hide();
          $("#reportCounty").hide();
   $("#reportDistrict").hide();
   $("#reportFacility").hide(); 
       //load all the facilities first to enable one to filter by county
-                 $.ajax({
-url:'loadFacilities',
-type:'post',
-dataType:'html',
-success:function (data){
-       $("#facility").html(data);
-         if(document.getElementById("facility").value!==''){
-      updatefacilsession();
-      
-      $('#facility').select2();  
-      }  
-     
-         // $("#facility").chosen();
-       
-       
-}
-
-
-});     
+        
          
 $.ajax({
     url:'loadYear',
@@ -474,7 +430,7 @@ $.ajax({
          
      }
      else{
-    $("#reportTime").show();  
+    //$("#reportTime").show();  
   reportingPeriod();     
      }
     }
@@ -494,16 +450,14 @@ $("#reportType").change(function(){
    $("#reportCounty").hide();
   $("#reportDistrict").hide();
   $("#reportFacility").hide();
-  $("#county").removeAttr("required");
-  //$("#facility").removeAttr("required");
+  $("#facility").removeAttr("required");
        } 
         
     else{
   $("#reportCounty").show();
   $("#reportDistrict").show();
   $("#reportFacility").show(); 
-   $("#county").attr("required",true);
-  // $("#facility").attr("required",true);
+   $("#facility").attr("required",true);
     }    
   
     });
@@ -511,7 +465,7 @@ $("#reportDuration").change(function(){
   var report=$("#reportDuration").val();
   if(report===""){
     $("#reportSemi").hide();
-    $("#reportQuarter").hide();
+    //$("#reportQuarter").hide();
     $("#reportMonth").hide();  
                  }
   else if(report==="1"){
@@ -561,10 +515,10 @@ $("#reportDuration").change(function(){
 $("#year").change(function(){
   var year=$("#year").val();
   if(year===""){
-  $("#reportTime").hide();    
+ // $("#reportTime").hide();    
   }
   else{
- $("#reportTime").show();  
+// $("#reportTime").show();  
   reportingPeriod();
   }
     });
@@ -582,14 +536,14 @@ url:"loadReportingPeriod?yr="+yea,
 type:'post',
 dataType:'html',
 success:function (data){
- $('#reportDuration').html(data); 
- $('#reportDuration').select2();       
+ //$('#reportDuration').html(data); 
+ //$('#reportDuration').select2();       
 }
     });
-        $("#reportTime").show();
-        loadSemiAnnual();
+        //$("#reportTime").show();
+        //loadSemiAnnual();
         loadQuarters();
-        loadmonths();     
+        //loadmonths();     
       }
       
       function loadSemiAnnual(){
@@ -600,8 +554,8 @@ url:'loadSemiAnnual?year='+year,
 type:'post',
 dataType:'html',
 success:function (data){
- $('#semi_annual').html(data.replace('<option value ="">Choose Semi Annual</option>','')); 
- //$('#semi_annual').select2();       
+ $('#semi_annual').html(data); 
+ $('#semi_annual').select2();       
 
 }
     });
@@ -615,9 +569,8 @@ url:'loadQuarters?year='+year,
 type:'post',
 dataType:'html',
 success:function (data){
- $('#quarter').html(data.replace('<option value ="">Choose Quarter</option>','')); 
- 
- //$('#quarter').select2();       
+ $('#quarter').html(data); 
+ $('#quarter').select2();       
 }
     });
           
@@ -678,7 +631,7 @@ success:function (data){
         
         
         $.ajax({
-            url:'loadReportedForms',
+            url:'loadForms',
             type:'post',
             dataType:'html',
             success:function (data){
@@ -687,7 +640,7 @@ success:function (data){
               //  App.init(); 
               
               //also load county and facility
-              loadcounty();
+              //loadcounty();
               //loadsubcounty();
             }
             
@@ -708,7 +661,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#county").html(data);
-                loadsubcounty();
+               // loadsubcounty();
               //  App.init();   
             }
             
@@ -747,7 +700,7 @@ url:'loadMonth?year='+yr,
 type:'post',
 dataType:'html',
 success:function (data){
-    $("#month").html(data.replace("<option value=''>Select Month </option>",""));     
+    $("#month").html(data);     
     
        //document.getElementById("month").innerHTML=data;
       // App.init();  
@@ -764,110 +717,94 @@ success:function (data){
      loadcounty();
       
       
-           $(document).ready(function(){
-          
-          $('[data-toggle="popover"]').popover();
-          
-      });
       
       
       
-      function clearfacil(){
-          
-          console.log("clear selected facil");
-         $("#facility").val([]); 
-         
-           $('#facility').select2(); 
-      }
+      //--------------------------------------------GAP ANALYSIS------------------------------------------
+     //needs editing 
+            function downloadrpt(){
+                $('.loading').show();
+                var curaction1 = document.getElementById("report").value;
+                var startdate = document.getElementById("startdate").value;
+                var enddate = document.getElementById("enddate").value;
+                var cbos = document.getElementById("cbos").value;
+                //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
+                var database=document.getElementById("database").value;
+                var ur=curaction1+"?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos+"&database="+database;
+ 
+                $.fileDownload(ur).done(function () { $('.loading').hide();}).fail(function () { alert('Report generation failed!');$('.loading').hide(); });
+ 
+                //$('.loading').hide();
+            }
       
-   function grouplabel(){
-      var periodname="";
-       var periodid=$("#reportDuration").val();
-       
-       if(periodid==='1'){periodname="Group by Year";}
-       else if(periodid==='2'){periodname="Group by Semi-Annual";}
-      else  if(periodid==='3'){periodname="Group by Quarter";}
-      else  if(periodid==='4'){periodname="Group by Month";}
-      else  {periodname="Group by Period";}
-       
-       $("#periodlabel").html(periodname);
-       
-   }   
       
-    grouplabel();
-    
-    function toggleadvanced(){
-        
-       //if($('#advancedoption').is(":checked"))
-        if($('#advanced:checkbox:checked').length > 0)
-       {
-        $("#advancedoption").show();   
-           console.log("show");
-       }
-       else {
-           
-         $("#advancedoption").hide(); 
-          console.log("hide");
-       }
-        
-                             }
-    toggleadvanced();
-    
-   
-   //add section and subsectionfilter
-   
-   
-      function loadsection(){
-        
-        var frm=$("#form").val();
-        
-        if(frm!==''){
-        $.ajax({
-            url:'loadSections?form='+frm,
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#sections").html(data);
-                
-              //also load county and facility
-              
-              //loadsubcounty();
-                                    }
-            
-            
-        });  }
-        
-                           }
-   
-   
-   //load subsections
-   
-   
-   
-    function loadsubsection(){
-        
-        var sectionid=$("#sections").val();
-        if(sectionid!==''){
-        $.ajax({
-            url:'loadSubsections?sectionid='+sectionid,
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                
-                $("#subsection").html(data);
-                
-             
-                                    }
-            
-            
-               });
-           }
-        
-                             }
-   
-    loadsection();
-    loadsubsection();
+      
    </script>
+   
+   
+   <script > 
+                
+</script>
+   
+ <%if (session.getAttribute("eid_upload_success") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    
+                    
+                         
+      $.notify(
+      {icon: "images/validated.jpg", 
+  message:'<%=session.getAttribute("eid_upload_success")%>'},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       
+            ); 
+                    
+                </script>
+                
+                <%
+                session.removeAttribute("eid_upload_success");
+                            }
+
+                        %>
+     
+
+                        
+                        <script>
+                            
+                            
+                            $("form").submit(function (e) 
+                            {
+                            e.preventDefault(); 
+                            // this will prevent from submitting the form.
+                             $("#generate").prop("disabled",true);
+                             $("#msg").html("Syncing tb data ...Please wait"); 
+                                
+                            var yr=$("#year").val();
+                            var qtr=$("#quarter").val();
+                            $.ajax({
+                                url:"sync_eid?year="+yr+"&quarter="+qtr,
+                                type:'post',
+                                dataType:'html',
+                                success: function(data){
+                                $("#generate").prop("disabled",false);
+                                $("#msg").html(data);  
+                                    
+                                }
+                            });
+                            
+                            });
+                            
+                            
+                        </script>
+                        
    
    <!-- END JAVASCRIPTS -->   
 </body>
