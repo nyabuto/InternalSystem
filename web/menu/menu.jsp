@@ -141,6 +141,17 @@
             </li>
             <%}}%>
             
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){out.println("____hey");  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
+               <a href="loadsgbv.jsp">
+               <!--<i class="icon-th-list"></i>--> 
+               <span class="title">SGBV</span>
+               <!--<span class="arrow "></span>-->
+               </a>
+              
+            </li>
+            <%}}%>
+            
 <!--             <li class="">
                <a href="#">
                <i class="icon-calendar"></i> 

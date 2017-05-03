@@ -25,15 +25,15 @@ import javax.servlet.http.HttpSession;
 public class loadEditFacility extends HttpServlet {
 HttpSession session;
 String id,name,county,sub_county,mfl,sp_id,htc,fp,pmtct,eid,art,vmmc,nutrition,gsn,lab,fp_integration,
-        care_dsd,art_dsd,maternity,art_support,pmtct_support,htc_support1,kmmp,gender,pep,blood_safety,tb;
+        care_dsd,art_dsd,maternity,art_support,pmtct_support,htc_support1,kmmp,gender,pep,blood_safety,tb,ART_HV,HTC_HV,PMTCT_HV,ACTIVE;
 String data;
 String [] ones={"0","1"};
 String [] dsd_ta={"DSD","TA"};
 String data_htc,data_fp,data_pmtct,data_eid,data_art,data_vmmc,data_nutrition,data_gsn,data_lab,data_fp_integration,
-        data_care_dsd,data_art_dsd,data_maternity,data_art_support,data_pmtct_support,data_htc_support1,data_kmmp,data_gender,data_pep,data_blood_safety,data_tb;
+        data_care_dsd,data_art_dsd,data_maternity,data_art_support,data_pmtct_support,data_htc_support1,data_kmmp,data_gender,data_pep,data_blood_safety,data_tb,data_art_hv,data_htc_hv,data_pmtct_hv,data_active;
 
 String htc_checker,fp_checker,pmtct_checker,eid_checker,art_checker,vmmc_checker,nutrition_checker,gsn_checker,lab_checker,fp_integration_checker,
-        care_dsd_checker,art_dsd_checker,maternity_checker,art_support_checker,pmtct_support_checker,htc_support1_checker,kmmp_checker,gender_checker,pep_checker,blood_safety_checker,tb_checker;
+        care_dsd_checker,art_dsd_checker,maternity_checker,art_support_checker,pmtct_support_checker,htc_support1_checker,kmmp_checker,gender_checker,pep_checker,blood_safety_checker,tb_checker,art_hv_checker,htc_hv_checker,pmtct_hv_checker,active_checker;
 
 String oneslabel;
 int position;
@@ -76,6 +76,11 @@ data+="<thead><tr>"
 + "<th>ART Support</th>"
 + "<th>PMTCT Support</th>"
 + "<th>HTC Support 1</th>"
++ "<th>ART_highvolume</th>"
++ "<th>HTC_highvolume</th>"
++ "<th>PMTCT_highvolume</th>"
++ "<th>active</th>"
+        
         + "</tr></thead>";
           
           
@@ -85,7 +90,7 @@ data+="<thead><tr>"
   + "subpartnera.SP_ID,subpartnera.HTC,subpartnera.FP,subpartnera.PMTCT,subpartnera.EID,subpartnera.ART,subpartnera.VMMC,"
   + "subpartnera.Nutrition,subpartnera.GSN,subpartnera.Lab,subpartnera.FP_Integration,subpartnera.Care_DSD,subpartnera.ART_DSD,"
   + "subpartnera.Maternity,subpartnera.ART_Support,subpartnera.PMTCT_Support,subpartnera.HTC_Support1,subpartnera.KMMP,"
-  + "subpartnera.Gender,subpartnera.PEP,subpartnera.Blood_Safety,subpartnera.TB"
+  + "subpartnera.Gender,subpartnera.PEP,subpartnera.Blood_Safety,subpartnera.TB,ART_highvolume,HTC_highvolume,PMTCT_highvolume,subpartnera.active"
                   + ""
                   + ""
 + " FROM subpartnera JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON district.countyID=county.CountyID "
@@ -98,7 +103,7 @@ data+="<thead><tr>"
      
   data_htc=data_fp=data_pmtct=data_eid=data_art=data_vmmc=data_nutrition=data_gsn=data_lab=data_fp_integration=
         data_care_dsd=data_art_dsd=data_maternity=data_art_support=data_pmtct_support=data_htc_support1=
-        data_kmmp=data_gender=data_pep=data_blood_safety=data_tb="";
+        data_kmmp=data_gender=data_pep=data_blood_safety=data_tb=data_art_hv=data_htc_hv=data_pmtct_hv=data_active="";
   position++;   
 county=conn.rs.getString(1);
 sub_county=conn.rs.getString(2);
@@ -127,6 +132,11 @@ gender=conn.rs.getString(24);
 pep=conn.rs.getString(25);
 blood_safety=conn.rs.getString(26);
 tb = conn.rs.getString(27);
+ART_HV=conn.rs.getString(28);
+HTC_HV=conn.rs.getString(29);
+PMTCT_HV=conn.rs.getString(30);
+ACTIVE=conn.rs.getString(31);
+
  if(htc!=null && htc.equals("1")){htc_checker="checked";} else{htc_checker="";}
 data_htc+="<input type=\"checkbox\" onchange=\"return updator('htc##"+position+"');\" name=\"htc_"+position+"\" id=\"htc##"+position+"\" style=\"width:20px;\" "+htc_checker+" >"; 
 data_htc+="<input type=\"text\" name=\"id_"+position+"\" id=\"id_"+position+"\" value=\""+id+"\" style=\"display: none;\">";
@@ -181,6 +191,19 @@ data_blood_safety+="<input type=\"checkbox\" name=\"blood_safety_"+position+"\" 
  if(tb!=null && tb.equals("1")){tb_checker="checked";} else{tb_checker="";}
 data_tb+="<input type=\"checkbox\" name=\"tb_"+position+"\" onchange=\"return updator('tb##"+position+"');\" id=\"tb##"+position+"\" style=\"width:20px;\" "+tb_checker+" >"; 
 
+ if(ART_HV!=null && ART_HV.equals("1")){art_hv_checker="checked";} else{art_hv_checker="";}
+data_art_hv+="<input type=\"checkbox\" name=\"ART_highvolume_"+position+"\" onchange=\"return updator('ART_highvolume##"+position+"');\" id=\"ART_highvolume##"+position+"\" style=\"width:20px;\" "+art_hv_checker+" >"; 
+
+ if(HTC_HV!=null && HTC_HV.equals("1")){htc_hv_checker="checked";} else{htc_hv_checker="";}
+data_htc_hv+="<input type=\"checkbox\" name=\"HTC_highvolume_"+position+"\" onchange=\"return updator('HTC_highvolume##"+position+"');\" id=\"HTC_highvolume##"+position+"\" style=\"width:20px;\" "+htc_hv_checker+" >"; 
+
+ if(PMTCT_HV!=null && PMTCT_HV.equals("1")){pmtct_hv_checker="checked";} else{pmtct_hv_checker="";}
+data_pmtct_hv+="<input type=\"checkbox\" name=\"PMTCT_highvolume_"+position+"\" onchange=\"return updator('PMTCT_highvolume##"+position+"');\" id=\"PMTCT_highvolume##"+position+"\" style=\"width:20px;\" "+pmtct_hv_checker+" >"; 
+
+ if(ACTIVE!=null && ACTIVE.equals("1")){active_checker="checked";} else{active_checker="";}
+data_active+="<input type=\"checkbox\" name=\"active_"+position+"\" onchange=\"return updator('active##"+position+"');\" id=\"active##"+position+"\" style=\"width:20px;\" "+active_checker+" >"; 
+
+
  data_art_support="<select style=\"width:65px;\" name=\"art_support_"+position+"\" id=\"art_support##"+position+"\" onchange=\"return updatorSelect('art_support##"+position+"');\">";
  data_pmtct_support="<select style=\"width:65px;\" name=\"pmtct_support_"+position+"\" id=\"pmtct_support##"+position+"\" onchange=\"return updatorSelect('pmtct_support##"+position+"');\">";
  data_htc_support1="<select style=\"width:65px;\" name=\"htc_support1_"+position+"\" id=\"htc_support1##"+position+"\" onchange=\"return updatorSelect('htc_support1##"+position+"');\">";
@@ -188,6 +211,7 @@ data_tb+="<input type=\"checkbox\" name=\"tb_"+position+"\" onchange=\"return up
   data_art_support+="<option value=\"\"></option>";
  data_pmtct_support+="<option value=\"\"></option>";
  data_htc_support1+="<option value=\"\"></option>";
+
 for(String onesvalue : dsd_ta){
     if(onesvalue!=null && !onesvalue.equals("")){
    
@@ -250,6 +274,10 @@ data+="<tr id=\""+id+"\">"
 + "<td>"+data_art_support+"</td>"
 + "<td>"+data_pmtct_support+"</td>"
 + "<td>"+data_htc_support1+"</td>"
++ "<td>"+data_art_hv+"</td>"
++ "<td>"+data_htc_hv+"</td>"
++ "<td>"+data_pmtct_hv+"</td>"
++ "<td>"+data_active+"</td>"
 
         + "</tr>";
 

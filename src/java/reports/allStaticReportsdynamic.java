@@ -1019,6 +1019,12 @@ public class allStaticReportsdynamic extends HttpServlet {
                 cell2.setCellValue("PMTCT High Volume");
                 cell2.setCellStyle(stylex);
                 headercellpos++;
+                
+                shet.setColumnWidth(headercellpos, 6000);
+                XSSFCell cell2a = rw.createCell(headercellpos);
+                cell2a.setCellValue("GSN");
+                cell2a.setCellStyle(stylex);
+                headercellpos++;
 
                 shet.setColumnWidth(headercellpos, 6000);
                 XSSFCell cell3 = rw.createCell(headercellpos);
@@ -1071,7 +1077,7 @@ public class allStaticReportsdynamic extends HttpServlet {
                 }
 
 //---------------------------------add highvolume------------------------------------------------
-                perfacilselect += " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,";
+                perfacilselect += " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,  IFNULL(GSN,0) as GSN,";
 
 //-------------------------------------------------------------------------------------------------
 //     FROM  
@@ -1201,6 +1207,12 @@ if (lastperiod.equalsIgnoreCase(conn.rs.getString("period")) && cumstartpointnot
                         XSSFCell cell2 = rw.createCell(colpos);
                         cell2.setCellValue(conn.rs.getInt("PMTCT_highvolume"));
                         cell2.setCellStyle(stborder);
+                        colpos++;
+                        
+                        //PMTCT_highvolume
+                        XSSFCell cell2a = rw.createCell(colpos);
+                        cell2a.setCellValue(conn.rs.getInt("GSN"));
+                        cell2a.setCellStyle(stborder);
                         colpos++;
 
                         String isvalidated = "Yes";

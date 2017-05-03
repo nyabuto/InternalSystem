@@ -55,7 +55,8 @@ public class loadForms extends HttpServlet {
       if(conn.rs.getString("form").equals("Nutrition")){user_access="nutrition";}  
       if(conn.rs.getString("form").equals("KMMP")){user_access="kmmp";}  
       if(conn.rs.getString("form").equals("TB")){user_access="tb";}  
-      if(conn.rs.getString("form").equals("HEI")){user_access="hei";}  
+      if(conn.rs.getString("form").equals("HEI")){user_access="hei";}
+      if(conn.rs.getString("form").equals("SGBV")){user_access="gender";} 
       
         
         

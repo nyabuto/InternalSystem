@@ -60,6 +60,7 @@ public class updatefacilitysession extends HttpServlet {
 //         if(conn.rs.getString("ART_Support").equals("")){active+="ART_Support,";}
 //         if(conn.rs.getString("PMTCT_Support").equals("")){active+="PMTCT_Support,";}
 //         if(conn.rs.getString("HTC_Support1").equals("")){active+="HTC_Support1,";}
+         if(conn.rs.getInt("Gender")==1){active+="SGBV,";}
          if(conn.rs.getInt("KMMP")==1){active+="KMMP,";}
          if(conn.rs.getInt("Gender")==1){active+="Gender,";}
          if(conn.rs.getInt("PEP")==1){active+="PEP,";f731="MOH 731,";}

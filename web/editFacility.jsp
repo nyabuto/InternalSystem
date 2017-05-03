@@ -235,7 +235,7 @@ return true;
                   sUpdateURL: "aveEditedFacilities" ,
                "aoColumns": [ null,null,null,null,null,null,null,
       null,null,null,null,null,null,null,null,null,null,null,null,null,            
-      null,null,null,null,null,null]      
+      null,null,null,null,null,null,null,null,null,null]      
               });
               
                $('form').submit(function(){

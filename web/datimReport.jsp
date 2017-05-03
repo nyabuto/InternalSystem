@@ -155,10 +155,11 @@
                            <div class="control-group">
                               <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Reporting Year" class="chosen-with-diselect span6" tabindex="-1"  id="year" name="year" style="width: 400px;">
+                                 <select onclick="reportsready();" required data-placeholder="Reporting Year" class="chosen-with-diselect span6" tabindex="-1"  id="year" name="year" style="width: 400px;">
                                     <option value=""></option>                                 
                                    
                                  </select>
+                                  <input type='hidden' name='minmonth' id='minmonth' value='10'>
                               </div>
                            </div>
                           
@@ -175,7 +176,7 @@
                            <div class="control-group" id="reportSemi">
                               <label class="control-label">Semi-annual<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Sem annual" class="span6 m-wrap" tabindex="-1"  id="semi_annual" name="semi_annual" style="width: 400px;">
+                                 <select onchange="reportsready();" data-placeholder="Semi annual" class="span6 m-wrap"  tabindex="-1"  id="semi_annual" name="semi_annual" style="width: 400px;">
                                     <option value="">Choose period</option>                                 
                                    
                                  </select>
@@ -185,7 +186,7 @@
                             <div class="control-group" id="reportQuarter">
                               <label class="control-label">Quarter<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Reporting Quarter" class="span6 m-wrap" tabindex="-1"  id="quarter" name="quarter" style="width: 400px;">
+                                 <select data-placeholder="Reporting Quarter" onchange="reportsready();" class="span6 m-wrap" tabindex="-1"  id="quarter" name="quarter" style="width: 400px;">
                                     <option value="">Choose Quarter</option>                                 
                                    
                                  </select>
@@ -196,7 +197,7 @@
                             <div class="control-group" id="reportMonth">
                               <label class="control-label">Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month" style="width: 400px;">
+                                 <select data-placeholder="Reporting Month" onchange="reportsready();" class="span6 m-wrap" tabindex="-1"  id="month" name="month" style="width: 400px;">
                                     <option value="">Choose month</option>                                 
                                    
                                  </select>
@@ -225,15 +226,7 @@
                               <label class="control-label">Service Area<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select data-placeholder="Service" onchange="getAction();"  class="span6 m-wrap" tabindex="-1"  id="service" name="service" style="width: 400px;">
-                                    <option title="started being used in Oct- Dec 2016" value="datimReport_2017">ART,CARE,and PMTCT (2017) </option>
-                                    <option title="started being used in July september 2016" value="datimReport_jul_2016">ART,CARE,and PMTCT (New Jul-Sep 16) </option>
-                                    <option title="used up to April-June 2016" value="datimReport">ART,CARE,and PMTCT (old) </option>
-                                    <option value="newdatimHTCResults_2017Q1" title="used from Oct-Dec 2017"> HTC_TST</option>
-                                    <option value="newdatimHTCResults_10_2016" title="Vmmc htc removed, eid data source is nascop website. used only in July september 2016">HTC_SDP, EID and HTC (New Jul-Sep 16) </option>
-                                    <option value="newdatimHTCResults_2016" title="HTC data source is 731. used only in April - June 2016. ">HTC_SDP, VMMC and HTC (New Apr-Jun 16)</option>
-                                    <option value="datimHTCResults" title="HTC data source is 711 and this module was used up to March 2016">(Old) HTC_SDP, VMMC and HTC</option>
-                                    <option value="datimTbViralRetention"> TB,RETENTION , VIRAL LOAD,POST-GBV CARE</option>
-                                 </select>
+                                  </select>
                               </div>
                            </div> 
 <!--                              <div class="control-group" id="reportFacility">
@@ -246,7 +239,7 @@
                            </div>-->
                             
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Generate Report.</button>
+                               <button type="submit" class="btn blue" onmouseover="getAction();">Generate Report.</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>
@@ -320,57 +313,17 @@
        
        
        function getAction(){
+           
       var reportFormat="",form="",formActions=""; 
 
    
     var reportFormat=$("#service").val();
-    var form=$("#form").val();
-    if(reportFormat==="" || form===""){
-        
-    }
-    else{
-    if( reportFormat==="datimReport") {
-   document.getElementById("formActions").action = "datimReport";
-                                      }
-   else if( reportFormat==="datimReport_2017") {
-   document.getElementById("formActions").action = "datimReport_2017";
-                                      }
-   else if( reportFormat==="datimReport_jul_2016") {
-   document.getElementById("formActions").action = "datimReport_jul_2016";
-                                      }
-      else if(reportFormat==="newdatimHTCResults_2016"){
-        
-           document.getElementById("formActions").action = "newdatimHTCResults_2016";
-        
-             }
-      else if(reportFormat==="newdatimHTCResults_2017Q1"){
-        
-           document.getElementById("formActions").action = "newdatimHTCResults_2017Q1";
-        
-             }
-              else if(reportFormat==="newdatimHTCResults_10_2016"){
-        
-           document.getElementById("formActions").action = "newdatimHTCResults_10_2016";
-        
-             }
-             
-      else if(reportFormat==="datimHTCResults"){
-        
-           document.getElementById("formActions").action = "datimHTCResults";
-        
-             }
-    else if(reportFormat==="datimvmmc"){
-        
-           document.getElementById("formActions").action = "datimvmmc";
-        
-             }
-    else if(reportFormat==="datimTbViralRetention"){
-        
-        document.getElementById("formActions").action = "datimTbViralRetention";
-        
-                                                   }
-
-     }  
+     
+    
+    document.getElementById("formActions").action =$("#service").val();
+    
+   
+      
        
                             }
       
@@ -491,7 +444,148 @@ $("#year").change(function(){
     });
   
 });
+ 
+ 
+ //if reports are ready, then upload 
+ function reportsready(){
+     
+     
+      var year=$("#year").val();
+      var maxmonth="09"; 
+   
+      var maxyear=year;
+      if($("#reportDuration").val()==='1'){//annual
+         
+         $("#minmonth").val('10'); 
+         maxmonth='09';
+         maxyear=year;
+      }
       
+else if($("#reportDuration").val()==='2'){//semiannual
+        
+            if($("#semi_annual").val()==='1'){//oct-mar
+                $("#minmonth").val('10');
+                   maxmonth='03';
+                
+            }
+     else  if($("#semi_annual").val()==='2'){//apr-jun
+                $("#minmonth").val('04');  
+                   maxmonth='09';
+                
+            }
+            
+            
+      }
+      
+      
+      else if($("#reportDuration").val()==='3')
+      {//quarter
+        
+            if($("#quarter").val()==='1'){//oct-mar
+                $("#minmonth").val('10'); 
+                   maxmonth='12';
+                
+            }
+     else  if($("#quarter").val()==='2'){//apr-jun
+                $("#minmonth").val('01');     
+                   maxmonth='03';
+            }            
+        
+            else  if($("#quarter").val()==='3'){//apr-jun
+                $("#minmonth").val('04');     
+                   maxmonth='06';
+            } 
+            
+            else  if($("#quarter").val()==='4'){//apr-jun
+                $("#minmonth").val('07');
+                   maxmonth='09';
+                
+            }
+      }
+     
+        
+     else if($("#reportDuration").val()==='4')
+      {//monthly
+        
+        var mwezi=$("#month").val();
+        
+            if(mwezi.length===1){//oct-mar
+                $("#minmonth").val('0'+mwezi);     
+                   maxmonth='0'+mwezi;
+            }
+            else  {//oct-dec
+                
+                $("#minmonth").val(mwezi);
+               maxmonth=mwezi;
+                
+            }
+      }    
+        
+        
+      
+      var month=$("#minmonth").val();
+    
+    var maxyear=year;
+        if(month==='10' || month==='11' || month==='12'){
+            //annual is already taken care of here
+            year=parseInt(year)-1;
+           
+           if($("#reportDuration").val()==='1'){//annual
+       maxyear=parseInt(year)+1;   
+          
+         }
+      
+      //semiannual 1
+      
+       if($("#reportDuration").val()==='2'){//annual
+           
+            if($("#semi_annual").val()==='1'){//oct-mar
+                maxyear=parseInt(year)+1;
+                
+            }
+           
+         
+          
+         }
+      
+        }
+        
+     
+   if(year!=="" && year!=='NaN' && year!==null && month!=='' && month!=='undefined' && month!==null){  
+       
+      
+       
+    
+       
+      loadreports(year,month,maxyear,maxmonth); 
+        }
+   }   
+     
+ 
+ 
+ 
+ 
+ function loadreports(year,month,maxyear,maxmonth){
+     //load the minimum year and month from a certain variable to be defined later
+       
+               
+$.ajax({
+    url:'loadDatimReportsList?year='+year+"&month="+month+"&maxyear="+maxyear+"&maxmonth="+maxmonth,
+    type:'post',
+    dataType:'html',
+    success:function (data){
+  
+     $("#service").html(data);
+     $('#service').select2(); 
+    
+    }
+    
+    
+});
+  
+  
+     
+ }
       
       
       function reportingPeriod(){

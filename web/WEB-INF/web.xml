@@ -549,6 +549,34 @@
         <servlet-name>datimReport_2017</servlet-name>
         <servlet-class>Datim.datimReport_2017</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OPD_TB_INDEX</servlet-name>
+        <servlet-class>Datim.OPD_TB_INDEX</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>update_supporttype</servlet-name>
+        <servlet-class>scripts.update_supporttype</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadDatimReportsList</servlet-name>
+        <servlet-class>reportsAjax.loadDatimReportsList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>update_nutrition</servlet-name>
+        <servlet-class>scripts.update_nutrition</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validatesgbv</servlet-name>
+        <servlet-class>InternalSystem.validatesgbv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadsgbv</servlet-name>
+        <servlet-class>InternalSystem.loadsgbv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savesgbv</servlet-name>
+        <servlet-class>InternalSystem.savesgbv</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1096,6 +1124,34 @@
     <servlet-mapping>
         <servlet-name>datimReport_2017</servlet-name>
         <url-pattern>/datimReport_2017</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OPD_TB_INDEX</servlet-name>
+        <url-pattern>/OPD_TB_INDEX</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>update_supporttype</servlet-name>
+        <url-pattern>/update_supporttype</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadDatimReportsList</servlet-name>
+        <url-pattern>/loadDatimReportsList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>update_nutrition</servlet-name>
+        <url-pattern>/update_nutrition</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validatesgbv</servlet-name>
+        <url-pattern>/validatesgbv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadsgbv</servlet-name>
+        <url-pattern>/loadsgbv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savesgbv</servlet-name>
+        <url-pattern>/savesgbv</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

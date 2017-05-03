@@ -102,9 +102,10 @@
           <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>28/Sep/2016]</b> <br/></font><font color='orange'>  <b>EID uploading modules added </b></font></h4>-->
           <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>3/Oct/2016]</b> <br/></font><font color='orange'>  <b>EID report added on the datim reports. HTC data in datim excludes VMMC.Under 5 data is from nascop website  </b></font></h4>-->
           <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>27/Oct/2016]</b> <br/></font><font color='orange'>  <b>*Datim Viral load report shows data for ART sites only <br/>*Tb screen quarterly report picks  data for the last two months of the quarter. </b></font></h4>-->
-          <h4 style="font-family:cambria;"><font color='red'>* [<b>05/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Master List Report now available. </b></font></h4>
-          <h4 style="font-family:cambria;"><font color='red'>* [<b>06/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Annual Facilities auto back up. </b></font></h4>
+          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>05/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Master List Report now available. </b></font></h4>-->
+          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>06/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Annual Facilities auto back up. </b></font></h4>-->
           <h4 style="font-family:cambria;"><font color='red'>* [<b>19/Jan/2017]</b> <br/></font><font color='orange'>  <b>*New datim output report (HTC_TST). </b><br/> New worksheets added are; <br/>(a) PITC IPD <br>(b)Other PITC (OPD) <br>(c) VCT <br>(d) PMTCT ANC & STAT</font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>24/Mar/2017]</b> <br/></font><font color='orange'>  <b>*MOH 364(SGBV) added as a module. </b><br/></font></h4>
       
       </div>
     </form>

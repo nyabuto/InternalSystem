@@ -99,7 +99,7 @@ String art_male,art_less1,art_1to4,art_5to9,art_10to14,art_15to19,art_20above;
                         
                         int i=2,y=0;
 			while(rowIterator.hasNext()) {
-                            System.out.println(" in while");
+                            System.out.println(" in while "+i);
 			HSSFRow rowi = worksheet.getRow(i);
                         if( rowi==null){
                                 nextpage="loadTBExcel.jsp";

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+//last modified 26th April 2017 
 package Datim;
 
 import General.IdGenerator;
@@ -855,13 +855,13 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     
        String getData=" SELECT "+facilitiestable+".SubPartnerNom,district.DistrictNom,county.County,"
             + ""+facilitiestable+".CentreSanteId,ART_Support,PMTCT_Support,"
-            + "SUM(HV0308),SUM(HV0309),SUM(HV0310),SUM(HV0311),SUM(HV0312),"
-            + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),"
+            + "SUM(HV0308) as HV0308,SUM(HV0309) as HV0309,SUM(HV0310) as HV0310,SUM(HV0311) as HV0311,SUM(HV0312) as HV0312,"
+            + "SUM(HV0320) as HV0320 ,SUM(HV0321) as HV0321,SUM(HV0322) as HV0322,SUM(HV0323) as HV0323,SUM(HV0324) as HV0324,"
             + ""+facilitiestable+".SubPartnerID,"
-            + "SUM(HV0205),SUM(HV0209),SUM(HV0210),SUM(HV0216),SUM(HV0217),"
-            + "SUM(HV0224),SUM(HV0225),SUM(HV0227),SUM(HV0229),SUM(HV0230),SUM(HV0231),SUM(HV0232),"
-            + "SUM(HV0302),SUM(HV0206),SUM(HV0207),SUM(HV0208)"
-            + ",SUM(HV0350),SUM(HV0351),SUM(HV0352),SUM(HV0353),SUM(HV0354),"
+            + "SUM(HV0205) as HV0205,SUM(HV0209)as HV0209,SUM(HV0210) as HV0210,SUM(HV0216) as HV0216,SUM(HV0217) as HV0217,"
+            + "SUM(HV0224) as HV0224,SUM(HV0225) as HV0225,SUM(HV0227) as HV0227,SUM(HV0229) as HV0229,SUM(HV0230) as HV0230,SUM(HV0231) as HV0231,SUM(HV0232) as HV0232,"
+            + "SUM(HV0302) as HV0302,SUM(HV0206) as HV0206,SUM(HV0207) as HV0207,SUM(HV0208) as HV0208"
+            + ",SUM(HV0350) as HV0350,SUM(HV0351) as HV0351,SUM(HV0352) as HV0352,SUM(HV0353) as HV0353,SUM(HV0354) as HV0354,"
             + " SUM(HV0320) as under1_newtx,SUM(HV0308) as under1_newcare , "
             + " ART_highvolume, HTC_highvolume,PMTCT_highvolume,IFNULL(SUM(HV0326),0) as pregnant, SUM(HV0327) as tbtreatment, ROUND(SUM(HV0327)*0.1333) as breastfeeding,SUM(HV0201) as HV0201  "
             + " FROM moh731 JOIN "+facilitiestable+" "
@@ -1003,14 +1003,86 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
       breastfeeding=(float)Math.round((0.1333*Pregnant));
       ontbtreatment=conn.rs.getInt("tbtreatment");
     
+      
+      double under1txratio_male = 0.5;
+      double under1txratio_female=0.5;
+      
+      
+        double under1careratio_male = 0.5;
+      double under1careratio_female=0.5;
+      //if under15 male is >= under15 female, give male 0.6
+      //otherwise give female 0.6
+      
+       if(HV0321>=HV0322){
+      
+           if(HV0322==0){
+               //if under 15 for females is 0, the take 100% to male
+             under1txratio_male=1;
+      under1txratio_female=0;
+           }
+           else {
+               
+           
+      under1txratio_male=0.6;
+      under1txratio_female=0.4;
+           }
+      }
+      else   if(HV0321<HV0322){ 
+        if(HV0321==0){
+               //if under 15 for females is 0, the take 100% to male
+             under1txratio_female=1;
+      under1txratio_male=0;
+           }
+          
+          else {         
+      under1txratio_female=0.6;
+      under1txratio_male=0.4;
+      }
+      }
+      
+     
+       
+       //care
+       
+       
+      if(HV0309>=HV0310){
+          
+          
+          if(HV0310==0){
+               //if under 15 for females is 0, the take 100% to male
+             under1careratio_male=1;
+      under1careratio_female=0;
+           }
+           else {
+      
+      under1careratio_male=0.6;
+      under1careratio_female=0.4;
+          }
+      }
+      else   if(HV0309<HV0310){ 
+      
+           if(HV0309==0){
+               //if under 15 for females is 0, the take 100% to male
+      under1careratio_female=1;
+      under1careratio_male=0;
+           }
+           else {
+          
+          
+        under1careratio_male=0.4;
+      under1careratio_female=0.6;
+      }
+      
+      }
+      
      under1_newtx=conn.rs.getInt("under1_newtx");
      
-     under1_newtxm=(float)Math.round((0.5*under1_newtx));   
+     under1_newtxm=(float)Math.round((under1txratio_male*under1_newtx));   
      under1_newtxf=under1_newtx-under1_newtxm;
      
      
      under1_newcare=conn.rs.getInt("under1_newcare");   
-     under1_newcarem=(float)Math.round((0.5*under1_newcare));   
+     under1_newcarem=(float)Math.round((under1careratio_male*under1_newcare));   
      under1_newcaref=under1_newcare-under1_newcarem;
      System.out.println("Total "+under1_newcare+" = "+under1_newcarem+" + "+under1_newcaref);
      
@@ -1047,21 +1119,61 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
      
   
         
-     double malepercentagecare=0.6;
+     double malepercentagecare=0.5;
             
             if(HV0316>HV0315){
-            malepercentagecare=0.4;
+           
+            if(HV0315==0){
+             malepercentagecare=0;
+            }
+            else {
+            
+             malepercentagecare=0.4;
+            }
+            }
+            else if(HV0316<HV0315) {
+           
+            
+            if(HV0316==0){
+             malepercentagecare=1;
+            }
+            else {            
+             malepercentagecare=0.6;
+            }
+            
+            
+            }
+            else {
+            malepercentagecare=0.5;
             }
         
+            System.out.println("Facility ni: "+facilityName+"  "+malepercentagecare+" _ Male:"+HV0315+"Female: "+HV0316);
+            
      under1_curcarem=(float)Math.round((malepercentagecare*under1_curcare));   
      under1_curcaref=under1_curcare-under1_curcarem;
      System.out.println("Total cur care "+under1_curcare+" = "+under1_curcarem+" + "+under1_curcaref); 
      
-            double malepercentage=0.6;
+            double malepercentage=0.5;
             
-            if(HV0336>HV0335){
-            malepercentage=0.4;
+            if(HV0336>HV0335)
+            {           
+            if(HV0335==0){            
+            malepercentage=0;
             }
+            else  {
+               malepercentage=0.4;
+            }
+            }
+            else  if(HV0336<HV0335)
+            {
+              malepercentage=0.6;
+            
+            }
+            else {
+            malepercentage=0.5;
+            }
+            
+            
       under1_curtxm=(float)Math.round((malepercentage*under1_curtx));   
      under1_curtxf=under1_curtx-under1_curtxm;
      System.out.println(facilityName+" Total Tx "+under1_curtx+" = "+under1_curtxm+" + "+under1_curtxf);
@@ -1080,16 +1192,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
   
   //currentART
   //currentART
-  boolean new_artskipunder1distribm=false;
-  boolean new_artskipunder1distribf=false;
-  boolean cur_artskipunder1distribm=false;
-  boolean cur_artskipunder1distribf=false;
-  
-  int newartgawa_m=0;
-  int newartgawa_f=0;
-  
-  int curartgawa_m=0;
-  int curartgawa_f=0;
+ 
   
   //sometimes you may distribute under 1 and end up having a number bigger on under 1 than no for < 15. This leads to a negative number
   //to avoid that, first check if below 15 per gender is less than under15/2 for that gender
@@ -1121,10 +1224,10 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
      //System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
                            }
  else {
-     System.out.println("Should have multiplied but dint ");
+     System.out.println(facilityName+" Should have multiplied but dint ");
       }
- currentART1_9M=(float)Math.round((0.4277*_HV0335));
- currentART10_14M=(float)Math.round((0.5723*_HV0335));
+ currentART1_9M=(float)Math.round((0.43*_HV0335));
+ currentART10_14M=(float)Math.round((0.57*_HV0335));
  
  
   splitData=currentART1M+currentART1_9M+currentART10_14M;
@@ -1162,10 +1265,10 @@ adderPos++  ;
 
  }
  
- currentART15_19M=(float)Math.round((0.0538*HV0337));
- currentART20_24M=(float)Math.round((0.0427*HV0337));
- currentART25_49M=(float)Math.round((0.7228*HV0337));
- currentART50M=(float)Math.round((0.1755*HV0337));
+ currentART15_19M=(float)Math.round((0.05*HV0337));
+ currentART20_24M=(float)Math.round((0.04*HV0337));
+ currentART25_49M=(float)Math.round((0.73*HV0337));
+ currentART50M=(float)Math.round((0.18*HV0337));
  
  splitData=currentART15_19M+currentART20_24M+currentART25_49M+currentART50M;
   if((splitData-HV0337)>2 ||(HV0337-splitData)>2 ){errorART++;}
@@ -1224,10 +1327,10 @@ adderPos++  ;
    
 
    
-currentART15_19F=(float)Math.round((0.0331*HV0338));
-currentART20_24F=(float)Math.round((0.7784*HV0338));
-currentART25_49F=(float)Math.round((0.07*HV0338));
-currentART50F=(float)Math.round((0.1184*HV0338));
+currentART15_19F=(float)Math.round((0.03*HV0338));
+currentART20_24F=(float)Math.round((0.07*HV0338));
+currentART25_49F=(float)Math.round((0.78*HV0338));
+currentART50F=(float)Math.round((0.12*HV0338));
 
  splitData=currentART15_19F+currentART20_24F+currentART25_49F+currentART50F;
   if((splitData-HV0338)>2 ||(HV0338-splitData)>2 ){errorART++;}
@@ -1251,8 +1354,8 @@ totalCurrentART=HV0338+HV0336+HV0337+HV0335;
         //newART5_9M=(float)Math.round((0.37*HV0321));
         newART10_14M=(float)Math.round((0.4615*HV0321));
        
-        if(newART10_14M>=under1_newtxm){
- newART10_14M=newART10_14M-under1_newtxm;
+        if(newART1_9M>=under1_newtxm){
+ newART1_9M=newART1_9M-under1_newtxm;
                                        }
  else {
      System.out.println("Should have multiplied but dint ");
@@ -1318,17 +1421,17 @@ adderPos++  ;
         //newART5_9F=(float)Math.round((0.37*HV0322));
         newART10_14F=(float)Math.round((0.4167*HV0322));
         
-        if(newART10_14F>=under1_newtxf){
- newART10_14F=newART10_14F-under1_newtxf;
- }
+   if(newART1_9F>=under1_newtxf){
+ newART1_9F=newART1_9F-under1_newtxf;
+     }
  else {
-     System.out.println("Should have multiplied but dint ");
- }
+     System.out.println("Should have deducted newtx but dint "+facilityName+" "+newART1_9F+" -- "+under1_newtxf);
+      }
     
 splitData=newART10_14F+newART1_9F+newART1F;
 adderPos=0;
  if((splitData-HV0322)>2 ||(HV0322-splitData)>2 ){errorART++;}
- else{
+// else{
 while(splitData<HV0322){ 
  if(adderPos==0){newART10_14F+=1; }
  else if(adderPos==1){newART1_9F+=1; }
@@ -1350,7 +1453,7 @@ splitData--;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }
- }
+ //}
   
   
         newART15_19F=(float)Math.round((0.0433*HV0324));
@@ -1526,18 +1629,20 @@ splitData--;
         currentCARE1M=under1_curcarem;
         
         int _HV0315=HV0315;
- if(_HV0315>=under1_curcarem){     
+ if(_HV0315>=under1_curcarem){  
+     
  _HV0315=(int) (_HV0315-under1_curcarem); 
      System.out.println(facilityName+" under1 cur care m :"+under1_curcarem+" HV0315 "+HV0315+" _HV0315 "+_HV0315);
      //System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
+     
  }
  else {
-     System.out.println("Should have multiplied but dint ");
+     System.out.println("Should have subtracted curcare but dint "+facilityName+" "+under1_curcarem+" "+HV0315);
       }
         
-        currentCARE1_4M=(float)Math.round((0.25*_HV0315));
-        currentCARE5_9M=(float)Math.round((0.37*_HV0315));
-        currentCARE10_14M=(float)Math.round((0.38*_HV0315));
+        currentCARE1_4M=(float)Math.round((0.17*_HV0315));
+        currentCARE5_9M=(float)Math.round((0.26*_HV0315));
+        currentCARE10_14M=(float)Math.round((0.57*_HV0315));
         
   
 
@@ -1568,10 +1673,10 @@ adderPos++  ;
  }
  
  
-        currentCARE15_19M=(float)Math.round((0.02*HV0317));
-        currentCARE20_24M=(float)Math.round((0.09*HV0317));
-        currentCARE25_49M=(float)Math.round((0.80*HV0317));
-        currentCARE50M=(float)Math.round((0.09*HV0317));
+        currentCARE15_19M=(float)Math.round((0.05*HV0317));
+        currentCARE20_24M=(float)Math.round((0.04*HV0317));
+        currentCARE25_49M=(float)Math.round((0.73*HV0317));
+        currentCARE50M=(float)Math.round((0.18*HV0317));
         
 splitData=currentCARE50M+currentCARE25_49M+currentCARE20_24M+currentCARE15_19M;
  if((splitData-HV0317)>2 ||(HV0317-splitData)>2 ){errorCARE++;}
@@ -1597,9 +1702,9 @@ splitData--;
      System.out.println("Should have multiplied but dint ");
       }
         
-        currentCARE1_4F=(float)Math.round((0.25*_HV0316));
-        currentCARE5_9F=(float)Math.round((0.37*_HV0316));
-        currentCARE10_14F=(float)Math.round((0.38*_HV0316));
+        currentCARE1_4F=(float)Math.round((0.172*_HV0316));
+        currentCARE5_9F=(float)Math.round((0.2545*_HV0316));
+        currentCARE10_14F=(float)Math.round((0.5735*_HV0316));
         
   
         
@@ -1630,10 +1735,10 @@ adderPos++  ;
  }
  
  
-        currentCARE15_19F=(float)Math.round((0.02*HV0318));
-        currentCARE20_24F=(float)Math.round((0.09*HV0318));
-        currentCARE25_49F=(float)Math.round((0.80*HV0318));
-        currentCARE50F=(float)Math.round((0.09*HV0318));
+        currentCARE15_19F=(float)Math.round((0.03*HV0318));
+        currentCARE20_24F=(float)Math.round((0.07*HV0318));
+        currentCARE25_49F=(float)Math.round((0.78*HV0318));
+        currentCARE50F=(float)Math.round((0.12*HV0318));
 
 splitData=currentCARE50F+currentCARE25_49F+currentCARE20_24F+currentCARE15_19F;
  if((splitData-HV0318)>2 ||(HV0318-splitData)>2 ){errorCARE++;}

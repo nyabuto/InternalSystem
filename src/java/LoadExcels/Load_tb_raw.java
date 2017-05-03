@@ -81,7 +81,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
      String datacategory="";
      String dbname="tibu_tb_raw";
      
-     
+String tbtype="";
+String patienttype="";
+String smear0="";
+String smear2_3="";
+String smear5="";
+String smear6_8="";
+String genexpert="";
+
 //     if(request.getParameter("datacategory")!=null){
 //     datacategory=request.getParameter("datacategory");
 //         System.out.println(" data category fetched"); 
@@ -171,6 +178,24 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 //([55])Treatment Outcome	
 //([56])Treatment Outcome Date
 
+//([20])Type of TB P/EP
+//([23])Type of patient
+//([31])Sputum Smear Examination 0th Month Result
+//([33])Sputum Smear Examination 2by3 Month Result
+//([35])Sputum Smear Examination 5th Month Result
+//([37])Sputum Smear Examination 6by8 Month Result
+//([41])Gen expert
+                       
+//tbtype
+//patienttype
+//smear0
+//smear2_3
+//smear5
+//smear6_8
+//genexpert
+
+                        
+                        
                                                 
 //______________________________________________________________________
 
@@ -197,6 +222,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                             
                             }
                             else {
+                                
                             registrationdate = ""+cellregdate.getDateCellValue();
                         
                             }
@@ -253,24 +279,164 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                          
                           }
                           
-                         
-                       
-                          if(agestring.contains("Y")){
-                              //age is in years
-                              age=new Integer(agestring.replace("Y",""));
+                         if(agestring.contains("M") && agestring.contains("Y")){
+                          //age is in months
+                             String agearray[]=agestring.split(" ");
+                              //System.out.println("agestring "+agestring+" _ "+age);
+                          age=((new Double(agearray[0].trim().replace("Y",""))).intValue()) + (int) Math.round((new Double(agearray[1].replace("M",""))/12));
+                           System.out.println(" agestring M&Y "+agestring+" _ "+age);    
+                              
                           }
-                          else if(agestring.contains("M")){
+                       
+                           else  if(agestring.contains("Y") && !agestring.contains("M")){
+                              //age is in years
+                              age=(new Double(agestring.trim().replace("Y",""))).intValue();
+                              System.out.println(" agestring Y Only "+agestring+" _ "+age); 
+                          }
+                          else if(agestring.contains("M") && !agestring.contains("Y")){
                           //age is in months
                               //System.out.println("agestring "+agestring+" _ "+age);
-                          age=(int) Math.ceil((new Integer(agestring.replace("M",""))/12)+0.5);
-                         //  System.out.println("agestring "+agestring+" _ "+age);    
+                          age=(int) Math.round((new Double(agestring.trim().replace("M",""))/12));
+                         //  System.out.println("agestring "+agestring+" _ "+age); 
+                           System.out.println(" agestring M Only "+agestring+" _ "+age); 
                               
                           }
                           
                           ageinteger=age;
                           agebracket=getageBracket(ageinteger);
                          
+                          //tbtype
                           
+                           HSSFCell celltbtype=rowi.getCell((short)20);
+                          
+                           if(celltbtype.getCellType()==1){
+                                //this is a string
+			   tbtype = (String)celltbtype.getStringCellValue();
+                            }
+                            else if(celltbtype.getCellType()==0){
+                           //this is a numeric value     
+                           tbtype =""+(int)celltbtype.getNumericCellValue();
+                            
+                            }
+                            else {
+                           tbtype = ""+celltbtype.getDateCellValue();
+                        
+                            }
+                          
+                          //type of patient
+                           
+                           
+                           
+                           HSSFCell cellpatienttype=rowi.getCell((short)23);
+                          
+                           if(cellpatienttype.getCellType()==1){
+                                //this is a string
+			   patienttype = (String)cellpatienttype.getStringCellValue();
+                            }
+                            else if(cellpatienttype.getCellType()==0){
+                           //this is a numeric value     
+                           patienttype =""+(int)cellpatienttype.getNumericCellValue();
+                            
+                            }
+                            else {
+                           patienttype = ""+cellpatienttype.getDateCellValue();
+                        
+                            }
+                           
+                           
+                           //------------
+                          
+                           
+                           
+                           
+                          //smear0
+                           
+                           
+                           
+                           HSSFCell cellsmear0=rowi.getCell((short)31);
+                          
+                           if(cellsmear0.getCellType()==1){
+                                //this is a string
+			   smear0 = (String)cellsmear0.getStringCellValue();
+                            }
+                            else if(cellsmear0.getCellType()==0){
+                           //this is a numeric value     
+                           smear0 =""+(int)cellsmear0.getNumericCellValue();
+                            
+                            }
+                            else {
+                           smear0 = ""+cellsmear0.getDateCellValue();
+                        
+                            }
+                           
+                           
+                           //------------
+                           
+                       
+                           
+                           
+                           
+                           HSSFCell cellsmear2_3=rowi.getCell((short)33);
+                          
+                           if(cellsmear2_3.getCellType()==1){
+                                //this is a string
+			   smear2_3 = (String)cellsmear0.getStringCellValue();
+                            }
+                            else if(cellsmear2_3.getCellType()==0){
+                           //this is a numeric value     
+                           smear2_3 =""+(int)cellsmear2_3.getNumericCellValue();
+                            
+                            }
+                            else {
+                           smear2_3 = ""+cellsmear0.getDateCellValue();
+                        
+                            }
+                           
+                           
+                           //------------smear5------                       
+                            
+                           HSSFCell cellsmear5=rowi.getCell((short)35);
+                          
+                           if(cellsmear5.getCellType()==1){
+                                //this is a string
+			   smear5 = (String)cellsmear0.getStringCellValue();
+                            }
+                            else if(cellsmear5.getCellType()==0){
+                           //this is a numeric value     
+                           smear5 =""+(int)cellsmear5.getNumericCellValue();
+                            
+                            }
+                            else {
+                           smear5 = ""+cellsmear5.getDateCellValue();
+                        
+                            }
+                           
+                           
+                           //------------
+                           
+                           //------------smear5------                       
+                            
+                           HSSFCell cellsmear6_8=rowi.getCell((short)37);
+                          
+                           if(cellsmear6_8.getCellType()==1){
+                                //this is a string
+			   smear6_8 = (String)cellsmear0.getStringCellValue();
+                            }
+                            else if(cellsmear6_8.getCellType()==0){
+                           //this is a numeric value     
+                           smear6_8 =""+(int)cellsmear6_8.getNumericCellValue();
+                            
+                            }
+                            else {
+                           smear6_8 = ""+cellsmear6_8.getDateCellValue();
+                        
+                            }
+                           //-------------------
+                           
+                           
+                           
+                           
+                           
                           HSSFCell celltreatmentdate=rowi.getCell((short)40);
                           
                            if(cellregdate.getCellType()==1){
@@ -287,6 +453,26 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                         
                             }
                           
+                           //------------smear5------                       
+                            
+                           HSSFCell cellgenexpert=rowi.getCell((short)41);
+                          
+                           if(cellgenexpert.getCellType()==1){
+                                //this is a string
+			   genexpert = (String)cellgenexpert.getStringCellValue();
+                            }
+                            else if(cellgenexpert.getCellType()==0){
+                           //this is a numeric value     
+                           genexpert =""+(int)cellgenexpert.getNumericCellValue();
+                            
+                            }
+                            else {
+                           genexpert = ""+cellgenexpert.getDateCellValue();
+                        
+                            }
+                           //-------------------
+                           
+                           
                           
 			  //treatmentstartdate=""+celltreatmentdate.getDateCellValue();
                          
@@ -448,8 +634,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
   
   String inserter="INSERT INTO "+dbname+" (id,SubPartnerID,year,quarter,Mflcode,sex ,age,agebracket,SubPartnerNom,registrationdate,treatmentdate,supporttype,hivstatus,hivtestdate, "
-          + " artstatus,artdate,outcomedate,treatmentoutcome) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          + " artstatus,artdate,outcomedate,treatmentoutcome,tbtype,patienttype,smear0,smear2_3,smear5,smear6_8,genexpert) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1,id);
                         conn.pst.setString(2,facilityID);
@@ -470,6 +656,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                         conn.pst.setString(17,treatmentoutcomedate );
                         conn.pst.setString(18, treatmentoutcome);
                         
+                        conn.pst.setString(19, tbtype);
+                        conn.pst.setString(20, patienttype);
+                        conn.pst.setString(21, smear0);
+                        conn.pst.setString(22, smear2_3);
+                        conn.pst.setString(23, smear5);
+                        conn.pst.setString(24, smear6_8);
+                        conn.pst.setString(25, genexpert);
+                        
                         
                         conn.pst.executeUpdate();
                    
@@ -479,7 +673,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
           //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
         String inserter=" UPDATE "+dbname+" SET SubPartnerID=?,year=?,quarter=?,Mflcode=?,sex=? ,age=?,agebracket=?,SubPartnerNom=?,registrationdate=?,treatmentdate=?,supporttype=?,"
                 + " hivstatus=?,hivtestdate=?, "
-          + " artstatus=?,artdate=?,outcomedate=?,treatmentoutcome=? "
+          + " artstatus=?,artdate=?,outcomedate=?,treatmentoutcome=? ,tbtype=?,patienttype=?,smear0=?,smear2_3=?,smear5=?,smear6_8=?,genexpert=?"
                 + " WHERE id=?";
 //
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -500,7 +694,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
                         conn.pst.setString(15,artdate);
                         conn.pst.setString(16,treatmentoutcomedate);
                         conn.pst.setString(17,treatmentoutcome);
-                        conn.pst.setString(18,id);
+                        conn.pst.setString(18,tbtype);
+                        
+                        conn.pst.setString(19,patienttype);
+                        conn.pst.setString(20,smear0);
+                        conn.pst.setString(21,smear2_3);
+                        conn.pst.setString(22,smear5);
+                        conn.pst.setString(23,smear6_8);
+                        conn.pst.setString(24,genexpert);
+                        conn.pst.setString(25,id);
+                        
                         conn.pst.executeUpdate();
                        
                      updated++;
@@ -613,9 +816,17 @@ finalbracket="10-14";
 else if(age>=15&&age<=19){
 finalbracket="15-19";
                         }
-else if(age>=20){
-finalbracket="20+";
+else if(age>=20&&age<=24){
+finalbracket="20-24";
                         }
+else if(age>=25&&age<=49){
+finalbracket="25-49";
+                        }
+
+else if(age>=50){
+finalbracket="50+";
+                        }
+
 else {
 finalbracket="no age";
 }

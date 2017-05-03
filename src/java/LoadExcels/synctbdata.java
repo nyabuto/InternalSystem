@@ -101,8 +101,9 @@ public class synctbdata extends HttpServlet {
 "        ,year, " +
 "        quarter, " +
 "        supporttype " +
-" FROM tibu_tb_raw where  year='"+yearval+"' and quarter='"+passedquarter+"' group by SubPartnerID   ";
-      
+" FROM tibu_tb_raw where year='"+yearval+"' and quarter='"+passedquarter+"' group by SubPartnerID   ";
+  
+     System.out.println(getdata);
       
    nextpage="sync_tb.jsp";
 String female_stat,male_stat;

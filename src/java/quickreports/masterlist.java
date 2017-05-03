@@ -228,7 +228,7 @@ rw.setHeightInPoints(26);
                 //System.out.print(mycolumns.get(a) + ":" + conn.rs.getString("" + mycolumns.get(a)));
 
                 HSSFCell cell0 = rw.createCell(a);
-                if((a >=3 && a<=16) || (a >=20 && a<=24) || (a >=29 && a<=31)){
+                if((a >=3 && a<=14) || (a >=18 && a<=22) || (a >=27 && a<=29)){
                 
                     cell0.setCellValue(conn.rs.getInt(mycolumns.get(a).toString()));
                    }
