@@ -4,6 +4,7 @@
     Author     : Maureen
 --%>
 
+<%@page import="database.dbConn"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@
 <head>
    <meta charset="utf-8" />
    <title>Home Page</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -37,6 +38,7 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+<link rel="stylesheet" href="select2/css/select2.css">
 
   
 </head>
@@ -49,7 +51,8 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h3 style="text-align:center;color:white;">Internal System</h3>
+            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">IMIS</h1><br/>
+            
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -65,19 +68,23 @@
              
                <!-- END TODO DROPDOWN -->
                <!-- BEGIN USER LOGIN DROPDOWN -->
+               
+             <!--  
                <li class="dropdown user">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                  
-                  <span class="username">Welcome</span>
+                  <span class="username" style="background: ;">Welcome</span>
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="#"><i class="icon-user"></i> User Profile</a></li>
+                     <li><a href="editProfile.jsp"><i class="icon-user"></i> User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i>Log Out</a></li>
                   </ul>
-               </li>
+               </li> -->
+               
+               
                <!-- END USER LOGIN DROPDOWN -->
             </ul>
             <!-- END TOP NAVIGATION MENU --> 
@@ -91,7 +98,7 @@
       <!-- BEGIN SIDEBAR -->
       <div class="page-sidebar nav-collapse collapse">
          <!-- BEGIN SIDEBAR MENU -->         
-       <%@include file="/menu/menu.jsp"%>
+       <%@include file="/menu/minimenu.jsp"%>
          <!-- END SIDEBAR MENU -->
       </div>
       <!-- END SIDEBAR -->
@@ -137,7 +144,7 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i></h4>
+                        <h4 style="color:white;"> <i class="icon-reorder"></i>  <span style="text-align: center;">DATA ENTRY </span></h4>
                        
                      </div>
                      <div class="portlet-body form">
@@ -146,7 +153,7 @@
                           
                          
                            <div class="control-group">
-                              <label class="control-label">Reporting Year</label>
+                              <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select required data-placeholder="Reporting Year" class="chosen-with-diselect span6" tabindex="-1" onchange="loadmonths(this);"  id="year" name="year">
                                     <option value=""></option>                                 
@@ -156,7 +163,7 @@
                            </div>
                           
                              <div class="control-group">
-                              <label class="control-label">Reporting Month</label>
+                              <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                  <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
                                     <option value="">Choose reporting year first</option>                                 
@@ -165,20 +172,40 @@
                               </div>
                            </div>
                             
+                            
                               <div class="control-group">
-                              <label class="control-label">Activity Site</label>
+                              <label class="control-label">County </label>
                               <div class="controls">
-                                 <select data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                 <select placeholder="County" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county">
+                                    <option value=""></option>
+                                 </select>
+                              </div>
+                           </div>
+                            
+                            <div class="control-group">
+                              <label class="control-label">Sub-County </label>
+                              <div class="controls">
+                                 <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                              </div>
+                           </div> 
+                            
+                            
+                              <div class="control-group">
+                              <label class="control-label">Activity Site<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select data-placeholder="Facility" onchange="updatefacilsession();" class="span6 m-wrap" required tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select>
                               </div>
                            </div>
                             
                              <div class="control-group">
-                              <label class="control-label">Select Form</label>
+                              <label class="control-label">Select Form<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Form" class="chosen-with-diselect span6" tabindex="-1"  id="form" name="form">
-                                 <option value=""></option>                                
+                                 <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form">
+                                 <option value="">Select Activity Site First</option>                                
                                    
                                  </select>
                               </div>
@@ -217,8 +244,8 @@
               Calendar cal = Calendar.getInstance();
                     int year = cal.get(Calendar.YEAR);       
 %>
-       
-       &copy; APHIAplus | USAID <%=year%>.
+     <% dbConn conn= new dbConn(); %>  
+     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; APHIAplus | USAID <%=year%>. Host Name :<b><i> <%=conn.dbsetup[0]%></i></b> &nbsp;   Database Name :<i> <%=conn.dbsetup[1]%></i></h4>
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>
@@ -250,47 +277,50 @@
    <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script src="assets/js/app.js"></script>     
+   <script src="assets/js/app.js"></script>  
+   <script src="select2/js/select2.js"></script>
+  
+   
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-         
-                    $.ajax({
+        $('#facility').select2(); 
+
+       // FormComponents.init();
+        
+      
+      //load all the facilities first to enable one to filter by county
+                 $.ajax({
 url:'loadFacilities',
 type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+      $('#facility').select2();  
+      }  
      
-       App.init();   
+         // $("#facility").chosen();
+       
+       
 }
 
 
 }); 
-         
-         
-         $.ajax({
-            url:'loadForms',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#form").html(data);
-                
-              //  App.init();   
-            }
-            
-            
-        }); 
-       
+      
+      
          
 $.ajax({
     url:'loadYear',
     type:'post',
     dataType:'html',
     success:function (data){
+        //alert("_");
         // $("#year").html(data);
         document.getElementById("year").innerHTML=data;
-        
+        loadmonths();
     }
     
     
@@ -300,8 +330,122 @@ $.ajax({
       
       
       
-      function loadmonths(){
+      function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
       
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
+      
+    
+    function updatefacilsession(){
+          
+        var facil=document.getElementById("facility").value;
+        $.ajax({
+url:'updatefacilitysession?facil='+facil,
+type:'post',
+dataType:'html',
+success:function (data){      
+    
+    //  $("#"+col).css({'background-color' : '#CCFFCC'});
+     
+     //now load the forms
+     
+     loadfrms();
+     
+}
+             
+             });    
+          
+          
+          
+      }
+      
+    
+    function loadfrms(){
+        
+        
+        $.ajax({
+            url:'loadForms',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#form").html(data);
+                
+              //  App.init(); 
+              
+              //also load county and facility
+              loadcounty();
+              //loadsubcounty();
+            }
+            
+            
+        });
+        
+    }
+    
+    
+    
+     
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    
+    
+      function loadmonths(){
+      //alert("");
       var yr=document.getElementById("year").value;
       
               $.ajax({
@@ -321,6 +465,9 @@ success:function (data){
       
       
       }
+      
+      //load default facilities
+     loadcounty();
       
    </script>
    <!-- END JAVASCRIPTS -->   

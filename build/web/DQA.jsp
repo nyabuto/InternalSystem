@@ -12,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>DQA</title>
+   <title>DQA MODULE</title>
   <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -39,15 +39,17 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+   <link rel="stylesheet" href="select2/css/select2.css">
    
-   <script src="select2/js/select2.js"></script>
-<link rel="stylesheet" href="select2/css/select2.css">
-<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
-<script type="text/javascript" src="js/noty/layouts/top.js"></script>
-<script type="text/javascript" src="js/noty/layouts/center.js"></script>
-<script type="text/javascript" src="js/noty/themes/default.js"></script>
-
-  
+          
+          <link href="media/dataTables/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+          <link href="scripts/dataTables.tableTools.css" rel="stylesheet" type="text/css" />
+         <link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
+        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
 
 
         <style>
@@ -75,6 +77,11 @@ legend.formatter {
     margin-left:50px;
 
 }
+label {
+    float: left;
+    font-weight: bold;
+    width: 400px;
+}
 </style>
 <style>
     
@@ -99,40 +106,40 @@ legend.formatter {
                               
                              
                                <font color="white" size="3px"><b>Year: </b></font>  
-                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year" style="width: 100px;">
+                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" id="year" name="year" style="width: 200px;">
                                     <option value=""></option>                                 
                                    
                                  </select>
 
                                     <font color="white" size="3px"><b>Month: </b></font>  
                                   
-                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();" style="width: 150px;">
+                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" style="width: 300px;">
                                     <option value=""></option>
                                  </select>
-                                
+<!--                                
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 150px;">
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 100px;">
                                     <option value=""></option>
                                  </select>
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
                               
-                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty" style="width: 150px;">
                                     <option value="">Select County First</option>
                                  </select>
                                     
                                    
                                    <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility" style="width: 150px;">
                                     <option value=""></option>
                                  </select>
-                                    <font color="white" size="3px"><b>Select Form </b></font>
-                                 <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form" onchange="viewDQA();">
+                                    <font color="white" size="3px"><b>Form </b></font>
+                                    <select required data-placeholder="Form" class="span6 m-wrap" tabindex="-1"  id="form" name="form" onchange="sendtoformsession();" style="width: 120px;">
                                  <option value="">Select Activity Site First</option>                                
                                    
-                                 </select>
+                                 </select>-->
                              </div>
                               
                            </div>
@@ -211,78 +218,21 @@ legend.formatter {
                     </li>
                                       </ul>
                </div>
-             <div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Errors detected.</p></h4>
-      </div>
-      <div class="modal-body" id="errorBody">
-    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-primary" data-dismiss="modal" style="height:40px;" id="viewErrors">view errors</button>
-        <button type="button" class="btn-danger" id="submit" style="height:40px;">submit with errors</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <!--Modal unvalidated forms-->
-    
-<div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Unvalidated Forms.</p></h4>
-      </div>
-      <div class="modal-body" id="allunValidated" style="font-size: 16px;">
-    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-danger" data-dismiss="modal" style="height:30px;" id="viewErrors">Close</button>
-      </div>
-    </div>
-  </div>
-</div>     
-            
-<!--   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
-    <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
-    <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
-    <br>2.Click <b>NO</b> if want to edit the already marked data for adherence.</p>
-</div>   -->
+  
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
-                  <!--<div class="portlet box blue">-->
-<!--                     <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">MOH 711A</b>
-                     </div>-->
+
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="validate711" method="post" class="form-horizontal">
-                           
-                        <div class="tabbable tabbable-custom boxless" id="DQAtable" >
+                        <form action="#" method="post" class="form-horizontal">
+                         <h5 style='text-align: center;'> This DQA shows errors that as a result of data entry validation rules. </h5>  
+                        <div class="tabbable tabbable-custom boxless" id="demo"  >
                    
-                        
-                       
-                         <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
-                        
-                       
-                        <!-- END FORM-->           
-                   
-                            
-                             
-                           
-                            
-                         
-                         
-                        <!-- END FORM-->           
+        
                      </div>
                            
                         </form>
@@ -346,156 +296,45 @@ legend.formatter {
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>     
  
+   <script src="select2/js/select2.js"></script>
+
+<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+ <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
+         <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
+         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
+          <script src="scripts/jquery-ui.js" type="text/javascript"></script>
+          <script src="scripts/jquery.validate.js" type="text/javascript"></script>
+          
+          <script src="scripts/dataTables.tableTools.js" type="text/javascript"></script>
+          <script src="scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+          
    <script>
       jQuery(document).ready(function() {       
-      
-                    $.ajax({
-url:'loadFacilities',
-type:'post',
-dataType:'html',
-success:function (data){
-       $("#facility").html(data);
-      $('#facility').select2(); 
-      // App.init();   
-}
-
-
-});
-
- 
-
-         
+        
 $.ajax({
     url:'loadYear',
     type:'post',
     dataType:'html',
     success:function (data){
          $("#year").html(data);
-         loadmonths();
-//        document.getElementById("year").innerHTML=data;
-        
+//         loadmonths();
+sendtosessionyear();     
     }
     
     
 });
-               
-     
-         
-         $.ajax({
-            url:'loadDQA',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#DQAtable").html(data);
-
-    
-
-}
-            
-            
-        }); 
-       
-
-    
-           
-  $('body').on('keydown', 'input, select, textarea', function(e) {
-var self = $(this)
-  , form = self.parents('form:eq(0)')
-  , focusable
-  , next
-  , prev
-  ;
-
-if (e.shiftKey) {
- if (e.keyCode == 13) {
-     focusable =   form.find('input,a,select,button,textarea').filter(function(){
-    return !this.readOnly &&
-           !this.disabled &&
-           $(this).parentsUntil('form', 'div').css('display') != "none";
+$("#year").change(function(){
+  sendtosessionyear();  
 });
-     prev = focusable.eq(focusable.index(this)-1); 
-
-     if (prev.length) {
-        prev.focus();
-        $(prev).select();
-     } else {
-        form.submit();
-    }
-  }
-}
-  else
-if (e.keyCode == 13) {
-    focusable = form.find('input,a,select,button,textarea').filter(function(){
-    return !this.readOnly &&
-           !this.disabled &&
-           $(this).parentsUntil('form', 'div').css('display') != "none";
-});
-    next = focusable.eq(focusable.index(this)+1);
-    if (next.length) {
-        next.focus();
-       $(next).select();
-    } else {
-        form.submit();
-    }
-    return false;
-}
-});
-            
  
-                    
+ $("#month").change(function(){
+  sendtosessionmonth();  
+});
      });
-      
-       
-          
-            function numbers(evt){
-var charCode=(evt.which) ? evt.which : event.keyCode
-if(charCode > 31 && (charCode < 48 || charCode>57)){
-return false;
-}
 
-else{
- 
-
-
- 
-return true;
-}
-}
-     
-
- //a function to monitor if data has been entered or its just enter and 
- 
- function isIntegerPressed(status){
- if(status=="1"){    
-     document.getElementById("checkblank").value='1';
- }
- else {
-       document.getElementById("checkblank").value='0'; 
-     
- }
-     
- }
- 
- 
- 
- 
-    function loadcounty(){
-        
-        
-        $.ajax({
-            url:'loadCounty',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#county").html(data);
-                loadsubcounty();
-              //  App.init();   
-            }
-            
-            
-        });
-        
-    }
      function loadmonths(){
       
       var yr=document.getElementById("year").value;
@@ -505,127 +344,26 @@ url:'loadMonth?year='+yr,
 type:'post',
 dataType:'html',
 success:function (data){
-    $("#month").html(data);
-//    if($("#month").val('')){
-//        
-//    }
-// location.reload();
-    
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
+    $("#month").html(data); 
+    sendtosessionmonth();
 }
 
 
 });  
-      
-      
-      }
-  
-       function loadsubcounty(){
-        
-        var county=document.getElementById("county").value;
-        $.ajax({
-            url:'loadSubcounty?county='+county,
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#subcounty").html(data);
-                
-              //  App.init();   
-            }
-            
-            
-        });
-        
-    }
-    
-    function loadfacils(){
-      var subcounty=document.getElementById("subcounty").value;  
-                    $.ajax({
-url:'loadFacilities?subcounty='+subcounty,
-type:'post',
-dataType:'html',
-success:function (data){
-       $("#facility").html(data);
-         if(document.getElementById("facility").value!==''){
-      updatefacilsession();
-     
-     
-      }  
-      $('#facility').select2();  
-         // $("#facility").chosen();
-       
-       
-}
+ }
 
-
-}); 
-         
-         
-        }
-    
-
- loadcounty();
-  //a function to update the selected session
-      
-      function updatefacilsession(){
-          
-        var facil=document.getElementById("facility").value;
-        $.ajax({
-url:'updatefacilitysession?facil='+facil,
-type:'post',
-dataType:'html',
-success:function (data){  
- loadfrms();    
-//    location.reload();
-    //  $("#"+col).css({'background-color' : '#CCFFCC'});
-     
-}
-             
-             });    
-          
-          
-          
-      }
-      function loadfrms(){
-        
-        
-        $.ajax({
-            url:'loadForms',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                $("#form").html(data);
-                
-              //  App.init(); 
-              
-              //also load county and facility
-//              loadcounty();
-              //loadsubcounty();
-            }
-            
-            
-        });
-        
-    }
         function sendtosessionyear(){
-      
       var yr=document.getElementById("year").value;
-  
-     
-    
-              $.ajax({
+   $.ajax({
 url:'monthyearsession?year='+yr,
 type:'post',
 dataType:'html',
 success:function (data){
 //    $("#month").html(data);     
      loadmonths(); 
-     location.reload();
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
+//     location.reload();
+ 
+//   viewDQA();       
 }
 
 
@@ -637,34 +375,73 @@ success:function (data){
       
     
       var month=document.getElementById("month").value;
-    
+
   
               $.ajax({
 url:'monthyearsession?month='+month,
 type:'post',
 dataType:'html',
-success:function (data){
-//    $("#month").html(data);     
-      location.reload();
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
+success:function (data){   
+//      location.reload();
+   viewDQA();       
 }
 
 
-});  
-      
-      
-      }
+});  }
  
-//    document.getElementById("checkblank").value='0';
-      
- 
-      
-  
-     
     </script>
 
+    <script>
+
+     function  viewDQA(){
+      $("#demo").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='DQAtable'><tr><td>Loading Errors...<img src='images/utube.gif' alt='.'></td></tr></table>");
+      var month=document.getElementById("month").value;
+      var year=document.getElementById("year").value;  
+        $.ajax({
+            
+        url:'loadDQA?month='+month+"&&year="+year,
+        type:"post",
+        dataType:"html",
+        success:function(data){
+//        alert(data);
+  $("#DQAtable").html(data);
+//              oTable=$('#DQAtable').dataTable().makeEditable({  
+//                  sUpdateURL: "update711"
+//                  
+               $("#DQAtable").dataTable({
+              
+              sUpdateURL: "update711",
+              
+              "dom": 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": "swf/copy_csv_xls_pdf.swf",
+            "aButtons": [ {
+                    "sExtends": "csv",
+                    "sButtonText": "Save to csv"
+                },
+                {
+                    "sExtends": "xls",
+                    "sButtonText": "Save to xls"
+                },
+                {
+                    "sExtends": "pdf",
+                    "sButtonText": "Save to pdf"
+                } ],
+             "sRowSelect": "single"
+            
+        },
+              
+                "bProcessing": true,
+                "sPaginationType": "full_numbers",
+                "bJQueryUI": true
+            });     
+          }
+    }); 
+    
+  }
+    
+    
+       </script>
    <!-- END JAVASCRIPTS -->  
    
    

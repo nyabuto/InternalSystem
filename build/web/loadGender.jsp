@@ -13,7 +13,8 @@
 <head>
    <meta charset="utf-8" />
    <title>Gender Form</title>
-     <link rel="shortcut icon" href="images/logo.png"/>
+      <script src="assets/js/jquery-1.8.3.min.js"></script>   
+     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -37,12 +38,67 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+    
+   <link rel="stylesheet" href="select2/css/select2.css">
+   
 
+      <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+
+ <style>
+fieldset.formatter {
+    border: 2px groove black !important;
+   
+    /*padding: 0 1.4em 1.4em 1.4em !important;*/
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+   
+}
+
+legend.formatter {
+    border: 0px groove black !important;
+    margin: 0 0 0.0em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+    font-size: 1.2em !important;
+    /*font-weight: bold !important;*/
+    text-align: center !important;
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    margin-left:50px;
+
+}
+</style>
   
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="fixed-top" onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }">
+    
+   <!-------------------------------------------dialog box for unvalidated facils-------------------------------------------------->  
+    <div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Unvalidated Forms.</p></h4>
+      </div>
+      <div class="modal-body" id="allunValidated" style="font-size: 16px;">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-danger" data-dismiss="modal" style="height:30px;" id="viewErrors">Close</button>
+      </div>
+    </div>
+  </div>
+</div> 
+  <!-------------------------------------------dialog box for unvalidated facils-------------------------------------------------->  
+  
+    
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -50,22 +106,58 @@
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
            <div class="control-group">
-                             <div style="float:right;"> 
+           <div style="float:right;"> 
                                  
-                                 <font color="white" size="5px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                 
-                                    <font color="white" size="5px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
-                                 
+                                <font color="white" size="3px"><b>Year: </b></font>  
+                                <select required data-placeholder="Reporting Year" style="width:100px;" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year">
+                                    <option value=""></option>                                 
                                    
-                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
+                                 </select>
+<!--                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                    <input type="hidden" name="year" id="year" value="<%=session.getAttribute("year").toString()%>">
+                                  -->
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                  
+                                  <select placeholder="Month"   style="width:150px;" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();">
+                                    <option value=""></option>
+                                 </select>
+                                    <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                <select placeholder="County" style="width:150px;" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                                    <option value=""></option>
+                                 </select>
+                                   
+                                    <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
+                              
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                                    
+                                   
+                                   <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
                                     <option value=""></option>
                                  </select></div>
                               
                            </div>
+                                   
+                                   
+                                    <%if (session.getAttribute("genderresponse") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("genderresponse")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 4800});
+                    
+                </script> <%
+                session.removeAttribute("genderresponse");
+                            }
+
+                        %>
+                                   
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
@@ -82,7 +174,7 @@
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
+                     <li><a href="editProfile.jsp"><i class="icon-user"></i>User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
@@ -149,27 +241,28 @@
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">GENDER</b>
+                        <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:15px;"><b></b></span>
+                        <span id="newform" style="margin-left: 17%;background-color: white;padding: 2px;"><b></b></span>
+                    
+                     
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="sessionsHolder" class="form-horizontal">
-                          
-                         
-                         <table id="gendertable" cellpadding="2px" border="0" style="border-color: #e5e5e5;margin-bottom: 3px;"></table>
-                          
-                           
-                            
+                        <form action="validateGender" class="form-horizontal">
+                    
+                            <div id="gendertable">
+                              <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+                        
+<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Prevention Sub Area 12:Gender</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
                              
-                           
+</table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
+                        
                             
-                         
-                           <div class="form-actions">
-                              <button type="submit" class="btn blue">Run Validate</button>
-<!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+                            </div>
+                            <input type="hidden" name="checkblank" id="checkblank" value="0"/>
                         </form>
                         <!-- END FORM-->           
-                     </div>
+                    
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
                </div>
@@ -204,7 +297,7 @@
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+ 
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -228,10 +321,16 @@
    <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script src="assets/js/app.js"></script>     
+   <script src="assets/js/app.js"></script>    
+      
+ <script src="select2/js/select2.js"></script>
+   
+   
+   
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
+               $('#facility').select2(); 
          
                     $.ajax({
 url:'loadFacilities',
@@ -239,8 +338,8 @@ type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-     
-       App.init();   
+      $('#facility').select2(); 
+      // App.init();   
 }
 
 
@@ -253,54 +352,114 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#gendertable").html(data);
-           // $("#P121DM0").focus();   
+                $("#newform").html($("#formstatus").html());
+                $("#recordcounter").html($("#rc").html());
+                $("#allunValidated").html($("#ufs").html());
+                
+            //$("#P121DM0").focus();   
             }
             
             
         }); 
        
          
-//$.ajax({
-//    url:'loadYear',
-//    type:'post',
-//    dataType:'html',
-//    success:function (data){
-//        // $("#year").html(data);
+$.ajax({
+    url:'loadYear',
+    type:'post',
+    dataType:'html',
+    success:function (data){
+         $("#year").html(data);
+         loadmonths();
 //        document.getElementById("year").innerHTML=data;
-//        
-//    }
-//    
-//    
-//}); 
-//               
+        
+    }
+    
+    
+});
+ 
+               
      });
       
       
       
-//      function loadmonths(){
-//      
-//      var yr=document.getElementById("year").value;
-//      
-//              $.ajax({
-//url:'loadMonth?year='+yr,
-//type:'post',
-//dataType:'html',
-//success:function (data){
-//    $("#month").html(data);     
-//    
-//       //document.getElementById("month").innerHTML=data;
-//      // App.init();  
+function loadmonths(){
+      
+      var yr=document.getElementById("year").value;
+//      alert(yr);
+              $.ajax({
+url:'loadMonth?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+    $("#month").html(data);
+//    if($("#month").val('')){
 //        
-//}
-//
-//
-//}
-//);  
-//      
-//      
-             //  }
+//    }
+// location.reload();
+    
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
              
-             
+       function sendtosessionyear(){
+      
+      var yr=document.getElementById("year").value;
+  
+     
+    
+              $.ajax({
+url:'monthyearsession?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+     loadmonths(); 
+     location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+	  
+	  
+	  
+
+        function sendtosessionmonth(){
+      
+    
+      var month=document.getElementById("month").value;
+    
+  
+              $.ajax({
+url:'monthyearsession?month='+month,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+      location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+	        
              
              //AUTOUPDATING FUNCTION
            
@@ -310,18 +469,19 @@ success:function (data){
              
              function autosave(col){
             var achieved=document.getElementById(col).value;
-            
+              document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
+         //if(document.getElementById("checkblank").value=='1'){
             
              $.ajax({
 url:'saveGender?col='+col+"&achieved="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){      
-    
+    document.getElementById("checkblank").value='0'; 
       //if the col being autoseved is a total, show a different color 
-      if(col.endsWith("T")||col=='GEND_GBVM'||col=='GEND_GBVF'||col=='GEND_GBV'||col=='GEND_GBV25'||col=='GEND_GBV24'||col=='GEND_GBV17'||col=='GEND_GBV14'||col=='GEND_GBV9'){
+      if(col.endsWith("T")||col=='GEND_GBVM'||col=='GEND_GBVF'||col=='GEND_GBV'||col=='GEND_GBV25'||col=='GEND_GBV24'||col=='GEND_GBV17'||col=='GEND_GBV14'||col=='GEND_GBV9'||col=='P121D0'||col=='P121D10'||col=='P121D15'||col=='P121D20'||col=='P121D25'||col=='P122D0'||col=='P122D15'||col=='P122D25'||col=='P123D0'||col=='P123D15'||col=='P123D25'||col=='P124D0'||col=='P124D15'||col=='P124D25'){
        
-       $("#"+col).css({'background-color' : '#CCCCFF'});
+       $("#"+col).css({'background-color' : 'plum'});
           
       }
       else {
@@ -332,6 +492,10 @@ success:function (data){
                        }
              
              });
+             
+             
+            // }
+             
              }
              
              
@@ -341,13 +505,14 @@ success:function (data){
             function numbers(evt){
 var charCode=(evt.which) ? evt.which : event.keyCode
 if(charCode > 31 && (charCode < 48 || charCode>57)){
+
+
+
 return false;
 }
+else{   
 
-else{
- 
-
-
+document.getElementById("checkblank").value='1'; 
  
 return true;
 }
@@ -406,8 +571,22 @@ success:function (data){
       if(nine==""){nine=0;}
       if(ten==""){ten=0;}
       
-  
-            
+  var mid1=parseInt(one)+parseInt(two);
+       document.getElementById("P121D0").value=mid1;
+  var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P121D10").value=mid2;
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P121D15").value=mid3;
+  var mid4=parseInt(seven)+parseInt(eight);
+  document.getElementById("P121D20").value=mid4;
+  var mid5=parseInt(nine)+parseInt(ten);
+  document.getElementById("P121D25").value=mid5;
+     autosave('P121D0');  
+     autosave('P121D10');  
+     autosave('P121D15');  
+     autosave('P121D20');  
+     autosave('P121D25');  
+    
            var fttl=parseInt(two)+parseInt(four)+parseInt(six)+parseInt(eight)+parseInt(ten);
            var mttl=parseInt(one)+parseInt(three)+parseInt(five)+parseInt(seven)+parseInt(nine);
            var tttl=parseInt(fttl)+parseInt(mttl);
@@ -444,8 +623,17 @@ success:function (data){
       if(five==""){five=0;}
       if(six==""){six=0;}
       
+  var mid1=parseInt(one)+parseInt(two);
+  document.getElementById("P122D0").value=mid1;
+  autosave('P122D0'); 
       
-  
+   var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P122D15").value=mid2;
+  autosave('P122D15'); 
+     
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P122D25").value=mid3;
+  autosave('P122D25'); 
             
            var fttl=parseInt(two)+parseInt(four)+parseInt(six);
            var mttl=parseInt(one)+parseInt(three)+parseInt(five);
@@ -484,7 +672,17 @@ success:function (data){
       if(five==""){five=0;}
       if(six==""){six=0;}
       
+      var mid1=parseInt(one)+parseInt(two);
+  document.getElementById("P123D0").value=mid1;
+  autosave('P123D0'); 
       
+   var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P123D15").value=mid2;
+  autosave('P123D15'); 
+     
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P123D25").value=mid3;
+  autosave('P123D25'); 
   
             
            var fttl=parseInt(two)+parseInt(four)+parseInt(six);
@@ -523,7 +721,18 @@ success:function (data){
       if(five==""){five=0;}
       if(six==""){six=0;}
       
+       var mid1=parseInt(one)+parseInt(two);
+  document.getElementById("P124D0").value=mid1;
+  autosave('P124D0'); 
       
+   var mid2=parseInt(three)+parseInt(four);
+  document.getElementById("P124D15").value=mid2;
+  autosave('P124D15'); 
+     
+  var mid3=parseInt(five)+parseInt(six);
+  document.getElementById("P124D25").value=mid3;
+  autosave('P124D25'); 
+  
   
             
            var fttl=parseInt(two)+parseInt(four)+parseInt(six);
@@ -670,7 +879,92 @@ if (e.keyCode == 13) {
 }
 });
  
+ 
+ 
+ 
+ //a function to monitor if data has been entered or its just enter and 
+ 
+ function isIntegerPressed(status){
+ if(status=="1"){    
+     document.getElementById("checkblank").value='1';
+ }
+ else {
+       document.getElementById("checkblank").value='0'; 
+     
+ }
+     
+ }
+ 
+ 
+ 
+ 
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
     
+    
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
+    
+ 
+ loadcounty();
+ 
+ 
+    document.getElementById("checkblank").value='0';
       
    </script>
    <!-- END JAVASCRIPTS -->   

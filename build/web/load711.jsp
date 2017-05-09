@@ -17,6 +17,8 @@
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
+    
+     <script src="assets/js/jquery-1.8.3.min.js"></script>     
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -37,49 +39,17 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
+   
+ 
+<link rel="stylesheet" href="select2/css/select2.css">
+<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
 
-     <script type="text/javascript">
-           $(document).ready(function(){
-                $("form").submit(function(){
-            
-        return true;
-            }) ;
-            
-  $('body').on('keydown', 'input, select, textarea', function(e) {
-var self = $(this)
-  , form = self.parents('form:eq(0)')
-  , focusable
-  , next
-  , prev
-  ;
+  
 
-if (e.shiftKey) {
- if (e.keyCode == 13) {
-     focusable =   form.find('input,a,select,button,textarea').filter(':visible');
-     prev = focusable.eq(focusable.index(this)-1); 
 
-     if (prev.length) {
-        prev.focus();
-     } else {
-        form.submit();
-    }
-  }
-}
-  else
-if (e.keyCode == 13) {
-    focusable = form.find('input,a,select,button,textarea').filter(':visible');
-    next = focusable.eq(focusable.index(this)+1);
-    if (next.length) {
-        next.focus();
-    } else {
-        form.submit();
-    }
-    return false;
-}
-});
-            
-           });
-       </script>
         <style>
 fieldset.formatter {
     border: 2px groove black !important;
@@ -106,10 +76,18 @@ legend.formatter {
 
 }
 </style>
+<style>
+    
+    
+    .form-actions {
+  
+    padding: 4px 20px 4px;
+}
+</style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top">
+<body class="fixed-top"  >
    <!-- BEGIN HEADER -->
    <div class="header navbar navbar-inverse navbar-fixed-top">
       <!-- BEGIN TOP NAVIGATION BAR -->
@@ -119,18 +97,37 @@ legend.formatter {
            <div class="control-group">
                              <div style="float:right;"> 
                                  
-                                 <font color="white" size="5px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                 
-                                    <font color="white" size="5px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
-                                 
+                               <font color="white" size="3px"><b>Year: </b></font>  
+                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year" style="width: 100px;">
+                                    <option value=""></option>                                 
                                    
-                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
-                              
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                 </select>
+
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                  
+                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();" style="width: 150px;">
                                     <option value=""></option>
-                                 </select></div>
+                                 </select>
+                                
+                                    <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
+                              
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 150px;">
+                                    <option value=""></option>
+                                 </select>
+                                   
+                                    <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
+                              
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                                    
+                                   
+                                   <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select>
+                             </div>
                               
                            </div>
             <!-- END LOGO -->
@@ -178,10 +175,10 @@ legend.formatter {
          <div id="portlet-config" class="modal hide">
             <div class="modal-header">
                <button data-dismiss="modal" class="close" type="button"></button>
-               <h3>portlet Settings</h3>
+               <!--<h3>portlet Settings</h3>-->
             </div>
             <div class="modal-body">
-               <p>Here will be a configuration form</p>
+               <!--<p>Here will be a configuration form</p>-->
             </div>
          </div>
          <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -208,7 +205,47 @@ legend.formatter {
                     </li>
                                       </ul>
                </div>
-                
+             <div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Errors detected.</p></h4>
+      </div>
+      <div class="modal-body" id="errorBody">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" data-dismiss="modal" style="height:40px;" id="viewErrors">view errors</button>
+        <button type="button" class="btn-danger" id="submit" style="height:40px;">submit with errors</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!--Modal unvalidated forms-->
+    
+<div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Unvalidated Forms.</p></h4>
+      </div>
+      <div class="modal-body" id="allunValidated" style="font-size: 16px;">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-danger" data-dismiss="modal" style="height:30px;" id="viewErrors">Close</button>
+      </div>
+    </div>
+  </div>
+</div>     
+            
+<!--   <div id="dialog-confirm" hidden="true" title="Confirm Marking or editing for adherence">
+    <p><font color="red"><b>NOTE :</b> </font><font color="black">Adherence message has been marked.</font><br>
+    <br>1. Click <b>YES</b> if you want to mark adherence for the second or subsequent times. 
+    <br>2.Click <b>NO</b> if want to edit the already marked data for adherence.</p>
+</div>   -->
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
@@ -237,7 +274,13 @@ legend.formatter {
                             }
 
                         %> 
-                         <div class="tabbable tabbable-custom boxless" id="711table">
+                        
+                        
+                        
+                        
+                         <input type="hidden" name="data_elements" id="data_elements" value="">
+                   <input type="hidden" name="description" id="description" value="">    
+                        <div class="tabbable tabbable-custom boxless" id="711table" >
                    
                         
                        
@@ -290,7 +333,7 @@ legend.formatter {
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -314,24 +357,46 @@ legend.formatter {
    <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-   <script src="assets/js/app.js"></script>     
+   <script src="assets/js/app.js"></script>   
+     <script src="select2/js/select2.js"></script>
+ 
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-         
+   
+//               $('#facility').select2(); 
+        
                     $.ajax({
 url:'loadFacilities',
 type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-     
-       App.init();   
+      $('#facility').select2(); 
+      // App.init();   
 }
 
 
-}); 
+});
+
+ 
+
          
+$.ajax({
+    url:'loadYear',
+    type:'post',
+    dataType:'html',
+    success:function (data){
+         $("#year").html(data);
+         loadmonths();
+//        document.getElementById("year").innerHTML=data;
+        
+    }
+    
+    
+});
+               
+     
          
          $.ajax({
             url:'load711',
@@ -340,19 +405,69 @@ success:function (data){
             success:function (data){
                 $("#711table").html(data);
 //            $("#FPMicrolutN").focus();   
-           
-            
+            checkdispensary(); 
+    
  var validity=$("#checkValidity").html();
 $("#isValidated").html(validity);
-         
-   
+  
+var invalidatedData=$("#invalidatedData").html();
+$("#allunValidated").html(invalidatedData);       
+ 
+ $("#data_elements").val("");
+$("#description").val("");
+ 
 }
             
             
         }); 
        
 
-//               
+           
+  $('body').on('keydown', 'input, select, textarea', function(e) {
+var self = $(this)
+  , form = self.parents('form:eq(0)')
+  , focusable
+  , next
+  , prev
+  ;
+
+if (e.shiftKey) {
+ if (e.keyCode == 13) {
+     focusable =   form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
+     prev = focusable.eq(focusable.index(this)-1); 
+
+     if (prev.length) {
+        prev.focus();
+        $(prev).select();
+     } else {
+        form.submit();
+    }
+  }
+}
+  else
+if (e.keyCode == 13) {
+    focusable = form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
+    next = focusable.eq(focusable.index(this)+1);
+    if (next.length) {
+        next.focus();
+       $(next).select();
+    } else {
+        form.submit();
+    }
+    return false;
+}
+});
+            
+ 
+                    
      });
       
  
@@ -362,7 +477,7 @@ $("#isValidated").html(validity);
              
              
              function autosave(col){
-var totalsVariables =",FPMicrolutT,FPMicrogynonT,FPIUCDT,FPIMPLANTST,FPBTLT,FPVasectomyT,FPOTHERT,FPCONDOMST,FPCLIENTST,FPCLIENTSN,FPCLIENTSR,PMCTANCClientsT,VCTClient_Couns_TOT,VCTClient_Tested_TOT,VCTClient_HIV_TOT,DTCA_Couns_Out_Tot,DTCA_Couns_In_Tot,DTCB_Test_Out_Tot,DTCB_Test_In_Tot,DTCC_HIV_Out_Tot,DTCC_HIV_In_Tot,";          
+var totalsVariables =",FPMicrolutT,FPMicrogynonT,FPINJECTIONST,FPIUCDT,FPIMPLANTST,FPBTLT,FPVasectomyT,FPOTHERT,FPCONDOMST,FPCLIENTST,FPCLIENTSN,FPCLIENTSR,PMCTANCClientsT,MATDeliveryT,VCTClient_Couns_TOT,VCTClient_Tested_TOT,VCTClient_HIV_TOT,DTCA_Couns_Out_Tot,DTCA_Couns_In_Tot,DTCB_Test_Out_Tot,DTCB_Test_In_Tot,DTCC_HIV_Out_Tot,DTCC_HIV_In_Tot,";          
  
            
            var achieved=document.getElementById(col).value;
@@ -410,14 +525,117 @@ else{
 return true;
 }
 }
-          
+     
+
+ //a function to monitor if data has been entered or its just enter and 
+ 
+ function isIntegerPressed(status){
+ if(status=="1"){    
+     document.getElementById("checkblank").value='1';
+ }
+ else {
+       document.getElementById("checkblank").value='0'; 
+     
+ }
+     
+ }
+ 
+ 
+ 
+ 
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+     function loadmonths(){
       
-      //a function to update the selected session
+      var yr=document.getElementById("year").value;
+//      alert(yr);
+              $.ajax({
+url:'loadMonth?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+    $("#month").html(data);
+//    if($("#month").val('')){
+//        
+//    }
+// location.reload();
+    
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+  
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+     
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
+    
+
+ loadcounty();
+  //a function to update the selected session
       
       function updatefacilsession(){
           
         var facil=document.getElementById("facility").value;
-//        alert(facil);
         $.ajax({
 url:'updatefacilitysession?facil='+facil,
 type:'post',
@@ -425,7 +643,7 @@ dataType:'html',
 success:function (data){      
     location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
-        
+     
 }
              
              });    
@@ -433,7 +651,57 @@ success:function (data){
           
           
       }
+        function sendtosessionyear(){
       
+      var yr=document.getElementById("year").value;
+  
+     
+    
+              $.ajax({
+url:'monthyearsession?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+     loadmonths(); 
+     location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+        function sendtosessionmonth(){
+      
+    
+      var month=document.getElementById("month").value;
+    
+  
+              $.ajax({
+url:'monthyearsession?month='+month,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+      location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+ 
+//    document.getElementById("checkblank").value='0';
+      
+ 
       
   
        function Microluttotal(){
@@ -686,6 +954,9 @@ success:function (data){
       var FPOTHERN=document.getElementById("FPOTHERN").value;
       var FPOTHERR=document.getElementById("FPOTHERR").value;
       
+      var FPCONDOMSN=document.getElementById("FPCONDOMSN").value;
+      var FPCONDOMSR=document.getElementById("FPCONDOMSR").value;
+      
        if(FPMicrolutN==""){FPMicrolutN=0;}
        if(FPMicrolutR==""){FPMicrolutR=0;}
        if(FPMicrogynonN==""){FPMicrogynonN=0;}
@@ -702,11 +973,13 @@ success:function (data){
        if(FPVasectomyR==""){FPVasectomyR=0;}
        if(FPOTHERN==""){FPOTHERN=0;}
        if(FPOTHERR==""){FPOTHERR=0;}
+       if(FPCONDOMSN==""){FPCONDOMSN=0;}
+       if(FPCONDOMSR==""){FPCONDOMSR=0;}
        
-       var newvisitstotal=parseInt(FPMicrolutN)+parseInt(FPMicrogynonN)+
+       var newvisitstotal=parseInt(FPMicrolutN)+parseInt(FPMicrogynonN)+ parseInt(FPCONDOMSN)+
                parseInt(FPINJECTIONSN)+parseInt(FPIUCDN)+parseInt(FPIMPLANTSN)+parseInt(FPBTLN)+parseInt(FPVasectomyN)+parseInt(FPOTHERN);
          
-           var revisitstotal=parseInt(FPMicrolutR)+parseInt(FPMicrogynonR)+
+           var revisitstotal=parseInt(FPMicrolutR)+parseInt(FPMicrogynonR)+parseInt(FPCONDOMSR)+
                parseInt(FPINJECTIONSR)+parseInt(FPIUCDR)+parseInt(FPIMPLANTSR)+parseInt(FPBTLR)+parseInt(FPVasectomyR)+parseInt(FPOTHERR);
          var total=parseInt(newvisitstotal)+parseInt(revisitstotal);
          
@@ -1015,12 +1288,205 @@ success:function (data){
           
      
       }    
+      function maternitytotals(){
+      var normaldeliveries=0;
+     var csdeliveries=0;
+     var breechdeliveries=0;
+     var assisteddeliveries=0;
+     
+       normaldeliveries=document.getElementById("MATNormalDelivery").value;
+       csdeliveries=document.getElementById("MATCSection").value;
+       breechdeliveries=document.getElementById("MATBreech").value;
+       assisteddeliveries=document.getElementById("MATAssistedVag").value;
+     
+      if(normaldeliveries==""){normaldeliveries=0;}
+      if(csdeliveries==""){csdeliveries=0;}
+      if(breechdeliveries==""){breechdeliveries=0;}
+      if(assisteddeliveries==""){assisteddeliveries=0;}
+     
+     
+ 
+           
+           var deliveriestotal=parseInt(normaldeliveries)+parseInt(csdeliveries)+parseInt(breechdeliveries)+parseInt(assisteddeliveries);
+                if(deliveriestotal==""){deliveriestotal=0;}
+           document.getElementById("MATDeliveryT").value=deliveriestotal;
+         
+           
+            autosave('MATDeliveryT');
+            
+          
+          
+          
+      }
       
-   </script>
+   </script>   
+     <script type="text/javascript" src="js/validate711.js"></script>
+   <script type="text/javascript">
+ $(document).ready(function(){
+   var errorsFP=0,errorsVCT=0,errorsDTC=0;
+
+//    $('#myModal').modal();
+   $("form").submit(function(){
+//       alert("mmmm");
+       var errors=0;
+       $("#data_elements").val("");
+$("#description").val("");
+       $(":text").css({'background-color' : 'white'});        
+var totalsVariables ="FPMicrolutT,FPMicrogynonT,FPINJECTIONST,MATDeliveryT,FPIUCDT,FPIMPLANTST,FPBTLT,FPVasectomyT,FPOTHERT,FPCONDOMST,FPCLIENTST,FPCLIENTSN,FPCLIENTSR,PMCTANCClientsT,VCTClient_Couns_TOT,VCTClient_Tested_TOT,VCTClient_HIV_TOT,DTCA_Couns_Out_Tot,DTCA_Couns_In_Tot,DTCB_Test_Out_Tot,DTCB_Test_In_Tot,DTCC_HIV_Out_Tot,DTCC_HIV_In_Tot,";          
+
+var arrayTotals=totalsVariables.split(",");  
+var arrayLength=arrayTotals.length;
+var i=0;
+//alert("length : "+arrayLength);
+while(i<arrayLength){
+ $("#"+arrayTotals[i]).css({'background-color' : '#DDDDDD'});          
+ i++;   
+}
+var allErrors="The following errors were found : <br><br>";
+  var returned;
+//   if ( $( "#HV0101" ).length ) {    
+//   errorsHCT=validateHCT();
+//   if(parseInt(errorsHCT)>0){
+//   allErrors+=" "+errorsHCT+" errors in HIV Counselling and Testing.<br>";
+//   }
+//   }
+   
+   if ( $( "#FPMicrolutN" ).length ) {
+   errorsFP=validateFP();
+//   alert("errors"+errorsPMTCT);
+if(parseInt(errorsFP)>0){
+   allErrors+=" "+errorsFP+" error(s) were found in FP section.<br>";
+errors+=parseInt(errorsFP);
+}
+}
+   if ( $( "#VCTClient_Couns_CF" ).length ) {
+  
+   errorsVCT=validateVCT();
+//   alert("errors"+errorsPMTCT);
+if(parseInt(errorsVCT)>0){
+   allErrors+=" "+errorsVCT+" error(s) were found in VCT section.<br>";
+errors+=parseInt(errorsVCT);
+}
+}
+   if ( $( "#DTCA_Couns_Out_CF" ).length ) {
+  
+   errorsDTC=validateDTC();
+//   alert("errors"+errorsPMTCT);
+if(parseInt(errorsDTC)>0){
+   allErrors+=" "+errorsDTC+" error(s) were found in DTC section.<br>";
+errors+=parseInt(errorsDTC);
+}
+}
+
+//if ( $( "#HV0301" ).length ) {
+//   errorsCT=validateCT();
+////   alert("errors"+errorsCT);
+//if(parseInt(errorsCT)>0){
+//   allErrors+=" "+errorsCT+" error(s) were found in Care and Treatment section.<br>";
+//errors+=parseInt(errorsCT);
+//}
+//}
+//
+////if ( $( "#HV0401" ).length ) {
+////   errorsVMMC=validateVMMC();
+//////   alert("errors"+errorsVMMC);
+////if(parseInt(errorsVMMC)>0){
+////   allErrors+=" "+errorsVMMC+" errors in VMMC.<br>";
+////}
+////}
+//
+//if ( $( "#HV0501" ).length ) {
+//   errorsPEP=validatePEP();
+////   alert("errors"+errorsPEP);
+//if(parseInt(errorsPEP)>0){
+//   allErrors+=" "+errorsPEP+" error(s) were found in Post-Exposure Prophylaxis (PEP) section.<br>";
+//errors+=parseInt(errorsPEP);
+//}
+//}
+
+//if ( $( "#HV0601" ).length ) {
+//   errorBLOOD=validateBlood();
+////   alert("errors"+errorBLOOD);
+//if(parseInt(errorBLOOD)>0){
+//   allErrors+=" "+errorBLOOD+" errors in Blood safety.<br>";
+//}
+//} 
+
+//alert("errors : "+allErrors);
+
+
+if(errors>0){
+    $("#errorBody").html(allErrors);
+     $('#notifier').modal();
+$("#submit").click(function(){
+//  alert("to submit");  
+$('#notifier').modal('hide');
+$.ajax({
+        url: 'validate711',
+        type: 'post',
+        dataType: 'html',
+        data: $('form').serialize(),
+        success: function() {
+//                alert("submitted");
+       location.reload();
+      
+       
+                 }
+         
+    });
+  });    
+ $("#viewErrors").click(function(){
+//alert("to view errors");
+  });
+  
+  returned = false;
+}
+else{
+    returned=true;
+}
+ $('[data-toggle="tooltip"]').tooltip();
+return returned;
+ });});
+ 
+// $("#demo").onload = function() {checkdispensary()};  
+ function checkdispensary(){
+
+    var facil=document.getElementById("facility");
+    var faci= facil.options[facil.selectedIndex].innerHTML;
+    var facilityname = facil.options[facil.selectedIndex].text;
+//     alert(faci+"___"+facilityname);
+   if(facilityname.contains("Dispensary"))  {
+       
+//       alert("entered facilty");
+      
+        if ( $( "#DTCA_Couns_Out_CF" ).length ) {
+//                alert("entered facilty")
+       
+   document.getElementById("DTCB_Test_In_CF").disabled=true;
+  document.getElementById("DTCC_HIV_In_CF").disabled=true;
+   
+ document.getElementById("DTCB_Test_In_CM").disabled=true;
+  document.getElementById("DTCC_HIV_In_CM").disabled=true;
+
+
+document.getElementById("DTCB_Test_In_AM").disabled=true;
+  document.getElementById("DTCC_HIV_In_AM").disabled=true;
+  
+ document.getElementById("DTCC_HIV_In_AF").disabled=true;
+ document.getElementById("DTCB_Test_In_AF").disabled=true;
+        }
+   }
+ }
+  
+ 
+
+
+    </script>
+
    <!-- END JAVASCRIPTS -->  
    
    
-   
+   </div>
 </body>
 <!-- END BODY -->
 </html>

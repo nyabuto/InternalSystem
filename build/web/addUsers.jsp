@@ -14,7 +14,7 @@
    <meta charset="utf-8" />
    <title>Add Users</title>
     <script src="assets/js/jquery-1.8.3.min.js"></script>  
-    <link rel="shortcut icon" href="images/header.jpg"/>
+    <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -92,7 +92,7 @@ return true;
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
+                     <li><a href="editProfile.jsp"><i class="icon-user"></i>User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
@@ -111,7 +111,7 @@ return true;
       <!-- BEGIN SIDEBAR -->
       <div class="page-sidebar nav-collapse collapse">
          <!-- BEGIN SIDEBAR MENU -->         
-       <%@include file="/menu/menu.jsp"%>
+       <%@include file="/menu/minimenu.jsp"%>
          <!-- END SIDEBAR MENU -->
       </div>
       <!-- END SIDEBAR -->

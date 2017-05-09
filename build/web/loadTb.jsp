@@ -23,6 +23,7 @@
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
+      <script src="assets/js/jquery-1.8.3.min.js"></script>   
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -43,48 +44,13 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-  <script type="text/javascript">
-           $(document).ready(function(){
-                $("form").submit(function(){
-            
-        return true;
-            }) ;
-            
-  $('body').on('keydown', 'input, select, textarea', function(e) {
-var self = $(this)
-  , form = self.parents('form:eq(0)')
-  , focusable
-  , next
-  , prev
-  ;
-
-if (e.shiftKey) {
- if (e.keyCode == 13) {
-     focusable =   form.find('input,a,select,button,textarea').filter(':visible');
-     prev = focusable.eq(focusable.index(this)-1); 
-
-     if (prev.length) {
-        prev.focus();
-     } else {
-        form.submit();
-    }
-  }
-}
-  else
-if (e.keyCode == 13) {
-    focusable = form.find('input,a,select,button,textarea').filter(':visible');
-    next = focusable.eq(focusable.index(this)+1);
-    if (next.length) {
-        next.focus();
-    } else {
-        form.submit();
-    }
-    return false;
-}
-});
-            
-           });
-       </script>
+   <script src="select2/js/select2.js"></script>
+<link rel="stylesheet" href="select2/css/select2.css">
+<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+   
         <style>
 fieldset.formatter {
     border: 2px groove black !important;
@@ -124,19 +90,52 @@ legend.formatter {
             <!-- BEGIN LOGO -->
            <div class="control-group">
                              <div style="float:right;"> 
+                               
+<!--                              <font color="white" size="3px"><b>Year: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
                                  
-                                 <font color="white" size="5px"><b>Year: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
+                                 -->
                                  
-                                    <font color="white" size="5px"><b>Month: </b></font>  
-                                   <font color="#4b8df8" size="5px"><b><%if(session.getAttribute("monthname")!=null){out.println(session.getAttribute("monthname").toString()+" | ");}%></b></font>
-                                 
+                                 <font color="white" size="3px"><b>Year: </b></font>  
+                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" tabindex="-1" onchange="sendtosessionyear();"  id="year" name="year" style="width: 100px;">
+                                    <option value=""></option>                                 
                                    
-                                   <font color="white" size="5px" margin-left="3px"><b>            Activity Site : </b></font>
-                              
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                 </select>
+<!--                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
+                                    <input type="hidden" name="year" id="year" value="<%=session.getAttribute("year").toString()%>">
+                                  -->
+                                    <font color="white" size="3px"><b>Month: </b></font>  
+                                  
+                                  <select placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();" style="width: 150px;">
                                     <option value=""></option>
-                                 </select></div>
+                                 </select>
+                                   
+                                    <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
+                              
+                                <select placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county" style="width: 150px;"
+                                    <option value=""></option>
+                                 </select>
+                                   
+                                    <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
+                              
+                                <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                    <option value="">Select County First</option>
+                                 </select>
+                                    
+                                   
+                                   <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
+                              
+                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="span6" tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select>
+                             
+                             
+                             
+                             
+                             
+                             </div>
                               
                            </div>
             <!-- END LOGO -->
@@ -155,7 +154,7 @@ legend.formatter {
                   <i class="icon-angle-down"></i>
                   </a>
                   <ul class="dropdown-menu">
-                     <li><a href="userProfile.html"><i class="icon-user"></i>User Profile</a></li>
+                     <li><a href="editProfile.jsp"><i class="icon-user"></i>User Profile</a></li>
                    
                      <li class="divider"></li>
                      <li><a href="logout.jsp"><i class="icon-key"></i> Log Out</a></li>
@@ -192,6 +191,48 @@ legend.formatter {
          </div>
          <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
          <!-- BEGIN PAGE CONTAINER-->
+         
+         
+            <div class="modal fade" id="notifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Errors detected.</p></h4>
+      </div>
+      <div class="modal-body" id="errorBody">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" data-dismiss="modal" style="height:40px;" id="viewErrors">view errors</button>
+        <button type="button" class="btn-danger" id="submit" style="height:40px;">submit with errors</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!--Modal unvalidated forms-->
+    
+<div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; color:red; font-weight: bolder;">Unvalidated Forms.</p></h4>
+      </div>
+      <div class="modal-body" id="allunValidated" style="font-size: 16px;">
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-danger" data-dismiss="modal" style="height:30px;" id="viewErrors">Close</button>
+      </div>
+    </div>
+  </div>
+</div>    
+         
+         
+         
+         
+         
          <div class="container-fluid">
             <!-- BEGIN PAGE HEADER-->   
             <div class="row-fluid">
@@ -222,7 +263,7 @@ legend.formatter {
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">TB</b>
-                         <h4><i style="margin-left:150px;" id="isValidated"></i></h4>
+                         <h4><span style="margin-left:150px; color:white;" id="isValidated"></span><span style="margin-left:150px; color:white;" id="showcounter"></span></h4>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
@@ -242,7 +283,7 @@ legend.formatter {
                             }
 
                         %>
-                        <form action="validateTB" method="post" class="form-horizontal">
+                        <form action="validateTb" method="post" class="form-horizontal">
                           
                         
                         
@@ -305,7 +346,7 @@ legend.formatter {
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   <script src="assets/js/jquery-1.8.3.min.js"></script>    
+   <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -341,7 +382,7 @@ dataType:'html',
 success:function (data){
        $("#facility").html(data);
      
-       App.init();   
+        $('#facility').select2();  
 }
 
 
@@ -358,27 +399,79 @@ success:function (data){
            
  var validity=$("#checkValidity").html();
 $("#isValidated").html(validity);
-            
+ 
+ var validity=$("#recordcounter").html();
+$("#showcounter").html(validity);
+ 
+ 
+   
+var invalidatedData=$("#invalidatedData").html();
+$("#allunValidated").html(invalidatedData); 
             
             }
             
             
         }); 
        
-         
-//$.ajax({
-//    url:'loadYear',
-//    type:'post',
-//    dataType:'html',
-//    success:function (data){
-//        // $("#year").html(data);
+       $.ajax({
+    url:'loadYear',
+    type:'post',
+    dataType:'html',
+    success:function (data){
+         $("#year").html(data);
+         loadmonths();
 //        document.getElementById("year").innerHTML=data;
-//        
-//    }
-//    
-//    
-//}); 
-//               
+        
+    }
+    
+    
+});
+  
+           
+  $('body').on('keydown', 'input, select, textarea', function(e) {
+var self = $(this)
+  , form = self.parents('form:eq(0)')
+  , focusable
+  , next
+  , prev
+  ;
+
+if (e.shiftKey) {
+ if (e.keyCode == 13) {
+     focusable =   form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
+     prev = focusable.eq(focusable.index(this)-1); 
+
+     if (prev.length) {
+        prev.focus();
+        $(prev).select();
+     } else {
+        form.submit();
+    }
+  }
+}
+  else
+if (e.keyCode == 13) {
+    focusable = form.find('input,a,select,button,textarea').filter(function(){
+    return !this.readOnly &&
+           !this.disabled &&
+           $(this).parentsUntil('form', 'div').css('display') != "none";
+});
+    next = focusable.eq(focusable.index(this)+1);
+    if (next.length) {
+        next.focus();
+       $(next).select();
+    } else {
+        form.submit();
+    }
+    return false;
+}
+});
+            
+             
      });
       
       
@@ -434,7 +527,7 @@ success:function (data){
       $("#"+col).css({'background-color' : '#CCFFCC'});
 }
 
-$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
+$("#isValidated").html("<font color=\"white\"><b style=\"font-size:16px;font-family: cambria;\">Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
 }
 }
   
@@ -482,6 +575,92 @@ success:function (data){
           
           
       }
+      
+      
+      
+       function loadmonths(){
+      
+      var yr=document.getElementById("year").value;
+//      alert(yr);
+              $.ajax({
+url:'loadMonth?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+    $("#month").html(data);
+//    if($("#month").val('')){
+//        
+//    }
+// location.reload();
+    
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+
+
+
+//-----------------------------------------------------------------------------------------
+
+
+ function sendtosessionyear(){
+      
+      var yr=document.getElementById("year").value;
+  
+     
+    
+              $.ajax({
+url:'monthyearsession?year='+yr,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+     loadmonths(); 
+     location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+	  
+	  
+	  
+//-----------------------------------------------------------------------------------------
+        function sendtosessionmonth(){
+      
+    
+      var month=document.getElementById("month").value;
+    
+  
+              $.ajax({
+url:'monthyearsession?month='+month,
+type:'post',
+dataType:'html',
+success:function (data){
+//    $("#month").html(data);     
+      location.reload();
+       //document.getElementById("month").innerHTML=data;
+      // App.init();  
+        
+}
+
+
+});  
+      
+      
+      }
+
    function TB_STAT(){
      
 //     alert("called");
@@ -587,6 +766,88 @@ success:function (data){
           
      
       }
+      //a function to monitor if data has been entered or its just enter and 
+ 
+ function isIntegerPressed(status){
+ if(status=="1"){    
+     document.getElementById("checkblank").value='1';
+ }
+ else {
+       document.getElementById("checkblank").value='0'; 
+     
+ }
+     
+ }
+ 
+ 
+ 
+ 
+    function loadcounty(){
+        
+        
+        $.ajax({
+            url:'loadCounty',
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#county").html(data);
+                loadsubcounty();
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    
+       function loadsubcounty(){
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                $("#subcounty").html(data);
+                
+              //  App.init();   
+            }
+            
+            
+        });
+        
+    }
+    
+    function loadfacils(){
+      var subcounty=document.getElementById("subcounty").value;  
+                    $.ajax({
+url:'loadFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+     
+      }  
+      $('#facility').select2();  
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+         
+         
+        }
+    
+ 
+ loadcounty();
+ 
+ 
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>
