@@ -227,12 +227,18 @@
                </ul>
             </li>
             <%}}%>
+            <li class="has-sub" style="display:none;" style="display:none;">
+                <a href="../T1FORM.jsp">
+               <span class="title">Trainings</span>
+               </a>
+            </li>
             <li class="">
                <a href="logout.jsp">
                <i class="icon-user"></i> 
                <span class="title">Log Out</span>
                </a>
             </li>
+            
          </ul>
    </body>
 </html>

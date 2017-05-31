@@ -49,7 +49,7 @@ public class loadForms extends HttpServlet {
     while(conn.rs.next()){
         
       if(conn.rs.getString("form").equals("MOH 711A") || conn.rs.getString("form").equalsIgnoreCase("MOH 711 (New)")){user_access="moh711";}  
-      if(conn.rs.getString("form").equals("MOH 731")){user_access="moh731";}   
+      if(conn.rs.getString("form").equals("MOH 731") || conn.rs.getString("form").equalsIgnoreCase("MOH 731 (New)")){user_access="moh731";}   
       if(conn.rs.getString("form").equals("Gender")){user_access="gender";}  
       if(conn.rs.getString("form").equals("VMMC")){user_access="vmmc";}  
       if(conn.rs.getString("form").equals("Nutrition")){user_access="nutrition";}  
@@ -57,10 +57,7 @@ public class loadForms extends HttpServlet {
       if(conn.rs.getString("form").equals("TB")){user_access="tb";}  
       if(conn.rs.getString("form").equals("HEI")){user_access="hei";}
       if(conn.rs.getString("form").equals("SGBV")){user_access="gender";} 
-      
-        
-        
-        
+       
         if(form.equals(conn.rs.getString("nextpage"))){
        if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     
       if(session.getAttribute("userAccess")!=null){ if(session.getAttribute("userAccess").toString().contains(","+user_access+",")) {  
@@ -76,7 +73,7 @@ public class loadForms extends HttpServlet {
     }
        
         else{
-            
+            System.out.println("forms holder : "+session.getAttribute("forms_holder").toString());    
      if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     
     if(session.getAttribute("userAccess")!=null){ if(session.getAttribute("userAccess").toString().contains(","+user_access+",")) {         
     

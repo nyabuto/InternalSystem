@@ -577,6 +577,58 @@
         <servlet-name>savesgbv</servlet-name>
         <servlet-class>InternalSystem.savesgbv</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadnew731</servlet-name>
+        <servlet-class>InternalSystem.loadnew731</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savenew731</servlet-name>
+        <servlet-class>InternalSystem.savenew731</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validatenew731</servlet-name>
+        <servlet-class>InternalSystem.validatenew731</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadSummary</servlet-name>
+        <servlet-class>T1FORM.LoadSummary</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadDetailed</servlet-name>
+        <servlet-class>T1FORM.LoadDetailed</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveParticipant</servlet-name>
+        <servlet-class>T1FORM.SaveParticipant</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveSummary</servlet-name>
+        <servlet-class>T1FORM.SaveSummary</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadProfession</servlet-name>
+        <servlet-class>T1FORM.loadProfession</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadTelephone</servlet-name>
+        <servlet-class>T1FORM.loadTelephone</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadOrganizations</servlet-name>
+        <servlet-class>T1FORM.loadOrganizations</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadCoordinator</servlet-name>
+        <servlet-class>T1FORM.loadCoordinator</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadmeetings</servlet-name>
+        <servlet-class>T1FORM.loadmeetings</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Load_totals</servlet-name>
+        <servlet-class>T1FORM.Load_totals</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1152,6 +1204,58 @@
     <servlet-mapping>
         <servlet-name>savesgbv</servlet-name>
         <url-pattern>/savesgbv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadnew731</servlet-name>
+        <url-pattern>/loadnew731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savenew731</servlet-name>
+        <url-pattern>/savenew731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validatenew731</servlet-name>
+        <url-pattern>/validatenew731</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadSummary</servlet-name>
+        <url-pattern>/LoadSummary</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadDetailed</servlet-name>
+        <url-pattern>/LoadDetailed</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveParticipant</servlet-name>
+        <url-pattern>/SaveParticipant</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveSummary</servlet-name>
+        <url-pattern>/SaveSummary</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadProfession</servlet-name>
+        <url-pattern>/loadProfession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadTelephone</servlet-name>
+        <url-pattern>/loadTelephone</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadOrganizations</servlet-name>
+        <url-pattern>/loadOrganizations</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadCoordinator</servlet-name>
+        <url-pattern>/loadCoordinator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadmeetings</servlet-name>
+        <url-pattern>/loadmeetings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Load_totals</servlet-name>
+        <url-pattern>/Load_totals</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

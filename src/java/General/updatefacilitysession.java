@@ -40,21 +40,22 @@ public class updatefacilitysession extends HttpServlet {
      String f731="";
      String f711="";
      String f711new="";
+     String f731new="";
      
         conn.rs=conn.st.executeQuery(getfacilname);
         while(conn.rs.next()){
          active=","; 
-        if(conn.rs.getInt("HTC")==1){active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)";}
+        if(conn.rs.getInt("HTC")==1){active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)"; f731new="MOH 731 (New)";}
         if(conn.rs.getInt("FP")==1){active+="FP,";f711="MOH 711A,";f711new="MOH 711 (New)";}
-        if(conn.rs.getInt("PMTCT")==1){active+="PMTCT,";f731="MOH 731,";f711="MOH 711A,";f711new="MOH 711 (New)";}
+        if(conn.rs.getInt("PMTCT")==1){active+="PMTCT,";f731="MOH 731,";f711="MOH 711A,";f711new="MOH 711 (New)";f731new="MOH 731 (New)";}
         if(conn.rs.getInt("EID")==1){active+="EID,";}
-        if(conn.rs.getInt("ART")==1){active+="ART,";f731="MOH 731,";}
+        if(conn.rs.getInt("ART")==1){active+="ART,";f731="MOH 731,";f731new="MOH 731 (New)";}
         if(conn.rs.getInt("VMMC")==1){active+="VMMC,";}
          if(conn.rs.getInt("Nutrition")==1){active+="Nutrition,";}
          if(conn.rs.getInt("GSN")==1){active+="GSN,";}
          if(conn.rs.getInt("Lab")==1){active+="Lab,";}
          if(conn.rs.getInt("FP_Integration")==1){active+="FP_Integration,";}
-         if(conn.rs.getInt("Care_DSD")==1){active+="Care_DSD,";f731="MOH 731,";}
+         if(conn.rs.getInt("Care_DSD")==1){active+="Care_DSD,";f731="MOH 731,";f731new="MOH 731 (New)";}
          if(conn.rs.getInt("ART_DSD")==1){active+="ART_DSD,";}
          if(conn.rs.getInt("Maternity")==1){active+="Maternity,";f711="MOH 711A,";f711new="MOH 711 (New)";}
 //         if(conn.rs.getString("ART_Support").equals("")){active+="ART_Support,";}
@@ -63,13 +64,14 @@ public class updatefacilitysession extends HttpServlet {
          if(conn.rs.getInt("Gender")==1){active+="SGBV,";}
          if(conn.rs.getInt("KMMP")==1){active+="KMMP,";}
          if(conn.rs.getInt("Gender")==1){active+="Gender,";}
-         if(conn.rs.getInt("PEP")==1){active+="PEP,";f731="MOH 731,";}
+         if(conn.rs.getInt("PEP")==1){active+="PEP,";f731="MOH 731,";f731new="MOH 731 (New)";}
          if(conn.rs.getInt("Blood_Safety")==1){active+="Blood_Safety,";}
          if(conn.rs.getInt("TB")==1){active+="TB,";}
         
          active+=f731;
          active+=f711;
          active+=f711new;
+         active+=f731new;
          
         session.setAttribute("forms_holder", active);
         session.setAttribute("facilityname", conn.rs.getString("SubPartnerNom"));
