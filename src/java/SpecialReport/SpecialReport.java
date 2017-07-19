@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -47,7 +48,7 @@ String County, DistrictNom,SubPartnerNom,constituency,ward,mfl_code,
 ArrayList data = new ArrayList();
     ArrayList<String> titles4 = new ArrayList<String>();
     String db_year,semi_annual,quarter;
-    String group_period,organization_unit,age_set;
+    String group_period,organization_unit,age_set,gender;
     int current_column;
     int only_totals;
     String specific_elements;
@@ -84,17 +85,18 @@ ArrayList data = new ArrayList();
        String[] elements = request.getParameterValues("elements");
        
        age_set = Arrays.toString(request.getParameterValues("agebrackets"));
+       gender = Arrays.toString(request.getParameterValues("gender"));
        organization_unit=request.getParameter("orgunit");
        group_period = request.getParameter("groupby");
        
        if(reportType.equals("2")){
-       if(!facility.equals("")){
+       if(facility!=null){
        specific_facility=" and subpartnera.SubPartnerID="+facility;    
        }
-       else if(!subcounty.equals("")){
+       else if(subcounty!=null){
        specific_facility=" and district.DistrictID="+subcounty;    
        }
-       else if(!county.equals("")){
+       else if(county!=null){
        specific_facility=" and county.CountyID="+county;    
        }
        else{
@@ -108,7 +110,6 @@ ArrayList data = new ArrayList();
          }
          
         group_by=" GROUP BY ";
-          
             
         program_areas=request.getParameterValues("programarea");
 //        program_areas[0]="Special Elements";
@@ -233,12 +234,8 @@ ArrayList data = new ArrayList();
   //                       NOW CREATE THE WORKSHEETS          
   //______________________________________________________________________________________  
             
-              HSSFWorkbook wb=new HSSFWorkbook();
-              
-              
-              
-              
-    //______________________________________________________________________________________
+              HSSFWorkbook wb=new HSSFWorkbook();              
+   //______________________________________________________________________________________
     //______________________________________________________________________________________
               
             HSSFFont font = wb.createFont();
@@ -260,6 +257,7 @@ ArrayList data = new ArrayList();
             style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
             style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
             style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            style2.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.0"));
 
             HSSFCellStyle stborder = wb.createCellStyle();
             stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -350,129 +348,250 @@ ArrayList data = new ArrayList();
         titles4.add("longitude");
         header_startcell+=12;
         }
-        if(group_by.contains("year")){
-        titles4.add("Year");
+        
+        if(group_by.contains("yearmonth")){
+        titles4.add("Month");
         header_startcell++;
         }
-        if(group_by.contains("semi_annual")){
-        titles4.add("Semi Annual");
-        header_startcell++;
-        }
-        if(group_by.contains("quarter")){
+        else if(group_by.contains("quarter")){
         titles4.add("Quarter");
         header_startcell++;
         }
-        if(group_by.contains("yearmonth")){
-        titles4.add("Yearmonth");
+        else if(group_by.contains("semi_annual")){
+        titles4.add("Semi Annual");
         header_startcell++;
         }
+        else if(group_by.contains("year")){
+        titles4.add("Year");
+        header_startcell++;
+        }
+        
         titles4.add("Program Area");
         titles4.add("Element");
         header_startcell+=2;
         end_of_basic_info=header_startcell;
-        if(age_set.contains("datim")){
+        
+        int age_gender_items=0;
+        if(age_set.contains("1")){
+         if(gender.contains("m")){   
         titles4.add("m <1 ");
-        titles4.add("m 1-4");
-        titles4.add("m 5-9");
-        titles4.add("m 10-14");
-        titles4.add("m 15-19");
-        titles4.add("m 20-24");
-        titles4.add("m 25-49");
-        titles4.add("m 50+");
+        headercells++;
+        age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f <1 ");
+        headercells++;
+        age_gender_items++;
+        }
+        }
+        if(age_set.contains("2")){
+             if(gender.contains("m")){  
+        titles4.add("m 1-4");
+        headercells++;
+        age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 1-4");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("3")){
+         if(gender.contains("m")){  
+        titles4.add("m 5-9");
+        headercells++;
+        age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 5-9");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("4")){
+         if(gender.contains("m")){  
+            titles4.add("m 10-14");
+            headercells++;
+            age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 10-14");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("5")){
+         if(gender.contains("m")){  
+            titles4.add("m 15-19");
+            headercells++;
+            age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 15-19");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("6")){
+         if(gender.contains("m")){  
+            titles4.add("m 20-24");
+            headercells++;
+            age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 20-24");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("7")){
+         if(gender.contains("m")){  
+            titles4.add("m 25-49");
+            headercells++;
+            age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 25-49");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("8")){
+            if(gender.contains("m")){  
+                 titles4.add("m 50+");
+        headercells++;
+        age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 50+");
-        headercells+=16;
+         headercells++;
+         age_gender_items++;
         }
-        if(age_set.contains("special")){
-        titles4.add("m <14 ");
-        titles4.add("m 10-19");
-        titles4.add("m 15+");
-        titles4.add("m 24-35");
+        }
+        
+        if(age_set.contains("9")){
+         if(gender.contains("m")){  
+            titles4.add("m <14 ");
+        headercells++;
+        age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f <14 ");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("10")){
+         if(gender.contains("m")){  
+         titles4.add("m 10-19");
+         headercells++;
+         age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 10-19");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+        if(age_set.contains("11")){
+         if(gender.contains("m")){  
+             titles4.add("m 15+");
+         headercells++;
+         age_gender_items++;
+        }
+        if(gender.contains("f")){
         titles4.add("f 15+");
-        titles4.add("f 24-35");
-        headercells+=8;
+         headercells++;
+         age_gender_items++;
         }
-        
-        
-        titles4.add("Total Male");
-        titles4.add("Total Female");
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){  
+            titles4.add("m 24-35");
+        headercells++;
+        age_gender_items++;
+        }
+        if(gender.contains("f")){
+            titles4.add("f 24-35");
+         headercells++;
+         age_gender_items++;
+        }
+        }
+//        
+//        
+//        
+//        
+//        titles4.add("Total Male");
+//        titles4.add("Total Female");
         titles4.add("Total");
-        headercells+=3;
-        
-                HSSFRow rw0=shet.createRow(0);
-                HSSFRow rw1=shet.createRow(1);
-       int i=0;   
-       i=0;
-       while(i<header_startcell){
-       HSSFCell clx= rw0.createCell(i);
-        clx.setCellValue("");
-        clx.setCellStyle(stylex);
-        
-       HSSFCell clx1= rw1.createCell(i);
-        clx1.setCellValue("");
-        clx1.setCellStyle(stylex);
-        i++;
-       }
-       shet.addMergedRegion(new CellRangeAddress(0,1,0,header_startcell-1));
-        
-//        Heading Row 3 Gender Titles
-        rw0.setHeightInPoints(25);
-        
-        rw1.setHeightInPoints(25);
-        i=0;
-        int j=0;
-        while(i<=headercells-1){
-        HSSFCell clx= rw0.createCell(header_startcell+i);
-        clx.setCellStyle(stylex);
-        
-        HSSFCell clx2= rw1.createCell(header_startcell+i);
-        clx2.setCellStyle(stylex);
-        i++;
-        }
-        HSSFCell clT2=null,clT1=null;
-        HSSFCell clT3_1=null,clT3_2=null,clT3_3=null,clT3_4=null;
-        clT1 = rw0.getCell(header_startcell);
-        clT3_1= rw1.getCell(header_startcell);
-        clT3_2= rw1.getCell(header_startcell);
-        if(age_set.contains("datim")){
-        clT1.setCellValue("Datim Age Dissegragation");
-        clT3_1.setCellValue("Male");
-        clT3_2.setCellValue("Female");
-
-        
-        shet.addMergedRegion(new CellRangeAddress(0,0,header_startcell,header_startcell+15));
-        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell,header_startcell+7));
-        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell+8,header_startcell+15));
-        header_startcell+=16;
-        }
-        else{
-        }
-        if(age_set.contains("special")){
-        clT2 = rw0.getCell(header_startcell);
-        clT3_3= rw1.getCell(header_startcell);
-        clT3_4= rw1.getCell(header_startcell+4);
-        clT2.setCellValue("Special Age Dissegragation");
-        clT3_3.setCellValue("Male");
-        clT3_4.setCellValue("Female");
-        
-        shet.addMergedRegion(new CellRangeAddress(0,0,header_startcell,header_startcell+7));
-        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell,header_startcell+3));
-        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell+4,header_startcell+7));
-        header_startcell+=8;
-        }
-        shet.addMergedRegion(new CellRangeAddress(0,1,header_startcell,header_startcell+2));
-    //        Heading Row 4 AGES Titles
-        HSSFRow rw2=shet.createRow(2);
-        rw2.setHeightInPoints(25);
-        i=0;
+        headercells++;
+//        
+//                HSSFRow rw0=shet.createRow(0);
+//                HSSFRow rw1=shet.createRow(1);
+//       int i=0;   
+//       i=0;
+//       while(i<header_startcell){
+//       HSSFCell clx= rw0.createCell(i);
+//        clx.setCellValue("");
+//        clx.setCellStyle(stylex);
+//        
+//       HSSFCell clx1= rw1.createCell(i);
+//        clx1.setCellValue("");
+//        clx1.setCellStyle(stylex);
+//        i++;
+//       }
+//       shet.addMergedRegion(new CellRangeAddress(0,1,0,header_startcell-1));
+//        
+////        Heading Row 3 Gender Titles
+//        rw0.setHeightInPoints(25);
+//        
+//        rw1.setHeightInPoints(25);
+//        i=0;
+//        int j=0;
+//        while(i<=headercells-1){
+//        HSSFCell clx= rw0.createCell(header_startcell+i);
+//        clx.setCellStyle(stylex);
+//        
+//        HSSFCell clx2= rw1.createCell(header_startcell+i);
+//        clx2.setCellStyle(stylex);
+//        i++;
+//        }
+//        HSSFCell clT2=null,clT1=null;
+//        HSSFCell clT3_1=null,clT3_2=null,clT3_3=null,clT3_4=null;
+//        clT1 = rw0.getCell(header_startcell);
+//        clT3_1= rw1.getCell(header_startcell);
+//        clT3_2= rw1.getCell(header_startcell);
+//        if(age_set.contains("datim")){
+//        clT1.setCellValue("Datim Age Dissegragation");
+//        clT3_1.setCellValue("Male");
+//        clT3_2.setCellValue("Female");
+//
+//        
+//        shet.addMergedRegion(new CellRangeAddress(0,0,header_startcell,header_startcell+15));
+//        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell,header_startcell+7));
+//        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell+8,header_startcell+15));
+//        header_startcell+=16;
+//        }
+//        else{
+//        }
+//        if(age_set.contains("special")){
+//        clT2 = rw0.getCell(header_startcell);
+//        clT3_3= rw1.getCell(header_startcell);
+//        clT3_4= rw1.getCell(header_startcell+4);
+//        clT2.setCellValue("Special Age Dissegragation");
+//        clT3_3.setCellValue("Male");
+//        clT3_4.setCellValue("Female");
+//        
+//        shet.addMergedRegion(new CellRangeAddress(0,0,header_startcell,header_startcell+7));
+//        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell,header_startcell+3));
+//        shet.addMergedRegion(new CellRangeAddress(1,1,header_startcell+4,header_startcell+7));
+//        header_startcell+=8;
+//        }
+//        shet.addMergedRegion(new CellRangeAddress(0,1,header_startcell,header_startcell+2));
+//    //        Heading Row 4 AGES Titles
+        HSSFRow rw2=shet.createRow(0);
+        rw2.setHeightInPoints(30);
+        int i=0;
         while(i<titles4.size()){
         HSSFCell clx= rw2.createCell(i);
         clx.setCellValue(titles4.get(i));
@@ -481,7 +600,7 @@ ArrayList data = new ArrayList();
         i++;
         }
       
-        int row=3;
+        int row=1;
         
             for(String program_area : program_areas){
             String getElements="SELECT * FROM detailed_report WHERE program_area='"+program_area+"' and is_active=1 "+specific_elements+"";
@@ -580,57 +699,63 @@ ArrayList data = new ArrayList();
             data.add(latitude);
             data.add(longitude);
             }
-            if(group_by.contains("year")){
+          
+            
+        
+//        start of adding periods
+        if(group_by.contains("yearmonth")){
+            String month_name = get_period("monthly",yearmonth);
+            data.add(month_name);
+        }
+        
+        else if(group_by.contains("quarter")){
+        String quarter_name = get_period("quarterly",yearmonth);
+        data.add(quarter_name);
+        }
+        else if(group_by.contains("semi_annual")){
+        String sm_annual = get_period("semi-annualy",yearmonth);
+        data.add(sm_annual);
+        }
+            
+        else if(group_by.contains("year")){
         data.add(db_year);
         }
-        if(group_by.contains("semi_annual")){
-        data.add(semi_annual);
-        }
-        if(group_by.contains("quarter")){
-        data.add(quarter);
-        }
-        if(group_by.contains("yearmonth")){
-        data.add(yearmonth);
-        }
+//         ennd of adding periods   
+            
         data.add(program_area);
         data.add(data_element);
          
         if(only_totals==1){
-         System.out.println("age set : "+age_set);
-         
-        if(age_set.contains("datim")){
-          for (int m=1;m<=16;m++){
-          data.add("");
-          }  
-        }
-        if(age_set.contains("special")){ 
-          for (int m=1;m<=8;m++){
-          data.add("");    
-          }  
-        }
-        for (int m=1;m<=2;m++){
-          data.add("");    
-          }
-        
-        data.add(conn.rs1.getInt("total"));
+            i=0;
+         while(i<age_gender_items){
+         data.add("");
+             i++;
+         }
+        data.add(conn.rs1.getString("total"));
         }
         
         else{
         
+            if(element_id==2){
+            data.addAll(HIVPos(conn.rs1,age_set));
+            }
             if(element_id==3){
             data.addAll(NewOnCare(conn.rs1,age_set));
             }
             if(element_id==4){
             data.addAll(NewOnART(conn.rs1,age_set));
-             if(age_set.contains("datim")){
-                shet.addMergedRegion(new CellRangeAddress(0,0,header_startcell,header_startcell+7));
-            }
             }
             if(element_id==6){
             data.addAll(CurrentOnCare(conn.rs1,age_set));
+//             if(age_set.contains("datim")){
+//                shet.addMergedRegion(new CellRangeAddress(0,0,header_startcell,header_startcell+7));
+//            }
             }
             if(element_id==7){
             data.addAll(CurrentOnART(conn.rs1,age_set));
+//             if(age_set.contains("datim")){
+//                shet.addMergedRegion(new CellRangeAddress(0,0,header_startcell,header_startcell+7));
+//            }
             }
             
             if(element_id==13){
@@ -670,12 +795,18 @@ ArrayList data = new ArrayList();
 
             i++;
             } 
-            if(element_id==4){
-             if(age_set.contains("datim")){
-                shet.addMergedRegion(new CellRangeAddress(row,row,end_of_basic_info+1,end_of_basic_info+2));
-                shet.addMergedRegion(new CellRangeAddress(row,row,end_of_basic_info+9,end_of_basic_info+10));
-            }
-            }
+//            if(element_id==6){
+//             if(age_set.contains("datim")){
+//                shet.addMergedRegion(new CellRangeAddress(row,row,end_of_basic_info+1,end_of_basic_info+2));
+//                shet.addMergedRegion(new CellRangeAddress(row,row,end_of_basic_info+9,end_of_basic_info+10));
+//            }
+//            }
+//            if(element_id==7){
+//             if(age_set.contains("datim")){
+//                shet.addMergedRegion(new CellRangeAddress(row,row,end_of_basic_info+1,end_of_basic_info+2));
+//                shet.addMergedRegion(new CellRangeAddress(row,row,end_of_basic_info+9,end_of_basic_info+10));
+//            }
+//            }
             
             row++;
             } 
@@ -761,11 +892,256 @@ outStream.close();
     return group_by;
    }
     
+    public String get_period(String prd,String yearmonth){
+     String period="";
+     String semiann="",qrt="",month="";
+     String[] ym_key=yearmonth.split("");
+     String yr=ym_key[2]+""+ym_key[3];
+     int mon=Integer.parseInt(ym_key[4]+""+ym_key[5]);
+     int year=Integer.parseInt(yr);
+   
+     switch(mon){
+         case 1:
+         semiann = "Oct'"+(year-1)+" - Mar'"+year;
+         qrt = "Jan - Mar'"+year;
+         month =  "Jan'"+year; 
+             break;
+         case 2:
+            semiann = "Oct'"+(year-1)+" - Mar'"+year;
+         qrt = "Jan - Mar'"+year;
+         month =  "Feb'"+year;  
+             break;
+         case 3:
+             semiann = "Oct'"+(year-1)+" - Mar'"+year;
+         qrt = "Jan - Mar'"+year;
+         month =  "Mar'"+year; 
+             break;
+         case 4:
+             semiann = "Apr - Sep'"+year;
+         qrt = "Apr'"+year+" - Jun'"+year;
+         month =  "Apr'"+year; 
+             break;
+         case 5:
+             semiann = "Apr - Sep'"+year;
+         qrt = "Apr - Jun'"+year;
+         month =  "May'"+year; 
+             break;
+         case 6:
+             semiann = "Apr - Sep'"+year;
+         qrt = "Apr - Jun'"+year;
+         month =  "Jun'"+year; 
+             break;
+         case 7:
+            semiann = "Apr - Sep'"+year;
+         qrt = "Jul - Sep'"+year;
+         month =  "Jul'"+year;  
+             break;
+         case 8:
+            semiann = "Apr - Sep'"+year;
+         qrt = "Jul - Sep'"+year;
+         month =  "Aug'"+year;  
+             break;
+         case 9:
+             semiann = "Apr - Sep'"+year;
+         qrt = "Jul - Sep'"+year;
+         month =  "Sep'"+year; 
+             break;
+         case 10:
+            semiann = "Oct'"+year+" - Mar'"+(year+1);
+         qrt = "Oct - Dec'"+year;
+         month =  "Oct'"+year;  
+             break;
+         case 11:
+            semiann = "Oct'"+year+" - Mar'"+(year+1);
+         qrt = "Oct - Dec'"+year;
+         month =  "Nov'"+year;  
+             break;
+         case 12:
+            semiann = "Oct'"+year+" - Mar'"+(year+1);
+         qrt = "Oct - Dec'"+year;
+         month =  "Dec'"+year;  
+             break;
+         
+         default:
+             break;
+     }
+     
+     if(prd.equals("semi-annualy")){
+      period=semiann;   
+     }
+     else if(prd.equals("quarterly")){
+      period=qrt;   
+     }
+     
+     else if(prd.equals("monthly")){
+      period = month;   
+     }
+     return period;
+    }
+    
+    public ArrayList HIVPos(ResultSet rset,String ageset) throws SQLException{
+        String m_1="",m_4="",m_9="",m_14="",m_19="",m_24="",m_49="",m_50="",f_1="",f_4="",f_9="",f_14="",f_19="",f_24="",f_49="",f_50="";
+        String m_0_14="",m_10_19="",m_15_50="",m_24_35="",f_0_14="",f_10_19="",f_15_50="",f_24_35="";
+        int total=0;
+      
+        m_1=rset.getString("m_1");
+        m_4=rset.getString("m_4");
+        m_9=rset.getString("m_9");
+        m_14=rset.getString("m_14");
+        m_19=rset.getString("m_19");
+        m_24=rset.getString("m_24");
+        m_49=rset.getString("m_49");
+        m_50=rset.getString("m_50");
+        f_1=rset.getString("f_1");
+        f_4=rset.getString("f_4");
+        f_9=rset.getString("f_9");
+        f_14=rset.getString("f_14");
+        f_19=rset.getString("f_19");
+        f_24=rset.getString("f_24");
+        f_49=rset.getString("f_49");
+        f_50=rset.getString("f_50");
+        
+        m_0_14=rset.getString("m_0_14");
+        m_10_19=rset.getString("m_10_19");
+        m_15_50=rset.getString("m_15_50");
+        m_24_35=rset.getString("m_49");//assumed value
+                
+        f_0_14=rset.getString("f_0_14");
+        f_10_19=rset.getString("f_10_19");
+        f_15_50=rset.getString("f_15_50");
+        f_24_35=rset.getString("f_49"); //assumed value
+        
+//        Hashmap array
+//        Datim ages
+
+        
+        ArrayList new_data = new ArrayList();
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+//                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+//                total+=f_1;
+            }
+        }
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+//            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+//            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+//            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+//            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+//            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+//            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+//            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+//            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+//            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+//            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+//            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+//            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+//            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+//            total+=f_50;
+        }
+        }
+        
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
+        new_data.add(f_24_35);
+        }
+        }
+
+        new_data.add(total);
+      
+        return new_data;  
+    }
+    
     public ArrayList NewOnCare(ResultSet rset,String ageset) throws SQLException{
         int HV0308,HV0309,HV0310,HV0311,HV0312,HV0310_1,HV0309_1;
         int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
         int m_0_14=0,m_10_19=0,m_15_50=0,m_24_35=0,f_0_14=0,f_10_19=0,f_15_50=0,f_24_35=0;
-        
+        int total=0;
         HV0308 = rset.getInt("HV0308");
         HV0309 = rset.getInt("HV0309");
         HV0310 = rset.getInt("HV0310");
@@ -852,7 +1228,6 @@ outStream.close();
                     break;
             }
          newsum_m_1_14=m_4+m_9+m_14;
-        counter++;
         }
         
         int newsum_f_1_14=f_4+f_9+f_14;
@@ -874,7 +1249,6 @@ outStream.close();
                     break;
             }
          newsum_f_1_14=f_4+f_9+f_14;
-        counter++;
         }
       
         //        male 15-50+
@@ -894,7 +1268,6 @@ outStream.close();
                    counter=0; 
                     }
         newsum_m_15_50=m_19+m_24+m_49+m_50;
-        counter++;
         }
         
         //        female 15-50+
@@ -914,7 +1287,6 @@ outStream.close();
                    counter=0; 
                     }
         newsum_f_15_50=f_19+f_24+f_49+f_50;
-        counter++;
         }
         
         m_0_14=m_1+m_4+m_9+m_14;
@@ -932,247 +1304,293 @@ outStream.close();
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add(m_4);
-        new_data.add(m_9);
-        new_data.add(m_14);
-        new_data.add(m_19);
-        new_data.add(m_24);
-        new_data.add(m_49);
-        new_data.add(m_50);
-        new_data.add(f_1);
-        new_data.add(f_4);
-        new_data.add(f_9);
-        new_data.add(f_14);
-        new_data.add(f_19);
-        new_data.add(f_24);
-        new_data.add(f_49);
-        new_data.add(f_50);
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+                total+=f_1;
+            }
         }
-        if(age_set.contains("special")){
-        new_data.add(m_0_14);
-        new_data.add(m_10_19);
-        new_data.add(m_15_50);
-        new_data.add(m_24_35);
-        new_data.add(f_0_14);
-        new_data.add(f_10_19);
-        new_data.add(f_15_50);
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+            total+=f_50;
+        }
+        }
+        
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
         new_data.add(f_24_35);
         }
-        int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
-        int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
-        int totals = females+males;
+        }
         
         
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
+//        int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
+//        int totals = females+males;
+        
+//        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }
    
     public ArrayList NewOnART(ResultSet rset,String ageset) throws SQLException{
-        int HV0320,HV0321,HV0322,HV0323,HV0324,HV0325,HV0321_1,HV0322_1;
-        int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
-        int m_0_14=0,m_10_19=0,m_15_50=0,m_24_35=0,f_0_14=0,f_10_19=0,f_15_50=0,f_24_35=0;
+
+        String m_1="",m_4="",m_9="",m_14="",m_19="",m_24="",m_49="",m_50="",f_1="",f_4="",f_9="",f_14="",f_19="",f_24="",f_49="",f_50="";
+        String m_0_14="",m_10_19="",m_15_50="",m_24_35="",f_0_14="",f_10_19="",f_15_50="",f_24_35="";
+        int total=0;
         
-        HV0320 = rset.getInt("HV0320");
-        HV0321 = rset.getInt("HV0321");
-        HV0322 = rset.getInt("HV0322");
-        HV0323 = rset.getInt("HV0323");
-        HV0324 = rset.getInt("HV0324");
+        m_1=rset.getString("m_1");
+//        m_4=rset.getString("m_4");
+//        m_9=rset.getString("m_9");
+        m_14=rset.getString("m_14");
+        m_19=rset.getString("m_19");
+        m_24=rset.getString("m_24");
+        m_49=rset.getString("m_49");
+        m_50=rset.getString("m_50");
+        f_1=rset.getString("f_1");
+//        f_4=rset.getString("f_4");
+//        f_9=rset.getString("f_9");
+        f_14=rset.getString("f_14");
+        f_19=rset.getString("f_19");
+        f_24=rset.getString("f_24");
+        f_49=rset.getString("f_49");
+        f_50=rset.getString("f_50");
         
-        m_1=(int)0.5*HV0320;
-        f_1=(int) (0.5*HV0320);
-        
-        //        normalization
-        //          <1
-        int newsum_1=f_1+m_1;
-        int counter=0;
-        while(newsum_1<HV0320){
-        if(counter%2==0){
-             if(HV0322>=HV0321){
-                f_1++; 
-             }
-             else{
-                m_1++;     
-             }
-         }
-         else{
-         if(HV0321>=HV0322){    
-                m_1++;
-         }
-         else{
-                f_1++;     
-         }
-         }
-         
-        newsum_1=f_1+m_1;
-        counter++;
-        }
-    while(f_1>HV0322){
-        f_1--;
-        m_1++;
-    }
-    
-    while(m_1>HV0321){
-        m_1--;
-        f_1++;
-    }
-        
-        HV0321_1 = HV0321 - f_1;
-        HV0322_1 = HV0322 - m_1;     
-        
-        m_4 = (int) (0);//1-9 YEARS NEED TO BE EMERGED AND COME OUT AS ONE CELL
-        m_9 = (int) (0.5385*HV0321_1);
-        m_14 = (int) (0.4615*HV0321_1);
+        m_0_14=rset.getString("m_0_14");
+        m_10_19=rset.getString("m_10_19");
+        m_15_50=rset.getString("m_15_50");
+        m_24_35=rset.getString("m_49");//assumed value
                 
-        m_19 = (int) (0.008*HV0323);
-        m_24 = (int) (0.0752*HV0323);
-        m_49 = (int) (0.8195*HV0323);
-        m_50 = (int) (0.0977*HV0323);
+        f_0_14=rset.getString("f_0_14");
+        f_10_19=rset.getString("f_10_19");
+        f_15_50=rset.getString("f_15_50");
+        f_24_35=rset.getString("f_49"); //assumed value
         
-        
-        f_4 = (int) (0);//1-9 YEARS NEED TO BE EMERGED AND COME OUT AS ONE CELL
-        f_9 = (int) (0.5833*HV0322_1);
-        f_14 = (int) (0.4167*HV0322_1);
-                
-        f_19 = (int) (0.0433*HV0324);
-        f_24 = (int) (0.1169*HV0324);
-        f_49 = (int) (0.7485*HV0324);
-        f_50 = (int) (0.0909*HV0324);
-
-//        male 1-14
-
-        int newsum_m_1_14=m_4+m_9+m_14;
-        counter=0;
-        while(newsum_m_1_14<HV0321){
-         counter++;
-            switch (counter) {
-                case 1:
-                    m_9++;
-                    break;
-                case 2:
-                    m_14++;
-                    counter=0;
-                    break;
-                default:
-                    break;
-            }
-         newsum_m_1_14=m_4+m_9+m_14;
-        counter++;
-        }
-        
-        int newsum_f_1_14=f_4+f_9+f_14;
-        counter=0;
-        while(newsum_f_1_14<HV0322){
-         counter++;
-            switch (counter) {
-                case 1:
-                    f_9++;
-                    break;
-                case 2:
-                    f_14++;
-                    counter=0;
-                    break;
-                default:
-                    break;
-            }
-         newsum_f_1_14=f_4+f_9+f_14;
-        counter++;
-        }
-      
-        //        male 15-50+
-
-        int newsum_m_15_50=m_19+m_24+m_49+m_50;
-        counter=0;
-        while(newsum_m_15_50<HV0323){
-         counter++;
-                if(counter<10){
-                    m_49++;
-                   }
-            else if(counter==11){
-                    m_50++; 
-                    }
-            else if(counter==12){
-                    m_24++; 
-                   counter=0; 
-                    }
-        newsum_m_15_50=m_19+m_24+m_49+m_50;
-        counter++;
-        }
-        
-        //        female 15-50+
-
-        int newsum_f_15_50=f_19+f_24+f_49+f_50;
-        counter=0;
-        while(newsum_f_15_50<HV0324){
-         counter++;
-                if(counter<8){
-                    f_49++;
-                   }
-            else if(counter==11){
-                    f_24++; 
-                    }
-            else if(counter==12){
-                    f_50++; 
-                   counter=0; 
-                    }
-        newsum_f_15_50=f_19+f_24+f_49+f_50;
-        counter++;
-        }
-        
-        m_0_14=m_1+m_4+m_9+m_14;
-        m_10_19=m_14+m_19;
-        m_15_50=m_19+m_24+m_49+m_50;
-        m_24_35=m_49;
-                
-        f_0_14=f_1+f_4+f_9+f_14;
-        f_10_19=f_14+f_19;
-        f_15_50=f_19+f_24+f_49+f_50;
-        f_24_35=f_49;
         
 //        Hashmap array
 //        Datim ages
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add(m_4);
-        new_data.add(m_9);
-        new_data.add(m_14);
-        new_data.add(m_19);
-        new_data.add(m_24);
-        new_data.add(m_49);
-        new_data.add(m_50);
-        new_data.add(f_1);
-        new_data.add(f_4);
-        new_data.add(f_9);
-        new_data.add(f_14);
-        new_data.add(f_19);
-        new_data.add(f_24);
-        new_data.add(f_49);
-        new_data.add(f_50);
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+//                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+//                total+=f_1;
+            }
         }
-        if(age_set.contains("special")){
-        new_data.add(m_0_14);
-        new_data.add(m_10_19);
-        new_data.add(m_15_50);
-        new_data.add(m_24_35);
-        new_data.add(f_0_14);
-        new_data.add(f_10_19);
-        new_data.add(f_15_50);
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+//            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+//            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+//            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+//            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+//            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+//            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+//            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+//            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+//            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+//            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+//            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+//            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+//            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+//            total+=f_50;
+        }
+        }
+        
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
         new_data.add(f_24_35);
         }
-        int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
-        int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
-        int totals = females+males;
+        }
         
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }
@@ -1181,6 +1599,7 @@ outStream.close();
         int HV0314,HV0315,HV0316,HV0317,HV0318,HV0315_1,HV0316_1;
         int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
         int m_0_14=0,m_10_19=0,m_15_50=0,m_24_35=0,f_0_14=0,f_10_19=0,f_15_50=0,f_24_35=0;
+        int total=0;
         
         HV0314 = rset.getInt("HV0314");
         HV0315 = rset.getInt("HV0315");
@@ -1269,7 +1688,6 @@ outStream.close();
                     break;
             }
          newsum_m_1_14=m_4+m_9+m_14;
-        counter++;
         }
         
         int newsum_f_1_14=f_4+f_9+f_14;
@@ -1291,7 +1709,6 @@ outStream.close();
                     break;
             }
          newsum_f_1_14=f_4+f_9+f_14;
-        counter++;
         }
       
         //        male 15-50+
@@ -1311,7 +1728,6 @@ outStream.close();
                    counter=0; 
                     }
         newsum_m_15_50=m_19+m_24+m_49+m_50;
-        counter++;
         }
         
         //        female 15-50+
@@ -1331,7 +1747,6 @@ outStream.close();
                    counter=0; 
                     }
         newsum_f_15_50=f_19+f_24+f_49+f_50;
-        counter++;
         }
         
         m_0_14=m_1+m_4+m_9+m_14;
@@ -1349,42 +1764,131 @@ outStream.close();
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add(m_9);
-        new_data.add(m_9);
-        new_data.add(m_14);
-        new_data.add(m_19);
-        new_data.add(m_24);
-        new_data.add(m_49);
-        new_data.add(m_50);
-        new_data.add(f_1);
-        new_data.add(f_9);
-        new_data.add(f_9);
-        new_data.add(f_14);
-        new_data.add(f_19);
-        new_data.add(f_24);
-        new_data.add(f_49);
-        new_data.add(f_50);
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+                total+=f_1;
+            }
         }
-        if(age_set.contains("special")){
-        new_data.add(m_0_14);
-        new_data.add(m_10_19);
-        new_data.add(m_15_50);
-        new_data.add(m_24_35);
-        new_data.add(f_0_14);
-        new_data.add(f_10_19);
-        new_data.add(f_15_50);
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+            total+=f_50;
+        }
+        }
+        
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
         new_data.add(f_24_35);
         }
+        }
+        
+        
         int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
         int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
-        int totals = females+males;
+//        int totals = females+males;
         
-        
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }
@@ -1393,7 +1897,7 @@ outStream.close();
         int HV0334,HV0335,HV0336,HV0337,HV0338,HV0335_1,HV0336_1;
         int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
         int m_0_14=0,m_10_19=0,m_15_50=0,m_24_35=0,f_0_14=0,f_10_19=0,f_15_50=0,f_24_35=0;
-        
+        int total=0;
         HV0334 = rset.getInt("HV0334");
         HV0335 = rset.getInt("HV0335");
         HV0336 = rset.getInt("HV0336");
@@ -1479,7 +1983,6 @@ outStream.close();
                     break;
             }
          newsum_m_1_14=m_4+m_9+m_14;
-        counter++;
         }
         
         int newsum_f_1_14=f_4+f_9+f_14;
@@ -1498,7 +2001,6 @@ outStream.close();
                     break;
             }
          newsum_f_1_14=f_4+f_9+f_14;
-        counter++;
         }
       
         //        male 15-50+
@@ -1517,7 +2019,6 @@ outStream.close();
                    counter=0; 
                     }
         newsum_m_15_50=m_19+m_24+m_49+m_50;
-        counter++;
         }
         
         //        female 15-50+
@@ -1534,7 +2035,6 @@ outStream.close();
                     counter=0;
                     }
         newsum_f_15_50=f_19+f_24+f_49+f_50;
-        counter++;
         }
         
         m_0_14=m_1+m_4+m_9+m_14;
@@ -1552,41 +2052,130 @@ outStream.close();
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add(m_9);
-        new_data.add(m_9);
-        new_data.add(m_14);
-        new_data.add(m_19);
-        new_data.add(m_24);
-        new_data.add(m_49);
-        new_data.add(m_50);
-        new_data.add(f_1);
-        new_data.add(f_9);
-        new_data.add(f_9);
-        new_data.add(f_14);
-        new_data.add(f_19);
-        new_data.add(f_24);
-        new_data.add(f_49);
-        new_data.add(f_50);
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+                total+=f_1;
+            }
         }
-        if(age_set.contains("special")){
-        new_data.add(m_0_14);
-        new_data.add(m_10_19);
-        new_data.add(m_15_50);
-        new_data.add(m_24_35);
-        new_data.add(f_0_14);
-        new_data.add(f_10_19);
-        new_data.add(f_15_50);
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+            total+=f_50;
+        }
+        }
+        
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
         new_data.add(f_24_35);
         }
+        }
+        
+        
         int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
         int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
-        int totals = females+males;
-        
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        int totals = females+males;
+//        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }
@@ -1595,6 +2184,8 @@ outStream.close();
 
         int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
         int m_0_14=0,m_10_19=0,m_15_50=0,m_24_35=0,f_0_14=0,f_10_19=0,f_15_50=0,f_24_35=0;
+        int total=0;
+        
         m_1 = rset.getInt("m_1");
         m_4 = rset.getInt("m_4");
         m_9 = rset.getInt("m_9");
@@ -1627,41 +2218,130 @@ outStream.close();
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add(m_4);
-        new_data.add(m_9);
-        new_data.add(m_14);
-        new_data.add(m_19);
-        new_data.add(m_24);
-        new_data.add(m_49);
-        new_data.add(m_50);
-        new_data.add(f_1);
-        new_data.add(f_4);
-        new_data.add(f_9);
-        new_data.add(f_14);
-        new_data.add(f_19);
-        new_data.add(f_24);
-        new_data.add(f_49);
-        new_data.add(f_50);
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+                total+=f_1;
+            }
         }
-        if(age_set.contains("special")){
-        new_data.add(m_0_14);
-        new_data.add(m_10_19);
-        new_data.add(m_15_50);
-        new_data.add(m_24_35);
-        new_data.add(f_0_14);
-        new_data.add(f_10_19);
-        new_data.add(f_15_50);
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+            total+=f_50;
+        }
+        }
+        
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
         new_data.add(f_24_35);
         }
+        }
+        
+        
         int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
         int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
-        int totals = females+males;
-        
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        int totals = females+males;
+//        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }
@@ -1669,6 +2349,8 @@ outStream.close();
     public ArrayList TotalViralLoadsDone(ResultSet rset,String ageset) throws SQLException{
         int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
         int m_0_14=0,m_10_19=0,m_15_50=0,m_24_35=0,f_0_14=0,f_10_19=0,f_15_50=0,f_24_35=0;
+        int total=0;
+        
         m_1 = rset.getInt("m_1");
         m_4 = rset.getInt("m_4");
         m_9 = rset.getInt("m_9");
@@ -1701,41 +2383,129 @@ outStream.close();
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add(m_4);
-        new_data.add(m_9);
-        new_data.add(m_14);
-        new_data.add(m_19);
-        new_data.add(m_24);
-        new_data.add(m_49);
-        new_data.add(m_50);
-        new_data.add(f_1);
-        new_data.add(f_4);
-        new_data.add(f_9);
-        new_data.add(f_14);
-        new_data.add(f_19);
-        new_data.add(f_24);
-        new_data.add(f_49);
-        new_data.add(f_50);
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+                total+=f_1;
+            }
         }
-        if(age_set.contains("special")){
-        new_data.add(m_0_14);
-        new_data.add(m_10_19);
-        new_data.add(m_15_50);
-        new_data.add(m_24_35);
-        new_data.add(f_0_14);
-        new_data.add(f_10_19);
-        new_data.add(f_15_50);
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+            total+=f_50;
+        }
+        }
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
         new_data.add(f_24_35);
         }
+        }
+        
+        
         int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
         int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
-        int totals = females+males;
-        
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        int totals = females+males;
+//        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }
@@ -1743,6 +2513,8 @@ outStream.close();
     public ArrayList TotalViralLoadssuppressedPeds(ResultSet rset,String ageset) throws SQLException{
         int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
         int m_0_14=0,m_10_19=0,m_15_50=0,m_24_35=0,f_0_14=0,f_10_19=0,f_15_50=0,f_24_35=0;
+        int total=0;
+        
         m_1 = rset.getInt("m_1");
         m_4 = rset.getInt("m_4");
         m_9 = rset.getInt("m_9");
@@ -1775,42 +2547,129 @@ outStream.close();
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add(m_4);
-        new_data.add(m_9);
-        new_data.add(m_14);
-        new_data.add(m_19);
-        new_data.add(m_24);
-        new_data.add(m_49);
-        new_data.add(m_50);
-        new_data.add(f_1);
-        new_data.add(f_4);
-        new_data.add(f_9);
-        new_data.add(f_14);
-        new_data.add(f_19);
-        new_data.add(f_24);
-        new_data.add(f_49);
-        new_data.add(f_50);
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+                total+=f_1;
+            }
         }
-        if(age_set.contains("special")){
-        new_data.add(m_0_14);
-        new_data.add(m_10_19);
-        new_data.add(m_15_50);
-        new_data.add(m_24_35);
-        new_data.add(f_0_14);
-        new_data.add(f_10_19);
-        new_data.add(f_15_50);
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+            total+=f_50;
+        }
+        }
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
         new_data.add(f_24_35);
         }
+        }
+        
         
         int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
         int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
-        int totals = females+males;
-        
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        int totals = females+males;
+//        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }
@@ -1819,6 +2678,7 @@ outStream.close();
         int HV0320,HV0321,HV0322;
         int m_1=0,m_4=0,m_9=0,m_14=0,m_19=0,m_24=0,m_49=0,m_50=0,f_1=0,f_4=0,f_9=0,f_14=0,f_19=0,f_24=0,f_49=0,f_50=0;
         int m_0_14=0,f_0_14=0;
+        int total=0;
         
         HV0320 = rset.getInt("HV0320");
         HV0321 = rset.getInt("HV0321");
@@ -1873,42 +2733,73 @@ outStream.close();
 
         
         ArrayList new_data = new ArrayList();
-        if(age_set.contains("datim")){
-        new_data.add(m_1);
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
-        new_data.add(f_1);
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+                total+=f_1;
+            }
+        }
+        if(age_set.contains("2")){
         new_data.add("");
         new_data.add("");
         }
-        if(age_set.contains("special")){
+        if(age_set.contains("3")){
+        new_data.add("");
+        new_data.add("");
+        }
+        if(age_set.contains("4")){
+        new_data.add("");
+        new_data.add("");
+        }
+        if(age_set.contains("5")){
+        new_data.add("");
+        new_data.add("");
+        }
+        if(age_set.contains("6")){
+        new_data.add("");
+        new_data.add("");
+        }
+        if(age_set.contains("7")){
+        new_data.add("");
+        new_data.add("");
+        }
+        if(age_set.contains("8")){
+        new_data.add("");
+        new_data.add("");
+        }
+        
+        
+        if(age_set.contains("9")){
         new_data.add(m_0_14);
-        new_data.add("");
-        new_data.add("");
-        new_data.add("");
         new_data.add(f_0_14);
-        new_data.add("");
+        }
+        if(age_set.contains("10")){
         new_data.add("");
         new_data.add("");
         }
+        if(age_set.contains("11")){
+        new_data.add("");
+        new_data.add("");
+        }
+        if(age_set.contains("12")){
+        new_data.add("");
+        new_data.add("");
+        }
+        
+        
         int females=f_1+f_4+f_9+f_14+f_19+f_24+f_49+f_50;
         int males=m_1+m_4+m_9+m_14+m_19+m_24+m_49+m_50;
         int totals = females+males;
         
-        
-        new_data.add(males);
-        new_data.add(females);
-        new_data.add(totals);
+//        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
       
         return new_data;
     }

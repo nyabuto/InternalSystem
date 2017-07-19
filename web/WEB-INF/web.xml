@@ -629,6 +629,26 @@
         <servlet-name>Load_totals</servlet-name>
         <servlet-class>T1FORM.Load_totals</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SpecialReport</servlet-name>
+        <servlet-class>SpecialReport.SpecialReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadelements</servlet-name>
+        <servlet-class>reportsAjax.loadelements</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadmoh364</servlet-name>
+        <servlet-class>InternalSystem.loadmoh364</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateBaselines</servlet-name>
+        <servlet-class>scripts.UpdateBaselines</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_all_age_sets</servlet-name>
+        <servlet-class>General.load_all_age_sets</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1256,6 +1276,26 @@
     <servlet-mapping>
         <servlet-name>Load_totals</servlet-name>
         <url-pattern>/Load_totals</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SpecialReport</servlet-name>
+        <url-pattern>/SpecialReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadelements</servlet-name>
+        <url-pattern>/loadelements</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadmoh364</servlet-name>
+        <url-pattern>/loadmoh364</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateBaselines</servlet-name>
+        <url-pattern>/UpdateBaselines</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_all_age_sets</servlet-name>
+        <url-pattern>/load_all_age_sets</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

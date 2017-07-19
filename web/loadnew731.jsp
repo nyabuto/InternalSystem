@@ -210,21 +210,6 @@ legend.formatter {
                       
                       <div id="data">  
 
-<!--                     <div class="tabbable tabbable-custom boxless">
-                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab">1. HIV Counselling and Testing</a></li>
-                        <li class="active"><a class="advance_form_with_chosen_element" href="#tab_1" data-toggle="tab"><b>1. Prevention of Mother-to-Child Transmission.</b></a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_2" data-toggle="tab"><b>2. Care and Treatment.</b></a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab">4. VMMC</a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_3" data-toggle="tab"><b>3. Post-Exposure Prophylaxis.</b></a></li>
-                        <li><a class="advance_form_with_chosen_element" href="#tab_4" data-toggle="tab"><b>4. Blood Safety.</b></a></li>
-                        <li style="margin-left:20px;" id="isValidated"></li>
-                     </ul>
-                   
-                     </div>-->
-                         <!-- BEGIN FORM-->
-<!--                         <div class="tab-content" id="data">
-                        -->
                        
                          <p style="margin-left: 450px; margin-top: 200px;">  loading new MOH731 form...<img src="images/utube.gif"></p>
                         
@@ -335,7 +320,8 @@ int year= cal.get(Calendar.YEAR);
 <script type="text/javascript" src="js/noty/themes/default.js"></script>
 <!--custom js file-->
 <script type="text/javascript" src="js/sumnew731.js"></script>
-       
+<script type="text/javascript" src="js/validatenew731.js"></script> 
+
 <script>
 $(document).ready(function(){
    
@@ -637,11 +623,9 @@ success:function (data){
  loadcounty();
   
    </script>
-   <script type="text/javascript" src="js/form731Totals.js"></script>
-   <script type="text/javascript" src="js/validator731.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
-   var errorsHCT=0,errorsPMTCT=0,errorsCT=0,errorsVMMC=0,errorsPEP=0,errorBLOOD=0;
+   var errorsHTPS=0,errorsPMTCT=0,errorsHIVTB=0,errorsVMMC=0,errorsPEP=0,errorMAT=0;
 
 //    $('#myModal').modal();
    $("form").submit(function(){
@@ -649,7 +633,7 @@ success:function (data){
 $("#data_elements").val("");
 $("#description").val("");
 
-       $(":text").css({'background-color' : 'white'});        
+$(":text").css({'background-color' : 'white'});        
 var totalsVariables ="HV0110,HV0126,HV0136,HV0207,HV0214,HV0220,HV0232,HV0241,HV03011,HV03015,HV03026,HV03038,HV03050,HV03057,HV03065,HV03069,HV03072,HV03075,HV03079,HV03081,HV03084,HV0407,HV0503,HV0506";
 var arrayTotals=totalsVariables.split(",");  
 var arrayLength=arrayTotals.length;
@@ -661,38 +645,41 @@ while(i<arrayLength){
 }
 var allErrors="The following errors were found : <br><br>";
   var returned;
-//   if ( $( "#HV0101" ).length ) {    
-//   errorsHCT=validateHCT();
-//   if(parseInt(errorsHCT)>0){
-//   allErrors+=" "+errorsHCT+" errors in HIV Counselling and Testing.<br>";
-//   }
-//   }
+  
+   if ( $( "#HV0101" ).length ) {    
+   errorsHTPS=validateHTPS();
+   if(parseInt(errorsHTPS)>0){
+   allErrors+=" "+errorsHTPS+" errors were found in HIV Testing  and prevention services section.<br>";
+   errors+=parseInt(errorsHTPS);
+   }
+   }
    
-   if ( $( "#HV0201" ).length ) {
+if ( $( "#HV0201" ).length ) {
    errorsPMTCT=validatePMTCT();
-//   alert("errors"+errorsPMTCT);
+   
 if(parseInt(errorsPMTCT)>0){
    allErrors+=" "+errorsPMTCT+" error(s) were found in PMTCT section.<br>";
 errors+=parseInt(errorsPMTCT);
 }
 }
 
-if ( $( "#HV0301" ).length ) {
-   errorsCT=validateCT();
+if ( $( "#HV03001" ).length ) {
+   errorsHIVTB=validateHIVTB();
 //   alert("errors"+errorsCT);
-if(parseInt(errorsCT)>0){
-   allErrors+=" "+errorsCT+" error(s) were found in Care and Treatment section.<br>";
-errors+=parseInt(errorsCT);
+if(parseInt(errorsHIVTB)>0){
+   allErrors+=" "+errorsHIVTB+" error(s) were found in HIV and TB Treatment section.<br>";
+errors+=parseInt(errorsHIVTB);
 }
 }
 
-//if ( $( "#HV0401" ).length ) {
-//   errorsVMMC=validateVMMC();
-////   alert("errors"+errorsVMMC);
-//if(parseInt(errorsVMMC)>0){
-//   allErrors+=" "+errorsVMMC+" errors in VMMC.<br>";
-//}
-//}
+if ( $( "#HV0401" ).length ) {
+   errorsVMMC=validateCircumcision();
+//   alert("errors"+errorsVMMC);
+if(parseInt(errorsVMMC)>0){
+   allErrors+=" "+errorsVMMC+" errors in VMMC SECTION.<br>";
+   errors+=parseInt(errorsVMMC);
+}
+}
 
 if ( $( "#HV0501" ).length ) {
    errorsPEP=validatePEP();
@@ -703,16 +690,14 @@ errors+=parseInt(errorsPEP);
 }
 }
 
-//if ( $( "#HV0601" ).length ) {
-//   errorBLOOD=validateBlood();
-////   alert("errors"+errorBLOOD);
-//if(parseInt(errorBLOOD)>0){
-//   allErrors+=" "+errorBLOOD+" errors in Blood safety.<br>";
-//}
-//} 
-
-//alert("errors : "+allErrors);
-
+if ( $( "#HV0601" ).length ) {
+   errorMAT=validateMAT();
+//   alert("errors"+errorBLOOD);
+if(parseInt(errorMAT)>0){
+   allErrors+=" "+errorMAT+" errors in MAT(Methadone Assisted Therapy) section.<br>";
+   errors+=parseInt(errorMAT);
+}
+}
 
 if(errors>0){
     $("#errorBody").html(allErrors);
@@ -721,7 +706,7 @@ $("#submit").click(function(){
 //  alert("to submit");  
 $('#notifier').modal('hide');
 $.ajax({
-        url: 'validate731',
+        url: 'validatenew731',
         type: 'post',
         dataType: 'html',
         data: $('form').serialize(),

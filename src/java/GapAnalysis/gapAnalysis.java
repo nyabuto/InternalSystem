@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +47,7 @@ import scripts.copytemplates;
 public class gapAnalysis extends HttpServlet {
 
 String pathtodelete=null;
-   
+ int no_months = 0;  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -64,7 +65,8 @@ String pathtodelete=null;
          XSSFWorkbook wb;    
             
     String periodname="";        
-String allpath = getServletContext().getRealPath("/Gapanalysis.xlsm");
+//String allpath = getServletContext().getRealPath("/Gapanalysis.xlsm");
+String allpath = getServletContext().getRealPath("/GapAnalysis-R2.xlsm");
 
  System.out.println(allpath);
  
@@ -80,7 +82,7 @@ String dat2 = da.toString().replace(" ", "_");
        String np=mydrive+":\\APHIAPLUS\\InternalSystem\\Gapanalysis"+dat2+".xlsm";
             System.out.println("path:: "+np);
              // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
-              String sr = getServletContext().getRealPath("/Gapanalysis.xlsm");
+              String sr = getServletContext().getRealPath("/GapAnalysis-R2.xlsm");
     //check if file exists
               
    //first time , it should create those folders that host the macro file
@@ -157,10 +159,11 @@ pathtodelete=filepth;
           periodname=yearval+"_(Jul_Sep)";
           }
           
+         int s_ym=Integer.parseInt(startyearmonth);
           int colsmerging=6;
-            String Sections[]={"ART","HTC","PMTCT"};
+            String Sections[]={};
             String headers[]={"County","Sub-County","Facility","Year","Month"};
-            String headergsn[]={"County","Sub-County","Facility"};
+//            String headergsn[]={"County","Sub-County","Facility"};
             //if one wants gaps for one service area
            if(request.getParameterValues("gapsection")!=null){
                
@@ -168,11 +171,7 @@ pathtodelete=filepth;
            
            } 
          //This is the loop that well use to create worksheets for each 
-           
-           String period=" 1=1 and Annee="+yearval+" and yearmonth between "+startyearmonth+" and "+endyearmonth+" ";
-           String gsnperiod=" 1=1  ";
-           
-             //______________________________________________________________________________________
+ 
              //______________________________________________________________________________________
               
             Font font = wb.createFont();
@@ -254,283 +253,236 @@ pathtodelete=filepth;
             //==================================================
             
             
-           
-         for(int a=0;a< Sections.length; a++){
-            int column=0; 
-             int Row=3;
-            
-            Sheet shet= wb.createSheet(Sections[a]);
-             
-             Row rwx=shet.createRow(2);
-       Row rw1=null;
-       Row rw2=null;
-      Row rw=shet.createRow(0);            
-      rw.setHeightInPoints(25);
-      Cell cl0= rw.createCell(0);
-      cl0.setCellValue(Sections[a]+" GAP ANALYSIS");
-      cl0.setCellStyle(stylex1);
+          Sheet shet= wb.getSheet("Sheet1");
+          
+        shet.setColumnWidth(0, 8000);  
+        shet.setColumnWidth(1, 8000);  
+        shet.setColumnWidth(2, 4000);  
+        shet.setColumnWidth(3, 4000);  
+        shet.setColumnWidth(4, 6000); 
+        shet.setColumnWidth(5, 7000); 
+        shet.setColumnWidth(6, 2000); 
+        shet.setColumnWidth(7, 2000); 
+        shet.setColumnWidth(8, 4000); 
+        shet.setColumnWidth(9, 4000); 
+        shet.setColumnWidth(10, 4000); 
+        shet.setColumnWidth(11, 4000); 
+    
+        int row=0;
+
+    //Row heading
+//    row++;
+     Row rwh=shet.createRow(row);            
+      rwh.setHeightInPoints(24);
       
-    //this will depend on the length of the number of elements being checked
+      Cell c1x= rwh.createCell(0);
+      c1x.setCellValue("Rule");
+      c1x.setCellStyle(stylex);
+     
+      Cell c2x= rwh.createCell(1);
+      c2x.setCellValue("Gap");
+      c2x.setCellStyle(stylex);//gsn sites do not have a yearmonth
+      
+      Cell c3x= rwh.createCell(2);
+      c3x.setCellValue("Program Area");
+      c3x.setCellStyle(stylex);
        
- for(int b=1;b<=colsmerging;b++){ 
- Cell clx= rw.createCell(b);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                                 }
+     Cell c4x= rwh.createCell(3);
+      c4x.setCellValue("County");
+      c4x.setCellStyle(stylex);
+      
+     Cell c5x= rwh.createCell(4);
+      c5x.setCellValue("Sub County");
+      c5x.setCellStyle(stylex);
+      
+     Cell c6x= rwh.createCell(5);
+      c6x.setCellValue("Facility");
+      c6x.setCellStyle(stylex);
+      
+     Cell c7x= rwh.createCell(6);
+      c7x.setCellValue("Year");
+      c7x.setCellStyle(stylex);
+      
+     Cell c8x= rwh.createCell(7);
+      c8x.setCellValue("Month");
+      c8x.setCellStyle(stylex);
+      
+     Cell c9x= rwh.createCell(8);
+      c9x.setCellValue("Ward");
+      c9x.setCellStyle(stylex);
+      
+     Cell c10x= rwh.createCell(9);
+      c10x.setCellValue("Latitude");
+      c10x.setCellStyle(stylex);
+      
+     Cell c11x= rwh.createCell(10);
+      c11x.setCellValue("Longitude");
+      c11x.setCellStyle(stylex);
+      
+     Cell c12x= rwh.createCell(11);
+      c12x.setCellValue("Value");
+      c12x.setCellStyle(stylex);
+     
+      for(int a=0;a< Sections.length; a++){
+      
          
  //now go to the database and do a query for each section
- int determinant=2;
+
  String getqueries=" Select * from gap_analysis where active=1 and section='"+Sections[a]+"' ";
  
  conn.rs=conn.st.executeQuery(getqueries); 
  while(conn.rs.next()){
-  
-     //if an excel sheet exists, then get the row number 1
-     
-        if(shet.getRow(1)!=null){
-     rw1=shet.getRow(1);
-     }
-     else {     
-      rw1=shet.createRow(1);            
-      rw1.setHeightInPoints(25);
-          }
-        
-        //print blanks before printing real header
-        //for gsns, we only print three columns and no period
-         if(conn.rs.getString("id").equals("1")){
-  
-             for(int p=0;p< headergsn.length;p++){
-                Cell cl2= rw1.createCell(column+p);
-                cl2.setCellValue("");
-                cl2.setCellStyle(stylex);
-                 shet.setColumnWidth(column+p, 5000);
-             }
-                                      }
-         else {
-         
-             
-              for(int p=0;p< headers.length;p++){
-                 Cell cl2= rw1.createCell(column+p);
-                 cl2.setCellValue("");
-                 cl2.setCellStyle(stylex);
-                 shet.setColumnWidth(column+p, 5000);
-                                                 }
-             
-         }
-   determinant++;
-       if(determinant%2==0)
-       { 
-           
-      Cell cl1= rw1.createCell(column);
-      cl1.setCellValue(conn.rs.getString("rule"));
-      cl1.setCellStyle(stylex3); 
-      
-       }
-       else 
-       {
-       
-       Cell cl1= rw1.createCell(column);
-      cl1.setCellValue(conn.rs.getString("rule"));
-      cl1.setCellStyle(stylex2); 
-      
-       }
-        
-//Create the column header  
-  
-   
-      
-      
-        if(shet.getRow(2)!=null){
-     rw2=shet.getRow(2);
-                                }
-                           else {     
-      rw2=shet.createRow(2);            
-      rw2.setHeightInPoints(25);
-                                }
-         if(conn.rs.getString("id").equals("1")){
-  
-             for(int p=0;p< headergsn.length;p++){
-                Cell cl2= rw2.createCell(column+p);
-                cl2.setCellValue(headergsn[p]);
-                cl2.setCellStyle(stylex);
-             }
-                                      }
-         else {
-         
-             
-              for(int p=0;p< headers.length;p++){
-                 Cell cl2= rw2.createCell(column+p);
-                 cl2.setCellValue(headers[p]);
-                 cl2.setCellStyle(stylex);
-                                                 }
-             
-         }
-   
-      
-     
- String currentqry=conn.rs.getString("query"); 
-   //process each query as you 
- //pass the necessary period parameters from the interface
- //rem each query ends with a 'and'
- if(conn.rs.getString("id").equals("1")){
-  currentqry+=gsnperiod;
-                                      }
- else {
-     
-   currentqry+=period+" and subpartnera."+Sections[a]+"= 1 ";
- 
-      }
- 
-     System.out.println(""+currentqry);
-      Row=3;
- conn.rs1=conn.st1.executeQuery(currentqry);
- 
- while (conn.rs1.next()) {
-     
-     if(shet.getRow(Row)!=null){
-     rwx=shet.getRow(Row);
-     }
-     else {     
-      rwx=shet.createRow(Row);            
-      rwx.setHeightInPoints(25);
-          }
-      Cell cly= rwx.createCell(column);
-      cly.setCellValue(conn.rs1.getString("County"));
-      cly.setCellStyle(style2);
-     
-      Cell cly2= rwx.createCell(column+1);
-      cly2.setCellValue(conn.rs1.getString("DistrictNom"));
-      cly2.setCellStyle(style2);//gsn sites do not have a yearmonth
-      
-      Cell cly1= rwx.createCell(column+2);
-      cly1.setCellValue(conn.rs1.getString("SubPartnerNom"));
-      cly1.setCellStyle(style2);
-     
-      //if the current list is not inclusive of GSNs
-      
-      if(!conn.rs.getString(1).equals("1")){
-          
-       Cell cly3= rwx.createCell(column+3);
-      cly3.setCellValue(new Integer(conn.rs1.getString("yearmonth").substring(0,4)));
-      cly3.setCellStyle(style2);
-      
-      //the month section
-      
-       Cell cly3x= rwx.createCell(column+4);
-      cly3x.setCellValue(new Integer(conn.rs1.getString("yearmonth").substring(4)));
-      cly3x.setCellStyle(style2);
-      
-      
-      //my key is a 
-      String mykey=Sections[a]+conn.rs1.getString("SubPartnerNom")+"_"+conn.rs1.getString("yearmonth")+"_";
-      //add all the facilities at this point
-      //ignore the sites in ART since they are static
-      if(!keyal.contains(mykey)){
-      keyal.add(mykey);
-      countyal.add(conn.rs1.getString("County"));
-      scountyal.add(conn.rs1.getString("DistrictNom"));
-      facilal.add(conn.rs1.getString("SubPartnerNom"));
-      sectional.add(Sections[a]);
-      yearmonthal.add(conn.rs1.getString("yearmonth"));
-      monthal.add(conn.rs1.getString("yearmonth").substring(4));
-      
-      }
-      
-      
-      
-      
-                                           }
- 
- Row++;
- 
-                         }
-
- if(conn.rs.getString(1).equals("1")){
- column+=3;
+ String active_section=conn.rs.getString("subpartnera_column");
+ String section = conn.rs.getString("section");
+ String rule = conn.rs.getString("explanation");
+ String gap = conn.rs.getString("rule");
+ String currentqry=conn.rs.getString("query");
+int position = conn.rs.getInt("id");
+ int i=0;
+ while(i<3){
+ int current_year=s_ym+i;  
+ no_months=0;
+ String running_query="";
+ running_query=currentqry.replace("PAREA", active_section);
+ if(position!=26){
+ running_query=running_query.replace("YMONTH", ""+current_year);
+//replace Previous month for expected care and ART
+if(position==55 || position==56){
+  int prevmonth = prevmonth(current_year);  
+  running_query=running_query.replace("PMONTH", ""+prevmonth);
+  System.out.println(""+running_query);
+ }
  }
  else{
- column+=5;
+  String[] between_array = getmonthbetween(current_year).split("###");
+  String between = between_array[0];
+  no_months = Integer.parseInt(between_array[1]);
+  
+  running_query=running_query.replace("yearmonth=YMONTH", between)+" HAVING HV0206<"+no_months;
+  
  }
-     if(conn.rs.getString("id").equals("1")){
- shet.addMergedRegion(new CellRangeAddress(1,1,0,column-1));
-                                      }
-       else {
- shet.addMergedRegion(new CellRangeAddress(1,1,column-5,column-1));  
-       }
- 
-                         }//end of all queries per section
- 
- 
-  shet.addMergedRegion(new CellRangeAddress(0,0,0,column-1));  
-      
- 
-                                              }// end of sheets loop   
-            
-         
-         
-         //create a new sheet
-         
-         //county	subcounty	facility	yearmonth	section
-
-         Sheet shet=  wb.getSheet("Sheet1");
-             
-       
-      Row rw=shet.createRow(0);
-      Cell cl0= rw.createCell(0);
-      cl0.setCellValue("county");
-      cl0.setCellStyle(stylex1);
-      
-      Cell cl1= rw.createCell(1);
-      cl1.setCellValue("subcounty");
-      cl1.setCellStyle(stylex1);
-         
-      Cell cl2= rw.createCell(2);
-      cl2.setCellValue("facility");
-      cl2.setCellStyle(stylex1);
-         
-      Cell cl3= rw.createCell(3);
-      cl3.setCellValue("year");
-      cl3.setCellStyle(stylex1);
-       
-      Cell cl4= rw.createCell(4);
-      cl4.setCellValue("month");
-      cl4.setCellStyle(stylex1);
-      
-      Cell cl5= rw.createCell(5);
-      cl5.setCellValue("section");
-      cl5.setCellStyle(stylex1);
-      
-      for(int q=0;q< keyal.size();q++){
+ conn.rs1=conn.st1.executeQuery(running_query);
+     System.out.println("current year month is : "+current_year);
+ while (conn.rs1.next()) {
+    row++; 
+    String value = "";
+    String county=conn.rs1.getString("County");
+    String sub_county=conn.rs1.getString("DistrictNom");
+    String facility=conn.rs1.getString("SubPartnerNom");
+    int yr = Integer.parseInt(String.valueOf(current_year).substring(0,4));
+    int mn =Integer.parseInt(String.valueOf(current_year).substring(4));
+    String ward=conn.rs1.getString("ward");
+    Double latitude=conn.rs1.getDouble("latitude");
+    Double longitude=conn.rs1.getDouble("longitude");
+    ResultSetMetaData rsmd = conn.rs1.getMetaData();
     
-     Row rwx=shet.createRow(q+1);
+    if(hasValue(rsmd)){
+        value = conn.rs1.getString("value");
+    }
+    else if(no_months>0){
+        value=String.valueOf(((conn.rs1.getInt("HV0206")*100)/no_months))+"%";
+    }
+ String mn_name="";
+    switch (mn){
+        case 1: mn_name="Jan";
+        break;
+        case 2: mn_name="Feb"; 
+        break;
+        case 3: mn_name="Mar";  
+        break;
+        case 4: mn_name="Apr"; 
+        break;
+        case 5: mn_name="May"; 
+        break;
+        case 6: mn_name="Jun"; 
+        break;
+        case 7: mn_name="Jul";
+        break;
+        case 8: mn_name="Aug"; 
+        break;
+        case 9: mn_name="Sep";  
+        break;
+        case 10: mn_name="Oct";  
+        break;
+        case 11: mn_name="Nov"; 
+        break;
+        case 12: mn_name="Dec"; 
+        break;
+        default:
+            mn_name="No Month";
+    }
+            
+    Row rwx=shet.createRow(row);
+    
+      Cell c1= rwx.createCell(0);
+      c1.setCellValue(rule);
+      c1.setCellStyle(style2);
+     
+      Cell c2= rwx.createCell(1);
+      c2.setCellValue(gap);
+      c2.setCellStyle(style2);//gsn sites do not have a yearmonth
       
-   
-      Cell cl01= rwx.createCell(0);
-      cl01.setCellValue(countyal.get(q).toString());
-      cl01.setCellStyle(style2);
-      
-      Cell cl11= rwx.createCell(1);
-      cl11.setCellValue(scountyal.get(q).toString());
-      cl11.setCellStyle(style2);
-         
-      Cell cl21= rwx.createCell(2);
-      cl21.setCellValue(facilal.get(q).toString());
-      cl21.setCellStyle(style2);
-         
-      Cell cl31= rwx.createCell(3);
-      cl31.setCellValue(new Integer(yearmonthal.get(q).toString().substring(0, 4)));
-      cl31.setCellStyle(style2);
+      Cell c3= rwx.createCell(2);
+      c3.setCellValue(section);
+      c3.setCellStyle(style2);
        
-      Cell cl41= rwx.createCell(4);
-      cl41.setCellValue(new Integer(monthal.get(q).toString()));
-      cl41.setCellStyle(style2); 
+     Cell c4= rwx.createCell(3);
+      c4.setCellValue(county);
+      c4.setCellStyle(style2);
       
-      Cell cl51= rwx.createCell(5);
-      cl51.setCellValue(sectional.get(q).toString());
-      cl51.setCellStyle(style2); 
-          
+     Cell c5= rwx.createCell(4);
+      c5.setCellValue(sub_county);
+      c5.setCellStyle(style2);
       
+     Cell c6= rwx.createCell(5);
+      c6.setCellValue(facility);
+      c6.setCellStyle(style2);
+      
+     Cell c7= rwx.createCell(6);
+      c7.setCellValue(yr);
+      c7.setCellStyle(style2);
+      
+     Cell c8= rwx.createCell(7);
+      c8.setCellValue(mn_name);
+      c8.setCellStyle(style2);
+      
+      
+     Cell c9= rwx.createCell(8);
+      c9.setCellValue(ward);
+      c9.setCellStyle(style2);
+      
+      
+     Cell c10= rwx.createCell(9);
+      c10.setCellValue(latitude);
+      c10.setCellStyle(style2);
+      
+      
+     Cell c11= rwx.createCell(10);
+      c11.setCellValue(longitude);
+      c11.setCellStyle(style2);     
+      
+     Cell c12= rwx.createCell(11);
+      if(isNumeric(value)){
+      c12.setCellValue(Integer.parseInt(value));
       }
+      else{
+      c12.setCellValue(value);   
+      }
+      
+      c12.setCellStyle(style2); 
+      
+      //my key is a 
+//      String mykey=active_section+conn.rs1.getString("SubPartnerNom")+"_"+current_year+"_";
+
+ }
+ 
+// end of month looping
+i++;
+ }
+}//end of all queries per section
+
+  }// end of sheets loop   
+
       
       
 	  IdGenerator IG = new IdGenerator();
@@ -563,7 +515,6 @@ outStream.close();
     		}else{
     			System.out.println("Delete operation  failed.");
     		}
-
         } 
         catch (SQLException ex) { 
             Logger.getLogger(gapAnalysis.class.getName()).log(Level.SEVERE, null, ex);
@@ -614,4 +565,110 @@ outStream.close();
         return "Short description";
     }// </editor-fold>
 
+    public String getmonthbetween(int currenttime){
+    String monthbetween="";
+    String[] getperiods = String.valueOf(currenttime).split("");
+    int currentyear = Integer.parseInt(getperiods[0]+""+getperiods[1]+""+getperiods[2]+""+getperiods[3]);
+    int currentmonth = Integer.parseInt(getperiods[4]+""+getperiods[5]);
+    String start="",end="";
+    int no_months=0;
+    switch (currentmonth){
+        case 1:
+          start=(currentyear-1)+"10";
+          end=currentyear+"01";
+          no_months=4;
+            break;
+        case 2:
+           start=(currentyear-1)+"10";
+          end=currentyear+"02";
+          no_months=5;
+            break;
+        case 3: // end of semi-annual 1
+          start=(currentyear-1)+"10";
+          end=currentyear+"03"; 
+          no_months=6;
+            break;
+        case 4:
+           start=currentyear+"04";
+          end=currentyear+"04";  
+          no_months=1;
+            break;
+        case 5:
+          start=currentyear+"04";
+          end=currentyear+"05";  
+          no_months=2;
+            break;
+        case 6:
+          start=currentyear+"04";
+          end=currentyear+"06";
+          no_months=3;
+            break;
+        case 7:
+           start=currentyear+"04";
+          end=currentyear+"07";
+          no_months=4;
+            break;
+        case 8:
+         start=currentyear+"04";
+          end=currentyear+"08";    
+            no_months=5;
+            break;
+        case 9: // end of semi-annual 2
+            start=currentyear+"04";
+          end=currentyear+"09";
+          no_months = 6;
+            break;
+        case 10:// start of semi annual 1
+        start=currentyear+"10";
+          end=currentyear+"10";     
+           no_months=1; 
+            break;
+        case 11:
+          start=currentyear+"10";
+          end=currentyear+"11"; 
+          no_months=2;
+            break;
+        case 12:
+          start=currentyear+"10";
+          end=currentyear+"12";
+          no_months=3;
+           break;
+        
+        default:
+            break;
+    }
+    
+    monthbetween="yearmonth between "+start+" and "+end+"###"+no_months;
+    return monthbetween;
+    }
+    public int prevmonth(int currentmonth){
+      int prev=0;  
+      String[] montharray = String.valueOf(currentmonth).split("");
+      int year=Integer.parseInt(montharray[0]+""+montharray[1]+""+montharray[2]+""+montharray[3]);
+      int month=Integer.parseInt(montharray[4]+""+montharray[5]);
+     if(month==1){
+      prev=Integer.parseInt((year-1)+"12");   
+     }
+     else{
+      prev=currentmonth-1;   
+     }
+     return prev;
+    } 
+    
+        public boolean isNumeric(String s) {  
+    return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}
+        
+        public boolean hasValue(ResultSetMetaData rsmd) throws SQLException{
+          boolean exist=false;  
+          int columns = rsmd.getColumnCount();
+            for (int x = 1; x <= columns; x++) {
+                if ("value".equals(rsmd.getColumnName(x))) {
+                    exist = true;
+                    break;
+                }
+            }   
+            
+          return exist;   
+        }
 }

@@ -88,22 +88,29 @@ tableid=year+"_"+month+"_"+facilityID;
 String Insertqr= "insert into moh731_new  set SubPartnerID='"+facilityID+"',Annee='"+year+"',Mois='"+month+"', "+columnName+"="+value+" , id='"+tableid+"' , user_id='"+userid+"', yearmonth='"+yearmonth+"',quarter='"+quarter+"'";
 String updateqr="update moh731_new set "+columnName+"="+value+",isValidated='0', yearmonth='"+yearmonth+"' where id='"+tableid+"'";
 //check whether data for that month, year and facility has been saved
+ 
 
-String checker="select "+columnName+" from moh731_new where id='"+tableid+"'";     
-     
-conn.rs=conn.st.executeQuery(checker);
-
-if(conn.rs.next()){
-    conn.st.executeUpdate(updateqr);
-    System.out.println("~~ "+updateqr);
+if(session.getAttribute("table_id")!=null) {    
+   conn.st.executeUpdate(updateqr);
+   System.out.println("~~ "+updateqr);  
 }
-else {
-    System.out.println(">> "+Insertqr);
+
+else{
+//    String checker="select "+columnName+" from moh731_new where id='"+tableid+"'";
+//    conn.rs=conn.st.executeQuery(checker);
+//if(conn.rs.next()){
+//    conn.st.executeUpdate(updateqr);
+//    System.out.println("~~ "+updateqr);
+//}
+//else{
+//    System.out.println(">> "+Insertqr);
+     session.setAttribute("table_id", tableid);
      int inserted=conn.st.executeUpdate(Insertqr);
-if(inserted==0){
-  conn.st.executeUpdate(updateqr);   
+    if(inserted==0){
+      conn.st.executeUpdate(updateqr);   
+    }
 }
-}
+
     }
     if(conn.st!=null){conn.st.close();}
      if(conn.st1!=null){conn.st1.close();}

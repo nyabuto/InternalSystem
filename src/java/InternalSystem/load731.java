@@ -84,6 +84,11 @@ int isLocked=0;
 enterdby=tabs="";
 subcountyid="";
 unvalidatedFacilities="";
+
+
+//clear cached current tableid session
+session.removeAttribute("table_id");
+
      if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
          if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",ART,") || 
    session.getAttribute("forms_holder").toString().contains(",PEP,") ||  session.getAttribute("forms_holder").toString().contains(",HTC,") ){
@@ -393,7 +398,11 @@ HV0344_1=conn.rs.getString(5);
               
               
               System.out.println("Data already exist loading............................");
-
+              
+//      set table_id session VERY IMPORTANT
+      session.setAttribute("table_id", id);
+      
+      
  if(conn.rs.getString("HV0101")!=null){HV0101=conn.rs.getString("HV0101");}
   if(conn.rs.getString("HV0102")!=null){HV0102=conn.rs.getString("HV0102");}
   if(conn.rs.getString("HV0103")!=null){HV0103=conn.rs.getString("HV0103");}

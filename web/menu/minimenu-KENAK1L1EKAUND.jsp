@@ -133,7 +133,7 @@
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
                   <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>
                   <!--<li ><a href="#">Edit Profile</a></li>-->
-           
+                  <li ><a href="analysisreports.jsp">Analysis Report</a></li>
                </ul>
             </li>
             <%}}%>

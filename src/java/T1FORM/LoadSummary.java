@@ -104,7 +104,7 @@ session.setAttribute("summary_id", summary_id);
          
          //GET PROGRAM AREAS
          
-         String getPrograms="SELECT * FROM ti_program_area";
+         String getPrograms="SELECT * FROM t1_program_area";
          conn.rs=conn.st.executeQuery(getPrograms);
          while(conn.rs.next()){
              String program_id=conn.rs.getString("id");

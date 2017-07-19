@@ -32,38 +32,29 @@ public class highvolumescript extends HttpServlet {
            
             dbConn conn = new dbConn();
             
-            String getsubpartner="select SubPartnerID,CentreSanteId as mflcode from subpartnera2014 ";
+            String getsubpartner="select MoHCode as mflcode,longitude as longitude,Latitude   from latlong ";
             
             conn.rs=conn.st.executeQuery(getsubpartner);
             while(conn.rs.next()){
                 
                 System.out.println(" "+conn.rs.getString(1));
-                //
-                String getart="select ART_highvolume as art from hv where ART_highvolume='"+conn.rs.getString("mflcode")+"' ";
-                String gethtc="select HTC_highvolume as htc  from hv where HTC_highvolume='"+conn.rs.getString("mflcode")+"' ";
-                String getpmtct="select  PMTCT_highvolume as pmtct from hv where PMTCT_highvolume='"+conn.rs.getString("mflcode")+"' ";
-                //ART
-            conn.rs1=conn.st1.executeQuery(getart);
-            if(conn.rs1.next()){
+             
             //update art
-            String updatecode="update subpartnera2014 set ART_highvolume='1' where CentreSanteId='"+conn.rs.getString("mflcode")+"'";                
-            conn.st2.executeUpdate(updatecode);
-            }
-            //HTC 
-             conn.rs1=conn.st1.executeQuery(gethtc);
-            if(conn.rs1.next()){
-            //update art
-            String updatecode="update subpartnera2014 set HTC_highvolume='1' where CentreSanteId='"+conn.rs.getString("mflcode")+"'";                
-            conn.st2.executeUpdate(updatecode);
-                               }
+            String updatecode="update subpartnera2014 set latitude=? , longitude=? where CentreSanteId=?";                
+            //conn.st2.executeUpdate(updatecode);
             
-            //PMTCT
-             conn.rs1=conn.st1.executeQuery(getpmtct);
-            if(conn.rs1.next()){
-            //update art
-            String updatecode="update subpartnera2014 set PMTCT_highvolume='1' where CentreSanteId='"+conn.rs.getString("mflcode")+"'";                
-            conn.st2.executeUpdate(updatecode);
-                               }
+            
+        conn.pst=conn.conn.prepareStatement(updatecode);
+        conn.pst.setString(1, conn.rs.getString("Latitude"));
+        conn.pst.setString(2, conn.rs.getString("longitude"));
+        conn.pst.setString(3, conn.rs.getString("mflcode"));     
+    
+        conn.pst.executeUpdate();
+               
+            
+            //"+conn.rs.getString("Ward")+"
+            //"+conn.rs.getString("constituency")+"
+            //"+conn.rs.getString("mflcode")+"
             
             }//end of outer loop
             

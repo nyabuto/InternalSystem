@@ -68,6 +68,17 @@
             </li>
             <%}}%>
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh731,")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 731 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
+            
+               <!--<a href="loadnew731.jsp">-->
+               <!--<i class="icon-table"></i>--> 
+               <!--<span class="title">MOH 731 (New)</span>-->
+               <!--<span class="selected"></span>-->
+               <!--<span class="arrow open"></span>-->
+               <!--</a>-->
+<!--              forms_holder-->
+            </li>
+            
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 731")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
             
                <a href="Form731.jsp">
@@ -221,6 +232,7 @@
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
                   <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>
                   <li ><a href="masterlist.jsp">Master List</a></li>
+                  <li ><a href="analysisreports.jsp">Analysis Report</a></li>
                  
                   <!--<li ><a href="#">Edit Profile</a></li>-->
            

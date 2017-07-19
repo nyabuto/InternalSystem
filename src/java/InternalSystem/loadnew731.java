@@ -123,6 +123,10 @@ int isLocked=0;
 enterdby=tabs="";
 subcountyid="";
 unvalidatedFacilities="";
+
+//clear cached current tableid session
+session.removeAttribute("table_id");
+
      if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
          if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",ART,") || 
    session.getAttribute("forms_holder").toString().contains(",PEP,") ||  session.getAttribute("forms_holder").toString().contains(",HTC,") ){
@@ -143,13 +147,13 @@ unvalidatedFacilities="";
     id=year+"_"+month+"_"+facilityId; 
          
     data="";
-    tabs=" <div class=\"tabbable tabbable-custom boxless\">" +
+    tabs=" <div class=\"tabbable tabbable-custom boxless\" style=\"margin-left:5%; margin-right:5%\">" +
 "                     <ul class=\"nav nav-tabs\">"; 
     
      markActive=0;
      if(session.getAttribute("forms_holder").toString().contains(",HTC,")){
         if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. HIV testing & <br>prevention services.</b></a></li>";
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. HTS.</b></a></li>";
     markActive++; 
     }
     
@@ -157,26 +161,26 @@ unvalidatedFacilities="";
         markActive++;
           if(markActive==0){classType="class=\"active\"";}else{classType="";}
         
-         tabs+=" <li  "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\"><b>2. Prevention of Mother-to-Child <br>Transmission of HIV (PMTCT).</b></a></li>";
+         tabs+=" <li  style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_2\" data-toggle=\"tab\"><b>2. PMTCT </b></a></li>";
          }
     if(session.getAttribute("forms_holder").toString().contains(",ART,")){
         if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. HIV and TB treatment.</b></a></li>";
+         tabs+="<li style=\"min-width:15%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. HIV and TB treatment.</b></a></li>";
     markActive++; 
     }
     if(1==1){
          if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. VMMC.</b></a></li>";
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. VMMC.</b></a></li>";
      markActive++;
     }
     if(session.getAttribute("forms_holder").toString().contains(",PEP,")){
          if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\"><b>5. Post Exposure <br>Prophylaxis.</b></a></li>";
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\"><b>5. PEP.</b></a></li>";
      markActive++;
     }
     if(1==1){
          if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_6\" data-toggle=\"tab\"><b>6. Methadone Assisted<br> Therapy.</b></a></li>";
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_6\" data-toggle=\"tab\"><b>6. Methadone Assisted Therapy.</b></a></li>";
      markActive++;
     }
 
@@ -480,8 +484,10 @@ int yrmonth=Integer.parseInt(maxyearmonth);
         }//end of if updated !=null
               
               
-              
-              System.out.println("Data already exist loading............................");
+//      set table_id session VERY IMPORTANT
+      session.setAttribute("table_id", id);
+      
+      System.out.println("Data already exist loading............................");
 
   if(conn.rs.getString("HV0101")!=null){HV0101=conn.rs.getString("HV0101");}
   if(conn.rs.getString("HV0102")!=null){HV0102=conn.rs.getString("HV0102");}

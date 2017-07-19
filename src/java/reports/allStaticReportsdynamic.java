@@ -1025,6 +1025,24 @@ public class allStaticReportsdynamic extends HttpServlet {
                 cell2a.setCellValue("GSN");
                 cell2a.setCellStyle(stylex);
                 headercellpos++;
+                
+                shet.setColumnWidth(headercellpos, 6000);
+                XSSFCell cell2b = rw.createCell(headercellpos);
+                cell2b.setCellValue("Latitude");
+                cell2b.setCellStyle(stylex);
+                headercellpos++;
+                
+                shet.setColumnWidth(headercellpos, 6000);
+                XSSFCell cell2c = rw.createCell(headercellpos);
+                cell2c.setCellValue("Longitude");
+                cell2c.setCellStyle(stylex);
+                headercellpos++;
+                
+                shet.setColumnWidth(headercellpos, 6000);
+                XSSFCell cell2d = rw.createCell(headercellpos);
+                cell2d.setCellValue("Ward");
+                cell2d.setCellStyle(stylex);
+                headercellpos++;
 
                 shet.setColumnWidth(headercellpos, 6000);
                 XSSFCell cell3 = rw.createCell(headercellpos);
@@ -1076,8 +1094,8 @@ public class allStaticReportsdynamic extends HttpServlet {
 // } 
                 }
 
-//---------------------------------add highvolume------------------------------------------------
-                perfacilselect += " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,  IFNULL(GSN,0) as GSN,";
+//---------------------------------add highvolume,gsn,latitude,ward------------------------------------------------
+                perfacilselect += " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,  IFNULL(GSN,0) as GSN,IFNULL(latitude,0) as latitude,IFNULL(longitude,0) as longitude,IFNULL(ward,0) as ward,";
 
 //-------------------------------------------------------------------------------------------------
 //     FROM  
@@ -1214,6 +1232,25 @@ if (lastperiod.equalsIgnoreCase(conn.rs.getString("period")) && cumstartpointnot
                         cell2a.setCellValue(conn.rs.getInt("GSN"));
                         cell2a.setCellStyle(stborder);
                         colpos++;
+                        
+                         //Latitude
+                        XSSFCell cell2b = rw.createCell(colpos);
+                        cell2b.setCellValue(conn.rs.getString("latitude"));
+                        cell2b.setCellStyle(stborder);
+                        colpos++;
+                        
+                         //Longitude
+                        XSSFCell cell2c = rw.createCell(colpos);
+                        cell2c.setCellValue(conn.rs.getString("longitude"));
+                        cell2c.setCellStyle(stborder);
+                        colpos++;
+                        
+                        //Ward
+                        XSSFCell cell2d = rw.createCell(colpos);
+                        cell2d.setCellValue(conn.rs.getString("ward"));
+                        cell2d.setCellStyle(stborder);
+                        colpos++;
+                        
 
                         String isvalidated = "Yes";
 
