@@ -50,9 +50,6 @@
         <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
         <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
         
-        <!--<link rel="stylesheet" href="daterangepicker/daterangepicker.css">-->
-        <!--<link rel="stylesheet" href="daterangepicker/daterangepicker.scss">-->
-        
 <style>
 .div_title {
     float: left;
@@ -76,9 +73,9 @@ float: left;
     padding-top: 10px;
 }
 .div_new{
-     float: left;
-    margin-right: 20px;
-    margin-bottom: 40px;
+     float:  left;
+    margin-bottom: 20px;
+    margin-left: 20px;
 }
 .new_participant{
     margin-bottom: 50px;
@@ -230,7 +227,7 @@ tr > td
                          <br>
                          <div style="margin-left: 5%;">
                        
-                             <div id="selector" style="float: left; width: 30%">
+                         <div id="selector" style="float: left; width: 30%">
                          <b>Change Entry type :</b> <select name="entry_type" id="entry_type" style="width: 50%;"> 
                              <option value="1">New </option>   
                              <option value="2">Update Participants </option>   
@@ -246,7 +243,6 @@ tr > td
                          <br>
                          <br>
                          <div id="summary" style="clear: both;">
-                             
                              
                              </div>
                          <div id="detailed_existing"  style="clear: both;">

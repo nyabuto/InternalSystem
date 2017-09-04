@@ -1,0 +1,58 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 16, 2017, 9:09:19 AM
+    Author     : GNyabuto
+*/
+.rotate {
+  /* FF3.5+ */
+  -moz-transform: rotate(-90.0deg);
+  /* Opera 10.5 */
+  -o-transform: rotate(-90.0deg);
+  /* Saf3.1+, Chrome */
+  -webkit-transform: rotate(-90.0deg);
+  /* IE6,IE7 */
+  filter: progid: DXImageTransform.Microsoft.BasicImage(rotation=0.083);
+  /* IE8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
+  /* Standard */
+  transform: rotate(-90.0deg);
+}
+
+#isValidated{
+text-align: right; 
+margin-right: 50px;
+}
+td{
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border: 1px;
+}
+.data-cell{
+    width: 50px;
+}
+.totals_bg{
+    /*background-color:#DDDDDD;*/
+    background-color:black;
+}
+
+table, th, td {
+   border: 0.3px solid black;
+}
+.lower-section{
+    margin-left: 200px;
+}
+
+.totals{
+    background-color: #F5F5DC;
+    font-weight: bolder;
+}
+.prepared_by{
+    margin-left: 50px;
+}

@@ -54,7 +54,7 @@ public class updatefacilitysession extends HttpServlet {
          if(conn.rs.getInt("Nutrition")==1){active+="Nutrition,";}
          if(conn.rs.getInt("GSN")==1){active+="GSN,";}
          if(conn.rs.getInt("Lab")==1){active+="Lab,";}
-         if(conn.rs.getInt("FP_Integration")==1){active+="FP_Integration,";}
+         if(conn.rs.getInt("FP_Integration")==1){active+="FP_Integration,733B (Nutrition),";}
          if(conn.rs.getInt("Care_DSD")==1){active+="Care_DSD,";f731="MOH 731,";f731new="MOH 731 (New)";}
          if(conn.rs.getInt("ART_DSD")==1){active+="ART_DSD,";}
          if(conn.rs.getInt("Maternity")==1){active+="Maternity,";f711="MOH 711A,";f711new="MOH 711 (New)";}

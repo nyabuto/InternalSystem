@@ -86,8 +86,8 @@ subcountyid="";
 unvalidatedFacilities="";
 
 
-//clear cached current tableid session
-session.removeAttribute("table_id");
+        //clear cached current tableid session
+        session.removeAttribute("table_id");
 
      if(session.getAttribute("forms_holder")!=null && !session.getAttribute("forms_holder").toString().equals(",")){ 
          if(session.getAttribute("forms_holder").toString().contains(",PMTCT,") || session.getAttribute("forms_holder").toString().contains(",ART,") || 

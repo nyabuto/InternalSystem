@@ -133,12 +133,13 @@
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
                   <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>
                   <!--<li ><a href="#">Edit Profile</a></li>-->
-           
+                  <li ><a href="analysisreports.jsp">Analysis Report</a></li>
                </ul>
             </li>
             <%}}%>
-            <li class="has-sub" style="display:none;" style="display:none;">
-                <a href="../T1FORM.jsp">
+            <li class="has-sub">
+                <i class="glyphicon glyphicon-education"></i> 
+                <a href="T1FORM.jsp">
                <span class="title">Trainings</span>
                </a>
             </li>

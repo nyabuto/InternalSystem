@@ -1,6 +1,6 @@
 <%-- 
-    Document   : loadnew731
-    Created on : May 10, 2017, 9:36:54 AM
+    Document   : load733B
+    Created on : Aug 15, 2017, 8:50:26 AM
     Author     : GNyabuto
 --%>
 
@@ -12,13 +12,13 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>New MOH 731</title>
+   <title>MOH 733B - Nutrition</title>
      
     <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
-   <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
    <link href="assets/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
@@ -31,16 +31,13 @@
    <link rel="stylesheet" type="text/css" href="assets/jquery-tags-input/jquery.tagsinput.css" />
    <link rel="stylesheet" type="text/css" href="assets/clockface/css/clockface.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
+   <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/bootstrap-datepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-timepicker/compiled/timepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-colorpicker/css/colorpicker.css" />
    <link rel="stylesheet" href="assets/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-   
-   <link rel="stylesheet" href="select2/css/select2.css"/>
-
+   <link rel="stylesheet" href="select2/css/select2.css">
 
         <style>
             hr {
@@ -73,7 +70,9 @@ legend.formatter {
 
 }
 </style>
-
+<!--form 733b styles-->
+<link rel="stylesheet" href="css/733b.css"/>
+   
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -175,7 +174,7 @@ legend.formatter {
 <!-- Modal -->
 
                          <!--<i class="icon-home"></i>-->
-                        <p>New MOH 731</p>
+                        <p>MOH 733B - Nutrition Form</p>
                       </li>
                   </ul>
            
@@ -186,24 +185,24 @@ legend.formatter {
 
 
 
-                   <%if (session.getAttribute("validatenew731") != null) { %>
+                   <%if (session.getAttribute("validate733B") != null) { %>
                                 <script type="text/javascript"> 
                     
-                    var n = noty({text: '<%=session.getAttribute("validatenew731")%>',
+                    var n = noty({text: '<%=session.getAttribute("validate733B")%>',
                         layout: 'center',
                         type: 'Success',
  
                          timeout: 4800});
                     
                 </script> <%
-                session.removeAttribute("validatenew731");
+                session.removeAttribute("validate733B");
                             }
 
                         %>
                         
                       
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
-                  <form action="validatenew731" method="post" class="form-horizontal" style="min-height: 450px;">
+                  <form action="validate733B" method="post" class="form-horizontal" style="min-height: 450px;">
                   
                       <input type="hidden" name="data_elements" id="data_elements" value="">
                    <input type="hidden" name="description" id="description" value="">    
@@ -211,7 +210,7 @@ legend.formatter {
                       <div id="data">  
 
                        
-                         <p style="margin-left: 450px; margin-top: 200px;">  loading new MOH731 form...<img src="images/utube.gif"></p>
+                         <p style="margin-left: 450px; margin-top: 200px;">  loading MOH733B form...<img src="images/utube.gif"></p>
                         
                        
                         <!-- END FORM-->           
@@ -300,31 +299,31 @@ int year= cal.get(Calendar.YEAR);
    <script type="text/javascript" src="assets/bootstrap-fileupload/bootstrap-fileupload.js"></script>
    <script src="assets/js/jquery.blockui.js"></script>
    <script src="assets/js/jquery.cookie.js"></script>
+   <!-- ie8 fixes -->
+   <!--[if lt IE 9]>
+   <script src="assets/js/excanvas.js"></script>
+   <script src="assets/js/respond.js"></script>
+   <![endif]-->
    <script type="text/javascript" src="assets/chosen-bootstrap/chosen/chosen.jquery.min.js"></script>
    <script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
    <script type="text/javascript" src="assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script> 
    <script type="text/javascript" src="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
    <script type="text/javascript" src="assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
    <script type="text/javascript" src="assets/bootstrap-toggle-buttons/static/js/jquery.toggle.buttons.js"></script>
-   <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+   <script type="text/javascript" src="assets/bootstrap-datepicker/js/bootstrap-datepicker_1.js"></script>
    <script type="text/javascript" src="assets/clockface/js/clockface.js"></script>
-   <script type="text/javascript" src="assets/bootstrap-daterangepicker/date.js"></script>
-   <script type="text/javascript" src="assets/bootstrap-daterangepicker/daterangepicker.js"></script> 
-   <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
-   <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+
+  
    <script src="assets/js/app.js"></script>  
-      <script src="select2/js/select2.js"></script>
-<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
-<script type="text/javascript" src="js/noty/layouts/top.js"></script>
-<script type="text/javascript" src="js/noty/layouts/center.js"></script>
-<script type="text/javascript" src="js/noty/themes/default.js"></script>
+   <script src="select2/js/select2.js"></script>
 <!--custom js file-->
-<script type="text/javascript" src="js/sumnew731.js"></script>
-<script type="text/javascript" src="js/validatenew731.js"></script> 
+<script type="text/javascript" src="js/sum733B.js"></script>
 
 <script>
 $(document).ready(function(){
-   
+$('.reporting_date').datepicker({
+    format: 'mm/dd/yyyy'
+});   
 });
 </script>
    <!--
@@ -342,7 +341,7 @@ return true;
        $(document).ready(function(){
       
              $.ajax({
-        url:"loadnew731",
+        url:"loadmoh733B",
         type:"post",
         dataType:"html",
         success:function(data){
@@ -358,19 +357,28 @@ $("#allunValidated").html(invalidatedData);
 $("#data_elements").val("");
 $("#description").val("");
 
+       $('#reporting_date').datepicker({
+        endDate: "today()",
+        format: "yyyy-mm-dd",
+        startDate: "2014-01-01",
+         clearBtn: true,
+           todayHighlight: true,
+           orientation: "bottom auto",
+          autoclose: true
+    });
         }
     }); 
        });
        
   function autosave(columnName){
-  var totalsVariables =",HV0110,HV0126,HV0135,HV0207,HV0214,HV0220,HV0232,HV0241,HV03011,HV03015,HV03026,HV03038,HV03050,HV03057,HV03065,HV03069,HV03072,HV03075,HV03079,HV03081,HV03084,HV0407,HV0503,HV0506,";          
+  var totalsVariables =",RT_Grand_Total,RT_Total_5_15_Neg,RT_Total_0_59M_Neg,RT_Total_5_15_Pos,RT_Total_0_59M_Pos,RT_Total_AllAdults_Neg,RT_Total_Postnatal_Pos,RT_Total_Adults15_17_Pos,RT_Transferred_Total,RT_LS_Total,RT_InPatient_Total,TO_Grand_Total,TO_Total_5_15_Neg,TO_Total_0_59M_Neg,TO_Total_5_15_Pos,TO_Total_0_59M_Pos,TO_Total_AllAdults_Neg,TO_Total_Postnatal_Pos,TO_Total_Adults15_17_Pos,TO_RNS_Total,TO_Discharged_Total,TO_Cured_Total,TO_StaticWeight_Total,TO_LosingWeight_Total,TO_GainingWeight_Total,NH2_Grand_Total,NH2_Total_5_15_Neg,NH2_Total_0_59M_Neg,NH2_Total_5_15_Pos,NH2_Total_0_59M_Pos,NH2_Total_AllAdults_Neg,NH2_Total_Postnatal_Pos,NH2_Total_Adults15_17_Pos,NH2_Others_Total,NH2_Micronutrients_Total,NH2_LNS_Total,NH2_FBFCSB_Total,NH2_RUSF_Total,NH2_RUTF_Total,NH2_TCM_Total,NI_Grand_Total,NI_Total_5_15_Neg,NI_Total_0_59M_Neg,NI_Total_5_15_Pos,NI_Total_0_59M_Pos,NI_Total_AllAdults_Neg,NI_Total_Postnatal_Pos,NI_Total_Adults15_17_Pos,NI_IYCF_Total,NI_CNP_Total,NI_Postnatal_Total,NI_Prenatal_Total,IFP_6_12_SubTotal_Neg,IFP_6_12_SubTotal_Pos,IFP_0_6_SubTotal_Neg,IFP_0_6_SubTotal_Pos,Anaemia_Total_AdultNeg,Anaemia_Total_AllChildren,Anaemia_Total_AdultPos,ART_Revisits_OtherOIs_Total,ART_Revisits_Diarrhoea_Total,ART_Revisits_TB_Total,ART_Revisits_ARTInitiated_Total,ART_New_OtherOIs_Total,ART_New_Diarrhoea_Total,ART_New_TB_Total,ART_New_ARTInitiated_Total,NH1_Grand_Total,NH1_Total_5_15,NH1_Total_0_59M,NH1_Total_Postnatal,NH1_Total_15_17,NH1_Total_Adult,NH1_Neg_MAM_Total,NH1_Neg_SAM_Total,NH1_Pos_MAM_Total,NH1_Pos_SAM_Total,CS_Total_LinkedOVC,CS_Total_Relapse,CS_Total_Readmission,CS_Total_5_15,CS_Total_0_59M,CS_Total_Postnatal,CS_Total_15_17,CS_Total_Adult,";          
 //          alert("caled"+columnName);
             var achieved=document.getElementById(columnName).value;
 //           var achieved =$("#"+columnName).val();
 //            alert("called : "+columnName+"   value : "+achieved);
 //            if(achieved!=""){
              $.ajax({
-url:'savenew731?columnName='+columnName+"&value="+achieved,
+url:'save733B?columnName='+columnName+"&value="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){
@@ -393,6 +401,7 @@ $('[data-toggle="tooltip"]').tooltip();
 }
              });
 //         }
+$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
              }
            
        </script>

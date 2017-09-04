@@ -257,7 +257,7 @@ ArrayList data = new ArrayList();
             style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
             style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
             style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            style2.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.0"));
+            style2.setDataFormat(HSSFDataFormat.getBuiltinFormat("0"));
 
             HSSFCellStyle stborder = wb.createCellStyle();
             stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -772,6 +772,9 @@ ArrayList data = new ArrayList();
             data.addAll(Less1YearInitiatedOnART(conn.rs1,age_set));
             }
             
+            if(element_id==9){
+                data.addAll(TBSTAT(conn.rs1,age_set));
+            }
              }
            
             HSSFRow rw_d=shet.createRow(row);
@@ -2804,4 +2807,165 @@ outStream.close();
         return new_data;
     }
    
+     public ArrayList TBSTAT(ResultSet rset,String ageset) throws SQLException{
+
+        String m_1="",m_4="",m_9="",m_14="",m_19="",m_24="",m_49="",m_50="",f_1="",f_4="",f_9="",f_14="",f_19="",f_24="",f_49="",f_50="";
+        String m_0_14="",m_10_19="",m_15_50="",m_24_35="",f_0_14="",f_10_19="",f_15_50="",f_24_35="";
+        int total=0;
+        
+        m_1=rset.getString("m_1");
+        m_4=rset.getString("m_4");
+        m_9=rset.getString("m_9");
+        m_14=rset.getString("m_14");
+        m_19=rset.getString("m_19");
+        m_24=rset.getString("m_24");
+        m_49=rset.getString("m_49");
+        m_50=rset.getString("m_50");
+        f_1=rset.getString("f_1");
+        f_4=rset.getString("f_4");
+        f_9=rset.getString("f_9");
+        f_14=rset.getString("f_14");
+        f_19=rset.getString("f_19");
+        f_24=rset.getString("f_24");
+        f_49=rset.getString("f_49");
+        f_50=rset.getString("f_50");
+        
+        m_0_14=rset.getString("m_0_14");
+        m_10_19=rset.getString("m_10_19");
+        m_15_50=rset.getString("m_15_50");
+        m_24_35=rset.getString("m_24_35");
+                
+        f_0_14=rset.getString("f_0_14");
+        f_10_19=rset.getString("f_10_19");
+        f_15_50=rset.getString("f_15_50");
+        f_24_35=rset.getString("f_24_35"); 
+        
+        
+//        Hashmap array
+//        Datim ages
+
+        
+        ArrayList new_data = new ArrayList();
+        
+        if(age_set.contains("1")){
+            if(gender.contains("m")){
+                new_data.add(m_1);
+//                total+=m_1;
+            }
+            if(gender.contains("f")){
+                new_data.add(f_1);
+//                total+=f_1;
+            }
+        }
+        if(age_set.contains("2")){
+        if(gender.contains("m")){
+            new_data.add(m_4);
+//            total+=m_4;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_4);
+//            total+=f_4;
+        }
+        }
+        if(age_set.contains("3")){
+        if(gender.contains("m")){
+            new_data.add(m_9);
+//            total+=m_9;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_9);
+//            total+=f_9;
+        }
+        }
+        if(age_set.contains("4")){
+        if(gender.contains("m")){
+            new_data.add(m_14);
+//            total+=m_14;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_14);
+//            total+=f_14;
+        }
+        }
+        if(age_set.contains("5")){
+        if(gender.contains("m")){
+            new_data.add(m_19);
+//            total+=m_19;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_19);
+//            total+=f_19;
+        }
+        }
+        if(age_set.contains("6")){
+        if(gender.contains("m")){
+            new_data.add(m_24);
+//            total+=m_24;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_24);
+//            total+=f_24;
+        }
+        }
+        if(age_set.contains("7")){
+        if(gender.contains("m")){
+            new_data.add(m_49);
+//            total+=m_49;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_49);
+//            total+=f_49;
+        }
+        }
+        if(age_set.contains("8")){
+        if(gender.contains("m")){
+            new_data.add(m_50);
+//            total+=m_50;
+        }
+        if(gender.contains("f")){
+            new_data.add(f_50);
+//            total+=f_50;
+        }
+        }
+        
+        
+        if(age_set.contains("9")){
+        if(gender.contains("m")){
+            new_data.add(m_0_14);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_0_14);
+        }
+        }
+        if(age_set.contains("10")){
+        if(gender.contains("m")){
+            new_data.add(m_10_19);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_10_19);
+        }
+        }
+        if(age_set.contains("11")){
+        if(gender.contains("m")){
+            new_data.add(m_15_50);
+        }
+        if(gender.contains("f")){
+            new_data.add(f_15_50);
+        }
+        }
+        if(age_set.contains("12")){
+        if(gender.contains("m")){
+            new_data.add(m_24_35);
+        }
+        if(gender.contains("f")){
+        new_data.add(f_24_35);
+        }
+        }
+        
+//        new_data.add(males);
+//        new_data.add(females);
+        new_data.add(total);
+      
+        return new_data;
+    }
 }

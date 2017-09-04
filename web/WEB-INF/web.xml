@@ -638,8 +638,8 @@
         <servlet-class>reportsAjax.loadelements</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>loadmoh364</servlet-name>
-        <servlet-class>InternalSystem.loadmoh364</servlet-class>
+        <servlet-name>loadmoh733B</servlet-name>
+        <servlet-class>InternalSystem.loadmoh733B</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateBaselines</servlet-name>
@@ -648,6 +648,22 @@
     <servlet>
         <servlet-name>load_all_age_sets</servlet-name>
         <servlet-class>General.load_all_age_sets</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Dynamic_report_raw_data</servlet-name>
+        <servlet-class>reports.Dynamic_report_raw_data</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save733B</servlet-name>
+        <servlet-class>InternalSystem.save733B</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate733B</servlet-name>
+        <servlet-class>InternalSystem.validate733B</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadNewANC</servlet-name>
+        <servlet-class>LoadExcels.LoadNewANC</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -1286,8 +1302,8 @@
         <url-pattern>/loadelements</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>loadmoh364</servlet-name>
-        <url-pattern>/loadmoh364</url-pattern>
+        <servlet-name>loadmoh733B</servlet-name>
+        <url-pattern>/loadmoh733B</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateBaselines</servlet-name>
@@ -1296,6 +1312,22 @@
     <servlet-mapping>
         <servlet-name>load_all_age_sets</servlet-name>
         <url-pattern>/load_all_age_sets</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Dynamic_report_raw_data</servlet-name>
+        <url-pattern>/Dynamic_report_raw_data</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save733B</servlet-name>
+        <url-pattern>/save733B</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate733B</servlet-name>
+        <url-pattern>/validate733B</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadNewANC</servlet-name>
+        <url-pattern>/LoadNewANC</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

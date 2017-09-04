@@ -112,9 +112,9 @@
             <%}}%>
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",nutrition,")){%> 
             <li class="has-sub"  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Nutrition")){  %> style="display:none;" <%} } else { %> style="display:none;"<% } %>>
-               <a href="loadNutrition.jsp">
+               <a href="load733B.jsp">
                <!--<i class="icon-map-marker"></i>--> 
-               <span class="title">Nutrition</span>
+               <span class="title">733B (Nutrition)</span>
                <!--<span class="arrow "></span>-->
                </a>
               
@@ -239,8 +239,9 @@
                </ul>
             </li>
             <%}}%>
-            <li class="has-sub" style="display:none;" style="display:none;">
-                <a href="../T1FORM.jsp">
+            <li class="has-sub">
+                <i class="glyphicon glyphicon-education"></i> 
+                <a href="T1FORM.jsp">
                <span class="title">Trainings</span>
                </a>
             </li>
