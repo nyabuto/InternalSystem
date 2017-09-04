@@ -119,9 +119,6 @@
                   </h3>
                   
                   
-                  
-                  
-                  
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
