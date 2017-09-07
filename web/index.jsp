@@ -162,10 +162,7 @@ int year= cal.get(Calendar.YEAR);
   <script type="text/javascript" src="assets/jquery-validation/dist/jquery.validate.min.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-//    jQuery(document).ready(function() {     
-//      App.initLogin();
-//    });
-
+    jQuery(document).ready(function() {     
        $.ajax({
 url:'facilityautobackup',
 type:'post',
@@ -179,24 +176,17 @@ success:function (data){
 
 
 });
-
-
-
  $.ajax({
 url:'validateTotals',
 type:'post',
 dataType:'html',
-success:function (data){
-      
-         // $("#facility").chosen();
-       
-       
+success:function (data){  
+         // $("#facility").chosen();       
 }
 
 
 });
-
-
+});
   </script>
   <!-- END JAVASCRIPTS -->
 </body>

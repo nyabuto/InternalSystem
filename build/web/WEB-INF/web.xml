@@ -666,8 +666,8 @@
         <servlet-class>LoadExcels.LoadNewANC</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ValidateTotals</servlet-name>
-        <servlet-class>scripts.ValidateTotals</servlet-class>
+        <servlet-name>validateTotals</servlet-name>
+        <servlet-class>scripts.validateTotals</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -1334,8 +1334,8 @@
         <url-pattern>/LoadNewANC</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ValidateTotals</servlet-name>
-        <url-pattern>/ValidateTotals</url-pattern>
+        <servlet-name>validateTotals</servlet-name>
+        <url-pattern>/validateTotals</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

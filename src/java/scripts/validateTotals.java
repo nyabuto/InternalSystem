@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author EKaunda
  */
-public class ValidateTotals extends HttpServlet {
+public class validateTotals extends HttpServlet {
 
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -83,7 +83,7 @@ public class ValidateTotals extends HttpServlet {
             
             //out.println("</html>");
         } catch (SQLException ex) {
-            Logger.getLogger(ValidateTotals.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(validateTotals.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
