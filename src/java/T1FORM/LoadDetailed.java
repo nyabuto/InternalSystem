@@ -60,7 +60,7 @@ int counter;
                     counter++;
 //                  write data here;  
            output+="<tr>"
-         + "<td>"+counter+"</td><td>"+participant_name+"</td><td>"+gender+"</td><td>"+profession+"</td><td>"+personal_no+"</td><td>"+organization+"</td><td>"+district+"</td><td>"+telephone+"</td><td>"+address+"</td>"
+         + "<td class=\"detailed-elems\">"+counter+"</td><td class=\"detailed-elems\">"+participant_name+"</td><td class=\"detailed-elems\">"+gender+"</td><td class=\"detailed-elems\">"+profession+"</td><td class=\"detailed-elems\">"+personal_no+"</td><td class=\"detailed-elems\">"+organization+"</td><td class=\"detailed-elems\">"+district+"</td><td class=\"detailed-elems\">"+telephone+"</td><td class=\"detailed-elems\">"+address+"</td>"
          + "</tr>";          
                     
           }

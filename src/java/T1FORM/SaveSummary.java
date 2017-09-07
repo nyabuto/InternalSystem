@@ -67,19 +67,22 @@ int summary_id;
             System.out.println(" data : "+resout);
            if(s_male.equals("")){s_male="0";}
            if(s_female.equals("")){s_female="0";}
-           String checker="SELECT id FROM t1_summary WHERE program_area_id=? AND training_name=? AND start_date=? AND end_date=?";
+           String checker="SELECT id FROM t1_summary WHERE program_area_id=? AND training_name=? AND start_date=? AND end_date=? AND districts=?";
            conn.pst=conn.conn.prepareStatement(checker);
            conn.pst.setString(1, program_area_id);
            conn.pst.setString(2, training_name);
            conn.pst.setString(3, start_date);
            conn.pst.setString(4, end_date);
+           conn.pst.setString(5, districts);
            
+            System.out.println("stmt : "+conn.pst);
            conn.rs=conn.pst.executeQuery();
            if(conn.rs.next()){
                 summary_id=conn.rs.getInt(1);
+                output="Similar record is already registered in our system."; 
            }
            
-           if(summary_id==0){
+           else{
                String inserter="INSERT INTO t1_summary (program_area_id,cordinator,districts,agency,venue,curriculum_id,start_date,end_date,training_name,year,month,s_male,s_female,ym,user_id) "
                        + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                conn.pst=conn.conn.prepareStatement(inserter);
@@ -107,9 +110,6 @@ int summary_id;
            if(conn.rs.next()==true){
                summary_id=conn.rs.getInt(1);
            }
-           }
-           else{
-            output="Similar record is already registered in our system.";   
            }
            
             out.println(summary_id);

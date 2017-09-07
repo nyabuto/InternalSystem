@@ -9,6 +9,7 @@ package InternalSystem;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -312,7 +313,8 @@ HV0342=HV0323+HV0342_1;
 HV0343=HV0324+HV0343_1;
 HV0344=HV0325+HV0344_1;
 
-  String runValidate="UPDATE moh731 SET HV0101=?,HV0102=?,HV0103=?,HV0105=?,HV0106=?,HV0107=?,HV0108=?,HV0109=?,HV0110=?,HV0111=?,HV0112=?,HV0113=?,HV0114=?," +
+
+String runValidate="UPDATE moh731 SET HV0101=?,HV0102=?,HV0103=?,HV0105=?,HV0106=?,HV0107=?,HV0108=?,HV0109=?,HV0110=?,HV0111=?,HV0112=?,HV0113=?,HV0114=?," +
 "        HV0115=?,HV0116=?," +
 "HV0201=?,HV0202=?,HV0203=?,HV0204=?,HV0205=?,HV0206=?,HV0207=?,HV0208=?,HV0209=?,HV0210=?,HV0211=?,HV0212=?,HV0213=?," +
 "HV0214=?,HV0215=?,HV0216=?,HV0217=?,HV0218=?,HV0219=?,HV0220=?,HV0221=?,HV0224=?,HV0225=?,HV0226=?,HV0227=?,HV0228=?,HV0229=?," +
@@ -325,8 +327,12 @@ HV0344=HV0325+HV0344_1;
 "        HV0354=?,HV0355=?,HV0904=?,HV0905=?,HV0370=?,HV0371=?,HV0372=?,HV0373=?," + //61
 "HV0401=?,HV0402=?,HV0403=?,HV0406=?,HV0407=?,HV0408=?,HV0409=?,HV0410=?,HV0411=?,HV0412=?,HV0413=?,HV0414=?,HV0415=?," +
 " HV0501=?,HV0502=?,HV0503=?,HV0504=?,HV0505=?,HV0506=?,HV0507=?,HV0508=?,HV0509=?,HV0510=?,HV0511=?,HV0512=?,HV0513=?,HV0514=?," +
-" HV0601=?,HV0602=?,HV0605=?,isValidated=? WHERE id=?";     //31   
- conn.pst=conn.conn.prepareStatement(runValidate);
+" HV0601=?,HV0602=?,HV0605=?,isValidated=? WHERE id=?"; 
+            System.out.println("found during validation : "+session.getAttribute("found").toString());
+if(session.getAttribute("found").toString().equals("1")){
+  conn.pst=conn.conn.prepareStatement(runValidate);   
+
+//31   
   
    conn.pst.setInt(1, HV0101);
    conn.pst.setInt(2, HV0102);
@@ -486,6 +492,209 @@ HV0344=HV0325+HV0344_1;
    conn.pst.setString(150, id);
    
    conn.pst.executeUpdate();
+   }
+    else{   
+    String fetchMaster="SELECT * FROM moh731_temp WHERE id=?";
+    conn.pst=conn.conn.prepareStatement(fetchMaster);
+    conn.pst.setString(1, id);
+    conn.rs=conn.pst.executeQuery();
+    if(conn.rs.next()){
+       id = conn.rs.getString("id");	
+    String  SubPartnerID = conn.rs.getString("SubPartnerID");	
+    String Mois = conn.rs.getString("Mois");	
+    String Annee =conn.rs.getString("Annee");
+    
+    String user_id = conn.rs.getString("user_id"); 
+    String timestamp = conn.rs.getString("timestamp"); 	
+//    String isValidated = conn.rs.getString("isValidated"); 	
+    String yearmonth = conn.rs.getString("yearmonth"); 	
+    String updatedBy = conn.rs.getString("updatedBy"); 	
+    String updatedOn = conn.rs.getString("updatedOn"); 	
+    String isLocked = conn.rs.getString("isLocked"); 	
+    String quarter = conn.rs.getString("quarter"); 
+    
+    
+String copyToTemp="INSERT INTO moh731 SET id=?, SubPartnerID=?, Mois=?, Annee=?, HV0101=?, HV0102=?, HV0103=?, HV0105=?, HV0106=?, HV0107=?, HV0108=?, HV0109=?, HV0110=?, HV0111=?, HV0112=?, HV0113=?, HV0114=?, HV0115=?, HV0116=?, HV0201=?, HV0202=?, HV0203=?, HV0204=?, HV0205=?, HV0206=?, HV0207=?, HV0208=?, HV0209=?, HV0210=?, HV0211=?, HV0212=?, HV0213=?, HV0214=?, HV0215=?, HV0216=?, HV0217=?, HV0218=?, HV0219=?, HV0220=?, HV0221=?, HV0224=?, HV0225=?, HV0226=?, HV0227=?, HV0228=?, HV0229=?, HV0230=?, HV0231=?, HV0232=?, HV0233=?, HV0234=?, HV0235=?, HV0236=?, HV0237=?, HV0238=?, HV0239=?, HV0240=?, HV0241=?, HV0242=?, HV0243=?,HV0244=?, HV0301=?, HV0302=?, HV0303=?, HV0304=?, HV0305=?, HV0306=?, HV0307=?, HV0308=?, HV0309=?, HV0310=?, HV0311=?, HV0312=?, HV0313=?, HV0314=?, HV0315=?, HV0316=?, HV0317=?, HV0318=?, HV0319=?, HV0320=?, HV0321=?, HV0322=?, HV0323=?, HV0324=?, HV0325=?, HV0326=?, HV0327=?, HV0328=?, HV0329=?, HV0330=?, HV0331=?, HV0332=?, HV0333=?, HV0334=?, HV0335=?, HV0336=?, HV0337=?, HV0338=?, HV0339=?, HV0340=?, HV0341=?, HV0342=?, HV0343=?, HV0344=?, HV0345=?, HV0346=?, HV0347=?, HV0348=?, HV0349=?, HV0350=?, HV0351=?, HV0352=?, HV0353=?, HV0354=?, HV0355=?, HV0904=?, HV0905=?, HV0370=?, HV0371=?, HV0372=?, HV0373=?, HV0401=?, HV0402=?, HV0403=?, HV0406=?, HV0407=?, HV0408=?, HV0409=?, HV0410=?, HV0411=?, HV0412=?, HV0413=?, HV0414=?, HV0415=?, HV0501=?, HV0502=?, HV0503=?, HV0504=?, HV0505=?, HV0506=?, HV0507=?, HV0508=?, HV0509=?, HV0510=?, HV0511=?, HV0512=?, HV0513=?, HV0514=?, HV0601=?, HV0602=?, HV0605=?, user_id=?, timestamp=?, isValidated=?, yearmonth=?, updatedBy=?, updatedOn=?, isLocked=?, quarter=?";
+conn.pst=conn.conn.prepareStatement(copyToTemp);
+  conn.pst.setString(1 ,id);	
+  conn.pst.setString(2 , SubPartnerID);	
+  conn.pst.setString(3 ,Mois);	
+  conn.pst.setString(4 ,Annee); 
+     
+    conn.pst.setInt(5 ,HV0101);
+    conn.pst.setInt(6 ,HV0102);
+    conn.pst.setInt(7 ,HV0103);
+    conn.pst.setInt(8 ,HV0105);
+    conn.pst.setInt(9 ,HV0106);
+    conn.pst.setInt(10 ,HV0107);
+    conn.pst.setInt(11 ,HV0108);
+    conn.pst.setInt(12 ,HV0109);
+    conn.pst.setInt(13 ,HV0110);
+    conn.pst.setInt(14 ,HV0111);
+    conn.pst.setInt(15 ,HV0112);
+    conn.pst.setInt(16 ,HV0113);
+    conn.pst.setInt(17 ,HV0114);
+    conn.pst.setInt(18 ,HV0115);
+    conn.pst.setInt(19 ,HV0116);
+
+    conn.pst.setInt(20 ,HV0201);
+    conn.pst.setInt(21 ,HV0202);
+    conn.pst.setInt(22 ,HV0203);
+    conn.pst.setInt(23 ,HV0204);
+    conn.pst.setInt(24 ,HV0205);
+    conn.pst.setInt(25 ,HV0206);
+    conn.pst.setInt(26 ,HV0207);
+    conn.pst.setInt(27 ,HV0208);
+    conn.pst.setInt(28 ,HV0209);
+    conn.pst.setInt(29 ,HV0210);
+    conn.pst.setInt(30 ,HV0211);
+    conn.pst.setInt(31 ,HV0212);
+    conn.pst.setInt(32 ,HV0213);
+    conn.pst.setInt(33 ,HV0214);
+    conn.pst.setInt(34 ,HV0215);
+    conn.pst.setInt(35 ,HV0216);
+    conn.pst.setInt(36 ,HV0217);
+    conn.pst.setInt(37 ,HV0218);
+    conn.pst.setInt(38 ,HV0219);
+    conn.pst.setInt(39 ,HV0220);
+    conn.pst.setInt(40 ,HV0221);
+    conn.pst.setInt(41 ,HV0224);
+    conn.pst.setInt(42 ,HV0225);
+    conn.pst.setInt(43 ,HV0226);
+    conn.pst.setInt(44 ,HV0227);
+    conn.pst.setInt(45 ,HV0228);
+    conn.pst.setInt(46 ,HV0229);
+    conn.pst.setInt(47 ,HV0230);
+    conn.pst.setInt(48 ,HV0231);
+    conn.pst.setInt(49 ,HV0232);
+    conn.pst.setInt(50 ,HV0233);
+    conn.pst.setInt(51 ,HV0234);
+    conn.pst.setInt(52 ,HV0235);
+    conn.pst.setInt(53 ,HV0236);
+    conn.pst.setInt(54 ,HV0237);
+    conn.pst.setInt(55 ,HV0238);
+    conn.pst.setInt(56 ,HV0239);
+    conn.pst.setInt(57 ,HV0240);
+    conn.pst.setInt(58 ,HV0241);
+    conn.pst.setInt(59 ,HV0242);
+    conn.pst.setInt(60 ,HV0243);
+    conn.pst.setInt(61 ,HV0244);
+
+    conn.pst.setInt(62 ,HV0301);
+    conn.pst.setInt(63 ,HV0302);
+    conn.pst.setInt(64 ,HV0303);
+    conn.pst.setInt(65 ,HV0304);
+    conn.pst.setInt(66 ,HV0305);
+    conn.pst.setInt(67 ,HV0306);
+    conn.pst.setInt(68 ,HV0307);
+    conn.pst.setInt(69 ,HV0308);
+    conn.pst.setInt(70 ,HV0309);
+    conn.pst.setInt(71 ,HV0310);
+    conn.pst.setInt(72 ,HV0311);
+    conn.pst.setInt(73 ,HV0312);
+    conn.pst.setInt(74 ,HV0313);
+    conn.pst.setInt(75 ,HV0314);
+    conn.pst.setInt(76 ,HV0315);
+    conn.pst.setInt(77 ,HV0316);
+    conn.pst.setInt(78 ,HV0317);
+    conn.pst.setInt(79 ,HV0318);
+    conn.pst.setInt(80 ,HV0319);
+    conn.pst.setInt(81 ,HV0320);
+    conn.pst.setInt(82 ,HV0321);
+    conn.pst.setInt(83 ,HV0322);
+    conn.pst.setInt(84 ,HV0323);
+    conn.pst.setInt(85 ,HV0324);
+    conn.pst.setInt(86 ,HV0325);
+    conn.pst.setInt(87 ,HV0326);
+    conn.pst.setInt(88 ,HV0327);
+    conn.pst.setInt(89 ,HV0328);
+    conn.pst.setInt(90 ,HV0329);
+    conn.pst.setInt(91 ,HV0330);
+    conn.pst.setInt(92 ,HV0331);
+    conn.pst.setInt(93 ,HV0332);
+    conn.pst.setInt(94 ,HV0333);
+    conn.pst.setInt(95 ,HV0334);
+    conn.pst.setInt(96 ,HV0335);
+    conn.pst.setInt(97 ,HV0336);
+    conn.pst.setInt(98 ,HV0337);
+    conn.pst.setInt(99 ,HV0338);
+    conn.pst.setInt(100 ,HV0339);
+    conn.pst.setInt(101 ,HV0340);
+    conn.pst.setInt(102 ,HV0341);
+    conn.pst.setInt(103 ,HV0342);
+    conn.pst.setInt(104 ,HV0343);
+    conn.pst.setInt(105 ,HV0344);
+    conn.pst.setInt(106 ,HV0345);
+    conn.pst.setInt(107 ,HV0346);
+    conn.pst.setInt(108 ,HV0347);
+    conn.pst.setInt(109 ,HV0348);
+    conn.pst.setInt(110 ,HV0349);
+    conn.pst.setInt(111 ,HV0350);
+    conn.pst.setInt(112 ,HV0351);
+    conn.pst.setInt(113 ,HV0352);
+    conn.pst.setInt(114 ,HV0353);
+    conn.pst.setInt(115 ,HV0354);
+    conn.pst.setInt(116 ,HV0355);
+    conn.pst.setInt(117 ,HV0904);
+    conn.pst.setInt(118 ,HV0905);
+    conn.pst.setInt(119 ,HV0370);
+    conn.pst.setInt(120 ,HV0371);
+    conn.pst.setInt(121 ,HV0372);
+    conn.pst.setInt(122 ,HV0373);
+
+    conn.pst.setInt(123 ,HV0401);
+    conn.pst.setInt(124 ,HV0402);
+    conn.pst.setInt(125 ,HV0403);
+    conn.pst.setInt(126 ,HV0406);
+    conn.pst.setInt(127 ,HV0407);
+    conn.pst.setInt(128 ,HV0408);
+    conn.pst.setInt(129 ,HV0409);
+    conn.pst.setInt(130 ,HV0410);
+    conn.pst.setInt(131 ,HV0411);
+    conn.pst.setInt(132 ,HV0412);
+    conn.pst.setInt(133 ,HV0413);
+    conn.pst.setInt(134 ,HV0414);
+    conn.pst.setInt(135 ,HV0415);
+
+    conn.pst.setInt(136 ,HV0501);
+    conn.pst.setInt(137 ,HV0502);
+    conn.pst.setInt(138 ,HV0503);
+    conn.pst.setInt(139 ,HV0504);
+    conn.pst.setInt(140 ,HV0505);
+    conn.pst.setInt(141 ,HV0506);
+    conn.pst.setInt(142 ,HV0507);
+    conn.pst.setInt(143 ,HV0508);
+    conn.pst.setInt(144 ,HV0509);
+    conn.pst.setInt(145 ,HV0510);
+    conn.pst.setInt(146 ,HV0511);
+    conn.pst.setInt(147 ,HV0512);
+    conn.pst.setInt(148 ,HV0513);
+    conn.pst.setInt(149 ,HV0514);
+
+    conn.pst.setInt(150 ,HV0601);
+    conn.pst.setInt(151 ,HV0602);
+    conn.pst.setInt(152 ,HV0605); 
+
+    conn.pst.setString(153 ,user_id); 
+    conn.pst.setString(154 ,timestamp); 	
+    conn.pst.setString(155 ,"1"); 	
+    conn.pst.setString(156 ,yearmonth); 	
+    conn.pst.setString(157 ,updatedBy); 	
+    conn.pst.setString(158 ,updatedOn); 	
+    conn.pst.setString(159 ,isLocked); 	
+    conn.pst.setString(160 ,quarter); 
+
+    conn.pst.executeUpdate();
+
+    
+    }
+    
+    }
+   //drop temp db
+   
+   conn.st.executeUpdate("DELETE FROM moh731_temp WHERE id='"+id+"'");
+   
+   //end of fropping temp
    
    
      session.setAttribute("validate731", "<font color=\"green\"><b>Form MOH 731 Validated Successfully.</b></font>");

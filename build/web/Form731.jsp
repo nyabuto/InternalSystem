@@ -376,11 +376,18 @@ $("#description").val("");
 //           var achieved =$("#"+columnName).val();
 //            alert("called : "+columnName+"   value : "+achieved);
 //            if(achieved!=""){
+
+$("#validationbtn").html("Saving..please wait");
+$("#validationbtn").prop("disabled",true);
+
              $.ajax({
 url:'save731?columnName='+columnName+"&value="+achieved,
 type:'post',
 dataType:'html',
 success:function (data){
+    $("#validationbtn").html("Run Validation");
+    $("#validationbtn").prop("disabled",false);
+    
    if(data.trim()!="success"){$("#error").html(data);
      $("#"+columnName).css({'background-color' : 'red'});
         }

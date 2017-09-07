@@ -30,7 +30,7 @@ String output="";
         PrintWriter out = response.getWriter();
         try {
            dbConn conn = new dbConn();
-           output="<option value=\"0\">Choose meeting</option>";
+           output="<option value=\"0\">Choose Training</option>";
            String id,training_name,venue,cordinator,start_date,end_date;
            String getMeetings = "SELECT id,training_name,venue,cordinator,start_date,end_date FROM t1_summary";
            conn.rs=conn.st.executeQuery(getMeetings);
@@ -42,7 +42,7 @@ String output="";
              start_date = conn.rs.getString(5);
              end_date = conn.rs.getString(6);
              
-             output+="<option value=\""+id+"\">"+training_name+" ("+start_date+" to "+end_date+")</option>";
+             output+="<option value=\""+id+"\">"+training_name+" held at :"+venue+" ("+start_date+" to "+end_date+")</option>";
            }
            out.println(output);
         } finally {

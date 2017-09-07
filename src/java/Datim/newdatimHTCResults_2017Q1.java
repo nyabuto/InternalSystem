@@ -7498,524 +7498,7 @@ else if(b==5){
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                 
                 
                  
-                 
-//_____________________________________________________________EID_DATA_________________________________________________________________                 
-                 
-            if(3==3){
-                                
-        
-                
-        
-        
-        
-            String month = "";
-            String year = "";
-            String facil = "361";
-            String form = "moh731";
-            
-//=====================================================================================================
-            year = "2016";
-            month = "4";
-            String county = "";
-            String header = "";
-            
-            
-           /** 
-           // String subheaders[]={"Female","Male"};
-            String sectionheaders[]={"Facility details","","","","EID Tested","","","","EID HIV positive","","","","EID HIV negative","","","","EID HIV enrollment status","","","","Totals","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            String sectionheaders0[]={"Facility details","","","","Female","","Male","","Female","","Male","","Female","","Male","","EID HIV enrollment status","","","","EID Tested","EID HIV positive","EID HIV negative","EID HIV enrollment","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            String sectionheaders1[]={"County","Sub-county","Facility Name","MFL Code","<1","1-4","<1","1-4","<1","1-4","<1","1-4","<1","1-4","<1","1-4","Dead","Enrolled","Lost to Follow Up","Other","EID Tested","EID HIV positive","EID HIV negative","EID HIV enrollment","ART High Volume","HTC High Volume","PMTCT High Volume"};		
-	*/
-           // String subheaders[]={"Female","Male"};
-            String sectionheaders[]={"County","Sub-county","Facility Name","MFL Code","Disaggregated by infant Results","","","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            String sectionheaders0[]={"County","Sub-county","Facility Name","MFL Code","Positive","","Negative","","Collected/sent but no result recorded","","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            String sectionheaders1[]={"County","Sub-county","Facility Name","MFL Code","0-2 Months","2-12 Months","0-2 Months","2-12 Months","0-2 Months","2-12 Months","ART High Volume","HTC High Volume","PMTCT High Volume"};		
-	
 
-           
-            //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
-            String merge_row_col[]={"0,0,0,12","1,3,0,0","1,3,1,1","1,3,2,2","1,3,3,3","1,1,4,9","2,2,4,5","2,2,6,7","2,2,8,9","1,3,10,10","1,3,11,11","1,3,12,12"};
-            
-            String reportType = "";
-            if (request.getParameter("reportType") != null) 
-            {
-                reportType = request.getParameter("reportType");
-            }
-            String reportDuration = "";
-            if (request.getParameter("reportDuration") != null) 
-            {
-                reportDuration = request.getParameter("reportDuration");
-            }
-            
-            if (request.getParameter("year") != null) {
-                year = request.getParameter("year");
-                                                      }
-            
-            if (request.getParameter("facility") != null && reportType.equals("2")) {
-                try {
-                    facil = request.getParameter("facility");
-                    
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='" + facil + "'";
-                    conn.rs = conn.st.executeQuery(getfacil);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " FACILITY : " + conn.rs.getString(1).toUpperCase() + "     MFL CODE  :  " + conn.rs.getString(2) + "  ";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            if (request.getParameter("county") != null && reportType.equals("2")) {
-                try {
-                    county = request.getParameter("county");
-                    
-                    String getcounty = "select County from county where CountyID='" + county + "'";
-                    conn.rs = conn.st.executeQuery(getcounty);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " COUNTY : " + conn.rs.getString(1).toUpperCase() + " ";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            if (request.getParameter("month") != null && reportDuration.equals("4")) {
-                try {
-                    month = request.getParameter("month");
-                    
-                    String getmonth = "select name as monthname from month where id='" + month + "'";
-                    conn.rs = conn.st.executeQuery(getmonth);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " MONTH : " + conn.rs.getString(1).toUpperCase() + "";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            header += " YEAR : " + year + "";
-            
-            String facilitywhere = "";
-            String yearwhere = "";
-            String monthwhere = "";
-            String countywhere = "";
-            String duration = "";
-            String semi_annual = "";
-            String quarter = "";
-            String eidduration="";
-            String excelDuration;
-            //==================================================================================================
-            //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            int yearcopy = Integer.parseInt(year);
-            
-//        reportType="2";
-//        year=2015;
-//        reportDuration="3";
-            String yearmonth = "" + year;
-            int prevYear = yearcopy - 1;
-            int maxYearMonth = 0;
-            int monthcopy = 0;
-//        GET REPORT DURATION============================================
-            //annually
-            if (reportDuration.equals("1")) {
-                yearmonth = "Annual Report For " + year;
-                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
-                eidduration="year='"+year+"'";
-            } else if (reportDuration.equals("2")) {
-                semi_annual = request.getParameter("semi_annual");
-//        semi_annual="2";
-                if (semi_annual.equals("1")) {
-                    yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
-                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
-                     eidduration="year='"+year+"' and (quarter='1' || quarter='2') ";
-                } else {
-                    yearmonth = "Semi Annual Report for Apr to  Sep " + year;
-                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
-                     eidduration="year='"+year+"' and (quarter='2' || quarter='3') ";
-                }
-            } else if (reportDuration.equals("3")) {
-                try {
-                    
-                    //quarterly
-                    String startMonth, endMonth;
-                    quarter = request.getParameter("quarter");
-                    //       quarter="3";
-                    
-                     eidduration="year='"+year+"' and quarter='"+quarter+"'  ";
-                     
-                    String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
-                    conn.rs = conn.st.executeQuery(getMonths);
-                    if (conn.rs.next() == true) {
-                        
-                        try {
-                            String months[] = conn.rs.getString(1).split(",");
-                            startMonth = months[0];
-                            endMonth = months[2];
-                            if (quarter.equals("1")) {
-                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
-                                yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
-                            } else {
-                                yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
-                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if (reportDuration.equals("4")) {
-                //on monthly reports, i dont expect any output since viral load is entered quarterly
-                monthcopy = Integer.parseInt(request.getParameter("month"));
-                
-                //since we dont want data to appear for monthly reports, we set an impossible 
-                eidduration=" 1=2 "; 
-//     month=5;
-                if (monthcopy >= 10) {
-                    
-                    yearmonth = "Monthly Report For " + prevYear + "_(" + month + ")";
-                    duration = "1=2";// this will make the report not output any data which is what i wanted
-                } 
-                else {
-                    duration = " 1=2"; // this will make the report not output any data which is what i wanted
-                    yearmonth = "Monthly Report For " + year + "_(" + month + ")";
-                }
-            }
-            else {
-                duration = "";
-                
-            }
-            
-            //======================================================================
-//==================================================================================================
-            //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            String subcountywhere = "";
-            
-            String subcounty = "";
-            
-            if (!request.getParameter("subcounty").equals("")) {
-                
-                subcounty = request.getParameter("subcounty");
-                
-            }
-            
-            String getexistingdata = "";
-            
-            if (!county.equals("")) {
-                
-                countywhere = " and district.countyid = '" + county + "'";
-                
-            }
-            
-            if (!subcounty.equals("")) {
-                
-                subcountywhere = " and subpartnera.DistrictID = '" + subcounty + "'";
-                
-            }
-            
-            if (!facil.equals("")) {
-                
-                facilitywhere = " and eid_datim.SubPartnerID = '" + facil + "'";
-                
-            }
-            
-            String joinedwhwere = " where 1=1 " + yearwhere + " && " + eidduration + " " + countywhere + " " + subcountywhere;
-           //old eid format 
-            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
-//            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode "
-//           + ",sum(less1_ftes) as less1_ftes"
-//           + ", sum(1to4_ftes) as 1to4_ftes"
-//           + ", sum(less1_mtes) as less1_mtes"
-//           + ", sum(1to4_mtes) as 1to4_mtes  "
-//           + ",	sum(less1_fpos) as less1_fpos"
-//           + ",	sum(1to4_fpos) as 1to4_fpos"
-//           + ", sum(less1_mpos) as less1_mpos"
-//           + ", sum(1to4_mpos) as 1to4_mpos"
-//           + ", sum(less1_fneg) as less1_fneg"
-//           + ", sum(1to4_fneg) as 1to4_fneg"
-//           + ", sum(less1_mneg) as less1_mneg"
-//           + ", sum(1to4_mneg) as 1to4_mneg"
-//           + ", sum(dead) as dead"
-//           + ", sum(enrolled) as enrolled"
-//           + ", sum(ltfu) as ltfu"
-//           + ", sum(other) as other"
-//           + ", sum(tested) as tested"
-//           + ", sum(positive) as positive"
-//           + ", sum(negative) as negative"
-//           + ", sum(hivenrollment) as hivenrollment "
-//           + ",IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
-//            
-//           + " FROM eid_datim join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on eid_datim.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (subpartnera.HTC=1 || subpartnera.PMTCT=1 || subpartnera.VMMC=1) group by subpartnera.SubPartnerID ";
-//            
-       
-            
-            
-             getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode "
-           
-                    
-                   + " ,sum(0_2mpos) as 0_2_months_positive " //0_2mpos,2_12mpos,0_2mneg,2_12mneg,0_2mno_result,2_12mno_result
-                   + " ,sum(2_12mpos) as 2_12_months_positive " //,,0_2mneg,2_12mneg,0_2mno_result,2_12mno_result
-                   + " ,sum(0_2mneg) as 0_2_months_negative " //,,,2_12mneg,0_2mno_result,2_12mno_result
-                   + " ,sum(2_12mneg) as 2_12_months_negative " //,,,,0_2mno_result,2_12mno_result
-                   + " ,sum(0_2mno_result) as 0_2_months_no_result " //,,,,,2_12mno_result
-                   + " ,sum(2_12mno_result) as 2_12_months_no_result " //,,,,,2_12mno_result
-                  + ",IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
-           
-           + " FROM eid_datim join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on eid_datim.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (subpartnera.HTC=1 || subpartnera.PMTCT=1 || subpartnera.VMMC=1) group by subpartnera.SubPartnerID ";
-           
-            
-            
-            System.out.println(getexistingdata);
-              String Tbid=year+"_"+quarter+"_"+facil;
-           // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
-            
-            
-        
-     
-     
-//=====================================================================================================
-//=====================================================================================================    
-//______________________________________________________________________________________
-            //                       NOW CREATE THE WORKSHEETS
-            //______________________________________________________________________________________
-           // HSSFWorkbook wb = new HSSFWorkbook();
-            
-            //______________________________________________________________________________________
-            //______________________________________________________________________________________
-            HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            
-            HSSFCellStyle stborder = wb.createCellStyle();
-            stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-            
-            HSSFCellStyle stylex = wb.createCellStyle();
-            stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-            
-            HSSFFont fontx = wb.createFont();
-            fontx.setColor(HSSFColor.BLACK.index);
-            fontx.setFontName("Cambria");
-             fontx.setBoldweight(Font.BOLDWEIGHT_BOLD);
-            stylex.setFont(fontx);
-            stylex.setWrapText(true);
-            
-            HSSFSheet shet = wb.createSheet("EID");
-            
-            
-            int rowpos=0;
-            //create headers for that worksheet
-            HSSFRow rw = shet.createRow(rowpos);
-            rw.setHeightInPoints(25);
-            
-            HSSFCell cl0 = rw.createCell(0);
-            cl0.setCellValue("DATIM EID " + yearmonth);
-            cl0.setCellStyle(stylex);
-           
-            
-            //______header 1 facility details
-            rowpos++;
-            HSSFRow rw1 = shet.createRow(rowpos);
-            rw1.setHeightInPoints(25);
-             for (int a = 0; a < sectionheaders.length; a++) 
-             {
-                HSSFCell clx = rw1.createCell(a);
-                clx.setCellValue(sectionheaders[a]);
-                clx.setCellStyle(stylex);
-                shet.setColumnWidth(a, 3100);
-            }
-            
-             //______header 2 facility details
-            rowpos++;
-            HSSFRow rw2 = shet.createRow(rowpos);
-            rw2.setHeightInPoints(25);
-             for (int a = 0; a < sectionheaders0.length; a++) 
-             {
-                HSSFCell clx = rw2.createCell(a);
-                clx.setCellValue(sectionheaders0[a]);
-                clx.setCellStyle(stylex);
-                
-            }              
-           
-             //______header 3 all details
-            rowpos++;
-            HSSFRow rw3 = shet.createRow(rowpos);
-            rw3.setHeightInPoints(25);
-             for (int a = 0; a < sectionheaders1.length; a++) 
-             {
-                HSSFCell clx = rw3.createCell(a);
-                clx.setCellValue(sectionheaders1[a]);
-                clx.setCellStyle(stylex);
-                
-            }   
-             
-             rowpos++;
-            
-            //do all the merging here as dictated by the merge_row_col array 
-            for (int a = 0; a <merge_row_col.length; a++) {
-             String points[]=merge_row_col[a].split(",");
-                
-           shet.addMergedRegion(new CellRangeAddress(Integer.parseInt(points[0]),Integer.parseInt(points[1]),Integer.parseInt(points[2]),Integer.parseInt(points[3])));
-              
-            }
-           
-            
-            shet.setColumnWidth(0, 5000);
-            
-//add the rows here          
-       
-            
-             conn.rs=conn.st.executeQuery(getexistingdata);
-    
-    
-    while(conn.rs.next()){
-    
-        
-        
-    
-           int colpos=0; 
-           int conpos=1;
-           int loopstart=5;
-               HSSFRow rwx = shet.createRow(rowpos); 
-               rwx.setHeightInPoints(25);
-               
-               //county
-            if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                //subcounty
-             if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
-            //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                 
-                 //facility name
-           if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellValue(conn.rs.getString(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-                      }
-                   //mfl
-          if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-//support type//######################################################################################
-        if (1 == 2) {
-String supporttype=conn.rs.getString(conpos);
-if(supporttype.equals("")){
-supporttype="DSD";
-}
-            
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(supporttype);
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
- //___   a for loop  
-        
-        for (int e=loopstart;e<=sectionheaders.length;e++){
-      if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }               
-              
-        }
-     
-     
-        rowpos++;
-    }
-    //____autofilter______       
-    shet.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length-1));
-
-    //System.out.println("1,"+rowpos+",0,"+colposcopy);
-                        for (int e = 0; e < 4; e++) {
-                            shet.autoSizeColumn(e);
-                        }
-             //Made my life veery simple...
-                shet.setDisplayGridlines(false);
-                shet.createFreezePane(4, 4);            
-            }
-         
-            
             
             
             //_______________2017Q1 changes start here___________________
@@ -8432,17 +7915,17 @@ stylemainHeader.setWrapText(true);
     
           
     String get731data="SELECT "
-            + " sum(HV0103) as 711_totaltested, "
-            + " sum(HV0110) as 711_less15m ,"
-            + " sum(HV0111) as 711_less15f ,"
-            + " sum(HV0112) as 711_15_24m ,"
-            + " sum(HV0113) as 711_15_24f ,"
-            + " sum(HV0114) as 711_25m ,"
-            + " sum(HV0115) as 711_25f ,"
-            + " sum(HV0110+HV0111+HV0112+HV0113+HV0114+HV0115) as 711_totalpositive ," //updated in 201607            
+            + " sum(IFNULL(HV0103,0)) as 711_totaltested, "
+            + " sum(IFNULL(HV0110,0)) as 711_less15m ,"
+            + " sum(IFNULL(HV0111,0)) as 711_less15f ,"
+            + " sum(IFNULL(HV0112,0)) as 711_15_24m ,"
+            + " sum(IFNULL(HV0113,0)) as 711_15_24f ,"
+            + " sum(IFNULL(HV0114,0)) as 711_25m ,"
+            + " sum(IFNULL(HV0115,0)) as 711_25f ,"
+            + " sum(IFNULL(HV0110,0)+IFNULL(HV0111,0)+IFNULL(HV0112,0)+IFNULL(HV0113,0)+IFNULL(HV0114,0)+IFNULL(HV0115,0)) as 711_totalpositive ," //updated in 201607            
             + " county.County,district.DistrictNom,"
             + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".HTC_Support1 ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
-           +" ,sum( HV0103 + HV0201 + HV0226 ) as NUM,  "+facilitiestable+".SubPartnerID ,  IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 Q1 is serology + anc only + htc 
+           +" ,sum( IFNULL(HV0103,0) + IFNULL(HV0201,0) + IFNULL(HV0226,0) ) as NUM,  "+facilitiestable+".SubPartnerID ,  IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 Q1 is serology + anc only + htc 
             + " FROM moh731 JOIN "+facilitiestable+" "
             + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
@@ -8978,10 +8461,6 @@ ChildFemaleHIV14=(float)Math.round((0.30*hivpos_711_less15f));
 
   
   
- 
-  
-  
-  
   //positives
   //children
   ChildMaleHIV1=(float)Math.round((0*hivpos_711_less15m));
@@ -9077,7 +8556,7 @@ TotalTested=TestedChildFemale+TestedChildMale+TestedAdultMale+TestedAdultFemale;
 //   // adult female hiv+
 splitData=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50 ;
 //
-System.out.println(facilityname+" lllll added "+splitData+" from db  "+HIV_AdultFemale);
+
  adderPos=0;
  
  while(splitData<HIV_AdultFemale){ 
@@ -9149,7 +8628,7 @@ splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested5
 // for child female tested 
   childSplitData=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14; 
   
-  System.out.println(facilityname+" "+childSplitData+" b4 jjj "+TestedChildFemale);
+
    adderPos=0;
 while(childSplitData<TestedChildFemale){ 
 if(adderPos==0){
@@ -9193,7 +8672,7 @@ System.out.println(facilityname+"     "+childSplitData+" after jjj "+TestedChild
  
  // for child female +ve
   childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
-  System.out.println(facilityname+"  mmmm  "+childSplitData+"    "+HIV_ChildFemale);
+
    adderPos=0;
    double diff=0;
 while(childSplitData<HIV_ChildFemale){ 
@@ -11447,7 +10926,7 @@ while(balancegeneralglobal>0){
         ,""+AdultFemaleHIV50Neg,""+AdultMaleHIV50Neg,""+(tested_new711-(ChildMaleHIV4Neg+ChildMaleHIV4)),(ChildMaleHIV4Neg+ChildMaleHIV4+conn.rs.getInt("serology"))+"",ChildMaleHIV4+"",(ChildMaleHIV4Neg+conn.rs.getInt("serology"))+"",""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
           
         }; 
-
+//the above numbers appearing in serology are for 1-4
 
 
 HSSFCell  cxy;
@@ -13734,11 +13213,13 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
     String facilname="";
     String dsdta="";
    
-                
- 
+      
     
-          
-    String get731data="SELECT "
+    /**
+     * 
+     * 
+     * 
+     *  String get731data="SELECT "
             + " sum(HV0201) as pmtct_anc_tes, "            
           
             //--------pmtct anc tested -------------------
@@ -13748,7 +13229,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_10_14," //updated in 201701            
             + "ROUND(sum((HV0201))*0.094) as pmtct_anc_tes_15_19," //updated in 201701            
             + "ROUND(sum((HV0201))*0.384) as pmtct_anc_tes_20_24," //updated in 201701            
-            + "ROUND(sum((HV0201))*0.52) as pmtct_anc_tes_25_49," //updated in 201701
+            + "ROUND(sum((HV0201))*0.522) as pmtct_anc_tes_25_49," //updated in 201701
             + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_50," //updated in 201701
             
             //-------pmtct anc new_positive------------------
@@ -13779,17 +13260,27 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             
 //-------pmtct stat numerator----------------
         
+//            + " sum(HV0201 + HV0205) as pmtct_tes_numerator ,"
+//           
+//            + "sum(0) as pmtct_statnum_tes_unknown," //updated in 201701          
+//            + "sum(0) as pmtct_statnum_tes_10," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.01) as pmtct_statnum_tes_10_14," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.07) as pmtct_statnum_tes_15_19," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.29) as pmtct_statnum_tes_20_24," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.63) as pmtct_statnum_tes_25_49," //updated in 201701 
+//             + "sum(0) as pmtct_statnum_tes_50," //updated in 201701  
+//            
             + " sum(HV0201 + HV0205) as pmtct_tes_numerator ,"
            
             + "sum(0) as pmtct_statnum_tes_unknown," //updated in 201701          
             + "sum(0) as pmtct_statnum_tes_10," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0.01) as pmtct_statnum_tes_10_14," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0.07) as pmtct_statnum_tes_15_19," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0.29) as pmtct_statnum_tes_20_24," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0.63) as pmtct_statnum_tes_25_49," //updated in 201701 
+            + "ROUND(sum((HV0201 + HV0205))*0) as pmtct_statnum_tes_10_14," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*0.094) as pmtct_statnum_tes_15_19," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*0.384) as pmtct_statnum_tes_20_24," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*0.522) as pmtct_statnum_tes_25_49," //updated in 201701 
              + "sum(0) as pmtct_statnum_tes_50," //updated in 201701  
             
-            //-------pmtct stat numerator----------------
+            //-------pmtct stat denominator----------------
             + " ROUND(sum((HV0201 + HV0205))*1.03) as pmtct_tes_denominator ,"
             
             + "sum(0) as pmtct_statden_tes_unknown," //updated in 201701          
@@ -13810,6 +13301,99 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             + "ROUND(sum((HV0205))*0.04) as pmtct_kp_15_19," //updated in 201701            
             + "ROUND(sum((HV0205))*0.20) as pmtct_kp_20_24," //updated in 201701            
             + "ROUND(sum((HV0205))*0.74) as pmtct_kp_25_49," //updated in 201701 
+             + "sum(0) as pmtct_kp_50," //updated in 201701 
+   
+     * 
+     * 
+     * 
+     * 
+     */
+    
+ 
+    
+          
+    String get731data="SELECT "
+            + " sum(HV0201) as pmtct_anc_tes, "            
+          
+            //--------pmtct anc tested -------------------
+            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_unknown," //updated in 201701            
+            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_1," //updated in 201701            
+            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_1_9," //updated in 201701            
+            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_10_14," //updated in 201701            
+            + "ROUND(sum((HV0201))*0.094) as pmtct_anc_tes_15_19," //updated in 201701            
+            + "ROUND(sum((HV0201))*0.384) as pmtct_anc_tes_20_24," //updated in 201701            
+            + "ROUND(sum((HV0201))*0.522) as pmtct_anc_tes_25_49," //updated in 201701
+            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_50," //updated in 201701
+            
+            //-------pmtct anc new_positive------------------
+              
+            + " sum(HV0206) as pmtct_newpositive ,"
+            
+            + "ROUND(sum((HV0206))*0) as pmtct_pos_unknown," //updated in 201701            
+            + "ROUND(sum((HV0206))*0) as pmtct_pos_1," //updated in 201701            
+            + "ROUND(sum((HV0206))*0) as pmtct_pos_1_9," //updated in 201701            
+            + "ROUND(sum((HV0206))*0) as pmtct_pos_10_14," //updated in 201701
+            + "ROUND(sum((HV0206))*0.094) as pmtct_pos_15_19," //updated in 201701            
+            + "ROUND(sum((HV0206))*0.384) as pmtct_pos_20_24," //updated in 201701            
+            + "ROUND(sum((HV0206))*0.522) as pmtct_pos_25_49," //updated in 201701
+            + "ROUND(sum((HV0206))*0) as pmtct_pos_50," //updated in 201701
+             
+            
+             //-------pmtct anc negative------------------\
+            + " (sum(HV0201)-sum(HV0206)) as pmtct_new_negatives," //updated in 201701
+            + "sum(0) as pmtct_neg_unknown," //updated in 201701            
+            + "sum(0) as pmtct_neg_1," //updated in 201701            
+            + "sum(0) as pmtct_neg_1_9," //updated in 201701            
+            + "sum(0) as pmtct_neg_10_14," //updated in 201701
+            + "( ROUND(sum((HV0201))*0.094)- ROUND(sum((HV0206))*0.094) ) as pmtct_neg_15_19," //updated in 201701            
+            + "( ROUND(sum((HV0201))*0.384)- ROUND(sum((HV0206))*0.384) ) as pmtct_neg_20_24," //updated in 201701            
+            + "( ROUND(sum((HV0201))*0.522)- ROUND(sum((HV0206))*0.522) ) as pmtct_neg_25_49," //updated in 201701
+            + "sum(0) as pmtct_neg_50," //updated in 201701
+            
+            
+//-------pmtct stat numerator----------------
+        
+//            + " sum(HV0201 + HV0205) as pmtct_tes_numerator ,"
+//           
+//            + "sum(0) as pmtct_statnum_tes_unknown," //updated in 201701          
+//            + "sum(0) as pmtct_statnum_tes_10," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.01) as pmtct_statnum_tes_10_14," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.07) as pmtct_statnum_tes_15_19," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.29) as pmtct_statnum_tes_20_24," //updated in 201701            
+//            + "ROUND(sum((HV0201 + HV0205))*0.63) as pmtct_statnum_tes_25_49," //updated in 201701 
+//             + "sum(0) as pmtct_statnum_tes_50," //updated in 201701  
+//            
+            + " sum(HV0201 + HV0205) as pmtct_tes_numerator ,"
+           
+            + "sum(0) as pmtct_statnum_tes_unknown," //updated in 201701          
+            + "sum(0) as pmtct_statnum_tes_10," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*0) as pmtct_statnum_tes_10_14," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*0.094) as pmtct_statnum_tes_15_19," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*0.384) as pmtct_statnum_tes_20_24," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*0.522) as pmtct_statnum_tes_25_49," //updated in 201701 
+             + "sum(0) as pmtct_statnum_tes_50," //updated in 201701  
+            
+            //-------pmtct stat denominator----------------
+            + " ROUND(sum((HV0201 + HV0205))*1.03) as pmtct_tes_denominator ,"
+            
+            + "sum(0) as pmtct_statden_tes_unknown," //updated in 201701          
+            + "sum(0) as pmtct_statden_tes_10," //updated in 201701            
+            + "sum(0) as pmtct_statden_tes_10_14," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*1.03*0.094) as pmtct_statden_tes_15_19," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*1.03*0.384) as pmtct_statden_tes_20_24," //updated in 201701            
+            + "ROUND(sum((HV0201 + HV0205))*1.03*0.522) as pmtct_statden_tes_25_49," //updated in 201701 
+             + "sum(0) as pmtct_statden_tes_50," //updated in 201701 
+            
+            
+            //-------pmtct stat numerator----------------
+            + " sum(HV0205) as pmtct_knownpositive ,"           
+           
+            + "sum(0) as pmtct_kp_unknown," //updated in 201701          
+            + "sum(0) as pmtct_kp_1_9," //updated in 201701            
+            + "ROUND(sum((HV0205))*0) as pmtct_kp_10_14," //updated in 201701            
+            + "ROUND(sum((HV0205))*0.094) as pmtct_kp_15_19," //updated in 201701            
+            + "ROUND(sum((HV0205))*0.384) as pmtct_kp_20_24," //updated in 201701            
+            + "ROUND(sum((HV0205))*0.522) as pmtct_kp_25_49," //updated in 201701 
              + "sum(0) as pmtct_kp_50," //updated in 201701 
             
             + " county.County,district.DistrictNom,"
@@ -13951,6 +13535,8 @@ double pmtct_statden_tes_50=conn.rs.getDouble("pmtct_statden_tes_50");
      double denominatordiff=0;
      double knownpositivediff=0;
      double newpositivediff=0;
+     double diff15to19=0;
+     double diff25to49=0;
      int negativediff=0;
      
     ancdiff=(pmtct_anc_tes-(pmtct_pos_unknown+pmtct_pos_1+pmtct_pos_1_9+pmtct_pos_10_14+pmtct_pos_15_19+pmtct_pos_20_24+pmtct_pos_25_49+pmtct_pos_50+pmtct_neg_unknown+pmtct_neg_1+pmtct_neg_1_9+pmtct_neg_10_14+pmtct_neg_15_19+pmtct_neg_20_24+pmtct_neg_25_49+pmtct_neg_50));
@@ -13959,7 +13545,11 @@ double pmtct_statden_tes_50=conn.rs.getDouble("pmtct_statden_tes_50");
     knownpositivediff=(pmtct_knownpositive-(pmtct_kp_unknown+pmtct_kp_1_9+pmtct_kp_10_14+pmtct_kp_15_19+pmtct_kp_20_24+pmtct_kp_25_49+pmtct_kp_50));
     newpositivediff=(pmtct_newpositive-(pmtct_pos_unknown+pmtct_pos_1+pmtct_pos_1_9+pmtct_pos_10_14+pmtct_pos_15_19+pmtct_pos_20_24+pmtct_pos_25_49+pmtct_pos_50));
     negativediff=((int) Math.round(pmtct_new_negatives)-(int) Math.round((pmtct_neg_unknown+pmtct_neg_1+pmtct_neg_1_9+pmtct_neg_10_14+pmtct_neg_15_19+pmtct_neg_20_24+pmtct_neg_25_49+pmtct_neg_50)));
-        
+     //compare anc_positive, anc_negative, knownpos against stat numerator   
+    
+    diff15to19=(pmtct_statden_tes_15_19-(pmtct_pos_15_19+pmtct_neg_15_19+pmtct_kp_15_19));
+    diff25to49=(pmtct_statden_tes_25_49-(pmtct_pos_25_49+pmtct_neg_25_49+pmtct_kp_25_49));
+    
         System.out.print("PMTCT_Facility_"+facilityname);
         System.out.print(" ANC DIFF_"+ancdiff);
         
@@ -14065,9 +13655,47 @@ double pmtct_statden_tes_50=conn.rs.getDouble("pmtct_statden_tes_50");
          negativediff++;
      }
      */
+     /**
+    //added on 2017
+    //15to19
+     //solve once and not using a loop
+     if(diff15to19>0){
+        // System.out.println("_____LOOOOOOOOOOP________"+facilityname);
+        
+         //deduct from anctested
+           pmtct_statnum_tes_15_19=pmtct_statnum_tes_15_19+1;
+           pmtct_statnum_tes_25_49=pmtct_statnum_tes_25_49-1;
+           diff15to19--;
+        
+     }
+     if(diff15to19<0){       
+       
+             //deduct from main number contributing the ratios             
+         pmtct_statnum_tes_15_19=pmtct_statnum_tes_15_19-1;
+         pmtct_statnum_tes_25_49=pmtct_statnum_tes_25_49+1;         
+         diff15to19++;
+     }
+     */
      
      
-     
+     //=====25 to 49
+     /**
+      while(diff25to49>0){
+        // System.out.println("_____LOOOOOOOOOOP________"+facilityname);
+        
+         //deduct from anctested
+           pmtct_statnum_tes_25_49=pmtct_statnum_tes_25_49-1; 
+           diff25to49--;
+        
+     }
+     while(diff25to49<0){       
+       
+             //deduct from main number contributing the ratios             
+         pmtct_statnum_tes_25_49=pmtct_statnum_tes_25_49+1;         
+       diff25to49++;
+     }
+     //age bracket normalization
+     */
      //repeat anc normalization again due to the other normalizations that have happened after
    ancdiff=(pmtct_anc_tes-(pmtct_pos_unknown+pmtct_pos_1+pmtct_pos_1_9+pmtct_pos_10_14+pmtct_pos_15_19+pmtct_pos_20_24+pmtct_pos_25_49+pmtct_pos_50+pmtct_neg_unknown+pmtct_neg_1+pmtct_neg_1_9+pmtct_neg_10_14+pmtct_neg_15_19+pmtct_neg_20_24+pmtct_neg_25_49+pmtct_neg_50));
       
@@ -14086,6 +13714,18 @@ double pmtct_statden_tes_50=conn.rs.getDouble("pmtct_statden_tes_50");
          pmtct_neg_25_49=pmtct_neg_25_49-1;         
        ancdiff++;
      }
+     
+     
+     //to get pmtct stat numerator, add neg+pos _+ kps
+     
+     pmtct_statnum_tes_unknown=(pmtct_pos_unknown+pmtct_neg_unknown+pmtct_kp_unknown);
+     pmtct_statnum_tes_10=(pmtct_pos_1_9+pmtct_neg_1_9+pmtct_kp_1_9);
+     pmtct_statnum_tes_10_14=(pmtct_pos_10_14+pmtct_neg_10_14+pmtct_kp_10_14);
+     pmtct_statnum_tes_15_19=(pmtct_pos_15_19+pmtct_neg_15_19+pmtct_kp_15_19);
+     pmtct_statnum_tes_20_24=(pmtct_pos_20_24+pmtct_neg_20_24+pmtct_kp_20_24);
+     pmtct_statnum_tes_25_49=(pmtct_pos_25_49+pmtct_neg_25_49+pmtct_kp_25_49);
+     pmtct_statnum_tes_50=(pmtct_pos_50+pmtct_neg_50+pmtct_kp_50);
+    
      
      
      

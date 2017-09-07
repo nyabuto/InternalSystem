@@ -115,6 +115,9 @@ label {
     font-weight: bold;
     width: 400px;
 }
+.detailed-elems{
+    text-align: left;
+}
 </style>
 <style>
     
@@ -235,8 +238,8 @@ tr > td
                          </div>
                          
                              <div id="previous_summaries" style="float: right; width: 70%">
-                             <b>Select Meeting :</b> <select name="summaries" id="summaries" style="width: 70%;" >   
-                                 <option value="">Choose meeting</option>
+                             <b>Select Training :</b> <select name="summaries" id="summaries" style="width: 70%;" >   
+                                 <option value="">Select Training</option>
                                  </select>
                              </div>
                              </div>
@@ -292,6 +295,9 @@ tr > td
    <script src="assets/js/jquery.blockui.js"></script>
    <script src="assets/js/jquery.cookie.js"></script>
    <script src="daterangepicker/moment.min.js"></script> 
+   
+   <script type="text/javascript" src="js/bootstrap-notify.js"></script>
+
    <!-- ie8 fixes -->
    <!--[if lt IE 9]>
    <script src="assets/js/excanvas.js"></script>
@@ -338,18 +344,11 @@ tr > td
 </script>
     <script>
     jQuery(document).ready(function(){
-        $("#entry_type").select2();
+//        $("#entry_type").select2();
        $("#previous_summaries").hide();
-       $.ajax({
-        url:'loadmeetings',
-        type:"post",
-        dataType:"html",
-        success:function(data){
-            $("#summaries").html(data);
-            $("#summaries").select2();
-          }
-    });
-    loadSummary(0); 
+       //load meetings
+       loadMeetings();
+        loadSummary(0); 
     $("#entry_type").change(function(){
      var  entry_type= $("#entry_type").val();
      if(entry_type==1){ // hide meetings
@@ -373,6 +372,41 @@ tr > td
 //       alert("data : "+form_data);
        $.post(url,form_data , function(data) {
         loadSummary(data);
+        loadMeetings();
+        $("#entry_type").html("<option value=\"1\">New </option> <option value=\"2\" selected>Update Participants </option>");
+//        $("#entry_type")select2();
+        $("#previous_summaries").show();
+        
+        if(data.trim()>0){
+            $.notify(
+      {icon: "images/checked.png", 
+  message:'<font color="green">Summary Saved sucessfully.</font>'},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );
+        }
+        else{
+        $.notify(
+      {icon: "images/checked.png", 
+  message:'<font color="green">Failed, similar detailed already exist.</font>'},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );    
+        }
         });
         return false;
     });
@@ -380,6 +414,17 @@ tr > td
     
     });
     
+    function loadMeetings(){
+        $.ajax({
+        url:'loadmeetings',
+        type:"post",
+        dataType:"html",
+        success:function(data){
+            $("#summaries").html(data);
+            $("#summaries").select2();
+          }
+    });
+    }
     function dates(){
 //       $('#date_range').daterangepicker(
 //        {

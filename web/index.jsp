@@ -180,6 +180,23 @@ success:function (data){
 
 });
 
+
+
+ $.ajax({
+url:'validateTotals',
+type:'post',
+dataType:'html',
+success:function (data){
+      
+         // $("#facility").chosen();
+       
+       
+}
+
+
+});
+
+
   </script>
   <!-- END JAVASCRIPTS -->
 </body>

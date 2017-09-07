@@ -29,16 +29,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author GNyabuto
  */
 public class LoadNewANC extends HttpServlet {
-String output;
-HttpSession session;
-String full_path="";
-String fileName="";
-File file_source;
-private static final long serialVersionUID = 205242440643911308L;
-private static final String UPLOAD_DIR = "uploads";
-String  SubPartnerID,mfl_code,new_anc,year,month,year_month,id;
-int added,updated,counter;
-
+    String output;
+    HttpSession session;
+    String full_path="";
+    String fileName="";
+    File file_source;
+    private static final long serialVersionUID = 205242440643911308L;
+    private static final String UPLOAD_DIR = "uploads";
+    String  SubPartnerID,mfl_code,new_anc,year,month,year_month,id;
+    int added,updated,counter, pepfaryear;
+    int mois;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,7 +46,7 @@ int added,updated,counter;
         dbConn conn = new dbConn();
         
          SubPartnerID=mfl_code=new_anc=year=month=year_month;
-         added=updated=0;
+         added=updated=pepfaryear=0;
          
         String applicationPath = request.getServletContext().getRealPath("");
          String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
@@ -134,14 +134,19 @@ int added,updated,counter;
             else if(cellTesting_Lab.getCellType()==1){
            mn =cellTesting_Lab.getStringCellValue();
             } 
+            
             month = getMonth(mn);
-            
-            
-            System.out.println("System called : "+mfl_code);
+            mois=Integer.parseInt(month);
+            if(mois>=10){
+                pepfaryear=Integer.parseInt(year)+1;
+            }
+            else{
+                pepfaryear = Integer.parseInt(year);
+            }
             
             year_month=year+""+month;
         SubPartnerID=getSubPartnerID(conn,mfl_code);    
-         id=SubPartnerID+"_"+year+"_"+month;   
+         id=pepfaryear+"_"+mois+"_"+SubPartnerID;   
          
          String checker = "SELECT SubPartnerID FROM new_anc WHERE SubPartnerID=?" ;
          conn.pst=conn.conn.prepareStatement(checker);
@@ -158,8 +163,8 @@ int added,updated,counter;
            conn.pst1=conn.conn.prepareStatement(updater);
            conn.pst1.setString(1, mfl_code);
            conn.pst1.setString(2, new_anc);
-           conn.pst1.setString(3, year);
-           conn.pst1.setString(4, month);
+           conn.pst1.setInt(3, pepfaryear);
+           conn.pst1.setInt(4, mois);
            conn.pst1.setString(5, year_month);
            conn.pst1.setString(6, SubPartnerID);
            conn.pst1.setString(7, id);
@@ -174,8 +179,8 @@ int added,updated,counter;
            conn.pst1.setString(1, SubPartnerID);
            conn.pst1.setString(2, mfl_code);
            conn.pst1.setString(3, new_anc);
-           conn.pst1.setString(4, year);
-           conn.pst1.setString(5, month);
+           conn.pst1.setInt(4, pepfaryear);
+           conn.pst1.setInt(5, mois);
            conn.pst1.setString(6, year_month);
            conn.pst1.setString(7, id);
 //           
