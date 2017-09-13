@@ -168,22 +168,17 @@ url:'facilityautobackup',
 type:'post',
 dataType:'html',
 success:function (data){
-      
-         // $("#facility").chosen();
-       
-       
+        // $("#facility").chosen();
 }
-
 
 });
  $.ajax({
 url:'validateTotals',
 type:'post',
 dataType:'html',
-success:function (data){  
+success:function (data){
          // $("#facility").chosen();       
 }
-
 
 });
 });

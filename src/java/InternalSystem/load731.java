@@ -357,24 +357,13 @@ HV0344_1=conn.rs.getString(5);
 //}
  HV0340=HV0340_1;HV0341=HV0341_1;HV0342=HV0342_1;HV0343=HV0343_1;HV0344=HV0344_1;
      
-          String checker_temp="SELECT * FROM moh731_temp WHERE id=?" ;
-          conn.pst=conn.conn.prepareStatement(checker_temp);
-          conn.pst.setString(1, id);
-          conn.rs=conn.pst.executeQuery();
-          
-          if(conn.rs.next()==true){
-          found++;
-          found_db="temp";
-          }
-          else{
-           String checker="SELECT * FROM moh731 WHERE id=?" ;
+           String checker="SELECT * FROM moh731 WHERE id=?";
           conn.pst=conn.conn.prepareStatement(checker);
           conn.pst.setString(1, id);
           conn.rs=conn.pst.executeQuery();
           if(conn.rs.next()==true){
           found++;   
           found_db="master";
-          }
           }
         session.setAttribute("found_db", found_db);
         session.setAttribute("found", found);
@@ -817,7 +806,7 @@ isValidated=conn.rs.getString("isValidated");
               + "<td style=\"padding-right:40px;\">Not BF (12 months) </td><td style=\"padding-right:40px;\" >HV02-38</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"40\" name=\"HV0238\" id=\"HV0238\" value=\""+HV0238+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0238'); exposedAgedTwelve();\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                + "<tr>"
-              + "<td style=\"padding-right:40px;\">Not known </td><td style=\"padding-right:40px;\" >HV02-39</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"41\" name=\"HV0239\" id=\"HV0239\" value=\""+HV0239+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0239'); exposedAgedTwelve();\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "<td style=\"padding-right:40px;\">Not known </td><td style=\"padding-right:40px;\" >HV02-39</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"40\" name=\"HV0239\" id=\"HV0239\" value=\""+HV0239+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0239'); exposedAgedTwelve();\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
               + "</tr>"
                + "<tr>"
               + "<td style=\"padding-right:40px;\">Total exposed aged 12 months (Sum HV02-37 to HV02-39) </td><td style=\"padding-right:40px;\" >HV02-40</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0240\" id=\"HV0240\" value=\""+HV0240+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0240');\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"width: 80px;  background-color:#DDDDDD;\" readonly=\"true\"></td>"
@@ -959,13 +948,13 @@ isValidated=conn.rs.getString("isValidated");
           
          cumulative_ART="<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">3.7 Cumullative ever on ART </b></legend><table style=\"margin-left:100px;\"><tr><td colspan=\"3\"> </td></tr>"
               + "<tr>"
-              + "<td style=\"padding-right:40px;\">Ever on ART - Below 15 year </td><td style=\"padding-right:40px;\" >HV03-40(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0340\"  tabindex=\"71\" id=\"HV0340\" value=\""+HV0340+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0340'); cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>  <td style=\"padding-right:40px;\" >HV03-41(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"72\" name=\"HV0341\" id=\"HV0341\" value=\""+HV0341+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0341'); cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
+              + "<td style=\"padding-right:40px;\">Ever on ART - Below 15 year </td><td style=\"padding-right:40px;\" >HV03-40(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0340\"  tabindex=\"-1\" id=\"HV0340\" value=\""+HV0340+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0340'); cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>  <td style=\"padding-right:40px;\" >HV03-41(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"-1\" name=\"HV0341\" id=\"HV0341\" value=\""+HV0341+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0341'); cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
               + "</tr>"
                + "<tr>"
-              + "<td style=\"padding-right:40px;\">Ever on ART - 15 years and older </td><td style=\"padding-right:40px;\" >HV03-42(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0342\"  tabindex=\"73\" id=\"HV0342\" value=\""+HV0342+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0342'); cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td> <td style=\"padding-right:40px;\" >HV03-43(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"74\" name=\"HV0343\" id=\"HV0343\" value=\""+HV0343+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0343');  cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
+              + "<td style=\"padding-right:40px;\">Ever on ART - 15 years and older </td><td style=\"padding-right:40px;\" >HV03-42(M)</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0342\"  tabindex=\"-1\" id=\"HV0342\" value=\""+HV0342+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0342'); cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td> <td style=\"padding-right:40px;\" >HV03-43(F)</td>  <td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"-1\" name=\"HV0343\" id=\"HV0343\" value=\""+HV0343+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0343');  cumulativeART();\" maxLength=\"5\" onkeypress=\"return numbers(event)\"  readonly=\"true\" style=\"width: 80px; background-color:#DDDDDD;\"></td>"
               + "</tr>"
               + "<tr>"
-              + "<td style=\"padding-right:40px;\">Ever on ART - Total (Sum HV03-40 to HV03-43) </td><td style=\"padding-right:40px;\" >HV03-44</td><td style=\"padding-right:40px;\"><input type=\"text\" name=\"HV0344\" id=\"HV0344\" value=\""+HV0344+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0344');\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"width: 80px; background-color:#DDDDDD;\" readonly=\"true\"></td>"
+              + "<td style=\"padding-right:40px;\">Ever on ART - Total (Sum HV03-40 to HV03-43) </td><td style=\"padding-right:40px;\" >HV03-44</td><td style=\"padding-right:40px;\"><input type=\"text\"  tabindex=\"-1\" name=\"HV0344\" id=\"HV0344\" value=\""+HV0344+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0344');\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"width: 80px; background-color:#DDDDDD;\" readonly=\"true\"></td>"
               + "</tr>"
               + "</table>"
               + "<br></fieldset>";

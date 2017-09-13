@@ -47,6 +47,7 @@ String found_db;
     value=request.getParameter("value").trim();
     if(value.equals("")){value=null;}
     System.out.println("col : "+columnName+" value : "+value);
+    
     if(session.getAttribute("userid")!=null){        
     userid=session.getAttribute("userid").toString();
     }

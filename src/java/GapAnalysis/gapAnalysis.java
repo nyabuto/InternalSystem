@@ -358,11 +358,12 @@ if(position==55 || position==56){
   String between = between_array[0];
   no_months = Integer.parseInt(between_array[1]);
   
-  running_query=running_query.replace("yearmonth=YMONTH", between)+" HAVING HV0206<"+no_months;
+  running_query=running_query.replace("yearmonth=YMONTH", between)+" HAVING HV0116<"+no_months;
   
  }
+ 
+ System.out.println("Query is : "+running_query);
  conn.rs1=conn.st1.executeQuery(running_query);
-     System.out.println("current year month is : "+current_year);
  while (conn.rs1.next()) {
     row++; 
     String value = "";
@@ -380,7 +381,7 @@ if(position==55 || position==56){
         value = conn.rs1.getString("value");
     }
     else if(no_months>0){
-        value=String.valueOf(((conn.rs1.getInt("HV0206")*100)/no_months))+"%";
+        value=String.valueOf(((conn.rs1.getInt("HV0116")*100)/no_months))+"%";
     }
  String mn_name="";
     switch (mn){
@@ -618,6 +619,7 @@ outStream.close();
           end=currentyear+"09";
           no_months = 6;
             break;
+       
         case 10:// start of semi annual 1
         start=currentyear+"10";
           end=currentyear+"10";     
