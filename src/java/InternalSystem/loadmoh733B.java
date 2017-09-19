@@ -793,7 +793,9 @@ Footer="<br><br>"
         + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>"
         + "</>"
         + "</form>";
-        output =Header+""+CS+""+NH1+""+ART+""+Anaemia+""+IFP+""+NI+""+NH2+""+TO+""+RT+""+LTF+""+RM+""+Footer;
+
+//        output =Header+""+CS+""+NH1+""+ART+""+Anaemia+""+IFP+""+NI+""+NH2+""+TO+""+RT+""+LTF+""+RM+""+Footer;
+        output =Header+""+CS+""+NH1+""+ART+""+Anaemia+""+NI+""+NH2+""+TO+""+RT+""+LTF+""+RM+""+Footer;
         
             out.println(output);
         } finally {

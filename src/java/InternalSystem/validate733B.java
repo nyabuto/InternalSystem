@@ -138,6 +138,11 @@ year=month=facilityId="";
        
     id=year+"_"+month+"_"+facilityId;    
     
+        IFP_0_6_EBF_Pos = IFP_0_6_EBF_Neg= 
+        IFP_0_6_ERF_Pos= IFP_0_6_ERF_Neg= IFP_0_6_MF_Pos= IFP_0_6_MF_Neg= IFP_0_6_SubTotal_Pos= IFP_0_6_SubTotal_Neg= IFP_6_12_BF_Pos= 
+        IFP_6_12_BF_Neg= IFP_6_12_NBF_Pos=IFP_6_12_NBF_Neg= IFP_6_12_NotKnown_Pos= IFP_6_12_NotKnown_Neg= IFP_6_12_BCF_Pos= IFP_6_12_BCF_Neg= 
+        IFP_6_12_SubTotal_Pos= IFP_6_12_SubTotal_Neg=null;
+        
         if(request.getParameter("CS_New_Pos_Male_Adult").equals("")) {CS_New_Pos_Male_Adult  = null; } else{CS_New_Pos_Male_Adult  = request.getParameter("CS_New_Pos_Male_Adult"); }
         if(request.getParameter("CS_New_Pos_Male_15_17").equals("")) {CS_New_Pos_Male_15_17  = null;} else{CS_New_Pos_Male_15_17  = request.getParameter("CS_New_Pos_Male_15_17"); }
         if(request.getParameter("CS_New_Pos_Male_Postnatal").equals("")) {CS_New_Pos_Male_Postnatal  = null;} else{CS_New_Pos_Male_Postnatal  = request.getParameter("CS_New_Pos_Male_Postnatal"); }
@@ -220,24 +225,25 @@ year=month=facilityId="";
         if(request.getParameter("NH1_Total_5_15").equals("")) { NH1_Total_5_15=null;} else{NH1_Total_5_15  = request.getParameter("NH1_Total_5_15"); }
         if(request.getParameter("NH1_Grand_Total").equals("")) { NH1_Grand_Total=null;} else{NH1_Grand_Total  = request.getParameter("NH1_Grand_Total"); }
         
-        if(request.getParameter("IFP_0_6_EBF_Pos").equals("")) { IFP_0_6_EBF_Pos=null;} else{IFP_0_6_EBF_Pos  = request.getParameter("IFP_0_6_EBF_Pos"); }
-        if(request.getParameter("IFP_0_6_EBF_Neg").equals("")) { IFP_0_6_EBF_Neg=null;} else{IFP_0_6_EBF_Neg  = request.getParameter("IFP_0_6_EBF_Neg"); }
-        if(request.getParameter("IFP_0_6_ERF_Pos").equals("")) { IFP_0_6_ERF_Pos=null;} else{IFP_0_6_ERF_Pos  = request.getParameter("IFP_0_6_ERF_Pos"); }
-        if(request.getParameter("IFP_0_6_ERF_Neg").equals("")) { IFP_0_6_ERF_Neg=null;} else{IFP_0_6_ERF_Neg  = request.getParameter("IFP_0_6_ERF_Neg"); }
-        if(request.getParameter("IFP_0_6_MF_Pos").equals("")) { IFP_0_6_MF_Pos=null;} else{IFP_0_6_MF_Pos  = request.getParameter("IFP_0_6_MF_Pos"); }
-        if(request.getParameter("IFP_0_6_MF_Neg").equals("")) { IFP_0_6_MF_Neg=null;} else{IFP_0_6_MF_Neg  = request.getParameter("IFP_0_6_MF_Neg"); }
-        if(request.getParameter("IFP_0_6_SubTotal_Pos").equals("")) { IFP_0_6_SubTotal_Pos=null;} else{IFP_0_6_SubTotal_Pos  = request.getParameter("IFP_0_6_SubTotal_Pos"); }
-        if(request.getParameter("IFP_0_6_SubTotal_Neg").equals("")) { IFP_0_6_SubTotal_Neg=null;} else{IFP_0_6_SubTotal_Neg  = request.getParameter("IFP_0_6_SubTotal_Neg"); }
-        if(request.getParameter("IFP_6_12_BF_Pos").equals("")) { IFP_6_12_BF_Pos=null;} else{IFP_6_12_BF_Pos  = request.getParameter("IFP_6_12_BF_Pos"); }
-        if(request.getParameter("IFP_6_12_BF_Neg").equals("")) { IFP_6_12_BF_Neg=null;} else{IFP_6_12_BF_Neg  = request.getParameter("IFP_6_12_BF_Neg"); }
-        if(request.getParameter("IFP_6_12_NBF_Pos").equals("")) { IFP_6_12_NBF_Pos=null;} else{IFP_6_12_NBF_Pos  = request.getParameter("IFP_6_12_NBF_Pos"); }
-        if(request.getParameter("IFP_6_12_NBF_Neg").equals("")) { IFP_6_12_NBF_Neg=null;} else{IFP_6_12_NBF_Neg  = request.getParameter("IFP_6_12_NBF_Neg"); }
-        if(request.getParameter("IFP_6_12_NotKnown_Pos").equals("")) { IFP_6_12_NotKnown_Pos=null;} else{IFP_6_12_NotKnown_Pos  = request.getParameter("IFP_6_12_NotKnown_Pos"); }
-        if(request.getParameter("IFP_6_12_NotKnown_Neg").equals("")) { IFP_6_12_NotKnown_Neg=null;} else{IFP_6_12_NotKnown_Neg  = request.getParameter("IFP_6_12_NotKnown_Neg"); }
-        if(request.getParameter("IFP_6_12_BCF_Pos").equals("")) { IFP_6_12_BCF_Pos=null;} else{IFP_6_12_BCF_Pos  = request.getParameter("IFP_6_12_BCF_Pos"); }
-        if(request.getParameter("IFP_6_12_BCF_Neg").equals("")) { IFP_6_12_BCF_Neg=null;} else{IFP_6_12_BCF_Neg  = request.getParameter("IFP_6_12_BCF_Neg"); }
-        if(request.getParameter("IFP_6_12_SubTotal_Pos").equals("")) { IFP_6_12_SubTotal_Pos=null;} else{IFP_6_12_SubTotal_Pos  = request.getParameter("IFP_6_12_SubTotal_Pos"); }
-        if(request.getParameter("IFP_6_12_SubTotal_Neg").equals("")) { IFP_6_12_SubTotal_Neg=null;} else{ IFP_6_12_SubTotal_Neg  = request.getParameter("IFP_6_12_SubTotal_Neg"); }
+//        if(request.getParameter("IFP_0_6_EBF_Pos").equals("")) { IFP_0_6_EBF_Pos=null;} else{IFP_0_6_EBF_Pos  = request.getParameter("IFP_0_6_EBF_Pos"); }
+//        if(request.getParameter("IFP_0_6_EBF_Neg").equals("")) { IFP_0_6_EBF_Neg=null;} else{IFP_0_6_EBF_Neg  = request.getParameter("IFP_0_6_EBF_Neg"); }
+//        if(request.getParameter("IFP_0_6_ERF_Pos").equals("")) { IFP_0_6_ERF_Pos=null;} else{IFP_0_6_ERF_Pos  = request.getParameter("IFP_0_6_ERF_Pos"); }
+//        if(request.getParameter("IFP_0_6_ERF_Neg").equals("")) { IFP_0_6_ERF_Neg=null;} else{IFP_0_6_ERF_Neg  = request.getParameter("IFP_0_6_ERF_Neg"); }
+//        if(request.getParameter("IFP_0_6_MF_Pos").equals("")) { IFP_0_6_MF_Pos=null;} else{IFP_0_6_MF_Pos  = request.getParameter("IFP_0_6_MF_Pos"); }
+//        if(request.getParameter("IFP_0_6_MF_Neg").equals("")) { IFP_0_6_MF_Neg=null;} else{IFP_0_6_MF_Neg  = request.getParameter("IFP_0_6_MF_Neg"); }
+//        if(request.getParameter("IFP_0_6_SubTotal_Pos").equals("")) { IFP_0_6_SubTotal_Pos=null;} else{IFP_0_6_SubTotal_Pos  = request.getParameter("IFP_0_6_SubTotal_Pos"); }
+//        if(request.getParameter("IFP_0_6_SubTotal_Neg").equals("")) { IFP_0_6_SubTotal_Neg=null;} else{IFP_0_6_SubTotal_Neg  = request.getParameter("IFP_0_6_SubTotal_Neg"); }
+//        if(request.getParameter("IFP_6_12_BF_Pos").equals("")) { IFP_6_12_BF_Pos=null;} else{IFP_6_12_BF_Pos  = request.getParameter("IFP_6_12_BF_Pos"); }
+//        if(request.getParameter("IFP_6_12_BF_Neg").equals("")) { IFP_6_12_BF_Neg=null;} else{IFP_6_12_BF_Neg  = request.getParameter("IFP_6_12_BF_Neg"); }
+//        if(request.getParameter("IFP_6_12_NBF_Pos").equals("")) { IFP_6_12_NBF_Pos=null;} else{IFP_6_12_NBF_Pos  = request.getParameter("IFP_6_12_NBF_Pos"); }
+//        if(request.getParameter("IFP_6_12_NBF_Neg").equals("")) { IFP_6_12_NBF_Neg=null;} else{IFP_6_12_NBF_Neg  = request.getParameter("IFP_6_12_NBF_Neg"); }
+//        if(request.getParameter("IFP_6_12_NotKnown_Pos").equals("")) { IFP_6_12_NotKnown_Pos=null;} else{IFP_6_12_NotKnown_Pos  = request.getParameter("IFP_6_12_NotKnown_Pos"); }
+//        if(request.getParameter("IFP_6_12_NotKnown_Neg").equals("")) { IFP_6_12_NotKnown_Neg=null;} else{IFP_6_12_NotKnown_Neg  = request.getParameter("IFP_6_12_NotKnown_Neg"); }
+//        if(request.getParameter("IFP_6_12_BCF_Pos").equals("")) { IFP_6_12_BCF_Pos=null;} else{IFP_6_12_BCF_Pos  = request.getParameter("IFP_6_12_BCF_Pos"); }
+//        if(request.getParameter("IFP_6_12_BCF_Neg").equals("")) { IFP_6_12_BCF_Neg=null;} else{IFP_6_12_BCF_Neg  = request.getParameter("IFP_6_12_BCF_Neg"); }
+//        if(request.getParameter("IFP_6_12_SubTotal_Pos").equals("")) { IFP_6_12_SubTotal_Pos=null;} else{IFP_6_12_SubTotal_Pos  = request.getParameter("IFP_6_12_SubTotal_Pos"); }
+//        if(request.getParameter("IFP_6_12_SubTotal_Neg").equals("")) { IFP_6_12_SubTotal_Neg=null;} else{ IFP_6_12_SubTotal_Neg  = request.getParameter("IFP_6_12_SubTotal_Neg"); }
+        
         if(request.getParameter("NH2_TCM_Adults15_17_Pos").equals("")) { NH2_TCM_Adults15_17_Pos=null;} else{NH2_TCM_Adults15_17_Pos  = request.getParameter("NH2_TCM_Adults15_17_Pos"); }
         if(request.getParameter("NH2_TCM_Postnatal_Pos").equals("")) { NH2_TCM_Postnatal_Pos=null;} else{NH2_TCM_Postnatal_Pos  = request.getParameter("NH2_TCM_Postnatal_Pos"); }
         if(request.getParameter("NH2_TCM_AllAdults_Neg").equals("")) { NH2_TCM_AllAdults_Neg=null;} else{NH2_TCM_AllAdults_Neg  = request.getParameter("NH2_TCM_AllAdults_Neg"); }
