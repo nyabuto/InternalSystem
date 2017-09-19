@@ -261,8 +261,9 @@
                              <div class="control-group">
                               <label class="control-label">Select Service Area<font color='red'><b>*</b></font></label>
                               <div class="controls">
+                                 
                                   <select required data-placeholder="Section" class="span6 m-wrap" multiple="multiple"  tabindex="-1" id="gapsection" name="gapsection" required  style="width: 400px;">
-                                   <option value="">Select section</option>   
+                                   <!--<option value="">Select section</option>-->   
                                      <%  
                                  dbConn conn = new dbConn();                                 
                                  String getForms="select distinct(section) from gap_analysis";
@@ -270,11 +271,13 @@
                                  while(conn.rs.next()){
                                  
                              
-%>
+                                    %>
                                        <option value="<%=conn.rs.getString("section")%>"><%=conn.rs.getString("section")%></option>                              
                                    <%}%>
                                  </select>
+                                  <input type="checkbox" id="select_all" name="select_all" >Select All
                               </div>
+                              
                              </div>
                             
                          
@@ -422,7 +425,7 @@ else {
       jQuery(document).ready(function() {       
          // initiate layout and plugins
         
-   $('#gapsection').select2(); 
+  // $('#gapsection').select2(); 
        // FormComponents.init();
          $("#reportTime").hide();
          $("#reportSemi").hide();
@@ -438,7 +441,8 @@ type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-         if(document.getElementById("facility").value!==''){
+        // if(document.getElementById("facility").value!==''){
+         if(1==1){
       updatefacilsession();
       
       $('#facility').select2();  
@@ -618,7 +622,8 @@ type:'post',
 dataType:'html',
 success:function (data){
        $("#facility").html(data);
-         if(document.getElementById("facility").value!==''){
+       //  if(document.getElementById("facility").value!==''){
+         if(1==1){
       updatefacilsession();
       
      
@@ -638,7 +643,8 @@ success:function (data){
     
     function updatefacilsession(){
           
-        var facil=document.getElementById("facility").value;
+        var facil="";
+        //var facil=document.getElementById("facility").value;
         $.ajax({
 url:'updatefacilitysession?facil='+facil,
 type:'post',
@@ -706,7 +712,8 @@ success:function (data){
     
        function loadsubcounty(){
         
-        var county=document.getElementById("county").value;
+        //var county=document.getElementById("county").value;
+        var county="";
         $.ajax({
             url:'loadSubcounty?county='+county,
             type:'post',
@@ -771,6 +778,13 @@ success:function (data){
             }
       
       
+      
+       $('#gapsection').attr('size', $('#gapsection option').length);
+    //$('#gapsection').selectmenu({ width : 'auto'});
+    
+     $('#select_all').click(function() {
+   $('#gapsection option').prop('selected', true);
+                                        });
       
    </script>
    
