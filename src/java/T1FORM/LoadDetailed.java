@@ -34,7 +34,7 @@ int counter;
         try {
             dbConn conn = new dbConn();
             session=request.getSession();
-          output="<thead><th>No.</th><th>Name</th><th>Sex</th><th>Job title/Profession</th><th>Personal Number</th><th>Name of Organization/ Facility</th><th>District</th><th>Telephone Number</th><th>Address (Email or Postal)</th> </thead><tbody>";
+          output="<thead><th>No.</th><th>Name</th><th>Sex</th><th>Job title/Profession</th><th>Personal Number</th><th>Name of Organization/ Facility</th><th>District</th><th>Telephone Number</th><th>Address (Email or Postal)</th><th>Edit</th> </thead><tbody>";
           
           id=participant_name=gender=profession=personal_no=organization=district=telephone=address="";  
           if(session.getAttribute("summary_id")!=null){
@@ -60,7 +60,7 @@ int counter;
                     counter++;
 //                  write data here;  
            output+="<tr>"
-         + "<td class=\"detailed-elems\">"+counter+"</td><td class=\"detailed-elems\">"+participant_name+"</td><td class=\"detailed-elems\">"+gender+"</td><td class=\"detailed-elems\">"+profession+"</td><td class=\"detailed-elems\">"+personal_no+"</td><td class=\"detailed-elems\">"+organization+"</td><td class=\"detailed-elems\">"+district+"</td><td class=\"detailed-elems\">"+telephone+"</td><td class=\"detailed-elems\">"+address+"</td>"
+         + "<td class=\"detailed-elems\">"+counter+"</td><td class=\"detailed-elems\">"+participant_name+"</td><td class=\"detailed-elems\">"+gender+"</td><td class=\"detailed-elems\">"+profession+"</td><td class=\"detailed-elems\">"+personal_no+"</td><td class=\"detailed-elems\">"+organization+"</td><td class=\"detailed-elems\">"+district+"</td><td class=\"detailed-elems\">"+telephone+"</td><td class=\"detailed-elems\">"+address+"</td><td><button type=\"button\" class=\"btn-info\" data-toggle=\"modal\" style=\"width:auto; height:auto;\" data-target=\"#editor\" onclick=\"editor("+id+")\"> Edit </button></td>"
          + "</tr>";          
                     
           }

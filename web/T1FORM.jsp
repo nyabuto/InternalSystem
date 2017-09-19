@@ -271,6 +271,63 @@ tr > td
       <!-- END PAGE -->  
    </div>
    <!-- END CONTAINER -->
+   
+   
+   <div class="modal fade" id="editor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; font-weight: bolder;">Edit Participant Details</p></h4>
+      </div>
+      <div class="modal-body" id="toedit" style="font-size: 12px;">
+    <table>
+        <tr>
+            <th>Participant Name : </th>
+            <td> <input type="text" tabindex="13" placeholder="Participant Name" autocomplete="off" name="participant_name_1" list="participant_name_list" required max-length="50" id="participant_name_1" value=""  data-toggle="tooltip"  data-placement="right" style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Gender : </th>
+            <td><select tabindex="14"  placeholder="Choose Gender" name="gender_1" required id="gender_1"  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"></select> </td>
+        </tr>   
+        <tr>
+            <th>Job Title/Profession : </th>
+            <td><input type="text"  placeholder="Job title/Profession" tabindex="15" name="profession_1"  autocomplete="off" id="profession_1"  list="profession_list" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Personal Number : </th>
+            <td><input type="text"  placeholder="Personal Number(MOH Staff only)" tabindex="16"  autocomplete="off" name="personal_no_1" list="personal_no_list" id="personal_no_1" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Name of Organization/Facility : </th>
+            <td><input type="text"  placeholder="Name of organization/facility" tabindex="17"  autocomplete="off" name="organization_1" list="organization_list" id="organization_1" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>District : </th>
+            <td><select tabindex="18"  placeholder="District" name="district_1" required id="district_1"  autocomplete="off" data-toggle="tooltip" data-placement="right"  style="width: 300px;"></select> </td>
+        </tr>   
+        <tr>
+            <th>Telephone Number : </th>
+            <td><input type="text"  placeholder="Telephone No." tabindex="19" name="telephone_1"  autocomplete="off" id="telephone_1" list="telephone_list" value="" onkeypress="return numbers(event)"  data-toggle="tooltip"  data-placement="right"    style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Address (Email or Postal) : </th>
+            <td><input type="text"  placeholder="Address (Email/Postal)" tabindex="20" name="address_1"  autocomplete="off" list="address_list" id="address_1" value=""  data-toggle="tooltip"  style="width: 300px;"> </td>
+        </tr>   
+        
+        
+    </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-info" data-dismiss="modal" style="height:30px;" id="update">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+   
+   
+   
+   
    <!-- BEGIN FOOTER -->
    <div class="footer">
        <%
@@ -529,6 +586,35 @@ $('#date_range').daterangepicker({
     
   }
     
+    function editor(id){
+        $.ajax({
+        url:'load_participant_details?id='+id,
+        type:"post",
+        dataType:"json",
+        success:function(data){
+         var participant_name = data.participant_name;
+         var gender = data.gender;
+         var profession = data.profession;
+         var personal_no = data.personal_no;
+         var organization = data.organization;
+         var telephone = data.telephone;
+         var address = data.address;
+         var district = data.district;
+         
+         $("#participant_name_1").val(participant_name);
+         $("#gender_1").html(gender);
+         $("#profession_1").val(profession);
+         $("#personal_no_1").val(personal_no);
+         $("#organization_1").val(organization);
+         $("#telephone_1").val(telephone);
+         $("#address_1").val(address);
+         $("#district_1").html(district);
+       
+//        
+        // open the pop up window for editing
+    }
+    });
+    }
     
        </script>
        <script>
@@ -538,7 +624,46 @@ $('#date_range').daterangepicker({
 </script>
    <!-- END JAVASCRIPTS -->  
        <script>
-
+        jQuery(document).ready(function(){
+        $("#update").click(function(){
+          var participant_name = $("#participant_name_1").val();
+          var  gender = $("#gender_1").val();
+          var  profession = $("#profession_1").val();
+          var  personal_no = $("#personal_no_1").val();
+          var  organization = $("#organization_1").val();
+          var  telephone = $("#telephone_1").val();
+          var  address = $("#address_1").val();
+          var  district = $("#district_1").val();
+          var jobj={"participant_name":participant_name , "gender": gender, "profession": profession, "personal_no": personal_no, "organization": organization, "telephone": telephone, "address": address, "district": district};
+          var str_data = JSON.stringify(jobj);
+          $.ajax({
+        url:'update_participant_details?participant_name='+participant_name+'&&gender='+gender+'&&profession='+profession+'&&personal_no='+personal_no+'&&organization='+organization+'&&telephone='+telephone+'&&address='+address+'&&district='+district,
+        type:"post",
+        dataType:"html",
+        success:function(data){
+         
+         $.notify(
+      { icon: "images/checked.png", 
+        message:data},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );
+         //reload participnt list  and totals
+         viewT1Details();
+         load_system_totals();
+        }
+          
+        });
+        });
+        
+            });
  
     </script>
    </div>
