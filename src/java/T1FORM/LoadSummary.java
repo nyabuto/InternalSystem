@@ -28,7 +28,7 @@ String summary_id,program_area,cordinator,districts,agency,venue,curriculum,star
 String program_area_id,district_ids,curriculum_id,possible_districts;
 String lock;
 String gender;
-String input,hidden,hiddenx;
+String input,hidden,hiddenx,edit;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,7 +45,7 @@ String input,hidden,hiddenx;
         gender="";
         input="submit";
         hidden="hidden";
-        hiddenx="";
+        hiddenx=edit="";
        int counter=0;
          String get_summary="SELECT id,program_area_id,cordinator,districts,agency,venue,curriculum_id,"
                  + "start_date,end_date,training_name,s_male,s_female,d_male,d_female "
@@ -77,6 +77,8 @@ String input,hidden,hiddenx;
          hiddenx="hidden";
 session.setAttribute("summary_id", summary_id);
 //session.setAttribute("districts", district_ids);
+
+edit="<img src=\"images/edit.png\" data-toggle=\"tooltip\" id=\"edit_total\" title=\"click to edit totals.\" onclick=\"edit_totals();\">";
          }
         
          if(summary_id.equals("0")){
@@ -171,7 +173,9 @@ session.setAttribute("summary_id", summary_id);
              + "<div class=\"clear\">"
              + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\"><b>(Summary)</b> Male :</div><div  class=\"div_data\" ><input type=\"text\"   autocomplete=\"off\" placeholder=\"Male Participants\"  tabindex=\"10\" name=\"s_male\" id=\"s_male\" value=\""+s_male+"\"  data-toggle=\"tooltip\"  "+lock+" onkeypress=\"return numbers(event)\"  data-placement=\"right\" style=\"width: 10em;\"></div></div>"
               + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\">Female :</div><div  class=\"div_data\" ><input type=\"text\"   autocomplete=\"off\" placeholder=\"Female Participants\"  tabindex=\"11\" name=\"s_female\" id=\"s_female\" value=\""+s_female+"\"  data-toggle=\"tooltip\" onkeypress=\"return numbers(event)\"  "+lock+"  data-placement=\"right\" style=\"width: 10em;\"></div></div>"
-              + "</div>"
+              + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\">"+edit+"</div>"
+              
+             + "</div>"
              + ""
              + "<div class=\"clear\">"
              + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\"><b>(System)</b> Male :</div><div  class=\"div_data\" ><input type=\"text\" disabled   autocomplete=\"off\" placeholder=\"Male Participants\"  tabindex=\"10\" name=\"d_male\" id=\"d_male\" value=\""+d_male+"\"  data-toggle=\"tooltip\"  "+lock+" onkeypress=\"return numbers(event)\"  data-placement=\"right\" style=\"width: 10em;\"></div></div>"

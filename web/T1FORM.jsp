@@ -325,7 +325,7 @@ tr > td
   </div>
 </div>
    
-   
+   <input type="hidden" id="tt" value="0"> 
    
    
    <!-- BEGIN FOOTER -->
@@ -665,7 +665,62 @@ $('#date_range').daterangepicker({
         
             });
  
+ function edit_totals(){
+     var tt=$("#tt").val();
+     if(tt=="0"){
+    $("#s_female").prop("disabled", false);
+    $("#s_male").prop("disabled", false);
+    $("#edit_total").prop('src',"images/upload.png");
+    $("#edit_total").prop('title',"Click to save updates.");
+    $("#tt").val("1"); 
+    
+        }
+        else{
+      var male,female;
+      male=$("#s_male").val();
+      female=$("#s_female").val();
+      
+    $("#s_female").prop("disabled", true);
+    $("#s_male").prop("disabled", true);
+    $("#edit_total").prop('src',"images/edit.png");
+    $("#edit_total").prop('title',"click to edit totals.");
+    $("#tt").val("0"); 
+    
+    //update to the server
+    $.ajax({
+        url:'update_static_totals?male='+male+'&&female='+female,
+        type:"post",
+        dataType:"html",
+        success:function(data){
+         
+         $.notify(
+      { icon: "images/checked.png", 
+        message:data},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );
+        }
+          
+        });
+    
+        }
+     
+     
+ }
     </script>
+    
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
    </div>
 </body>
 <!-- END BODY -->

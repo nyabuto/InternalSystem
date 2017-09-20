@@ -677,6 +677,10 @@
         <servlet-name>update_participant_details</servlet-name>
         <servlet-class>T1FORM.update_participant_details</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>update_static_totals</servlet-name>
+        <servlet-class>T1FORM.update_static_totals</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1352,6 +1356,10 @@
     <servlet-mapping>
         <servlet-name>update_participant_details</servlet-name>
         <url-pattern>/update_participant_details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>update_static_totals</servlet-name>
+        <url-pattern>/update_static_totals</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
