@@ -681,6 +681,10 @@
         <servlet-name>update_static_totals</servlet-name>
         <servlet-class>T1FORM.update_static_totals</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>savedocumentation</servlet-name>
+        <servlet-class>General.savedocumentation</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1360,6 +1364,10 @@
     <servlet-mapping>
         <servlet-name>update_static_totals</servlet-name>
         <url-pattern>/update_static_totals</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savedocumentation</servlet-name>
+        <url-pattern>/savedocumentation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
