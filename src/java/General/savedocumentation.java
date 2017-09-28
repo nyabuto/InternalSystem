@@ -5,7 +5,7 @@
  */
 package General;
 
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+
 import database.dbConn;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -146,8 +146,7 @@ public class savedocumentation extends HttpServlet {
                 + "location.");
         writer.println("<br/> ERROR: " + fne.getMessage());
 
-        LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}", 
-                new Object[]{fne.getMessage()});
+      
         
         
     } 
