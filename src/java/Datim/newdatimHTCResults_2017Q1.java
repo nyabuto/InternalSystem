@@ -13901,7 +13901,7 @@ HSSFCell  cxy;
                  
                  }//end of 9==9
          
-if(10==11){
+if(10==10){
     
     
  //__________________________________________________________________________________________
@@ -14054,6 +14054,10 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 			
          duration1=" tibu_tb_raw.yearmonth Between "+prevYear+"10 and "+year+"09";   
         period1="DATIM HTS_TST PITC-TB Clinics for October "+prevYear+" to September "+year;
+        
+        startdate=prevYear+"1001";
+        enddate=year+"0930";
+        
         }
         else if(reportDuration.equals("2")){
         semi_annual=request.getParameter("semi_annual");
@@ -14062,47 +14066,93 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
      duration1=" tibu_tb_raw.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
        
      period1="DATIM HTS_TST PITC-TB Clinics for October "+prevYear+" to March "+year;
+    //______start and end date_________ 
+     startdate=prevYear+"1001";
+        enddate=year+"0331";
+     
        }
            else{
        duration1=" tibu_tb_raw.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
       period1="DATIM HTS_TST PITC-TB Clinics for April "+year+" to September "+year; 
+       
+      //______start and end date_________ 
+     startdate=year+"0401";
+        enddate=year+"0930";
+       
+       
        }
        }
         
         else if(reportDuration.equals("3")){
+            
             String startMonth,endMonth;
+            
        quarter=request.getParameter("quarter");
 //       quarter="3";
-       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
+       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
+       
        conn.rs=conn.st.executeQuery(getMonths);
+       
        if(conn.rs.next()==true){
+           
       String months []=conn.rs.getString(1).split(",");
+      
        startMonth=months[0];
+       
        endMonth=months[2];
+       
       if(quarter.equals("1")){
-      duration1=" tibu_tb_raw.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
+          
+      duration1=" tibu_tb_raw.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
+      
       period1="DATIM HTS_TST PITC-TB Clinics for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
+      
+     //___start and end date____
+     startdate=prevYear+"1001";
+     enddate=prevYear+"1231";
+      
       }
       else{
-     duration1=" tibu_tb_raw.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
+          
+           //___start and end date____
+     startdate=year+startMonth+"01";
+     enddate=year+endMonth+""+conn.rs.getString("enddate");
+      
+          
+     duration1=" tibu_tb_raw.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
+     
      period1="DATIM HTS_TST PITC-TB Clinics for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
       }
         }
-        }  
+       
+        }//end of quarrtely if  
         
       else if(reportDuration.equals("4")){
+          
+     
+          
      month=Integer.parseInt(request.getParameter("month"));
 //            month=5;
-           String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
+           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
     conn.rs=conn.st.executeQuery(getMonthName);
     if(conn.rs.next()==true){
    if(month>=10){
      duration1=" tibu_tb_raw.yearmonth="+prevYear+""+month;    
-     period1="DATIM HTS_TST PITC-TB Clinics for : "+conn.rs.getString(1)+"("+prevYear+")"; 
+     period1="DATIM HTS_TST PITC-TB Clinics for : "+conn.rs.getString(1)+"("+prevYear+")";
+                 
+     //___start and end date____
+     startdate=prevYear+month+"01";
+     enddate=prevYear+month+conn.rs.getString("days");
+     
      }
      else{
   duration1=" tibu_tb_raw.yearmonth="+year+"0"+month;  
     period1="DATIM HTS_TST PITC-TB Clinics for : "+conn.rs.getString(1)+"("+year+")";
+    
+    //___start and end date____
+     startdate=year+"0"+month+"01";
+     enddate=year+"0"+month+conn.rs.getString("days");
+    
      }
       }
       }
@@ -14192,16 +14242,17 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         
         HSSFRow rw0=shet.createRow(1);
         HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue("HTS_TST PITC-TB Clinics "+mwaka);
+                    cell.setCellValue(""+period1);
                     cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,3));
+        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
                     
                 int count1  = 3;
         
         
         
-                String qry1 = "call rpt_tbclinics('20170701','20170930','subpartnera','')";
-
+                String qry1 = "call rpt_tbclinics(\""+startdate+"\",\""+enddate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
+    System.out.println(""+qry1);
+                
         conn.rs = conn.st.executeQuery(qry1);
 
         ResultSetMetaData metaData = conn.rs.getMetaData();
