@@ -423,10 +423,36 @@ tr > td
     });
     
     //submit form
-    $('form').submit(function(){
-       var form_data=$("form").serialize();
-       var url='SaveSummary';
-//       alert("data : "+form_data);
+//    $('#summarybtn').click(function(){
+//        alert("called2");
+//       
+//    
+//    
+//    });
+    
+       }); 
+       
+    function subSummary(){
+        
+        var progam_area,districts,cordinator,agency,venue,curriculum_ids,date_range,training_name,s_male,s_female;
+        progam_area = $("#progam_area").val();
+        districts = $("#districts").val();
+        cordinator = $("#cordinator").val();
+        agency = $("#agency").val();
+        venue = $("#venue").val();
+        curriculum_ids = $("#curriculum_ids").val();
+        date_range = $("#date_range").val();
+        training_name = $("#training_name").val();
+        s_male = $("#s_male").val();
+        s_female = $("#s_female").val();
+        if(districts!=null && progam_area!="" && cordinator!="" && agency!="" && venue!="" && curriculum_ids!=null && date_range!="" && training_name!=""){
+        districts = districts+"*";
+        curriculum_ids = curriculum_ids+"*";
+        
+       var form_data={"progam_area":progam_area,"districts":districts,"cordinator":cordinator,"agency":agency,"venue":venue,"curriculum_ids":curriculum_ids,"date_range":date_range,"training_name":training_name,"s_male":s_male,"s_female":s_female};
+      
+        var url='SaveSummary';
+       
        $.post(url,form_data , function(data) {
         loadSummary(data);
         loadMeetings();
@@ -451,8 +477,8 @@ tr > td
         }
         else{
         $.notify(
-      {icon: "images/checked.png", 
-  message:'<font color="green">Failed, similar detailed already exist.</font>'},
+      {icon: "images/cross.png", 
+  message:'<font color="red">Failed, similar detailed already exist.</font>'},
       {
 	icon_type: 'image'
       }, 
@@ -465,12 +491,24 @@ tr > td
        );    
         }
         });
+    }
+    else{
+    $.notify(
+      {icon: "images/cross.png", 
+  message:'<font color="red">Error, Enter all required fields.</font>'},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );    
+    }
         return false;
-    });
-    
-    
-    });
-    
+    }
     function loadMeetings(){
         $.ajax({
         url:'loadmeetings',

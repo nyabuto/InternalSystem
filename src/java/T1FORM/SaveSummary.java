@@ -38,10 +38,10 @@ int summary_id;
            
            program_area_id = request.getParameter("progam_area");
            cordinator = request.getParameter("cordinator");
-           String [] districts_array = request.getParameterValues("districts");
+           String districts_array = request.getParameter("districts");
            agency = request.getParameter("agency");
            venue = request.getParameter("venue");
-           String [] curriculum_ids = request.getParameterValues("curriculum_ids");
+           String curriculum_ids = request.getParameter("curriculum_ids");
            date_range = request.getParameter("date_range").replace("", "");
            end_date = request.getParameter("end_date");
            training_name = request.getParameter("training_name");
@@ -56,10 +56,10 @@ int summary_id;
            year =end_date.split("-")[0];
            month =end_date.split("-")[1];
            year_month = year+""+month;
+            System.out.println("districts_array: "+districts_array+" cordinator : "+cordinator);
+           districts="*"+districts_array.replace(",","*");
            
-           districts="*"+String.join("*", districts_array)+"*";
-           
-           curriculum_id="*"+String.join("*", curriculum_ids)+"*";
+           curriculum_id="*"+curriculum_ids.replace(",","*");
            user_id = "1";
            
            

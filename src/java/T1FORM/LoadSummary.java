@@ -146,7 +146,7 @@ edit="<img src=\"images/edit.png\" data-toggle=\"tooltip\" id=\"edit_total\" tit
          
          
             
-     String  form="<form id=\"summary_form\" name=\"summary_form\">"
+     String  form="<form id=\"summary_form\" name=\"summary_form\" >"
              + "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">Course Details</b></legend><div style=\"margin-left:100px;\"><div><div colspan=\"3\"><br></div</div>"
              + "<div style=\"margin-top:30px;\">"
              + "<div class=\"div_title\"  style=\"\">Program Area <font color=\"red\">*</font>:</div><div  class=\"div_data\" ><select tabindex=\"1\"  name=\"progam_area\" required id=\"progam_area\" value=\"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" style=\"width: 22.5em;\">"
@@ -184,7 +184,7 @@ edit="<img src=\"images/edit.png\" data-toggle=\"tooltip\" id=\"edit_total\" tit
              + "</div>"
              + "</div>"
              + "<div class=\"clear\">"
-              + "<div style=\"width: 100%; margin-right:20%;\" "+hiddenx+"><button type=\""+input+"\" hidden class=\"btn blue\" tabindex=\"12\" id=\"summarybtn\" style=\"width: 15em;  margin-right:35px;\">Save Summary</button></div>"
+              + "<div style=\"width: 100%; margin-right:20%;\" "+hiddenx+"><button type=\""+input+"\" onClick=\"return subSummary();\" hidden class=\"btn blue\" tabindex=\"12\" id=\"summarybtn\" style=\"width: 15em;  margin-right:35px;\">Save Summary</button></div>"
              + "</div>"
              + "</form>"
              + "</div>"
