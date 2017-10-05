@@ -10,6 +10,7 @@ import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13900,7 +13901,386 @@ HSSFCell  cxy;
                  
                  }//end of 9==9
          
+if(10==11){
+    
+    
+ //__________________________________________________________________________________________
 
+
+
+ArrayList allFacilities = new ArrayList();
+                     
+int year,month,prevYear,maxYearMonth,mflcode;
+			  
+String reportDuration,duration,semi_annual,quarter;
+
+String facilityName,countyName,districtName,facilityIds,facilityId;
+
+year=month=prevYear=maxYearMonth=mflcode=0;
+   
+reportDuration=duration=semi_annual=quarter="";
+ 
+facilityName=countyName=districtName=facilityIds=facilityId="";
+
+
+
+//_________________startdate________________________
+
+
+String startdate="";
+String enddate="";
+
+
+//_________________enddate__________________________
+
+
+ 
+year=Integer.parseInt(request.getParameter("year"));
+  
+  
+Calendar ca= Calendar.getInstance();
+  
+int currentyear=ca.get(Calendar.YEAR);
+  
+String facilitiestable="subpartnera";
+  
+int selectedyear=year;
+  
+if(selectedyear<currentyear){
+      
+      if(year<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+  
+ 
+String facilityIds1="";
+
+facilityIds1="(";
+
+if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
+
+String subcounty=request.getParameter("subcounty");
+
+String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+
+
++ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+
++ "WHERE district.DistrictID='"+subcounty+"'" ;
+
+subcounty_countywhere=" ( district.DistrictID='"+subcounty+"') and ";//20160711
+    
+
+conn.rs=conn.st.executeQuery(getDist);
+
+while(conn.rs.next()){
+
+allFacilities.add(conn.rs.getString(1));
+ 
+
+ facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+ 
+    }
+     
+facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+     
+
+	 facilityIds1+=") && ";   
+
+	 } 
+	 
+     else{
+		 
+
+if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
+
+		 
+String county=request.getParameter("county");
+		 
+String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+		 
++ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+	
++ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+         
+subcounty_countywhere=" (county.CountyID='"+county+"') and  ";//20160711
+         
+conn.rs=conn.st.executeQuery(getCounty);
+
+while(conn.rs.next()){
+		
+		
+allFacilities.add(conn.rs.getString(1));
+    
+
+facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+                         }
+   
+facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+	
+     facilityIds1+=") && "; 
+	 
+     }
+       
+        else{
+  
+       facilityIds1=""; 
+	   
+        }   
+        
+     }      
+        reportDuration=request.getParameter("reportDuration");
+        
+
+        String period1="";
+        String duration1="";
+        prevYear=year-1; 
+        maxYearMonth=0;
+        
+//    GET REPORT DURATION============================================
+
+        if(reportDuration.equals("1")){
+			
+         duration1=" tibu_tb_raw.yearmonth Between "+prevYear+"10 and "+year+"09";   
+        period1="DATIM HTS_TST PITC-TB Clinics for October "+prevYear+" to September "+year;
+        }
+        else if(reportDuration.equals("2")){
+        semi_annual=request.getParameter("semi_annual");
+//        semi_annual="2";
+       if(semi_annual.equals("1")){
+     duration1=" tibu_tb_raw.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
+       
+     period1="DATIM HTS_TST PITC-TB Clinics for October "+prevYear+" to March "+year;
+       }
+           else{
+       duration1=" tibu_tb_raw.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
+      period1="DATIM HTS_TST PITC-TB Clinics for April "+year+" to September "+year; 
+       }
+       }
+        
+        else if(reportDuration.equals("3")){
+            String startMonth,endMonth;
+       quarter=request.getParameter("quarter");
+//       quarter="3";
+       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
+       conn.rs=conn.st.executeQuery(getMonths);
+       if(conn.rs.next()==true){
+      String months []=conn.rs.getString(1).split(",");
+       startMonth=months[0];
+       endMonth=months[2];
+      if(quarter.equals("1")){
+      duration1=" tibu_tb_raw.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
+      period1="DATIM HTS_TST PITC-TB Clinics for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
+      }
+      else{
+     duration1=" tibu_tb_raw.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
+     period1="DATIM HTS_TST PITC-TB Clinics for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
+      }
+        }
+        }  
+        
+      else if(reportDuration.equals("4")){
+     month=Integer.parseInt(request.getParameter("month"));
+//            month=5;
+           String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
+    conn.rs=conn.st.executeQuery(getMonthName);
+    if(conn.rs.next()==true){
+   if(month>=10){
+     duration1=" tibu_tb_raw.yearmonth="+prevYear+""+month;    
+     period1="DATIM HTS_TST PITC-TB Clinics for : "+conn.rs.getString(1)+"("+prevYear+")"; 
+     }
+     else{
+  duration1=" tibu_tb_raw.yearmonth="+year+"0"+month;  
+    period1="DATIM HTS_TST PITC-TB Clinics for : "+conn.rs.getString(1)+"("+year+")";
+     }
+      }
+      }
+      else{
+     duration1="";     
+      }
+
+
+ 
+ //__________________________________________________________________________________________ 
+    
+    
+    
+    
+    
+    
+    
+    
+//______________________________________________________________________________________
+//                       CREATE THE WORKSHEETS          
+//______________________________________________________________________________________  
+       // HSSFWorkbook wb = new HSSFWorkbook();
+
+        HSSFFont font = wb.createFont();
+        font.setFontHeightInPoints((short) 18);
+        font.setFontName("Cambria");
+        font.setColor((short) 0000);
+        CellStyle style = wb.createCellStyle();
+        style.setFont(font);
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        HSSFFont font2 = wb.createFont();
+        font2.setFontName("Cambria");
+        font2.setColor((short) 0000);
+        CellStyle style2 = wb.createCellStyle();
+        style2.setFont(font2);
+        style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+        HSSFCellStyle stborder = wb.createCellStyle();
+        stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+        HSSFCellStyle stylex = wb.createCellStyle();
+        stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stylex.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+        HSSFCellStyle stylesum = wb.createCellStyle();
+        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+        HSSFFont fontx = wb.createFont();
+        fontx.setColor(HSSFColor.BLACK.index);
+        fontx.setFontName("Cambria");
+        stylex.setFont(fontx);
+        stylex.setWrapText(true);
+
+        stylesum.setFont(fontx);
+        stylesum.setWrapText(true);
+
+        HSSFSheet shet = wb.createSheet("TB Clinics");
+
+        String mwaka="";
+        
+        if(request.getParameter("year")!=null){
+        
+            mwaka=request.getParameter("year");
+        
+        }
+       // dbConn conn = new dbConn();
+        //========Query 1=================
+        
+        HSSFRow rw0=shet.createRow(1);
+        HSSFCell cell = rw0.createCell(0);
+                    cell.setCellValue("HTS_TST PITC-TB Clinics "+mwaka);
+                    cell.setCellStyle(style);
+        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,3));
+                    
+                int count1  = 3;
+        
+        
+        
+                String qry1 = "call rpt_tbclinics('20170701','20170930','subpartnera','')";
+
+        conn.rs = conn.st.executeQuery(qry1);
+
+        ResultSetMetaData metaData = conn.rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+       
+        ArrayList mycolumns1 = new ArrayList();
+
+        while (conn.rs.next()) {
+
+            if (count1 == 3) {
+//header rows
+                HSSFRow rw = shet.createRow(count1);
+rw.setHeightInPoints(26);
+                for (int i = 1; i <= columnCount; i++) 
+                {
+
+                    mycolumns1.add(metaData.getColumnLabel(i));
+                    HSSFCell cell0 = rw.createCell(i - 1);
+                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
+                    cell0.setCellStyle(stylex);
+
+                    //create row header
+                }//end of for loop
+                count1++;
+            }//end of if
+            //data rows     
+            HSSFRow rw = shet.createRow(count1);
+
+            for (int a = 0; a < columnCount; a++) {
+               // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
+
+                HSSFCell cell0 = rw.createCell(a);
+                 if(a==3){
+                
+                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    
+                   }
+                 else if(a > 4){
+                
+                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    
+                   }
+                else {
+                    
+                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
+                }
+            
+                cell0.setCellStyle(style2);
+
+            }
+
+            // System.out.println("");
+            count1++;
+        }
+
+        
+        
+        
+     
+        
+     
+        
+        
+        //Autofreeze  || Autofilter  || Remove Gridlines ||  
+        
+        //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
+
+        //System.out.println("1,"+rowpos+",0,"+colposcopy);
+        for (int i = 0; i <= columnCount; i++) {
+            shet.autoSizeColumn(i);
+        }
+
+        shet.setDisplayGridlines(false);
+        shet.createFreezePane(5, 4);  
+
+
+
+
+}
                  
             
          if(conn.conn!=null){ conn.conn.close();}

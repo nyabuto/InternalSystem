@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import scripts.AddQuarter;
 
 /**
  *
@@ -60,84 +61,116 @@ HttpSession session=null;
     }
 
     String tableid=year+"_"+month+"_"+facil;
+    
+    
+int tempyear=Integer.parseInt(year);
+String yearmonth="";
+String tempmonth=month;
+if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+if(Integer.parseInt(month)>=10){tempyear=Integer.parseInt(year)-1;}
+yearmonth=tempyear+tempmonth;
+
+    
+    
 
     String getexistingdata="select * from kmmp where tableid='"+tableid+"'";
         
-    String KMMP1="";
-    String KMMP2="";
-    String KMMP3a="";
-    String KMMP3b="";
-    String KMMP3c="0";
-    String KMMP4="";
-    String KMMP5a="";
-    String KMMP5b="";
-    String KMMP5c="";
-    String HV0205="";
-    String HV0206="";
+    String KMMP1=request.getParameter("KMMP1");
+    String KMMP2=request.getParameter("KMMP2");
+    String KMMP3a=request.getParameter("KMMP3a");
+    String KMMP3b=request.getParameter("KMMP3b");
+    String KMMP3c=request.getParameter("KMMP3c");
+    String KMMP4=request.getParameter("KMMP4");
+    String KMMP5a=request.getParameter("KMMP5a");
+    String KMMP5b=request.getParameter("KMMP5b");
+    String KMMP5c=request.getParameter("KMMP5c");
+    String HV0205=request.getParameter("HV0205");
+    String HV0206=request.getParameter("HV0206");
 
+    
+    
+    
+    
+    if(KMMP1.equals("")){KMMP1="0";}
+    if(KMMP2.equals("")){KMMP2="0";}
+    if(KMMP3a.equals("")){KMMP3a="0";}
+    if(KMMP3b.equals("")){KMMP3b="0";}
+    if(KMMP3c.equals("")){KMMP3c="0";}
+    if(KMMP4.equals("")){KMMP4="0";}
+    if(KMMP5a.equals("")){KMMP5a="0";}
+    if(KMMP5b.equals("")){KMMP5b="0";}
+    if(KMMP5c.equals("")){KMMP5c="0";}
+    if(HV0205.equals("")){HV0205="0";}
+    if(HV0206.equals("")){HV0206="0";}
+    
+    
     String updatestring="";
         
-        conn.rs=conn.st.executeQuery(getexistingdata);
-        while(conn.rs.next()){
+//        conn.rs=conn.st.executeQuery(getexistingdata);
+//        while(conn.rs.next()){
+//        
+//            //now load the column values here
+//           
+//    KMMP1=conn.rs.getString("KMMP1");
+//    if(KMMP1==null){KMMP1="0";
+//    updatestring+=" KMMP1='0' ,";
+//    }
+//
+//    KMMP2=conn.rs.getString("KMMP2");
+//    if(KMMP2==null){KMMP2="0";
+//    updatestring+=" KMMP2='0' ,";
+//    }
+//
+//    KMMP3a=conn.rs.getString("KMMP3a");
+//    if(KMMP3a==null){KMMP3a="0";
+//    updatestring+=" KMMP3a='0' ,";
+//    }
+//
+//    KMMP3b=conn.rs.getString("KMMP3b");
+//    if(KMMP3b==null){KMMP3b="0"; 
+//       updatestring+=" KMMP3b='0' ,";
+//    }
+//
+//    KMMP3c=conn.rs.getString("KMMP3c");
+//    if(KMMP3c==null){KMMP3c="0";
+//       updatestring+=" KMMP3c='0' ,";
+//    }
+//
+//    KMMP4=conn.rs.getString("KMMP4");
+//    if(KMMP4==null){KMMP4="0";
+//       updatestring+=" KMMP4='0' ,";
+//    }
+//
+//    KMMP5a=conn.rs.getString("KMMP5a");
+//    if(KMMP5a==null){KMMP5a="0";
+//       updatestring+=" KMMP5a='0' ,";
+//    }
+//
+//    KMMP5b=conn.rs.getString("KMMP5b");
+//    if(KMMP5b==null){KMMP5b="0";
+//       updatestring+=" KMMP5b='0' ,";
+//    }
+//
+//    KMMP5c=conn.rs.getString("KMMP5c");
+//    if(KMMP5c==null){KMMP5c="0";
+//       updatestring+=" KMMP5c='0' ,";
+//    }
+//
+//    HV0205=conn.rs.getString("HV0205");
+//    if(HV0205==null){HV0205="0"; 
+//       updatestring+=" HV0205='0' ,";
+//    }
+//
+//    HV0206=conn.rs.getString("HV0206");
+//    if(HV0206==null){HV0206="0"; 
+//       updatestring+=" HV0206='0' ,";
+//    }
+//            
+//        }
         
-            //now load the column values here
-           
-    KMMP1=conn.rs.getString("KMMP1");
-    if(KMMP1==null){KMMP1="";
-    updatestring+=" KMMP1='0' ,";
-    }
-
-    KMMP2=conn.rs.getString("KMMP2");
-    if(KMMP2==null){KMMP2="";
-    updatestring+=" KMMP2='0' ,";
-    }
-
-    KMMP3a=conn.rs.getString("KMMP3a");
-    if(KMMP3a==null){KMMP3a="";
-    updatestring+=" KMMP3a='0' ,";
-    }
-
-    KMMP3b=conn.rs.getString("KMMP3b");
-    if(KMMP3b==null){KMMP3b=""; 
-       updatestring+=" KMMP3b='0' ,";
-    }
-
-    KMMP3c=conn.rs.getString("KMMP3c");
-    if(KMMP3c==null){KMMP3c="";
-       updatestring+=" KMMP3c='0' ,";
-    }
-
-    KMMP4=conn.rs.getString("KMMP4");
-    if(KMMP4==null){KMMP4="";
-       updatestring+=" KMMP4='0' ,";
-    }
-
-    KMMP5a=conn.rs.getString("KMMP5a");
-    if(KMMP5a==null){KMMP5a="";
-       updatestring+=" KMMP5a='0' ,";
-    }
-
-    KMMP5b=conn.rs.getString("KMMP5b");
-    if(KMMP5b==null){KMMP5b="";
-       updatestring+=" KMMP5b='0' ,";
-    }
-
-    KMMP5c=conn.rs.getString("KMMP5c");
-    if(KMMP5c==null){KMMP5c="";
-       updatestring+=" KMMP5c='0' ,";
-    }
-
-    HV0205=conn.rs.getString("HV0205");
-    if(HV0205==null){HV0205=""; 
-       updatestring+=" HV0205='0' ,";
-    }
-
-    HV0206=conn.rs.getString("HV0206");
-    if(HV0206==null){HV0206=""; 
-       updatestring+=" HV0206='0' ,";
-    }
-            
-        }
+        String replaceinto=" REPLACE INTO internal_system.kmmp " +
+"         (tableid,SubPartnerID,Annee,Mois,KMMP1,KMMP2,KMMP3a,KMMP3b,KMMP3c,KMMP4,KMMP5a,KMMP5b,KMMP5c,HV0205,HV0206,user_id,isValidated,yearmonth,isLocked) " +
+" VALUES  ('"+tableid+"','"+facil+"','"+year+"','"+month+"','"+KMMP1+"','"+KMMP2+"','"+KMMP3a+"','"+KMMP3b+"','"+KMMP3c+"','"+KMMP4+"','"+KMMP5a+"','"+KMMP5b+"','"+KMMP5c+"','"+HV0205+"','"+HV0206+"','"+userid+"','1','"+yearmonth+"','0') ";
         
         String updqr="update kmmp set  ";
 
@@ -152,7 +185,8 @@ updqr+=" where tableid='"+tableid+"'";
 
             System.out.println("__update qr  "+updqr);
 
-if(conn.st.executeUpdate(updqr)==1){
+//if(conn.st.executeUpdate(updqr)==1){
+if(conn.st.executeUpdate(replaceinto)==1){
 
     
     int monthDiff=0;
@@ -171,7 +205,8 @@ Timestamp lastUpdatedOn =new Timestamp(date.getTime());
        conn.st2.executeUpdate(updateLast);
      }
      
-    
+   AddQuarter am= new AddQuarter();
+            am.addQuarter(); 
 
 session.setAttribute("kmmpresponse", "<font color=\"green\"><b>KMMP Form validated Successfully!</b></font>");
 }
