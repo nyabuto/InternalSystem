@@ -689,6 +689,10 @@
         <servlet-name>hts_methods</servlet-name>
         <servlet-class>reports.hts_methods</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>datimTbViralRetention_2017Q4</servlet-name>
+        <servlet-class>Datim.datimTbViralRetention_2017Q4</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1376,6 +1380,10 @@
     <servlet-mapping>
         <servlet-name>hts_methods</servlet-name>
         <url-pattern>/hts_methods</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimTbViralRetention_2017Q4</servlet-name>
+        <url-pattern>/datimTbViralRetention_2017Q4</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

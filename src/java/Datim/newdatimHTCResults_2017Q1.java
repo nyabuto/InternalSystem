@@ -12828,10 +12828,10 @@ HSSFCell  cxy;
                     
                    
                      //2017
-                     String pitc_pmtct_header0[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","PITC PMTCT(ANC ONLY)","","","","","","","","","","","","","","","","","PMTCT STAT","","","","","","","","PMTCT STAT","","","","","","","","PMTCT STAT","","","","","","","","PMTCT STAT","","","","","","","","","","","","","","","","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_pmtct_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Positive","","","","","","","","Negative","","","","","","","","Total ANC Tested","Disaggregated by Age (Fine Disaggregate)","","","","","","","","Disaggregated by status and Age (Fine Disaggregate)","","","","","","","","Disaggregated by status and Age (Fine Disaggregate)","","","","","","","","Disaggregated by status and Age (Fine Disaggregate)","","","","","","","","Disaggregated by Age (Fine Disaggregate)","","","","","","","","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_pmtct_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Unknown age","F","F","F","F","F","F","F","unknown age","F","F","F","F","F","F","F","Total ANC Tested","Numerator","F","F","F","F","F","F","F","Known Positives","F","F","F","F","F","F","F","Newly tested positives","F","F","F","F","F","F","F","New Negatives","F","F","F","F","F","F","F","Denominator","F","F","F","F","F","F","F","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_pmtct_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","F","<1","1-9","10-14","15-19","20-24","25-49","50+","F","<1","1-9","10-14","15-19","20-24","25-49","50+","Total ANC Tested","Numerator","unknown age","<10","10-14","15-19","20-24","25-49","50+","Known Positives","unknown age","<10","10-14","15-19","20-24","25-49","50+","Newly Tested Positives","unknown age","<10","10-14","15-19","20-24","25-49","50+","New Negatives","unknown age","<10","10-14","15-19","20-24","25-49","50+","Denominator","unknown age","<10","10-14","15-19","20-24","25-49","50+","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_pmtct_header0[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","PITC PMTCT(ANC ONLY)","","","","","","","","","","","","","","","","","PMTCT STAT","","","","","","","","PMTCT STAT","","","","","","","","PMTCT STAT","","","","","","","","PMTCT STAT","","","","","","","","","","","","","","","","1st ANC","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_pmtct_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Positive","","","","","","","","Negative","","","","","","","","Total ANC Tested","Disaggregated by Age (Fine Disaggregate)","","","","","","","","Disaggregated by status and Age (Fine Disaggregate)","","","","","","","","Disaggregated by status and Age (Fine Disaggregate)","","","","","","","","Disaggregated by status and Age (Fine Disaggregate)","","","","","","","","Disaggregated by Age (Fine Disaggregate)","","","","","","","","1st ANC","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_pmtct_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Unknown age","F","F","F","F","F","F","F","unknown age","F","F","F","F","F","F","F","Total ANC Tested","Numerator","F","F","F","F","F","F","F","Known Positives","F","F","F","F","F","F","F","Newly tested positives","F","F","F","F","F","F","F","New Negatives","F","F","F","F","F","F","F","Denominator","F","F","F","F","F","F","F","1st ANC","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_pmtct_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","F","<1","1-9","10-14","15-19","20-24","25-49","50+","F","<1","1-9","10-14","15-19","20-24","25-49","50+","Total ANC Tested","Numerator","unknown age","<10","10-14","15-19","20-24","25-49","50+","Known Positives","unknown age","<10","10-14","15-19","20-24","25-49","50+","Newly Tested Positives","unknown age","<10","10-14","15-19","20-24","25-49","50+","New Negatives","unknown age","<10","10-14","15-19","20-24","25-49","50+","Denominator","unknown age","<10","10-14","15-19","20-24","25-49","50+","1st ANC","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
                    
                      
                      
@@ -13131,7 +13131,7 @@ stylemainHeader.setWrapText(true);
       clx.setCellValue(pitc_pmtct_header3[i]);
       clx.setCellStyle(stylemainHeader);
        }
-    String mergeinfor[]={"0,0,0,"+(pitc_pmtct_header0.length-1)+"","2,5,0,0","2,5,1,1","2,5,2,2","2,5,3,3","2,5,4,4","3,5,21,21","4,5,22,22","4,5,30,30","4,5,38,38","4,5,46,46","4,5,54,54","2,2,5,21","2,2,22,37","3,3,5,12","3,3,13,20","3,3,22,37","2,5,62,62","2,5,63,63","2,5,64,64","2,5,65,65","2,5,66,66","2,2,38,61","3,3,38,61"};  
+    String mergeinfor[]={"0,0,0,"+(pitc_pmtct_header0.length-1)+"","2,5,0,0","2,5,1,1","2,5,2,2","2,5,3,3","2,5,4,4","3,5,21,21","4,5,22,22","4,5,30,30","4,5,38,38","4,5,46,46","4,5,54,54","2,2,5,21","2,2,22,37","3,3,5,12","3,3,13,20","3,3,22,37","2,5,62,62","2,5,63,63","2,5,64,64","2,5,65,65","2,5,66,66","2,5,67,67","2,2,38,61","3,3,38,61"};  
    
     //do the merging
     
@@ -13377,36 +13377,37 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             //-------pmtct stat denominator----------------
             + " ROUND(sum((HV0201 + HV0205))*1.03) as pmtct_tes_denominator ,"
             
-            + "sum(0) as pmtct_statden_tes_unknown," //updated in 201701          
-            + "sum(0) as pmtct_statden_tes_10," //updated in 201701            
-            + "sum(0) as pmtct_statden_tes_10_14," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*1.03*0.094) as pmtct_statden_tes_15_19," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*1.03*0.384) as pmtct_statden_tes_20_24," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*1.03*0.522) as pmtct_statden_tes_25_49," //updated in 201701 
-             + "sum(0) as pmtct_statden_tes_50," //updated in 201701 
+            + " sum(0) as pmtct_statden_tes_unknown," //updated in 201701          
+            + " sum(0) as pmtct_statden_tes_10," //updated in 201701            
+            + " sum(0) as pmtct_statden_tes_10_14," //updated in 201701            
+            + " ROUND(sum((HV0201 + HV0205))*1.03*0.094) as pmtct_statden_tes_15_19," //updated in 201701            
+            + " ROUND(sum((HV0201 + HV0205))*1.03*0.384) as pmtct_statden_tes_20_24," //updated in 201701            
+            + " ROUND(sum((HV0201 + HV0205))*1.03*0.522) as pmtct_statden_tes_25_49," //updated in 201701 
+             +" sum(0) as pmtct_statden_tes_50," //updated in 201701 
             
             
             //-------pmtct stat numerator----------------
             + " sum(HV0205) as pmtct_knownpositive ,"           
            
-            + "sum(0) as pmtct_kp_unknown," //updated in 201701          
-            + "sum(0) as pmtct_kp_1_9," //updated in 201701            
-            + "ROUND(sum((HV0205))*0) as pmtct_kp_10_14," //updated in 201701            
-            + "ROUND(sum((HV0205))*0.094) as pmtct_kp_15_19," //updated in 201701            
-            + "ROUND(sum((HV0205))*0.384) as pmtct_kp_20_24," //updated in 201701            
-            + "ROUND(sum((HV0205))*0.522) as pmtct_kp_25_49," //updated in 201701 
+            + " sum(0) as pmtct_kp_unknown," //updated in 201701          
+            + " sum(0) as pmtct_kp_1_9," //updated in 201701            
+            + " ROUND(sum((HV0205))*0) as pmtct_kp_10_14," //updated in 201701            
+            + " ROUND(sum((HV0205))*0.094) as pmtct_kp_15_19," //updated in 201701            
+            + " ROUND(sum((HV0205))*0.384) as pmtct_kp_20_24," //updated in 201701            
+            + " ROUND(sum((HV0205))*0.522) as pmtct_kp_25_49," //updated in 201701 
              + "sum(0) as pmtct_kp_50," //updated in 201701 
             
             + " county.County,district.DistrictNom,"
             + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".PMTCT_Support ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
-            +" ,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
+            +" ,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT,new_anc "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
             + " FROM moh731 JOIN "+facilitiestable+" "
-            + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
-            + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
+            + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
             + " district.CountyID=county.CountyID "
+            + " JOIN new_anc on moh731.id=new_anc.id"//added on 9th October 2017
             + " WHERE "
             + " "+facilityIds1+" "+duration1+" && ( "+facilitiestable+".PMTCT=1  or HTC=1 )"
-            + "GROUP BY moh731.SubPartnerID " ;
+            + " GROUP BY moh731.SubPartnerID " ;
     
     
     int rowposit=6;
@@ -13529,7 +13530,7 @@ double pmtct_statden_tes_15_19=conn.rs.getDouble("pmtct_statden_tes_15_19");
 double pmtct_statden_tes_20_24=conn.rs.getDouble("pmtct_statden_tes_20_24");
 double pmtct_statden_tes_25_49=conn.rs.getDouble("pmtct_statden_tes_25_49");
 double pmtct_statden_tes_50=conn.rs.getDouble("pmtct_statden_tes_50");
-
+int ancno=conn.rs.getInt("new_anc");
       
      double ancdiff=0; 
      double numeratordiff=0;
@@ -13748,7 +13749,7 @@ double pmtct_statden_tes_50=conn.rs.getDouble("pmtct_statden_tes_50");
              ,""+pmtct_neg_unknown,""+pmtct_neg_1_9,""+pmtct_neg_10_14,""+pmtct_neg_15_19,""+pmtct_neg_20_24,""+pmtct_neg_25_49,""+pmtct_neg_50
                       
              ,""+pmtct_tes_denominator//denominator
-             ,""+pmtct_statden_tes_unknown,""+pmtct_statden_tes_10,""+pmtct_statden_tes_10_14,""+pmtct_statden_tes_15_19,""+pmtct_statden_tes_20_24,""+pmtct_statden_tes_25_49,""+pmtct_statden_tes_50
+             ,""+pmtct_statden_tes_unknown,""+pmtct_statden_tes_10,""+pmtct_statden_tes_10_14,""+pmtct_statden_tes_15_19,""+pmtct_statden_tes_20_24,""+pmtct_statden_tes_25_49,""+pmtct_statden_tes_50,""+ancno
              ,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")}; 
 
 
@@ -13841,6 +13842,7 @@ HSSFCell  cxy;
    celldsd.setCellStyle(stborder);
    
         }
+    
     else if(z==pitc_pmtct_header1.length-3){
   //dsdta
    HSSFCell celldsd=rwx.createCell(z); 
