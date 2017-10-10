@@ -234,6 +234,7 @@
                   <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>
                   <li ><a href="masterlist.jsp">Master List</a></li>
                   <li ><a href="analysisreports.jsp">Analysis Report</a></li>
+                  <li ><a href="T1SummaryReports.jsp">Training Report</a></li>
                  
                   <!--<li ><a href="#">Edit Profile</a></li>-->
            
