@@ -278,6 +278,9 @@ String genexpert="";
                            agestring = ""+(int)agestringcell.getNumericCellValue();
                          
                           }
+                           
+                           
+                                 System.out.println("agestring is *"+agestring+"*"+distregno);
                           
                          if(agestring.contains("M") && agestring.contains("Y")){
                           //age is in months
@@ -295,7 +298,7 @@ String genexpert="";
                           }
                           else if(agestring.contains("M") && !agestring.contains("Y")){
                           //age is in months
-                              //System.out.println("agestring "+agestring+" _ "+age);
+                              System.out.println("agestring "+agestring+" _ "+age);
                           age=(int) Math.round((new Double(agestring.trim().replace("M",""))/12));
                          //  System.out.println("agestring "+agestring+" _ "+age); 
                            System.out.println(" agestring M Only "+agestring+" _ "+age); 
