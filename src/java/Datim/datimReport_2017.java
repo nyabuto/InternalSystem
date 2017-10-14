@@ -2280,6 +2280,7 @@ else if(z==pmtct_blankrows-4){
     //Made my life veery simple...
                 shetPMTCT.setDisplayGridlines(false);
                 shetPMTCT.createFreezePane(5, 3);
+                shetPMTCT.setActive(false);
                 
                  shet1.setDisplayGridlines(false);
                 shet1 .createFreezePane(5, 5);
@@ -2306,7 +2307,7 @@ else if(z==pmtct_blankrows-4){
             String month = "";
             String year = "";
             String facil = "361";
-            String form = "moh731";
+            String form = "eid_datim";
             
 //=====================================================================================================
             year = "2016";
@@ -2346,11 +2347,36 @@ else if(z==pmtct_blankrows-4){
                 year = request.getParameter("year");
                                                       }
             
+            Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
+  
+  String facilitiestable="subpartnera";
+  
+  int selectedyear=new Integer(year);
+  
+  if(selectedyear<currentyear){
+      
+      if(selectedyear<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+            
+            
             if (request.getParameter("facility") != null && reportType.equals("2")) {
                 try {
                     facil = request.getParameter("facility");
                     
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='" + facil + "'";
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
                     conn.rs = conn.st.executeQuery(getfacil);
                     
                     while (conn.rs.next()) {
@@ -2517,7 +2543,7 @@ else if(z==pmtct_blankrows-4){
             
             if (!subcounty.equals("")) {
                 
-                subcountywhere = " and subpartnera.DistrictID = '" + subcounty + "'";
+                subcountywhere = " and "+facilitiestable+".DistrictID = '" + subcounty + "'";
                 
             }
             
@@ -2567,9 +2593,9 @@ else if(z==pmtct_blankrows-4){
                    + " ,sum(2_12mneg) as 2_12_months_negative " //,,,,0_2mno_result,2_12mno_result
                    + " ,sum(0_2mno_result) as 0_2_months_no_result " //,,,,,2_12mno_result
                    + " ,sum(2_12mno_result) as 2_12_months_no_result " //,,,,,2_12mno_result
-                   + ",IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
+                   + " ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
            
-           + " FROM eid_datim join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on eid_datim.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (subpartnera.HTC=1 || subpartnera.PMTCT=1 || subpartnera.VMMC=1) group by subpartnera.SubPartnerID ";
+           + " FROM eid_datim join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on eid_datim.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" and ("+facilitiestable+".HTC=1 || "+facilitiestable+".PMTCT=1 || "+facilitiestable+".VMMC=1) group by "+facilitiestable+".SubPartnerID ";
            
             
             
@@ -2815,8 +2841,1059 @@ supporttype="DSD";
  
  }
  
+ 
+ //_____________________________________________PMTCT_FO_____________________________________________
+ 
+ if(3==3){
+ 
+     
+        
+            String month = "";
+            String year = "";
+            String facil = "361";
+            String form = "pmtct_fo";
+            
+//=====================================================================================================
+            year = "2016";
+            month = "4";
+            String county = "";
+            String header = "";
+            
+            
+           /** 
+           // String subheaders[]={"Female","Male"};
+            String sectionheaders[]={"Facility details","","","","EID Tested","","","","EID HIV positive","","","","EID HIV negative","","","","EID HIV enrollment status","","","","Totals","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders0[]={"Facility details","","","","Female","","Male","","Female","","Male","","Female","","Male","","EID HIV enrollment status","","","","EID Tested","EID HIV positive","EID HIV negative","EID HIV enrollment","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders1[]={"County","Sub-county","Facility Name","MFL Code","<1","1-4","<1","1-4","<1","1-4","<1","1-4","<1","1-4","<1","1-4","Dead","Enrolled","Lost to Follow Up","Other","EID Tested","EID HIV positive","EID HIV negative","EID HIV enrollment","ART High Volume","HTC High Volume","PMTCT High Volume"};		
+	*/
+           // String subheaders[]={"Female","Male"};
+            String sectionheaders[]={"County","Sub-county","Facility Name","MFL Code","Support Type","Denominator","Numerator","HIV-infected","HIV-uninfected","HIV-final status Unknown","Died without status known","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            //String sectionheaders0[]={"County","Sub-county","Facility Name","MFL Code","Positive","","Negative","","Collected/sent but no result recorded","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+           // String sectionheaders1[]={"County","Sub-county","Facility Name","MFL Code","0-2 Months","2-12 Months","0-2 Months","2-12 Months","0-2 Months","2-12 Months","ART High Volume","HTC High Volume","PMTCT High Volume"};		
+	
+
+           
+            //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
+           String merge_row_col[]={"0,0,0,"+(sectionheaders.length-1)};
+            
+            String reportType = "";
+            if (request.getParameter("reportType") != null) 
+            {
+                reportType = request.getParameter("reportType");
+            }
+            String reportDuration = "";
+            if (request.getParameter("reportDuration") != null) 
+            {
+                reportDuration = request.getParameter("reportDuration");
+            }
+            
+            if (request.getParameter("year") != null) {
+                year = request.getParameter("year");
+                                                      }
+            
+            
+ Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
   
+  String facilitiestable="subpartnera";
+  
+  int selectedyear=new Integer(year);
+  
+  if(selectedyear<currentyear){
+      
+      if(selectedyear<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+ 
+            
+            
+            
+            if (request.getParameter("facility") != null && reportType.equals("2")) {
+                try {
+                    facil = request.getParameter("facility");
+                    
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
+                    conn.rs = conn.st.executeQuery(getfacil);
+                    
+                    while (conn.rs.next()) {
+                        
+                        header += " FACILITY : " + conn.rs.getString(1).toUpperCase() + "     MFL CODE  :  " + conn.rs.getString(2) + "  ";
+                        
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            if (request.getParameter("county") != null && reportType.equals("2")) {
+                try {
+                    county = request.getParameter("county");
+                    
+                    String getcounty = "select County from county where CountyID='" + county + "'";
+                    conn.rs = conn.st.executeQuery(getcounty);
+                    
+                    while (conn.rs.next()) {
+                        
+                        header += " COUNTY : " + conn.rs.getString(1).toUpperCase() + " ";
+                        
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            if (request.getParameter("month") != null && reportDuration.equals("4")) {
+                try {
+                    month = request.getParameter("month");
+                    
+                    String getmonth = "select name as monthname from month where id='" + month + "'";
+                    conn.rs = conn.st.executeQuery(getmonth);
+                    
+                    while (conn.rs.next()) {
+                        
+                        header += " MONTH : " + conn.rs.getString(1).toUpperCase() + "";
+                        
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            header += " YEAR : " + year + "";
+            
+            String facilitywhere = "";
+            String yearwhere = "";
+            String monthwhere = "";
+            String countywhere = "";
+            String duration = "";
+            String semi_annual = "";
+            String quarter = "";
+            String eidduration="";
+            String excelDuration;
+            //==================================================================================================
+            //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            int yearcopy = Integer.parseInt(year);
+            
+//        reportType="2";
+//        year=2015;
+//        reportDuration="3";
+            String yearmonth = "" + year;
+            int prevYear = yearcopy - 1;
+            int maxYearMonth = 0;
+            int monthcopy = 0;
+//        GET REPORT DURATION============================================
+            //annually
+            if (reportDuration.equals("1")) {
+                yearmonth = "Annual Report For " + year;
+                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
+                eidduration="year='"+year+"'";
+            } else if (reportDuration.equals("2")) {
+                semi_annual = request.getParameter("semi_annual");
+//        semi_annual="2";
+                if (semi_annual.equals("1")) {
+                    yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
+                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
+                     eidduration="year='"+year+"' and (quarter='1' || quarter='2') ";
+                } else {
+                    yearmonth = "Semi Annual Report for Apr to  Sep " + year;
+                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
+                     eidduration="year='"+year+"' and (quarter='2' || quarter='3') ";
+                }
+            } else if (reportDuration.equals("3")) {
+                try {
+                    
+                    //quarterly
+                    String startMonth, endMonth;
+                    quarter = request.getParameter("quarter");
+                    //       quarter="3";
+                    
+                     eidduration="year='"+year+"' and quarter='"+quarter+"'  ";
+                     
+                    String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
+                    conn.rs = conn.st.executeQuery(getMonths);
+                    if (conn.rs.next() == true) {
+                        
+                        try {
+                            String months[] = conn.rs.getString(1).split(",");
+                            startMonth = months[0];
+                            endMonth = months[2];
+                            if (quarter.equals("1")) {
+                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
+                                yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
+                            } else {
+                                yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
+                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (reportDuration.equals("4")) {
+                //on monthly reports, i dont expect any output since viral load is entered quarterly
+                monthcopy = Integer.parseInt(request.getParameter("month"));
+                
+                //since we dont want data to appear for monthly reports, we set an impossible 
+                eidduration=" 1=2 "; 
+//     month=5;
+                if (monthcopy >= 10) {
+                    
+                    yearmonth = "Monthly Report For " + prevYear + "_(" + month + ")";
+                    duration = "1=2";// this will make the report not output any data which is what i wanted
+                } 
+                else {
+                    duration = " 1=2"; // this will make the report not output any data which is what i wanted
+                    yearmonth = "Monthly Report For " + year + "_(" + month + ")";
+                }
+            }
+            else {
+                duration = "";
+                
+            }
+            
+            //======================================================================
+//==================================================================================================
+            //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            String subcountywhere = "";
+            
+            String subcounty = "";
+            
+            if (!request.getParameter("subcounty").equals("")) {
+                
+                subcounty = request.getParameter("subcounty");
+                
+            }
+            
+            String getexistingdata = "";
+            
+            if (!county.equals("")) {
+                
+                countywhere = " and district.countyid = '" + county + "'";
+                
+            }
+            
+            if (!subcounty.equals("")) {
+                
+                subcountywhere = " and "+facilitiestable+".DistrictID = '" + subcounty + "'";
+                
+            }
+            
+            if (!facil.equals("")) {
+                
+                facilitywhere = " and pmtct_fo.SubPartnerID = '" + facil + "'";
+                
+            }
+            
+            String joinedwhwere = " where 1=1 " + yearwhere + " && " + eidduration + " " + countywhere + " " + subcountywhere;
+           //old eid format 
+            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
+//            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode "
+//           + ",sum(less1_ftes) as less1_ftes"
+//           + ", sum(1to4_ftes) as 1to4_ftes"
+//           + ", sum(less1_mtes) as less1_mtes"
+//           + ", sum(1to4_mtes) as 1to4_mtes  "
+//           + ",	sum(less1_fpos) as less1_fpos"
+//           + ",	sum(1to4_fpos) as 1to4_fpos"
+//           + ", sum(less1_mpos) as less1_mpos"
+//           + ", sum(1to4_mpos) as 1to4_mpos"
+//           + ", sum(less1_fneg) as less1_fneg"
+//           + ", sum(1to4_fneg) as 1to4_fneg"
+//           + ", sum(less1_mneg) as less1_mneg"
+//           + ", sum(1to4_mneg) as 1to4_mneg"
+//           + ", sum(dead) as dead"
+//           + ", sum(enrolled) as enrolled"
+//           + ", sum(ltfu) as ltfu"
+//           + ", sum(other) as other"
+//           + ", sum(tested) as tested"
+//           + ", sum(positive) as positive"
+//           + ", sum(negative) as negative"
+//           + ", sum(hivenrollment) as hivenrollment "
+//           + ",IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
+//            
+//           + " FROM eid_datim join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on eid_datim.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (subpartnera.HTC=1 || subpartnera.PMTCT=1 || subpartnera.VMMC=1) group by subpartnera.SubPartnerID ";
+//            
+       
+            
+            
+             getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode, "
+                   + " SUM(denominator) as Denominator, "//__Denominator
+                   + " SUM(numerator) as Numerator ,  "//__Numerator
+                   + " SUM(linked_art + not_linked_art + unknown_link)as HIV_infected, " //__HIV_infected
+                   + " SUM(not_breastfeeding + breastfeeding + breastfeeding_unknown)as HIV_uninfected, " //__HIV_uninfected
+                   + " SUM(care_no_test) as HIV_final_status_unknown ,  "//__Numerator
+                   + " SUM(died) as Died_without_status_known ,  "//__Numerator
+                   + " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
+           
+           + " FROM pmtct_fo join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_fo.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) group by "+facilitiestable+".SubPartnerID ";
+           
+            
+            
+            System.out.println(getexistingdata);
+              String Tbid=year+"_"+quarter+"_"+facil;
+           // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
+            
+            
+        
+     
+     
+//=====================================================================================================
+//=====================================================================================================    
+//______________________________________________________________________________________
+            //                       NOW CREATE THE WORKSHEETS
+            //______________________________________________________________________________________
+           // HSSFWorkbook wb = new HSSFWorkbook();
+            
+            //______________________________________________________________________________________
+            //______________________________________________________________________________________
+            HSSFFont font = wb.createFont();
+            font.setFontHeightInPoints((short) 12);
+            font.setFontName("Cambria");
+            font.setColor((short) 0000);
+            CellStyle style = wb.createCellStyle();
+            style.setFont(font);
+            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            HSSFFont font2 = wb.createFont();
+            font2.setFontName("Cambria");
+            font2.setColor((short) 0000);
+            CellStyle style2 = wb.createCellStyle();
+            style2.setFont(font2);
+            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            
+            HSSFCellStyle stborder = wb.createCellStyle();
+            stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            HSSFCellStyle stylex = wb.createCellStyle();
+            stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            HSSFFont fontx = wb.createFont();
+            fontx.setColor(HSSFColor.BLACK.index);
+            fontx.setFontName("Cambria");
+             fontx.setBoldweight(Font.BOLDWEIGHT_BOLD);
+            stylex.setFont(fontx);
+            stylex.setWrapText(true);
+            
+            HSSFSheet shet = wb.createSheet("PMTCT_FO");
+            
+            
+            int rowpos=0;
+            //create headers for that worksheet
+            HSSFRow rw = shet.createRow(rowpos);
+            rw.setHeightInPoints(25);
+            
+            HSSFCell cl0 = rw.createCell(0);
+            cl0.setCellValue("DATIM PMTCT_FO " + yearmonth);
+            cl0.setCellStyle(stylex);
+           
+            
+            //______header 1 facility details
+            rowpos++;
+            HSSFRow rw1 = shet.createRow(rowpos);
+            rw1.setHeightInPoints(25);
+             for (int a = 0; a < sectionheaders.length; a++) 
+             {
+                HSSFCell clx = rw1.createCell(a);
+                clx.setCellValue(sectionheaders[a]);
+                clx.setCellStyle(stylex);
+                shet.setColumnWidth(a, 3100);
+            }
+            
+//             //______header 2 facility details
+            rowpos++;
+//            HSSFRow rw2 = shet.createRow(rowpos);
+//            rw2.setHeightInPoints(25);
+//                         
+           
+            //do all the merging here as dictated by the merge_row_col array 
+            for (int a = 0; a <merge_row_col.length; a++) {
+             String points[]=merge_row_col[a].split(",");
+                
+           shet.addMergedRegion(new CellRangeAddress(Integer.parseInt(points[0]),Integer.parseInt(points[1]),Integer.parseInt(points[2]),Integer.parseInt(points[3])));
+              
+            }
+           
+            
+            shet.setColumnWidth(0, 5000);
+            
+//add the rows here          
+       
+            
+             conn.rs=conn.st.executeQuery(getexistingdata);
     
+    
+    while(conn.rs.next()){
+    
+        
+        
+    
+           int colpos=0; 
+           int conpos=1;
+           int loopstart=5;
+               HSSFRow rwx = shet.createRow(rowpos); 
+               rwx.setHeightInPoints(25);
+               
+               //county
+            if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+                //subcounty
+             if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getString(conpos));
+            //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+                 
+                 //facility name
+           if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
+            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+                      }
+                   //mfl
+          if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getInt(conpos));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        } 
+//support type//######################################################################################
+        if (1 == 1) {
+//String supporttype=conn.rs.getString("DSD");
+String supporttype="DSD";
+if(supporttype.equals("")){
+supporttype="DSD";
+}
+            
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(supporttype);
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+ //___   a for loop  
+        
+        for (int e=loopstart;e<sectionheaders.length;e++)
+        {
+      if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getInt(e));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }               
+              
+        }
+     
+     
+        rowpos++;
+    }
+    //____autofilter______       
+    shet.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(1, rowpos - 1, 0, sectionheaders.length-1));
+
+    //System.out.println("1,"+rowpos+",0,"+colposcopy);
+                        for (int e = 0; e < 4; e++) {
+                            shet.autoSizeColumn(e);
+                        }
+             //Made my life veery simple...
+                shet.setDisplayGridlines(false);
+                shet.createFreezePane(5, 2);            
+            
+     
+     
+ 
+ 
+ 
+ 
+ 
+ }  
+  
+ 
+ if(4==4){
+ 
+     
+        
+            String month = "";
+            String year = "";
+            String facil = "361";
+            String form = "pmtct_arv";
+            
+//=====================================================================================================
+            year = "2016";
+            month = "4";
+            String county = "";
+            String header = "";
+            
+            
+           /** 
+           // String subheaders[]={"Female","Male"};
+            String sectionheaders[]={"Facility details","","","","EID Tested","","","","EID HIV positive","","","","EID HIV negative","","","","EID HIV enrollment status","","","","Totals","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders0[]={"Facility details","","","","Female","","Male","","Female","","Male","","Female","","Male","","EID HIV enrollment status","","","","EID Tested","EID HIV positive","EID HIV negative","EID HIV enrollment","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders1[]={"County","Sub-county","Facility Name","MFL Code","<1","1-4","<1","1-4","<1","1-4","<1","1-4","<1","1-4","<1","1-4","Dead","Enrolled","Lost to Follow Up","Other","EID Tested","EID HIV positive","EID HIV negative","EID HIV enrollment","ART High Volume","HTC High Volume","PMTCT High Volume"};		
+	*/
+           // String subheaders[]={"Female","Male"};
+            String sectionheaders[]={"County","Sub-county","Facility Name","MFL Code","Support Type","New on ART","Already on ART","Total Started ART at ANC","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            //String sectionheaders0[]={"County","Sub-county","Facility Name","MFL Code","Positive","","Negative","","Collected/sent but no result recorded","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+           // String sectionheaders1[]={"County","Sub-county","Facility Name","MFL Code","0-2 Months","2-12 Months","0-2 Months","2-12 Months","0-2 Months","2-12 Months","ART High Volume","HTC High Volume","PMTCT High Volume"};		
+	
+
+           
+            //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
+            String merge_row_col[]={"0,0,0,"+(sectionheaders.length-1)};
+            
+            String reportType = "";
+            if (request.getParameter("reportType") != null) 
+            {
+                reportType = request.getParameter("reportType");
+            }
+            String reportDuration = "";
+            if (request.getParameter("reportDuration") != null) 
+            {
+                reportDuration = request.getParameter("reportDuration");
+            }
+            
+            if (request.getParameter("year") != null) {
+                year = request.getParameter("year");
+                                                      }
+            
+            
+ Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
+  
+  String facilitiestable="subpartnera";
+  
+  int selectedyear=new Integer(year);
+  
+  if(selectedyear<currentyear){
+      
+      if(selectedyear<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+ 
+            
+            
+            
+            if (request.getParameter("facility") != null && reportType.equals("2")) {
+                try {
+                    facil = request.getParameter("facility");
+                    
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
+                    conn.rs = conn.st.executeQuery(getfacil);
+                    
+                    while (conn.rs.next()) {
+                        
+                        header += " FACILITY : " + conn.rs.getString(1).toUpperCase() + "     MFL CODE  :  " + conn.rs.getString(2) + "  ";
+                        
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            if (request.getParameter("county") != null && reportType.equals("2")) {
+                try {
+                    county = request.getParameter("county");
+                    
+                    String getcounty = "select County from county where CountyID='" + county + "'";
+                    conn.rs = conn.st.executeQuery(getcounty);
+                    
+                    while (conn.rs.next()) {
+                        
+                        header += " COUNTY : " + conn.rs.getString(1).toUpperCase() + " ";
+                        
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            if (request.getParameter("month") != null && reportDuration.equals("4")) {
+                try {
+                    month = request.getParameter("month");
+                    
+                    String getmonth = "select name as monthname from month where id='" + month + "'";
+                    conn.rs = conn.st.executeQuery(getmonth);
+                    
+                    while (conn.rs.next()) {
+                        
+                        header += " MONTH : " + conn.rs.getString(1).toUpperCase() + "";
+                        
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            header += " YEAR : " + year + "";
+            
+            String facilitywhere = "";
+            String yearwhere = "";
+            String monthwhere = "";
+            String countywhere = "";
+            String duration = "";
+            String semi_annual = "";
+            String quarter = "";
+            String eidduration="";
+            String excelDuration;
+            //==================================================================================================
+            //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            int yearcopy = Integer.parseInt(year);
+            
+//        reportType="2";
+//        year=2015;
+//        reportDuration="3";
+            String yearmonth = "" + year;
+            int prevYear = yearcopy - 1;
+            int maxYearMonth = 0;
+            int monthcopy = 0;
+//        GET REPORT DURATION============================================
+            //annually
+            if (reportDuration.equals("1")) {
+                yearmonth = "Annual Report For " + year;
+                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
+                eidduration="year='"+year+"'";
+            } else if (reportDuration.equals("2")) {
+                semi_annual = request.getParameter("semi_annual");
+//        semi_annual="2";
+                if (semi_annual.equals("1")) {
+                    yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
+                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
+                     eidduration="year='"+year+"' and (quarter='1' || quarter='2') ";
+                } else {
+                    yearmonth = "Semi Annual Report for Apr to  Sep " + year;
+                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
+                     eidduration="year='"+year+"' and (quarter='2' || quarter='3') ";
+                }
+            } else if (reportDuration.equals("3")) {
+                try {
+                    
+                    //quarterly
+                    String startMonth, endMonth;
+                    quarter = request.getParameter("quarter");
+                    //       quarter="3";
+                    
+                     eidduration="year='"+year+"' and quarter='"+quarter+"'  ";
+                     
+                    String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
+                    conn.rs = conn.st.executeQuery(getMonths);
+                    if (conn.rs.next() == true) {
+                        
+                        try {
+                            String months[] = conn.rs.getString(1).split(",");
+                            startMonth = months[0];
+                            endMonth = months[2];
+                            if (quarter.equals("1")) {
+                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
+                                yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
+                            } else {
+                                yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
+                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (reportDuration.equals("4")) {
+                //on monthly reports, i dont expect any output since viral load is entered quarterly
+                monthcopy = Integer.parseInt(request.getParameter("month"));
+                
+                //since we dont want data to appear for monthly reports, we set an impossible 
+                eidduration=" 1=2 "; 
+//     month=5;
+                if (monthcopy >= 10) {
+                    
+                    yearmonth = "Monthly Report For " + prevYear + "_(" + month + ")";
+                    duration = "1=2";// this will make the report not output any data which is what i wanted
+                } 
+                else {
+                    duration = " 1=2"; // this will make the report not output any data which is what i wanted
+                    yearmonth = "Monthly Report For " + year + "_(" + month + ")";
+                }
+            }
+            else {
+                duration = "";
+                
+            }
+            
+            //======================================================================
+//==================================================================================================
+            //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+            String subcountywhere = "";
+            
+            String subcounty = "";
+            
+            if (!request.getParameter("subcounty").equals("")) {
+                
+                subcounty = request.getParameter("subcounty");
+                
+            }
+            
+            String getexistingdata = "";
+            
+            if (!county.equals("")) {
+                
+                countywhere = " and district.countyid = '" + county + "'";
+                
+            }
+            
+            if (!subcounty.equals("")) {
+                
+                subcountywhere = " and "+facilitiestable+".DistrictID = '" + subcounty + "'";
+                
+            }
+            
+            if (!facil.equals("")) {
+                
+                facilitywhere = " and pmtct_art.SubPartnerID = '" + facil + "'";
+                
+            }
+            
+            String joinedwhwere = " where 1=1 " + yearwhere + " && " + eidduration + " " + countywhere + " " + subcountywhere;
+           //old eid format 
+            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
+//            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode "
+//           + ",sum(less1_ftes) as less1_ftes"
+//           + ", sum(1to4_ftes) as 1to4_ftes"
+//           + ", sum(less1_mtes) as less1_mtes"
+//           + ", sum(1to4_mtes) as 1to4_mtes  "
+//           + ",	sum(less1_fpos) as less1_fpos"
+//           + ",	sum(1to4_fpos) as 1to4_fpos"
+//           + ", sum(less1_mpos) as less1_mpos"
+//           + ", sum(1to4_mpos) as 1to4_mpos"
+//           + ", sum(less1_fneg) as less1_fneg"
+//           + ", sum(1to4_fneg) as 1to4_fneg"
+//           + ", sum(less1_mneg) as less1_mneg"
+//           + ", sum(1to4_mneg) as 1to4_mneg"
+//           + ", sum(dead) as dead"
+//           + ", sum(enrolled) as enrolled"
+//           + ", sum(ltfu) as ltfu"
+//           + ", sum(other) as other"
+//           + ", sum(tested) as tested"
+//           + ", sum(positive) as positive"
+//           + ", sum(negative) as negative"
+//           + ", sum(hivenrollment) as hivenrollment "
+//           + ",IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
+//            
+//           + " FROM eid_datim join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on eid_datim.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (subpartnera.HTC=1 || subpartnera.PMTCT=1 || subpartnera.VMMC=1) group by subpartnera.SubPartnerID ";
+//            
+       
+            
+            
+             getexistingdata="select pmtct_art.county,pmtct_art.subcounty,  facility,  mflcode,support_type ,"
+                   + " SUM(new_on_art) as New_on_art, "//__Denominator
+                   + " SUM(already_on_art) as Already_On_Art ,  "//__Numerator
+                   + " SUM(total_started_art_at_anc)as Total_Started_ART_at_ANC, " //__HIV_infected
+                   + " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
+           
+           + " FROM pmtct_art join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_art.mflcode = "+facilitiestable+".CentreSanteId   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) group by "+facilitiestable+".SubPartnerID ";
+           
+            
+            
+            System.out.println(getexistingdata);
+              String Tbid=year+"_"+quarter+"_"+facil;
+           // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
+            
+       
+//=====================================================================================================
+//=====================================================================================================    
+//______________________________________________________________________________________
+            //                       NOW CREATE THE WORKSHEETS
+            //______________________________________________________________________________________
+           // HSSFWorkbook wb = new HSSFWorkbook();
+            
+            //______________________________________________________________________________________
+            //______________________________________________________________________________________
+            HSSFFont font = wb.createFont();
+            font.setFontHeightInPoints((short) 12);
+            font.setFontName("Cambria");
+            font.setColor((short) 0000);
+            CellStyle style = wb.createCellStyle();
+            style.setFont(font);
+            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            HSSFFont font2 = wb.createFont();
+            font2.setFontName("Cambria");
+            font2.setColor((short) 0000);
+            CellStyle style2 = wb.createCellStyle();
+            style2.setFont(font2);
+            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            
+            HSSFCellStyle stborder = wb.createCellStyle();
+            stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            HSSFCellStyle stylex = wb.createCellStyle();
+            stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            
+            HSSFFont fontx = wb.createFont();
+            fontx.setColor(HSSFColor.BLACK.index);
+            fontx.setFontName("Cambria");
+             fontx.setBoldweight(Font.BOLDWEIGHT_BOLD);
+            stylex.setFont(fontx);
+            stylex.setWrapText(true);
+            
+            HSSFSheet shet = wb.createSheet("PMTCT ART");
+            
+            
+            int rowpos=0;
+            //create headers for that worksheet
+            HSSFRow rw = shet.createRow(rowpos);
+            rw.setHeightInPoints(25);
+            
+            HSSFCell cl0 = rw.createCell(0);
+            cl0.setCellValue("DATIM PMTCT_ART " + yearmonth);
+            cl0.setCellStyle(stylex);
+           
+            
+            //______header 1 facility details
+            rowpos++;
+            HSSFRow rw1 = shet.createRow(rowpos);
+            rw1.setHeightInPoints(25);
+             for (int a = 0; a < sectionheaders.length; a++) 
+             {
+                HSSFCell clx = rw1.createCell(a);
+                clx.setCellValue(sectionheaders[a]);
+                clx.setCellStyle(stylex);
+                shet.setColumnWidth(a, 3100);
+            }
+            
+//             //______header 2 facility details
+            rowpos++;
+//            HSSFRow rw2 = shet.createRow(rowpos);
+//            rw2.setHeightInPoints(25);
+//                         
+           
+            //do all the merging here as dictated by the merge_row_col array 
+            for (int a = 0; a <merge_row_col.length; a++) {
+             
+                String points[]=merge_row_col[a].split(",");
+                
+           shet.addMergedRegion(new CellRangeAddress(Integer.parseInt(points[0]),Integer.parseInt(points[1]),Integer.parseInt(points[2]),Integer.parseInt(points[3])));
+              
+            }
+           
+            
+            shet.setColumnWidth(0, 5000);
+            
+//add the rows here          
+       
+            
+             conn.rs=conn.st.executeQuery(getexistingdata);
+    
+    
+    while(conn.rs.next()){
+    
+        
+        
+    
+           int colpos=0; 
+           int conpos=1;
+           int loopstart=6;
+               HSSFRow rwx = shet.createRow(rowpos); 
+               rwx.setHeightInPoints(25);
+               
+               //county
+            if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+                //subcounty
+             if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getString(conpos));
+            //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+                 
+                 //facility name
+           if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
+            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+                      }
+                   //mfl
+          if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getInt(conpos));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        } 
+//support type//######################################################################################
+        if (1 == 1) {
+//String supporttype=conn.rs.getString("DSD");
+String supporttype="DSD";
+if(supporttype.equals("")){
+supporttype="DSD";
+}
+            
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(supporttype);
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+ //___   a for loop  
+        
+        for (int e=loopstart;e<=sectionheaders.length;e++)
+        {
+      if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getInt(e));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }               
+              
+        }
+     
+     
+        rowpos++;
+    }
+    //____autofilter______       
+    shet.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(1, rowpos - 1, 0, sectionheaders.length-1));
+
+    //System.out.println("1,"+rowpos+",0,"+colposcopy);
+                        for (int e = 0; e < 4; e++) {
+                            shet.autoSizeColumn(e);
+                        }
+             //Made my life veery simple...
+                shet.setDisplayGridlines(false);
+                shet.createFreezePane(5, 2);            
+            
+     
+     
+ 
+ 
+ 
+ 
+ 
+ }  
+
     
     
     
