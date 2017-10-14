@@ -10,7 +10,6 @@ import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +30,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.json.simple.JSONArray;
 
 /**
  *
@@ -72,7 +72,6 @@ int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
             dbConn conn = new dbConn();
             
             
-             
 
   Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
@@ -929,7 +928,7 @@ int percentage,retentionPOS,errorRETENTION;
 //        reportDuration=request.getParameter("reportDuration");
         
         
-String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Pregnant,Breastfeeding,sub-total,<5,5-14Y,15-19Y,20+Y,<5,5-14Y,15-19Y,20+Y,sub-total,Denominator,Pregnant,Breastfeeding,sub-total,<5,5-14Y,15-19Y,20+Y,<5,5-14Y,15-19Y,20+Y,sub-total,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
+String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of support,12 Months,24 Months,36 Months,Pregnant,Breastfeeding,Sub-total,<1,1-9,subtotal,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,subtotal,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,Subtotal,Sub-Total,12 Months,24 Months,36 Months,Pregnant,Breastfeeding,Sub-total,<1,1-9,subtotal,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,subtotal,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,Subtotal,Sub-Total,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
  percentage=81;
         
 //              year=2015;
@@ -1130,14 +1129,14 @@ HSSFRow  rw0shetRETENTION=shetRETENTION.createRow(0);
     }
  
  c1=rw0shetRETENTION.getCell(5);
- c1.setCellValue("NO. STILL ALIVE AND ON TREATMENT 12 MONTHS AFTER INITIATING ART"); 
+ c1.setCellValue("Number of adults and children who are still alive and on treatment at 12, 24 and 36 months after initiating ART"); 
  
  
- c1=rw0shetRETENTION.getCell(18);
- c1.setCellValue("NO. INITIATED ART IN 12 MONTHS PRIOR TO THE BEGINNING OF REPORTING PERIOD, DIED, STOPPED ART AND LOST TO FOLLOW-UPS."); 
+ c1=rw0shetRETENTION.getCell(27);
+ c1.setCellValue("Total Number of Adults and children who initiated ART in the 12, 24, and 36 months prior to the beginning of the reporting period, including those who have died, those who have stopped ART and those lost to follow-up"); 
  
-  shetRETENTION.addMergedRegion(new CellRangeAddress(0,0,5,17));
-  shetRETENTION.addMergedRegion(new CellRangeAddress(0,0,18,30));
+  shetRETENTION.addMergedRegion(new CellRangeAddress(0,0,5,26));
+  shetRETENTION.addMergedRegion(new CellRangeAddress(0,0,27,48));
  
  HSSFRow  rw1shetRETENTION=shetRETENTION.createRow(1);
   rw1shetRETENTION.setHeightInPoints(30);
@@ -1145,50 +1144,58 @@ HSSFRow  rw0shetRETENTION=shetRETENTION.createRow(0);
         c1=rw1shetRETENTION.createCell(j);
          c1.setCellStyle(styleHeader);
     }
- c1=rw1shetRETENTION.getCell(9);
+ c1=rw1shetRETENTION.getCell(10);
  c1.setCellValue("DISAGGREGATED BY AGE AND SEX"); 
  
- c1=rw1shetRETENTION.getCell(22);
+ c1=rw1shetRETENTION.getCell(33);
  c1.setCellValue("DISAGGREGATED BY AGE AND SEX"); 
 
-   shetRETENTION.addMergedRegion(new CellRangeAddress(1,1,9,17));
-  shetRETENTION.addMergedRegion(new CellRangeAddress(1,1,22,30)); 
+   shetRETENTION.addMergedRegion(new CellRangeAddress(1,1,10,26));
+  shetRETENTION.addMergedRegion(new CellRangeAddress(1,1,33,48)); 
   
   HSSFRow  rw2shetRETENTION=shetRETENTION.createRow(2);
   rw2shetRETENTION.setHeightInPoints(30);
  for(int j=0;j<headerRETENTION.length;j++){
         c1=rw2shetRETENTION.createCell(j);
          c1.setCellStyle(styleHeader);
-         if(j<=5 || j==17 || j==18 || j==30){
-        String headerInfor=headerRETENTION[j];
-         c1.setCellValue(headerInfor);
-         }
+//         if(j<=5 || j==17 || j==18 || j==30){
+//        String headerInfor=headerRETENTION[j];
+//         c1.setCellValue(headerInfor);
+//         }
     }
-  c1=rw2shetRETENTION.getCell(6);
- c1.setCellValue("DISAGGREGATED BY "); 
+  c1=rw2shetRETENTION.getCell(8);
+ c1.setCellValue("Disaggregated by "); 
  
- c1=rw2shetRETENTION.getCell(9);
- c1.setCellValue("FEMALE"); 
+ c1=rw2shetRETENTION.getCell(11);
+ c1.setCellValue("Under 10"); 
  
- c1=rw2shetRETENTION.getCell(13);
- c1.setCellValue("MALE"); 
+  c1=rw2shetRETENTION.getCell(14);
+ c1.setCellValue("Female"); 
  
-   c1=rw2shetRETENTION.getCell(19);
- c1.setCellValue("DISAGGREGATED BY "); 
+ c1=rw2shetRETENTION.getCell(20);
+ c1.setCellValue("Male"); 
  
- c1=rw2shetRETENTION.getCell(22);
- c1.setCellValue("FEMALE"); 
+   c1=rw2shetRETENTION.getCell(30);
+ c1.setCellValue("Disaggregated by "); 
  
- c1=rw2shetRETENTION.getCell(26);
- c1.setCellValue("MALE"); 
+ c1=rw2shetRETENTION.getCell(33);
+ c1.setCellValue("Under 10"); 
+ 
+ c1=rw2shetRETENTION.getCell(36);
+ c1.setCellValue("Female"); 
+ 
+ c1=rw2shetRETENTION.getCell(42);
+ c1.setCellValue("Male"); 
  
  
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,6,7));
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,9,12)); 
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,13,16));
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,19,20)); 
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,22,25));
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,26,29)); 
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,8,10));
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,11,13)); 
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,14,19));
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,20,25)); 
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,30,32));
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,33,35)); 
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,36,41)); 
+  shetRETENTION.addMergedRegion(new CellRangeAddress(2,2,42,47)); 
   
   
   HSSFRow  rw3shetRETENTION=shetRETENTION.createRow(3);
@@ -1200,12 +1207,12 @@ HSSFRow  rw0shetRETENTION=shetRETENTION.createRow(0);
          c1.setCellValue(headerInfor);
          c1.setCellStyle(styleHeader);
     }
- for (int i=0;i<=5;i++){
-shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,i,i));     
+ for (int i=0;i<=4;i++){
+//shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,i,i));     
  }  
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,17,17)); 
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,18,18));
-  shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,30,30)); 
+//  shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,17,17)); 
+//  shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,18,18));
+//  shetRETENTION.addMergedRegion(new CellRangeAddress(2,3,30,30)); 
   
   
          //BEFORE WHILE LOOP
@@ -1249,239 +1256,192 @@ ArrayList staticpmtct_hv= new ArrayList();
   
   
 // GET STARTING ART DATA
- 
- retentionPOS=3;
- String getData="SELECT "+facilitiestable+".SubPartnerNom,district.DistrictNom,county.County,"
-            + ""+facilitiestable+".CentreSanteId,ART_Support,"
-           // + "SUM(HV0320),SUM(HV0321),SUM(HV0322),SUM(HV0323),SUM(HV0324),SUM(HV0325) "
-            + "SUM(HV0349) as HV0349,SUM(HV0345) as HV0345 ,ART_highvolume, HTC_highvolume,PMTCT_highvolume"
-            + " FROM moh731 JOIN "+facilitiestable+" "
-            + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
-            + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
-          + "district.CountyID=county.CountyID"
-            + " WHERE "
-    + " "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 ) && ART_Support is not NULL "
-            + "GROUP BY moh731.SubPartnerID " ;
-       
-     System.out.println("!!!!: "+getData);
-    conn.rs=conn.st.executeQuery(getData);
-    while(conn.rs.next()){
-        
-        
-        	 //INSIDE WHILE LOOP
-	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	 
-        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
-        
-        //get the index of the current facility
-        int mflindex=staticmfl.indexOf(conn.rs.getString("CentreSanteId"));
-        
-        if(mflindex!=-1) {        
-           //remove the element from the arraylist 
-             staticfacility.remove(mflindex);
-             staticcounty.remove(mflindex);
-             staticdistrict.remove(mflindex);
-             staticmfl.remove(mflindex);
-             staticdsd_ta.remove(mflindex);
-             staticart_hv.remove(mflindex);
-statichtc_hv.remove(mflindex);
-staticpmtct_hv.remove(mflindex);
-        
-                        }
-        
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        
-     String arthv=" ";
-     String htchv=" ";
-     String pmtcthv=" ";
-     
-      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
-      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
-      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
-        
-        
-        retentionPOS++;errorRETENTION=0;
-      facilityName=conn.rs.getString(1);
-      districtName=conn.rs.getString(2);
-      countyName=conn.rs.getString(3);
-      mflcode=conn.rs.getString(4);
-      ARTSupport=conn.rs.getString(5);
-      
- //HV0321=conn.rs.getInt(6);
- //HV0322=conn.rs.getInt(7);
- //HV0323=conn.rs.getInt(8);
- //HV0324=conn.rs.getInt(9);
- //HV0325=conn.rs.getInt(10);
- 
-    int numerator=conn.rs.getInt("HV0349");
-    int denominator=conn.rs.getInt("HV0345");
- 
- SA_F_Paeds=(float)Math.round((percentage*HV0322)/100);
- SA_F_Adult=(float)Math.round((percentage*HV0324)/100);
- 
- SA_M_Paeds=(float)Math.round((percentage*HV0321)/100);
- SA_M_Adult=(float)Math.round((percentage*HV0323)/100);
 
- IA_F_Paeds=(float)Math.round((percentage*HV0322)/100);
- IA_F_Adult=(float)Math.round((percentage*HV0324)/100);
- 
- IA_M_Paeds=(float)Math.round((percentage*HV0321)/100);
- IA_M_Adult=(float)Math.round((percentage*HV0323)/100);
- 
- 
-SA_5F=(float)Math.round(0*numerator); 
-SA_14F=(float)Math.round(0.035*numerator);
-SA_19F=(float)Math.round(0.002*numerator); 
-SA_20F=(float)Math.round(0.653*numerator);
+//Retention both numerator and denominator From oct 2017
+if(1==1){
+int new_retentionPOS=0;
+ new_retentionPOS=retentionPOS=3;
+// numerator
+    String getNumerator="  " +
+"  SELECT " + facilitiestable + ".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
+""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
+"ROUND(SUM(HV0349)) AS retention_12months,  " +
+"0 AS retention_24months,  " +
+"0 AS retention_36months,  " +
+"ROUND(SUM(tl_12m)) AS pregnant,  " +
+"0 AS breastfeeding,  " +
+"ROUND(SUM(HV0349*0.01)) as f_1, " +
+"ROUND(SUM(HV0349*0.01)) as m_1, " +
+"ROUND(SUM(HV0349*0.02)) as f_9, " +
+"ROUND(SUM(HV0349*0.07)) as m_9, " +
+"ROUND(SUM(HV0349*0.02)) as f_14, " +
+"ROUND(SUM(HV0349*0.05)) as f_19, " +
+"ROUND(SUM(HV0349*0.08)) as f_24, " +
+"ROUND(SUM(HV0349*0.41)) as f_49, " +
+"ROUND(SUM(HV0349*0.06)) as f_50, " +
+"ROUND(SUM(HV0349*0.01)) as m_14, " +
+"ROUND(SUM(HV0349*0.07)) as m_19, " +
+"ROUND(SUM(HV0349*0.02)) as m_24, " +
+"ROUND(SUM(HV0349*0.15)) as m_49, " +
+"ROUND(SUM(HV0349*0.05)) as m_50 " +
+" FROM internal_system.moh731  " +
+" JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
+"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
+"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
+"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
+" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
+"AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  " +
+" GROUP BY internal_system.moh731.SubPartnerID  " +
+"  " +
+"	UNION " +
+"     " +
+" SELECT "+facilitiestable+".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
+""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
+"ROUND(SUM(HV0345)) AS retention_12months,  " +
+"0 AS retention_24months,  " +
+"0 AS retention_36months,  " +
+"0 AS pregnant,  " +
+"0 AS breastfeeding,  " +
+"ROUND(SUM(HV0345*0.01)) as f_1, " +
+"ROUND(SUM(HV0345*0.01)) as m_1, " +
+"ROUND(SUM(HV0345*0.02)) as f_9, " +
+"ROUND(SUM(HV0345*0.07)) as m_9, " +
+"ROUND(SUM(HV0345*0.02)) as f_14, " +
+"ROUND(SUM(HV0345*0.05)) as f_19, " +
+"ROUND(SUM(HV0345*0.08)) as f_24, " +
+"ROUND(SUM(HV0345*0.41)) as f_49, " +
+"ROUND(SUM(HV0345*0.06)) as f_50, " +
+"ROUND(SUM(HV0345*0.01)) as m_14, " +
+"ROUND(SUM(HV0345*0.07)) as m_19, " +
+"ROUND(SUM(HV0345*0.02)) as m_24, " +
+"ROUND(SUM(HV0345*0.15)) as m_49, " +
+"ROUND(SUM(HV0345*0.05)) as m_50 " +
+" FROM moh731 JOIN "+facilitiestable+" " +
+"ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID  " +
+"JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON  " +
+"district.CountyID=county.CountyID  " +
+" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 ) and moh731.SubPartnerID NOT IN ( " +
+"SELECT moh731.SubPartnerID " +
+"FROM internal_system.moh731  " +
+"JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
+"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
+"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
+"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
+" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
+" AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  " +
+" GROUP BY internal_system.moh731.SubPartnerID  " +
+" ) " +
+" GROUP BY moh731.SubPartnerID ";   
+     conn.rs=conn.st.executeQuery(getNumerator);
+        while(conn.rs.next()){
 
-SA_5M=(float)Math.round(0.001*numerator); 
-SA_14M=(float)Math.round(0.035*numerator);
-SA_19M=(float)Math.round(0.004*numerator); 
-SA_20M=(float)Math.round(0.26*numerator); 
+         int mflindex=staticmfl.indexOf(conn.rs.getString("CentreSanteId"));
 
-SA_Sub1= SA_BF+SA_PG;
-double numeratorverify=Math.round(SA_5F+SA_14F+SA_19F+SA_20F+SA_5M+SA_14M+SA_19M+SA_20M);
+            if(mflindex!=-1) {        
+               //remove the element from the arraylist 
+                 staticfacility.remove(mflindex);
+                 staticcounty.remove(mflindex);
+                 staticdistrict.remove(mflindex);
+                 staticmfl.remove(mflindex);
+                 staticdsd_ta.remove(mflindex);
+                 staticart_hv.remove(mflindex);
+                statichtc_hv.remove(mflindex);
+                staticpmtct_hv.remove(mflindex);
 
-SA_Sub2= numerator; //???????????
-SA_Numerator=numerator; 
+                            } 
 
-IA_5F=(float)Math.round(0*denominator); 
-IA_14F=(float)Math.round(0.035*denominator);
-IA_19F=(float)Math.round(0.002*denominator); 
-IA_20F=(float)Math.round(0.653*denominator);
+            String arthv=" ";
+         String htchv=" ";
+         String pmtcthv=" ";
 
-IA_5M=(float)Math.round(0.01*denominator); 
-IA_14M=(float)Math.round(0.035*denominator);
-IA_19M=(float)Math.round(0.004*denominator); 
-IA_20M=(float)Math.round(0.26*denominator); 
-
-double denominatorverify=Math.round(IA_5F+IA_14F+IA_19F+IA_20F+IA_5M+IA_14M+IA_19M+IA_20M);
-
-IA_Sub1= denominator;
-
-IA_Sub2=denominator;
-
-IA_Denominator=denominator; 
-//Normalizer code here========================================================================
-
-//Normalize NUMERATOR
+          if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+          if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+          if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
 
 
-//do normalization for the tested
-  // if the two are not equal, do a distribution
-  double tofauti=0;
-  if(numeratorverify<numerator){
-     tofauti=numerator-numeratorverify;
-      System.out.println("****TOFAUTI NI "+tofauti);
-     if(tofauti>5){
-     //raise an alarm
-   errorRETENTION++;
-     }
-  //add to the male first until equal
-        //
-        while(tofauti>0){ 
-            //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
- SA_20F+=1; 
- tofauti--;
- if(tofauti!=0){
- SA_20F+=1; 
- tofauti--;
- }
-  if(tofauti!=0){
- SA_20M+=1; 
- tofauti--;
- }
-}//end of while tofauti
-  
-  }
-  else if(numeratorverify>numerator) {
-      
-       if(tofauti>2){
-     //raise an alarm
-   errorRETENTION++;
-     }
-  //minus  until equal
-    tofauti=numeratorverify-numerator;
-  //add to the groupings with the larger percentage until equal
-        //25-49
-        while(tofauti>0){ 
-           //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
- SA_20F-=1; 
- tofauti--;
- if(tofauti!=0){
- SA_20F-=1; 
- tofauti--;
- }
-  if(tofauti!=0){
- SA_20M-=1; 
- tofauti--;
- }
-                       }
-  } //end of else 
-  
-  
+            retentionPOS++;
+            errorRETENTION=0;
+          facilityName=conn.rs.getString(1);
+          districtName=conn.rs.getString(2);
+          countyName=conn.rs.getString(3);
+          mflcode=conn.rs.getString(4);
+          ARTSupport=conn.rs.getString(5);
 
-//________________________do normalization for the denominator
-  
-  if(denominatorverify<denominator){
-     tofauti=denominator-denominatorverify;
-      System.out.println("****TOFAUTI NI "+tofauti);
-     if(tofauti>5){
-     //raise an alarm
-   errorRETENTION++;
-     }
-  //add to the male first until equal
-        //
-        while(tofauti>0){ 
-            //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
- IA_20F+=1; 
- tofauti--;
- if(tofauti!=0){
- IA_20F+=1; 
- tofauti--;
- }
-  if(tofauti!=0){
- IA_20M+=1; 
- tofauti--;
- }
-}//end of while tofauti
-  
-  }
-  else if(denominatorverify>denominator) {
-      
-       if(tofauti>2){
-     //raise an alarm
-   errorRETENTION++;
-     }
-  //minus  until equal
-    tofauti=denominatorverify-denominator;
-  //add to the groupings with the larger percentage until equal
-        //25-49
-        while(tofauti>0){ 
-           //distribute the extras in the ratios of 2:1 for SA_20F:SA_20M
- IA_20F-=1; 
- tofauti--;
- if(tofauti!=0){
- IA_20F-=1; 
- tofauti--;
- }
-  if(tofauti!=0){
- IA_20M-=1; 
- tofauti--;
- }
-                       }
-  } //end of else 
-  
-  
+     //HV0321=conn.rs.getInt(6);
+     //HV0322=conn.rs.getInt(7);
+     //HV0323=conn.rs.getInt(8);
+     //HV0324=conn.rs.getInt(9);
+     //HV0325=conn.rs.getInt(10);
 
+        int numerator=conn.rs.getInt("retention_12months");
+        int num_24 = conn.rs.getInt("retention_24months");
+        int num_36 = conn.rs.getInt("retention_36months");
+        int pregnant= conn.rs.getInt("pregnant");
+        int breastfeeding = conn.rs.getInt("breastfeeding");
 
+        int f_1,m_1,f_9,m_9,f_14,f_19,f_24,f_49,f_50,m_14,m_19,m_24,m_49,m_50;
+            f_1 = conn.rs.getInt("f_1");
+            m_1 = conn.rs.getInt("m_1");
+            f_9 = conn.rs.getInt("f_9");
+            m_9 = conn.rs.getInt("m_9");
+            f_14 = conn.rs.getInt("f_14");
+            f_19 = conn.rs.getInt("f_19");
+            f_24 = conn.rs.getInt("f_24");
+            f_49 = conn.rs.getInt("f_49");
+            f_50 = conn.rs.getInt("f_50");
+            m_14 = conn.rs.getInt("m_14");
+            m_19 = conn.rs.getInt("m_19");
+            m_24 = conn.rs.getInt("m_24");
+            m_49 = conn.rs.getInt("m_49");
+            m_50 = conn.rs.getInt("m_50");
 
-String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+SA_Numerator+","
-           + ""+SA_PG+","+SA_BF+","+SA_Sub1+","+SA_5F+","
-           + ""+SA_14F+","+SA_19F+","+SA_20F+","+SA_5M+","+SA_14M+","+SA_19M+","+SA_20M+","+SA_Sub2+","
-           + ""+IA_Denominator+","+IA_PG+","+IA_BF+","+IA_Sub1+","+IA_5F+","+IA_14F+","
-           + ""+IA_19F+","+IA_20F+","+IA_5M+","+IA_14M+","+IA_19M+","+IA_20M+","+IA_Sub2+",status"+","+arthv+","+htchv+","+pmtcthv).split(","); 
+            int newsummed = f_1+m_1+f_9+m_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50;
+
+            if(newsummed>numerator){
+                int rounds=newsummed-numerator;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                  if(counter<5){
+                  f_49--;    
+                  }
+                  else if(counter==5){
+                  m_49--;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+          else  if(newsummed<numerator){
+                int rounds=numerator-newsummed;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                  if(counter<5){
+                  f_49++;    
+                  }
+                  else if(counter==5){
+                  m_49++;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+
+          else{
+    //          They are equal hence no normalization
+          }
+      int  total_1_9 = m_1+m_9+f_1+f_9;    
+    //     completed normalization
+int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50;
+            System.out.println("initial totals:"+newsummed+" final summed : "+sumedtotalsafter+" fetched total : "+numerator);
+    // create row and add data
+    String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+numerator+","+num_24+","+num_36+","
+           + ""+pregnant+","+breastfeeding+","+(pregnant+breastfeeding)+","
+           + ""+(f_1+m_1)+","+(f_9+m_9)+","+total_1_9+","+f_14+","+f_19+","+f_24+","+f_49+","+f_50+","+(f_14+f_19+f_24+f_49+f_50)+","
+           + ""+m_14+","+m_19+","+m_24+","+m_49+","+m_50+","+(m_14+m_19+m_24+m_49+m_50)+","+(total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50)).split(","); 
 
   HSSFRow rw4shetRETENTION=shetRETENTION.createRow(retentionPOS); 
        rw4shetRETENTION.setHeightInPoints(25);
@@ -1489,9 +1449,213 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        {
        String value=dataRETENTION[positionRETENTION];
        HSSFCell    c11=rw4shetRETENTION.createCell(positionRETENTION);
-        if(positionRETENTION>4 && positionRETENTION<(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+        if(positionRETENTION>4){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
-          if(positionRETENTION==5 || positionRETENTION==8 || positionRETENTION==17 || positionRETENTION==18 || positionRETENTION==21 || positionRETENTION==30){ c11.setCellStyle(styleHeader);}
+//          if(positionRETENTION==5 || positionRETENTION==8 || positionRETENTION==17 || positionRETENTION==18 || positionRETENTION==21 || positionRETENTION==30){ c11.setCellStyle(styleHeader);}
+//          System.out.println("position "+positionPMTCT+" end v : "+dataPMTCT.length); 
+       }
+        }  
+        
+        
+        
+        
+        
+        
+        int initial_colpos=27;
+ //denominator 
+String getDenominator="  " +
+"  SELECT "+facilitiestable+".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
+""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
+"ROUND(SUM(HV0345)) AS retention_12months,  " +
+"0 AS retention_24months,  " +
+"0 AS retention_36months,  " +
+"ROUND(SUM(tl_12m)) AS pregnant,  " +
+"0 AS breastfeeding,  " +
+"ROUND(SUM(HV0345*0.0091)) as f_1, " +
+"ROUND(SUM(HV0345*0.0058)) as m_1, " +
+"ROUND(SUM(HV0345*0.0347)) as f_9, " +
+"ROUND(SUM(HV0345*0.0281)) as m_9, " +
+"ROUND(SUM(HV0345*0.0132)) as f_14, " +
+"ROUND(SUM(HV0345*0.0285)) as f_19, " +
+"ROUND(SUM(HV0345*0.0819)) as f_24, " +
+"ROUND(SUM(HV0345*0.4205)) as f_49, " +
+"ROUND(SUM(HV0345*0.0575)) as f_50, " +
+"ROUND(SUM(HV0345*0.0099)) as m_14, " +
+"ROUND(SUM(HV0345*0.0062)) as m_19, " +
+"ROUND(SUM(HV0345*0.0141)) as m_24, " +
+"ROUND(SUM(HV0345*0.2418)) as m_49, " +
+"ROUND(SUM(HV0345*0.0488)) as m_50 " +
+" FROM internal_system.moh731  " +
+" JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
+"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
+"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
+"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
+" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
+" AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  " +
+" GROUP BY internal_system.moh731.SubPartnerID  " +
+"  " +
+"	UNION " +
+"     " +
+" SELECT "+facilitiestable+".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
+""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
+"ROUND(SUM(HV0345)) AS retention_12months,  " +
+"0 AS retention_24months,  " +
+"0 AS retention_36months,  " +
+"0 AS pregnant,  " +
+"0 AS breastfeeding,  " +
+"ROUND(SUM(HV0345*0.0091)) as f_1, " +
+"ROUND(SUM(HV0345*0.0058)) as m_1, " +
+"ROUND(SUM(HV0345*0.0347)) as f_9, " +
+"ROUND(SUM(HV0345*0.0281)) as m_9, " +
+"ROUND(SUM(HV0345*0.0132)) as f_14, " +
+"ROUND(SUM(HV0345*0.0285)) as f_19, " +
+"ROUND(SUM(HV0345*0.0819)) as f_24, " +
+"ROUND(SUM(HV0345*0.4205)) as f_49, " +
+"ROUND(SUM(HV0345*0.0575)) as f_50, " +
+"ROUND(SUM(HV0345*0.0099)) as m_14, " +
+"ROUND(SUM(HV0345*0.0062)) as m_19, " +
+"ROUND(SUM(HV0345*0.0141)) as m_24, " +
+"ROUND(SUM(HV0345*0.2418)) as m_49, " +
+"ROUND(SUM(HV0345*0.0488)) as m_50 " +
+" FROM moh731 JOIN "+facilitiestable+" " +
+"ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID  " +
+"JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON  " +
+"district.CountyID=county.CountyID  " +
+" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 ) and moh731.SubPartnerID NOT IN ( " +
+"SELECT moh731.SubPartnerID " +
+"FROM internal_system.moh731  " +
+"JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
+"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
+"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
+"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
+" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
+" AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  " +
+" GROUP BY internal_system.moh731.SubPartnerID  " +
+" ) " +
+" GROUP BY moh731.SubPartnerID ";
+
+     conn.rs=conn.st.executeQuery(getDenominator);
+        while(conn.rs.next()){
+
+         int mflindex=staticmfl.indexOf(conn.rs.getString("CentreSanteId"));
+
+            if(mflindex!=-1) {        
+               //remove the element from the arraylist 
+                 staticfacility.remove(mflindex);
+                 staticcounty.remove(mflindex);
+                 staticdistrict.remove(mflindex);
+                 staticmfl.remove(mflindex);
+                 staticdsd_ta.remove(mflindex);
+                 staticart_hv.remove(mflindex);
+                statichtc_hv.remove(mflindex);
+                staticpmtct_hv.remove(mflindex);
+
+                            } 
+
+            String arthv=" ";
+         String htchv=" ";
+         String pmtcthv=" ";
+
+          if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
+          if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
+          if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
+
+
+            new_retentionPOS++;
+            errorRETENTION=0;
+          facilityName=conn.rs.getString(1);
+          districtName=conn.rs.getString(2);
+          countyName=conn.rs.getString(3);
+          mflcode=conn.rs.getString(4);
+          ARTSupport=conn.rs.getString(5);
+
+     //HV0321=conn.rs.getInt(6);
+     //HV0322=conn.rs.getInt(7);
+     //HV0323=conn.rs.getInt(8);
+     //HV0324=conn.rs.getInt(9);
+     //HV0325=conn.rs.getInt(10);
+
+        int denominator=conn.rs.getInt("retention_12months");
+        int den_24 = conn.rs.getInt("retention_24months");
+        int den_36 = conn.rs.getInt("retention_36months");
+        int pregnant= conn.rs.getInt("pregnant");
+        int breastfeeding = conn.rs.getInt("breastfeeding");
+
+        int f_1,m_1,f_9,m_9,f_14,f_19,f_24,f_49,f_50,m_14,m_19,m_24,m_49,m_50;
+            f_1 = conn.rs.getInt("f_1");
+            m_1 = conn.rs.getInt("m_1");
+            f_9 = conn.rs.getInt("f_9");
+            m_9 = conn.rs.getInt("m_9");
+            f_14 = conn.rs.getInt("f_14");
+            f_19 = conn.rs.getInt("f_19");
+            f_24 = conn.rs.getInt("f_24");
+            f_49 = conn.rs.getInt("f_49");
+            f_50 = conn.rs.getInt("f_50");
+            m_14 = conn.rs.getInt("m_14");
+            m_19 = conn.rs.getInt("m_19");
+            m_24 = conn.rs.getInt("m_24");
+            m_49 = conn.rs.getInt("m_49");
+            m_50 = conn.rs.getInt("m_50");
+
+            int newsummed = f_1+m_1+f_9+m_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50;
+
+            if(newsummed>denominator){
+                int rounds=newsummed-denominator;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                  if(counter<5){
+                  f_49--;    
+                  }
+                  else if(counter==5){
+                  m_49--;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+          else  if(newsummed<denominator){
+                int rounds=denominator-newsummed;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                  if(counter<5){
+                  f_49++;    
+                  }
+                  else if(counter==5){
+                  m_49++;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+
+          else{
+    //          They are equal hence no normalization
+          }
+      int  total_1_9 = m_1+m_9+f_1+f_9;    
+    //     completed normalization
+    int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50;
+    System.out.println("initial totals:"+newsummed+" final summed : "+sumedtotalsafter+" fetched total : "+denominator);
+    // create row and add data
+    String dataRETENTION []=(denominator+","+den_24+","+den_36+","
+           + ""+pregnant+","+breastfeeding+","+(pregnant+breastfeeding)+","
+           + ""+(f_1+m_1)+","+(f_9+m_9)+","+total_1_9+","+f_14+","+f_19+","+f_24+","+f_49+","+f_50+","+(f_14+f_19+f_24+f_49+f_50)+","
+           + ""+m_14+","+m_19+","+m_24+","+m_49+","+m_50+","+(m_14+m_19+m_24+m_49+m_50)+","+(total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50)+"," 
+           + "status"+","+arthv+","+htchv+","+pmtcthv).split(","); 
+
+  HSSFRow rw4shetRETENTION=shetRETENTION.getRow(new_retentionPOS); 
+       rw4shetRETENTION.setHeightInPoints(25);
+       for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++)
+       {
+       String value=dataRETENTION[positionRETENTION];
+       HSSFCell c11=rw4shetRETENTION.createCell(positionRETENTION+initial_colpos);
+        if(positionRETENTION<(dataRETENTION.length-4) || positionRETENTION>(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+//        c11.setCellValue(value);
+         c11.setCellStyle(stborder);
+//          if(positionRETENTION==5 || positionRETENTION==8 || positionRETENTION==17 || positionRETENTION==18 || positionRETENTION==21 || positionRETENTION==30){ c11.setCellStyle(styleHeader);}
 //          System.out.println("position "+positionPMTCT+" end v : "+dataPMTCT.length); 
        if(positionRETENTION==dataRETENTION.length-4){
 //           System.out.println("entered here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -1499,135 +1663,27 @@ String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcod
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
        }
+             
+
+        } 
+  // ouput the values      
         
-    }
+}   
+        }
     
-        
-        
- 
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- retentionPOS++;
-    HSSFRow rwx=null;                     
- for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
-     
-  rwx=shetRETENTION.createRow(retentionPOS);  
- rwx.setHeightInPoints(23);  
- retentionPOS++;
- for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
- //create a row
-  if(z==0){
-    //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(stborder);
-  }
-  else if(z==1){
-    //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(stborder);
-  }
-  else if(z==2){
-   //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(stborder);
-  }
-  else if(z==3){
-   //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(staticmfl.get(a).toString());
-   cellmfl.setCellStyle(stborder);
-  }
-   
-  else if(z==4){
-  //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(stborder);
-   
-        }
-else if(z==blankrows-4){
-  //data status
-   HSSFCell celldsd=rwx.createCell(blankrows-4); 
-   celldsd.setCellValue("NO DATA");
-   celldsd.setCellStyle(stborder);
-   
-        }
-                 	 else if(z==blankrows-3){
-  //art high volume site
-   HSSFCell celldsd=rwx.createCell(blankrows-3); 
-   celldsd.setCellValue(staticart_hv.get(a).toString());
-   celldsd.setCellStyle(stborder);
-   
-        }
-                         
-                        else if(z==blankrows-2){
-  //ht high volume site
-   HSSFCell celldsd=rwx.createCell(blankrows-2); 
-   celldsd.setCellValue(statichtc_hv.get(a).toString());
-   celldsd.setCellStyle(stborder);
-   
-        }
-                        
-                        else if(z==blankrows-1){
-  //pmtct high volume site
-   HSSFCell celldsd=rwx.createCell(blankrows-1); 
-   celldsd.setCellValue(staticpmtct_hv.get(a).toString());
-   celldsd.setCellStyle(stborder);
-   
-                                                  }
-  else {
-                     
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(stborder);
-   
-  
-  }//end of else
-  
- }//end of inner loop                    
- } //end of outer loop                    
-                     
-  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-        
-        
-        
-        
-        
-        
-        }
-        
-        
-        
-        
-        
-        
-    if(2==2){    
-        
                
   //=============================VIRAL LOAD============================================
-        
+     if(1==1){       
         
             String month = "";
             String year = "";
             String facil = "361";
-            String form = "moh711";
+            String form = "vl_validation";
             
 //=====================================================================================================
             year = "2015";
             month = "5";
             String county = "";
-            String header = "";
-            
-            
-            
-            String subheaders[]={"Tested","Positive","Negative"};
-            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Numerator","Denominator","<1","1-4","5-14","15-19","20+","<1","1-4","5-14","15-19","20+","Sub- Total","Numerator","Denominator","<1","1-4","5-14","15-19","20+","<1","1-4","5-14","15-19","20+","Sub-Total","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            String sectionheaders0[]={"","","","","","No. Of Viral load tests conducted in the past 12 months with < 1000","No. of load tests performed in the reporting period","Female","","","","","Male","","","","","","No. of ART patients with viral load result documented within the past 12 months","No. on ART at least 6 months whose medical records were reviewed by Age and Sex","Female","","","","","Male","","","","","Sub-Total","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
-            String merge_row_col[]={"0,1,0,4","0,1,5,5","0,1,6,6","0,0,7,17","0,1,18,18","0,1,19,19","0,0,20,30","1,1,7,11","1,1,12,17","1,1,20,24","1,1,25,29","1,2,31,31","1,2,32,32","1,2,33,33"};
             
             String reportType = "";
             if (request.getParameter("reportType") != null) 
@@ -1644,71 +1700,13 @@ else if(z==blankrows-4){
                 year = request.getParameter("year");
                                                       }
             
-            if (request.getParameter("facility") != null && reportType.equals("2")) {
-                try {
-                    facil = request.getParameter("facility");
-                    
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
-                    conn.rs = conn.st.executeQuery(getfacil);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " FACILITY : " + conn.rs.getString(1).toUpperCase() + "     MFL CODE  :  " + conn.rs.getString(2) + "  ";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            if (request.getParameter("county") != null && reportType.equals("2")) {
-                try {
-                    county = request.getParameter("county");
-                    
-                    String getcounty = "select County from county where CountyID='" + county + "'";
-                    conn.rs = conn.st.executeQuery(getcounty);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " COUNTY : " + conn.rs.getString(1).toUpperCase() + " ";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            if (request.getParameter("month") != null && reportDuration.equals("4")) {
-                try {
-                    month = request.getParameter("month");
-                    
-                    String getmonth = "select name as monthname from month where id='" + month + "'";
-                    conn.rs = conn.st.executeQuery(getmonth);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " MONTH : " + conn.rs.getString(1).toUpperCase() + "";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            header += " YEAR : " + year + "";
-            
             String facilitywhere = "";
             String yearwhere = "";
             String monthwhere = "";
             String countywhere = "";
-            String duration = "";
-            String semi_annual = "";
             String quarter = "";
-            String viralloadduration="";
-            String excelDuration;
+            String viralloadduration;
+            String start_date="",end_date="";
             //==================================================================================================
             //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             int yearcopy = Integer.parseInt(year);
@@ -1724,78 +1722,62 @@ else if(z==blankrows-4){
 //        GET REPORT DURATION============================================
             //annually
             if (reportDuration.equals("1")) {
-                yearmonth = "Annual Report For " + year;
-                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
-                viralloadduration="year='"+year+"'";
-                viralloadquarter="4";
+                start_date=(Integer.parseInt(year)-1)+"-10-01";
+                end_date=Integer.parseInt(year)+"-09-31";
             } else if (reportDuration.equals("2")) {
                 semi_annual = request.getParameter("semi_annual");
+                
 //        semi_annual="2";
                 if (semi_annual.equals("1")) {
-                    yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
-                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
-                     viralloadduration="year='"+year+"' and (quarter='1' || quarter='2') ";
-                     viralloadquarter="2";
+                     start_date=(Integer.parseInt(year)-1)+"-10-01";
+                     end_date=Integer.parseInt(year)+"-03-31";
                 } else {
-                    yearmonth = "Semi Annual Report for Apr to  Sep " + year;
-                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
-                     viralloadduration="year='"+year+"' and (quarter='3' || quarter='4') ";
-                     viralloadquarter="3";
+                     start_date=Integer.parseInt(year)+"-04-01";
+                     end_date=Integer.parseInt(year)+"-09-31";
                 }
             } else if (reportDuration.equals("3")) {
-                try {
-                    
-                    //quarterly
-                    String startMonth, endMonth;
+               
                     quarter = request.getParameter("quarter");
-                    //       quarter="3";
-                    viralloadquarter=quarter;
-                     viralloadduration="year='"+year+"' and quarter='"+quarter+"'  ";
-                     
-                    String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
-                    conn.rs = conn.st.executeQuery(getMonths);
-                    if (conn.rs.next() == true) {
-                        
-                        try {
-                            String months[] = conn.rs.getString(1).split(",");
-                            startMonth = months[0];
-                            endMonth = months[2];
-                            if (quarter.equals("1")) {
-                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
-                                yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
-                            } else {
-                                yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
-                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
+                      if (quarter.equals("1")) {
+                                
+                                start_date=(Integer.parseInt(year)-1)+"-10-01";
+                                end_date=(Integer.parseInt(year)-1)+"-12-31";
+                            } 
+                      else if(quarter.equals("2")) {
+                               start_date=Integer.parseInt(year)+"-01-01";
+                               end_date=Integer.parseInt(year)+"-03-31";
                             }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                      else if(quarter.equals("3")) {
+                               start_date=Integer.parseInt(year)+"-04-01";
+                               end_date=Integer.parseInt(year)+"-06-31";
+                            }
+                      else if(quarter.equals("4")) {
+                               start_date=Integer.parseInt(year)+"-07-01";
+                               end_date=Integer.parseInt(year)+"-09-31";
+                            }
                         }
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if (reportDuration.equals("4")) {
+                    
+                
+            
+                else if (reportDuration.equals("4")) {
                 //on monthly reports, i dont expect any output since viral load is entered quarterly
                 monthcopy = Integer.parseInt(request.getParameter("month"));
-                viralloadquarter="";
-                //since we dont want data to appear for monthly reports, we set an impossible 
-                viralloadduration=" 1=2 "; 
-//     month=5;
                 if (monthcopy >= 10) {
-                    
-                    yearmonth = "Monthly Report For " + prevYear + "_(" + month + ")";
-                    duration = "1=2";// this will make the report not output any data which is what i wanted
+                    start_date=(Integer.parseInt(year)-1)+"-"+monthcopy+"-01";
+                    end_date=(Integer.parseInt(year)-1)+"-"+monthcopy+"-31";
                 } 
                 else {
-                    duration = " 1=2"; // this will make the report not output any data which is what i wanted
-                    yearmonth = "Monthly Report For " + year + "_(" + month + ")";
+                start_date=Integer.parseInt(year)+"-0"+monthcopy+"-01";
+                end_date=Integer.parseInt(year)+"-0"+monthcopy+"-31";
                 }
             }
             else {
                 duration = "";
                 
             }
-            
+          
+            viralloadduration = " Date_Dispatched BETWEEN '"+start_date+"' AND '"+end_date+"' ";
+             
             //======================================================================
 //==================================================================================================
             //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1825,27 +1807,16 @@ else if(z==blankrows-4){
             
             if (!facil.equals("")) {
                 
-                facilitywhere = " and " + form + ".SubPartnerID = '" + facil + "'";
+//                facilitywhere = " and " + facilitiestable + ".SubPartnerID = '" + facil + "'";
                 
             }
             
-            String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " + subcountywhere;
-            
-            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, "+facilitiestable+".SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
-            //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,denominator_vi as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, subpartnera.SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on viral_load.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
-            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,sum(numerator_un) as numerator_un  ,sum(denominator_un) as denominator_un,sum(less1_fun) as less1_fun,sum(1to4_fun) as 1to4_fun,sum(5to14_fun) as 5to14_fun, sum(15to19_fun) as 5to14_fun, sum(20_fun) as 20_fun ,sum(less1_mun) as less1_mun, sum(1to4_mun) as 1to4_mun,sum(5to14_mun) as 5to14_mun,sum(15to19_mun) as 15to19_mun ,sum(20_mun) as 20_mun,sum(subtotal_un) as subtotal_un ,sum(numerator_vi) as numerator_vi,sum(denominator_vi) as denominator_vi,sum(less1_fvi) as less1_fvi,sum(1to4_fvi) as 1to4_fvi ,sum(5to14_fvi) as 5to14_fvi,sum(15to19_fvi) as 15to19_fvi,sum(20_fvi) as 20_fvi,sum(less1_mvi) as less1_mvi ,sum(1to4_mvi) as 1to4_mvi, sum(5to14_mvi) as 5to14_mvi,sum(15to19_mvi) as 15to19_mvi,sum(20_mvi) as 20_mvi ,sum(subtotal_vi) as subtotal_vi, "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM viral_load join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on viral_load.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+"  group by "+facilitiestable+".SubPartnerID ";//and "+facilitiestable+".ART='1'
-            System.out.println(getexistingdata);
-              String Tbid=year+"_"+quarter+"_"+facil;
-           // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
-            
-            
-        
-     
-     
-//=====================================================================================================
-//=====================================================================================================    
-//______________________________________________________________________________________
-            //                       NOW CREATE THE WORKSHEETS
+            String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " +subcountywhere+" "+facilitywhere+" "
+            + " and "+facilitiestable+".active=1 and Gender !='' and (AgeYrs!='' and AgeYrs>=0 && AgeYrs<100) ";
+
+         System.out.println("where:"+joinedwhwere);
+//    ====================START OF NEW VIRAL LOAD REPORT OCT 2017 -------------
+//                       NOW CREATE THE WORKSHEETS
             //______________________________________________________________________________________
            // HSSFWorkbook wb = new HSSFWorkbook();
             
@@ -1904,570 +1875,450 @@ else if(z==blankrows-4){
             
             int rowpos=0;
             //create headers for that worksheet
-            HSSFRow rw = shet.createRow(rowpos);
+            HSSFRow rw; 
+            rw = shet.createRow(rowpos);
             rw.setHeightInPoints(25);
             
-             for (int a = 0; a < sectionheaders.length; a++) {
-                HSSFCell clx = rw.createCell(a);
-                clx.setCellValue("");
-                clx.setCellStyle(style);
-                shet.setColumnWidth(a, 3100);
-            }
+            String header1[] = {"DSD:TX_PVLS (Numerator): Number of adults and pediatric patients on ART with suppressed viral load results (<1000 copies/ml) documented in the medical records and/or supporting laboratory results within the past 12 months","DSD:TX_PVLS (Denominator) : Number of adult and pediatric ART patients with viral load results documented in the patient medical record and/or laboratory records in the past 12 months."};
+            String header2[] = {"Disaggregated by Indication","Disaggregated by Preg/BF/Indication","Disaggregated by Age/Sex/Testing Indication (Fine Disaggregate).","Disaggregated by Indication","Disaggregated by Preg/BF/Indication","Disaggregated by Age/Sex/Testing Indication (Fine Disaggregate)."};
+           String header3[] = {"Routine","Targeted","Not Documented","Routine","Targeted","Not Documented"};
+            String header4[] = {"Indication","Pregnant","Breastfeeding","Under 10","Female","Male","Under 10","Female","Male","Under 10","Female","Male","Indication","Pregnamt","Breastfeeding","Under 10","Female","Male","Under 10","Female","Male","Under 10","Female","Male"};
+            HSSFCell cx1; 
+            cx1 = rw.createCell(5);
+            cx1.setCellValue(header1[0]);
             
-            HSSFCell cl0 = rw.createCell(0);
-            cl0.setCellValue("DATIM Viral Load Report For " + yearmonth);
-            cl0.setCellStyle(stylex);              
+            cx1 = rw.createCell(63);
+            cx1.setCellValue(header1[1]);
+            //format cell here
            
-            //create the first row
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,5,62));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,63,120));
+           
+            
+            //end of formatting and merging
+            rowpos++;
+            rw = shet.createRow(rowpos);
+            rw.setHeightInPoints(25);
+            
+            cx1 = rw.createCell(6);
+            cx1.setCellValue(header2[0]);
+            
+            cx1 = rw.createCell(9);
+            cx1.setCellValue(header2[1]);
+            
+            cx1 = rw.createCell(15);
+            cx1.setCellValue(header2[2]);
+            
+            cx1 = rw.createCell(64);
+            cx1.setCellValue(header2[3]);
+            
+            cx1 = rw.createCell(67);
+            cx1.setCellValue(header2[4]);
+            
+            cx1 = rw.createCell(73);
+            cx1.setCellValue(header2[5]);
+//            start of formatting and merging
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,6,8));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,9,14));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,15,62));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,64,66));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,67,72));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,73,120));
+
+
+//          end of formatting and merging
+
+
+
+ 
+            rowpos++;
+            rw = shet.createRow(rowpos);
+            rw.setHeightInPoints(25);
+            
+            cx1 = rw.createCell(15);
+            cx1.setCellValue(header3[0]);
+            cx1 = rw.createCell(31);
+            cx1.setCellValue(header3[1]);
+            cx1 = rw.createCell(47);
+            cx1.setCellValue(header3[2]);
+            cx1 = rw.createCell(73);
+            cx1.setCellValue(header3[3]);
+            cx1 = rw.createCell(91);
+            cx1.setCellValue(header3[4]);
+            cx1 = rw.createCell(105);
+            cx1.setCellValue(header3[5]);
+            
+            
+            
+            //start of formatting
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,15,30));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,31,46));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,47,62));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,73,88));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,91,104));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,105,120));
+              
+            
+            
+            //end of formatting
+            
+            rowpos++;
+            rw = shet.createRow(rowpos);
+            rw.setHeightInPoints(25);
+            
+            cx1 = rw.createCell(6);
+            cx1.setCellValue(header4[0]);
+            
+            cx1 = rw.createCell(9);
+            cx1.setCellValue(header4[1]);
+            
+            cx1 = rw.createCell(12);
+            cx1.setCellValue(header4[2]);
+            
+            cx1 = rw.createCell(15);
+            cx1.setCellValue(header4[3]);
+            
+            cx1 = rw.createCell(18);
+            cx1.setCellValue(header4[4]);
+            
+            cx1 = rw.createCell(24);
+            cx1.setCellValue(header4[5]);
+            
+            cx1 = rw.createCell(31);
+            cx1.setCellValue(header4[6]);
+            
+            cx1 = rw.createCell(34);
+            cx1.setCellValue(header4[7]);
+            
+            cx1 = rw.createCell(40);
+            cx1.setCellValue(header4[8]);
+            
+            cx1 = rw.createCell(47);
+            cx1.setCellValue(header4[9]);
+            
+            cx1 = rw.createCell(50);
+            cx1.setCellValue(header4[10]);
+            
+            cx1 = rw.createCell(56);
+            cx1.setCellValue(header4[11]);
+            
+            cx1 = rw.createCell(64);
+            cx1.setCellValue(header4[12]);
+            
+            cx1 = rw.createCell(67);
+            cx1.setCellValue(header4[13]);
+            
+            cx1 = rw.createCell(70);
+            cx1.setCellValue(header4[14]);
+            
+            cx1 = rw.createCell(73);
+            cx1.setCellValue(header4[15]);
+            
+            cx1 = rw.createCell(76);
+            cx1.setCellValue(header4[16]);
+            
+            cx1 = rw.createCell(82);
+            cx1.setCellValue(header4[17]);
+            
+            cx1 = rw.createCell(89);
+            cx1.setCellValue(header4[18]);
+            
+            cx1 = rw.createCell(92);
+            cx1.setCellValue(header4[19]);
+            
+            cx1 = rw.createCell(98);
+            cx1.setCellValue(header4[20]);
+            
+            cx1 = rw.createCell(105);
+            cx1.setCellValue(header4[21]);
+            
+            cx1 = rw.createCell(108);
+            cx1.setCellValue(header4[22]);
+            
+            cx1 = rw.createCell(114);
+            cx1.setCellValue(header4[23]);
+
+
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,6,8));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,9,11));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,12,14));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,15,17));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,18,23));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,24,29));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,31,33));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,34,39));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,40,45));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,47,49));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,50,55));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,56,61));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,64,67));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,67,69));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,70,72));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,73,75));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,76,81));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,82,87));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,89,91));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,92,97));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,98,103));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,105,107));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,108,113));
+              shet.addMergedRegion(new CellRangeAddress(rowpos,rowpos,114,119));
+
+
+            
+           String heading[] = ("County,Sun County,Health Facility,MFL Code,Type of Support,"
+            +"Numerator,Routine,Targeted,Not Documented,Routine,Targeted,Not Documented,"
+            +"Routine,Targeted,Not Documented,"
+            +"<1,1-9,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,subtotal,"
+            +"<1,1-9,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,subtotal,"
+            +"<1,1-9,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,subtotal,"
+            +"Denominator,Routine,Targeted,Not Documented,Routine,Targeted,Not Documented,"
+            +"Routine,Targeted,Not Documented,"
+            +"<1,1-9,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,subtotal,"
+            +"<1,1-9,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,subtotal,"
+            +"<1,1-9,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,10-14,15-19,20-24,25-49,50+,subtotal,subtotal").split(",");
+           
+           for(int j=0;j<4;j++){
+               
+           rw = shet.getRow(j);
+           for(int i=0;i<121;i++){
+                cx1 = rw.getCell(i);
+               if(cx1!=null){
+                cx1.setCellStyle(stylex);    
+               }
+               else{
+                    cx1 = rw.createCell(i);
+                cx1.setCellStyle(stylex);    
+               }
+   
+            }
+           }
+           
+           String totals = ",17,23,29,30,33,39,45,46,49,55,61,62,75,81,87,88,91,97,103,104,107,113,119,120,";
+           //add titles
+
+            rowpos++;
+            rw = shet.createRow(rowpos);
+            rw.setHeightInPoints(42);
+            int colpos=0;
+            HSSFCell cell_vl;
+            for(String value: heading){
+             cell_vl = rw.createCell(colpos);
+             cell_vl.setCellValue(value);
+             cell_vl.setCellStyle(stylex);
+             
+             colpos++;
+          }
+        String titles[] = ("County,DistrictNom,SubPartnerNom,mfl_code,support_type,"
+        +"Numerator,n_Routine,n_Targeted,n_Not_Documented,n_Preg_Routine,n_Preg_Targeted,n_Preg_Not_Documented,"
+        +"n_Breastfeeding_Routine,n_Breastfeeding_Targeted,n_Breastfeeding_Not_Documented,"
+        +"n_r_1,n_r_9,n_r_0_9,n_r_f_14,n_r_f_19,n_r_f_24,n_r_f_49,n_r_f_50,n_r_10_50_f,n_r_m_14,n_r_m_19,n_r_m_24,n_r_m_49,n_r_m_50,n_r_10_50_m,n_r_0_50,"
+        +"n_t_1,n_t_9,n_t_0_9,n_t_f_14,n_t_f_19,n_t_f_24,n_t_f_49,n_t_f_50,n_t_10_50_f,n_t_m_14,n_t_m_19,n_t_m_24,n_t_m_49,n_t_m_50,n_t_10_50_m,n_t_0_50,"
+        +"n_nd_1,n_nd_9,n_nd_0_9,n_nd_f_14,n_nd_f_19,n_nd_f_24,n_nd_f_49,n_nd_f_50,n_nd_10_50_f,n_nd_m_14,n_nd_m_19,n_nd_m_24,n_nd_m_49,n_nd_m_50,n_nd_10_50_m,n_nd_0_50,"
+        +"Denominator,d_Routine,d_Targeted,d_Not_Documented,d_Preg_Routine,d_Preg_Targeted,d_Preg_Not_Documented,"
+        +"d_Breastfeeding_Routine,d_Breastfeeding_Targeted,d_Breastfeeding_Not_Documented,"
+        +"d_r_1,d_r_9,d_r_0_9,d_r_f_14,d_r_f_19,d_r_f_24,d_r_f_49,d_r_f_50,d_r_10_50_f,d_r_m_14,d_r_m_19,d_r_m_24,d_r_m_49,d_r_m_50,d_r_10_50_m,d_r_0_50,"
+        +"d_t_1,d_t_9,d_t_0_9,d_t_f_14,d_t_f_19,d_t_f_24,d_t_f_49,d_t_f_50,d_t_10_50_f,d_t_m_14,d_t_m_19,d_t_m_24,d_t_m_49,d_t_m_50,d_t_10_50_m,d_t_0_50,"
+        +"d_nd_1,d_nd_9,d_nd_0_9,d_nd_f_14,d_nd_f_19,d_nd_f_24,d_nd_f_49,d_nd_f_50,d_nd_10_50_f,d_nd_m_14,d_nd_m_19,d_nd_m_24,d_nd_m_49,d_nd_m_50,d_nd_10_50_m,d_nd_0_50").split(",");       
+  
+        String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
+"SELECT county.County AS County, DistrictNom,constituency,ward,"+facilitiestable+".SubPartnerNom AS SubPartnerNom ,CentreSanteId AS mfl_code, " +
+"GSN,ART_Support,PMTCT_Support,HTC_Support1,Type,ART_highvolume,PMTCT_highvolume, " +
+"HTC_highvolume,latitude,longitude, 'DSD' AS support_type, " +
+"COUNT( CASE WHEN Suppressed='Y' THEN  'Numerator' END) AS Numerator, " +
+"COUNT( CASE WHEN Suppressed='Y' AND Justification='Routine VL' THEN  'Routine' END) AS n_Routine, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') THEN  'Targeted' END) AS n_Targeted, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') THEN  'Not_Documented' END) AS n_Not_Documented, " +
+" " +
+"0 AS n_Preg_Routine, " +
+"0 AS n_Preg_Targeted, " +
+"0 AS n_Preg_Not_Documented, " +
+"0 AS n_Breastfeeding_Routine, " +
+"0 AS n_Breastfeeding_Targeted, " +
+"0 AS n_Breastfeeding_Not_Documented, " +
+" " +
+"/*ROUTINE NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs <1) THEN  'n_r_f_1' END) AS n_r_f_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_r_f_9' END) AS n_r_f_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs <1) THEN  'n_r_m_1' END) AS n_r_m_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_r_m_9' END) AS n_r_m_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs <1) THEN  'n_r_1' END) AS n_r_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'n_r_9' END) AS n_r_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs<=9) THEN  'n_r_0_9' END) AS n_r_0_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_r_f_14' END) AS n_r_f_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_r_f_19' END) AS n_r_f_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_r_f_24' END) AS n_r_f_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_r_f_49' END) AS n_r_f_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_r_f_50' END) AS n_r_f_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_r_10_50_f' END) AS n_r_10_50_f, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_r_m_14' END) AS n_r_m_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_r_m_19' END) AS n_r_m_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_r_m_24' END) AS n_r_m_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_r_m_49' END) AS n_r_m_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_r_m_50' END) AS n_r_m_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_r_10_50_m' END) AS n_r_10_50_m, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs<=100) THEN  'n_r_0_50' END) AS n_r_0_50, " +
+" " +
+"/*TARGETED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers' ) AND (Sex='F' AND AgeYrs <1) THEN  'n_t_f_1' END) AS n_t_f_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_r_t_9' END) AS n_t_f_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs <1) THEN  'n_t_m_1' END) AS n_t_m_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_t_m_9' END) AS n_t_m_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs <1) THEN  'n_t_1' END) AS n_t_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'n_t_9' END) AS n_t_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=9) THEN  'n_t_0_9' END) AS n_t_0_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_t_f_14' END) AS n_t_f_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_t_f_19' END) AS n_t_f_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_t_f_24' END) AS n_t_f_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_t_f_49' END) AS n_t_f_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_t_f_50' END) AS n_t_f_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_t_10_50_f' END) AS n_t_10_50_f, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_t_m_14' END) AS n_t_m_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_t_m_19' END) AS n_t_m_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_t_m_24' END) AS n_t_m_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_t_m_49' END) AS n_t_m_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_t_m_50' END) AS n_t_m_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_t_10_50_m' END) AS n_t_10_50_m, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=100) THEN  'n_t_0_50' END) AS n_t_0_50, " +
+" " +
+" " +
+"/*NOT DOCUMENTED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs <1) THEN  'n_nd_f_1' END) AS n_nd_f_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_nd_t_9' END) AS n_nd_f_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs <1) THEN  'n_nd_m_1' END) AS n_nd_m_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_nd_m_9' END) AS n_nd_m_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs <1) THEN  'n_nd_1' END) AS n_nd_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'n_nd_9' END) AS n_nd_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=9) THEN  'n_nd_0_9' END) AS n_nd_0_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_nd_f_14' END) AS n_nd_f_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_nd_f_19' END) AS n_nd_f_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_nd_f_24' END) AS n_nd_f_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_nd_f_49' END) AS n_nd_f_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_nd_f_50' END) AS n_nd_f_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_nd_10_50_f' END) AS n_nd_10_50_f, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_nd_m_14' END) AS n_nd_m_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_nd_m_19' END) AS n_nd_m_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_nd_m_24' END) AS n_nd_m_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_nd_m_49' END) AS n_nd_m_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_nd_m_50' END) AS n_nd_m_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_nd_10_50_m' END) AS n_nd_10_50_m, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=100) THEN  'n_nd_0_50' END) AS n_nd_0_50, " +
+" " +
+" " +
+"COUNT(*) AS Denominator, " +
+"COUNT( CASE WHEN Justification='Routine VL' THEN  'Routine' END) AS d_Routine, " +
+"COUNT( CASE WHEN (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') THEN  'Targeted' END) AS d_Targeted, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') THEN  'Not_Documented' END) AS d_Not_Documented, " +
+" " +
+"0 d_Preg_Routine, " +
+"0 AS d_Preg_Targeted, " +
+"0 AS d_Preg_Not_Documented, " +
+"0 AS d_Breastfeeding_Routine, " +
+"0 AS d_Breastfeeding_Targeted, " +
+"0 AS d_Breastfeeding_Not_Documented, " +
+" " +
+"/*ROUTINE NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs <1) THEN  'd_r_f_1' END) AS d_r_f_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_f_9' END) AS d_r_f_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs <1) THEN  'd_r_m_1' END) AS d_r_m_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_m_9' END) AS d_r_m_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs <1) THEN  'd_r_1' END) AS d_r_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_9' END) AS d_r_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs<=9) THEN  'd_r_0_9' END) AS d_r_0_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_r_f_14' END) AS d_r_f_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_r_f_19' END) AS d_r_f_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_r_f_24' END) AS d_r_f_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_r_f_49' END) AS d_r_f_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_r_f_50' END) AS d_r_f_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_r_10_50_f' END) AS d_r_10_50_f, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_r_m_14' END) AS d_r_m_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_r_m_19' END) AS d_r_m_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_r_m_24' END) AS d_r_m_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_r_m_49' END) AS d_r_m_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_r_m_50' END) AS d_r_m_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_r_10_50_m' END) AS d_r_10_50_m, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs<=100) THEN  'd_r_0_50' END) AS d_r_0_50, " +
+" " +
+"/*TARGETED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers' ) AND (Sex='F' AND AgeYrs <1) THEN  'd_t_f_1' END) AS d_t_f_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_t_9' END) AS d_t_f_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs <1) THEN  'd_t_m_1' END) AS d_t_m_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_t_m_9' END) AS d_t_m_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs <1) THEN  'd_t_1' END) AS d_t_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_t_9' END) AS d_t_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=9) THEN  'd_t_0_9' END) AS d_t_0_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_t_f_14' END) AS d_t_f_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_t_f_19' END) AS d_t_f_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_t_f_24' END) AS d_t_f_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_t_f_49' END) AS d_t_f_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_t_f_50' END) AS d_t_f_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_t_10_50_f' END) AS d_t_10_50_f, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_t_m_14' END) AS d_t_m_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_t_m_19' END) AS d_t_m_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_t_m_24' END) AS d_t_m_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_t_m_49' END) AS d_t_m_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_t_m_50' END) AS d_t_m_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_t_10_50_m' END) AS d_t_10_50_m, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=100) THEN  'd_t_0_50' END) AS d_t_0_50, " +
+" " +
+" " +
+"/*NOT DOCUMENTED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs <1) THEN  'd_nd_f_1' END) AS d_nd_f_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_t_9' END) AS d_nd_f_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs <1) THEN  'd_nd_m_1' END) AS d_nd_m_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_m_9' END) AS d_nd_m_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs <1) THEN  'd_nd_1' END) AS d_nd_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_9' END) AS d_nd_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=9) THEN  'd_nd_0_9' END) AS d_nd_0_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_nd_f_14' END) AS d_nd_f_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_nd_f_19' END) AS d_nd_f_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_nd_f_24' END) AS d_nd_f_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_nd_f_49' END) AS d_nd_f_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_f_50' END) AS d_nd_f_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_f' END) AS d_nd_10_50_f, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_nd_m_14' END) AS d_nd_m_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_nd_m_19' END) AS d_nd_m_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_nd_m_24' END) AS d_nd_m_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_nd_m_49' END) AS d_nd_m_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_m_50' END) AS d_nd_m_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_m' END) AS d_nd_10_50_m, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=100) THEN  'd_nd_0_50' END) AS d_nd_0_50 " +
+" " +
+"FROM vl_validation join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  " +
+" on "+facilitiestable+".DistrictID=district.DistrictID ) on vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
++ "   "+joinedwhwere+"  GROUP BY mfl_code " +
+
+""; 
         
-             HSSFCell cl00 = rw.createCell(5);
-            cl00.setCellValue(sectionheaders0[5]);
-            cl00.setCellStyle(stylex);
-            
-             HSSFCell cl01 = rw.createCell(6);
-            cl01.setCellValue(sectionheaders0[6]);
-            cl01.setCellStyle(stylex);
-            
-             HSSFCell cl02 = rw.createCell(18);
-            cl02.setCellValue(sectionheaders0[18]);
-            cl02.setCellStyle(stylex);
-            
-            HSSFCell cl03 = rw.createCell(19);
-            cl03.setCellValue(sectionheaders0[19]);
-            cl03.setCellStyle(stylex);
-            
-            HSSFCell cl1 = rw.createCell(7);
-            cl1.setCellValue("TX_UNDETECT");
-            cl1.setCellStyle(stylex);
-           // shet.addMergedRegion(new CellRangeAddress(0,0,7,17));
-            
-             HSSFCell cl2 = rw.createCell(20);
-            cl2.setCellValue("TX_VIRAL");
-            cl2.setCellStyle(stylex);
-           // shet.addMergedRegion(new CellRangeAddress(0,0,20,30));
-            
-            HSSFCell cl3 = rw.createCell(31);
-            cl3.setCellValue("");
-            cl3.setCellStyle(stylex);
-          
-            HSSFCell cl4 = rw.createCell(32);
-            cl4.setCellValue("");
-            cl4.setCellStyle(stylex);
-            
-            
-            HSSFCell cl5 = rw.createCell(33);
-            cl5.setCellValue("");
-            cl5.setCellStyle(stylex);
-            
-            rowpos++;
-            
-            
-            //row two
-            HSSFRow rw1 = shet.createRow(rowpos);
-            rw1.setHeightInPoints(38);        
-            
-            for (int a = 0; a <sectionheaders.length; a++) {
-                HSSFCell clx = rw1.createCell(a);
-                clx.setCellValue(sectionheaders0[a]);
-                clx.setCellStyle(stylex);
-              
-            }
-              rowpos++;
-                          
-            //row three
-            HSSFRow rw2 = shet.createRow(rowpos);
-            rw2.setHeightInPoints(38);
-            for (int a = 0; a <sectionheaders.length; a++) {
-                HSSFCell clx = rw2.createCell(a);
-                clx.setCellValue(sectionheaders[a]);
-                clx.setCellStyle(stylex);
-              
-            }
-            rowpos++;
-            
-            //do all the merging here as dictated by the merge_row_col array 
-            for (int a = 0; a <merge_row_col.length; a++) {
-             String points[]=merge_row_col[a].split(",");
-                
-           shet.addMergedRegion(new CellRangeAddress(Integer.parseInt(points[0]),Integer.parseInt(points[1]),Integer.parseInt(points[2]),Integer.parseInt(points[3])));
-              
-            }
-           
-            
-            shet.setColumnWidth(0, 5000);
-            
-//add the rows here          
-       
-            
-             conn.rs=conn.st.executeQuery(getexistingdata);
-    
+        conn.rs=conn.st.executeQuery(getVLData);
     
     while(conn.rs.next()){
+            rowpos++;
+            rw = shet.createRow(rowpos);
+            rw.setHeightInPoints(25);
+            
+         colpos=0;
+         for(String element:titles){
+             String value = conn.rs.getString(element);
+             cell_vl = rw.createCell(colpos);
+             cell_vl.setCellStyle(stborder);
+             if(isNumeric(value)){
+               cell_vl.setCellValue(Integer.parseInt(value));  
+                 if(totals.contains(","+colpos+",")){
+                    cell_vl.setCellStyle(stylex); 
+                 } 
+             }
+             else{
+                 cell_vl.setCellValue(value);
+             }
+             
+             
+             colpos++;
+         }
+        
+              }
     
-        
-        
-        String arthv=" ";
-     String htchv=" ";
-     String pmtcthv=" ";
-     
-      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
-      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
-      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
-        
-        
-    
-         int colpos=0; 
-           int conpos=1; 
-               HSSFRow rwx = shet.createRow(rowpos); 
-               rwx.setHeightInPoints(25);
-               
-               //county
-            if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                //subcounty
-             if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                 
-                 //facility name
-           if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                   //mfl
-          if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-//support type//######################################################################################
-        if (1 == 1) {
-String supporttype=conn.rs.getString(conpos);
-if(supporttype.equals("")){
-supporttype="DSD";
-}
-            
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(supporttype);
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
- //___   numerator_un       
-      if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }               
-         //denominator_un
-        if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-         //fun_less1          
-        if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                      
-     //fun_1to4
-           if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-                        }
-          // fun_5to14
-           
-               if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-        
-                     //fun_15to19               
-                       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-        
-      //fun_20
-                       
-       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }              
-   
-         // mun_less1             
-       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }              
-   
-       
-      //mun_1to4
-       
-       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-       
-       //mun_5to14,
-        if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-       
-       
-      // mun_15to19,
-        
-         if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-        //mun_20,
-          if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-   //subtotal_un,
-          
-            if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-         // numerator_vi
-              if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-            
-       //denominator_vi
-              
-                if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            
-            if(1==2){ //commeted for now 
-              String myval="";
-   
-        
-     String getCurrent="SELECT denominator_vi  FROM viral_load WHERE "
-    + " year='"+year+"' && quarter='"+viralloadquarter+"' and SubPartnerID='"+conn.rs.getString("SubPartnerID")+"'";
-    System.out.println("current : "+getCurrent);
-     conn.rs1=conn.st1.executeQuery(getCurrent);
-     if(conn.rs1.next()==true){
-     //HV0314=conn.rs1.getInt(1);
-       myval=""+conn.rs1.getInt(1);
-        
-	
-        // System.out.println("Num / Den = "+numerator_vi+"/"+denominator_vi);
-	 }
-            
-            
-     if(myval.equals("")){
-     myval="0";
-     }
-      clx.setCellValue(new Integer(myval));
-                }
-     
-     /** old code .*/ 
-            clx.setCellValue(conn.rs.getInt(conpos));
-           
-            
-     
-     
-             clx.setCellStyle(style2);
-            colpos++;
-            conpos++;
-
-        } 
-  // fvi_less1
-                
-       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }            
-   //fvi_1to4
-       
-         if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-      //fvi_5to14
-         
-           if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-         
-      //fvi_15to19
-        if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }      
-           
-           
-       //fvi_20,
-        
-          if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-        
-        
-   //mvi_less1
-     if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }        
-          
-          
-     //mvi_1to4,
-       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-     
-     
-     //mvi_5to14,
-         if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-       
-       //mvi_15to19,
-           if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        } 
-         
-     //mvi_20 ,
-           
-       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }       
-           
-   //subtotal_vi,
-       
-     if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }     
-           
-      if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(arthv);
-            clx.setCellStyle(style2);
-
-            colpos++;
-            //conpos++;
-
-        }  
-     
-       if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(htchv);
-            clx.setCellStyle(style2);
-
-            colpos++;
-            //conpos++;
-
-        }
-       
-        if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(pmtcthv);
-            clx.setCellStyle(style2);
-
-            colpos++;
-            //conpos++;
-        }
-     
-        rowpos++;
-    }
-    
-    
-    }//end of viral load report
-    
+              }
  //============================================================================================
     
    // new report post gbv
@@ -3400,5 +3251,7 @@ else if(z==blankrows-4){
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+public boolean isNumeric(String s) {  
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+    }
 }

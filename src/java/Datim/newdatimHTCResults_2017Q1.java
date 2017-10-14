@@ -13404,7 +13404,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
             + " district.CountyID=county.CountyID "
-            + " JOIN new_anc on moh731.id=new_anc.id"//added on 9th October 2017
+            + " left JOIN new_anc on moh731.id=new_anc.id"//added on 9th October 2017
             + " WHERE "
             + " "+facilityIds1+" "+duration1+" && ( "+facilitiestable+".PMTCT=1  or HTC=1 )"
             + " GROUP BY moh731.SubPartnerID " ;
