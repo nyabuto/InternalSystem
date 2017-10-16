@@ -1799,7 +1799,7 @@ String getDenominator="  " +
                 
             }
           
-            viralloadduration = " Date_Dispatched BETWEEN '"+start_date+"' AND '"+end_date+"' ";
+            viralloadduration = " Date_Tested BETWEEN '"+start_date+"' AND '"+end_date+"' ";
              
             //======================================================================
 //==================================================================================================
@@ -1835,7 +1835,7 @@ String getDenominator="  " +
             }
             
             String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " +subcountywhere+" "+facilitywhere+" "
-            + " and "+facilitiestable+".active=1 and Gender !='' and (AgeYrs!='' and AgeYrs>=0 && AgeYrs<100) ";
+            + " and Gender !='' and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
 
          System.out.println("where:"+joinedwhwere);
 //    ====================START OF NEW VIRAL LOAD REPORT OCT 2017 -------------
@@ -2310,7 +2310,7 @@ String getDenominator="  " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=100) THEN  'd_nd_0_50' END) AS d_nd_0_50 " +
 "FROM vl_validation join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  " +
 " on "+facilitiestable+".DistrictID=district.DistrictID ) on vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
-+ "   "+joinedwhwere+"  GROUP BY mfl_code " +
++ "   "+joinedwhwere+" GROUP BY mfl_code " +
 
 ""; 
         
