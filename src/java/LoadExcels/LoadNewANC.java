@@ -70,7 +70,12 @@ public class LoadNewANC extends HttpServlet {
  
   FileInputStream fileInputStream = new FileInputStream(full_path);
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-        XSSFSheet worksheet = workbook.getSheetAt(0);
+        int j=0;
+        int number_sheets = workbook.getNumberOfSheets();
+        while(j<number_sheets){
+        XSSFSheet worksheet;
+        
+        worksheet = workbook.getSheetAt(j);
         Iterator rowIterator = worksheet.iterator();
 
         int i=1,y=0;
@@ -78,10 +83,7 @@ public class LoadNewANC extends HttpServlet {
         SubPartnerID=mfl_code=new_anc=year=month=year_month="";
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
-
-         break;
-                        }
-            System.out.println("here");
+         break;}
 //        3_______________________mfl_code__________________________
             XSSFCell cellserialno = rowi.getCell((short) 3);
             if(cellserialno==null){
@@ -147,11 +149,12 @@ public class LoadNewANC extends HttpServlet {
             year_month=year+""+month;
         SubPartnerID=getSubPartnerID(conn,mfl_code);    
          id=pepfaryear+"_"+mois+"_"+SubPartnerID;   
-         
-         String checker = "SELECT SubPartnerID FROM new_anc WHERE SubPartnerID=?" ;
+         String checker = "SELECT SubPartnerID FROM new_anc WHERE SubPartnerID=? && yearmonth=?" ;
          conn.pst=conn.conn.prepareStatement(checker);
          conn.pst.setString(1, SubPartnerID);
+         conn.pst.setString(2, year_month);
          
+           
          conn.rs=conn.pst.executeQuery();
          if(conn.rs.next()){
             id=conn.rs.getString(1);
@@ -171,6 +174,8 @@ public class LoadNewANC extends HttpServlet {
            
            conn.pst1.executeUpdate();
            updated++;
+             System.out.println("updated : "+mfl_code+"   year month :"+year_month+" at sheet : "+(j+1)+" at row number : "+i);
+              System.out.println(conn.pst);
          }
          else{
           String inserter = "INSERT INTO new_anc (SubPartnerID,mfl_code,new_anc,year,month,yearmonth,id) VALUES(?,?,?,?,?,?,?)"; 
@@ -183,9 +188,6 @@ public class LoadNewANC extends HttpServlet {
            conn.pst1.setInt(5, mois);
            conn.pst1.setString(6, year_month);
            conn.pst1.setString(7, id);
-//           
-            System.out.println("conn.pst : "+conn.pst1);
-//             System.out.println("query: "+conn.pst1);
            conn.pst1.executeUpdate();
            
            
@@ -193,6 +195,9 @@ public class LoadNewANC extends HttpServlet {
          }
               
             i++;
+        }
+        
+        j++;
         }
         session.setAttribute("stf_synced", "");
         

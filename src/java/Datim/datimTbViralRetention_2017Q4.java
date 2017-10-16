@@ -1101,15 +1101,15 @@ styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     styleHeader.setWrapText(true);
     
-    HSSFCellStyle styleminiHeader = wb.createCellStyle();
-styleminiHeader.setFillForegroundColor(HSSFColor.ORCHID.index);
-styleminiHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   styleminiHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleminiHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleminiHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleminiHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleminiHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleminiHeader.setWrapText(true);
+    HSSFCellStyle styleError = wb.createCellStyle();
+    styleError.setFillForegroundColor(HSSFColor.RED.index);
+    styleError.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+    styleError.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    styleError.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    styleError.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    styleError.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    styleError.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    styleError.setWrapText(true);
     
 HSSFFont fontHeader = wb.createFont();
 fontHeader.setColor(HSSFColor.DARK_BLUE.index);
@@ -1447,10 +1447,19 @@ int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50
        rw4shetRETENTION.setHeightInPoints(25);
        for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++)
        {
-       String value=dataRETENTION[positionRETENTION];
-       HSSFCell    c11=rw4shetRETENTION.createCell(positionRETENTION);
+           if(pregnant>numerator){
+              
+         String value=dataRETENTION[positionRETENTION];
+        HSSFCell    c11=rw4shetRETENTION.createCell(positionRETENTION);
         if(positionRETENTION>4){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
-         c11.setCellStyle(stborder);
+        c11.setCellStyle(styleError); 
+           }
+           else{
+            String value=dataRETENTION[positionRETENTION];
+           HSSFCell    c11=rw4shetRETENTION.createCell(positionRETENTION);
+           if(positionRETENTION>4){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+           c11.setCellStyle(stborder);    
+           }
 //          if(positionRETENTION==5 || positionRETENTION==8 || positionRETENTION==17 || positionRETENTION==18 || positionRETENTION==21 || positionRETENTION==30){ c11.setCellStyle(styleHeader);}
 //          System.out.println("position "+positionPMTCT+" end v : "+dataPMTCT.length); 
        }
@@ -1648,21 +1657,35 @@ String getDenominator="  " +
 
   HSSFRow rw4shetRETENTION=shetRETENTION.getRow(new_retentionPOS); 
        rw4shetRETENTION.setHeightInPoints(25);
-       for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++)
+      
+       if(pregnant>denominator){
+      for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++)
        {
        String value=dataRETENTION[positionRETENTION];
        HSSFCell c11=rw4shetRETENTION.createCell(positionRETENTION+initial_colpos);
         if(positionRETENTION<(dataRETENTION.length-4) || positionRETENTION>(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
-//        c11.setCellValue(value);
-         c11.setCellStyle(stborder);
-//          if(positionRETENTION==5 || positionRETENTION==8 || positionRETENTION==17 || positionRETENTION==18 || positionRETENTION==21 || positionRETENTION==30){ c11.setCellStyle(styleHeader);}
-//          System.out.println("position "+positionPMTCT+" end v : "+dataPMTCT.length); 
+
+         c11.setCellStyle(styleError);
        if(positionRETENTION==dataRETENTION.length-4){
-//           System.out.println("entered here >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+       if(errorRETENTION>0){c11.setCellValue("FAILED");c11.setCellStyle(styleError);}    
+       else{c11.setCellValue("PASSED");c11.setCellStyle(styleError);}   
+       }
+       }     
+       }
+       else{
+        for(int positionRETENTION=0;positionRETENTION<dataRETENTION.length;positionRETENTION++)
+       {
+       String value=dataRETENTION[positionRETENTION];
+       HSSFCell c11=rw4shetRETENTION.createCell(positionRETENTION+initial_colpos);
+        if(positionRETENTION<(dataRETENTION.length-4) || positionRETENTION>(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+         c11.setCellStyle(stborder);
+       if(positionRETENTION==dataRETENTION.length-4){
        if(errorRETENTION>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
+       }   
        }
+       
              
 
         } 
@@ -2127,15 +2150,16 @@ String getDenominator="  " +
 "HTC_highvolume,latitude,longitude, 'DSD' AS support_type, " +
 "COUNT( CASE WHEN Suppressed='Y' THEN  'Numerator' END) AS Numerator, " +
 "COUNT( CASE WHEN Suppressed='Y' AND Justification='Routine VL' THEN  'Routine' END) AS n_Routine, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') THEN  'Targeted' END) AS n_Targeted, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') THEN  'Targeted' END) AS n_Targeted, " +
 "COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') THEN  'Not_Documented' END) AS n_Not_Documented, " +
 " " +
-"0 AS n_Preg_Routine, " +
-"0 AS n_Preg_Targeted, " +
-"0 AS n_Preg_Not_Documented, " +
-"0 AS n_Breastfeeding_Routine, " +
-"0 AS n_Breastfeeding_Targeted, " +
-"0 AS n_Breastfeeding_Not_Documented, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Pregnant' AND Suppressed='Y' AND Justification='Routine VL') THEN  'n_Preg_Routine' END) AS n_Preg_Routine, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Pregnant' AND Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure')) THEN  'n_Preg_Targeted' END) AS n_Preg_Targeted, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Pregnant' AND Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other')) THEN  'n_Preg_Not_Documented' END) AS n_Preg_Not_Documented, " +
+" " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Breast Feeding' AND Suppressed='Y' AND Justification='Routine VL') THEN  'n_Breastfeeding_Routine' END) AS n_Breastfeeding_Routine, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Breast Feeding' AND Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure')) THEN  'n_Breastfeeding_Targeted' END) AS n_Breastfeeding_Targeted, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Breast Feeding' AND Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other')) THEN  'n_Breastfeeding_Not_Documented' END) AS n_Breastfeeding_Not_Documented, " +
 " " +
 "/*ROUTINE NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
 "COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs <1) THEN  'n_r_f_1' END) AS n_r_f_1, " +
@@ -2160,26 +2184,26 @@ String getDenominator="  " +
 "COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs<=100) THEN  'n_r_0_50' END) AS n_r_0_50, " +
 " " +
 "/*TARGETED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers' ) AND (Sex='F' AND AgeYrs <1) THEN  'n_t_f_1' END) AS n_t_f_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_r_t_9' END) AS n_t_f_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs <1) THEN  'n_t_m_1' END) AS n_t_m_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_t_m_9' END) AS n_t_m_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs <1) THEN  'n_t_1' END) AS n_t_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'n_t_9' END) AS n_t_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=9) THEN  'n_t_0_9' END) AS n_t_0_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_t_f_14' END) AS n_t_f_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_t_f_19' END) AS n_t_f_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_t_f_24' END) AS n_t_f_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_t_f_49' END) AS n_t_f_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_t_f_50' END) AS n_t_f_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_t_10_50_f' END) AS n_t_10_50_f, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_t_m_14' END) AS n_t_m_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_t_m_19' END) AS n_t_m_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_t_m_24' END) AS n_t_m_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_t_m_49' END) AS n_t_m_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_t_m_50' END) AS n_t_m_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_t_10_50_m' END) AS n_t_10_50_m, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=100) THEN  'n_t_0_50' END) AS n_t_0_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs <1) THEN  'n_t_f_1' END) AS n_t_f_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_r_t_9' END) AS n_t_f_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs <1) THEN  'n_t_m_1' END) AS n_t_m_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'n_t_m_9' END) AS n_t_m_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs <1) THEN  'n_t_1' END) AS n_t_1, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'n_t_9' END) AS n_t_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs<=9) THEN  'n_t_0_9' END) AS n_t_0_9, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_t_f_14' END) AS n_t_f_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_t_f_19' END) AS n_t_f_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_t_f_24' END) AS n_t_f_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_t_f_49' END) AS n_t_f_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_t_f_50' END) AS n_t_f_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_t_10_50_f' END) AS n_t_10_50_f, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'n_t_m_14' END) AS n_t_m_14, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'n_t_m_19' END) AS n_t_m_19, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'n_t_m_24' END) AS n_t_m_24, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'n_t_m_49' END) AS n_t_m_49, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'n_t_m_50' END) AS n_t_m_50, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'n_t_10_50_m' END) AS n_t_10_50_m, " +
+"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs<=100) THEN  'n_t_0_50' END) AS n_t_0_50, " +
 " " +
 " " +
 "/*NOT DOCUMENTED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
@@ -2207,83 +2231,83 @@ String getDenominator="  " +
 " " +
 "COUNT(*) AS Denominator, " +
 "COUNT( CASE WHEN Justification='Routine VL' THEN  'Routine' END) AS d_Routine, " +
-"COUNT( CASE WHEN (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') THEN  'Targeted' END) AS d_Targeted, " +
-"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') THEN  'Not_Documented' END) AS d_Not_Documented, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') THEN  'd_Targeted' END) AS d_Targeted, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') THEN  'd_Not_Documented' END) AS d_Not_Documented, " +
 " " +
-"0 d_Preg_Routine, " +
-"0 AS d_Preg_Targeted, " +
-"0 AS d_Preg_Not_Documented, " +
-"0 AS d_Breastfeeding_Routine, " +
-"0 AS d_Breastfeeding_Targeted, " +
-"0 AS d_Breastfeeding_Not_Documented, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Pregnant' AND Justification='Routine VL') THEN  'd_Preg_Routine' END) AS d_Preg_Routine, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Pregnant' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure')) THEN  'd_Preg_Targeted' END) AS d_Preg_Targeted, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Pregnant' AND (Justification='No Data' OR Justification='' OR Justification='Other')) THEN  'd_Preg_Not_Documented' END) AS d_Preg_Not_Documented, " +
+" " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Breast Feeding' AND Justification='Routine VL' )THEN  'd_Breastfeeding_Routine' END) AS d_Breastfeeding_Routine, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Breast Feeding' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure')) THEN  'd_Breastfeeding_Targeted' END) AS d_Breastfeeding_Targeted, " +
+"COUNT( CASE WHEN (vl_validation.PMTCT='Breast Feeding' AND (Justification='No Data' OR Justification='' OR Justification='Other')) THEN  'd_Breastfeeding_Not_Documented' END) AS d_Breastfeeding_Not_Documented, " +
 " " +
 "/*ROUTINE NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs <1) THEN  'd_r_f_1' END) AS d_r_f_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_f_9' END) AS d_r_f_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs <1) THEN  'd_r_m_1' END) AS d_r_m_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_m_9' END) AS d_r_m_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs <1) THEN  'd_r_1' END) AS d_r_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_9' END) AS d_r_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs<=9) THEN  'd_r_0_9' END) AS d_r_0_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_r_f_14' END) AS d_r_f_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_r_f_19' END) AS d_r_f_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_r_f_24' END) AS d_r_f_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_r_f_49' END) AS d_r_f_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_r_f_50' END) AS d_r_f_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_r_10_50_f' END) AS d_r_10_50_f, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_r_m_14' END) AS d_r_m_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_r_m_19' END) AS d_r_m_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_r_m_24' END) AS d_r_m_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_r_m_49' END) AS d_r_m_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_r_m_50' END) AS d_r_m_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_r_10_50_m' END) AS d_r_10_50_m, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Routine VL' ) AND (AgeYrs<=100) THEN  'd_r_0_50' END) AS d_r_0_50, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs <1) THEN  'd_r_f_1' END) AS d_r_f_1, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_f_9' END) AS d_r_f_9, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs <1) THEN  'd_r_m_1' END) AS d_r_m_1, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_m_9' END) AS d_r_m_9, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (AgeYrs <1) THEN  'd_r_1' END) AS d_r_1, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_9' END) AS d_r_9, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (AgeYrs<=9) THEN  'd_r_0_9' END) AS d_r_0_9, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_r_f_14' END) AS d_r_f_14, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_r_f_19' END) AS d_r_f_19, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_r_f_24' END) AS d_r_f_24, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_r_f_49' END) AS d_r_f_49, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_r_f_50' END) AS d_r_f_50, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_r_10_50_f' END) AS d_r_10_50_f, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_r_m_14' END) AS d_r_m_14, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_r_m_19' END) AS d_r_m_19, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_r_m_24' END) AS d_r_m_24, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_r_m_49' END) AS d_r_m_49, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_r_m_50' END) AS d_r_m_50, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_r_10_50_m' END) AS d_r_10_50_m, " +
+"COUNT( CASE WHEN (Justification='Routine VL' ) AND (AgeYrs<=100) THEN  'd_r_0_50' END) AS d_r_0_50, " +
 " " +
 "/*TARGETED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers' ) AND (Sex='F' AND AgeYrs <1) THEN  'd_t_f_1' END) AS d_t_f_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_t_9' END) AS d_t_f_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs <1) THEN  'd_t_m_1' END) AS d_t_m_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_t_m_9' END) AS d_t_m_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs <1) THEN  'd_t_1' END) AS d_t_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_t_9' END) AS d_t_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=9) THEN  'd_t_0_9' END) AS d_t_0_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_t_f_14' END) AS d_t_f_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_t_f_19' END) AS d_t_f_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_t_f_24' END) AS d_t_f_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_t_f_49' END) AS d_t_f_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_t_f_50' END) AS d_t_f_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_t_10_50_f' END) AS d_t_10_50_f, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_t_m_14' END) AS d_t_m_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_t_m_19' END) AS d_t_m_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_t_m_24' END) AS d_t_m_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_t_m_49' END) AS d_t_m_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_t_m_50' END) AS d_t_m_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_t_10_50_m' END) AS d_t_10_50_m, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='Pregnant Mother' OR Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure' OR Justification='Breast Feeding Mothers') AND (AgeYrs<=100) THEN  'd_t_0_50' END) AS d_t_0_50, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs <1) THEN  'd_t_f_1' END) AS d_t_f_1, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_r_t_9' END) AS d_t_f_9, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs <1) THEN  'd_t_m_1' END) AS d_t_m_1, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_t_m_9' END) AS d_t_m_9, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs <1) THEN  'd_t_1' END) AS d_t_1, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_t_9' END) AS d_t_9, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs<=9) THEN  'd_t_0_9' END) AS d_t_0_9, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_t_f_14' END) AS d_t_f_14, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_t_f_19' END) AS d_t_f_19, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_t_f_24' END) AS d_t_f_24, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_t_f_49' END) AS d_t_f_49, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_t_f_50' END) AS d_t_f_50, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_t_10_50_f' END) AS d_t_10_50_f, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_t_m_14' END) AS d_t_m_14, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_t_m_19' END) AS d_t_m_19, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_t_m_24' END) AS d_t_m_24, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_t_m_49' END) AS d_t_m_49, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_t_m_50' END) AS d_t_m_50, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_t_10_50_m' END) AS d_t_10_50_m, " +
+"COUNT( CASE WHEN (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') AND (AgeYrs<=100) THEN  'd_t_0_50' END) AS d_t_0_50, " +
 " " +
 " " +
 "/*NOT DOCUMENTED NUMERATOR DISAGGREGATION BY GENDER AND AGE */ " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs <1) THEN  'd_nd_f_1' END) AS d_nd_f_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_t_9' END) AS d_nd_f_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs <1) THEN  'd_nd_m_1' END) AS d_nd_m_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_m_9' END) AS d_nd_m_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs <1) THEN  'd_nd_1' END) AS d_nd_1, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_9' END) AS d_nd_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=9) THEN  'd_nd_0_9' END) AS d_nd_0_9, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_nd_f_14' END) AS d_nd_f_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_nd_f_19' END) AS d_nd_f_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_nd_f_24' END) AS d_nd_f_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_nd_f_49' END) AS d_nd_f_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_f_50' END) AS d_nd_f_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_f' END) AS d_nd_10_50_f, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_nd_m_14' END) AS d_nd_m_14, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_nd_m_19' END) AS d_nd_m_19, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_nd_m_24' END) AS d_nd_m_24, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_nd_m_49' END) AS d_nd_m_49, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_m_50' END) AS d_nd_m_50, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_m' END) AS d_nd_10_50_m, " +
-"COUNT( CASE WHEN Suppressed='Y' AND (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=100) THEN  'd_nd_0_50' END) AS d_nd_0_50 " +
-" " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs <1) THEN  'd_nd_f_1' END) AS d_nd_f_1, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_t_9' END) AS d_nd_f_9, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs <1) THEN  'd_nd_m_1' END) AS d_nd_m_1, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_m_9' END) AS d_nd_m_9, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs <1) THEN  'd_nd_1' END) AS d_nd_1, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs >=1 AND AgeYrs<=9) THEN  'd_nd_9' END) AS d_nd_9, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=9) THEN  'd_nd_0_9' END) AS d_nd_0_9, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_nd_f_14' END) AS d_nd_f_14, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_nd_f_19' END) AS d_nd_f_19, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_nd_f_24' END) AS d_nd_f_24, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_nd_f_49' END) AS d_nd_f_49, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_f_50' END) AS d_nd_f_50, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='F' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_f' END) AS d_nd_10_50_f, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=14) THEN  'd_nd_m_14' END) AS d_nd_m_14, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=15 AND AgeYrs<=19) THEN  'd_nd_m_19' END) AS d_nd_m_19, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=20 AND AgeYrs<=24) THEN  'd_nd_m_24' END) AS d_nd_m_24, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=25 AND AgeYrs<=49) THEN  'd_nd_m_49' END) AS d_nd_m_49, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_m_50' END) AS d_nd_m_50, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_m' END) AS d_nd_10_50_m, " +
+"COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=100) THEN  'd_nd_0_50' END) AS d_nd_0_50 " +
 "FROM vl_validation join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  " +
 " on "+facilitiestable+".DistrictID=district.DistrictID ) on vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
 + "   "+joinedwhwere+"  GROUP BY mfl_code " +
