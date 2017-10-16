@@ -116,7 +116,22 @@ public class sync_eid extends HttpServlet {
 "  COUNT( case when testresult ='Positive'  and (sex='M' || sex='F' ) and agebracket!='' then testresult end ) as positive, " +
 "  COUNT( case when testresult ='Negative'  and (sex='M' || sex='F' ) and agebracket!='' then testresult end ) as negative, " +
 "  COUNT( case when enrollment like 'Dead' || enrollment like 'Enrolled'  || enrollment like 'Lost to Follow Up' || enrollment like 'Other'  then enrollment end ) as hivenrollment  " +
-" , COUNT( case when testresult like 'Positive'  and (sex='M' || sex='F' ) and (age_months between 0 and 2) then age_months end ) as 0_2mpos " +
+ 
+                    
+                    
+                    
+                    
+" , COUNT( case when testresult like 'Positive'   and (age_months between 0 and 2) then age_months end ) as 0_2mpos " +
+" , COUNT( case when testresult like 'Positive'   and (age_months between 3 and 12) then age_months end ) as 2_12mpos " +
+" , COUNT( case when testresult like 'Negative'   and (age_months between 0 and 2) then age_months end ) as 0_2mneg " +
+" , COUNT( case when testresult like 'Negative'   and (age_months between 3 and 12) then age_months end ) as 2_12mneg  " +
+" ,COUNT( case when (testresult like 'Collect New Sample' or testresult like 'Failed')   and (age_months between 0 and 2) then age_months end ) as 0_2mno_result " +
+" ,COUNT( case when (testresult like 'Collect New Sample' or testresult like 'Failed')   and (age_months between 3 and 12) then age_months end ) as 2_12mno_result " +
+"  " +
+" FROM eid_raw_tested left join eid_raw_pos on eid_raw_tested.samplecode like eid_raw_pos.samplecode  where eid_raw_tested.year='"+yearval+"' and eid_raw_tested.quarter='"+passedquarter+"' group by eid_raw_tested.SubPartnerID , eid_raw_tested.year,eid_raw_tested.quarter ";
+  /**
+   
+  " , COUNT( case when testresult like 'Positive'  and (sex='M' || sex='F' ) and (age_months between 0 and 2) then age_months end ) as 0_2mpos " +
 " , COUNT( case when testresult like 'Positive'  and (sex='M' || sex='F' ) and (age_months between 3 and 12) then age_months end ) as 2_12mpos " +
 " , COUNT( case when testresult like 'Negative'  and (sex='M' || sex='F' ) and (age_months between 0 and 2) then age_months end ) as 0_2mneg " +
 " , COUNT( case when testresult like 'Negative'  and (sex='M' || sex='F' ) and (age_months between 3 and 12) then age_months end ) as 2_12mneg  " +
@@ -124,6 +139,14 @@ public class sync_eid extends HttpServlet {
 " ,COUNT( case when (testresult not like 'Negative' && testresult not like 'Positive')  and (sex='M' || sex='F' ) and (age_months between 3 and 12) then age_months end ) as 2_12mno_result " +
 "  " +
 " FROM eid_raw_tested left join eid_raw_pos on eid_raw_tested.samplecode like eid_raw_pos.samplecode  where eid_raw_tested.year='"+yearval+"' and eid_raw_tested.quarter='"+passedquarter+"' group by eid_raw_tested.SubPartnerID , eid_raw_tested.year,eid_raw_tested.quarter ";
+    
+   
+  **/ 
+            
+            //on 12th october , after a discussion with the clinical team, it was agreed that updates be done on the existing syntax . remove restitions on age
+            
+            //here is the status that was existing before
+            //changes were done on the last sections
             
             System.out.println(""+getfacils);
             

@@ -2288,8 +2288,8 @@ else if(z==pmtct_blankrows-4){
                 //care
                 shet2.setDisplayGridlines(false);
                 shet2.createFreezePane(5, 5);
- 
- 
+ //hide PMTCT worksheet
+  wb.setSheetHidden(2,true); 
     }
  
  if(2==2){
@@ -2851,7 +2851,7 @@ supporttype="DSD";
             String month = "";
             String year = "";
             String facil = "361";
-            String form = "pmtct_fo";
+            String form = "hei.results";
             
 //=====================================================================================================
             year = "2016";
@@ -2895,7 +2895,7 @@ supporttype="DSD";
  Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
   
-  String facilitiestable="subpartnera";
+  String facilitiestable="internal_system.subpartnera";
   
   int selectedyear=new Integer(year);
   
@@ -2905,13 +2905,13 @@ supporttype="DSD";
           
       //db for 2014 is the smallest
           
-       facilitiestable="subpartnera2014";
+       facilitiestable="internal_system.subpartnera2014";
   
       }
       else 
       {
       
-  facilitiestable="subpartnera"+selectedyear;
+  facilitiestable="internal_system.subpartnera"+selectedyear;
   
       }
   }
@@ -2999,18 +2999,18 @@ supporttype="DSD";
             //annually
             if (reportDuration.equals("1")) {
                 yearmonth = "Annual Report For " + year;
-                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
+                duration = " " + form + ".reportingyearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
                 eidduration="year='"+year+"'";
             } else if (reportDuration.equals("2")) {
                 semi_annual = request.getParameter("semi_annual");
 //        semi_annual="2";
                 if (semi_annual.equals("1")) {
                     yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
-                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
+                    duration = " " + form + ".reportingyearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
                      eidduration="year='"+year+"' and (quarter='1' || quarter='2') ";
                 } else {
                     yearmonth = "Semi Annual Report for Apr to  Sep " + year;
-                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
+                    duration = " " + form + ".reportingyearmonth BETWEEN " + year + "04 AND " + year + "09";
                      eidduration="year='"+year+"' and (quarter='2' || quarter='3') ";
                 }
             } else if (reportDuration.equals("3")) {
@@ -3032,11 +3032,11 @@ supporttype="DSD";
                             startMonth = months[0];
                             endMonth = months[2];
                             if (quarter.equals("1")) {
-                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
+                                duration = " " + form + ".reportingyearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
                                 yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
                             } else {
                                 yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
-                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
+                                duration = " " + form + ".reportingyearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
@@ -3082,9 +3082,10 @@ supporttype="DSD";
             
             String getexistingdata = "";
             
-            if (!county.equals("")) {
+            if (!county.equals("")) 
+            {
                 
-                countywhere = " and district.countyid = '" + county + "'";
+                countywhere = " and internal_system.district.countyid = '" + county + "'";
                 
             }
             
@@ -3096,11 +3097,11 @@ supporttype="DSD";
             
             if (!facil.equals("")) {
                 
-                facilitywhere = " and pmtct_fo.SubPartnerID = '" + facil + "'";
+                facilitywhere = " and results.facility_id = '" + facil + "'";
                 
             }
             
-            String joinedwhwere = " where 1=1 " + yearwhere + " && " + eidduration + " " + countywhere + " " + subcountywhere;
+            String joinedwhwere = " where 1=1 " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
            //old eid format 
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
 //            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode "
@@ -3131,16 +3132,20 @@ supporttype="DSD";
        
             
             
-             getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode, "
-                   + " SUM(denominator) as Denominator, "//__Denominator
-                   + " SUM(numerator) as Numerator ,  "//__Numerator
-                   + " SUM(linked_art + not_linked_art + unknown_link)as HIV_infected, " //__HIV_infected
-                   + " SUM(not_breastfeeding + breastfeeding + breastfeeding_unknown)as HIV_uninfected, " //__HIV_uninfected
-                   + " SUM(care_no_test) as HIV_final_status_unknown ,  "//__Numerator
-                   + " SUM(died) as Died_without_status_known ,  "//__Numerator
-                   + " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
+             getexistingdata=" SELECT county as County ,DistrictNom as SubCounty, SubPartnerNom as Facility, CentreSanteId as MFLCode " +
+" ,sum( case when indicator_id=23 then denominator end) as Denominator " +
+" ,sum( case when (indicator_id=21 or indicator_id=22 or indicator_id=23 or  indicator_id=24 or  indicator_id=25  or indicator_id=26 )  then numerator end) as Numerator " +
+" ,sum( case when (indicator_id=23)  then numerator end) as HIV_infected " +
+" ,sum( case when (indicator_id=21)  then numerator end) as HIV_uninfected " +
+" ,sum( case when (indicator_id=22 or  indicator_id=24 or  indicator_id=25 )  then numerator end) as HIV_final_status_unknown " +
+" ,sum( case when indicator_id=26   then numerator end) as Died_without_status_known " +
+" ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume " +
+
+" FROM hei.results join "+facilitiestable+" on hei.results.facility_id="+facilitiestable+".SubPartnerID join (internal_system.district join internal_system.county on internal_system.county.CountyID=internal_system.district.CountyID ) on internal_system.district.DistrictID="+facilitiestable+".DistrictID " +
+" "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) " +
+" group by "+facilitiestable+".SubPartnerID ";
            
-           + " FROM pmtct_fo join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_fo.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) group by "+facilitiestable+".SubPartnerID ";
+           //+ " FROM pmtct_fo join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_fo.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) group by "+facilitiestable+".SubPartnerID ";
            
             
             

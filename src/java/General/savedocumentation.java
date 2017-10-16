@@ -43,7 +43,7 @@ public class savedocumentation extends HttpServlet {
            
             String title= request.getParameter("title");
             String tasktype= request.getParameter("tasktype");
-            String details= request.getParameter("detailsdetails");
+            String details= request.getParameter("details");
             String pstate= request.getParameter("pstate");
             String adate= request.getParameter("adate");
             String edate= request.getParameter("edate");

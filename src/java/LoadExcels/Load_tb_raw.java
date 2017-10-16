@@ -577,10 +577,15 @@ String genexpert="";
                       checker=0;  
                       supporttype="DSD";
            
+                      String link1="%"+facilityName+"%";
+                      
+                      if(facilityName.equals("Rongai Health Centre")){ link1=facilityName; }
+                      //if(facilityName.equals("Rongai Health Centre")){ link1=facilityName; }
+                      
                    String get_id="SELECT SubPartnerID,ART_Support,CentreSanteId as mflcode,HTC_Support1,PMTCT_Support FROM subpartnera WHERE SubPartnerNom like ? or tibu_name like ?";
                    conn.pst=conn.conn.prepareStatement(get_id);
-                   conn.pst.setString(1,"%"+facilityName+"%");
-                   conn.pst.setString(2,"%"+facilityName+"%");
+                   conn.pst.setString(1,link1);
+                   conn.pst.setString(2,link1);
                    conn.rs=conn.pst.executeQuery();
                    if(conn.rs.next()==true)
                    {
