@@ -13364,7 +13364,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
 //            + "ROUND(sum((HV0201 + HV0205))*0.63) as pmtct_statnum_tes_25_49," //updated in 201701 
 //             + "sum(0) as pmtct_statnum_tes_50," //updated in 201701  
 //            
-            + " sum(HV0201 + HV0205) as pmtct_tes_numerator ,"
+            + " sum(HV0201 + HV0205) as pmtct_tes_numerator,"
            
             + "sum(0) as pmtct_statnum_tes_unknown," //updated in 201701          
             + "sum(0) as pmtct_statnum_tes_10," //updated in 201701            
@@ -13399,7 +13399,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             
             + " county.County,district.DistrictNom,"
             + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".PMTCT_Support ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
-            +" ,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT,new_anc "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
+            +" ,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT,IFNULL(SUM(new_anc),0) AS new_anc "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
             + " FROM moh731 JOIN "+facilitiestable+" "
             + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
