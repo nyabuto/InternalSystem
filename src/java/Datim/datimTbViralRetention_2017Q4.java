@@ -1268,22 +1268,22 @@ int new_retentionPOS=0;
 "ROUND(SUM(HV0349)) AS retention_12months,  " +
 "0 AS retention_24months,  " +
 "0 AS retention_36months,  " +
-"ROUND(SUM(tl_12m)) AS pregnant,  " +
-"0 AS breastfeeding,  " +
-"ROUND(SUM(HV0349*0.01)) as f_1, " +
-"ROUND(SUM(HV0349*0.01)) as m_1, " +
-"ROUND(SUM(HV0349*0.02)) as f_9, " +
-"ROUND(SUM(HV0349*0.07)) as m_9, " +
-"ROUND(SUM(HV0349*0.02)) as f_14, " +
-"ROUND(SUM(HV0349*0.05)) as f_19, " +
-"ROUND(SUM(HV0349*0.08)) as f_24, " +
-"ROUND(SUM(HV0349*0.41)) as f_49, " +
-"ROUND(SUM(HV0349*0.06)) as f_50, " +
-"ROUND(SUM(HV0349*0.01)) as m_14, " +
-"ROUND(SUM(HV0349*0.07)) as m_19, " +
-"ROUND(SUM(HV0349*0.02)) as m_24, " +
-"ROUND(SUM(HV0349*0.15)) as m_49, " +
-"ROUND(SUM(HV0349*0.05)) as m_50 " +
+"ROUND(0.96*SUM(tl_12m)) AS pregnant,  " +
+"ROUND(0.04*SUM(tl_12m)) AS breastfeeding,  " +
+"ROUND(SUM(HV0349*0.004)) as f_1, " +
+"ROUND(SUM(HV0349*0.005)) as m_1, " +
+"ROUND(SUM(HV0349*0.040)) as f_9, " +
+"ROUND(SUM(HV0349*0.041)) as m_9, " +
+"ROUND(SUM(HV0349*0.011)) as f_14, " +
+"ROUND(SUM(HV0349*0.031)) as f_19, " +
+"ROUND(SUM(HV0349*0.081)) as f_24, " +
+"ROUND(SUM(HV0349*0.490)) as f_49, " +
+"ROUND(SUM(HV0349*0.050)) as f_50, " +
+"ROUND(SUM(HV0349*0.005)) as m_14, " +
+"ROUND(SUM(HV0349*0.007)) as m_19, " +
+"ROUND(SUM(HV0349*0.011)) as m_24, " +
+"ROUND(SUM(HV0349*0.179)) as m_49, " +
+"ROUND(SUM(HV0349*0.045)) as m_50 " +
 " FROM internal_system.moh731  " +
 " JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
 "JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
@@ -1302,20 +1302,20 @@ int new_retentionPOS=0;
 "0 AS retention_36months,  " +
 "0 AS pregnant,  " +
 "0 AS breastfeeding,  " +
-"ROUND(SUM(HV0345*0.01)) as f_1, " +
-"ROUND(SUM(HV0345*0.01)) as m_1, " +
-"ROUND(SUM(HV0345*0.02)) as f_9, " +
-"ROUND(SUM(HV0345*0.07)) as m_9, " +
-"ROUND(SUM(HV0345*0.02)) as f_14, " +
-"ROUND(SUM(HV0345*0.05)) as f_19, " +
-"ROUND(SUM(HV0345*0.08)) as f_24, " +
-"ROUND(SUM(HV0345*0.41)) as f_49, " +
-"ROUND(SUM(HV0345*0.06)) as f_50, " +
-"ROUND(SUM(HV0345*0.01)) as m_14, " +
-"ROUND(SUM(HV0345*0.07)) as m_19, " +
-"ROUND(SUM(HV0345*0.02)) as m_24, " +
-"ROUND(SUM(HV0345*0.15)) as m_49, " +
-"ROUND(SUM(HV0345*0.05)) as m_50 " +
+"ROUND(SUM(HV0349*0.004)) as f_1, " +
+"ROUND(SUM(HV0349*0.005)) as m_1, " +
+"ROUND(SUM(HV0349*0.040)) as f_9, " +
+"ROUND(SUM(HV0349*0.041)) as m_9, " +
+"ROUND(SUM(HV0349*0.011)) as f_14, " +
+"ROUND(SUM(HV0349*0.031)) as f_19, " +
+"ROUND(SUM(HV0349*0.081)) as f_24, " +
+"ROUND(SUM(HV0349*0.490)) as f_49, " +
+"ROUND(SUM(HV0349*0.050)) as f_50, " +
+"ROUND(SUM(HV0349*0.005)) as m_14, " +
+"ROUND(SUM(HV0349*0.007)) as m_19, " +
+"ROUND(SUM(HV0349*0.011)) as m_24, " +
+"ROUND(SUM(HV0349*0.179)) as m_49, " +
+"ROUND(SUM(HV0349*0.045)) as m_50 " +
 " FROM moh731 JOIN "+facilitiestable+" " +
 "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID  " +
 "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON  " +
@@ -1478,8 +1478,8 @@ String getDenominator="  " +
 "ROUND(SUM(HV0345)) AS retention_12months,  " +
 "0 AS retention_24months,  " +
 "0 AS retention_36months,  " +
-"ROUND(SUM(tl_12m)) AS pregnant,  " +
-"0 AS breastfeeding,  " +
+"ROUND(0.96*SUM(tl_12m)) AS pregnant,  " +
+"ROUND(0.04*SUM(tl_12m)) AS breastfeeding,  " +
 "ROUND(SUM(HV0345*0.0091)) as f_1, " +
 "ROUND(SUM(HV0345*0.0058)) as m_1, " +
 "ROUND(SUM(HV0345*0.0347)) as f_9, " +
@@ -1834,10 +1834,10 @@ String getDenominator="  " +
                 
             }
             
-            String joinedwhwere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " +subcountywhere+" "+facilitywhere+" "
-            + " and Gender !='' and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
+            String joinedwhere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " +subcountywhere+" "+facilitywhere+" "
+            + " and ("+facilitiestable+".ART=1 OR "+facilitiestable+".PMTCT=1) and "+facilitiestable+".active=1  and Gender !='' and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
 
-         System.out.println("where:"+joinedwhwere);
+         System.out.println("where:"+joinedwhere);
 //    ====================START OF NEW VIRAL LOAD REPORT OCT 2017 -------------
 //                       NOW CREATE THE WORKSHEETS
             //______________________________________________________________________________________
@@ -2308,11 +2308,9 @@ String getDenominator="  " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_m_50' END) AS d_nd_m_50, " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_m' END) AS d_nd_10_50_m, " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=100) THEN  'd_nd_0_50' END) AS d_nd_0_50 " +
-"FROM vl_validation join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  " +
-" on "+facilitiestable+".DistrictID=district.DistrictID ) on vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
-+ "   "+joinedwhwere+" GROUP BY mfl_code " +
-
-""; 
+"FROM vl_validation join "+facilitiestable+" ON vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
++"join district on "+facilitiestable+".DistrictID=district.DistrictID join county on county.CountyID=district.CountyID " +
+""+joinedwhere+" GROUP BY mfl_code "; 
         
         conn.rs=conn.st.executeQuery(getVLData);
     
