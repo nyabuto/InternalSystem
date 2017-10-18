@@ -697,6 +697,10 @@
         <servlet-name>DatimReport</servlet-name>
         <servlet-class>T1FORM.DatimReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>importsgbv</servlet-name>
+        <servlet-class>LoadExcels.importsgbv</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1392,6 +1396,10 @@
     <servlet-mapping>
         <servlet-name>DatimReport</servlet-name>
         <url-pattern>/DatimReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>importsgbv</servlet-name>
+        <url-pattern>/importsgbv</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
