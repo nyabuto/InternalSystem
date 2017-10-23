@@ -118,7 +118,7 @@ int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
 //============================================================================================
 //TB    Place tb code on the if      
 //============================================================================================
-if(2==2){
+if(2==3){
 //        GET REPORT DURATION================TB============================
 
         if(reportDuration.equals("1")){
@@ -1061,13 +1061,13 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
   
   HSSFFont font=wb.createFont();
  font.setFontHeightInPoints((short)18);
-    font.setFontName("Arial Black");
+    font.setFontName("Cambria");
     font.setColor((short)0000);
     CellStyle style=wb.createCellStyle();
     style.setFont(font);
     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
      HSSFFont font2=wb.createFont();
-    font2.setFontName("Arial Black");
+    font2.setFontName("Cambria");
     font2.setColor((short)0000);
     CellStyle style2=wb.createCellStyle();
     style2.setFont(font2);
@@ -2728,9 +2728,9 @@ String getDenominator="  " +
             HSSFRow rw1 = shet.createRow(rowpos);
             rw1.setHeightInPoints(38);        
             
-            for (int a = 0; a <sectionheaders.length; a++) {
+            for (int a = 0; a <mainheaders.length; a++) {
                 HSSFCell clx = rw1.createCell(a);
-               clx.setCellValue(sectionheaders[a]);
+               clx.setCellValue(mainheaders[a]);
                 clx.setCellStyle(stylex);
               
             }
@@ -2922,6 +2922,7 @@ staticpmtct_hv.remove(mflindex);
           gbvmaletotal=conn.rs.getInt("maletotal");
           gbvfemaletotal=conn.rs.getInt("femaletotal");
           pepservice=conn.rs.getInt("pep_service");
+          sexualviolence=conn.rs.getInt("numerator");
           //otherpostgbv=conn.rs.getInt("otherpostgbv"); this was ignored later
           
           
@@ -3256,7 +3257,7 @@ else if(z==blankrows-4){
             response.setContentType("application/ms-excel");
             response.setContentLength(outArray.length);
             response.setHeader("Expires:", "0"); // eliminates browser caching
-            response.setHeader("Content-Disposition", "attachment; filename=TB_RETENTION_VIRALLOAD_Generatted_On_" + createdOn + ".xls");
+            response.setHeader("Content-Disposition", "attachment; filename=TB_RETENTION_VIRALLOAD_GEND_GBV_Gen_On_" + createdOn + ".xls");
             OutputStream outStream = response.getOutputStream();
             outStream.write(outArray);
             outStream.flush();

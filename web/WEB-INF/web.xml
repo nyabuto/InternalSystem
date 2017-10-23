@@ -701,6 +701,10 @@
         <servlet-name>importsgbv</servlet-name>
         <servlet-class>LoadExcels.importsgbv</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>newdatimHTCResults_2017Q4</servlet-name>
+        <servlet-class>Datim.newdatimHTCResults_2017Q4</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1400,6 +1404,10 @@
     <servlet-mapping>
         <servlet-name>importsgbv</servlet-name>
         <url-pattern>/importsgbv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newdatimHTCResults_2017Q4</servlet-name>
+        <url-pattern>/newdatimHTCResults_2017Q4</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
