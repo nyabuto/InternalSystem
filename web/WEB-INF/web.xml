@@ -705,6 +705,10 @@
         <servlet-name>newdatimHTCResults_2017Q4</servlet-name>
         <servlet-class>Datim.newdatimHTCResults_2017Q4</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>petermwarogosrequest</servlet-name>
+        <servlet-class>scripts.petermwarogosrequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1408,6 +1412,10 @@
     <servlet-mapping>
         <servlet-name>newdatimHTCResults_2017Q4</servlet-name>
         <url-pattern>/newdatimHTCResults_2017Q4</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>petermwarogosrequest</servlet-name>
+        <url-pattern>/petermwarogosrequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
