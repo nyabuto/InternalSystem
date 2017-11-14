@@ -1297,7 +1297,7 @@ int new_retentionPOS=0;
 "     " +
 " SELECT "+facilitiestable+".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
 ""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
-"ROUND(SUM(HV0345)) AS retention_12months,  " +
+"ROUND(SUM(HV0349)) AS retention_12months,  " +
 "0 AS retention_24months,  " +
 "0 AS retention_36months,  " +
 "0 AS pregnant,  " +
