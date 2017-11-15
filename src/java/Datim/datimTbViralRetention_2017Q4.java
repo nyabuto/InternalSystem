@@ -233,7 +233,6 @@ if(2==3){
         }   
         
      }
-     System.out.println("period is : "+period);
      
 //     GET FACILITIES TO OUTPUT.................................
     mflcode=countyName=districtName=facilityName="";   
@@ -472,7 +471,6 @@ ArrayList staticpmtct_hv= new ArrayList();
             + " ( select moh731.subPartnerID from moh731 join "+facilitiestable+" on moh731.SubPartnerID="+facilitiestable+".SubPartnerID where "+facilityIds+" "+duration+" && ("+facilitiestable+".PMTCT=1 || ART=1)  ) " +
 
 " )   " ;
-       System.out.println("^"+getData);
 //     System.out.println("new : "+getData);
     conn.rs=conn.st.executeQuery(getData);
     while(conn.rs.next()){
@@ -946,7 +944,7 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
 //        GET REPORT DURATION============================================
 
         if(reportDuration.equals("1")){
-         duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
+         duration=" .yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
         period="DATIM ANNUAL DATA REPORT FOR PEPFAR YEAR : "+year;
         excelDuration="year='"+year+"' && ";
                                        }
@@ -954,14 +952,14 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
         semi_annual=request.getParameter("semi_annual");
 //        semi_annual="2";
        if(semi_annual.equals("1")){
-     duration=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
+     duration=" .yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
        
      period="DATIM SEMI - ANNUAL DATA REPORT FOR : OCT "+prevYear+" to MARCH "+year;
      
      excelDuration=" year='"+year+"' && quarter<=2 && ";
        }
            else{
-       duration=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
+       duration=" .yearmonth BETWEEN "+year+"04 AND "+year+"09";      
       period="DATIM SEMI - ANNUAL DATA REPORT FOR : APRIL "+year+" to SEPT "+year; 
       excelDuration=" year='"+year+"' && quarter>=3 && ";
        }
@@ -978,11 +976,11 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
        startMonth=months[0];
        endMonth=months[2];
       if(quarter.equals("1")){
-      duration=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
+      duration=" .yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
       period="DATIM QUARTERLY DATA REPORT FOR : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
       }
       else{
-     duration=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
+     duration=" .yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
      period="DATIM QUARTERLY DATA REPORT FOR : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
       }
       excelDuration=" year='"+year+"' && quarter='"+quarter+"' && ";
@@ -997,11 +995,11 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
     conn.rs=conn.st.executeQuery(getMonthName);
     if(conn.rs.next()==true){
    if(month>=10){
-     duration=" moh731.yearmonth="+prevYear+""+month;    
+     duration=" .yearmonth="+prevYear+""+month;    
      period="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+prevYear+")"; 
      }
      else{
-  duration=" moh731.yearmonth="+year+"0"+month;  
+  duration=" .yearmonth="+year+"0"+month;  
     period="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+year+")";
      }
       }
@@ -1259,79 +1257,79 @@ ArrayList staticpmtct_hv= new ArrayList();
 
 //Retention both numerator and denominator From oct 2017
 if(1==1){
+    if(facilityId==null){
+        facilityId="";
+    }
+    System.out.println("facility ids:"+facilityId);
 int new_retentionPOS=0;
  new_retentionPOS=retentionPOS=3;
 // numerator
-    String getNumerator="  " +
-"  SELECT " + facilitiestable + ".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
-""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
-"ROUND(SUM(HV0349)) AS retention_12months,  " +
-"0 AS retention_24months,  " +
-"0 AS retention_36months,  " +
+String getNumerator="  " +
+"SELECT SubPartnerNom,DistrictNom,County,CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume," +
+"SUM(retention_12months) AS retention_12months, SUM(retention_24months) AS retention_24months, SUM(retention_36months) AS retention_36months, " +
+"SUM(pregnant) as pregnant, SUM(breastfeeding) as breastfeeding,SUM(f_1) as f_1, SUM(m_1) as m_1, SUM(f_9) as f_9, SUM(m_9) as m_9, " +
+"SUM(f_14) as f_14, SUM(m_14) as m_14, SUM(f_19) as f_19, SUM(m_19) as m_19, SUM(f_24) as f_24, SUM(m_24) as m_24, SUM(f_49) as f_49, " +
+"SUM(m_49) as m_49, SUM(f_50) as f_50, SUM(m_50) as m_50 " +
+"FROM (SELECT 1 as unid, " + facilitiestable + ".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County," +
+"" + facilitiestable + ".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume," +
+"ROUND(SUM(HV0349)) AS retention_12months, " +
+"0 AS retention_24months, " +
+"0 AS retention_36months, " +
+"0 as pregnant, " +
+"0 as breastfeeding, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0037)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0112)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0049)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as f_1, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0037)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0056)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_1, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0279)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0496)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0231) end as f_9, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0447)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0485)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0331)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0615) end as m_9, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0185)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0140)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0165)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0154) end as f_14, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0093)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0112)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_14, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0185)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0447)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0100)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0248)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0538) end as f_19, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0019)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0056)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0165)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_19, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0833)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.1508)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0331)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.1077) end as f_24, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0093)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0140)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_24, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.4630)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.4302)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.4531)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.4132)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.3462) end as f_49, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.2222)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.1564)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.1780)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.2645)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.2692) end as m_49, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0559)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.1000)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0661)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0462) end as f_50, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0556)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0279)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0243)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0496)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0385) end as m_50" +
+" FROM internal_system.moh731 " +
+" JOIN internal_system." + facilitiestable + " ON internal_system.moh731.SubPartnerID=internal_system." + facilitiestable + ".SubPartnerID " +
+"JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
+"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID " +
+"WHERE "+facilityIds+" internal_system.moh731"+duration+" && "+facilitiestable+".ART=1 " +
+"GROUP BY internal_system." + facilitiestable + ".SubPartnerID " +
+" " +
+"UNION " +
+"" +
+"SELECT 2 as unid, " + facilitiestable + ".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County," +
+"" + facilitiestable + ".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume," +
+"0 AS retention_12months, " +
+"0 AS retention_24months, " +
+"0 AS retention_36months, " +
 "CASE WHEN County='Baringo' THEN  ROUND(0.962*SUM(tl_12m))  WHEN County='Laikipia' THEN  ROUND(0.969*SUM(tl_12m))  WHEN County='Kajiado' THEN  ROUND(0.984*SUM(tl_12m))  WHEN County='Nakuru' THEN  ROUND(0.982*SUM(tl_12m))  WHEN County='Narok' THEN  ROUND(0.889*SUM(tl_12m)) end as pregnant, " +
 "SUM(tl_12m)-CASE WHEN County='Baringo' THEN  ROUND(0.962*SUM(tl_12m))  WHEN County='Laikipia' THEN  ROUND(0.969*SUM(tl_12m))  WHEN County='Kajiado' THEN  ROUND(0.984*SUM(tl_12m))  WHEN County='Nakuru' THEN  ROUND(0.982*SUM(tl_12m))  WHEN County='Narok' THEN  ROUND(0.889*SUM(tl_12m)) end  as breastfeeding, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0037)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0112)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0049)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as f_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0037)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0056)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0279)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0496)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0231) end as f_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0447)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0485)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0331)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0615) end as m_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0185)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0140)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0165)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0154) end as f_14, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0093)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0112)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_14, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0185)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0447)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0100)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0248)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0538) end as f_19, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0019)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0056)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0165)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_19, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0833)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.1508)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0331)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.1077) end as f_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0093)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0140)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.4630)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.4302)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.4531)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.4132)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.3462) end as f_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.2222)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.1564)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.1780)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.2645)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.2692) end as m_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0559)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.1000)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0661)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0462) end as f_50, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0556)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0279)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0243)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0496)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0385) end as m_50 "
-            + " FROM internal_system.moh731  " +
-" JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
-"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
-"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
-"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
-" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
-"AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  " +
-" GROUP BY internal_system.moh731.SubPartnerID  " +
-"  " +
-"	UNION " +
-"     " +
-" SELECT "+facilitiestable+".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
-""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
-"ROUND(SUM(HV0349)) AS retention_12months,  " +
-"0 AS retention_24months,  " +
-"0 AS retention_36months,  " +
-"0 AS pregnant,  " +
-"0 AS breastfeeding,  " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0037)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0112)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0049)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as f_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0037)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0056)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0279)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0496)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0231) end as f_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0447)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0485)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0331)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0615) end as m_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0185)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0140)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0165)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0154) end as f_14, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0093)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0112)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_14, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0185)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0447)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0100)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0248)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0538) end as f_19, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0019)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0056)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0165)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_19, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0833)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.1508)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0324)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0331)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.1077) end as f_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0093)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0140)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0162)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0083)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0077) end as m_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.4630)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.4302)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.4531)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.4132)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.3462) end as f_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.2222)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.1564)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.1780)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.2645)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.2692) end as m_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0370)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0559)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.1000)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0661)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0462) end as f_50, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0349)*0.0556)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0349)*0.0279)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0349)*0.0243)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0349)*0.0496)  WHEN County='Narok' THEN  ROUND(SUM(HV0349)*0.0385) end as m_50 "
-+ " FROM moh731 JOIN "+facilitiestable+" " +
-"ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID  " +
-"JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON  " +
-"district.CountyID=county.CountyID  " +
-" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 ) and moh731.SubPartnerID NOT IN ( " +
-"SELECT moh731.SubPartnerID " +
-"FROM internal_system.moh731  " +
-"JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
-"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
-"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
-"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
-" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
-" AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  " +
-" GROUP BY internal_system.moh731.SubPartnerID  " +
-" ) " +
-" GROUP BY moh731.SubPartnerID ";   
+"0 as f_1, " +
+"0 as m_1, " +
+"0 as f_9, " +
+"0 as m_9, " +
+"0 as f_14, " +
+"0 as m_14, " +
+"0 as f_19, " +
+"0 as m_19, " +
+"0 as f_24, " +
+"0 as m_24, " +
+"0 as f_49, " +
+"0 as m_49, " +
+"0 as f_50, " +
+"0 as m_50" +
+" FROM pmtct_art_cohort.pmtct_cohort " +
+" JOIN internal_system." + facilitiestable + " ON pmtct_art_cohort.pmtct_cohort.mflcode=internal_system." + facilitiestable + ".CentreSanteId " +
+"JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
+"JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID " +
+"WHERE "+facilityIds+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1 " +
+"AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9) " +
+"GROUP BY internal_system." + facilitiestable + ".SubPartnerID ) AS all_data group by CentreSanteId ORDER BY CentreSanteId" ;
+
+    System.out.println("num : "+getNumerator);
      conn.rs=conn.st.executeQuery(getNumerator);
         while(conn.rs.next()){
 
@@ -1436,7 +1434,6 @@ int new_retentionPOS=0;
       int  total_1_9 = m_1+m_9+f_1+f_9;    
     //     completed normalization
 int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50;
-            System.out.println("initial totals:"+newsummed+" final summed : "+sumedtotalsafter+" fetched total : "+numerator);
     // create row and add data
     String dataRETENTION []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+numerator+","+num_24+","+num_36+","
            + ""+pregnant+","+breastfeeding+","+(pregnant+breastfeeding)+","
@@ -1472,76 +1469,70 @@ int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50
         
         int initial_colpos=27;
  //denominator 
-String getDenominator="  " +
-"  SELECT "+facilitiestable+".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
-""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
+ String getDenominator="  SELECT SubPartnerNom,DistrictNom,County,CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
+"SUM(retention_12months) AS retention_12months, SUM(retention_24months) AS retention_24months, SUM(retention_36months) AS retention_36months,  " +
+"SUM(pregnant) as pregnant, SUM(breastfeeding) as breastfeeding,SUM(f_1) as f_1, SUM(m_1) as m_1, SUM(f_9) as f_9, SUM(m_9) as m_9,  " +
+"SUM(f_14) as f_14, SUM(m_14) as m_14, SUM(f_19) as f_19, SUM(m_19) as m_19, SUM(f_24) as f_24, SUM(m_24) as m_24, SUM(f_49) as f_49,  " +
+"SUM(m_49) as m_49, SUM(f_50) as f_50, SUM(m_50) as m_50  " +
+"FROM (SELECT 1 AS unid, " + facilitiestable + ".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
+"" + facilitiestable + ".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
 "ROUND(SUM(HV0345)) AS retention_12months,  " +
 "0 AS retention_24months,  " +
-"0 AS retention_36months,  " +
-"CASE WHEN County='Baringo' THEN  ROUND(0.878*SUM(tl_12m))  WHEN County='Laikipia' THEN  ROUND(0.962*SUM(tl_12m))  WHEN County='Kajiado' THEN  ROUND(0.978*SUM(tl_12m))  WHEN County='Nakuru' THEN  ROUND(0.975*SUM(tl_12m))  WHEN County='Narok' THEN  ROUND(0.806*SUM(tl_12m)) end as pregnant, " +
-"SUM(tl_12m)-CASE WHEN County='Baringo' THEN  ROUND(0.878*SUM(tl_12m))  WHEN County='Laikipia' THEN  ROUND(0.962*SUM(tl_12m))  WHEN County='Kajiado' THEN  ROUND(0.978*SUM(tl_12m))  WHEN County='Nakuru' THEN  ROUND(0.975*SUM(tl_12m))  WHEN County='Narok' THEN  ROUND(0.806*SUM(tl_12m)) end  as breastfeeding, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0051)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0226)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0138)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0094)  WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0072) end as f_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0034)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0130)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0046)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0057) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0120) end  as m_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0471)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0376)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0238)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0415) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0196) end  as f_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0404)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0451)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0500)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0283) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0643) end  as m_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0168)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0275)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0146)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0170) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0148) end  as f_14, " +
+"0 AS retention_36months,     " +
+"0 as pregnant,  " +
+"0 as breastfeeding,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0051)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0226)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0138)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0094)  WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0072) end as f_1,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0034)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0130)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0046)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0057) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0120) end  as m_1,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0471)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0376)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0238)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0415) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0196) end  as f_9,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0404)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0451)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0500)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0283) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0643) end  as m_9,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0168)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0275)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0146)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0170) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0148) end  as f_14,  " +
 "CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0135)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0176)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0100)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0104) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0050) end  as m_14, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0269)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0150)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0467)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0227) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0458) end  as f_19, " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0269)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0150)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0467)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0227) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0458) end  as f_19,    " +
 "CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0034)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0250)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0046)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0166) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0072) end  as m_19, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0791)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0376)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.1511)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0395) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.1131) end  as f_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0118)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0150)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0138)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0113) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0079) end  as m_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.4493)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.4482)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.4283)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.4174) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.3544) end  as f_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.2227)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.1780)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.1562)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.2621) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.2608) end  as m_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0338)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0952)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0550)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0661) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0506) end  as f_50, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0423)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0226)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0275)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0519) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0410) end  as m_50 "
-        + " FROM internal_system.moh731  " +
-" JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
-"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0791)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0376)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.1511)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0395) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.1131) end  as f_24,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0118)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0150)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0138)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0113) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0079) end  as m_24,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.4493)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.4482)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.4283)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.4174) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.3544) end  as f_49,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.2227)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.1780)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.1562)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.2621) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.2608) end  as m_49,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0338)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0952)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0550)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0661) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0506) end  as f_50,  " +
+"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0423)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0226)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0275)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0519) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0410) end  as m_50  " +
+" FROM internal_system.moh731  " +
+" JOIN internal_system." + facilitiestable + " ON internal_system.moh731.SubPartnerID=internal_system." + facilitiestable + ".SubPartnerID  " +
+"JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
-"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
-" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
-" AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  " +
-" GROUP BY internal_system.moh731.SubPartnerID  " +
+" WHERE "+facilityIds+" internal_system.moh731"+duration+" && "+facilitiestable+".ART=1 " +
+" GROUP BY internal_system." + facilitiestable + ".SubPartnerID  " +
 "  " +
-"	UNION " +
-"     " +
-" SELECT "+facilitiestable+".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
-""+facilitiestable+".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
-"ROUND(SUM(HV0345)) AS retention_12months,  " +
+" UNION  " +
+"   " +
+"SELECT 2 AS unid, " + facilitiestable + ".SubPartnerNom AS SubPartnerNom,district.DistrictNom AS DistrictNom,county.County AS County, " +
+"" + facilitiestable + ".CentreSanteId AS CentreSanteId,ART_Support,PMTCT_Support,ART_highvolume, HTC_highvolume,PMTCT_highvolume, " +
+"0 AS retention_12months,  " +
 "0 AS retention_24months,  " +
-"0 AS retention_36months,  " +
-"0 AS pregnant,  " +
-"0 AS breastfeeding,  " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0051)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0226)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0138)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0094)  WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0072) end as f_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0034)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0130)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0046)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0057) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0120) end  as m_1, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0471)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0376)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0238)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0415) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0196) end  as f_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0404)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0451)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0500)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0283) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0643) end  as m_9, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0168)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0275)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0146)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0170) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0148) end  as f_14, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0135)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0176)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0100)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0104) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0050) end  as m_14, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0269)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0150)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0467)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0227) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0458) end  as f_19, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0034)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0250)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0046)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0166) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0072) end  as m_19, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0791)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0376)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.1511)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0395) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.1131) end  as f_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0118)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0150)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0138)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0113) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0079) end  as m_24, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.4493)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.4482)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.4283)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.4174) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.3544) end  as f_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.2227)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.1780)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.1562)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.2621) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.2608) end  as m_49, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0338)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0952)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0550)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0661) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0506) end  as f_50, " +
-"CASE WHEN County='Baringo' THEN  ROUND(SUM(HV0345)*0.0423)  WHEN County='Laikipia' THEN  ROUND(SUM(HV0345)*0.0226)  WHEN County='Kajiado' THEN  ROUND(SUM(HV0345)*0.0275)  WHEN County='Nakuru' THEN  ROUND(SUM(HV0345)*0.0519) WHEN County='Narok' THEN  ROUND(SUM(HV0345)*0.0410) end  as m_50 "
-+ " FROM moh731 JOIN "+facilitiestable+" " +
-"ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID  " +
-"JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON  " +
-"district.CountyID=county.CountyID  " +
-" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 ) and moh731.SubPartnerID NOT IN ( " +
-"SELECT moh731.SubPartnerID " +
-"FROM internal_system.moh731  " +
-"JOIN internal_system."+facilitiestable+" ON internal_system.moh731.SubPartnerID=internal_system."+facilitiestable+".SubPartnerID  " +
-"JOIN internal_system.district ON internal_system."+facilitiestable+".DistrictID=internal_system.district.DistrictID  " +
+"0 AS retention_36months,     " +
+"CASE WHEN County='Baringo' THEN  ROUND(0.878*SUM(tl_12m))  WHEN County='Laikipia' THEN  ROUND(0.962*SUM(tl_12m))  WHEN County='Kajiado' THEN  ROUND(0.978*SUM(tl_12m))  WHEN County='Nakuru' THEN  ROUND(0.975*SUM(tl_12m))  WHEN County='Narok' THEN  ROUND(0.806*SUM(tl_12m)) end as pregnant,  " +
+"SUM(tl_12m)-CASE WHEN County='Baringo' THEN  ROUND(0.878*SUM(tl_12m))  WHEN County='Laikipia' THEN  ROUND(0.962*SUM(tl_12m))  WHEN County='Kajiado' THEN  ROUND(0.978*SUM(tl_12m))  WHEN County='Nakuru' THEN  ROUND(0.975*SUM(tl_12m))  WHEN County='Narok' THEN  ROUND(0.806*SUM(tl_12m)) end  as breastfeeding,  " +
+"0 as f_1,  " +
+"0 as m_1,  " +
+"0 as f_9,  " +
+"0 as m_9,  " +
+"0 as f_14,  " +
+"0 as m_14, " +
+"0 as f_19,    " +
+"0 as m_19, " +
+"0 as f_24,  " +
+"0 as m_24,  " +
+"0 as f_49,  " +
+"0 as m_49,  " +
+"0 as f_50,  " +
+"0 as m_50  " +
+" FROM pmtct_art_cohort.pmtct_cohort  " +
+" JOIN internal_system." + facilitiestable + " ON pmtct_art_cohort.pmtct_cohort.mflcode=internal_system." + facilitiestable + ".CentreSanteId  " +
+"JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
-"LEFT JOIN pmtct_art_cohort.pmtct_cohort ON (pmtct_art_cohort.pmtct_cohort.mflcode=internal_system."+facilitiestable+".CentreSanteId AND  pmtct_art_cohort.pmtct_cohort.yearmonth=internal_system.moh731.yearmonth)  " +
-" WHERE  "+facilityIds+" "+duration+" && ("+facilitiestable+".ART=1 ||"+facilitiestable+".PMTCT=1 )  " +
+" WHERE "+facilityIds+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1 " +
 " AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  " +
-" GROUP BY internal_system.moh731.SubPartnerID  " +
-" ) " +
-" GROUP BY moh731.SubPartnerID ";
+" GROUP BY internal_system." + facilitiestable + ".SubPartnerID ) AS all_data group by CentreSanteId  ORDER BY CentreSanteId";
+
 
      conn.rs=conn.st.executeQuery(getDenominator);
         while(conn.rs.next()){
@@ -1647,7 +1638,6 @@ String getDenominator="  " +
       int  total_1_9 = m_1+m_9+f_1+f_9;    
     //     completed normalization
     int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50;
-    System.out.println("initial totals:"+newsummed+" final summed : "+sumedtotalsafter+" fetched total : "+denominator);
     // create row and add data
     String dataRETENTION []=(denominator+","+den_24+","+den_36+","
            + ""+pregnant+","+breastfeeding+","+(pregnant+breastfeeding)+","
@@ -1837,7 +1827,6 @@ String getDenominator="  " +
             String joinedwhere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " +subcountywhere+" "+facilitywhere+" "
             + " and ("+facilitiestable+".ART=1 OR "+facilitiestable+".PMTCT=1) and "+facilitiestable+".active=1  and Gender !='' and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
 
-         System.out.println("where:"+joinedwhere);
 //    ====================START OF NEW VIRAL LOAD REPORT OCT 2017 -------------
 //                       NOW CREATE THE WORKSHEETS
             //______________________________________________________________________________________
@@ -2620,7 +2609,7 @@ String getDenominator="  " +
            //    getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , sum(HV0507) as numerator  ,(sum(HV0502)+sum(HV0504)+sum(HV0506)) as femaletotal, (sum(HV0501)+sum(HV0503)+sum(HV0505)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode, ART_Support , sum(IFNULL(HV0503,0)+IFNULL(HV0504,0)) as numerator , sum(IFNULL(HV0503,0)+IFNULL(HV0504,0)) as sexual_violence,'0' as physical_violence  ,(sum(HV0504)) as femaletotal, (sum(HV0503)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM moh731 join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on moh731.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" group by "+facilitiestable+".SubPartnerID ";
             getexistingdata=" select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode, ART_Support , sum(IFNULL(rapesurvivor_M,0)+IFNULL(rapesurvivor_F,0)) as numerator , sum(IFNULL(rapesurvivor_M,0)+IFNULL(rapesurvivor_F,0)) as sexual_violence,'0' as physical_violence  , (sum(rapesurvivor_F)) as femaletotal, (sum(rapesurvivor_M)) as maletotal ,sum(initiatedpep_T) as pep_service,  "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM sgbv join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on sgbv.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" group by "+facilitiestable+".SubPartnerID ";
-            System.out.println(getexistingdata);
+           
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
             
