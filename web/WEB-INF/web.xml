@@ -709,6 +709,18 @@
         <servlet-name>petermwarogosrequest</servlet-name>
         <servlet-class>scripts.petermwarogosrequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>datimTbViralRetention_2018Q1</servlet-name>
+        <servlet-class>Datim.datimTbViralRetention_2018Q1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>datimReport_2018</servlet-name>
+        <servlet-class>Datim.datimReport_2018</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newdatimHTCResults_2018Q1</servlet-name>
+        <servlet-class>Datim.newdatimHTCResults_2018Q1</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1416,6 +1428,18 @@
     <servlet-mapping>
         <servlet-name>petermwarogosrequest</servlet-name>
         <url-pattern>/petermwarogosrequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimTbViralRetention_2018Q1</servlet-name>
+        <url-pattern>/datimTbViralRetention_2018Q1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimReport_2018</servlet-name>
+        <url-pattern>/datimReport_2018</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newdatimHTCResults_2018Q1</servlet-name>
+        <url-pattern>/newdatimHTCResults_2018Q1</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
