@@ -39,7 +39,8 @@ import org.apache.poi.ss.usermodel.Font;
  * This is the DATIM ART , CARE ,PMTCT
  */
 public class datimReport_2018 extends HttpServlet {
-
+double f_1,f_9,f_14,f_19,f_24,f_29,f_34,f_39,f_49,f_50, m_1,m_9,m_14,m_19,m_24,m_29,m_34,m_39,m_49,m_50;
+double c_f_1,c_f_9,c_f_14,c_f_19,c_f_24,c_f_29,c_f_34,c_f_39,c_f_49,c_f_50, c_m_1,c_m_9,c_m_14,c_m_19,c_m_24,c_m_29,c_m_34,c_m_39,c_m_49,c_m_50;
   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -56,16 +57,16 @@ duration="";
 String facilityName,mflcode,countyName,districtName,facilityIds,facilityId;
 int HV0308,HV0309,HV0310,HV0311,HV0312,HV0320,HV0321,HV0322,HV0323,HV0324;
 int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
-double currentART1M,currentART1_9M,currentART10_14M,currentART15_19M,currentART20_24M,currentART25_49M,currentART50M;
-double currentART1F,currentART1_9F,currentART10_14F,currentART15_19F,currentART20_24F,currentART25_49F,currentART50F;
+double currentART1M,currentART1_9M,currentART10_14M,currentART15_19M,currentART20_24M,currentART50M;
+double currentART1F,currentART1_9F,currentART10_14F,currentART15_19F,currentART20_24F,currentART50F;
 
 double newART25_29f,newART30_34f,newART35_39f,newART40_49f;
 double currentART25_29f,currentART30_34f,currentART35_39f,currentART40_49f;
 double newART25_29m,newART30_34m,newART35_39m,newART40_49m;
 double currentART25_29m,currentART30_34m,currentART35_39m,currentART40_49m;
 //double currentART1F,currentART1_4F,currentART5_14F,currentART15_19F,currentART20F;
-double Pregnant,breastfeeding,ontbtreatment,newART1M,newART1_9M,newART10_14M,newART15_19M,newART20_24M,newART25_49M,newART50M;
-double newART1F,newART1_9F,newART10_14F,newART15_19F,newART20_24F,newART25_49F,newART50F;
+double Pregnant,breastfeeding,ontbtreatment,newART1M,newART1_9M,newART10_14M,newART15_19M,newART20_24M,newART50M;
+double newART1F,newART1_9F,newART10_14F,newART15_19F,newART20_24F,newART50F;
 double newCARE1M,newCARE1_4M,newCARE5_9M,newCARE10_14M,newCARE15_19M,newCARE20_24M,newCARE25_49M,newCARE50M;
 double newCARE1F,newCARE1_4F,newCARE5_9F,newCARE10_14F,newCARE15_19F,newCARE20_24F,newCARE25_49F,newCARE50F;
 double currentCARE1M,currentCARE1_4M,currentCARE5_9M,currentCARE10_14M,currentCARE15_19M,currentCARE20_24M,currentCARE25_49M,currentCARE50M;
@@ -90,11 +91,6 @@ Double PMTCT_STATD_D,PMTCT_STATD_LESS15,PMTCT_STATD_15_19,PMTCT_STATD_20_24,PMTC
 Double PMTCT_CTX;
 int  numerator,denominator=0;
 int errorPMTCT,errorART,errorCARE;
-//int TB_STAT_N,TB_STAT_D,TB_STAT_FEMALE,TB_STAT_MALE,TB_STAT_1,TB_STAT_4,TB_STAT_9,TB_STAT_14,TB_STAT_19,TB_STAT_20,
-//        TB_STAT_POSTIVE,TB_STAT_NEGATIVE;
-//Double TB_SCREEN_D,TB_SCREEN_N,TB_SCREEN_FEMALE,TB_SCREEN_MALE,TB_SCREEN_LESS15,TB_SCREEN_1,TB_SCREEN_4,TB_SCREEN_9,
-//       TB_SCREEN_14,TB_SCREEN_MORE15,TB_SCREEN_19,TB_SCREEN_20;
-//int TB_ART_N,TB_ART_D,TB_ART_FEMALE,TB_ART_MALE,TB_ART_1,TB_ART_4,TB_ART_9,TB_ART_14,TB_ART_19,TB_ART_20;
 String excelDuration="";
            
            session = request.getSession();
@@ -764,13 +760,18 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
             + "SUM(HV0302) as HV0302,SUM(HV0206) as HV0206,SUM(HV0207) as HV0207,SUM(HV0208) as HV0208"
             + ",SUM(HV0350) as HV0350,SUM(HV0351) as HV0351,SUM(HV0352) as HV0352,SUM(HV0353) as HV0353,SUM(HV0354) as HV0354,"
             + " SUM(HV0320) as under1_newtx,SUM(HV0308) as under1_newcare , "
-            + " ART_highvolume, HTC_highvolume,PMTCT_highvolume,IFNULL(SUM(HV0326),0) as pregnant, SUM(HV0327) as tbtreatment, ROUND(SUM(HV0327)*0.1333) as breastfeeding,SUM(HV0201) as HV0201  "
-            + " FROM moh731 JOIN "+facilitiestable+" "
-            + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
-            + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
-            + " district.CountyID=county.CountyID"
+            + " ART_highvolume, HTC_highvolume,PMTCT_highvolume,IFNULL(SUM(HV0326),0) as pregnant, SUM(HV0327) as tbtreatment, ROUND(SUM(HV0327)*0.1333) as breastfeeding,SUM(HV0201) as HV0201,  "
+            + " IFNULL(f_1,0) AS f_1,IFNULL(f_9,0) AS f_9,IFNULL(f_14,0) AS f_14,IFNULL(f_19,0) AS f_19,IFNULL(f_24,0) AS f_24,IFNULL(f_29,0) f_29,IFNULL(f_34,0) f_34," +
+                "IFNULL(f_39,0) AS f_39,IFNULL(f_49,0) f_49,IFNULL(f_50,0) f_50, IFNULL(m_1,0) AS m_1,IFNULL(m_9,0) AS m_9,IFNULL(m_14,0) AS m_14,IFNULL(m_19,0) AS m_19," +
+                "IFNULL(m_24,0) AS m_24,IFNULL(m_29,0) m_29,IFNULL(m_34,0) AS m_34,IFNULL(m_39,0) AS m_39,IFNULL(m_49,0) AS m_49,IFNULL(m_50,0) AS m_50 "
+            + " FROM moh731 "
+            + " LEFT JOIN "+facilitiestable+" ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + " LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+            + " LEFT JOIN county ON district.CountyID=county.CountyID "
+            + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
             + " WHERE "
-    + " "+facilityIds+" "+duration+"  "
+            + " "+facilityIds+" "+duration+"  "
+            + " AND  indicator='TX_CURR'"
             + "GROUP BY moh731.SubPartnerID " ;
        
    System.out.println("new : "+getData);
@@ -801,10 +802,8 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
         
                            }
         
-        
         //PMTCT
-        
-        
+
           int pmtctmflindex=pmtct_staticmfl.indexOf(conn.rs.getString("CentreSanteId"));
         
         if(pmtctmflindex!=-1)
@@ -834,10 +833,10 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
         
 HV0308=HV0309=HV0310=HV0311=HV0312=HV0320=HV0321=HV0322=HV0323=HV0324=HV0201=0;
 HV0314=HV0315=HV0316=HV0317=HV0318=HV0334=HV0335=HV0336=HV0337=HV0338=0;
-currentART1M=currentART1_9M=currentART10_14M=currentART15_19M=currentART20_24M=currentART25_49M=currentART50M=0;
-currentART1F=currentART1_9F=currentART10_14F=currentART15_19F=currentART20_24F=currentART25_49F=currentART50F=0;
-newART1M=newART1_9M=newART10_14M=newART15_19M=newART20_24M=newART25_49M=newART50M=Pregnant=breastfeeding=ontbtreatment=0;
-newART1F=newART1_9F=newART10_14F=newART15_19F=newART20_24F=newART25_49F=newART50F=0;
+currentART1M=currentART1_9M=currentART10_14M=currentART15_19M=currentART20_24M=currentART50M=0;
+currentART1F=currentART1_9F=currentART10_14F=currentART15_19F=currentART20_24F=currentART50F=0;
+newART1M=newART1_9M=newART10_14M=newART15_19M=newART20_24M=newART50M=Pregnant=breastfeeding=ontbtreatment=0;
+newART1F=newART1_9F=newART10_14F=newART15_19F=newART20_24F=newART50F=0;
 
 //ADDED ON 2018 FY
 newART25_29f=newART30_34f=newART35_39f=newART40_49f=0;
@@ -886,7 +885,6 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
     HV0324=conn.rs.getInt(16);
     facilityId=conn.rs.getString(17);
     
-        HV0205=conn.rs.getInt("HV0201");
         HV0205=conn.rs.getInt(18);
         HV0209=conn.rs.getInt(19);
         HV0210=conn.rs.getInt(20);
@@ -909,6 +907,27 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
         HV0353=conn.rs.getInt(37);
         HV0354=conn.rs.getInt(38);
         
+    f_1 = conn.rs.getDouble("f_1");
+    f_9 = conn.rs.getDouble("f_9");
+    f_14 = conn.rs.getDouble("f_14");
+    f_19 = conn.rs.getDouble("f_19");
+    f_24 = conn.rs.getDouble("f_24");
+    f_29 = conn.rs.getDouble("f_29");
+    f_34 = conn.rs.getDouble("f_34");
+    f_39 = conn.rs.getDouble("f_39");
+    f_49 = conn.rs.getDouble("f_49");
+    f_50 = conn.rs.getDouble("f_50");
+    m_1 = conn.rs.getDouble("m_1");
+    m_9 = conn.rs.getDouble("m_9");
+    m_14 = conn.rs.getDouble("m_14");
+    m_19 = conn.rs.getDouble("m_19");
+    m_24 = conn.rs.getDouble("m_24");
+    m_29 = conn.rs.getDouble("m_29");
+    m_34 = conn.rs.getDouble("m_34");
+    m_39 = conn.rs.getDouble("m_39");
+    m_49 = conn.rs.getDouble("m_49");
+    m_50 = conn.rs.getDouble("m_50"); 
+    
       Pregnant=conn.rs.getInt("pregnant");
       //breastfeeding=(float)Math.round((0.1333*Pregnant));
       breastfeeding=0;
@@ -1005,8 +1024,18 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
     }
         
      String getCurrent="SELECT HV0314,HV0315,HV0316,HV0317,HV0318,"
-    + "HV0334,HV0335,HV0336,HV0337,HV0338,HV0302,HV0319, HV0314 as under1_curcare,HV0334 as under1_curtx  FROM moh731 WHERE "
-    + "moh731.SubPartnerID='"+facilityId+"' && yearmonth='"+maxYearMonth+"'";
+    + "HV0334,HV0335,HV0336,HV0337,HV0338,HV0302,HV0319, HV0314 as under1_curcare,HV0334 as under1_curtx,"
+    + " IFNULL(f_1,0) AS f_1,IFNULL(f_9,0) AS f_9,IFNULL(f_14,0) AS f_14,IFNULL(f_19,0) AS f_19,IFNULL(f_24,0) AS f_24,IFNULL(f_29,0) f_29,IFNULL(f_34,0) f_34," +
+    "IFNULL(f_39,0) AS f_39,IFNULL(f_49,0) f_49,IFNULL(f_50,0) f_50, IFNULL(m_1,0) AS m_1,IFNULL(m_9,0) AS m_9,IFNULL(m_14,0) AS m_14,IFNULL(m_19,0) AS m_19," +
+    "IFNULL(m_24,0) AS m_24,IFNULL(m_29,0) m_29,IFNULL(m_34,0) AS m_34,IFNULL(m_39,0) AS m_39,IFNULL(m_49,0) AS m_49,IFNULL(m_50,0) AS m_50 "
+    + " FROM moh731 "
+    + " LEFT JOIN "+facilitiestable+" ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+    + " LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+    + " LEFT JOIN county ON district.CountyID=county.CountyID "
+    + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
+    + " WHERE "
+    + " moh731.SubPartnerID='"+facilityId+"' && yearmonth='"+maxYearMonth+"' "
+    + " AND  indicator='TX_CURR'";
 //     System.out.println("current : "+getCurrent);
      conn.rs1=conn.st1.executeQuery(getCurrent);
      if(conn.rs1.next()==true){
@@ -1022,7 +1051,27 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
      HV0338=conn.rs1.getInt(10);
 //     HV0302=conn.rs1.getInt(11);
      HV0319=conn.rs1.getInt(12);
-    
+     
+    c_f_1 = conn.rs1.getDouble("f_1");
+    c_f_9 = conn.rs1.getDouble("f_9");
+    c_f_14 = conn.rs1.getDouble("f_14");
+    c_f_19 = conn.rs1.getDouble("f_19");
+    c_f_24 = conn.rs1.getDouble("f_24");
+    c_f_29 = conn.rs1.getDouble("f_29");
+    c_f_34 = conn.rs1.getDouble("f_34");
+    c_f_39 = conn.rs1.getDouble("f_39");
+    c_f_49 = conn.rs1.getDouble("f_49");
+    c_f_50 = conn.rs1.getDouble("f_50");
+    c_m_1 = conn.rs1.getDouble("m_1");
+    c_m_9 = conn.rs1.getDouble("m_9");
+    c_m_14 = conn.rs1.getDouble("m_14");
+    c_m_19 = conn.rs1.getDouble("m_19");
+    c_m_24 = conn.rs1.getDouble("m_24");
+    c_m_29 = conn.rs1.getDouble("m_29");
+    c_m_34 = conn.rs1.getDouble("m_34");
+    c_m_39 = conn.rs1.getDouble("m_39");
+    c_m_49 = conn.rs1.getDouble("m_49");
+    c_m_50 = conn.rs1.getDouble("m_50"); 
         
         
         under1_curcare=conn.rs1.getInt("under1_curcare");
@@ -1113,19 +1162,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
   
    int _HV0335=HV0335;
 //    VALUES FOR CURRENT ON ART
- /** 
- int tofauti=0;
 
- if(under1_curtxm>_HV0335)
- { 
- tofauti=(int) (under1_curtxm-_HV0335);
- }
- under1_curtxm-=tofauti;
- curartgawa_m=tofauti;
- */
- 
- 
- 
  currentART1M=under1_curtxm;
 
  if(_HV0335>=under1_curtxm){     
@@ -1135,8 +1172,8 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
  else {
      System.out.println(facilityName+" Should have multiplied but dint ");
       }
- currentART1_9M=(float)Math.round((0.43*_HV0335));
- currentART10_14M=(float)Math.round((0.57*_HV0335));
+ currentART1_9M=(float)Math.round((c_m_9*_HV0335));
+ currentART10_14M=(float)Math.round((c_m_14*_HV0335));
  
  
   splitData=currentART1M+currentART1_9M+currentART10_14M;
@@ -1174,32 +1211,31 @@ adderPos++  ;
 
  }
  
- currentART15_19M=(float)Math.round((0.05*HV0337));
- currentART20_24M=(float)Math.round((0.04*HV0337));
- currentART25_49M=(float)Math.round((0.73*HV0337));
- currentART50M=(float)Math.round((0.18*HV0337));
+ currentART15_19M=(float)Math.round((c_m_19*HV0337));
+ currentART20_24M=(float)Math.round((c_m_24*HV0337));
+currentART25_29m=(float)Math.round((c_m_29*HV0337));
+currentART30_34m=(float)Math.round((c_m_34*HV0337));
+currentART35_39m=(float)Math.round((c_m_39*HV0337));
+currentART40_49m=(float)Math.round((c_m_49*HV0337));
+
+ currentART50M=(float)Math.round((c_m_50*HV0337));
  
   //add values for  new and current on ART
- 
-currentART25_29m=0;
-currentART30_34m=0;
-currentART35_39m=0;
-currentART40_49m=0;
 
 //end of added new values
 
 
- splitData=currentART15_19M+currentART20_24M+currentART25_49M+currentART50M;
+ splitData=currentART15_19M+currentART20_24M+currentART25_29m+currentART30_34m+currentART35_39m+currentART40_49m+currentART50M;
   if((splitData-HV0337)>2 ||(HV0337-splitData)>2 ){errorART++;}
   else{
  while(splitData<HV0337){ 
- currentART25_49M+=1; 
+ currentART40_49m+=1; 
  splitData++;
 }
  
- splitData=currentART15_19M+currentART20_24M+currentART25_49M+currentART50M;
+ splitData=currentART15_19M+currentART20_24M+currentART25_29m+currentART30_34m+currentART35_39m+currentART40_49m+currentART50M;
  while(splitData>HV0337){ 
- currentART25_49M-=1; 
+ currentART40_49m-=1; 
  splitData--;
 }
 }
@@ -1214,8 +1250,8 @@ int _HV0336=HV0336;
      System.out.println("Should have multiplied but dint ");
       }
 
-currentART1_9F=(float)Math.round((0.4265*_HV0336));
-currentART10_14F=(float)Math.round((0.5735*_HV0336));
+currentART1_9F=(float)Math.round((c_f_9*_HV0336));
+currentART10_14F=(float)Math.round((c_f_14*_HV0336));
 
 
 
@@ -1245,17 +1281,16 @@ adderPos++  ;
    
 
    
-currentART15_19F=(float)Math.round((0.03*HV0338));
-currentART20_24F=(float)Math.round((0.07*HV0338));
-currentART25_49F=(float)Math.round((0.78*HV0338));
-currentART50F=(float)Math.round((0.12*HV0338));
+currentART15_19F=(float)Math.round((c_f_19*HV0338));
+currentART20_24F=(float)Math.round((c_f_24*HV0338));
+currentART25_29f=(float)Math.round((c_f_29*HV0338));
+currentART30_34f=(float)Math.round((c_f_34*HV0338));
+currentART35_39f=(float)Math.round((c_f_39*HV0338));
+currentART40_49f=(float)Math.round((c_f_49*HV0338));
+currentART50F=(float)Math.round((c_f_50*HV0338));
 
-currentART25_29f=0;
-currentART30_34f=0;
-currentART35_39f=0;
-currentART40_49f=0;
  
- splitData=currentART15_19F+currentART20_24F+currentART25_49F+currentART50F;
+ splitData=currentART15_19F+currentART20_24F+currentART25_29f+currentART30_34f+currentART35_39f+currentART40_49f+currentART50F;
   if((splitData-HV0338)>2 ||(HV0338-splitData)>2 ){errorART++;}
   else{
  while(splitData<HV0338){ 
@@ -1263,7 +1298,7 @@ currentART40_49f=0;
  splitData++;
 }
 
-  splitData=currentART15_19F+currentART20_24F+currentART25_49F+currentART50F;
+  splitData=currentART15_19F+currentART20_24F+currentART25_29f+currentART30_34f+currentART35_39f+currentART40_49f+currentART50F;
  while(splitData>HV0338){ 
  currentART20_24F-=1;
  splitData--;
@@ -1273,13 +1308,12 @@ totalCurrentART=HV0338+HV0336+HV0337+HV0335;
   //    VALUES
     
         newART1M=under1_newtxm;
-        newART1_9M=(float)Math.round((0.5385*HV0321));
-        //newART5_9M=(float)Math.round((0.37*HV0321));
-        newART10_14M=(float)Math.round((0.4615*HV0321));
+        newART1_9M=(float)Math.round((m_9*HV0321));
+        newART10_14M=(float)Math.round((m_14*HV0321));
        
         if(newART1_9M>=under1_newtxm){
  newART1_9M=newART1_9M-under1_newtxm;
-                                       }
+    }
  else {
      System.out.println("Should have multiplied but dint ");
  }
@@ -1311,33 +1345,33 @@ adderPos++  ;
 }
  }
       
-        newART15_19M=(float)Math.round((0.0075*HV0323));
-        newART20_24M=(float)Math.round((0.0752*HV0323));
-        newART25_49M=(float)Math.round((0.8195*HV0323));
-        newART50M=(float)Math.round((0.0977*HV0323));
+        newART15_19M=(float)Math.round((m_19*HV0323));
+        newART20_24M=(float)Math.round((m_24*HV0323));
+        newART25_29m=(float)Math.round((m_29*HV0323));
+        newART30_34m=(float)Math.round((m_34*HV0323));
+        newART35_39m=(float)Math.round((m_39*HV0323));
+        newART40_49m=(float)Math.round((m_49*HV0323));
+        newART50M=(float)Math.round((m_50*HV0323));
         
-        newART25_29m=0;
-        newART30_34m=0;
-        newART35_39m=0;
-        newART40_49m=0;
         
-        splitData=newART25_49M+newART50M+newART20_24M+newART15_19M;
+        
+        splitData=newART50M+newART20_24M+newART15_19M+newART25_29m+newART30_34m+newART35_39m+newART40_49m;
          if((splitData-HV0323)>2 ||(HV0323-splitData)>2 ){errorART++;}
          else{
 //   System.out.println("split data : "+splitData+" all data "+HV0323);     
 adderPos=0;
 while(splitData<HV0323){ 
- if(adderPos<3){newART25_49M+=1; }
+ if(adderPos<3){newART40_49m+=1; }
  else{newART50M+=1; }
 splitData++;
 adderPos++  ;
  if(adderPos>3){adderPos=0;}
 }
-  splitData=newART25_49M+newART50M+newART20_24M+newART15_19M;
+  splitData=newART50M+newART20_24M+newART15_19M+newART25_29m+newART30_34m+newART35_39m+newART40_49m;
 //   System.out.println("split data : "+splitData+" all data"+HV0323);     
 adderPos=0;
 while(splitData>HV0323){ 
- if(adderPos<3){newART25_49M-=1; }
+ if(adderPos<3){newART40_49m-=1; }
  else{newART50M-=1; }
 splitData--;
 adderPos++  ;
@@ -1345,9 +1379,8 @@ adderPos++  ;
 }   
          }
         newART1F=under1_newtxf;
-        newART1_9F=(float)Math.round((0.5833*HV0322));
-        //newART5_9F=(float)Math.round((0.37*HV0322));
-        newART10_14F=(float)Math.round((0.4167*HV0322));
+        newART1_9F=(float)Math.round((f_9*HV0322));
+        newART10_14F=(float)Math.round((f_14*HV0322));
         
    if(newART1_9F>=under1_newtxf){
  newART1_9F=newART1_9F-under1_newtxf;
@@ -1384,32 +1417,31 @@ adderPos++  ;
  //}
   
   
-        newART15_19F=(float)Math.round((0.0433*HV0324));
-        newART20_24F=(float)Math.round((0.1169*HV0324));
-        newART25_49F=(float)Math.round((0.7489*HV0324));
-        newART50F=(float)Math.round((0.0909*HV0324));
-      
-        newART25_29f=0;
-        newART30_34f=0;
-        newART35_39f=0;
-        newART40_49f=0;
+        newART15_19F=(float)Math.round((f_19*HV0324));
+        newART20_24F=(float)Math.round((f_24*HV0324));
+        newART25_29f=(float)Math.round((f_29*HV0324));
+        newART30_34f=(float)Math.round((f_34*HV0324));
+        newART35_39f=(float)Math.round((f_39*HV0324));
+        newART40_49f=(float)Math.round((f_49*HV0324));
+        newART50F=(float)Math.round((f_50*HV0324));
 
-    splitData=newART25_49F+newART50F+newART20_24F+newART15_19F;
+
+    splitData=newART25_29f+newART30_34f+newART35_39f+newART40_49f+newART50F+newART20_24F+newART15_19F;
 adderPos=0;
  if((splitData-HV0324)>2 ||(HV0324-splitData)>2 ){errorART++;}
  else{
  
 while(splitData<HV0324){ 
- if(adderPos<3){newART25_49F+=1; }
+ if(adderPos<3){newART40_49f+=1; }
  else{newART50F+=1; }
 splitData++;
 adderPos++  ;
  if(adderPos>3){adderPos=0;}
 }     
-     splitData=newART25_49F+newART50F+newART20_24F+newART15_19F;
+     splitData=newART25_29f+newART30_34f+newART35_39f+newART40_49f+newART50F+newART20_24F+newART15_19F;
 adderPos=0;
 while(splitData>HV0324){ 
- if(adderPos<3){newART25_49F-=1; }
+ if(adderPos<3){newART40_49f-=1; }
  else{newART50F-=1; }
 splitData--;
 adderPos++  ;

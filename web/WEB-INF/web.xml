@@ -721,6 +721,22 @@
         <servlet-name>newdatimHTCResults_2018Q1</servlet-name>
         <servlet-class>Datim.newdatimHTCResults_2018Q1</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load_newVMMC</servlet-name>
+        <servlet-class>InternalSystem.load_newVMMC</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate_newVmmc</servlet-name>
+        <servlet-class>InternalSystem.validate_newVmmc</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_sitetype</servlet-name>
+        <servlet-class>General.load_sitetype</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>setsettypesession</servlet-name>
+        <servlet-class>General.setsettypesession</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1440,6 +1456,22 @@
     <servlet-mapping>
         <servlet-name>newdatimHTCResults_2018Q1</servlet-name>
         <url-pattern>/newdatimHTCResults_2018Q1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_newVMMC</servlet-name>
+        <url-pattern>/load_newVMMC</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate_newVmmc</servlet-name>
+        <url-pattern>/validate_newVmmc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_sitetype</servlet-name>
+        <url-pattern>/load_sitetype</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>setsettypesession</servlet-name>
+        <url-pattern>/setsettypesession</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
