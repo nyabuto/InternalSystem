@@ -183,6 +183,7 @@
                   <li ><a href="LockData.jsp"><i class="icon-plus"></i>Lock / Un lock Editing </a></li>
                   <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                   <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
+                  <li ><a href="ManageRatios.jsp"><i class="icon-edit"></i>Manage Ratios</a></li>
                   <%}}}else{}}%>
                   
                   <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>

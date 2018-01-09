@@ -737,6 +737,22 @@
         <servlet-name>setsettypesession</servlet-name>
         <servlet-class>General.setsettypesession</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadRatios</servlet-name>
+        <servlet-class>Ratios.LoadRatios</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateRatio</servlet-name>
+        <servlet-class>Ratios.UpdateRatio</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SaveRatio</servlet-name>
+        <servlet-class>Ratios.SaveRatio</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadIndicators</servlet-name>
+        <servlet-class>Ratios.LoadIndicators</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1472,6 +1488,22 @@
     <servlet-mapping>
         <servlet-name>setsettypesession</servlet-name>
         <url-pattern>/setsettypesession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadRatios</servlet-name>
+        <url-pattern>/LoadRatios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateRatio</servlet-name>
+        <url-pattern>/UpdateRatio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaveRatio</servlet-name>
+        <url-pattern>/SaveRatio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadIndicators</servlet-name>
+        <url-pattern>/LoadIndicators</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
