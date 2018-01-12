@@ -4273,8 +4273,8 @@ staticpmtct_hv.remove(mflindex);
                 colpos++;  
                }
                 
-                positive=conn.rs.getInt("P511KP");
-                negative=conn.rs.getInt("P511KN");
+//                positive=conn.rs.getInt("P511KP");
+//                negative=conn.rs.getInt("P511KN");
                 tested=negative+positive;
                 
                 //tested
@@ -13263,106 +13263,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
     String facilid="";
     String facilname="";
     String dsdta="";
-   
-      
-    
-    /**
-     * 
-     * 
-     * 
-     *  String get731data="SELECT "
-            + " sum(HV0201) as pmtct_anc_tes, "            
-          
-            //--------pmtct anc tested -------------------
-            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_unknown," //updated in 201701            
-            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_1," //updated in 201701            
-            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_1_9," //updated in 201701            
-            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_10_14," //updated in 201701            
-            + "ROUND(sum((HV0201))*0.094) as pmtct_anc_tes_15_19," //updated in 201701            
-            + "ROUND(sum((HV0201))*0.384) as pmtct_anc_tes_20_24," //updated in 201701            
-            + "ROUND(sum((HV0201))*0.522) as pmtct_anc_tes_25_49," //updated in 201701
-            + "ROUND(sum((HV0201))*0) as pmtct_anc_tes_50," //updated in 201701
-            
-            //-------pmtct anc new_positive------------------
-              
-            + " sum(HV0206) as pmtct_newpositive ,"
-            
-            + "ROUND(sum((HV0206))*0) as pmtct_pos_unknown," //updated in 201701            
-            + "ROUND(sum((HV0206))*0) as pmtct_pos_1," //updated in 201701            
-            + "ROUND(sum((HV0206))*0) as pmtct_pos_1_9," //updated in 201701            
-            + "ROUND(sum((HV0206))*0) as pmtct_pos_10_14," //updated in 201701
-            + "ROUND(sum((HV0206))*0.05) as pmtct_pos_15_19," //updated in 201701            
-            + "ROUND(sum((HV0206))*0.26) as pmtct_pos_20_24," //updated in 201701            
-            + "ROUND(sum((HV0206))*0.69) as pmtct_pos_25_49," //updated in 201701
-            + "ROUND(sum((HV0206))*0) as pmtct_pos_50," //updated in 201701
-             
-            
-             //-------pmtct anc negative------------------\
-            + " (sum(HV0201)-sum(HV0206)) as pmtct_new_negatives," //updated in 201701
-            + "sum(0) as pmtct_neg_unknown," //updated in 201701            
-            + "sum(0) as pmtct_neg_1," //updated in 201701            
-            + "sum(0) as pmtct_neg_1_9," //updated in 201701            
-            + "sum(0) as pmtct_neg_10_14," //updated in 201701
-            + "( ROUND(sum((HV0201))*0.0941)- ROUND(sum((HV0206))*0.05) ) as pmtct_neg_15_19," //updated in 201701            
-            + "( ROUND(sum((HV0201))*0.384)- ROUND(sum((HV0206))*0.26) ) as pmtct_neg_20_24," //updated in 201701            
-            + "( ROUND(sum((HV0201))*0.52)- ROUND(sum((HV0206))*0.69) ) as pmtct_neg_25_49," //updated in 201701
-            + "sum(0) as pmtct_neg_50," //updated in 201701
-            
-            
-//-------pmtct stat numerator----------------
-        
-//            + " sum(HV0201 + HV0205) as pmtct_tes_numerator ,"
-//           
-//            + "sum(0) as pmtct_statnum_tes_unknown," //updated in 201701          
-//            + "sum(0) as pmtct_statnum_tes_10," //updated in 201701            
-//            + "ROUND(sum((HV0201 + HV0205))*0.01) as pmtct_statnum_tes_10_14," //updated in 201701            
-//            + "ROUND(sum((HV0201 + HV0205))*0.07) as pmtct_statnum_tes_15_19," //updated in 201701            
-//            + "ROUND(sum((HV0201 + HV0205))*0.29) as pmtct_statnum_tes_20_24," //updated in 201701            
-//            + "ROUND(sum((HV0201 + HV0205))*0.63) as pmtct_statnum_tes_25_49," //updated in 201701 
-//             + "sum(0) as pmtct_statnum_tes_50," //updated in 201701  
-//            
-            + " sum(HV0201 + HV0205) as pmtct_tes_numerator ,"
-           
-            + "sum(0) as pmtct_statnum_tes_unknown," //updated in 201701          
-            + "sum(0) as pmtct_statnum_tes_10," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0) as pmtct_statnum_tes_10_14," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0.094) as pmtct_statnum_tes_15_19," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0.384) as pmtct_statnum_tes_20_24," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*0.522) as pmtct_statnum_tes_25_49," //updated in 201701 
-             + "sum(0) as pmtct_statnum_tes_50," //updated in 201701  
-            
-            //-------pmtct stat denominator----------------
-            + " ROUND(sum((HV0201 + HV0205))*1.03) as pmtct_tes_denominator ,"
-            
-            + "sum(0) as pmtct_statden_tes_unknown," //updated in 201701          
-            + "sum(0) as pmtct_statden_tes_10," //updated in 201701            
-            + "sum(0) as pmtct_statden_tes_10_14," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*1.03*0.09) as pmtct_statden_tes_15_19," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*1.03*0.38) as pmtct_statden_tes_20_24," //updated in 201701            
-            + "ROUND(sum((HV0201 + HV0205))*1.03*0.53) as pmtct_statden_tes_25_49," //updated in 201701 
-             + "sum(0) as pmtct_statden_tes_50," //updated in 201701 
-            
-            
-            //-------pmtct stat numerator----------------
-            + " sum(HV0205) as pmtct_knownpositive ,"           
-           
-            + "sum(0) as pmtct_kp_unknown," //updated in 201701          
-            + "sum(0) as pmtct_kp_1_9," //updated in 201701            
-            + "ROUND(sum((HV0205))*0.02) as pmtct_kp_10_14," //updated in 201701            
-            + "ROUND(sum((HV0205))*0.04) as pmtct_kp_15_19," //updated in 201701            
-            + "ROUND(sum((HV0205))*0.20) as pmtct_kp_20_24," //updated in 201701            
-            + "ROUND(sum((HV0205))*0.74) as pmtct_kp_25_49," //updated in 201701 
-             + "sum(0) as pmtct_kp_50," //updated in 201701 
-   
-     * 
-     * 
-     * 
-     * 
-     */
-    
- 
-    
-          
+     
     String get731data="SELECT "+
             //--------pmtct anc tested -------------------
             "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN HV0201 end)) as pmtct_anc_tes," +

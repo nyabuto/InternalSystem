@@ -1007,7 +1007,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
       
      under1_newtx=conn.rs.getInt("under1_newtx");
      
-     under1_newtxm=(float)Math.round((under1txratio_male*under1_newtx));   
+     under1_newtxm=(float)Math.round((m_1*under1_newtx));   
      under1_newtxf=under1_newtx-under1_newtxm;
      
      
@@ -1112,34 +1112,12 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
      under1_curcarem=(float)Math.round((malepercentagecare*under1_curcare));   
      under1_curcaref=under1_curcare-under1_curcarem;
      System.out.println("Total cur care "+under1_curcare+" = "+under1_curcarem+" + "+under1_curcaref); 
-     
-            double malepercentage=0.5;
+       
             
-            if(HV0336>HV0335)
-            {           
-            if(HV0335==0){            
-            malepercentage=0;
-            }
-            else  {
-               malepercentage=0.4;
-            }
-            }
-            else  if(HV0336<HV0335)
-            {
-              malepercentage=0.6;
-            
-            }
-            else {
-            malepercentage=0.5;
-            }
-            
-            
-      under1_curtxm=(float)Math.round((malepercentage*under1_curtx));   
+      under1_curtxm=(float)Math.round((c_m_1*under1_curtx));   
      under1_curtxf=under1_curtx-under1_curtxm;
      System.out.println(facilityName+" Total Tx "+under1_curtx+" = "+under1_curtxm+" + "+under1_curtxf);
-     
-     
-     
+
      }
      
       if(ARTSupport!=null){
@@ -1178,7 +1156,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
  
   splitData=currentART1M+currentART1_9M+currentART10_14M;
   adderPos=0;
- if((splitData-HV0335)>2 ||(HV0335-splitData)>2 ){errorART++;}
+ if((splitData-HV0335)>10 ||(HV0335-splitData)>10 ){errorART++;}
  else{
 while(splitData<HV0335){ 
  if(adderPos<2){
@@ -1208,7 +1186,6 @@ adderPos++  ;
  if(adderPos>2){adderPos=0;}
  if(splitData==HV0335){}
 }
-
  }
  
  currentART15_19M=(float)Math.round((c_m_19*HV0337));
@@ -1226,7 +1203,7 @@ currentART40_49m=(float)Math.round((c_m_49*HV0337));
 
 
  splitData=currentART15_19M+currentART20_24M+currentART25_29m+currentART30_34m+currentART35_39m+currentART40_49m+currentART50M;
-  if((splitData-HV0337)>2 ||(HV0337-splitData)>2 ){errorART++;}
+  if((splitData-HV0337)>10 ||(HV0337-splitData)>10 ){errorART++;}
   else{
  while(splitData<HV0337){ 
  currentART40_49m+=1; 
@@ -1257,7 +1234,7 @@ currentART10_14F=(float)Math.round((c_f_14*_HV0336));
 
   splitData=currentART10_14F+currentART1_9F+currentART1F;
   adderPos=0;
-   if((splitData-HV0336)>2 ||(HV0336-splitData)>2 ){errorART++;}
+   if((splitData-HV0336)>10 ||(HV0336-splitData)>10 ){errorART++;}
    else{
 while(splitData<HV0336){ 
  if(adderPos<2){currentART10_14F+=1; }
@@ -1291,7 +1268,7 @@ currentART50F=(float)Math.round((c_f_50*HV0338));
 
  
  splitData=currentART15_19F+currentART20_24F+currentART25_29f+currentART30_34f+currentART35_39f+currentART40_49f+currentART50F;
-  if((splitData-HV0338)>2 ||(HV0338-splitData)>2 ){errorART++;}
+  if((splitData-HV0338)>10 ||(HV0338-splitData)>10 ){errorART++;}
   else{
  while(splitData<HV0338){ 
  currentART20_24F+=1;
@@ -1320,7 +1297,7 @@ totalCurrentART=HV0338+HV0336+HV0337+HV0335;
         
 splitData=newART10_14M+newART1_9M+newART1M;
 adderPos=0;
- if((splitData-HV0321)>2 || (HV0321-splitData)>2 ){errorART++;}
+ if((splitData-HV0321)>10 || (HV0321-splitData)>10 ){errorART++;}
  else{
 while(splitData<HV0321){ 
  if(adderPos==0){newART10_14M+=1; }
@@ -1356,7 +1333,7 @@ adderPos++  ;
         
         
         splitData=newART50M+newART20_24M+newART15_19M+newART25_29m+newART30_34m+newART35_39m+newART40_49m;
-         if((splitData-HV0323)>2 ||(HV0323-splitData)>2 ){errorART++;}
+         if((splitData-HV0323)>10 ||(HV0323-splitData)>10 ){errorART++;}
          else{
 //   System.out.println("split data : "+splitData+" all data "+HV0323);     
 adderPos=0;
@@ -1391,7 +1368,7 @@ adderPos++  ;
     
 splitData=newART10_14F+newART1_9F+newART1F;
 adderPos=0;
- if((splitData-HV0322)>2 ||(HV0322-splitData)>2 ){errorART++;}
+ if((splitData-HV0322)>10 ||(HV0322-splitData)>10 ){errorART++;}
 // else{
 while(splitData<HV0322){ 
  if(adderPos==0){newART10_14F+=1; }
@@ -1428,7 +1405,7 @@ adderPos++  ;
 
     splitData=newART25_29f+newART30_34f+newART35_39f+newART40_49f+newART50F+newART20_24F+newART15_19F;
 adderPos=0;
- if((splitData-HV0324)>2 ||(HV0324-splitData)>2 ){errorART++;}
+ if((splitData-HV0324)>10 ||(HV0324-splitData)>10 ){errorART++;}
  else{
  
 while(splitData<HV0324){ 
@@ -1473,7 +1450,7 @@ adderPos++  ;
   
 splitData=newCARE10_14M+newCARE5_9M+newCARE1_4M+newCARE1M;
 adderPos=0;
- if((splitData-HV0309)>2 || (HV0309-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0309)>10 || (HV0309-splitData)>10 ){errorCARE++;}
  else{
 while(splitData<HV0309){ 
  if(adderPos==0){newCARE1_4M+=1; }
@@ -1507,7 +1484,7 @@ adderPos++  ;
         newCARE50M=(float)Math.round((0.09*HV0311));
         
 splitData=newCARE50M+newCARE25_49M+newCARE20_24M+newCARE15_19M;
- if((splitData-HV0311)>2 ||(HV0311-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0311)>10 ||(HV0311-splitData)>10 ){errorCARE++;}
  else{
  
 while(splitData<HV0311){ 
@@ -1541,7 +1518,7 @@ splitData--;
         
 splitData=newCARE10_14F+newCARE5_9F+newCARE1_4F+newCARE1F;
 adderPos=0;
- if((splitData-HV0310)>2 ||(HV0310-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0310)>10 ||(HV0310-splitData)>10 ){errorCARE++;}
  else{
 while(splitData<HV0310){ 
  if(adderPos==0){newCARE1_4F+=1; }
@@ -1576,7 +1553,7 @@ adderPos++  ;
         newCARE50F=(float)Math.round((0.09*HV0312));
        
 splitData=newCARE50F+newCARE25_49F+newCARE20_24F+newCARE15_19F;
- if((splitData-HV0312)>2 ||(HV0312-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0312)>10 ||(HV0312-splitData)>10 ){errorCARE++;}
  else{
 while(splitData<HV0312){ 
 newCARE25_49F+=1; 
@@ -1613,7 +1590,7 @@ splitData--;
 
 splitData=currentCARE10_14M+currentCARE5_9M+currentCARE1_4M+currentCARE1M;
 adderPos=0;
- if((splitData-HV0315)>2 ||(HV0315-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0315)>10 ||(HV0315-splitData)>10 ){errorCARE++;}
  else{
 while(splitData<HV0315){ 
  if(adderPos==0){currentCARE10_14M+=1; }
@@ -1644,7 +1621,7 @@ adderPos++  ;
         currentCARE50M=(float)Math.round((0.18*HV0317));
         
 splitData=currentCARE50M+currentCARE25_49M+currentCARE20_24M+currentCARE15_19M;
- if((splitData-HV0317)>2 ||(HV0317-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0317)>10 ||(HV0317-splitData)>10 ){errorCARE++;}
  else{
 while(splitData<HV0317){ 
 currentCARE25_49M+=1; 
@@ -1674,7 +1651,7 @@ splitData--;
   
         
 splitData=currentCARE10_14F+currentCARE5_9F+currentCARE1_4F+currentCARE1F;
- if((splitData-HV0316)>2 ||(HV0316-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0316)>10 ||(HV0316-splitData)>10 ){errorCARE++;}
  else{
 adderPos=0;
 while(splitData<HV0316){ 
@@ -1706,7 +1683,7 @@ adderPos++  ;
         currentCARE50F=(float)Math.round((0.12*HV0318));
 
 splitData=currentCARE50F+currentCARE25_49F+currentCARE20_24F+currentCARE15_19F;
- if((splitData-HV0318)>2 ||(HV0318-splitData)>2 ){errorCARE++;}
+ if((splitData-HV0318)>10 ||(HV0318-splitData)>10 ){errorCARE++;}
  else{
 while(splitData<HV0318){ 
 currentCARE25_49F+=1; 
