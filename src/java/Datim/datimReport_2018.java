@@ -39,8 +39,8 @@ import org.apache.poi.ss.usermodel.Font;
  * This is the DATIM ART , CARE ,PMTCT
  */
 public class datimReport_2018 extends HttpServlet {
-double f_1,f_9,f_14,f_19,f_24,f_29,f_34,f_39,f_49,f_50, m_1,m_9,m_14,m_19,m_24,m_29,m_34,m_39,m_49,m_50;
-double c_f_1,c_f_9,c_f_14,c_f_19,c_f_24,c_f_29,c_f_34,c_f_39,c_f_49,c_f_50, c_m_1,c_m_9,c_m_14,c_m_19,c_m_24,c_m_29,c_m_34,c_m_39,c_m_49,c_m_50;
+double f_1,f_4,f_9,f_14,f_19,f_24,f_29,f_34,f_39,f_49,f_50, m_1,m_4,m_9,m_14,m_19,m_24,m_29,m_34,m_39,m_49,m_50;
+double c_f_1,c_f_4,c_f_9,c_f_14,c_f_19,c_f_24,c_f_29,c_f_34,c_f_39,c_f_49,c_f_50, c_m_1,c_m_4,c_m_9,c_m_14,c_m_19,c_m_24,c_m_29,c_m_34,c_m_39,c_m_49,c_m_50;
   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -57,16 +57,16 @@ duration="";
 String facilityName,mflcode,countyName,districtName,facilityIds,facilityId;
 int HV0308,HV0309,HV0310,HV0311,HV0312,HV0320,HV0321,HV0322,HV0323,HV0324;
 int HV0314,HV0315,HV0316,HV0317,HV0318,HV0334,HV0335,HV0336,HV0337,HV0338;
-double currentART1M,currentART1_9M,currentART10_14M,currentART15_19M,currentART20_24M,currentART50M;
-double currentART1F,currentART1_9F,currentART10_14F,currentART15_19F,currentART20_24F,currentART50F;
+double currentART1M,currentART1_4M,currentART5_9M,currentART10_14M,currentART15_19M,currentART20_24M,currentART50M;
+double currentART1F,currentART1_4F,currentART5_9F,currentART10_14F,currentART15_19F,currentART20_24F,currentART50F;
 
 double newART25_29f,newART30_34f,newART35_39f,newART40_49f;
 double currentART25_29f,currentART30_34f,currentART35_39f,currentART40_49f;
 double newART25_29m,newART30_34m,newART35_39m,newART40_49m;
 double currentART25_29m,currentART30_34m,currentART35_39m,currentART40_49m;
 //double currentART1F,currentART1_4F,currentART5_14F,currentART15_19F,currentART20F;
-double Pregnant,breastfeeding,ontbtreatment,newART1M,newART1_9M,newART10_14M,newART15_19M,newART20_24M,newART50M;
-double newART1F,newART1_9F,newART10_14F,newART15_19F,newART20_24F,newART50F;
+double Pregnant,breastfeeding,ontbtreatment,newART1M,newART1_4M,newART5_9M,newART10_14M,newART15_19M,newART20_24M,newART50M;
+double newART1F,newART1_4F,newART5_9F,newART10_14F,newART15_19F,newART20_24F,newART50F;
 double newCARE1M,newCARE1_4M,newCARE5_9M,newCARE10_14M,newCARE15_19M,newCARE20_24M,newCARE25_49M,newCARE50M;
 double newCARE1F,newCARE1_4F,newCARE5_9F,newCARE10_14F,newCARE15_19F,newCARE20_24F,newCARE25_49F,newCARE50F;
 double currentCARE1M,currentCARE1_4M,currentCARE5_9M,currentCARE10_14M,currentCARE15_19M,currentCARE20_24M,currentCARE25_49M,currentCARE50M;
@@ -106,14 +106,14 @@ String excelDuration="";
        String headerPMTCT []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,HIV-infected:Linked to ART,HIV-infected: Not linked to ART,HIV-infected : Unknown link,HIV-uninfected:Not beastfeeding,HIV-uninfected: Still breastfeeeding,HIV-uninfected:Breastfeeding unknown,Other outcomes: In care but not test done, Other outcomes:Lost to follow up,Other outcomes : Died,Other outcomes:Transferred out,Numerator,Denominator,Life-long ART:New,Life-long ART: Already on treatment at the beginning of the current pregnancy,Maternal Triple-Drug ARV,Maternal AZT,Single-dose nevirapine(with or without tail),Numerator,Infants who received a virologic test within 2 months of birth, Infants who received their first virologic HIV test between 2 and 12 months of age,Infants with a postive virologic test results within 2 months of birth, Infants with a postive virologic test resultsbetween 2 and 12 months of age,Numerator,Known postive at entry,New postives,Denominator,Numerator,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
 //       String headerTB[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+Y,Positive,Negative,Total PLVHIV enrolled in clinical care (HVO319),Ho of PLV in HIV clinical care screened for TB (HV0354),Female,Male, Screened for TB <15 Years,<1,1-4Y,5-9Y,10-14Y,Screened for TB >15 years,15-19Y,20+Y,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+,Verification Status".split(",") ;
       //updated 2017
-        String headerART []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,<1,1-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,Numerator,Pregnant,Breastfeeding,On TB treatment,<1,1-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,<1,1-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
+        String headerART []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,Numerator,Pregnant,Breastfeeding,On TB treatment,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
         String headerART1 []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Numerator,Pregnant,Breastfeeding,On TB treatment,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
-        String headerART2 []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Female,,,,,,,,,,Male,,,,,,,,,,Numerator,Pregnant,Breastfeeding,On TB treatment,Female,,,,,,,,,,Male,,,,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
-        String headerART3 []="County,Sub County,Health Facility,MFL Code,Type of support,Current On ART,,,,,,,,,,,,,,,,,,,,,New on ART,,,,,,,,,,,,,,,,,,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
+        String headerART2 []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Female,,,,,,,,,,,Male,,,,,,,,,,,Numerator,Pregnant,Breastfeeding,On TB treatment,Female,,,,,,,,,,,Male,,,,,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
+        String headerART3 []="County,Sub County,Health Facility,MFL Code,Type of support,Current On ART,,,,,,,,,,,,,,,,,,,,,,,New on ART,,,,,,,,,,,,,,,,,,,,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
       
        
       
-        int [][] ARTmergeheaders ={{0,4,5,25,26,49,50,53},{0,4,6,15,16,25,30,39,40,49,50,53},{0,4,6,8,9,15,16,18,19,25,30,32,33,39,40,42,43,49}};
+        int [][] ARTmergeheaders ={{0,4,5,27,28,53,54,57},{0,4,6,16,17,27,32,42,43,53,54,57},{0,4,6,9,10,16,17,20,21,27,32,35,36,42,43,46,49,53}};
         
          Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
@@ -761,8 +761,8 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
             + ",SUM(HV0350) as HV0350,SUM(HV0351) as HV0351,SUM(HV0352) as HV0352,SUM(HV0353) as HV0353,SUM(HV0354) as HV0354,"
             + " SUM(HV0320) as under1_newtx,SUM(HV0308) as under1_newcare , "
             + " ART_highvolume, HTC_highvolume,PMTCT_highvolume,IFNULL(SUM(HV0326),0) as pregnant, SUM(HV0327) as tbtreatment, ROUND(SUM(HV0327)*0.1333) as breastfeeding,SUM(HV0201) as HV0201,  "
-            + " IFNULL(f_1,0) AS f_1,IFNULL(f_9,0) AS f_9,IFNULL(f_14,0) AS f_14,IFNULL(f_19,0) AS f_19,IFNULL(f_24,0) AS f_24,IFNULL(f_29,0) f_29,IFNULL(f_34,0) f_34," +
-                "IFNULL(f_39,0) AS f_39,IFNULL(f_49,0) f_49,IFNULL(f_50,0) f_50, IFNULL(m_1,0) AS m_1,IFNULL(m_9,0) AS m_9,IFNULL(m_14,0) AS m_14,IFNULL(m_19,0) AS m_19," +
+            + " IFNULL(f_1,0) AS f_1,IFNULL(f_4,0) AS f_4,IFNULL(f_9,0) AS f_9,IFNULL(f_14,0) AS f_14,IFNULL(f_19,0) AS f_19,IFNULL(f_24,0) AS f_24,IFNULL(f_29,0) f_29,IFNULL(f_34,0) f_34," +
+                "IFNULL(f_39,0) AS f_39,IFNULL(f_49,0) f_49,IFNULL(f_50,0) f_50, IFNULL(m_1,0) AS m_1,IFNULL(m_4,0) AS m_4,IFNULL(m_9,0) AS m_9,IFNULL(m_14,0) AS m_14,IFNULL(m_19,0) AS m_19," +
                 "IFNULL(m_24,0) AS m_24,IFNULL(m_29,0) m_29,IFNULL(m_34,0) AS m_34,IFNULL(m_39,0) AS m_39,IFNULL(m_49,0) AS m_49,IFNULL(m_50,0) AS m_50 "
             + " FROM moh731 "
             + " LEFT JOIN "+facilitiestable+" ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
@@ -833,10 +833,10 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
         
 HV0308=HV0309=HV0310=HV0311=HV0312=HV0320=HV0321=HV0322=HV0323=HV0324=HV0201=0;
 HV0314=HV0315=HV0316=HV0317=HV0318=HV0334=HV0335=HV0336=HV0337=HV0338=0;
-currentART1M=currentART1_9M=currentART10_14M=currentART15_19M=currentART20_24M=currentART50M=0;
-currentART1F=currentART1_9F=currentART10_14F=currentART15_19F=currentART20_24F=currentART50F=0;
-newART1M=newART1_9M=newART10_14M=newART15_19M=newART20_24M=newART50M=Pregnant=breastfeeding=ontbtreatment=0;
-newART1F=newART1_9F=newART10_14F=newART15_19F=newART20_24F=newART50F=0;
+currentART1M=currentART1_4M=currentART5_9M=currentART10_14M=currentART15_19M=currentART20_24M=currentART50M=0;
+currentART1F=currentART1_4F=currentART5_9F=currentART10_14F=currentART15_19F=currentART20_24F=currentART50F=0;
+newART1M=newART1_4M=newART5_9M=newART10_14M=newART15_19M=newART20_24M=newART50M=Pregnant=breastfeeding=ontbtreatment=0;
+newART1F=newART1_4F=newART5_9F=newART10_14F=newART15_19F=newART20_24F=newART50F=0;
 
 //ADDED ON 2018 FY
 newART25_29f=newART30_34f=newART35_39f=newART40_49f=0;
@@ -908,6 +908,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
         HV0354=conn.rs.getInt(38);
         
     f_1 = conn.rs.getDouble("f_1");
+    f_4 = conn.rs.getDouble("f_4");
     f_9 = conn.rs.getDouble("f_9");
     f_14 = conn.rs.getDouble("f_14");
     f_19 = conn.rs.getDouble("f_19");
@@ -918,6 +919,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
     f_49 = conn.rs.getDouble("f_49");
     f_50 = conn.rs.getDouble("f_50");
     m_1 = conn.rs.getDouble("m_1");
+    m_4 = conn.rs.getDouble("m_4");
     m_9 = conn.rs.getDouble("m_9");
     m_14 = conn.rs.getDouble("m_14");
     m_19 = conn.rs.getDouble("m_19");
@@ -1025,8 +1027,8 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
         
      String getCurrent="SELECT HV0314,HV0315,HV0316,HV0317,HV0318,"
     + "HV0334,HV0335,HV0336,HV0337,HV0338,HV0302,HV0319, HV0314 as under1_curcare,HV0334 as under1_curtx,"
-    + " IFNULL(f_1,0) AS f_1,IFNULL(f_9,0) AS f_9,IFNULL(f_14,0) AS f_14,IFNULL(f_19,0) AS f_19,IFNULL(f_24,0) AS f_24,IFNULL(f_29,0) f_29,IFNULL(f_34,0) f_34," +
-    "IFNULL(f_39,0) AS f_39,IFNULL(f_49,0) f_49,IFNULL(f_50,0) f_50, IFNULL(m_1,0) AS m_1,IFNULL(m_9,0) AS m_9,IFNULL(m_14,0) AS m_14,IFNULL(m_19,0) AS m_19," +
+    + " IFNULL(f_1,0) AS f_1,IFNULL(f_4,0) AS f_4,IFNULL(f_9,0) AS f_9,IFNULL(f_14,0) AS f_14,IFNULL(f_19,0) AS f_19,IFNULL(f_24,0) AS f_24,IFNULL(f_29,0) f_29,IFNULL(f_34,0) f_34," +
+    "IFNULL(f_39,0) AS f_39,IFNULL(f_49,0) f_49,IFNULL(f_50,0) f_50, IFNULL(m_1,0) AS m_1,IFNULL(m_4,0) AS m_4,IFNULL(m_9,0) AS m_9,IFNULL(m_14,0) AS m_14,IFNULL(m_19,0) AS m_19," +
     "IFNULL(m_24,0) AS m_24,IFNULL(m_29,0) m_29,IFNULL(m_34,0) AS m_34,IFNULL(m_39,0) AS m_39,IFNULL(m_49,0) AS m_49,IFNULL(m_50,0) AS m_50 "
     + " FROM moh731 "
     + " LEFT JOIN "+facilitiestable+" ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
@@ -1053,6 +1055,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
      HV0319=conn.rs1.getInt(12);
      
     c_f_1 = conn.rs1.getDouble("f_1");
+    c_f_4 = conn.rs1.getDouble("f_4");
     c_f_9 = conn.rs1.getDouble("f_9");
     c_f_14 = conn.rs1.getDouble("f_14");
     c_f_19 = conn.rs1.getDouble("f_19");
@@ -1063,6 +1066,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
     c_f_49 = conn.rs1.getDouble("f_49");
     c_f_50 = conn.rs1.getDouble("f_50");
     c_m_1 = conn.rs1.getDouble("m_1");
+    c_m_4 = conn.rs1.getDouble("m_4");
     c_m_9 = conn.rs1.getDouble("m_9");
     c_m_14 = conn.rs1.getDouble("m_14");
     c_m_19 = conn.rs1.getDouble("m_19");
@@ -1150,11 +1154,12 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
  else {
      System.out.println(facilityName+" Should have multiplied but dint ");
       }
- currentART1_9M=(float)Math.round((c_m_9*_HV0335));
+ currentART1_4M=(float)Math.round((c_m_4*_HV0335));
+ currentART5_9M=(float)Math.round((c_m_9*_HV0335));
  currentART10_14M=(float)Math.round((c_m_14*_HV0335));
  
  
-  splitData=currentART1M+currentART1_9M+currentART10_14M;
+  splitData=currentART1M+currentART1_4M+currentART5_9M+currentART10_14M;
   adderPos=0;
  if((splitData-HV0335)>10 ||(HV0335-splitData)>10 ){errorART++;}
  else{
@@ -1163,7 +1168,7 @@ while(splitData<HV0335){
   currentART10_14M+=1;   
  }
  else{
- currentART1_9M+=1;    
+ currentART5_9M+=1;    
  }
 splitData++;
 adderPos++  ;
@@ -1171,7 +1176,7 @@ adderPos++  ;
  if(splitData==HV0335){}
 }
 
-  splitData=currentART1M+currentART1_9M+currentART10_14M;
+  splitData=currentART1M+currentART1_4M+currentART5_9M+currentART10_14M;
   adderPos=0;
   
 while(splitData>HV0335){ 
@@ -1179,7 +1184,7 @@ while(splitData>HV0335){
   currentART10_14M-=1;   
  }
  else{
- currentART1_9M-=1;    
+ currentART5_9M-=1;    
  }
 splitData--;
 adderPos++  ;
@@ -1227,29 +1232,30 @@ int _HV0336=HV0336;
      System.out.println("Should have multiplied but dint ");
       }
 
-currentART1_9F=(float)Math.round((c_f_9*_HV0336));
+currentART1_4F=(float)Math.round((c_f_4*_HV0336));
+currentART5_9F=(float)Math.round((c_f_9*_HV0336));
 currentART10_14F=(float)Math.round((c_f_14*_HV0336));
 
 
 
-  splitData=currentART10_14F+currentART1_9F+currentART1F;
+  splitData=currentART10_14F+currentART1_4F+currentART5_9F+currentART1F;
   adderPos=0;
    if((splitData-HV0336)>10 ||(HV0336-splitData)>10 ){errorART++;}
    else{
 while(splitData<HV0336){ 
  if(adderPos<2){currentART10_14F+=1; }
- else{currentART1_9F+=1; }
+ else{currentART5_9F+=1; }
 splitData++;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }
 
-splitData=currentART10_14F+currentART1_9F+currentART1F;
+splitData=currentART10_14F+currentART1_4F+currentART5_9F+currentART1F;
   adderPos=0;
   
 while(splitData>HV0336){ 
  if(adderPos<2){currentART10_14F-=1; }
- else{currentART1_9F-=1; }
+ else{currentART5_9F-=1; }
 splitData--;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
@@ -1285,36 +1291,37 @@ totalCurrentART=HV0338+HV0336+HV0337+HV0335;
   //    VALUES
     
         newART1M=under1_newtxm;
-        newART1_9M=(float)Math.round((m_9*HV0321));
+        newART1_4M=(float)Math.round((m_4*HV0321));
+        newART5_9M=(float)Math.round((m_9*HV0321));
         newART10_14M=(float)Math.round((m_14*HV0321));
        
-        if(newART1_9M>=under1_newtxm){
- newART1_9M=newART1_9M-under1_newtxm;
+        if(newART1_4M>=under1_newtxm){
+ newART1_4M=newART1_4M-under1_newtxm;
     }
  else {
      System.out.println("Should have multiplied but dint ");
  }
         
-splitData=newART10_14M+newART1_9M+newART1M;
+splitData=newART10_14M+newART1_4M+newART5_9M+newART1M;
 adderPos=0;
  if((splitData-HV0321)>10 || (HV0321-splitData)>10 ){errorART++;}
  else{
 while(splitData<HV0321){ 
  if(adderPos==0){newART10_14M+=1; }
- else if(adderPos==1){newART1_9M+=1; }
- else{newART1_9M+=1; }
+ else if(adderPos==1){newART5_9M+=1; }
+ else{newART1_4M+=1; }
  
 splitData++;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }
  
-splitData=newART10_14M+newART1_9M+newART1M;
+splitData=newART10_14M+newART1_4M+newART5_9M+newART1M;
 adderPos=0;
 while(splitData>HV0321){ 
  if(adderPos==0){newART10_14M-=1; }
- else if(adderPos==1){newART1_9M-=1; }
- else{newART1_9M-=1; }
+ else if(adderPos==1){newART5_9M-=1; }
+ else{newART1_4M-=1; }
  
 splitData--;
 adderPos++  ;
@@ -1356,36 +1363,37 @@ adderPos++  ;
 }   
          }
         newART1F=under1_newtxf;
-        newART1_9F=(float)Math.round((f_9*HV0322));
+        newART1_4F=(float)Math.round((f_4*HV0322));
+        newART5_9F=(float)Math.round((f_9*HV0322));
         newART10_14F=(float)Math.round((f_14*HV0322));
         
-   if(newART1_9F>=under1_newtxf){
- newART1_9F=newART1_9F-under1_newtxf;
+   if(newART1_4F>=under1_newtxf){
+ newART1_4F=newART1_4F-under1_newtxf;
      }
  else {
-     System.out.println("Should have deducted newtx but dint "+facilityName+" "+newART1_9F+" -- "+under1_newtxf);
+     System.out.println("Should have deducted newtx but dint "+facilityName+" "+newART1_4F+" -- "+under1_newtxf);
       }
     
-splitData=newART10_14F+newART1_9F+newART1F;
+splitData=newART10_14F+newART1_4F+newART5_9F+newART1F;
 adderPos=0;
  if((splitData-HV0322)>10 ||(HV0322-splitData)>10 ){errorART++;}
 // else{
 while(splitData<HV0322){ 
  if(adderPos==0){newART10_14F+=1; }
- else if(adderPos==1){newART1_9F+=1; }
- else{newART1_9F+=1; }
+ else if(adderPos==1){newART5_9F+=1; }
+ else{newART1_4F+=1; }
  
 splitData++;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }   
   
-splitData=newART10_14F+newART1_9F+newART1F;
+splitData=newART10_14F+newART1_4F+newART5_9F+newART1F;
 adderPos=0;
 while(splitData>HV0322){ 
  if(adderPos==0){newART10_14F-=1; }
- else if(adderPos==1){newART1_9F-=1; }
- else{newART1_9F-=1; }
+ else if(adderPos==1){newART5_9F-=1; }
+ else{newART1_4F-=1; }
  
 splitData--;
 adderPos++  ;
@@ -1698,13 +1706,13 @@ splitData--;
        totalCurrentCARE=HV0318+HV0316+HV0317+HV0315;
 
        String dataART []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+totalCurrentART+","
-           + ""+currentART1F+","+currentART1_9F+","+currentART10_14F+","+currentART15_19F+","
+           + ""+currentART1F+","+currentART1_4F+","+currentART5_9F+","+currentART10_14F+","+currentART15_19F+","
            + ""+currentART20_24F+","+currentART25_29f+","+currentART30_34f+","+currentART35_39f+","
-           + ""+currentART40_49f+","+currentART50F+","+currentART1M+","+currentART1_9M+","+currentART10_14M+","
+           + ""+currentART40_49f+","+currentART50F+","+currentART1M+","+currentART1_4M+","+currentART5_9M+","+currentART10_14M+","
            + ""+currentART15_19M+","+currentART20_24M+","+currentART25_29m+","+currentART30_34m+","
            + ""+currentART35_39m+","+currentART40_49m+","+currentART50M+","+totalNewART+","+Pregnant+","+breastfeeding+","+ontbtreatment+","
-           + ""+newART1F+","+newART1_9F+","+newART10_14F+","+newART15_19F+","+newART20_24F+","
-           + ""+newART25_29f+","+newART30_34f+","+newART35_39f+","+newART40_49f+","+newART50F+","+newART1M+","+newART1_9M+","+newART10_14M+","
+           + ""+newART1F+","+newART1_4F+","+newART5_9F+","+newART10_14F+","+newART15_19F+","+newART20_24F+","
+           + ""+newART25_29f+","+newART30_34f+","+newART35_39f+","+newART40_49f+","+newART50F+","+newART1M+","+newART1_4M+","+newART5_9M+","+newART10_14M+","
            + ""+newART15_19M+","+newART20_24M+","+newART25_29m+","+newART30_34m+","+newART35_39m+","
            + ""+newART40_49m+","+newART50M+","+errorART+","+arthv+","+htchv+","+pmtcthv).split(",");
    
