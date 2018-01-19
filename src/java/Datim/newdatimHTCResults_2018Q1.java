@@ -928,6 +928,13 @@ staticpmtct_hv.remove(mflindex);
                 int tested=0;
                 int positive=0;
                 int negative=0;
+                
+                
+                
+                positive=conn.rs.getInt("HV0207");
+                tested=conn.rs.getInt("HV0202");
+                negative=tested-positive;
+                
               
                 //tested
                 HSSFCell clx = rwx.createCell(colpos);
@@ -1062,9 +1069,9 @@ staticpmtct_hv.remove(mflindex);
                 int positive=0;
                 int negative=0;
                 
-                //positive=conn.rs.getInt("HV0208");
-               // tested=conn.rs.getInt("HV0203");
-                //negative=tested-positive;
+                positive=conn.rs.getInt("HV0208");
+                tested=conn.rs.getInt("HV0203");
+                negative=tested-positive;
                 
                 //tested
                 HSSFCell clx = rwx.createCell(colpos);
@@ -3686,14 +3693,14 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
     double Tf1=0,Tm1=0,Pf1=0,Pm1=0;
     double Tf4=0,Tm4=0,Pf4=0,Pm4=0; //may or may not be there
     double Tf9=0,Tm9=0,Pf9=0,Pm9=0;
-    double Tf14=0,Tm14=0,Pf14=0,Pm14=0;
-    double Tf19=0,Tm19=0,Pf19=0,Pm19=0;
-    double Tf24=0,Tm24=0,Pf24=0,Pm24=0;
-    double Tf29=0,Tm29=0,Pf29=0,Pm29=0;
-    double Tf34=0,Tm34=0,Pf34=0,Pm34=0;
-    double Tf39=0,Tm39=0,Pf39=0,Pm39=0;
-    double Tf49=0,Tm49=0,Pf49=0,Pm49=0;
-    double Tf50=0,Tm50=0,Pf50=0,Pm50=0;
+    double Tf14=0,Tm14=0,Pf14=0,Pm14=0,PTf14=0,PPf14=0;
+    double Tf19=0,Tm19=0,Pf19=0,Pm19=0,PTf19=0,PPf19=0;
+    double Tf24=0,Tm24=0,Pf24=0,Pm24=0,PTf24=0,PPf24=0;
+    double Tf29=0,Tm29=0,Pf29=0,Pm29=0,PTf29=0,PPf29=0;
+    double Tf34=0,Tm34=0,Pf34=0,Pm34=0,PTf34=0,PPf34=0;
+    double Tf39=0,Tm39=0,Pf39=0,Pm39=0,PTf39=0,PPf39=0;
+    double Tf49=0,Tm49=0,Pf49=0,Pm49=0,PTf49=0,PPf49=0;
+    double Tf50=0,Tm50=0,Pf50=0,Pm50=0,PTf50=0,PPf50=0;
           
           
     String get731data="SELECT "
@@ -3707,8 +3714,11 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
             + " sum(IFNULL(HV0110,0)+IFNULL(HV0111,0)+IFNULL(HV0112,0)+IFNULL(HV0113,0)+IFNULL(HV0114,0)+IFNULL(HV0115,0)) as 711_totalpositive ," //updated in 201607            
             + " county.County,district.DistrictNom,"
             + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".HTC_Support1 ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
-           +" ,sum( IFNULL(HV0103,0) + IFNULL(HV0201,0) + IFNULL(HV0226,0) ) as NUM,  "+facilitiestable+".SubPartnerID ,  IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 Q1 is serology + anc only + htc 
-            + " ,county.CountyID as CountyID,sum(IFNULL(HV0110,0)+IFNULL(HV0111,0)+IFNULL(HV0112,0)+IFNULL(HV0113,0)+IFNULL(HV0114,0)+IFNULL(HV0115,0)+IFNULL(HV0206,0)) as grandtotalpositive FROM moh731 JOIN "+facilitiestable+" "
+           +" ,sum( IFNULL(HV0103,0) + IFNULL(HV0201,0) + IFNULL(HV0226,0) + IFNULL(HV0202,0) + IFNULL(HV0203,0) ) as NUM,  "+facilitiestable+".SubPartnerID ,  IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 Q1 is serology + anc only + htc 
+            + " ,county.CountyID as CountyID,sum(IFNULL(HV0110,0)+IFNULL(HV0111,0)+IFNULL(HV0112,0)+IFNULL(HV0113,0)+IFNULL(HV0114,0)+IFNULL(HV0115,0)+IFNULL(HV0206,0)+IFNULL(HV0207,0)+IFNULL(HV0208,0)) as grandtotalpositive "
+            +",sum(IFNULL(HV0202,0)) as ld_tes , sum(IFNULL(HV0207,0)) as ld_pos "
+           
+            + " FROM moh731 JOIN "+facilitiestable+" "
             + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
@@ -3808,12 +3818,62 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
    Pf49=conn.rs4.getDouble("f_49");Pm49=conn.rs4.getDouble("m_49");
    Pf50=conn.rs4.getDouble("f_50");Pm50=conn.rs4.getDouble("m_50");
    
-             } 
+             }
+         
+         
+  if(indicator.equals("PMTCT_ANC")){
+    //use same proportion
+    PTf14=conn.rs4.getDouble("f_14");
+    PTf19=conn.rs4.getDouble("f_19");
+    PTf24=conn.rs4.getDouble("f_24");
+    PTf29=conn.rs4.getDouble("f_29");
+    PTf34=conn.rs4.getDouble("f_34");
+    PTf39=conn.rs4.getDouble("f_39");
+    PTf49=conn.rs4.getDouble("f_49");
+    PTf50=conn.rs4.getDouble("f_50");              
+                                    //}
+            
+  // if(indicator.equals("PMTCT_New_Postive")){
+                
+   PPf14=conn.rs4.getDouble("f_14");
+   PPf19=conn.rs4.getDouble("f_19");
+   PPf24=conn.rs4.getDouble("f_24");
+   PPf29=conn.rs4.getDouble("f_29");
+   PPf34=conn.rs4.getDouble("f_34");
+   PPf39=conn.rs4.getDouble("f_39");
+   PPf49=conn.rs4.getDouble("f_49");
+   PPf50=conn.rs4.getDouble("f_50");   }
+         
+         
+         
+         
+         
                  
              }//end of while for fetching county ratios 
              
          }//end of countyid if
   
+         
+         double pmtct_t=0;
+         double pmtct_t_14=0;
+         double pmtct_t_19=0;
+         double pmtct_t_24=0;
+         double pmtct_t_29=0;
+         double pmtct_t_34=0;
+         double pmtct_t_39=0;
+         double pmtct_t_49=0;
+         double pmtct_t_50=0;
+         
+         double pmtct_p=0;
+         double pmtct_p_14=0;
+         double pmtct_p_19=0;
+         double pmtct_p_24=0;
+         double pmtct_p_29=0;
+         double pmtct_p_34=0;
+         double pmtct_p_39=0;
+         double pmtct_p_49=0;
+         double pmtct_p_50=0;
+         
               int less15m=0;
               int less15f=0;
               int gret15m=0;
@@ -4136,6 +4196,8 @@ double  ChildMaleHIV9=0;
     
     //============================================================================================================================START NEW RATIOS===================================
     
+       pmtct_t=(float)Math.round((conn.rs.getInt("ld_tes")));
+       pmtct_p=(float)Math.round((conn.rs.getInt("ld_pos")));
     
     
   //%%%%%%%%%%%%%%%%added 201606 %%%%%%%%%%%%%%%%%%%%%% 
@@ -4234,6 +4296,101 @@ String arrayDetails []=basicDetails.split("@");
   //the main variables are 
    //TestedAdultFemale   TestedChildFemale  hivpos_711_15_24f  hivpos_711_25f HIV_ChildFemale
   
+   
+   
+   
+       
+         pmtct_t_14=(float)Math.round((PTf14*pmtct_t));
+         pmtct_t_19=(float)Math.round((PTf19*pmtct_t));
+         pmtct_t_24=(float)Math.round((PTf24*pmtct_t));
+         pmtct_t_29=(float)Math.round((PTf29*pmtct_t));
+         pmtct_t_34=(float)Math.round((PTf34*pmtct_t));
+         pmtct_t_39=(float)Math.round((PTf39*pmtct_t));
+         pmtct_t_49=(float)Math.round((PTf49*pmtct_t));
+         pmtct_t_50=(float)Math.round((PTf50*pmtct_t));
+         
+         
+         pmtct_p_14=(float)Math.round((PPf14*pmtct_p));
+         pmtct_p_19=(float)Math.round((PPf19*pmtct_p));
+         pmtct_p_24=(float)Math.round((PPf24*pmtct_p));
+         pmtct_p_29=(float)Math.round((PPf29*pmtct_p));
+         pmtct_p_34=(float)Math.round((PPf34*pmtct_p));
+         pmtct_p_39=(float)Math.round((PPf39*pmtct_p));
+         pmtct_p_49=(float)Math.round((PPf49*pmtct_p));
+         pmtct_p_50=(float)Math.round((PPf50*pmtct_p));
+         
+         
+         double pmtcttestedyote=pmtct_t_14+pmtct_t_19+pmtct_t_24+pmtct_t_29+pmtct_t_34+pmtct_t_39+pmtct_t_49+pmtct_t_50;
+         double tofautini=pmtct_t-pmtcttestedyote;
+         while(tofautini>0){
+         pmtct_t_24+=1;
+         tofautini--;    
+         }
+         
+         
+         while(tofautini<0){
+     if(pmtct_t_24>=pmtct_t_29 && pmtct_t_24>0 ){
+         pmtct_t_24-=1;
+         tofautini++;  
+             }
+    else  if(pmtct_t_29>=pmtct_t_24 && pmtct_t_29>0){
+         pmtct_t_29-=1;
+         tofautini++;  
+                          }
+    else  if(pmtct_t_34>0){
+         pmtct_t_34-=1;
+         tofautini++;  
+                          }
+     
+    else  if(pmtct_t_39>0){
+         pmtct_t_39-=1;
+         tofautini++;  
+                          }
+    else {
+         System.out.println(" PMTCT tested balancing refused");
+         break;
+    }
+         }
+         
+         
+         
+         
+   
+   double pmtctposyote=pmtct_p_14+pmtct_p_19+pmtct_p_24+pmtct_p_29+pmtct_p_34+pmtct_p_39+pmtct_p_49+pmtct_p_50;
+         tofautini=pmtct_p-pmtctposyote;
+         
+         while(tofautini>0){
+         pmtct_p_24+=1;
+         tofautini--;    
+         }
+         
+         
+         while(tofautini<0){
+     if(pmtct_p_24>=pmtct_p_29 && pmtct_p_24>0 ){
+         pmtct_p_24-=1;
+         tofautini--;  
+             }
+    else  if(pmtct_p_29>=pmtct_p_24 && pmtct_p_29>0){
+         pmtct_p_29-=1;
+         tofautini--;  
+                          }
+    else  if(pmtct_p_34>0){
+         pmtct_p_34-=1;
+         tofautini--;  
+                          }
+     
+    else  if(pmtct_p_39>0){
+         pmtct_p_39-=1;
+         tofautini--;  
+                          }
+    else {
+         System.out.println(" PMTCT positive balancing refused");
+         break;
+    }
+         }
+   
+   
+   
 //      FEMALES
 //adult
 FemaleAdultTested19=(float)Math.round((Tf19*TestedAdultFemale));
@@ -4317,8 +4474,8 @@ ChildFemaleHIV14=(float)Math.round((Pf14*hivpos_711_less15f));
  
  
           
-      double totalpositivesmale=0;   
-      double totalpositivesfemale=0;   
+     double totalpositivesmale=0;   
+     double totalpositivesfemale=0;   
        
      double totalfemalehiv=0;
      double totalmalehiv=0;
@@ -4327,7 +4484,7 @@ ChildFemaleHIV14=(float)Math.round((Pf14*hivpos_711_less15f));
      double totalfemaletested=0;
      double totalmaletested=0;
      double negfem=0;
-           double  negmale=0;
+     double  negmale=0;
           
   
                
@@ -4832,6 +4989,17 @@ double TotalNegativeFemale1=0;
  }
  
  
+ double pmtct_n_14= pmtct_t_14-pmtct_p_14;
+ double pmtct_n_19= pmtct_t_19-pmtct_p_19;
+ double pmtct_n_24= pmtct_t_24-pmtct_p_24;
+ double pmtct_n_29= pmtct_t_29-pmtct_p_29;
+ double pmtct_n_34= pmtct_t_34-pmtct_p_34;
+ double pmtct_n_39= pmtct_t_39-pmtct_p_39;
+ double pmtct_n_49= pmtct_t_49-pmtct_p_49;
+ double pmtct_n_50= pmtct_t_50-pmtct_p_50;
+ 
+ 
+ 
  Double posotiveyote1 = ChildFemaleHIV1+ChildMaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildMaleHIV4+ChildMaleHIV9+ChildFemaleHIV14+ChildMaleHIV14+AdultFemaleHIV19+AdultMaleHIV19+AdultFemaleHIV24+AdultMaleHIV24+AdultFemaleHIV29+AdultMaleHIV29+AdultFemaleHIV34+AdultMaleHIV34+AdultFemaleHIV39+AdultMaleHIV39+AdultFemaleHIV49+AdultMaleHIV49+AdultFemaleHIV50+AdultMaleHIV50;
  
  
@@ -4841,32 +5009,32 @@ double TotalNegativeFemale1=0;
         ,""+ChildFemaleHIV1,""+ChildMaleHIV1
         ,""+(ChildFemaleHIV4),""+(ChildMaleHIV4)
         ,""+(ChildFemaleHIV9),""+(ChildMaleHIV9)
-        ,""+ChildFemaleHIV14,""+ChildMaleHIV14
-        ,""+AdultFemaleHIV19,""+AdultMaleHIV19
-        ,""+AdultFemaleHIV24,""+AdultMaleHIV24
+        ,""+(ChildFemaleHIV14+pmtct_p_14),""+ChildMaleHIV14
+        ,""+(AdultFemaleHIV19+pmtct_p_19),""+AdultMaleHIV19
+        ,""+(AdultFemaleHIV24+pmtct_p_24),""+AdultMaleHIV24
           
-        ,""+AdultFemaleHIV29,""+AdultMaleHIV29
-        ,""+AdultFemaleHIV34,""+AdultMaleHIV34
-        ,""+AdultFemaleHIV39,""+AdultMaleHIV39
+        ,""+(AdultFemaleHIV29+pmtct_p_29),""+AdultMaleHIV29
+        ,""+(AdultFemaleHIV34+pmtct_p_34),""+AdultMaleHIV34
+        ,""+(AdultFemaleHIV39+pmtct_p_39),""+AdultMaleHIV39
           
-        ,""+AdultFemaleHIV49,""+AdultMaleHIV49
-        ,""+AdultFemaleHIV50,""+AdultMaleHIV50        
+        ,""+(AdultFemaleHIV49+pmtct_p_49),""+AdultMaleHIV49
+        ,""+(AdultFemaleHIV50+pmtct_p_50),""+AdultMaleHIV50        
          //negative starts here 
         ,"0","0"
         ,""+ChildFemaleHIV1Neg,""+ChildMaleHIV1Neg
         ,""+(ChildFemaleHIV4Neg),""+(ChildMaleHIV4Neg)
         ,""+(ChildFemaleHIV9Neg),""+(ChildMaleHIV9Neg)
-        ,""+ChildFemaleHIV14Neg,""+ChildMaleHIV14Neg
-        ,""+AdultFemaleHIV19Neg,""+AdultMaleHIV19Neg
-        ,""+AdultFemaleHIV24Neg,""+AdultMaleHIV24Neg
+        ,""+(ChildFemaleHIV14Neg+(pmtct_n_14)),""+ChildMaleHIV14Neg
+        ,""+(AdultFemaleHIV19Neg+(pmtct_n_19)),""+AdultMaleHIV19Neg
+        ,""+(AdultFemaleHIV24Neg+(pmtct_n_24) ),""+AdultMaleHIV24Neg
           
-        ,""+AdultFemaleHIV29Neg,""+AdultMaleHIV29Neg
-        ,""+AdultFemaleHIV34Neg,""+AdultMaleHIV34Neg
-        ,""+AdultFemaleHIV39Neg,""+AdultMaleHIV39Neg
+        ,""+(AdultFemaleHIV29Neg+(pmtct_n_29)),""+AdultMaleHIV29Neg
+        ,""+(AdultFemaleHIV34Neg+(pmtct_n_34)),""+AdultMaleHIV34Neg
+        ,""+(AdultFemaleHIV39Neg+(pmtct_n_39)),""+AdultMaleHIV39Neg
           
           
-        ,""+AdultFemaleHIV49Neg,""+AdultMaleHIV49Neg
-        ,""+AdultFemaleHIV50Neg,""+AdultMaleHIV50Neg,""+tested_new711,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
+        ,""+(AdultFemaleHIV49Neg+(pmtct_n_49)),""+AdultMaleHIV49Neg
+        ,""+(AdultFemaleHIV50Neg+(pmtct_n_50)),""+AdultMaleHIV50Neg,""+((tested_new711)+(pmtct_t)),""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
           
         }; 
 
@@ -5441,14 +5609,14 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
     double Tf1=0,Tm1=0,Pf1=0,Pm1=0;
     double Tf4=0,Tm4=0,Pf4=0,Pm4=0; //may or may not be there
     double Tf9=0,Tm9=0,Pf9=0,Pm9=0;
-    double Tf14=0,Tm14=0,Pf14=0,Pm14=0;
-    double Tf19=0,Tm19=0,Pf19=0,Pm19=0;
-    double Tf24=0,Tm24=0,Pf24=0,Pm24=0;
-    double Tf29=0,Tm29=0,Pf29=0,Pm29=0;
-    double Tf34=0,Tm34=0,Pf34=0,Pm34=0;
-    double Tf39=0,Tm39=0,Pf39=0,Pm39=0;
-    double Tf49=0,Tm49=0,Pf49=0,Pm49=0;
-    double Tf50=0,Tm50=0,Pf50=0,Pm50=0;
+    double Tf14=0,Tm14=0,Pf14=0,Pm14=0,PTf14=0,PPf14=0;
+    double Tf19=0,Tm19=0,Pf19=0,Pm19=0,PTf19=0,PPf19=0;
+    double Tf24=0,Tm24=0,Pf24=0,Pm24=0,PTf24=0,PPf24=0;
+    double Tf29=0,Tm29=0,Pf29=0,Pm29=0,PTf29=0,PPf29=0;
+    double Tf34=0,Tm34=0,Pf34=0,Pm34=0,PTf34=0,PPf34=0;
+    double Tf39=0,Tm39=0,Pf39=0,Pm39=0,PTf39=0,PPf39=0;
+    double Tf49=0,Tm49=0,Pf49=0,Pm49=0,PTf49=0,PPf49=0;
+    double Tf50=0,Tm50=0,Pf50=0,Pm50=0,PTf50=0,PPf50=0;
        
        
        
@@ -5463,8 +5631,10 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
             + " sum(HV0110+HV0111+HV0112+HV0113+HV0114+HV0115) as 711_totalpositive ," //updated in 201607            
             + " county.County,district.DistrictNom,"
             + ""+facilitiestable+".SubPartnerNom, "+facilitiestable+".CentreSanteId,"+facilitiestable+".HTC_Support1 ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
-           +" ,sum( HV0103 + HV0201 ) as NUM,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT, SUM(IFNULL(HV0226,0)) as serology "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
-            + " ,county.CountyID as CountyID FROM moh731  JOIN "+facilitiestable+" "
+            +" ,sum( HV0103 + HV0201 ) as NUM,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT, SUM(IFNULL(HV0226,0)) as serology "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
+            + " ,county.CountyID as CountyID "
+            +", sum(IFNULL(HV0203,0)) as pnc_tes ,sum(IFNULL(HV0208,0)) as pnc_pos "
+            + " FROM moh731  JOIN "+facilitiestable+" "
             + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
@@ -5581,12 +5751,62 @@ double AdultFemaleHIV39=0;
    Pf49=conn.rs4.getDouble("f_49");Pm49=conn.rs4.getDouble("m_49");
    Pf50=conn.rs4.getDouble("f_50");Pm50=conn.rs4.getDouble("m_50"); 
   } 
+           
+             
+             
+                      
+  if(indicator.equals("PMTCT_ANC")){
+    //use same proportion for pos and negative
+    PTf14=conn.rs4.getDouble("f_14");
+    PTf19=conn.rs4.getDouble("f_19");
+    PTf24=conn.rs4.getDouble("f_24");
+    PTf29=conn.rs4.getDouble("f_29");
+    PTf34=conn.rs4.getDouble("f_34");
+    PTf39=conn.rs4.getDouble("f_39");
+    PTf49=conn.rs4.getDouble("f_49");
+    PTf50=conn.rs4.getDouble("f_50");              
+                                   // }
+            
+  // if(indicator.equals("PMTCT_New_Postive")){
+                
+   PPf14=conn.rs4.getDouble("f_14");
+   PPf19=conn.rs4.getDouble("f_19");
+   PPf24=conn.rs4.getDouble("f_24");
+   PPf29=conn.rs4.getDouble("f_29");
+   PPf34=conn.rs4.getDouble("f_34");
+   PPf39=conn.rs4.getDouble("f_39");
+   PPf49=conn.rs4.getDouble("f_49");
+   PPf50=conn.rs4.getDouble("f_50");   }
+             
              
                  
              } 
              
          }
   
+         
+         double pmtct_t=0;
+         double pmtct_t_14=0;
+         double pmtct_t_19=0;
+         double pmtct_t_24=0;
+         double pmtct_t_29=0;
+         double pmtct_t_34=0;
+         double pmtct_t_39=0;
+         double pmtct_t_49=0;
+         double pmtct_t_50=0;
+         
+         double pmtct_p=0;
+         double pmtct_p_14=0;
+         double pmtct_p_19=0;
+         double pmtct_p_24=0;
+         double pmtct_p_29=0;
+         double pmtct_p_34=0;
+         double pmtct_p_39=0;
+         double pmtct_p_49=0;
+         double pmtct_p_50=0;
+         
+         
+         
         //--------------added ratios fetching form 2017---------
         
  int TestedAdultMale=0,TestedAdultFemale=0;
@@ -5959,9 +6179,7 @@ staticispmtct.remove(mflindex);
     TestedAdultMale=(int)Math.round((Tma*testedmale_711));  //adult   
     TestedChildMale=(int)Math.round((Tmc*testedmale_711)); //child
     
-      System.out.println("Before Normalization "+facilityname+" OPD normalization  Broad age male ratios Tested child="+testedmale_711+" TMC="+Tmc+" TMA="+Tma);
-      System.out.println("Before Normalization "+facilityname+" OPD normalization  Broad age male values Tested child="+testedmale_711+" TMC="+TestedChildMale+" TMA="+TestedAdultMale);
-
+   
  
    tofautimpya=testedmale_711 -(TestedAdultMale+TestedChildMale);   
     if(tofautimpya!=0){
@@ -5969,10 +6187,8 @@ staticispmtct.remove(mflindex);
   TestedAdultMale+=tofautimpya;  
    }
      
-    
-     System.out.println("After Normalization "+facilityname+" OPD normalization  Broad age male ratios Tested child="+testedmale_711+" TMC="+Tmc+" TMA="+Tma);
-      System.out.println("After Normalization "+facilityname+" OPD normalization  Broad age male values Tested child="+testedmale_711+" TMC="+TestedChildMale+" TMA="+TestedAdultMale);
-
+  	 pmtct_t=(float)Math.round((conn.rs.getInt("pnc_tes")));
+       pmtct_p=(float)Math.round((conn.rs.getInt("pnc_pos")));
     
     int hivpos_711_15_24f=(int) Math.round((conn.rs.getInt("711_15_24f")*htcpositiveratio));//|__|
     int hivpos_711_15_24m=(int) Math.round((conn.rs.getInt("711_15_24m")*htcpositiveratio));//|__|
@@ -6009,6 +6225,112 @@ String arrayDetails []=basicDetails.split("@");
    }
         
   
+   
+   
+   
+   
+   
+   
+   
+   pmtct_t_14=(float)Math.round((PTf14*pmtct_t));
+         pmtct_t_19=(float)Math.round((PTf19*pmtct_t));
+         pmtct_t_24=(float)Math.round((PTf24*pmtct_t));
+         pmtct_t_29=(float)Math.round((PTf29*pmtct_t));
+         pmtct_t_34=(float)Math.round((PTf34*pmtct_t));
+         pmtct_t_39=(float)Math.round((PTf39*pmtct_t));
+         pmtct_t_49=(float)Math.round((PTf49*pmtct_t));
+         pmtct_t_50=(float)Math.round((PTf50*pmtct_t));
+         
+         
+         pmtct_p_14=(float)Math.round((PPf14*pmtct_p));
+         pmtct_p_19=(float)Math.round((PPf19*pmtct_p));
+         pmtct_p_24=(float)Math.round((PPf24*pmtct_p));
+         pmtct_p_29=(float)Math.round((PPf29*pmtct_p));
+         pmtct_p_34=(float)Math.round((PPf34*pmtct_p));
+         pmtct_p_39=(float)Math.round((PPf39*pmtct_p));
+         pmtct_p_49=(float)Math.round((PPf49*pmtct_p));
+         pmtct_p_50=(float)Math.round((PPf50*pmtct_p));
+         
+         
+         double pmtcttestedyote=pmtct_t_14+pmtct_t_19+pmtct_t_24+pmtct_t_29+pmtct_t_34+pmtct_t_39+pmtct_t_49+pmtct_t_50;
+         double tofautini=pmtct_t-pmtcttestedyote;
+         while(tofautini>0){
+         pmtct_t_24+=1;
+         tofautini--;    
+         }
+         
+         
+         while(tofautini<0){
+     if(pmtct_t_24>=pmtct_t_29 && pmtct_t_24>0 ){
+         pmtct_t_24-=1;
+         tofautini++;  
+             }
+    else  if(pmtct_t_29>=pmtct_t_24 && pmtct_t_29>0){
+         pmtct_t_29-=1;
+         tofautini++;  
+                          }
+    else  if(pmtct_t_34>0){
+         pmtct_t_34-=1;
+         tofautini++;  
+                          }
+     
+    else  if(pmtct_t_39>0){
+         pmtct_t_39-=1;
+         tofautini++;  
+                          }
+    else {
+         System.out.println(" PMTCT tested balancing refused");
+         break;
+    }
+         }
+         
+         
+         
+         
+   
+   double pmtctposyote=pmtct_p_14+pmtct_p_19+pmtct_p_24+pmtct_p_29+pmtct_p_34+pmtct_p_39+pmtct_p_49+pmtct_p_50;
+         tofautini=pmtct_p-pmtctposyote;
+         
+         while(tofautini>0){
+         pmtct_p_24+=1;
+         tofautini--;    
+         }
+         
+         
+         while(tofautini<0){
+     if(pmtct_p_24>=pmtct_p_29 && pmtct_p_24>0 ){
+         pmtct_p_24-=1;
+         tofautini--;  
+             }
+    else  if(pmtct_p_29>=pmtct_p_24 && pmtct_p_29>0){
+         pmtct_p_29-=1;
+         tofautini--;  
+                          }
+    else  if(pmtct_p_34>0){
+         pmtct_p_34-=1;
+         tofautini--;  
+                          }
+     
+    else  if(pmtct_p_39>0){
+         pmtct_p_39-=1;
+         tofautini--;  
+                          }
+    else {
+         System.out.println(" PMTCT positive balancing refused");
+         break;
+    }
+         }
+		 
+		 
+		 
+		 
+		 
+		 
+   
+   
+   
+   
+   
   //========================NEW FINE AGE RATIOS added 201607=====================================
   //prior to this level, ensure all the main variables below being subjected to a ratio have already been subjected to the respective percentage per service area 
    //i.e. IPD, OPD, VCT 
@@ -6872,37 +7194,48 @@ while(balancegeneralglobal>0){
 
 //============================================================================
         
- 
+
+
+ double pmtct_n_14=(float)Math.round(pmtct_t_14)-(pmtct_p_14);
+ double pmtct_n_19= (float)Math.round(pmtct_t_19)-(pmtct_p_19);
+ double pmtct_n_24= (float)Math.round(pmtct_t_24)-(pmtct_p_24);
+ double pmtct_n_29= (float)Math.round(pmtct_t_29)-(pmtct_p_29);
+ double pmtct_n_34= (float)Math.round(pmtct_t_34)-(pmtct_p_34);
+ double pmtct_n_39= (float)Math.round(pmtct_t_39)-(pmtct_p_39);
+ double pmtct_n_49=(float)Math.round(pmtct_t_49)-(pmtct_p_49);
+ double pmtct_n_50= (float)Math.round(pmtct_t_50)-(pmtct_p_50);
+
+        System.out.println(facilityname+" pmtct data accuracy" +pmtct_t+" = "+pmtct_n_14+" | "+pmtct_n_19+" | "+pmtct_n_24+" | "+pmtct_n_29+" | "+pmtct_n_34+" | "+pmtct_n_39+" | "+pmtct_n_49+" | "+pmtct_n_50);
+        System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_p_14+" | "+pmtct_p_19+" | "+pmtct_p_24+" | "+pmtct_p_29+" | "+pmtct_p_34+" | "+pmtct_p_39+" | "+pmtct_p_49+" | "+pmtct_p_50);
+        System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_t_14+" | "+pmtct_t_19+" | "+pmtct_t_24+" | "+pmtct_t_29+" | "+pmtct_t_34+" | "+pmtct_t_39+" | "+pmtct_t_49+" | "+pmtct_t_50);
+       
   String alldatavals[]={county,district,facilityname,""+mflcode,dsdta
         ,"0","0"
         ,""+ChildFemaleHIV1,""+ChildMaleHIV1
         ,"0","0"//transfered to Pediatrics
         ,""+(ChildFemaleHIV9),""+(ChildMaleHIV9)
-        ,""+ChildFemaleHIV14,""+ChildMaleHIV14
-        ,""+AdultFemaleHIV19,""+AdultMaleHIV19
-        ,""+AdultFemaleHIV24,""+AdultMaleHIV24
-          
-        ,""+AdultFemaleHIV29,""+AdultMaleHIV29
-        ,""+AdultFemaleHIV34,""+AdultMaleHIV34
-        ,""+AdultFemaleHIV39,""+AdultMaleHIV39
-          
-        ,""+AdultFemaleHIV49,""+AdultMaleHIV49
-        ,""+AdultFemaleHIV50,""+AdultMaleHIV50        
+        ,""+(ChildFemaleHIV14+(pmtct_p_14)),""+ChildMaleHIV14
+        ,""+(AdultFemaleHIV19+(pmtct_p_19)),""+AdultMaleHIV19
+        ,""+(AdultFemaleHIV24+(pmtct_p_24)),""+AdultMaleHIV24
+        ,""+(AdultFemaleHIV29+(pmtct_p_29)),""+AdultMaleHIV29
+        ,""+(AdultFemaleHIV34+(pmtct_p_34)),""+AdultMaleHIV34
+        ,""+(AdultFemaleHIV39+(pmtct_p_39)),""+AdultMaleHIV39
+        ,""+(AdultFemaleHIV49+(pmtct_p_49)),""+AdultMaleHIV49
+        ,""+(AdultFemaleHIV50+(pmtct_p_50)),""+AdultMaleHIV50        
          //negative starts here 
         ,"0","0"
         ,""+ChildFemaleHIV1Neg,""+ChildMaleHIV1Neg
         ,"0","0"//transfered to Pediatrics
         ,""+(ChildFemaleHIV9Neg),""+(ChildMaleHIV9Neg)
-        ,""+ChildFemaleHIV14Neg,""+ChildMaleHIV14Neg
-        ,""+AdultFemaleHIV19Neg,""+AdultMaleHIV19Neg          
-        ,""+AdultFemaleHIV24Neg,""+AdultMaleHIV24Neg
+        ,""+(ChildFemaleHIV14Neg+(pmtct_n_14)),""+ChildMaleHIV14Neg
+        ,""+(AdultFemaleHIV19Neg+(pmtct_n_19)),""+AdultMaleHIV19Neg
+        ,""+(AdultFemaleHIV24Neg+(pmtct_n_24) ),""+AdultMaleHIV24Neg
           
-        ,""+AdultFemaleHIV29Neg,""+AdultMaleHIV29Neg
-        ,""+AdultFemaleHIV34Neg,""+AdultMaleHIV34Neg          
-        ,""+AdultFemaleHIV39Neg,""+AdultMaleHIV39Neg
-          
-        ,""+AdultFemaleHIV49Neg,""+AdultMaleHIV49Neg
-        ,""+AdultFemaleHIV50Neg,""+AdultMaleHIV50Neg,""+(tested_new711-(ChildMaleHIV4Neg+ChildMaleHIV4+ChildFemaleHIV4Neg+ChildFemaleHIV4)),(ChildMaleHIV4Neg+ChildMaleHIV4+ChildFemaleHIV4Neg+ChildFemaleHIV4+conn.rs.getInt("serology"))+"",(ChildMaleHIV4+ChildFemaleHIV4)+"",(ChildMaleHIV4Neg+ChildFemaleHIV4Neg+conn.rs.getInt("serology"))+"",""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
+        ,""+(AdultFemaleHIV29Neg+(pmtct_n_29)),""+AdultMaleHIV29Neg
+        ,""+(AdultFemaleHIV34Neg+(pmtct_n_34)),""+AdultMaleHIV34Neg
+        ,""+(AdultFemaleHIV39Neg+(pmtct_n_39)),""+AdultMaleHIV39Neg
+        ,""+(AdultFemaleHIV49Neg+(pmtct_n_49)),""+AdultMaleHIV49Neg
+        ,""+(AdultFemaleHIV50Neg+(pmtct_n_50)),""+AdultMaleHIV50Neg,""+(((tested_new711)-(ChildMaleHIV4Neg+ChildMaleHIV4+ChildFemaleHIV4Neg+ChildFemaleHIV4))+(pmtct_t)),(ChildMaleHIV4Neg+ChildMaleHIV4+ChildFemaleHIV4Neg+ChildFemaleHIV4+conn.rs.getInt("serology"))+"",(ChildMaleHIV4+ChildFemaleHIV4)+"",(ChildMaleHIV4Neg+ChildFemaleHIV4Neg+conn.rs.getInt("serology"))+"",""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
           
         }; 
 //the above numbers appearing in serology are for 1-4
