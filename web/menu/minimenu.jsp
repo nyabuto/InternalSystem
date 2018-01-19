@@ -91,6 +91,7 @@
                  <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
                  <li ><a href="LockData.jsp"><i class="icon-lock"></i>Lock  Data Editing </a></li>                  
                  <li ><a href="editFacility.jsp"><i class="icon-hospital"></i>Facility management</a></li>
+                  <li ><a href="ManageRatios.jsp"><i class="icon-edit"></i>Manage Ratios</a></li>
                  <%}}}else{}}%>
                </ul>
             </li>

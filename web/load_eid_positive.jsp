@@ -164,7 +164,7 @@
                         <div class="form-actions">
                               <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the eid positive raw data has column headers arranged in following order </h4>
                             
-                        <table border="1" class="table"><tr><td>(1)#</td><td>(2)County</td><td>(3)Sub-County</td><td>(4)Facility Name</td><td>(5)MFL Code</td><td>(6)Partner</td><td>(7)Sample Code</td><td>(8)Date Collected</td><td>(9)Date Tested</td><td>(10)Validation (CP,A,VL,RT,UF)</td><td>(11)Enrolment Status</td><td>(12)Date Initiated on Treatment</td><td>(13)Enrollment CCC#</td><td>(14)Other Reasons</td></tr></table>
+                        <table border="1" class="table"><tr><td>(1)#</td><td>(2)System ID</td><td>(3)County</td><td>(4)Sub-County</td><td>(5)Facility Name</td><td>(6)MFL Code</td><td>(7)Partner</td><td>(8)Sample Code</td><td>(9)Age</td><td>(10)PCR Type</td><td>(11)Date Collected</td><td>(12)Date Tested</td><td>(13)Validation (CP,A,VL,RT,UF)</td><td>(14)Enrolment Status</td><td>(15)Date Initiated on Treatment</td><td>(16)Enrollment CCC#</td><td>(17)Other Reasons</td></tr></table>
                            
                         </div>
                         </form>

@@ -98,8 +98,6 @@ public class LoadNewANC extends HttpServlet {
            mfl_code =cellserialno.getStringCellValue();
             } 
             
-            
-            
         
 //        4_______________________new_anc__________________________
             XSSFCell cellBatch_No = rowi.getCell((short) 4);
@@ -125,7 +123,6 @@ public class LoadNewANC extends HttpServlet {
             } 
             
             
-            
         String mn="";
 //        6_______________________month__________________________
             XSSFCell cellTesting_Lab = rowi.getCell((short) 6);
@@ -149,7 +146,7 @@ public class LoadNewANC extends HttpServlet {
             year_month=year+""+month;
         SubPartnerID=getSubPartnerID(conn,mfl_code);    
          id=pepfaryear+"_"+mois+"_"+SubPartnerID;   
-         String checker = "SELECT SubPartnerID FROM new_anc WHERE SubPartnerID=? && yearmonth=?" ;
+         String checker = "SELECT id FROM new_anc WHERE SubPartnerID=? && yearmonth=?" ;
          conn.pst=conn.conn.prepareStatement(checker);
          conn.pst.setString(1, SubPartnerID);
          conn.pst.setString(2, year_month);
@@ -175,7 +172,7 @@ public class LoadNewANC extends HttpServlet {
            conn.pst1.executeUpdate();
            updated++;
              System.out.println("updated : "+mfl_code+"   year month :"+year_month+" at sheet : "+(j+1)+" at row number : "+i);
-              System.out.println(conn.pst);
+              System.out.println(conn.pst1);
          }
          else{
           String inserter = "INSERT INTO new_anc (SubPartnerID,mfl_code,new_anc,year,month,yearmonth,id) VALUES(?,?,?,?,?,?,?)"; 

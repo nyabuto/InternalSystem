@@ -310,6 +310,16 @@ String excelDuration="";
     redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
     redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     redstyle.setWrapText(true);
+    // for the red color
+   HSSFCellStyle yellowstyle = wb.createCellStyle();
+    yellowstyle.setFillForegroundColor(HSSFColor.YELLOW.index);
+    yellowstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+    yellowstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    yellowstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    yellowstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    yellowstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    yellowstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    yellowstyle.setWrapText(true);
     
     HSSFCellStyle styleHeader = wb.createCellStyle();
 styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
@@ -771,7 +781,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
             + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
             + " WHERE "
             + " "+facilityIds+" "+duration+"  "
-            + " AND  indicator='TX_CURR'"
+            + " AND  indicator='TX_NEW'"
             + "GROUP BY moh731.SubPartnerID " ;
        
    System.out.println("new : "+getData);
@@ -1150,7 +1160,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
  if(_HV0335>=under1_curtxm){     
  _HV0335=(int) (_HV0335-under1_curtxm); 
      System.out.println(facilityName+" under1 m :"+under1_curtxm+" HV0335 "+HV0335+" _HV0335 "+_HV0335);
-                           }
+ }
  else {
      System.out.println(facilityName+" Should have multiplied but dint ");
       }
@@ -1307,24 +1317,43 @@ adderPos=0;
  if((splitData-HV0321)>10 || (HV0321-splitData)>10 ){errorART++;}
  else{
 while(splitData<HV0321){ 
- if(adderPos==0){newART10_14M+=1; }
- else if(adderPos==1){newART5_9M+=1; }
- else{newART1_4M+=1; }
+ if(adderPos==0){newART10_14M+=1; splitData++;}
+ else if(adderPos==1){newART5_9M+=1; splitData++; }
+ else{newART1_4M+=1; splitData++;}
  
-splitData++;
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
 }
  
 splitData=newART10_14M+newART1_4M+newART5_9M+newART1M;
 adderPos=0;
-while(splitData>HV0321){ 
- if(adderPos==0){newART10_14M-=1; }
- else if(adderPos==1){newART5_9M-=1; }
- else{newART1_4M-=1; }
+while(splitData>HV0321){
+ if(newART10_14M==0 && newART5_9M==0 && newART1_4M==0){
+     if(HV0320<=(HV0321+HV0322)){
+     newART1M--; 
+     newART1F++;
+        if(newART1_4F!=0){
+        newART1_4F--; 
+        }
+        else if(newART5_9F!=0){
+        newART5_9F--; 
+        }
+        else if(newART10_14F!=0){
+        newART10_14F--; 
+        }
+ splitData--;  
+ adderPos--;
+     }
+     else{
+         errorART  = 90;
+         break;
+     }
+ }
+ else if(adderPos==0){if(newART10_14M>0){newART10_14M-=1; splitData--;} }
+ else if(adderPos==1){ if(newART5_9M>0){newART5_9M-=1; splitData--;} }
+ else{if(newART1_4M>0){newART1_4M-=1; splitData--;} }
  
-splitData--;
-adderPos++  ;
+adderPos++;
  if(adderPos>2){adderPos=0;}
 }
  }
@@ -1345,23 +1374,30 @@ adderPos++  ;
 //   System.out.println("split data : "+splitData+" all data "+HV0323);     
 adderPos=0;
 while(splitData<HV0323){ 
- if(adderPos<3){newART40_49m+=1; }
- else{newART50M+=1; }
-splitData++;
+ if(adderPos==0 || adderPos==3){newART40_49m+=1; splitData++; }
+ if(adderPos==1 || adderPos==4){newART50M+=1; splitData++; }
+ if(adderPos==2){newART35_39m+=1; splitData++; }
+ if(adderPos==5){newART15_19M+=1; splitData++; }
+ if(adderPos==6){newART30_34m+=1; splitData++; }
+ if(adderPos==7){newART25_29m+=1; splitData++; }
+ if(adderPos==8){newART20_24M+=1; splitData++; }
 adderPos++  ;
- if(adderPos>3){adderPos=0;}
+ if(adderPos>8){adderPos=0;}
 }
   splitData=newART50M+newART20_24M+newART15_19M+newART25_29m+newART30_34m+newART35_39m+newART40_49m;
 //   System.out.println("split data : "+splitData+" all data"+HV0323);     
 adderPos=0;
 while(splitData>HV0323){ 
- if(adderPos<3){newART40_49m-=1; }
- else{newART50M-=1; }
-splitData--;
+ if(adderPos==0 || adderPos==3){if(newART40_49m>0){newART40_49m-=1; splitData--;} }
+ if(adderPos==1 || adderPos==4){if(newART50M>0){newART50M-=1; splitData--;} }
+ if(adderPos==2){if(newART35_39m>0){newART35_39m-=1; splitData--;} }
+ if(adderPos==5){if(newART15_19M>0){newART15_19M-=1; splitData--;} }
+  if(adderPos==6){if(newART30_34m>0){newART30_34m-=1; splitData--;} }
+ if(adderPos==7){if(newART25_29m>0){newART25_29m-=1; splitData--;} }
+ if(adderPos==8){if(newART20_24M>0){newART20_24M-=1; splitData--;} }
 adderPos++  ;
- if(adderPos>3){adderPos=0;}
-}   
-         }
+ if(adderPos>8){adderPos=0;}
+}   }
         newART1F=under1_newtxf;
         newART1_4F=(float)Math.round((f_4*HV0322));
         newART5_9F=(float)Math.round((f_9*HV0322));
@@ -1379,29 +1415,54 @@ adderPos=0;
  if((splitData-HV0322)>10 ||(HV0322-splitData)>10 ){errorART++;}
 // else{
 while(splitData<HV0322){ 
- if(adderPos==0){newART10_14F+=1; }
- else if(adderPos==1){newART5_9F+=1; }
- else{newART1_4F+=1; }
- 
-splitData++;
+ if(adderPos==0){newART10_14F+=1; splitData++; }
+ else if(adderPos==1){newART5_9F+=1; splitData++; }
+ else{newART1_4F+=1; splitData++; }
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
+    System.out.println("looping on HV0322+");
 }   
   
 splitData=newART10_14F+newART1_4F+newART5_9F+newART1F;
 adderPos=0;
 while(splitData>HV0322){ 
- if(adderPos==0){newART10_14F-=1; }
- else if(adderPos==1){newART5_9F-=1; }
- else{newART1_4F-=1; }
- 
-splitData--;
+    if(newART10_14F==0 && newART5_9F==0 && newART1_4F==0){
+        
+        if(HV0320<=(HV0321+HV0322)){
+        newART1F--; 
+        newART1M++; 
+        if(newART1_4M!=0){
+        newART1_4M--; 
+        }
+        else if(newART5_9M!=0){
+        newART5_9M--; 
+        }
+        else if(newART10_14M!=0){
+        newART10_14M--; 
+        }
+        splitData--; 
+        adderPos--;
+        }
+        else{
+            errorART = 90;
+         break;
+     }
+        }
+    else if(adderPos==0){if(newART10_14F>0){newART10_14F-=1; splitData--;} }
+ else if(adderPos==1){ if(newART5_9F>0){newART5_9F-=1; splitData--;} }
+ else{if(newART1_4F>0){newART1_4F-=1; splitData--;} }
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
+     System.out.println("looping on HV0322- split data"+splitData+" HV0322 : "+HV0322+" "+newART1_4F+" "+newART5_9F+" "+newART10_14F);
 }
  //}
   
-  
+//  NORMALIZE ROUND 2
+
+
+
+
+//END OF ROUND 2
         newART15_19F=(float)Math.round((f_19*HV0324));
         newART20_24F=(float)Math.round((f_24*HV0324));
         newART25_29f=(float)Math.round((f_29*HV0324));
@@ -1417,20 +1478,30 @@ adderPos=0;
  else{
  
 while(splitData<HV0324){ 
- if(adderPos<3){newART40_49f+=1; }
- else{newART50F+=1; }
-splitData++;
+ if(adderPos==0 || adderPos==3){newART40_49f+=1; splitData++; }
+ if(adderPos==1 || adderPos==4){newART50F+=1; splitData++; }
+ if(adderPos==2){newART35_39f+=1; splitData++; }
+ if(adderPos==5){newART15_19F+=1; splitData++; }
+  if(adderPos==6){newART30_34f+=1; splitData++; }
+ if(adderPos==7){newART25_29f+=1; splitData++; }
+ if(adderPos==8){newART20_24F+=1; splitData++; }
 adderPos++  ;
- if(adderPos>3){adderPos=0;}
+ if(adderPos>8){adderPos=0;}
+     System.out.println("looping on HV0324+");
 }     
      splitData=newART25_29f+newART30_34f+newART35_39f+newART40_49f+newART50F+newART20_24F+newART15_19F;
 adderPos=0;
 while(splitData>HV0324){ 
- if(adderPos<3){newART40_49f-=1; }
- else{newART50F-=1; }
-splitData--;
+ if(adderPos==0 || adderPos==3){if(newART40_49f>0){newART40_49f-=1; splitData--;} }
+ if(adderPos==1 || adderPos==4){if(newART50F>0){newART50F-=1; splitData--;} }
+ if(adderPos==2){if(newART35_39f>0){newART35_39f-=1; splitData--;} }
+ if(adderPos==5){if(newART15_19F>0){newART15_19F-=1; splitData--;} }
+ if(adderPos==6){if(newART30_34f>0){newART30_34f-=1; splitData--;} }
+ if(adderPos==7){if(newART25_29f>0){newART25_29f-=1; splitData--;} }
+ if(adderPos==8){if(newART20_24F>0){newART20_24F-=1; splitData--;} }
 adderPos++  ;
- if(adderPos>3){adderPos=0;}
+ if(adderPos>8){adderPos=0;}
+     System.out.println("looping on HV0324-");
 }
  }
         totalNewART=HV0324+HV0322+HV0323+HV0321;
@@ -1705,6 +1776,19 @@ splitData--;
  }
        totalCurrentCARE=HV0318+HV0316+HV0317+HV0315;
 
+   if(
+           newART1F>currentART1F || newART1M>currentART1M || newART1_4F>currentART1_4F || newART1_4M>currentART1_4M ||
+           newART5_9F>currentART5_9F || newART5_9M>currentART5_9M || newART10_14F>currentART10_14F || newART10_14M>currentART10_14M ||
+           newART15_19F>currentART15_19F || newART15_19M>currentART15_19M || newART20_24F>currentART20_24F || newART20_24M>currentART20_24M ||
+           newART25_29f>currentART25_29f || newART25_29m>currentART25_29m || newART30_34f>currentART30_34f || newART30_34m>currentART30_34m ||
+           newART35_39f>currentART35_39f || newART35_39m>currentART35_39m || newART40_49f>currentART40_49f || newART40_49m>currentART40_49m ||
+           newART50F>currentART50F || newART50M>currentART50M
+           )  {
+      errorART = 2550;
+   }  
+       
+       
+       
        String dataART []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+totalCurrentART+","
            + ""+currentART1F+","+currentART1_4F+","+currentART5_9F+","+currentART10_14F+","+currentART15_19F+","
            + ""+currentART20_24F+","+currentART25_29f+","+currentART30_34f+","+currentART35_39f+","
@@ -1741,7 +1825,10 @@ splitData--;
           if(positionART==5 || positionART==20){ c11.setCellStyle(styleHeader);}
           
           if(positionART==dataART.length-4){
-       if(errorART>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    
+         
+       
+       if(errorART==90){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}  
+       else if(errorART==2550){c11.setCellValue("New on ART is more than Currently on ART");c11.setCellStyle(yellowstyle);} 
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
        }

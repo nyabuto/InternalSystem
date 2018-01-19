@@ -58,7 +58,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   String quarterName,facilityName,facilityID,id,missingFacility;
           String mflcode;
   int year,quarter,checker,missing,added,updated;
-
+String age,pcr_type,system_id;
  @Override
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -75,6 +75,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  String enroll_ccc_12="";
  String othereasons_13="";
  
+mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecollected_7=datetested_8=validation_9=enrollmentstatus_10=treatmentinitdate_11=enroll_ccc_12=othereasons_13="";
  //-----------------------------------
  //(0)#	
  //(1)County	
@@ -104,7 +105,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
          try {
       session=request.getSession();
       dbConn conn = new dbConn();
-   nextpage="load_eid_tested.jsp";
+   nextpage="load_eid_positive.jsp";
    
    
    
@@ -153,7 +154,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         
 //______________________________________________________________________                        
                         
-                                           
+serialnumber = mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecollected_7=datetested_8=validation_9=enrollmentstatus_10=treatmentinitdate_11=enroll_ccc_12=othereasons_13="";                                           
 //______________________________________________________________________
 
                          XSSFCell cellserialno = rowi.getCell((short) 0);
@@ -168,23 +169,34 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                       
                            
                         //dont save county and subcounty directly since they may change
+                            //________systemid________________
+                        XSSFCell cellsystemid = rowi.getCell((short) 1);
+			 if(cellsystemid.getCellType()==0){
+                             //numeric
+			system_id =""+(int)cellsystemid.getNumericCellValue();
+                         } 
+                         else if(cellsystemid.getCellType()==1){
+			system_id =cellsystemid.getStringCellValue();
+                         } 
+                         
+                        
                             //________county________________
-                        XSSFCell cellcounty = rowi.getCell((short) 1);
+                        XSSFCell cellcounty = rowi.getCell((short) 2);
 			county_name = cellcounty.getStringCellValue();
                         
                         
                         //_____________subcounty_____________
-                        XSSFCell cellsubcounty = rowi.getCell((short) 2);
+                        XSSFCell cellsubcounty = rowi.getCell((short) 3);
 			district_name = cellsubcounty.getStringCellValue();
                         
                         
                         //____________FacilityName______________
-                         XSSFCell cellfacil = rowi.getCell((short) 3);
+                         XSSFCell cellfacil = rowi.getCell((short) 4);
                          
 			facilityName = cellfacil.getStringCellValue();
                         
                        //_______________MFL______ 
-                        XSSFCell cellmfl = rowi.getCell((short) 4);
+                        XSSFCell cellmfl = rowi.getCell((short) 5);
 			
                         
                         if(cellmfl.getCellType()==1){
@@ -200,7 +212,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         
                         
                       //______________________sample Code_______________
-                          XSSFCell cellsamplecode = rowi.getCell((short)6);
+                          XSSFCell cellsamplecode = rowi.getCell((short)7);
                           if(cellsamplecode.getCellType()==1){
                               //string
 			 samplecode_6 = (String) cellsamplecode.getStringCellValue();
@@ -210,10 +222,49 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                            samplecode_6 = ""+(int)cellsamplecode.getNumericCellValue();                         
                           }
                          
+                              //________age________________
+                        XSSFCell cellage = rowi.getCell((short) 8);
+                        if(cellage.getCellType()==1)
+                            {
+                                //this is a string
+			age = (String)cellage.getStringCellValue();
+                            }
+                            else if(cellage.getCellType()==0)
+                            {
+                           //this is a numeric value     
+                            age =""+(int)cellage.getNumericCellValue();
+                            
+                            }
+                            else 
+                            {
+                            age = ""+cellage.getDateCellValue();
+                        
+                            }
+			
+                        
+                            //________county________________
+                        XSSFCell cellpcr_type = rowi.getCell((short) 9);
+			if(cellpcr_type.getCellType()==1)
+                            {
+                                //this is a string
+			pcr_type = (String)cellpcr_type.getStringCellValue();
+                            }
+                            else if(cellpcr_type.getCellType()==0)
+                            {
+                           //this is a numeric value     
+                            pcr_type =""+(int)cellpcr_type.getNumericCellValue();
+                            
+                            }
+                            else 
+                            {
+                            pcr_type = ""+cellpcr_type.getDateCellValue();
+                        
+                            }
+                        
                           
                       //______________________Date Collected__________________________   
                           
-                          XSSFCell cellregdate = rowi.getCell((short)7);
+                          XSSFCell cellregdate = rowi.getCell((short)10);
 //                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
                             if(cellregdate.getCellType()==1)
                             {
@@ -236,7 +287,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                             
                          //_______________Date tested_________________
                             
-                           XSSFCell celldatetes = rowi.getCell((short)8);
+                           XSSFCell celldatetes = rowi.getCell((short)11);
 //                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
                             if(celldatetes.getCellType()==1)
                             {
@@ -322,20 +373,20 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                             
                        //___________________validation_____________________
                             
-                       XSSFCell cellval = rowi.getCell((short) 9);
+                       XSSFCell cellval = rowi.getCell((short) 12);
                          
 			validation_9 = cellval.getStringCellValue(); 
                         
                             
                        //___________________Enrollment Status______________
-                        XSSFCell cellenroll = rowi.getCell((short) 10);
+                        XSSFCell cellenroll = rowi.getCell((short) 13);
                          
 			enrollmentstatus_10 = cellenroll.getStringCellValue();
                         
                        //___________________Date initiated on Treatment____
                         
                         
-                        XSSFCell celltraetmentdate = rowi.getCell((short)11);
+                        XSSFCell celltraetmentdate = rowi.getCell((short)14);
 //                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
                             if(celltraetmentdate.getCellType()==1)
                             {
@@ -354,20 +405,34 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         
                             }
                         
-                        
                        //___________________Enrollment CCC_________________
-                       XSSFCell cellenrollccc = rowi.getCell((short) 12);
-                         
-		       enroll_ccc_12 = cellenrollccc.getStringCellValue();
-                       
+                       XSSFCell cellenrollccc = rowi.getCell((short) 15);
+                        if(cellenrollccc.getCellType()==1)
+                            {
+                                //this is a string
+			   enroll_ccc_12 = (String)cellenrollccc.getStringCellValue();
+                            }
+                            else if(celltraetmentdate.getCellType()==0)
+                            {
+                           //this is a numeric value     
+                            enroll_ccc_12 =""+(int)cellenrollccc.getNumericCellValue();
+                            
+                            }
+                            else 
+                            {
+                            enroll_ccc_12 = ""+cellenrollccc.getRawValue();
+                        
+                            } 
+		      
                        //___________________Other Reasons__________________
-                        XSSFCell cellothereasons = rowi.getCell((short) 12);
+                        XSSFCell cellothereasons = rowi.getCell((short) 16);
                          
 		       othereasons_13 = cellothereasons.getStringCellValue();  
                           
                          
                          
-                       
+                       if(treatmentinitdate_11.equals("null")){treatmentinitdate_11="";}
+                       if(enroll_ccc_12.equals("null")){enroll_ccc_12="";}
                      
                        
                       facilityID="";
@@ -423,8 +488,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   //id	SubPartnerID 	Mflcode	samplecode	collectiondate	testingdate	validation	enrollment	treatment_init_date	enroll_cccno	other_reasons	year	quarter
 
   String inserter="INSERT INTO "+dbname+" (id,SubPartnerID,year,quarter,Mflcode,samplecode,collectiondate,testingdate,validation,enrollment,"
-          + "treatment_init_date, enroll_cccno,other_reasons) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          + "treatment_init_date, enroll_cccno,other_reasons,SystemID,Age,PCR_Type) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1,id);
                         conn.pst.setString(2,facilityID);
@@ -439,6 +504,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         conn.pst.setString(11, treatmentinitdate_11);
                         conn.pst.setString(12, enroll_ccc_12);
                         conn.pst.setString(13, othereasons_13);
+                        conn.pst.setString(14, system_id);
+                        conn.pst.setString(15, age);
+                        conn.pst.setString(16, pcr_type);
                         conn.pst.executeUpdate();  
                         
                         added++;
@@ -447,7 +515,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   else {
           //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
         String inserter=" UPDATE "+dbname+" SET SubPartnerID=?,year=?,quarter=?,Mflcode=?, samplecode=?, collectiondate=? ,testingdate=? , validation=? ,enrollment=? ,"
-          + "treatment_init_date=? , enroll_cccno=? ,other_reasons=? "
+          + "treatment_init_date=? , enroll_cccno=? ,other_reasons=?,SystemID=?,Age=?,PCR_Type=?  "
                 + " WHERE id=?";
 //
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -463,7 +531,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         conn.pst.setString(10,treatmentinitdate_11);
                         conn.pst.setString(11,enroll_ccc_12);
                         conn.pst.setString(12,othereasons_13);                        
-                        conn.pst.setString(13,id);
+                        conn.pst.setString(13,system_id);                        
+                        conn.pst.setString(14,age);                        
+                        conn.pst.setString(15,pcr_type);                        
+                        conn.pst.setString(16,id);
                         conn.pst.executeUpdate();
                        
                      updated++;
@@ -494,7 +565,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
     session.setAttribute("upload_success", sessionText);
     response.sendRedirect(nextpage);  
  
-
  
     }
 
