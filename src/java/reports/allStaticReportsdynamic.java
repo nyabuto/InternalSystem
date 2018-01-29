@@ -73,6 +73,9 @@ public class allStaticReportsdynamic extends HttpServlet {
             }
             
             
+            if(form.equalsIgnoreCase("VMMC")){
+                form="vmmc_new";
+            }
             
             String pivotform = form;
             if (form.equalsIgnoreCase("MOH 731")) {
@@ -98,6 +101,7 @@ public class allStaticReportsdynamic extends HttpServlet {
             
             String indicatorswhere="";
             
+            System.out.println("form : "+form);
 //________________________________________________________________________________________________________________________________________________________            
 //________________________________________________________________________________________________________________________________________________________
             String duration = "";
@@ -832,10 +836,15 @@ public class allStaticReportsdynamic extends HttpServlet {
 //create an array to store the number of row for each excel worksheet. 
 //This will help in retrieving the number of rows for each month since we are wring data for different months with increasing rows.
 //the size of that array will be determined by the number of excel worksheets
-            String selectdistinctworksheet = "select section,servicearea from pivottable where form='" + form.replace("_", "") + "' and active='1' "+indicatorswhere+" group by section order by order_per_form";
+            String qrform = form;
+            if(!form.equalsIgnoreCase("vmmc_new")){
+             qrform=form.replace("_", "");   
+            }
+            
+            String selectdistinctworksheet = "select section,servicearea from pivottable where form='" + qrform + "' and active='1' "+indicatorswhere+" group by section order by order_per_form";
 
             conn.rs = conn.st.executeQuery(selectdistinctworksheet);
-
+            System.out.println("worksheetquery: "+selectdistinctworksheet);
             while (conn.rs.next()) {
 //add the name of distinct sections
                 distinctsheets.add(conn.rs.getString(1).replace("/", "_"));
@@ -856,11 +865,17 @@ public class allStaticReportsdynamic extends HttpServlet {
 
                 rowstartpersheet[x] = 2;
 
+                
             }
-
-            String getattribs = "select indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='" + form.replace("_", "") + "' "+indicatorswhere+" order by order_per_form, section";
+            
+            qrform = form;
+            if(!form.equalsIgnoreCase("vmmc_new")){
+             qrform=form.replace("_", "");   
+            }
+            
+            String getattribs = "select indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='" + qrform + "' "+indicatorswhere+" order by order_per_form, section";
             conn.rs = conn.st.executeQuery(getattribs);
-
+            System.out.println("get attributes : "+getattribs);
             while (conn.rs.next()) {
 
 //add active indicators only
@@ -1072,6 +1087,7 @@ public class allStaticReportsdynamic extends HttpServlet {
 //             PREPARE SELECT
 //--------------------------------------------------------------------------------------------
 //prepare selects
+System.out.println("element size : "+dbcolumns.size());
                 for (int a = 0; a < dbcolumns.size(); a++) {
 
 //if the indicator is a percent, get an avaerage
@@ -1092,6 +1108,7 @@ public class allStaticReportsdynamic extends HttpServlet {
                     perfacilselect += " ,";
 
 // } 
+System.out.println("enntered loop");
                 }
 
 //---------------------------------add highvolume,gsn,latitude,ward------------------------------------------------
@@ -1126,7 +1143,8 @@ public class allStaticReportsdynamic extends HttpServlet {
             //System.out.println(""+getdistinctperiod);                
                 
                 conn.rs = conn.st.executeQuery(getdistinctperiod);
-
+                System.out.println("perfacilselect: "+perfacilselect);
+                System.out.println("getdistinctperiod: "+getdistinctperiod);
                 while (conn.rs.next() == true) 
                 {                    
                  lastperiod = conn.rs.getString(1);    //here am asumming the last period will appear last and so will be mantained in the                
@@ -1156,7 +1174,7 @@ public class allStaticReportsdynamic extends HttpServlet {
                     int colpos = 0;
 
                     String finalquery = perfacilselect.replace("1=1", distinctservicearea.get(g).toString());
-                    //System.out.println("" + finalquery);
+                    System.out.println("final query" + finalquery);
                     conn.rs = conn.st.executeQuery(finalquery);
                     while (conn.rs.next()) {
 

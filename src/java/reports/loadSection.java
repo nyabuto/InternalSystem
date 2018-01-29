@@ -35,7 +35,10 @@ String data,form;
             
           form=request.getParameter("form");
           data="";
-          
+          if(form.equalsIgnoreCase("vmmc")){
+              form="vmmc_new";
+          }
+           System.out.println("The form is : "+form);
           String getSections="SELECT sectionid,section FROM pivottable WHERE form='"+form+"' GROUP BY section";
           conn.rs=conn.st.executeQuery(getSections);
           while(conn.rs.next()){

@@ -47,7 +47,9 @@ public class loadSections extends HttpServlet {
             form=form.replace(" ", "").toLowerCase();
             }
             
-           
+           if(form.equalsIgnoreCase("vmmc")){
+              form="vmmc_new";
+          }
             
             String selectforms="select sectionid as sectionid, section as section from pivottable where active='1' and form='"+form+"' group by sectionid";
             

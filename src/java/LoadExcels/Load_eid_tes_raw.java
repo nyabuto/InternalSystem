@@ -103,7 +103,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  String datetested_22="";
  String datedispatched_23="";
  String testresult_24="";
- 
+ String pcr_type="";
  
  //<tr><td>#(1)</td><td>System ID(2)</td><td>Batch No(3)</td><td>Sample Code(4)</td><td>Testing Lab(5)</td><td>County(6)</td><td>Sub-County(7)</td><td>Facility Name(8)</td><td>MFL Code(9)</td><td>Partner(10)</td><td>Sex(11)</td><td>Age(Months)(12)</td><td>Infant Prophylaxis(13)</td><td>Date Collected(14)</td><td>Spots(15)</td><td>Received Status(16)</td><td>Reason for Repeat / Rejection(17)</td><td>HIV Status of Mother(18)</td><td>PMTCT Intervention(19)</td><td>Breast Feeding(20)</td><td>Entry Point(21)</td><td>Date Received(22)</td><td>Date Tested(23)</td><td>Date Dispatched(24)</td><td>Test Result(25)</td></tr>
  
@@ -324,8 +324,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 			  received_status_15 = cellrs.getStringCellValue(); 
                           
                           
+                          //__________________pcr_type____
+                          XSSFCell cellpcr_type = rowi.getCell((short)16);
+			 
+                          if(cellpcr_type.getCellType()==1)
+                           {
+                              //string
+			 pcr_type = (String) cellpcr_type.getStringCellValue();
+                           }
+                        else if(cellpcr_type.getCellType()==0)
+                        {
+                              //numeric
+                           pcr_type = ""+(int)cellpcr_type.getNumericCellValue();                         
+                        } 
+                        else {
+                                  
+                                     
+                             }
                           //__________________repeat_rejection_reason____
-                          XSSFCell cellrepeatrej = rowi.getCell((short)16);
+                          XSSFCell cellrepeatrej = rowi.getCell((short)17);
 			 
                           if(cellrepeatrej.getCellType()==1)
                            {
@@ -344,27 +361,27 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                           
                           
                           //__________________mother hiv status__________
-                          XSSFCell cellmumhivstatus = rowi.getCell((short)17);
+                          XSSFCell cellmumhivstatus = rowi.getCell((short)18);
 			  mumhiv_status_17 = cellmumhivstatus.getStringCellValue();
                           
                           
                           //__________________pmtct_intervention___________
-                          XSSFCell cellpmtctint = rowi.getCell((short)18);
+                          XSSFCell cellpmtctint = rowi.getCell((short)19);
 			  pmtct_intervation_18 = cellpmtctint.getStringCellValue();
                           
                           
                           //__________________breastfeeding___________
-                          XSSFCell cellbf = rowi.getCell((short)19);
+                          XSSFCell cellbf = rowi.getCell((short)20);
 			  breastfeeding_19 = cellbf.getStringCellValue();
                           
                            //__________________entrypoint___________
-                          XSSFCell cellep = rowi.getCell((short)20);
+                          XSSFCell cellep = rowi.getCell((short)21);
 			  entrypoint_20 = cellep.getStringCellValue();
                           
                           //___________________date received_______
                           
                             
-                           XSSFCell celldaterec = rowi.getCell((short)21);
+                           XSSFCell celldaterec = rowi.getCell((short)22);
 //                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
                             if(celldaterec.getCellType()==1)
                             {
@@ -387,7 +404,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                           
                          //_______________Date tested_________________
                             
-                           XSSFCell celldatetes = rowi.getCell((short)22);
+                           XSSFCell celldatetes = rowi.getCell((short)23);
 //                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
                             if(celldatetes.getCellType()==1)
                             {
@@ -409,7 +426,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                            
                             //_______________Date dispatched_________________
                             
-                           XSSFCell celldatedis = rowi.getCell((short)23);
+                           XSSFCell celldatedis = rowi.getCell((short)24);
 //                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
                             if(celldatedis.getCellType()==1)
                             {
@@ -430,7 +447,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                           
                             
                           //__________________testresult___________
-                          XSSFCell celltestres = rowi.getCell((short)24);
+                          XSSFCell celltestres = rowi.getCell((short)25);
 			  testresult_24 = celltestres.getStringCellValue();  
                             
                             
@@ -554,8 +571,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   //id	SubPartnerID 	Mflcode	samplecode	collectiondate	testingdate	validation	enrollment	treatment_init_date	enroll_cccno	other_reasons	year	quarter
 
   String inserter="INSERT INTO "+dbname+" ( id,orderno,batchno,samplecode,SubPartnerID,Mflcode,sex,age,agebracket,infantprophylaxis,datecollected,spots,receivedstatus,"
-          + "repeat_rejection_reason,hivstatus_mum,pmtct_intervention,breastfeeding,entrypoint,datereceived,datetested,datedispatched,testresult,year,quarter,age_months) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          + "repeat_rejection_reason,hivstatus_mum,pmtct_intervention,breastfeeding,entrypoint,datereceived,datetested,datedispatched,testresult,year,quarter,age_months,PCR_Type) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1,id);
                         conn.pst.setString(2,order_0);
@@ -582,6 +599,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         conn.pst.setInt(23,year);
                         conn.pst.setInt(24,quarter);                        
                         conn.pst.setString(25,ageString_11);                        
+                        conn.pst.setString(26,pcr_type);                        
                         conn.pst.executeUpdate();  
                         
                         added++;
@@ -590,7 +608,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   else {
           //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
         String inserter=" UPDATE "+dbname+" SET orderno=? ,batchno=? ,samplecode=? ,SubPartnerID=? ,Mflcode=? ,sex=? ,age=? ,agebracket=? ,infantprophylaxis=? ,datecollected=? ,spots=? ,receivedstatus=? ,"
-          + "repeat_rejection_reason=? ,hivstatus_mum=? ,pmtct_intervention=? ,breastfeeding=? ,entrypoint=? ,datereceived=? ,datetested=? ,datedispatched=? ,testresult=? ,year=? ,quarter=?, age_months=? "
+          + "repeat_rejection_reason=? ,hivstatus_mum=? ,pmtct_intervention=? ,breastfeeding=? ,entrypoint=? ,datereceived=? ,datetested=? ,datedispatched=? ,testresult=? ,year=? ,quarter=?, age_months=?,PCR_Type=? "
                 + " WHERE id=?";
 //
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -619,7 +637,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         conn.pst.setInt(22,year);
                         conn.pst.setInt(23,quarter);
                         conn.pst.setString(24,ageString_11);
-                         conn.pst.setString(25,id);
+                         conn.pst.setString(25,pcr_type);
+                         conn.pst.setString(26,id);
                         conn.pst.executeUpdate();
                        
                      updated++;

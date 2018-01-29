@@ -1345,7 +1345,7 @@ while(splitData>HV0321){
  adderPos--;
      }
      else{
-         errorART  = 90;
+         errorART  = 900000;
          break;
      }
  }
@@ -1444,7 +1444,7 @@ while(splitData>HV0322){
         adderPos--;
         }
         else{
-            errorART = 90;
+            errorART = 900000;
          break;
      }
         }
@@ -1786,9 +1786,13 @@ splitData--;
            )  {
       errorART = 2550;
    }  
-       
-       
-       
+   if(
+           (newART1F+newART1M+newART1_4F+newART1_4M+newART5_9F+newART5_9M+newART10_14F+newART10_14M+newART15_19F+newART15_19M+newART20_24F+newART20_24M+newART25_29f+
+           newART25_29m+newART30_34f+newART30_34m+newART35_39f+newART35_39m+newART40_49f+newART40_49m+newART50F+newART50M)!=totalNewART
+           )  {
+      errorART = 900000;
+   }  
+      
        String dataART []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+totalCurrentART+","
            + ""+currentART1F+","+currentART1_4F+","+currentART5_9F+","+currentART10_14F+","+currentART15_19F+","
            + ""+currentART20_24F+","+currentART25_29f+","+currentART30_34f+","+currentART35_39f+","
@@ -1811,7 +1815,7 @@ splitData--;
     
     artpos++;
     
-      HSSFRow rw3shet1=shet1.createRow(artpos); 
+       HSSFRow rw3shet1=shet1.createRow(artpos); 
        rw3shet1.setHeightInPoints(25);
        for(int positionART=0;positionART<dataART.length;positionART++){
        String value=dataART[positionART];
@@ -1823,12 +1827,10 @@ splitData--;
         else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
           if(positionART==5 || positionART==20){ c11.setCellStyle(styleHeader);}
-          
           if(positionART==dataART.length-4){
          
-       
-       if(errorART==90){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}  
-       else if(errorART==2550){c11.setCellValue("New on ART is more than Currently on ART");c11.setCellStyle(yellowstyle);} 
+       if(errorART>=900000){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}  
+       else if(errorART>=2550 && errorART<900000){c11.setCellValue("New on ART is more than Currently on ART");c11.setCellStyle(yellowstyle);} 
        else{c11.setCellValue("PASSED");c11.setCellStyle(stborder);}   
        }
        }
@@ -2357,7 +2359,7 @@ else if(z==pmtct_blankrows-4){
 	*/
            // String subheaders[]={"Female","Male"};
             String sectionheaders[]={"County","Sub-county","Facility Name","MFL Code","Disaggregated by infant Results","","","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            String sectionheaders0[]={"County","Sub-county","Facility Name","MFL Code","Positive","","Negative","","Collected/sent but no result recorded","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders0[]={"County","Sub-county","Facility Name","MFL Code","PMTCT_EID: Number of infants who had a virologic test within 12 months of birth during the reporting period","","PMTCT_HEI_POS: HIV-infected infants age disaggregation","","PMTCT_HEI_POS: HIV-infected infants disaggregated by ART initiation and age at virological sample collection","","ART High Volume","HTC High Volume","PMTCT High Volume"};
             String sectionheaders1[]={"County","Sub-county","Facility Name","MFL Code","0-2 Months","2-12 Months","0-2 Months","2-12 Months","0-2 Months","2-12 Months","ART High Volume","HTC High Volume","PMTCT High Volume"};		
 	
 
@@ -2630,9 +2632,46 @@ else if(z==pmtct_blankrows-4){
            
            + " FROM eid_datim join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on eid_datim.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" and ("+facilitiestable+".HTC=1 || "+facilitiestable+".PMTCT=1 || "+facilitiestable+".VMMC=1) group by "+facilitiestable+".SubPartnerID ";
            
+          String eid_query="SELECT facility_name,district_name,county,mfl_code,ART_Support,PMTCT_Support,SUM(eid_tested_0_2months) AS eid_tested_0_2months,SUM(eid_tested_2_12months) AS eid_tested_2_12months," +
+                            "SUM(eid_pos_0_2months) AS eid_pos_0_2months,SUM(eid_pos_2_12months) AS eid_pos_2_12months,SUM(eid_pos_0_2months_ART) AS eid_pos_0_2months_ART,SUM(eid_pos_2_12months_ART) AS eid_pos_2_12months_ART,"
+                  + "ART_highvolume,HTC_highvolume,PMTCT_highvolume " +
+                            "FROM(" +
+                            "SELECT "+facilitiestable+".SubPartnerNom AS facility_name,district.DistrictNom AS district_name,county.County AS county," +
+                            ""+facilitiestable+".CentreSanteId AS mfl_code,ART_Support,PMTCT_Support," +
+                            "0  AS eid_tested_0_2months," +
+                            "0  AS eid_tested_2_12months, " +
+                            "COUNT( CASE WHEN eid_raw_pos.Age<=2 THEN '<2 POS' END)  AS eid_pos_0_2months," +
+                            "COUNT( CASE WHEN eid_raw_pos.Age>2 AND eid_raw_pos.Age<=12 THEN '>2 <=12 POS' END)  AS eid_pos_2_12months," +
+                            "COUNT( CASE WHEN eid_raw_pos.Age<=2 AND treatment_init_date!=\"\" THEN '<2 POS ART' END)  AS eid_pos_0_2months_ART," +
+                            "COUNT( CASE WHEN eid_raw_pos.Age>2  AND treatment_init_date!=\"\" AND eid_raw_pos.Age<=12 THEN '>2  <=12 POST ART' END)  AS eid_pos_2_12months_ART,"+
+                            "IFNULL(ART_highvolume,0) as ART_highvolume,"+
+                            "IFNULL(HTC_highvolume,0) as HTC_highvolume,"+
+                            "IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "+
+                            "FROM eid_raw_pos " +
+                            "LEFT JOIN "+facilitiestable+" ON eid_raw_pos.SubPartnerID="+facilitiestable+".SubPartnerID " +
+                            "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
+                            "LEFT JOIN county ON district.CountyID=county.CountyID " +
+                            " "+joinedwhwere+" and "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && ('validation' !='A' || 'validation'!='VL') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
+                            "   UNION ALL           " +
+                            "SELECT "+facilitiestable+".SubPartnerNom AS facility_name,district.DistrictNom AS district_name,county.County AS county," +
+                            ""+facilitiestable+".CentreSanteId AS mfl_code,ART_Support,PMTCT_Support," +
+                            "COUNT( CASE WHEN eid_raw_tested.age_months<=2 THEN '<2 TST'  END)  AS eid_tested_0_2months," +
+                            "COUNT( CASE WHEN eid_raw_tested.age_months>2 AND eid_raw_tested.age_months<=12 THEN '>2 <=12 TST' END)  AS eid_tested_2_12months," +
+                            "0  AS eid_pos_0_2months," +
+                            "0  AS eid_pos_2_12months," +
+                            "0  AS eid_pos_0_2months_ART," +
+                            "0  AS eid_pos_2_12months_ART,"+
+                            "0 as ART_highvolume,"+
+                            "0 as HTC_highvolume,"+
+                            "0 as PMTCT_highvolume "+
+                            "FROM eid_raw_tested " +
+                            "LEFT JOIN "+facilitiestable+" ON eid_raw_tested.SubPartnerID="+facilitiestable+".SubPartnerID " +
+                            "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
+                            "LEFT JOIN county ON district.CountyID=county.CountyID " +
+                            " "+joinedwhwere+" and  "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
+                            ") AS eid_data group by mfl_code";  
             
-            
-            System.out.println(getexistingdata);
+            System.out.println("EID QUERY : "+eid_query);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
             
@@ -2762,14 +2801,33 @@ else if(z==pmtct_blankrows-4){
 //add the rows here          
        
             
-             conn.rs=conn.st.executeQuery(getexistingdata);
+             conn.rs=conn.st.executeQuery(eid_query);
     
     
+    String facility_name,district_name,mfl_code,ART_Support,PMTCT_Support,eid_tested_0_2months,
+            eid_tested_2_12months,eid_pos_0_2months,eid_pos_2_12months,eid_pos_0_2months_ART,eid_pos_2_12months_ART,
+             ART_highvolume,HTC_highvolume,PMTCT_highvolume,support_type;
+             
     while(conn.rs.next()){
     
+        facility_name = conn.rs.getString(1);
+        district_name = conn.rs.getString(2);
+        county = conn.rs.getString(3);
+        mfl_code = conn.rs.getString(4);
+        ART_Support = conn.rs.getString(5);
+        PMTCT_Support = conn.rs.getString(6);
+        eid_tested_0_2months = conn.rs.getString(7);
+        eid_tested_2_12months = conn.rs.getString(8);
+        eid_pos_0_2months = conn.rs.getString(9);
+        eid_pos_2_12months = conn.rs.getString(10);
+        eid_pos_0_2months_ART = conn.rs.getString(11);
+        eid_pos_2_12months_ART = conn.rs.getString(12);
+        ART_highvolume = conn.rs.getString(13);
+        HTC_highvolume = conn.rs.getString(14);
+        PMTCT_highvolume = conn.rs.getString(15);
         
-        
-    
+        support_type = PMTCT_Support;
+                    
            int colpos=0; 
            int conpos=1;
            int loopstart=5;
@@ -2780,7 +2838,8 @@ else if(z==pmtct_blankrows-4){
             if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
+            
+            clx.setCellValue(county);
             clx.setCellStyle(style2);
 
             colpos++;
@@ -2791,7 +2850,7 @@ else if(z==pmtct_blankrows-4){
              if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(district_name);
             //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
             clx.setCellStyle(style2);
 
@@ -2805,7 +2864,7 @@ else if(z==pmtct_blankrows-4){
 
             HSSFCell clx = rwx.createCell(colpos);
             //clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellValue(conn.rs.getString(conpos));
+            clx.setCellValue(facility_name);
             clx.setCellStyle(style2);
 
             colpos++;
@@ -2816,7 +2875,7 @@ else if(z==pmtct_blankrows-4){
           if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
+            clx.setCellValue(mfl_code);
             clx.setCellStyle(style2);
 
             colpos++;
@@ -2825,35 +2884,119 @@ else if(z==pmtct_blankrows-4){
         } 
 //support type//######################################################################################
         if (1 == 2) {
-String supporttype=conn.rs.getString(conpos);
-if(supporttype.equals("")){
-supporttype="DSD";
-}
+            if(support_type.equals("")){
+            support_type="DSD";
+            }
             
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(supporttype);
+            clx.setCellValue(support_type);
             clx.setCellStyle(style2);
 
             colpos++;
             conpos++;
 
         }
- //___   a for loop  
-        
-        for (int e=loopstart;e<=sectionheaders.length;e++){
-      if (1 == 1) {
+ // 
+//      tested 0-2 months  
+ if (1 == 1) {
 
             HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getInt(conpos));
+            clx.setCellValue(Integer.parseInt(eid_tested_0_2months));
             clx.setCellStyle(style2);
 
             colpos++;
             conpos++;
 
-        }               
-              
         }
-     
+// tested 2-12 months
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(eid_tested_2_12months));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+// postive 0-2 months
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(eid_pos_0_2months));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+// positive 2-12 months
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(eid_pos_2_12months));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+// positive and initiated on art 0-2 months
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(eid_pos_0_2months_ART));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+// positive and initiated on ART 2-12 Months
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(eid_pos_2_12months_ART));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+// ART High volume
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(ART_highvolume));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+// HTC High volume
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(HTC_highvolume));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+// pmtct high volume
+ if (1 == 1) {
+
+            HSSFCell clx = rwx.createCell(colpos);
+            clx.setCellValue(Integer.parseInt(PMTCT_highvolume));
+            clx.setCellStyle(style2);
+
+            colpos++;
+            conpos++;
+
+        }
+ 
      
         rowpos++;
     }
