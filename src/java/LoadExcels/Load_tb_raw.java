@@ -442,11 +442,11 @@ String genexpert="";
                            
                           HSSFCell celltreatmentdate=rowi.getCell((short)40);
                           
-                           if(cellregdate.getCellType()==1){
+                           if(celltreatmentdate.getCellType()==1){
                                 //this is a string
 			treatmentstartdate = (String)celltreatmentdate.getStringCellValue();
                             }
-                            else if(cellregdate.getCellType()==0){
+                            else if(celltreatmentdate.getCellType()==0){
                            //this is a numeric value     
                             treatmentstartdate =""+(int)celltreatmentdate.getNumericCellValue();
                             
@@ -484,8 +484,24 @@ String genexpert="";
                           // registrationdatecopy = formatter.format(registrationdatecopy);
                           //hiv test date 
                            HSSFCell cellhivtestdate=rowi.getCell((short)44);
-			  hivtestdate=""+cellhivtestdate.getStringCellValue();
                            
+                           
+			 // hivtestdate=""+cellhivtestdate.getStringCellValue();
+                         
+                          if(cellhivtestdate.getCellType()==1){
+                                //this is a string
+			   hivtestdate = (String)cellhivtestdate.getStringCellValue();
+                            }
+                            else if(cellhivtestdate.getCellType()==0){
+                           //this is a numeric value     
+                           hivtestdate =""+(int)cellhivtestdate.getNumericCellValue();
+                            
+                            }
+                            else {
+                           hivtestdate = ""+cellhivtestdate.getDateCellValue();
+                        
+                            }
+                          
                            //hiv status
                           HSSFCell cellhivstatus = rowi.getCell((short)45);
 			  hivstatus =(String) cellhivstatus.getStringCellValue();
@@ -694,7 +710,7 @@ String genexpert="";
                         conn.pst.setString(7, agebracket);
                         conn.pst.setString(8, facilityName);
                         conn.pst.setString(9, registrationdate);
-                        conn.pst.setString(10, treatmentoutcomedate);
+                        conn.pst.setString(10, treatmentstartdate);
                         conn.pst.setString(11, supporttype);
                         conn.pst.setString(12, hivstatus);
                         conn.pst.setString(13, hivtestdate);

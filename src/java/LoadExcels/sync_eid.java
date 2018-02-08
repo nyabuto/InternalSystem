@@ -128,7 +128,7 @@ public class sync_eid extends HttpServlet {
 " ,COUNT( case when (testresult like 'Collect New Sample' or testresult like 'Failed')   and (age_months between 0 and 2) then age_months end ) as 0_2mno_result " +
 " ,COUNT( case when (testresult like 'Collect New Sample' or testresult like 'Failed')   and (age_months between 3 and 12) then age_months end ) as 2_12mno_result " +
 "  " +
-" FROM eid_raw_tested left join eid_raw_pos on eid_raw_tested.samplecode like eid_raw_pos.samplecode  where eid_raw_tested.year='"+yearval+"' and eid_raw_tested.quarter='"+passedquarter+"' group by eid_raw_tested.SubPartnerID , eid_raw_tested.year,eid_raw_tested.quarter ";
+" FROM eid_raw_tested left join eid_raw_pos on eid_raw_tested.samplecode like eid_raw_pos.samplecode  where  eid_raw_tested.PCR_Type='Initial PCR' and eid_raw_tested.year='"+yearval+"' and eid_raw_tested.quarter='"+passedquarter+"' group by eid_raw_tested.SubPartnerID , eid_raw_tested.year,eid_raw_tested.quarter ";
   /**
    
   " , COUNT( case when testresult like 'Positive'  and (sex='M' || sex='F' ) and (age_months between 0 and 2) then age_months end ) as 0_2mpos " +

@@ -14,6 +14,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -161,6 +163,11 @@ stylemainHeader.setWrapText(true);
                
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
                  //VMMC
+                 HashMap<String,String> ipdhm;
+                 HashMap<String,String> opdhm;
+                 HashMap<String,String> vcthm;
+                 HashMap<String,String> pmtcthm;
+                 
                  
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                 
   if(1==1){VMMC(conn,request,wb);}
@@ -186,7 +193,9 @@ stylemainHeader.setWrapText(true);
 //PITC INPATIENT
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
                  
-                 if(5==5){Ipd(conn,request,wb);}//end of IPD 5==5
+                 if(5==5){
+                     ipdhm=Ipd(conn,request,wb);
+                 }//end of IPD 5==5
             
                
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -194,7 +203,7 @@ stylemainHeader.setWrapText(true);
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
                 
                  if(6==6){
-                     Opd(conn,request,wb);
+                    opdhm= Opd(conn,request,wb);
                  }//end of 6==6 OPD
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -203,7 +212,7 @@ stylemainHeader.setWrapText(true);
                  
                  if(8==8){
                  
-                 Vct(conn,request,wb);
+                vcthm= Vct(conn,request,wb);
                  }//end of 8==8
          
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -211,12 +220,530 @@ stylemainHeader.setWrapText(true);
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
                  
                 if(9==9){
-                    Pmtct(conn, request,wb);
+                   pmtcthm = Pmtct(conn, request,wb);
                         }//end of 9==9
          
                if(10==10){
     TbClinics(conn, request,wb);
                          }
+               
+               if(11==11){
+               //create the final report set
+   
+//_____________________________________________________________________________
+
+ArrayList allFacilities = new ArrayList();
+                     
+int year,month,prevYear,maxYearMonth,mflcode;
+			  
+String reportDuration,duration,semi_annual,quarter;
+
+String facilityName,countyName,districtName,facilityIds,facilityId;
+
+year=month=prevYear=maxYearMonth=mflcode=0;
+   
+reportDuration=duration=semi_annual=quarter="";
+ 
+facilityName=countyName=districtName=facilityIds=facilityId="";
+
+//_________________startdate________________________
+
+
+String startdate="";
+String enddate="";
+
+//_________________enddate__________________________
+
+year=Integer.parseInt(request.getParameter("year"));
+  
+  
+Calendar ca= Calendar.getInstance();
+  
+int currentyear=ca.get(Calendar.YEAR);
+  
+String facilitiestable="subpartnera";
+  
+int selectedyear=year;
+  
+if(selectedyear<currentyear){
+      
+      if(year<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+  
+ 
+String facilityIds1="";
+
+facilityIds1="(";
+
+if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
+
+String subcounty=request.getParameter("subcounty");
+
+String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+
+
++ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+
++ "WHERE district.DistrictID='"+subcounty+"'" ;
+
+subcounty_countywhere=" ( district.DistrictID='"+subcounty+"') and ";//20160711
+    
+
+conn.rs=conn.st.executeQuery(getDist);
+
+while(conn.rs.next()){
+
+allFacilities.add(conn.rs.getString(1));
+ 
+
+ facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+ 
+    }
+     
+facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+     
+
+	 facilityIds1+=") && ";   
+
+	 } 
+	 
+     else{
+		 
+
+if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
+
+		 
+String county=request.getParameter("county");
+		 
+String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+		 
++ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+	
++ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+         
+subcounty_countywhere=" (county.CountyID='"+county+"') and  ";//20160711
+         
+conn.rs=conn.st.executeQuery(getCounty);
+
+while(conn.rs.next()){
+		
+		
+allFacilities.add(conn.rs.getString(1));
+    
+
+facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+                         }
+   
+facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+	
+     facilityIds1+=") && "; 
+	 
+     }
+       
+        else{
+  
+       facilityIds1=""; 
+	   
+        }   
+        
+     }      
+        reportDuration=request.getParameter("reportDuration");
+        
+
+        String period1="";
+    
+        prevYear=year-1; 
+        maxYearMonth=0;
+        
+//    GET REPORT DURATION============================================
+
+        if(reportDuration.equals("1")){
+			
+         
+        period1="DATIM HTS_TST for October "+prevYear+" to September "+year;
+        
+        
+        }
+        else if(reportDuration.equals("2")){
+        semi_annual=request.getParameter("semi_annual");
+//        semi_annual="2";
+       if(semi_annual.equals("1")){
+    
+       
+     period1="DATIM HTS_TST PITC-TB for October "+prevYear+" to March "+year;
+   
+     
+       }
+       else {
+     
+      period1="DATIM HTS_TST for April "+year+" to September "+year; 
+       
+            
+       }
+       }
+        
+        else if(reportDuration.equals("3")){
+            
+            String startMonth,endMonth;
+            
+       quarter=request.getParameter("quarter");
+//       quarter="3";
+       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
+       
+       conn.rs=conn.st.executeQuery(getMonths);
+       
+       if(conn.rs.next()==true){
+           
+      String months []=conn.rs.getString(1).split(",");
+      
+       startMonth=months[0];
+       
+       endMonth=months[2];
+       
+      if(quarter.equals("1")){
+          
+  
+      
+      period1="DATIM HTS_TST  for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
+      
+    
+      }
+      else{
+          
+           //___start and end date____
+     startdate=year+startMonth+"01";
+     
+     enddate=year+endMonth+""+conn.rs.getString("enddate");
+     
+     period1="DATIM HTS_TST for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
+     
+      }
+        }
+       
+        }//end of quarrtely if  
+        
+      else if(reportDuration.equals("4")){
+          
+     month=Integer.parseInt(request.getParameter("month"));
+//            month=5;
+     String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
+     
+    conn.rs=conn.st.executeQuery(getMonthName);
+    if(conn.rs.next()==true){
+   if(month>=10){
+   
+     period1="DATIM HTS_TST  for : "+conn.rs.getString(1)+"("+prevYear+")";
+     
+     }
+     else{
+
+    period1="DATIM HTS_TST for : "+conn.rs.getString(1)+"("+year+")";
+   
+   
+    
+     }
+      }
+      }
+      else{
+        period1="";
+      }
+
+ //__________________________________________________________________________________________ 
+    
+//______________________________________________________________________________________
+//                       CREATE THE WORKSHEETS          
+//______________________________________________________________________________________  
+       // HSSFWorkbook wb = new HSSFWorkbook();
+
+       
+
+        HSSFCellStyle stylesum = wb.createCellStyle();
+        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+        
+
+        stylesum.setFont(fontx);
+        stylesum.setWrapText(true);
+
+        HSSFSheet shet = wb.createSheet("HTS (HTC + PMTCT + serology)");
+
+        String mwaka="";
+        
+        if(request.getParameter("year")!=null){
+        
+            mwaka=request.getParameter("year");
+        
+        }
+       // dbConn conn = new dbConn();
+        //========Query 1=================
+        
+        HSSFRow rw0=shet.createRow(0);
+        HSSFCell cell = rw0.createCell(0);
+                    cell.setCellValue(""+period1);
+                    cell.setCellStyle(style);
+        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
+                    
+                int count1  = 1;
+        
+                //output header 
+                
+        String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Total tested","Total positive","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total IPD Tested","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+        String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Total tested","Total positive","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total IPD Tested","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+        String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Total tested","Total positive","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total IPD Tested","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                    
+					
+					
+					//create header1
+   HSSFRow rw1=shet.createRow( count1);  count1++;
+           rw1.setHeightInPoints(30);
+           
+           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
+         c1=rw1.createCell(0);
+         
+      //_____________________________________________________________report heading row 0   
+      c1.setCellValue(period1);
+      c1.setCellStyle(stylemainHeader);
+      for(int j=1;j<=pitc_ipd_header1.length-1;j++){
+      c1=rw1.createCell(j);
+       c1.setCellStyle(stylemainHeader);
+      }
+      
+      //-----------------------------------row 1 header 
+       rw0=shet.createRow( count1);  count1++; 
+       rw0.setHeightInPoints(30);
+ 
+      
+    for (int i=0;i<pitc_ipd_header1.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(pitc_ipd_header1[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
+ //-----------------------------------row 2 header 
+       rw0=shet.createRow( count1);  count1++; 
+       rw0.setHeightInPoints(30);
+ 
+      
+    for (int i=0;i<pitc_ipd_header2.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(pitc_ipd_header2[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
+   
+    //-----------------------------------row 3 header 
+   rw0=shet.createRow( count1);   count1++; 
+   rw0.setHeightInPoints(30);
+ 
+      
+    for (int i=0;i<pitc_ipd_header3.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(pitc_ipd_header3[i]);
+      clx.setCellStyle(stylemainHeader);
+       }
+    String mergeinfor[]={"0,0,0,"+pitc_ipd_header1.length+"","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,4,6,6","2,2,7,30","2,2,31,54","2,4,55,55","2,4,56,56","2,4,57,57","2,4,41,41","3,3,7,8","3,3,31,32","2,4,58,58","2,4,59,59","2,4,60,60"};  
+   
+    for(int d=0;d<mergeinfor.length;d++){
+    if(!mergeinfor[d].equals("")){
+        String pos[]=mergeinfor[d].split(",");
+     shet.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
+    }
+                                         }
+    
+                
+                
+               // count1++;
+              
+                int totalcolumns=0;
+   
+  String getsites="SELECT  county.County as county,district.DistrictNom as district," //
+            + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport, IFNULL(ART_highvolume,0) as arthv,  IFNULL(HTC_highvolume,0) as htchv,  IFNULL(PMTCT_highvolume,0) as pmtcthv, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT"
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( HTC=1 OR PMTCT=1 ) group by "+facilitiestable+".SubPartnerID   "; 
+    
+   
+   conn.rs=conn.st.executeQuery(getsites);
+     
+        while(conn.rs.next()){
+            
+            String mfl=conn.rs.getString("mflcode");
+            
+     //use the opd to get the facility names
+     opdhm.get("mfl_"+mfl);
+     
+     
+     String arthv=conn.rs.getString("arthv");
+     String pmtcthv=conn.rs.getString("pmtcthv");
+     String htchv=conn.rs.getString("htchv");
+     
+     
+String cty=conn.rs.getString("county");
+String sty=conn.rs.getString("district");
+String fac=conn.rs.getString("facility");
+mfl=conn.rs.getString("mflcode");
+String st=conn.rs.getString("htcsupport");
+  double gtt=new Double(ipdhm.getOrDefault("gtt_"+mfl,"0"));
+  double gtp=new Double(ipdhm.getOrDefault("gtp_"+mfl,"0"));
+ double ukpf=(new Double(ipdhm.getOrDefault("ukpf_"+mfl,"0")) + new Double(opdhm.getOrDefault("ukpf_"+mfl,"0")) + new Double(vcthm.getOrDefault("ukpf_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("ukpf_"+mfl,"0")));
+ double ukpm=(new Double(ipdhm.getOrDefault("ukpm_"+mfl,"0")) + new Double(opdhm.getOrDefault("ukpm_"+mfl,"0")) + new Double(vcthm.getOrDefault("ukpm_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("ukpm_"+mfl,"0")));
+ double pf1=(new Double(ipdhm.getOrDefault("pf1_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf1_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf1_"+mfl,"0")));
+ double pm1=(new Double(ipdhm.getOrDefault("pm1_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm1_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm1_"+mfl,"0")));
+ double pf4=(new Double(ipdhm.getOrDefault("pf4_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf4_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf4_"+mfl,"0")));
+ double pm4=(new Double(ipdhm.getOrDefault("pm4_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm4_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm4_"+mfl,"0")));
+ double pf9=(new Double(ipdhm.getOrDefault("pf9_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf9_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf9_"+mfl,"0")));
+ double pm9=(new Double(ipdhm.getOrDefault("pm9_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm9_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm9_"+mfl,"0")));
+ double pf14=(new Double(ipdhm.getOrDefault("pf14_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf14_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf14_"+mfl,"0")));
+ double pm14=(new Double(ipdhm.getOrDefault("pm14_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm14_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm14_"+mfl,"0")));
+ double pf19=(new Double(ipdhm.getOrDefault("pf19_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf19_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf19_"+mfl,"0")));
+ double pm19=(new Double(ipdhm.getOrDefault("pm19_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm19_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm19_"+mfl,"0")));
+ double pf24=(new Double(ipdhm.getOrDefault("pf24_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf24_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf24_"+mfl,"0")));
+ double pm24=(new Double(ipdhm.getOrDefault("pm24_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm24_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm24_"+mfl,"0")));
+ double pf29=(new Double(ipdhm.getOrDefault("pf29_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf29_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf29_"+mfl,"0")));
+ double pm29=(new Double(ipdhm.getOrDefault("pm29_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm29_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm29_"+mfl,"0")));
+ double pf34=(new Double(ipdhm.getOrDefault("pf34_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf34_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf34_"+mfl,"0")));
+ double pm34=(new Double(ipdhm.getOrDefault("pm34_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm34_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm34_"+mfl,"0")));
+ double pf39=(new Double(ipdhm.getOrDefault("pf39_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf39_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf39_"+mfl,"0")));
+ double pm39=(new Double(ipdhm.getOrDefault("pm39_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm39_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm39_"+mfl,"0")));
+ double pf49=(new Double(ipdhm.getOrDefault("pf49_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf49_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf49_"+mfl,"0")));
+ double pm49=(new Double(ipdhm.getOrDefault("pm49_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm49_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm49_"+mfl,"0")));
+ double pf50=(new Double(ipdhm.getOrDefault("pf50_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf50_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf50_"+mfl,"0")));
+ double pm50=(new Double(ipdhm.getOrDefault("pm50_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm50_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm50_"+mfl,"0")));
+ 
+ 
+ 
+ double uknf=(new Double(ipdhm.getOrDefault("uknf_"+mfl,"0")) + new Double(opdhm.getOrDefault("uknf_"+mfl,"0")) + new Double(vcthm.getOrDefault("uknf_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("uknf_"+mfl,"0")));
+ double uknm=(new Double(ipdhm.getOrDefault("uknm_"+mfl,"0")) + new Double(opdhm.getOrDefault("uknm_"+mfl,"0")) + new Double(vcthm.getOrDefault("uknm_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("uknm_"+mfl,"0")));
+ double nf1=(new Double(ipdhm.getOrDefault("nf1_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf1_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf1_"+mfl,"0")));
+ double nm1=(new Double(ipdhm.getOrDefault("nm1_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm1_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm1_"+mfl,"0")));
+ double nf4=(new Double(ipdhm.getOrDefault("nf4_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf4_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf4_"+mfl,"0")));
+ double nm4=(new Double(ipdhm.getOrDefault("nm4_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm4_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm4_"+mfl,"0")));
+ double nf9=(new Double(ipdhm.getOrDefault("nf9_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf9_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf9_"+mfl,"0")));
+ double nm9=(new Double(ipdhm.getOrDefault("nm9_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm9_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm9_"+mfl,"0")));
+ double nf14=(new Double(ipdhm.getOrDefault("nf14_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf14_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf14_"+mfl,"0")));
+ double nm14=(new Double(ipdhm.getOrDefault("nm14_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm14_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm14_"+mfl,"0")));
+ double nf19=(new Double(ipdhm.getOrDefault("nf19_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf19_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf19_"+mfl,"0")));
+ double nm19=(new Double(ipdhm.getOrDefault("nm19_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm19_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm19_"+mfl,"0")));
+ double nf24=(new Double(ipdhm.getOrDefault("nf24_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf24_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf24_"+mfl,"0")));
+ double nm24=(new Double(ipdhm.getOrDefault("nm24_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm24_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm24_"+mfl,"0")));
+ double nf29=(new Double(ipdhm.getOrDefault("nf29_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf29_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf29_"+mfl,"0")));
+ double nm29=(new Double(ipdhm.getOrDefault("nm29_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm29_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm29_"+mfl,"0")));
+ double nf34=(new Double(ipdhm.getOrDefault("nf34_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf34_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf34_"+mfl,"0")));
+ double nm34=(new Double(ipdhm.getOrDefault("nm34_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm34_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm34_"+mfl,"0")));
+ double nf39=(new Double(ipdhm.getOrDefault("nf39_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf39_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf39_"+mfl,"0")));
+ double nm39=(new Double(ipdhm.getOrDefault("nm39_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm39_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm39_"+mfl,"0")));
+ double nf49=(new Double(ipdhm.getOrDefault("nf49_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf49_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf49_"+mfl,"0")));
+ double nm49=(new Double(ipdhm.getOrDefault("nm49_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm49_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm49_"+mfl,"0")));
+ double nf50=(new Double(ipdhm.getOrDefault("nf50_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf50_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf50_"+mfl,"0")));
+ double nm50=(new Double(ipdhm.getOrDefault("nm50_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm50_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm50_"+mfl,"0")));
+ double tt  =(new Double(ipdhm.getOrDefault("tt_"+mfl,"0")) + new Double(opdhm.getOrDefault("tt_"+mfl,"0")) + new Double(vcthm.getOrDefault("tt_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("tt_"+mfl,"0")));
+            
+           
+
+
+
+
+
+  String alldatavals[]={
+        cty,sty,fac,""+mfl,st
+        ,""+gtt,""+gtp
+        ,""+ukpf,""+ukpm
+        ,""+pf1,""+pm1
+        ,""+pf4,""+pm4
+        ,""+pf9,""+pm9
+        ,""+pf14,""+pm14
+        ,""+pf19,""+pm19
+        ,""+pf24,""+pm24
+        ,""+pf29,""+pm29
+        ,""+pf34,""+pm34
+        ,""+pf39,""+pm39
+        ,""+pf49,""+pm49
+        ,""+pf50,""+pm50 
+          
+         //negative starts here 
+        ,""+uknf,""+uknm
+        ,""+nf1,""+nm1
+        ,""+nf4,""+nm4
+        ,""+nf9,""+nm9
+        ,""+nf14,""+nm14
+        ,""+nf19,""+nm19
+        ,""+nf24,""+nm24
+        ,""+nf29,""+nm29
+        ,""+nf34,""+nm34
+        ,""+nf39,""+nm39
+        ,""+nf49,""+nm49
+        ,""+nf50,""+nm50
+        ,""+tt,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
+          
+        };
+
+ totalcolumns=alldatavals.length;
+            //data rows     
+            HSSFRow rw = shet.createRow(count1);
+int mypos=0;
+HSSFCell cxy = null;
+for(int a=0;a<alldatavals.length;a++){
+      
+       cxy=rw.createCell(mypos);mypos++;
+       if(a==4||a<3)
+       {
+           //non numeric characters
+        cxy.setCellValue(alldatavals[a]);
+       }
+       else {
+        cxy.setCellValue(new Double(alldatavals[a]).intValue());
+       
+       }
+      
+       cxy.setCellStyle(stborder);
+  
+  }
+
+            // System.out.println("");
+            count1++;
+        }
+        
+        
+        
+        
+        
+        
+        
+  
+        
+        //Autofreeze  || Autofilter  || Remove Gridlines ||  
+        
+        shet.setAutoFilter(new CellRangeAddress(4, count1 - 1, 0, totalcolumns-1));
+
+        //System.out.println("1,"+rowpos+",0,"+colposcopy);
+        for (int i = 0; i <= 5; i++) 
+        {
+            shet.autoSizeColumn(i);
+        }
+
+        shet.setDisplayGridlines(false);
+        shet.createFreezePane(5, 5); 
+
+ 
+               }
+               
                  
             
          if(conn.conn!=null){ conn.conn.close();}
@@ -397,9 +924,6 @@ stylemainHeader.setWrapText(true);
             errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
             errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
             errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
-            
-            
-            
             
             
             String month = "";
@@ -3285,9 +3809,12 @@ if(1==1){
                     
             
  }           
- public void Ipd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+ public HashMap Ipd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
    //new htc for PITC 
  
+   
+    HashMap<String, String> ipdhm = new HashMap<String, String>();
+   
     HSSFCellStyle stylex = wb.createCellStyle();
 stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
@@ -3401,9 +3928,9 @@ stylemainHeader.setWrapText(true);
                       isVCT=false;
                      
                      
-                     String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total IPD Tested","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total IPD Tested","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total IPD Tested","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
                     
                      ArrayList allFacilities = new ArrayList();
                      allFacilities.clear();
@@ -5032,11 +5559,70 @@ double TotalNegativeFemale1=0;
         ,""+(AdultFemaleHIV34Neg+(pmtct_n_34)),""+AdultMaleHIV34Neg
         ,""+(AdultFemaleHIV39Neg+(pmtct_n_39)),""+AdultMaleHIV39Neg
           
-          
         ,""+(AdultFemaleHIV49Neg+(pmtct_n_49)),""+AdultMaleHIV49Neg
         ,""+(AdultFemaleHIV50Neg+(pmtct_n_50)),""+AdultMaleHIV50Neg,""+((tested_new711)+(pmtct_t)),""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
           
-        }; 
+        };
+  
+ 
+  ipdhm.put("cty"+"_"+mflcode, county);
+  ipdhm.put("sty"+"_"+mflcode, district);
+  ipdhm.put("fac"+"_"+mflcode, facilityname);
+  ipdhm.put("mfl"+"_"+mflcode, ""+mflcode);
+  ipdhm.put("st"+"_"+mflcode, dsdta);
+  ipdhm.put("gtt"+"_"+mflcode,""+conn.rs.getInt("NUM"));
+  ipdhm.put("gtp"+"_"+mflcode,""+conn.rs.getInt("grandtotalpositive"));
+  ipdhm.put("ukpf"+"_"+mflcode,"0");
+  ipdhm.put("ukpm"+"_"+mflcode,"0");
+  ipdhm.put("pf1"+"_"+mflcode,""+ChildFemaleHIV1);
+  ipdhm.put("pm1"+"_"+mflcode,""+ChildMaleHIV1);
+  ipdhm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);
+  ipdhm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);
+  ipdhm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);
+  ipdhm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);
+  ipdhm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14+pmtct_p_14));
+  ipdhm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);
+  ipdhm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19+pmtct_p_19));
+  ipdhm.put("pm19"+"_"+mflcode,""+AdultMaleHIV19);
+  ipdhm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24+pmtct_p_24));
+  ipdhm.put("pm24"+"_"+mflcode,""+AdultMaleHIV24);
+  ipdhm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29+pmtct_p_29));
+  ipdhm.put("pm29"+"_"+mflcode,""+AdultMaleHIV29);
+  ipdhm.put("pf34"+"_"+mflcode,""+(AdultFemaleHIV34+pmtct_p_34));
+  ipdhm.put("pm34"+"_"+mflcode,""+AdultMaleHIV34);
+  ipdhm.put("pf39"+"_"+mflcode,""+(AdultFemaleHIV39+pmtct_p_39));
+  ipdhm.put("pm39"+"_"+mflcode,""+AdultMaleHIV39);
+  ipdhm.put("pf49"+"_"+mflcode,""+(AdultFemaleHIV49+pmtct_p_49));
+  ipdhm.put("pm49"+"_"+mflcode,""+AdultMaleHIV49);
+  ipdhm.put("pf50"+"_"+mflcode,""+(AdultFemaleHIV50+pmtct_p_50));
+  ipdhm.put("pm50"+"_"+mflcode,""+AdultMaleHIV50);
+  //_____negative
+  ipdhm.put("uknf"+"_"+mflcode,"0");
+  ipdhm.put("uknm"+"_"+mflcode,"0");
+  ipdhm.put("nf1"+"_"+mflcode,""+ChildFemaleHIV1Neg);
+  ipdhm.put("nm1"+"_"+mflcode,""+ChildMaleHIV1Neg);
+  ipdhm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);
+  ipdhm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);
+  ipdhm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);
+  ipdhm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);
+  ipdhm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg+pmtct_n_14));
+  ipdhm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);
+  ipdhm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg+pmtct_n_19));
+  ipdhm.put("nm19"+"_"+mflcode,""+AdultMaleHIV19Neg);
+  ipdhm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg+pmtct_n_24));
+  ipdhm.put("nm24"+"_"+mflcode,""+AdultMaleHIV24Neg);
+  ipdhm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg+pmtct_n_29));
+  ipdhm.put("nm29"+"_"+mflcode,""+AdultMaleHIV29Neg);
+  ipdhm.put("nf34"+"_"+mflcode,""+(AdultFemaleHIV34Neg+pmtct_n_34));
+  ipdhm.put("nm34"+"_"+mflcode,""+AdultMaleHIV34Neg);
+  ipdhm.put("nf39"+"_"+mflcode,""+(AdultFemaleHIV39Neg+pmtct_n_39));
+  ipdhm.put("nm39"+"_"+mflcode,""+AdultMaleHIV39Neg);
+  ipdhm.put("nf49"+"_"+mflcode,""+(AdultFemaleHIV49Neg+pmtct_n_49));
+  ipdhm.put("nm49"+"_"+mflcode,""+AdultMaleHIV49Neg);
+  ipdhm.put("nf50"+"_"+mflcode,""+(AdultFemaleHIV50Neg+pmtct_n_50));
+  ipdhm.put("nm50"+"_"+mflcode,""+AdultMaleHIV50Neg);
+  ipdhm.put("tt"+"_"+mflcode,""+((tested_new711)+(pmtct_t)));
+  
 
 
 HSSFCell  cxy;
@@ -5175,15 +5761,15 @@ HSSFCell  cxy;
               
                  
             
-            
+  return ipdhm;          
             
     
 }
 
- public void Opd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+ public HashMap Opd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
    //new htc for PITC 
    
-   
+   HashMap<String, String> opdhm = new HashMap<String, String>(); 
    
     HSSFCellStyle stylex = wb.createCellStyle();
 stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
@@ -5293,9 +5879,9 @@ stylemainHeader.setWrapText(true);
                      isVCT=false;
                      
                      //2017
-                     String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total OPD Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total OPD Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total OPD Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total OPD + Postnatal Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total OPD + Postnatal Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total OPD Tested","Total OPD + Postnatal Tested","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
                      
     
                      ArrayList allFacilities = new ArrayList();
@@ -7240,6 +7826,68 @@ while(balancegeneralglobal>0){
         }; 
 //the above numbers appearing in serology are for 1-4
 
+
+
+  opdhm.put("cty"+"_"+mflcode, county);
+  opdhm.put("sty"+"_"+mflcode, district);
+  opdhm.put("fac"+"_"+mflcode, facilityname);
+  opdhm.put("mfl"+"_"+mflcode, ""+mflcode);
+  opdhm.put("st"+"_"+mflcode, dsdta);
+  opdhm.put("ukpf"+"_"+mflcode,"0");
+  opdhm.put("ukpm"+"_"+mflcode,"0");
+  opdhm.put("pf1"+"_"+mflcode,""+(ChildFemaleHIV1 ));//serology added to female
+  opdhm.put("pm1"+"_"+mflcode,""+ChildMaleHIV1);
+  opdhm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);
+  opdhm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);
+  opdhm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);
+  opdhm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);
+  opdhm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14+pmtct_p_14));
+  opdhm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);
+  opdhm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19+pmtct_p_19));
+  opdhm.put("pm19"+"_"+mflcode,""+AdultMaleHIV19);
+  opdhm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24+pmtct_p_24));
+  opdhm.put("pm24"+"_"+mflcode,""+AdultMaleHIV24);
+  opdhm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29+pmtct_p_29));
+  opdhm.put("pm29"+"_"+mflcode,""+AdultMaleHIV29);
+  opdhm.put("pf34"+"_"+mflcode,""+(AdultFemaleHIV34+pmtct_p_34));
+  opdhm.put("pm34"+"_"+mflcode,""+AdultMaleHIV34);
+  opdhm.put("pf39"+"_"+mflcode,""+(AdultFemaleHIV39+pmtct_p_39));
+  opdhm.put("pm39"+"_"+mflcode,""+AdultMaleHIV39);
+  opdhm.put("pf49"+"_"+mflcode,""+(AdultFemaleHIV49+pmtct_p_49));
+  opdhm.put("pm49"+"_"+mflcode,""+AdultMaleHIV49);
+  opdhm.put("pf50"+"_"+mflcode,""+(AdultFemaleHIV50+pmtct_p_50));
+  opdhm.put("pm50"+"_"+mflcode,""+AdultMaleHIV50);
+  //_____negative
+  opdhm.put("uknf"+"_"+mflcode,"0");
+  opdhm.put("uknm"+"_"+mflcode,"0");
+  opdhm.put("nf1"+"_"+mflcode,""+ChildFemaleHIV1Neg);
+  opdhm.put("nm1"+"_"+mflcode,""+(ChildMaleHIV1Neg+ conn.rs.getInt("serology")));
+  opdhm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);
+  opdhm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);
+  opdhm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);
+  opdhm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);
+  opdhm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg+pmtct_n_14));
+  opdhm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);
+  opdhm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg+pmtct_n_19));
+  opdhm.put("nm19"+"_"+mflcode,""+AdultMaleHIV19Neg);
+  opdhm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg+pmtct_n_24));
+  opdhm.put("nm24"+"_"+mflcode,""+AdultMaleHIV24Neg);
+  opdhm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg+pmtct_n_29));
+  opdhm.put("nm29"+"_"+mflcode,""+AdultMaleHIV29Neg);
+  opdhm.put("nf34"+"_"+mflcode,""+(AdultFemaleHIV34Neg+pmtct_n_34));
+  opdhm.put("nm34"+"_"+mflcode,""+AdultMaleHIV34Neg);
+  opdhm.put("nf39"+"_"+mflcode,""+(AdultFemaleHIV39Neg+pmtct_n_39));
+  opdhm.put("nm39"+"_"+mflcode,""+AdultMaleHIV39Neg);
+  opdhm.put("nf49"+"_"+mflcode,""+(AdultFemaleHIV49Neg+pmtct_n_49));
+  opdhm.put("nm49"+"_"+mflcode,""+AdultMaleHIV49Neg);
+  opdhm.put("nf50"+"_"+mflcode,""+(AdultFemaleHIV50Neg+pmtct_n_50));
+  opdhm.put("nm50"+"_"+mflcode,""+AdultMaleHIV50Neg);
+  opdhm.put("tt"+"_"+mflcode,""+((tested_new711)+(pmtct_t)+(conn.rs.getInt("serology"))));
+
+
+
+
+
 HSSFCell  cxy;
  
          rw0.setHeightInPoints(25);
@@ -7362,17 +8010,17 @@ HSSFCell  cxy;
                 shet3.setDisplayGridlines(false);
                 shet3.createFreezePane(5,5);                 
 
-                   
+         return opdhm;          
      
  }
     
     
     
     
-    public void Vct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+    public HashMap Vct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
         
         
-        
+      HashMap<String , String> vcthm = new HashMap<String,String>();  
                     
     HSSFCellStyle stylex = wb.createCellStyle();
 stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
@@ -9051,6 +9699,67 @@ TotalNegativeMale1=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMa
           
         }; 
 
+  
+  
+  
+  vcthm.put("cty"+"_"+mflcode, county);
+  vcthm.put("sty"+"_"+mflcode, district);
+  vcthm.put("fac"+"_"+mflcode, facilityname);
+  vcthm.put("mfl"+"_"+mflcode, ""+mflcode);
+  vcthm.put("st"+"_"+mflcode, dsdta);
+  vcthm.put("ukpf"+"_"+mflcode,"0");
+  vcthm.put("ukpm"+"_"+mflcode,"0");
+  vcthm.put("pf1"+"_"+mflcode,""+(ChildFemaleHIV1 ));
+  vcthm.put("pm1"+"_"+mflcode,""+ChildMaleHIV1);
+  vcthm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);
+  vcthm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);
+  vcthm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);
+  vcthm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);
+  vcthm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14));
+  vcthm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);
+  vcthm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19));
+  vcthm.put("pm19"+"_"+mflcode,""+AdultMaleHIV19);
+  vcthm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24));
+  vcthm.put("pm24"+"_"+mflcode,""+AdultMaleHIV24);
+  vcthm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29));
+  vcthm.put("pm29"+"_"+mflcode,""+AdultMaleHIV29);
+  vcthm.put("pf34"+"_"+mflcode,""+(AdultFemaleHIV34));
+  vcthm.put("pm34"+"_"+mflcode,""+AdultMaleHIV34);
+  vcthm.put("pf39"+"_"+mflcode,""+(AdultFemaleHIV39));
+  vcthm.put("pm39"+"_"+mflcode,""+AdultMaleHIV39);
+  vcthm.put("pf49"+"_"+mflcode,""+(AdultFemaleHIV49));
+  vcthm.put("pm49"+"_"+mflcode,""+AdultMaleHIV49);
+  vcthm.put("pf50"+"_"+mflcode,""+(AdultFemaleHIV50));
+  vcthm.put("pm50"+"_"+mflcode,""+AdultMaleHIV50);
+  //_____negative
+  vcthm.put("uknf"+"_"+mflcode,"0");
+  vcthm.put("uknm"+"_"+mflcode,"0");
+  vcthm.put("nf1"+"_"+mflcode,""+ChildFemaleHIV1Neg);
+  vcthm.put("nm1"+"_"+mflcode,""+ChildMaleHIV1Neg);
+  vcthm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);
+  vcthm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);
+  vcthm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);
+  vcthm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);
+  vcthm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg));
+  vcthm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);
+  vcthm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg));
+  vcthm.put("nm19"+"_"+mflcode,""+AdultMaleHIV19Neg);
+  vcthm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg));
+  vcthm.put("nm24"+"_"+mflcode,""+AdultMaleHIV24Neg);
+  vcthm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg));
+  vcthm.put("nm29"+"_"+mflcode,""+AdultMaleHIV29Neg);
+  vcthm.put("nf34"+"_"+mflcode,""+(AdultFemaleHIV34Neg));
+  vcthm.put("nm34"+"_"+mflcode,""+AdultMaleHIV34Neg);
+  vcthm.put("nf39"+"_"+mflcode,""+(AdultFemaleHIV39Neg));
+  vcthm.put("nm39"+"_"+mflcode,""+AdultMaleHIV39Neg);
+  vcthm.put("nf49"+"_"+mflcode,""+(AdultFemaleHIV49Neg));
+  vcthm.put("nm49"+"_"+mflcode,""+AdultMaleHIV49Neg);
+  vcthm.put("nf50"+"_"+mflcode,""+(AdultFemaleHIV50Neg));
+  vcthm.put("nm50"+"_"+mflcode,""+AdultMaleHIV50Neg);
+  vcthm.put("tt"+"_"+mflcode,""+((tested_new711)));
+
+
+  
 
 HSSFCell  cxy;
  
@@ -9168,13 +9877,14 @@ HSSFCell  cxy;
                 //Made my life veery simple...
                 shet3.setDisplayGridlines(false);
                 shet3.createFreezePane(5,5); 
-                 
+           return vcthm;      
     
     }
     
     
-    public void Pmtct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+    public HashMap Pmtct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
         
+              HashMap<String , String> Pmtcthm = new HashMap<String,String>(); 
      
                    
     HSSFCellStyle stylex = wb.createCellStyle();
@@ -9861,7 +10571,67 @@ int ancno=conn.rs.getInt("new_anc");
                       
              ,""+pmtct_tes_denominator//denominator
              ,""+pmtct_statden_tes_unknown,""+pmtct_statden_tes_10,""+pmtct_statden_tes_10_14,""+pmtct_statden_tes_15_19,""+pmtct_statden_tes_20_24,""+pmtct_statden_tes_25_29,""+pmtct_statden_tes_30_34,""+pmtct_statden_tes_35_39,""+pmtct_statden_tes_40_49,""+pmtct_statden_tes_50,""+pmtct_tes_denominator
-             ,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")}; 
+             ,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")};
+             
+             
+  Pmtcthm.put("cty"+"_"+mflcode, county);
+  Pmtcthm.put("sty"+"_"+mflcode, district);
+  Pmtcthm.put("fac"+"_"+mflcode, facilityname);
+  Pmtcthm.put("mfl"+"_"+mflcode, ""+mflcode);
+  Pmtcthm.put("st"+"_"+mflcode, dsdta);
+  Pmtcthm.put("ukpf"+"_"+mflcode,"0");
+  Pmtcthm.put("ukpm"+"_"+mflcode,"0");
+  Pmtcthm.put("pf1"+"_"+mflcode,"0");
+  Pmtcthm.put("pm1"+"_"+mflcode,"0");
+  Pmtcthm.put("pf4"+"_"+mflcode,"0");
+  Pmtcthm.put("pm4"+"_"+mflcode,"0");
+  Pmtcthm.put("pf9"+"_"+mflcode,"0");
+  Pmtcthm.put("pm9"+"_"+mflcode,"0");
+  Pmtcthm.put("pf14"+"_"+mflcode,""+pmtct_pos_10_14);
+  Pmtcthm.put("pm14"+"_"+mflcode,"0");
+  Pmtcthm.put("pf19"+"_"+mflcode,""+(pmtct_pos_15_19));
+  Pmtcthm.put("pm19"+"_"+mflcode,"0");
+  Pmtcthm.put("pf24"+"_"+mflcode,""+(pmtct_pos_20_24));
+  Pmtcthm.put("pm24"+"_"+mflcode,"0");
+  Pmtcthm.put("pf29"+"_"+mflcode,""+(pmtct_pos_25_29));
+  Pmtcthm.put("pm29"+"_"+mflcode,"0");
+  Pmtcthm.put("pf34"+"_"+mflcode,""+(pmtct_pos_30_34));
+  Pmtcthm.put("pm34"+"_"+mflcode,"0");
+  Pmtcthm.put("pf39"+"_"+mflcode,""+(pmtct_pos_35_39));
+  Pmtcthm.put("pm39"+"_"+mflcode,"0");
+  Pmtcthm.put("pf49"+"_"+mflcode,""+(pmtct_pos_40_49));
+  Pmtcthm.put("pm49"+"_"+mflcode,"0");
+  Pmtcthm.put("pf50"+"_"+mflcode,""+(pmtct_pos_50));
+  Pmtcthm.put("pm50"+"_"+mflcode,"0");
+  //_____negative
+  Pmtcthm.put("uknf"+"_"+mflcode,"0");
+  Pmtcthm.put("uknm"+"_"+mflcode,"0");
+  Pmtcthm.put("nf1"+"_"+mflcode,"0");
+  Pmtcthm.put("nm1"+"_"+mflcode,"0");
+  Pmtcthm.put("nf4"+"_"+mflcode,"0");
+  Pmtcthm.put("nm4"+"_"+mflcode,"0");
+  Pmtcthm.put("nf9"+"_"+mflcode,"0");
+  Pmtcthm.put("nm9"+"_"+mflcode,"0");
+  Pmtcthm.put("nf14"+"_"+mflcode,""+(pmtct_neg_10_14));
+  Pmtcthm.put("nm14"+"_"+mflcode,"0");
+  Pmtcthm.put("nf19"+"_"+mflcode,""+(pmtct_neg_15_19));
+  Pmtcthm.put("nm19"+"_"+mflcode,"0");
+  Pmtcthm.put("nf24"+"_"+mflcode,""+(pmtct_neg_20_24));
+  Pmtcthm.put("nm24"+"_"+mflcode,"0");
+  Pmtcthm.put("nf29"+"_"+mflcode,""+(pmtct_neg_25_29));
+  Pmtcthm.put("nm29"+"_"+mflcode,"0");
+  Pmtcthm.put("nf34"+"_"+mflcode,""+(pmtct_neg_30_34));
+  Pmtcthm.put("nm34"+"_"+mflcode,"0");
+  Pmtcthm.put("nf39"+"_"+mflcode,""+(pmtct_neg_35_39));
+  Pmtcthm.put("nm39"+"_"+mflcode,"0");
+  Pmtcthm.put("nf49"+"_"+mflcode,""+(pmtct_neg_40_49));
+  Pmtcthm.put("nm49"+"_"+mflcode,"0");
+  Pmtcthm.put("nf50"+"_"+mflcode,""+(pmtct_neg_50));
+  Pmtcthm.put("nm50"+"_"+mflcode,"0");
+  Pmtcthm.put("tt"+"_"+mflcode,""+((pmtct_anc_tes)));
+
+             
+             
 
 HSSFCell  cxy;
  rw0=shet3.createRow(rowposit);
@@ -9980,7 +10750,7 @@ HSSFCell  cxy;
                 shet3.setDisplayGridlines(false);
                 shet3.createFreezePane(5,6);                 
                
-                 
+      return Pmtcthm;           
     
     }// end of pmtct
     
