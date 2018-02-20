@@ -9,7 +9,6 @@ package InternalSystem;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  *
@@ -27,7 +25,7 @@ import java.util.Date;
  */
 public class validate731 extends HttpServlet {
 HttpSession session;
-
+String mfl_code;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,7 +41,7 @@ int HV0101,HV0102,HV0103,HV0105,HV0106,HV0107,HV0108,HV0109,HV0110,HV0111,HV0112
 int HV0201,HV0202,HV0203,HV0204,HV0205,HV0206,HV0207,HV0208,HV0209,HV0210,HV0211,HV0212,HV0213,
 HV0214,HV0215,HV0216,HV0217,HV0218,HV0219,HV0220,HV0221,HV0224,HV0225,HV0226,HV0227,HV0228,HV0229,
         HV0230,HV0231,HV0232,HV0233,HV0234,HV0235,HV0236,HV0237,HV0238,HV0239,HV0240,HV0241,HV0242,
-        HV0243,HV0244;
+        HV0243,HV0244,new_anc;
 int HV0301,HV0302,HV0303,HV0304,HV0305,HV0306,HV0307,HV0308,HV0309,HV0310,HV0311,HV0312,HV0313,HV0314,
         HV0315,HV0316,HV0317,HV0318,HV0319,HV0320,HV0321,HV0322,HV0323,HV0324,HV0325,HV0326,HV0327,HV0328,
         HV0329,HV0330,HV0331,HV0332,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,
@@ -100,7 +98,7 @@ if(mn>=7 && mn<=9){quarter=4;}
 HV0201=HV0202=HV0203=HV0204=HV0205=HV0206=HV0207=HV0208=HV0209=HV0210=HV0211=HV0212=HV0213=
 HV0214=HV0215=HV0216=HV0217=HV0218=HV0219=HV0220=HV0221=HV0224=HV0225=HV0226=HV0227=HV0228=HV0229=
         HV0230=HV0231=HV0232=HV0233=HV0234=HV0235=HV0236=HV0237=HV0238=HV0239=HV0240=HV0241=HV0242=
-        HV0243=HV0244=0;
+        HV0243=HV0244=new_anc=0;
 HV0301=HV0302=HV0303=HV0304=HV0305=HV0306=HV0307=HV0308=HV0309=HV0310=HV0311=HV0312=HV0313=HV0314=
         HV0315=HV0316=HV0317=HV0318=HV0319=HV0320=HV0321=HV0322=HV0323=HV0324=HV0325=HV0326=HV0327=HV0328=
         HV0329=HV0330=HV0331=HV0332=HV0333=HV0334=HV0335=HV0336=HV0337=HV0338=HV0339=
@@ -185,6 +183,8 @@ if(request.getParameter("HV0241")!=null && !request.getParameter("HV0241").equal
 if(request.getParameter("HV0242")!=null && !request.getParameter("HV0242").equals("")){HV0242=Integer.parseInt(request.getParameter("HV0242"));}
 if(request.getParameter("HV0243")!=null && !request.getParameter("HV0243").equals("")){HV0243=Integer.parseInt(request.getParameter("HV0243"));}
 if(request.getParameter("HV0244")!=null && !request.getParameter("HV0244").equals("")){HV0244=Integer.parseInt(request.getParameter("HV0244"));}
+
+if(request.getParameter("new_anc")!=null && !request.getParameter("new_anc").equals("")){new_anc=Integer.parseInt(request.getParameter("new_anc"));}
 
 if(request.getParameter("HV0301")!=null && !request.getParameter("HV0301").equals("")){HV0301=Integer.parseInt(request.getParameter("HV0301"));}
 if(request.getParameter("HV0302")!=null && !request.getParameter("HV0302").equals("")){HV0302=Integer.parseInt(request.getParameter("HV0302"));}
@@ -500,7 +500,27 @@ conn.pst=conn.conn.prepareStatement(copyToTemp);
 
     conn.pst.executeUpdate();
 
-   
+    mfl_code="";
+//   save new on ANC?
+     String getmfl = "SELECT CentreSanteID from subpartnera WHERE SubPartnerID=?";
+     conn.pst = conn.conn.prepareStatement(getmfl);
+     conn.pst.setString(1, facilityId);
+     conn.rs = conn.pst.executeQuery();
+     if(conn.rs.next()){
+         mfl_code = conn.rs.getString(1);
+     }
+     
+    String add_new_anc = "REPLACE INTO new_anc SET id=?, SubPartnerID=?,mfl_code=?,new_anc=?,year=?,month=?,yearmonth=?";
+    conn.pst = conn.conn.prepareStatement(add_new_anc);
+    conn.pst.setString(1, id);
+    conn.pst.setString(2, facilityId);
+    conn.pst.setString(3, mfl_code);
+    conn.pst.setInt(4, new_anc);
+    conn.pst.setString(5, year);
+    conn.pst.setString(6, month);
+    conn.pst.setString(7, yearmonth);
+    
+    conn.pst.executeUpdate();
     
    //drop temp db
    

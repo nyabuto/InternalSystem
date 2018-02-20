@@ -31,7 +31,7 @@ String HIV_CT,PMTCT,CT,VMMC,PEP,Blood;
 String testing,receiving_results,receiving_postive_results;
 String testing_for_HIV,HIV_Postive_results,partner_involvement,
         maternal_prophylaxis,assessment_ART,infant_testing,
-        confirmed_infant,infant_feeding,infant_ARV;
+        confirmed_infant,infant_feeding,infant_ARV,new_on_anc_set;
 String on_CP,enrolled_care,currently_care,starting_ART,revisit_ART,
         current_ART,cumulative_ART,cumulative_ARTPrevious,survival_ART,screening,pwp,HIV_care;
 String number_circumcised,hiv_status,adverse_events;
@@ -64,14 +64,14 @@ String enterdby,tabs,subcountyid;
 String invalidPMTCTTXT,invalidCARETXT,invalidPEPTXT,invalidHTCTXT;
 String unvalidatedFacilities="";
 int found;
-String found_db;   //0 for master and 
+String found_db,new_anc;   //0 for master and 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
        String lock = null;
 int isLocked=0;
 found_db="none";
-        HIV_CT="";
+        HIV_CT=new_anc="";
         PrintWriter out = response.getWriter();
         try {
             dbConn conn = new dbConn();
@@ -353,6 +353,17 @@ HV0344_1=conn.rs.getString(5);
  
     }    
 
+   //check new ANC Data here
+   String getnewanc = "SELECT new_anc FROM new_anc WHERE id=?";
+   conn.pst = conn.conn.prepareStatement(getnewanc);
+   conn.pst.setString(1, id);
+   conn.rs = conn.pst.executeQuery();
+   if(conn.rs.next()){
+       new_anc=conn.rs.getString(1);
+   }
+    
+    
+    
     found=0;
 //}
  HV0340=HV0340_1;HV0341=HV0341_1;HV0342=HV0342_1;HV0343=HV0343_1;HV0344=HV0344_1;
@@ -665,7 +676,7 @@ isValidated=conn.rs.getString("isValidated");
        
         testing_for_HIV=HIV_Postive_results=partner_involvement=
         maternal_prophylaxis=assessment_ART=infant_testing=
-        confirmed_infant=infant_feeding=infant_ARV="";
+        confirmed_infant=infant_feeding=infant_ARV=new_on_anc_set="";
            
           testing_for_HIV="<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">2.1 Testing for HIV.</b></legend><table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><br></td></tr>"
               + "<tr>"
@@ -830,12 +841,21 @@ isValidated=conn.rs.getString("isValidated");
               + "</table>"
               + "<br></fieldset>";
            
+           new_on_anc_set="<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">New on ANC MOH 711</b> </legend><table style=\"margin-left:250px;\"><tr><td colspan=\"3\"><br> </td></tr>"
+              + "<tr>"
+              + "<td style=\"padding-right:40px;\">New on ANC </td><td style=\"padding-right:40px;\" >MOH 711</td><td style=\"padding-right:40px;\"><input type=\"text\" tabindex=\"40\" name=\"new_anc\" id=\"new_anc\" value=\""+new_anc+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('new_anc');\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;\"></td>"
+              + "</tr>"
+               + "<tr>"
+              
+              + "</table>"
+              + "<br></fieldset>";
+           
   //    ###############################CARE AND TREATMENT #################################
 //               ##########################################################         
            
           PMTCT+=testing_for_HIV+""+HIV_Postive_results+""+partner_involvement+""+
         maternal_prophylaxis+""+assessment_ART+""+infant_testing+""+
-        confirmed_infant+""+infant_feeding+""+infant_ARV;
+        confirmed_infant+""+infant_feeding+""+infant_ARV+""+new_on_anc_set;
           
          on_CP=enrolled_care=currently_care=starting_ART=revisit_ART=
         current_ART=cumulative_ART=cumulative_ARTPrevious=survival_ART=screening=pwp=HIV_care="";

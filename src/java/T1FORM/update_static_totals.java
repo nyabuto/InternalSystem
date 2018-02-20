@@ -37,7 +37,17 @@ public class update_static_totals extends HttpServlet {
            male=female=summary_id="";
             male = request.getParameter("male");
             female = request.getParameter("female");
-            
+//            progam_area
+//            cordinator
+//            districts        
+//            agency       
+//            venue
+//            curriculum_ids
+//            date_range        
+//            training_name
+//            
+                    
+                    
             if(session.getAttribute("summary_id")!=null){
                summary_id = session.getAttribute("summary_id").toString();
            }
