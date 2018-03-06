@@ -32,6 +32,7 @@ int summary_id;
         PrintWriter out = response.getWriter();
         try {
            dbConn conn = new dbConn();
+           session = request.getSession();
            
            output= "";
            summary_id=0;
@@ -65,6 +66,7 @@ int summary_id;
            
            String resout = program_area_id+","+cordinator+","+districts+","+agency+","+venue+","+curriculum_id+","+start_date+","+end_date+","+training_name+","+year+","+month+","+year_month+","+s_male+","+s_female+","+user_id;
             System.out.println(" data : "+resout);
+           if(session.getAttribute("summary_id")==null){
            if(s_male.equals("")){s_male="0";}
            if(s_female.equals("")){s_female="0";}
            String checker="SELECT id FROM t1_summary WHERE program_area_id=? AND training_name=? AND start_date=? AND end_date=? AND districts=?";
@@ -83,8 +85,9 @@ int summary_id;
            }
            
            else{
-               String inserter="INSERT INTO t1_summary (program_area_id,cordinator,districts,agency,venue,curriculum_id,start_date,end_date,training_name,year,month,s_male,s_female,ym,user_id) "
-                       + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+               String inserter="REPLACE INTO t1_summary SET program_area_id=?,cordinator=?,"
+                    + "districts=?,agency=?,venue=?,curriculum_id=?,start_date=?,end_date=?,"
+                    + "training_name=?,year=?,month=?,s_male=?,s_female=?,ym=?,user_id=? ";
                conn.pst=conn.conn.prepareStatement(inserter);
                conn.pst.setString(1, program_area_id);
                conn.pst.setString(2, cordinator);
@@ -111,7 +114,34 @@ int summary_id;
                summary_id=conn.rs.getInt(1);
            }
            }
-           
+            }
+            else{
+               summary_id = Integer.parseInt(session.getAttribute("summary_id").toString());
+                String updator="UPDATE t1_summary SET program_area_id=?,cordinator=?,"
+                    + "districts=?,agency=?,venue=?,curriculum_id=?,start_date=?,end_date=?,"
+                    + "training_name=?,year=?,month=?,s_male=?,s_female=?,ym=?,user_id=? WHERE id=?";
+               conn.pst=conn.conn.prepareStatement(updator);
+               conn.pst.setString(1, program_area_id);
+               conn.pst.setString(2, cordinator);
+               conn.pst.setString(3, districts);
+               conn.pst.setString(4, agency);
+               conn.pst.setString(5, venue);
+               conn.pst.setString(6, curriculum_id);
+               conn.pst.setString(7, start_date);
+               conn.pst.setString(8, end_date);
+               conn.pst.setString(9, training_name);
+               conn.pst.setString(10, year);
+               conn.pst.setString(11, month);
+               conn.pst.setString(12, s_male);
+               conn.pst.setString(13, s_female);
+               conn.pst.setString(14, year_month);
+               conn.pst.setString(15, user_id);
+               conn.pst.setInt(16, summary_id);
+              
+               conn.pst.executeUpdate();
+               
+               output="Summary updated successfully.";
+            }
             out.println(summary_id);
         } finally {
             out.close();

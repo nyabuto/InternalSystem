@@ -433,7 +433,6 @@ tr > td
        }); 
        
     function subSummary(){
-        
         var progam_area,districts,cordinator,agency,venue,curriculum_ids,date_range,training_name,s_male,s_female;
         progam_area = $("#progam_area").val();
         districts = $("#districts").val();
@@ -448,7 +447,6 @@ tr > td
         if(districts!=null && progam_area!="" && cordinator!="" && agency!="" && venue!="" && curriculum_ids!=null && date_range!="" && training_name!=""){
         districts = districts+"*";
         curriculum_ids = curriculum_ids+"*";
-        
        var form_data={"progam_area":progam_area,"districts":districts,"cordinator":cordinator,"agency":agency,"venue":venue,"curriculum_ids":curriculum_ids,"date_range":date_range,"training_name":training_name,"s_male":s_male,"s_female":s_female};
       
         var url='SaveSummary';
@@ -463,7 +461,7 @@ tr > td
         if(data.trim()>0){
             $.notify(
       {icon: "images/checked.png", 
-  message:'<font color="green">Summary Saved sucessfully.</font>'},
+  message:'<font color="green">Summary Saved/Updated sucessfully.</font>'},
       {
 	icon_type: 'image'
       }, 

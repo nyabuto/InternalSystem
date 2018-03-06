@@ -28,7 +28,7 @@ String summary_id,program_area,cordinator,districts,agency,venue,curriculum,star
 String program_area_id,district_ids,curriculum_id,possible_districts;
 String lock;
 String gender;
-String input,hidden,hiddenx,edit;
+String input,hidden,hiddenx,edit,summary_button_label,btn_data,bg;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -71,7 +71,7 @@ String input,hidden,hiddenx,edit;
          d_female = conn.rs.getString(14); 
          
          date_range=start_date+" - "+end_date;
-         lock="disabled";
+         lock="";
          input="hidden";
          hidden="";
          hiddenx="hidden";
@@ -83,6 +83,14 @@ edit="<img src=\"images/edit.png\" data-toggle=\"tooltip\" id=\"edit_total\" tit
         
          if(summary_id.equals("0")){
              session.removeAttribute("summary_id");
+             summary_button_label = "Save Summary";
+             btn_data="btn blue";
+             bg="";
+         }
+         else{
+         summary_button_label = "Update Summary";
+         btn_data="btn ";
+         bg="background-color:#ff901a;";
          }
          
          //GET DISTRICTS
@@ -143,8 +151,6 @@ edit="<img src=\"images/edit.png\" data-toggle=\"tooltip\" id=\"edit_total\" tit
          }
         
          
-         
-         
             
      String  form="<form id=\"summary_form\" name=\"summary_form\" >"
              + "<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">Course Details</b></legend><div style=\"margin-left:100px;\"><div><div colspan=\"3\"><br></div</div>"
@@ -173,7 +179,7 @@ edit="<img src=\"images/edit.png\" data-toggle=\"tooltip\" id=\"edit_total\" tit
              + "<div class=\"clear\">"
              + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\"><b>(Summary)</b> Male :</div><div  class=\"div_data\" ><input type=\"text\"   autocomplete=\"off\" placeholder=\"Male Participants\"  tabindex=\"10\" name=\"s_male\" id=\"s_male\" value=\""+s_male+"\"  data-toggle=\"tooltip\"  "+lock+" onkeypress=\"return numbers(event)\"  data-placement=\"right\" style=\"width: 10em;\"></div></div>"
               + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\">Female :</div><div  class=\"div_data\" ><input type=\"text\"   autocomplete=\"off\" placeholder=\"Female Participants\"  tabindex=\"11\" name=\"s_female\" id=\"s_female\" value=\""+s_female+"\"  data-toggle=\"tooltip\" onkeypress=\"return numbers(event)\"  "+lock+"  data-placement=\"right\" style=\"width: 10em;\"></div></div>"
-              + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\">"+edit+"</div>"
+//              + "<div class=\"div_elem2\" ><div  class=\"div_title\" style=\"\">"+edit+"</div>"
               
              + "</div>"
              + ""
@@ -184,7 +190,7 @@ edit="<img src=\"images/edit.png\" data-toggle=\"tooltip\" id=\"edit_total\" tit
              + "</div>"
              + "</div>"
              + "<div class=\"clear\">"
-              + "<div style=\"width: 100%; margin-right:20%;\" "+hiddenx+"><button type=\""+input+"\" onClick=\"return subSummary();\" hidden class=\"btn blue\" tabindex=\"12\" id=\"summarybtn\" style=\"width: 15em;  margin-right:35px;\">Save Summary</button></div>"
+              + "<div style=\"width: 100%; margin-right:20%;\" ><button type=\""+input+"\" onClick=\"return subSummary();\" hidden class=\""+btn_data+"\" tabindex=\"12\" id=\"summarybtn\" style=\"width: 15em; "+bg+" margin-right:35px;\">"+summary_button_label+"</button></div>"
              + "</div>"
              + "</form>"
              + "</div>"
