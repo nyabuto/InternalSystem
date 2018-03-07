@@ -70,12 +70,12 @@
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh731,")){%> 
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 731 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
             
-               <!--<a href="loadnew731.jsp">-->
+               <a href="loadnew731.jsp">
                <!--<i class="icon-table"></i>--> 
-               <!--<span class="title">MOH 731 (New)</span>-->
+               <span class="title">MOH 731 (New)</span>
                <!--<span class="selected"></span>-->
                <!--<span class="arrow open"></span>-->
-               <!--</a>-->
+               </a>
 <!--              forms_holder-->
             </li>
             
@@ -162,6 +162,10 @@
               
             </li>
             <%}}%>
+            
+            
+            
+            
             
 <!--             <li class="">
                <a href="#">

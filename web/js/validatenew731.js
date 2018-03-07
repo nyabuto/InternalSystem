@@ -139,9 +139,9 @@ if(parseInt(HV0109) > parseInt(HV0110)){checker++;
    $("#HV0109").css({'background-color' : 'yellow'});
    $("#HV0109").prop('title', 'HV0109 should not be more than HV0110');
 }
-if((parseInt(HV0110) != (parseInt(HV0101)+parseInt(HV0102)+parseInt(HV0103)+parseInt(HV0104)+parseInt(HV0105)+parseInt(HV0106)+parseInt(HV0107)+parseInt(HV0108)+parseInt(HV0109))) || (parseInt(HV0110) != (parseInt(HV0112)+parseInt(HV0113)))){checker++;
+if((parseInt(HV0110) != (parseInt(HV0101)+parseInt(HV0102)+parseInt(HV0103)+parseInt(HV0104)+parseInt(HV0105)+parseInt(HV0106)+parseInt(HV0107)+parseInt(HV0108)+parseInt(HV0109))) || ( parseInt(HV0110) !== (parseInt(HV0112)+ parseInt(HV0111)))){checker++;
    $("#HV0110").css({'background-color' : 'yellow'});
-   $("#HV0110").prop('title', 'HV0110 should be equal to the sum of HV0101 to HV0109');
+   $("#HV0110").prop('title', 'HV0110 should be equal to the sum of HV0101 to HV0109  and HV0110 should be equal to the sum of HV0111 and HV0112');
 }
 //SECONDARY
 if(parseInt(HV0110) != (parseInt(HV0113)+parseInt(HV0114))){checker++;
