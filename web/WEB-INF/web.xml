@@ -753,6 +753,10 @@
         <servlet-name>LoadIndicators</servlet-name>
         <servlet-class>Ratios.LoadIndicators</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sitestracker</servlet-name>
+        <servlet-class>reports.sitestracker</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1504,6 +1508,10 @@
     <servlet-mapping>
         <servlet-name>LoadIndicators</servlet-name>
         <url-pattern>/LoadIndicators</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sitestracker</servlet-name>
+        <url-pattern>/sitestracker</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
