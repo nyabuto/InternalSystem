@@ -754,6 +754,17 @@
         <servlet-class>Ratios.LoadIndicators</servlet-class>
     </servlet>
     <servlet>
+         <servlet-name>loadIPT</servlet-name>
+        <servlet-class>InternalSystem.loadIPT</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate_ipt</servlet-name>
+        <servlet-class>InternalSystem.validate_ipt</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadDHIS2_Data</servlet-name>
+        <servlet-class>LoadExcels.LoadDHIS2_Data</servlet-class>
+        
         <servlet-name>sitestracker</servlet-name>
         <servlet-class>reports.sitestracker</servlet-class>
     </servlet>
@@ -1508,6 +1519,17 @@
     <servlet-mapping>
         <servlet-name>LoadIndicators</servlet-name>
         <url-pattern>/LoadIndicators</url-pattern>
+    </servlet-mapping>
+      <servlet-name>loadIPT</servlet-name>
+        <url-pattern>/loadIPT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate_ipt</servlet-name>
+        <url-pattern>/validate_ipt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadDHIS2_Data</servlet-name>
+        <url-pattern>/LoadDHIS2_Data</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>sitestracker</servlet-name>

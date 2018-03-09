@@ -41,6 +41,31 @@ function sumHV0135(){
     
     autosave("HV0135");
 }
+function sumHV0145(){
+    var HV01,sum=0,i=37;
+    while(i<=44){
+    HV01=document.getElementById("HV01"+i).value; 
+    if(HV01==""){HV01="0";}
+    sum+=parseInt(HV01);
+    i++;
+    }
+    document.getElementById("HV0145").value=sum;
+    
+    autosave("HV0145");
+}
+
+function sumHV0150(){
+    var HV01,sum=0,i=46;
+    while(i<=49){
+    HV01=document.getElementById("HV01"+i).value; 
+    if(HV01==""){HV01="0";}
+    sum+=parseInt(HV01);
+    i++;
+    }
+    document.getElementById("HV0150").value=sum;
+    
+    autosave("HV0150");
+}
 
 
 function sumHV0207(){
@@ -95,30 +120,43 @@ function sumHV0220(){
     autosave("HV0220");
 }
 
-function sumHV0232(){
+function sumHV0233(){
     var HV02,sum=0,i=29;
-    while(i<=31){
+    while(i<=32){
     HV02=document.getElementById("HV02"+i).value; 
     if(HV02==""){HV02="0";}
     sum+=parseInt(HV02);
     i++;
     }
-    document.getElementById("HV0232").value=sum;
+    document.getElementById("HV0233").value=sum;
     
-    autosave("HV0232");
+    autosave("HV0233");
 }
 
-function sumHV0241(){
-    var HV02,sum=0,i=38;
-    while(i<=40){
+function sumHV0242(){
+    var HV02,sum=0,i=39;
+    while(i<=41){
     HV02=document.getElementById("HV02"+i).value; 
     if(HV02==""){HV02="0";}
     sum+=parseInt(HV02);
     i++;
     }
-    document.getElementById("HV0241").value=sum;
+    document.getElementById("HV0242").value=sum;
     
-    autosave("HV0241");
+    autosave("HV0242");
+}
+
+function sumHV0246(){
+    var HV02,sum=0,i=44;
+    while(i<=45){
+    HV02=document.getElementById("HV02"+i).value; 
+    if(HV02==""){HV02="0";}
+    sum+=parseInt(HV02);
+    i++;
+    }
+    document.getElementById("HV0246").value=sum;
+    
+    autosave("HV0246");
 }
 
 function sumHV03011(){
@@ -174,8 +212,14 @@ function sumHV03038(){
     i++;
     }
     document.getElementById("HV03038").value=sum;
+     var hv03050 = 0;
+    if(document.getElementById("HV03050").value!="")
+    {hv03050 = document.getElementById("HV03050").value;}
+    var hv03039 = parseInt(hv03050)+sum;
+    document.getElementById("HV03039").value=hv03039;
     
     autosave("HV03038");
+    autosave("HV03039");
 }
 
 function sumHV03050(){
@@ -187,8 +231,14 @@ function sumHV03050(){
     i++;
     }
     document.getElementById("HV03050").value=sum;
+    var hv03038 = 0;
+    if(document.getElementById("HV03038").value!="")
+    {hv03038 = document.getElementById("HV03038").value;}
     
+    var hv03039 = parseInt(hv03038)+sum;
+    document.getElementById("HV03039").value=hv03039;
     autosave("HV03050");
+    autosave("HV03039");
 }
 
 
@@ -324,15 +374,15 @@ function sumHV0503(){
     
     autosave("HV0503");
 }
-function sumHV0506(){
-    var HV050,sum=0,i=4;
-    while(i<=5){
+function sumHV0507(){
+    var HV050,sum=0,i=5;
+    while(i<=6){
     HV050=document.getElementById("HV050"+i).value; 
     if(HV050==""){HV050="0";}
     sum+=parseInt(HV050);
     i++;
     }
-    document.getElementById("HV0506").value=sum;
+    document.getElementById("HV0507").value=sum;
     
-    autosave("HV0506");
+    autosave("HV0507");
 }

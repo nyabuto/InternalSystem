@@ -139,10 +139,16 @@ if(parseInt(HV0109) > parseInt(HV0110)){checker++;
    $("#HV0109").css({'background-color' : 'yellow'});
    $("#HV0109").prop('title', 'HV0109 should not be more than HV0110');
 }
-if((parseInt(HV0110) != (parseInt(HV0101)+parseInt(HV0102)+parseInt(HV0103)+parseInt(HV0104)+parseInt(HV0105)+parseInt(HV0106)+parseInt(HV0107)+parseInt(HV0108)+parseInt(HV0109))) || ( parseInt(HV0110) !== (parseInt(HV0112)+ parseInt(HV0111)))){checker++;
+if((parseInt(HV0110) != (parseInt(HV0101)+parseInt(HV0102)+parseInt(HV0103)+parseInt(HV0104)+parseInt(HV0105)+parseInt(HV0106)+parseInt(HV0107)+parseInt(HV0108)+parseInt(HV0109)))){checker++;
    $("#HV0110").css({'background-color' : 'yellow'});
-   $("#HV0110").prop('title', 'HV0110 should be equal to the sum of HV0101 to HV0109  and HV0110 should be equal to the sum of HV0111 and HV0112');
+   $("#HV0110").prop('title', 'HV0110 should be equal to the sum of HV0101 to HV0109');
 }
+if( parseInt(HV0110) != (parseInt(HV0111)+ parseInt(HV0112))){checker++;
+   $("#HV0110").css({'background-color' : 'yellow'});
+   $("#HV0110").prop('title', 'HV0110 should be equal to the sum of HV0111 and HV0112');
+}
+
+
 //SECONDARY
 if(parseInt(HV0110) != (parseInt(HV0113)+parseInt(HV0114))){checker++;
    $("#HV0110").css({'background-color' : 'yellow'});
@@ -152,7 +158,7 @@ if(parseInt(HV0110) != (parseInt(HV0113)+parseInt(HV0114))){checker++;
 //OTHER VALIDATIONS
 if(parseInt(HV0110) != (parseInt(HV0126)+parseInt(HV0127))){checker++;
    $("#HV0110").css({'background-color' : 'yellow'});
-   $("#HV0105").prop('title', 'HV0105 should not be more than HV0110');
+   $("#HV0110").prop('title', 'HV0110 should  be equal to the sum of HV0126 and HV0127');
 }
 
 //END
@@ -234,7 +240,10 @@ if(parseInt(HV0129) > parseInt(HV0116)){checker++;
    $("#HV0129").css({'background-color' : 'yellow'});
    $("#HV0129").prop('title', 'HV0129 should not be more than HV0116');
 }
-
+if(parseInt(HV0126) != (parseInt(HV0117)+parseInt(HV0118)+parseInt(HV0119)+parseInt(HV0120)+parseInt(HV0121)+parseInt(HV0122)+parseInt(HV0123)+parseInt(HV0124)+parseInt(HV0125))){checker++;
+   $("#HV0126").css({'background-color' : 'yellow'});
+   $("#HV0126").prop('title', 'HV0126 should be equal to the sum of (HV0117 to HV0125)');
+}
 //1.3
 if(parseInt(HV0130) > parseInt(HV0117)){checker++;
    $("#HV0130").css({'background-color' : 'yellow'});
@@ -264,12 +273,24 @@ if(parseInt(HV0136) != parseInt(HV0126)){checker++;
    $("#HV0136").css({'background-color' : 'yellow'});
    $("#HV0136").prop('title', 'HV0136 should be equal to HV0126');
 }
-
+if(parseInt(HV0136) < parseInt(HV0135)){checker++;
+   $("#HV0136").css({'background-color' : 'yellow'});
+   $("#HV0136").prop('title', 'HV0136 should be less than HV0135');
+}
+if(parseInt(HV0135) != (parseInt(HV0130)+parseInt(HV0131)+parseInt(HV0132)+parseInt(HV0133)+parseInt(HV0134))){checker++;
+   $("#HV0135").css({'background-color' : 'yellow'});
+   $("#HV0135").prop('title', 'HV0135 should be equal to the sum of (HV0130 to HV0134)');
+}
 //1.4 
 if(parseInt(HV0138) > parseInt(HV0137)){checker++;
  $("#HV0138").css({'background-color' : 'yellow'});
  $("#HV0138").prop('title', 'HV0138 should not be more than HV0137');
 }
+
+//if(parseInt(HV0145) != (parseInt(HV0137)+parseInt(HV0144)+parseInt(HV0132)+parseInt(HV0133)+parseInt(HV0134))){checker++;
+//   $("#HV0135").css({'background-color' : 'yellow'});
+//   $("#HV0135").prop('title', 'HV0135 should be equal to the sum of (HV0130 to HV0134)');
+//}
 
  return checker;
 }
