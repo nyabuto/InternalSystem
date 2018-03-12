@@ -158,6 +158,18 @@ function sumHV0246(){
     
     autosave("HV0246");
 }
+function sumHV0250(){
+    var HV02,sum=0,i=47;
+    while(i<=49){
+    HV02=document.getElementById("HV02"+i).value; 
+    if(HV02==""){HV02="0";}
+    sum+=parseInt(HV02);
+    i++;
+    }
+    document.getElementById("HV0250").value=sum;
+    
+    autosave("HV0250");
+}
 
 function sumHV03011(){
     var HV030,sum=0,i=1;

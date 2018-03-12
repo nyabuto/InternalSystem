@@ -48,6 +48,16 @@ var checker=0;
    var HV0138=document.getElementById("HV0138").value;
    var HV0139=document.getElementById("HV0139").value;
    var HV0140=document.getElementById("HV0140").value; 
+   var HV0141=document.getElementById("HV0141").value; 
+   var HV0142=document.getElementById("HV0142").value;
+   var HV0143=document.getElementById("HV0143").value;
+   var HV0144=document.getElementById("HV0144").value;
+   var HV0145=document.getElementById("HV0145").value;
+   var HV0146=document.getElementById("HV0146").value;
+   var HV0147=document.getElementById("HV0147").value;
+   var HV0148=document.getElementById("HV0148").value;
+   var HV0149=document.getElementById("HV0149").value;
+   var HV0150=document.getElementById("HV0150").value; 
    
 if(HV0101==""){HV0101="0";}
 if(HV0102==""){HV0102="0";}
@@ -89,9 +99,19 @@ if(HV0137==""){HV0137="0";}
 if(HV0138==""){HV0138="0";}   
 if(HV0139==""){HV0139="0";}   
 if(HV0140==""){HV0140="0";}   
+if(HV0141==""){HV0141="0";}    
+if(HV0142==""){HV0142="0";}
+if(HV0143==""){HV0143="0";}
+if(HV0144==""){HV0144="0";}
+if(HV0145==""){HV0145="0";}
+if(HV0146==""){HV0146="0";}
+if(HV0147==""){HV0147="0";}
+if(HV0148==""){HV0148="0";}   
+if(HV0149==""){HV0149="0";}   
+if(HV0150==""){HV0150="0";}   
 
 var i=1;
-while(i<40){
+while(i<50){
     if(i<10){
  $("#HV010"+i).css({'background-color' : 'white'});
 // $("#HV010"+i).removeProp('title');
@@ -103,42 +123,7 @@ while(i<40){
 i++;   
 }
 //checking           
-if(parseInt(HV0101) > parseInt(HV0110)){checker++;
-   $("#HV0101").css({'background-color' : 'yellow'});
-   $("#HV0101").prop('title', 'HV0101 should not be more than HV0110');
-}
-if(parseInt(HV0102) > parseInt(HV0110)){checker++;
-   $("#HV0102").css({'background-color' : 'yellow'});
-   $("#HV0102").prop('title', 'HV0102 should not be more than HV0110');
-}
-if(parseInt(HV0103) > parseInt(HV0110)){checker++;
-   $("#HV0103").css({'background-color' : 'yellow'});
-   $("#HV0103").prop('title', 'HV0103 should not be more than HV0110');
-}
-if(parseInt(HV0104) > parseInt(HV0110)){checker++;
-   $("#HV0104").css({'background-color' : 'yellow'});
-   $("#HV0104").prop('title', 'HV0104 should not be more than HV0110');
-}
-if(parseInt(HV0105) > parseInt(HV0110)){checker++;
-   $("#HV0105").css({'background-color' : 'yellow'});
-   $("#HV0105").prop('title', 'HV0105 should not be more than HV0110');
-}
-if(parseInt(HV0106) > parseInt(HV0110)){checker++;
-   $("#HV0106").css({'background-color' : 'yellow'});
-   $("#HV0106").prop('title', 'HV0106 should not be more than HV0110');
-}
-if(parseInt(HV0107) > parseInt(HV0110)){checker++;
-   $("#HV0107").css({'background-color' : 'yellow'});
-   $("#HV0107").prop('title', 'HV0107 should not be more than HV0110');
-}
-if(parseInt(HV0108) > parseInt(HV0110)){checker++;
-   $("#HV0108").css({'background-color' : 'yellow'});
-   $("#HV0108").prop('title', 'HV0108 should not be more than HV0110');
-}
-if(parseInt(HV0109) > parseInt(HV0110)){checker++;
-   $("#HV0109").css({'background-color' : 'yellow'});
-   $("#HV0109").prop('title', 'HV0109 should not be more than HV0110');
-}
+
 if((parseInt(HV0110) != (parseInt(HV0101)+parseInt(HV0102)+parseInt(HV0103)+parseInt(HV0104)+parseInt(HV0105)+parseInt(HV0106)+parseInt(HV0107)+parseInt(HV0108)+parseInt(HV0109)))){checker++;
    $("#HV0110").css({'background-color' : 'yellow'});
    $("#HV0110").prop('title', 'HV0110 should be equal to the sum of HV0101 to HV0109');
@@ -156,141 +141,40 @@ if(parseInt(HV0110) != (parseInt(HV0113)+parseInt(HV0114))){checker++;
 }
 
 //OTHER VALIDATIONS
-if(parseInt(HV0110) != (parseInt(HV0126)+parseInt(HV0127))){checker++;
-   $("#HV0110").css({'background-color' : 'yellow'});
-   $("#HV0110").prop('title', 'HV0110 should  be equal to the sum of HV0126 and HV0127');
-}
+//if(parseInt(HV0110) != (parseInt(HV0126)+parseInt(HV0127))){checker++;
+//   $("#HV0110").css({'background-color' : 'yellow'});
+//   $("#HV0110").prop('title', 'HV0110 should  be equal to the sum of HV0126 and HV0127');
+//}
 
 //END
-if(parseInt(HV0111) > parseInt(HV0110)){checker++;
-   $("#HV0111").css({'background-color' : 'yellow'});
-   $("#HV0111").prop('title', 'HV0111 should not be more than HV0110');
-}
-if(parseInt(HV0112) > parseInt(HV0110)){checker++;
-   $("#HV0112").css({'background-color' : 'yellow'});
-   $("#HV0112").prop('title', 'HV0112 should not be more than HV0110');
-}
-if(parseInt(HV0113) > parseInt(HV0110)){checker++;
-   $("#HV0113").css({'background-color' : 'yellow'});
-   $("#HV0113").prop('title', 'HV0113 should not be more than HV0110');
-}
-if(parseInt(HV0114) > parseInt(HV0110)){checker++;
-   $("#HV0114").css({'background-color' : 'yellow'});
-   $("#HV0114").prop('title', 'HV0114 should not be more than HV0110');
-}
-if(parseInt(HV0115) > parseInt(HV0110)){checker++;
-   $("#HV0115").css({'background-color' : 'yellow'});
-   $("#HV0115").prop('title', 'HV0115 should not be more than HV0110');
-}
-if(parseInt(HV0116) > parseInt(HV0110)){checker++;
-   $("#HV0116").css({'background-color' : 'yellow'});
-   $("#HV0116").prop('title', 'HV0116 should not be more than HV0110');
-}
 
 //1.2
-if(parseInt(HV0117) > parseInt(HV0126)){checker++;
-   $("#HV0117").css({'background-color' : 'yellow'});
-   $("#HV0117").prop('title', 'HV0117 should not be more than HV0126');
-}
-if(parseInt(HV0118) > parseInt(HV0126)){checker++;
-   $("#HV0118").css({'background-color' : 'yellow'});
-   $("#HV0118").prop('title', 'HV0118 should not be more than HV0126');
-}
-if(parseInt(HV0119) > parseInt(HV0126)){checker++;
-   $("#HV0119").css({'background-color' : 'yellow'});
-   $("#HV0119").prop('title', 'HV0119 should not be more than HV0126');
-}
-if(parseInt(HV0120) > parseInt(HV0126)){checker++;
-   $("#HV0120").css({'background-color' : 'yellow'});
-   $("#HV0120").prop('title', 'HV0120 should not be more than HV0126');
-}
-if(parseInt(HV0121) > parseInt(HV0126)){checker++;
-   $("#HV0121").css({'background-color' : 'yellow'});
-   $("#HV0121").prop('title', 'HV0121 should not be more than HV0126');
-}
-if(parseInt(HV0122) > parseInt(HV0126)){checker++;
-   $("#HV0122").css({'background-color' : 'yellow'});
-   $("#HV0122").prop('title', 'HV0122 should not be more than HV0126');
-}
-if(parseInt(HV0123) > parseInt(HV0126)){checker++;
-   $("#HV0123").css({'background-color' : 'yellow'});
-   $("#HV0123").prop('title', 'HV0123 should not be more than HV0126');
-}
-if(parseInt(HV0124) > parseInt(HV0126)){checker++;
-   $("#HV0124").css({'background-color' : 'yellow'});
-   $("#HV0124").prop('title', 'HV0124 should not be more than HV0126');
-}
-if(parseInt(HV0125) > parseInt(HV0126)){checker++;
-   $("#HV0125").css({'background-color' : 'yellow'});
-   $("#HV0125").prop('title', 'HV0125 should not be more than HV0126');
-}
-if(parseInt(HV0126) >= parseInt(HV0110)){checker++;
-   $("#HV0126").css({'background-color' : 'yellow'});
-   $("#HV0126").prop('title', 'HV0126 should be less than HV0110');
-}
-if(parseInt(HV0127) > parseInt(HV0110)){checker++;
-   $("#HV0127").css({'background-color' : 'yellow'});
-   $("#HV0127").prop('title', 'HV0127 should not be more than HV0110');
-}
-if(parseInt(HV0128) > parseInt(HV0115)){checker++;
-   $("#HV0128").css({'background-color' : 'yellow'});
-   $("#HV0128").prop('title', 'HV0128 should not be more than HV0115');
-}
-if(parseInt(HV0129) > parseInt(HV0116)){checker++;
-   $("#HV0129").css({'background-color' : 'yellow'});
-   $("#HV0129").prop('title', 'HV0129 should not be more than HV0116');
-}
+
 if(parseInt(HV0126) != (parseInt(HV0117)+parseInt(HV0118)+parseInt(HV0119)+parseInt(HV0120)+parseInt(HV0121)+parseInt(HV0122)+parseInt(HV0123)+parseInt(HV0124)+parseInt(HV0125))){checker++;
    $("#HV0126").css({'background-color' : 'yellow'});
    $("#HV0126").prop('title', 'HV0126 should be equal to the sum of (HV0117 to HV0125)');
 }
 //1.3
-if(parseInt(HV0130) > parseInt(HV0117)){checker++;
-   $("#HV0130").css({'background-color' : 'yellow'});
-   $("#HV0130").prop('title', 'HV0130 should not be more than HV0117');
-}
-if(parseInt(HV0131) > (parseInt(HV0118)+parseInt(HV0119))){checker++;
-   $("#HV0131").css({'background-color' : 'yellow'});
-   $("#HV0131").prop('title', 'HV0131 should not be more than the sum of HV0118 and HV0118');
-}
-if(parseInt(HV0132) > (parseInt(HV0120)+parseInt(HV0121))){checker++;
-   $("#HV0132").css({'background-color' : 'yellow'});
-   $("#HV0132").prop('title', 'HV01 should not be more than the sum of HV0120 and HV0121');
-}
-if(parseInt(HV0133) > (parseInt(HV0122)+parseInt(HV0123))){checker++;
-   $("#HV0133").css({'background-color' : 'yellow'});
-   $("#HV0133").prop('title', 'HV0133 should not be more than the sum of HV0122 and HV0123');
-}
-if(parseInt(HV0134) > (parseInt(HV0124)+parseInt(HV0125))){checker++;
-   $("#HV0134").css({'background-color' : 'yellow'});
-   $("#HV0134").prop('title', 'HV0134 should not be more than the sum of HV0124 and HV0125');
-}
-if(parseInt(HV0135) > parseInt(HV0126)){checker++;
-   $("#HV0135").css({'background-color' : 'yellow'});
-   $("#HV0135").prop('title', 'HV0135 should not be more than HV0126');
-}
-if(parseInt(HV0136) != parseInt(HV0126)){checker++;
-   $("#HV0136").css({'background-color' : 'yellow'});
-   $("#HV0136").prop('title', 'HV0136 should be equal to HV0126');
-}
-if(parseInt(HV0136) < parseInt(HV0135)){checker++;
-   $("#HV0136").css({'background-color' : 'yellow'});
-   $("#HV0136").prop('title', 'HV0136 should be less than HV0135');
-}
+
 if(parseInt(HV0135) != (parseInt(HV0130)+parseInt(HV0131)+parseInt(HV0132)+parseInt(HV0133)+parseInt(HV0134))){checker++;
    $("#HV0135").css({'background-color' : 'yellow'});
    $("#HV0135").prop('title', 'HV0135 should be equal to the sum of (HV0130 to HV0134)');
 }
+if(parseInt(HV0136) < parseInt(HV0135)){checker++;
+ $("#HV0136").css({'background-color' : 'yellow'});
+ $("#HV0136").prop('title', 'HV0136 should not be less than HV0135');
+}
 //1.4 
-if(parseInt(HV0138) > parseInt(HV0137)){checker++;
- $("#HV0138").css({'background-color' : 'yellow'});
- $("#HV0138").prop('title', 'HV0138 should not be more than HV0137');
+if(parseInt(HV0145) != (parseInt(HV0137)+parseInt(HV0138)+parseInt(HV0139)+parseInt(HV0140)+parseInt(HV0141)+parseInt(HV0142)+parseInt(HV0143)+parseInt(HV0144))){checker++;
+   $("#HV0145").css({'background-color' : 'yellow'});
+   $("#HV0145").prop('title', 'HV0145 should be equal to the sum of (HV0137 to HV0144)');
 }
 
-//if(parseInt(HV0145) != (parseInt(HV0137)+parseInt(HV0144)+parseInt(HV0132)+parseInt(HV0133)+parseInt(HV0134))){checker++;
-//   $("#HV0135").css({'background-color' : 'yellow'});
-//   $("#HV0135").prop('title', 'HV0135 should be equal to the sum of (HV0130 to HV0134)');
-//}
+//1.4 
+if(parseInt(HV0150) != (parseInt(HV0146)+parseInt(HV0147)+parseInt(HV0148)+parseInt(HV0149))){checker++;
+   $("#HV0150").css({'background-color' : 'yellow'});
+   $("#HV0150").prop('title', 'HV0150 should be equal to the sum of (HV0146 to HV0149)');
+}
 
  return checker;
 }
@@ -354,6 +238,9 @@ var checker=0;
    var HV0254=document.getElementById("HV0254").value;
    var HV0255=document.getElementById("HV0255").value;
    var HV0256=document.getElementById("HV0256").value;
+   var HV0257=document.getElementById("HV0257").value;
+   var HV0258=document.getElementById("HV0258").value;
+   var HV0259=document.getElementById("HV0259").value;
    
 if(HV0201==""){HV0201="0";}
 if(HV0202==""){HV0202="0";}
@@ -411,10 +298,13 @@ if(HV0253==""){HV0253="0";}
 if(HV0254==""){HV0254="0";}   
 if(HV0255==""){HV0255="0";}   
 if(HV0256==""){HV0256="0";}   
+if(HV0257==""){HV0257="0";}   
+if(HV0258==""){HV0258="0";}   
+if(HV0259==""){HV0259="0";}   
 
 
 var i=1;
-while(i<56){
+while(i<59){
     if(i<10){
  $("#HV020"+i).css({'background-color' : 'white'});
     }
@@ -424,88 +314,25 @@ while(i<56){
 i++;   
 }
 //  2.1
-//others
 
-//if(parseInt(HV0201) > parseInt(HV0137)){checker++;
-// $("#HV0201").css({'background-color' : 'yellow'});
-//}
-//if(parseInt(HV0202) > parseInt(HV0137)){checker++;
-// $("#HV0202").css({'background-color' : 'yellow'});
-//}
   
 //2.2
-if(parseInt(HV0203) > parseInt(HV0207)){checker++;
- $("#HV0203").css({'background-color' : 'yellow'});
- $("#HV0203").prop('title', 'HV0203 should not be more than HV0207');
-}
-if(parseInt(HV0204) > parseInt(HV0207)){checker++;
- $("#HV0204").css({'background-color' : 'yellow'});
- $("#HV0204").prop('title', 'HV0204 should not be more than HV0207');
-}
-if(parseInt(HV0205) > parseInt(HV0207)){checker++;
- $("#HV0205").css({'background-color' : 'yellow'});
-  $("#HV0205").prop('title', 'HV0205 should not be more than HV0207');
-}
-if(parseInt(HV0206) > parseInt(HV0207)){checker++;
- $("#HV0206").css({'background-color' : 'yellow'});
-  $("#HV0206").prop('title', 'HV0206 should not be more than HV0207');
-}
 if(parseInt(HV0207) != (parseInt(HV0203)+parseInt(HV0204)+parseInt(HV0205)+parseInt(HV0206))){checker++;
  $("#HV0207").css({'background-color' : 'yellow'});
   $("#HV0207").prop('title', 'HV0207 should be equal to the sum of HV0203 to HV0206');
 }
 
 //2.3
-if(parseInt(HV0210) != parseInt(HV0203)){checker++;
- $("#HV0210").css({'background-color' : 'yellow'});
-  $("#HV0210").prop('title', 'HV02 should be equal to HV0203');
-}
-if(parseInt(HV0211) >= parseInt(HV0204)){checker++;
- $("#HV0211").css({'background-color' : 'yellow'});
- $("#HV0211").prop('title', 'HV0211 should be less than HV0204'); 
-}
-if(parseInt(HV0212) >= parseInt(HV0205)){checker++;
- $("#HV0212").css({'background-color' : 'yellow'});
-  $("#HV0212").prop('title', 'HV0212 should be less than HV0205');
-}
-if(parseInt(HV0213) >= parseInt(HV0206)){checker++;
- $("#HV0213").css({'background-color' : 'yellow'});
-  $("#HV0213").prop('title', 'HV0213 should be less than HV0206');
-}
-if(parseInt(HV0214) >= parseInt(HV0207)){checker++;
+if(parseInt(HV0214) != (parseInt(HV0210)+parseInt(HV0211)+parseInt(HV0212)+parseInt(HV0213))){checker++;
  $("#HV0214").css({'background-color' : 'yellow'});
-  $("#HV0214").prop('title', 'HV0214 should be less than HV0207');
-}
-if(parseInt(HV0215) >= parseInt(HV0209)){checker++;
- $("#HV0215").css({'background-color' : 'yellow'});
-  $("#HV0215").prop('title', 'HV0215 should be less than HV0209');
+  $("#HV0214").prop('title', 'HV0214 should be equal to the sum of HV0210 to HV0213');
 }
 
 //2.4
 
-if(parseInt(HV0216) >= parseInt(HV0210)){checker++;
- $("#HV0216").css({'background-color' : 'yellow'});
-  $("#HV0216").prop('title', 'HV0211 should be less than HV0210');
-}
-if(parseInt(HV0217) >= parseInt(HV0211)){checker++;
- $("#HV0217").css({'background-color' : 'yellow'});
-  $("#HV0217").prop('title', 'HV0217 should be less than HV0211');
-}
-if(parseInt(HV0218) >= parseInt(HV0212)){checker++;
- $("#HV0218").css({'background-color' : 'yellow'});
-  $("#HV0218").prop('title', 'HV0218 should be less than HV0212');
-}
-if(parseInt(HV0219) >= parseInt(HV0213)){checker++;
- $("#HV0219").css({'background-color' : 'yellow'});
-  $("#HV0219").prop('title', 'HV0219 should be less than HV0213');
-}
-if(parseInt(HV0220) >= parseInt(HV0214)){checker++;
+if(parseInt(HV0220) != (parseInt(HV0216)+parseInt(HV0217)+parseInt(HV0218)+parseInt(HV0219))){checker++;
  $("#HV0220").css({'background-color' : 'yellow'});
-  $("#HV0220").prop('title', 'HV0220 should be less than HV0214');
-}
-if(parseInt(HV0221) >= parseInt(HV0215)){checker++;
- $("#HV0221").css({'background-color' : 'yellow'});
-  $("#HV0221").prop('title', 'HV0221 should be less than HV0215');
+  $("#HV0220").prop('title', 'HV0220 should be equal to the sum of HV0216 to HV0219');
 }
 
 //2.5
@@ -515,147 +342,53 @@ if(parseInt(HV0222) > parseInt(HV0223)){checker++;
 }
 
 //2.6
-if(parseInt(HV0224) >= parseInt(HV0211)){checker++;
- $("#HV0224").css({'background-color' : 'yellow'});
- $("#HV0224").prop('title', 'HV0224 should be less than HV0211');
-}
-if(parseInt(HV0225) >= parseInt(HV0224)){checker++;
+
+if(parseInt(HV0225) > parseInt(HV0224)){checker++;
  $("#HV0225").css({'background-color' : 'yellow'});
-  $("#HV0225").prop('title', 'HV0225 should be less than HV0242');
-}
-if(parseInt(HV0226) > parseInt(HV0225)){checker++;
- $("#HV0226").css({'background-color' : 'yellow'});
-  $("#HV0226").prop('title', 'HV0226 should not be more than HV0225');
-}
-//2.7
-if(parseInt(HV0227) >= parseInt(HV0206)){checker++;
- $("#HV0227").css({'background-color' : 'yellow'});
-  $("#HV0227").prop('title', 'HV0227 should be less than HV0206');
-}
-if(parseInt(HV0228) != parseInt(HV0213)){checker++;
- $("#HV0228").css({'background-color' : 'yellow'});
-  $("#HV0228").prop('title', 'HV0228 should be equal to HV0213');
+ $("#HV0225").prop('title', 'HV0225 should not be more than HV0224');
 }
 
+//2.7
+
+
 //2.8
-if(parseInt(HV0229) >= parseInt(HV0210)){checker++;
- $("#HV0229").css({'background-color' : 'yellow'});
-  $("#HV0229").prop('title', 'HV0229 should be less than HV0210');
-}
-if(parseInt(HV0230) >= parseInt(HV0204)){checker++;
- $("#HV0230").css({'background-color' : 'yellow'});
-  $("#HV0230").prop('title', 'HV0230 should be less than HV0204');
-}
-if(parseInt(HV0231) >= parseInt(HV0205)){checker++;
- $("#HV0231").css({'background-color' : 'yellow'});
-  $("#HV0231").prop('title', 'HV0231 should be less than HV0205');
-}
-if(parseInt(HV0232) >= parseInt(HV0207)){checker++;
- $("#HV0232").css({'background-color' : 'yellow'});
-  $("#HV0232").prop('title', 'HV0232 should be less than HV0207');
+if(parseInt(HV0233) != (parseInt(HV0229)+parseInt(HV0230)+parseInt(HV0231)+parseInt(HV0232))){checker++;
+ $("#HV0233").css({'background-color' : 'yellow'});
+  $("#HV0233").prop('title', 'HV0233 should be equal to the sum of HV0229 to HV0232');
 }
 
 //2.9
-if(parseInt(HV0233) >= parseInt(HV0210)){checker++;
- $("#HV0233").css({'background-color' : 'yellow'});
-  $("#HV0233").prop('title', 'HV0233 should be less than HV0210');
-}
-if(parseInt(HV0234) >= (parseInt(HV0214)+parseInt(HV0215))){checker++;
- $("#HV0234").css({'background-color' : 'yellow'});
-  $("#HV0234").prop('title', 'HV0234 should be equal to the sum of HV0215 and HV015');
-}
-if(parseInt(HV0235) > parseInt(HV0234)){checker++;
- $("#HV0235").css({'background-color' : 'yellow'});
-  $("#HV0235").prop('title', 'HV02 should not be more than HV0234');
-}
+
 
 //2.10
-if(parseInt(HV0237) > parseInt(HV0236)){checker++;
- $("#HV0237").css({'background-color' : 'yellow'});
- $("#HV0237").prop('title', 'HV0237 should not be more than HV0236');
-}
+
 
 //2.11
-if(parseInt(HV0238) > parseInt(HV0211)){checker++;
- $("#HV0238").css({'background-color' : 'yellow'});
- $("#HV0238").prop('title', 'HV0238 should not be more than HV0211');
-}
-if(parseInt(HV0239) > parseInt(HV0212)){checker++;
- $("#HV0239").css({'background-color' : 'yellow'});
- $("#HV0239").prop('title', 'HV0239 should not be more than HV0212');
-}
-if(parseInt(HV0240) > parseInt(HV0213)){checker++;
- $("#HV0240").css({'background-color' : 'yellow'});
- $("#HV0240").prop('title', 'HV0240 should not be more than HV0213');
-}
-if(parseInt(HV0241) >= parseInt(HV0214)){checker++;
- $("#HV0241").css({'background-color' : 'yellow'});
- $("#HV0241").prop('title', 'HV0241 should be less than HV0214');
+if(parseInt(HV0242) != (parseInt(HV0239)+parseInt(HV0240)+parseInt(HV0241))){checker++;
+ $("#HV0242").css({'background-color' : 'yellow'});
+  $("#HV0242").prop('title', 'HV0242 should be equal to the sum of HV0239 to HV0241');
 }
 
 //2.12
-if(parseInt(HV0243) >= parseInt(HV0245)){checker++;
- $("#HV0243").css({'background-color' : 'yellow'});
- $("#HV0243").prop('title', 'HV0243 should be less than HV0245');
-}
-if(parseInt(HV0244) >= parseInt(HV0245)){checker++;
- $("#HV0244").css({'background-color' : 'yellow'});
- $("#HV0244").prop('title', 'HV0244 should be less than HV0245');
-}
-if(parseInt(HV0245) != (parseInt(HV0243)+parseInt(HV0244))){checker++;
- $("#HV0245").css({'background-color' : 'yellow'});
- $("#HV0245").prop('title', 'HV0245 should be equal to the sum of HV0244 and HV0244');
+if(parseInt(HV0246) != (parseInt(HV0244)+parseInt(HV0245))){checker++;
+ $("#HV0246").css({'background-color' : 'yellow'});
+ $("#HV0246").prop('title', 'HV0246 should be equal to the sum of HV0244 to HV0245');
 }
 
 //2.13
-if(parseInt(HV0246) > parseInt(HV0249)){checker++;
- $("#HV0246").css({'background-color' : 'yellow'});
- $("#HV0246").prop('title', 'HV0246 should not be more than HV0249');
-}
-if(parseInt(HV0247) > parseInt(HV0249)){checker++;
- $("#HV0247").css({'background-color' : 'yellow'});
- $("#HV0247").prop('title', 'HV0247 should not be more than HV0249');
-}
-if(parseInt(HV0248) > parseInt(HV0249)){checker++;
- $("#HV0248").css({'background-color' : 'yellow'});
- $("#HV0248").prop('title', 'HV0248 should not be more than HV0249');
-}
-if(parseInt(HV0249) != (parseInt(HV0246)+parseInt(HV0247)+parseInt(HV0248))){checker++;
- $("#HV0249").css({'background-color' : 'yellow'});
- $("#HV0249").prop('title', 'HV0249 should be equal to the sum of HV0246 to HV0248');
+if(parseInt(HV0250) != (parseInt(HV0247)+parseInt(HV0248)+parseInt(HV0249))){checker++;
+ $("#HV0250").css({'background-color' : 'yellow'});
+ $("#HV0250").prop('title', 'HV0250 should be equal to the sum of HV0247 to HV0249');
 }
 
 //2.14
-if(parseInt(HV0250) > parseInt(HV0249)){checker++;
- $("#HV0250").css({'background-color' : 'yellow'});
- $("#HV0250").prop('title', 'HV0250 should not be more than HV0249');
-}
-if(parseInt(HV0251) < parseInt(HV0250)){checker++;
- $("#HV0251").css({'background-color' : 'yellow'});
- $("#HV0251").prop('title', 'HV0251 should not be less than HV0250');
+if(parseInt(HV0252) < parseInt(HV0251)){checker++;
+ $("#HV0252").css({'background-color' : 'yellow'});
+ $("#HV0252").prop('title', 'HV0252 should not be less than HV0251');
 }
 
 //2.15
-if(parseInt(HV0252) > parseInt(HV0245)){checker++;
- $("#HV0252").css({'background-color' : 'yellow'});
- $("#HV0252").prop('title', 'HV0252 should not be more than HV0245');
-}
-if(parseInt(HV0253) > parseInt(HV0245)){checker++;
- $("#HV0253").css({'background-color' : 'yellow'});
- $("#HV0253").prop('title', 'HV0253 should not be more than HV0245');
-}
-if(parseInt(HV0254) > parseInt(HV0245)){checker++;
- $("#HV0254").css({'background-color' : 'yellow'});
- $("#HV0254").prop('title', 'HV0254 should not be more than HV0245');
-}
-if(parseInt(HV0255) > parseInt(HV0245)){checker++;
- $("#HV0255").css({'background-color' : 'yellow'});
- $("#HV0255").prop('title', 'HV0255 should not be more than HV0245');
-}
-if(parseInt(HV0256) > parseInt(HV0245)){checker++;
- $("#HV0256").css({'background-color' : 'yellow'});
- $("#HV0256").prop('title', 'HV0256 should not be more than HV0245');
-}
+
 //end of all 2.xxxxxxxxx
  return checker;
 }
@@ -854,406 +587,111 @@ while(i<89){
 i++;   
 }
 // 3.1
-if(parseInt(HV03001) > parseInt(HV03011)){checker++;
- $("#HV03001").css({'background-color' : 'yellow'});
- $("#HV03001").prop('title', 'HV03001 should not be more than HV03011');
-}
-if(parseInt(HV03002) > parseInt(HV03011)){checker++;
- $("#HV03002").css({'background-color' : 'yellow'});
- $("#HV03002").prop('title', 'HV03002 should not be more than HV03011');
-}
-if(parseInt(HV03003) > parseInt(HV03011)){checker++;
- $("#HV03003").css({'background-color' : 'yellow'});
- $("#HV03003").prop('title', 'HV03003 should not be more than HV03011');
-}
-if(parseInt(HV03004) > parseInt(HV03011)){checker++;
- $("#HV03004").css({'background-color' : 'yellow'});
- $("#HV03004").prop('title', 'HV03004 should not be more than HV03011');
-}
-if(parseInt(HV03005) > parseInt(HV03011)){checker++;
- $("#HV03005").css({'background-color' : 'yellow'});
- $("#HV03005").prop('title', 'HV03003 should not be more than HV03011');
-}
-if(parseInt(HV03006) > parseInt(HV03011)){checker++;
- $("#HV03006").css({'background-color' : 'yellow'});
- $("#HV03006").prop('title', 'HV03006 should not be more than HV03011');
-}
-if(parseInt(HV03007) > parseInt(HV03011)){checker++;
- $("#HV03007").css({'background-color' : 'yellow'});
- $("#HV03007").prop('title', 'HV03007 should not be more than HV03011');
-}
-if(parseInt(HV03008) > parseInt(HV03011)){checker++;
- $("#HV03008").css({'background-color' : 'yellow'});
- $("#HV03008").prop('title', 'HV03008 should not be more than HV03011');
-}
-if(parseInt(HV03009) > parseInt(HV03011)){checker++;
- $("#HV03009").css({'background-color' : 'yellow'});
- $("#HV03009").prop('title', 'HV03009 should not be more than HV03011');
-}
-if(parseInt(HV03010) > parseInt(HV03011)){checker++;
- $("#HV03010").css({'background-color' : 'yellow'});
- $("#HV03010").prop('title', 'HV03010 should not be more than HV03011');
-}
-if(parseInt(HV03010) > parseInt(HV03015)){checker++;
- $("#HV03010").css({'background-color' : 'yellow'});
- $("#HV03010").prop('title', 'HV03010 should not be more than HV03015');
-}
-if(parseInt(HV03012) > parseInt(HV03011)){checker++;
- $("#HV03012").css({'background-color' : 'yellow'});
- $("#HV03012").prop('title', 'HV03012 should not be more than HV03011');
+
+if(parseInt(HV03011) != (parseInt(HV03001)+parseInt(HV03002)+parseInt(HV03003)+parseInt(HV03004)+parseInt(HV03005)+parseInt(HV03006)+parseInt(HV03007)+parseInt(HV03008)+parseInt(HV03009)+parseInt(HV03010))){checker++;
+ $("#HV03011").css({'background-color' : 'yellow'});
+ $("#HV03011").prop('title', 'HV03011 should be equal to the sum of HV03001 to HV03010');
 }
 
 //3.2
- if(parseInt(HV03013) > parseInt(HV03015)){checker++;
- $("#HV03013").css({'background-color' : 'yellow'});
- $("#HV03013").prop('title', 'HV03013 should not be more than HV03015');
-}
-if(parseInt(HV03014) > parseInt(HV03015)){checker++;
- $("#HV03014").css({'background-color' : 'yellow'});
- $("#HV03014").prop('title', 'HV03014 should not be more than HV03015');
-}
+
 if(parseInt(HV03015) != (parseInt(HV03013)+parseInt(HV03014))){checker++;
  $("#HV03015").css({'background-color' : 'yellow'});
  $("#HV03015").prop('title', 'HV03015 should be equal to the sum of HV03013 and HV03014');
 }
 
 //3.3
-if(parseInt(HV03016) > parseInt(HV03026)){checker++;
- $("#HV03016").css({'background-color' : 'yellow'});
- $("#HV03016").prop('title', 'HV03016 should not be more than HV03026');
-}
-if(parseInt(HV03017) > parseInt(HV03026)){checker++;
- $("#HV03017").css({'background-color' : 'yellow'});
- $("#HV03017").prop('title', 'HV03017 should not be more than HV03026');
-}
-if(parseInt(HV03018) > parseInt(HV03026)){checker++;
- $("#HV03018").css({'background-color' : 'yellow'});
- $("#HV03018").prop('title', 'HV03018 should not be more than HV03026');
-}
-if(parseInt(HV03019) > parseInt(HV03026)){checker++;
- $("#HV03019").css({'background-color' : 'yellow'});
- $("#HV03019").prop('title', 'HV03019 should not be more than HV03026');
-}
-if(parseInt(HV03020) > parseInt(HV03026)){checker++;
- $("#HV03020").css({'background-color' : 'yellow'});
- $("#HV03020").prop('title', 'HV03020 should not be more than HV03026');
-}
-if(parseInt(HV03021) > parseInt(HV03026)){checker++;
- $("#HV03021").css({'background-color' : 'yellow'});
- $("#HV03021").prop('title', 'HV03021 should not be more than HV03026');
-}
-if(parseInt(HV03022) > parseInt(HV03026)){checker++;
- $("#HV03022").css({'background-color' : 'yellow'});
- $("#HV03022").prop('title', 'HV03022 should not be more than HV03026');
-}
-if(parseInt(HV03023) > parseInt(HV03026)){checker++;
- $("#HV03023").css({'background-color' : 'yellow'});
- $("#HV03023").prop('title', 'HV03023 should not be more than HV03026');
-}
-if(parseInt(HV03024) > parseInt(HV03026)){checker++;
- $("#HV03024").css({'background-color' : 'yellow'});
- $("#HV03024").prop('title', 'HV03024 should not be more than HV03026');
-}
-if(parseInt(HV03025) > parseInt(HV03026)){checker++;
- $("#HV03025").css({'background-color' : 'yellow'});
- $("#HV03025").prop('title', 'HV03025 should not be more than HV03026');
-}
 if(parseInt(HV03026) != (parseInt(HV03016)+parseInt(HV03017)+parseInt(HV03018)+parseInt(HV03019)+parseInt(HV03020)+parseInt(HV03021)+parseInt(HV03022)+parseInt(HV03023)+parseInt(HV03024)+parseInt(HV03025))){checker++;
  $("#HV03026").css({'background-color' : 'yellow'});
  $("#HV03026").prop('title', 'HV03026 should be equal to the sum of HV03016 to HV03025');
 }
-if(parseInt(HV03027) > parseInt(HV03011)){checker++;
- $("#HV03027").css({'background-color' : 'yellow'});
- $("#HV03027").prop('title', 'HV03027 should not be more than HV03011');
-}
 
 //3.4
-if(parseInt(HV03028) > parseInt(HV03011)){checker++;
- $("#HV03028").css({'background-color' : 'yellow'});
- $("#HV03028").prop('title', 'HV03028 should not be more than HV03011');
-}
-if(parseInt(HV03029) > parseInt(HV03011)){checker++;
- $("#HV03029").css({'background-color' : 'yellow'});
- $("#HV03029").prop('title', 'HV03029 should not be more than HV03011');
-}
-if(parseInt(HV03030) > parseInt(HV03011)){checker++;
- $("#HV03030").css({'background-color' : 'yellow'});
- $("#HV03030").prop('title', 'HV03030 should not be more than HV03011');
-}
-if(parseInt(HV03031) > parseInt(HV03011)){checker++;
- $("#HV03031").css({'background-color' : 'yellow'});
- $("#HV03031").prop('title', 'HV030 should not be more than HV03011');
-}
-if(parseInt(HV03032) > parseInt(HV03011)){checker++;
- $("#HV03032").css({'background-color' : 'yellow'});
- $("#HV03032").prop('title', 'HV03032 should not be more than HV03011');
-}
-if(parseInt(HV03033) > parseInt(HV03011)){checker++;
- $("#HV03033").css({'background-color' : 'yellow'});
- $("#HV03033").prop('title', 'HV03033 should not be more than HV03011');
-}
-if(parseInt(HV03034) > parseInt(HV03011)){checker++;
- $("#HV03034").css({'background-color' : 'yellow'});
- $("#HV03034").prop('title', 'HV03034 should not be more than HV03011');
-}
-if(parseInt(HV03035) > parseInt(HV03011)){checker++;
- $("#HV03035").css({'background-color' : 'yellow'});
- $("#HV03035").prop('title', 'HV03035 should not be more than HV03011');
-}
-if(parseInt(HV03036) > parseInt(HV03011)){checker++;
- $("#HV03036").css({'background-color' : 'yellow'});
- $("#HV03036").prop('title', 'HV03036 should not be more than HV03011');
-}
-if(parseInt(HV03037) > parseInt(HV03011)){checker++;
- $("#HV03037").css({'background-color' : 'yellow'});
- $("#HV03037").prop('title', 'HV03037 should not be more than HV03011');
-}
+
 if(parseInt(HV03038) != (parseInt(HV03028)+parseInt(HV03029)+parseInt(HV03030)+parseInt(HV03031)+parseInt(HV03032)+parseInt(HV03033)+parseInt(HV03034)+parseInt(HV03035)+parseInt(HV03036)+parseInt(HV03037))){checker++;
  $("#HV03038").css({'background-color' : 'yellow'});
- $("#HV03038").prop('title', 'HV03038 should be equal to the sum of HV0328 to HV03037');
-}
-if(parseInt(HV03039) > parseInt(HV03038)){checker++;
- $("#HV03039").css({'background-color' : 'yellow'});
- $("#HV03039").prop('title', 'HV03039 should not be more than HV03038');
+ $("#HV03038").prop('title', 'HV03038 should be equal to the sum of HV03028 to HV03037');
 }
 
 //3.5
-if(parseInt(HV03040) > parseInt(HV03041)){checker++;
- $("#HV03040").css({'background-color' : 'yellow'});
- $("#HV03040").prop('title', 'HV03040 should not be more than HV03041');
+if(parseInt(HV03041) < parseInt(HV03040)){checker++;
+ $("#HV03041").css({'background-color' : 'yellow'});
+ $("#HV03041").prop('title', 'HV03041 should not be less than HV03040');
 }
-if(parseInt(HV03042) > parseInt(HV03041)){checker++;
- $("#HV03042").css({'background-color' : 'yellow'});
- $("#HV03042").prop('title', 'HV03042 should not be more than HV03041');
-}
-if(parseInt(HV03043) > parseInt(HV03042)){checker++;
+
+if(parseInt(HV03043) < parseInt(HV03042)){checker++;
  $("#HV03043").css({'background-color' : 'yellow'});
- $("#HV03043").prop('title', 'HV03043 should not be more than HV03042');
+ $("#HV03043").prop('title', 'HV03043 should not be less than HV03042');
 }
 
 //3.6
-if(parseInt(HV03044) > parseInt(HV03050)){checker++;
- $("#HV03044").css({'background-color' : 'yellow'});
- $("#HV03044").prop('title', 'HV03044 should not be more than HV03050');
-}
-if(parseInt(HV03045) > parseInt(HV03050)){checker++;
- $("#HV03045").css({'background-color' : 'yellow'});
- $("#HV03045").prop('title', 'HV03045 should not be more than HV03050');
-}
-if(parseInt(HV03046) > parseInt(HV03050)){checker++;
- $("#HV03046").css({'background-color' : 'yellow'});
- $("#HV03046").prop('title', 'HV03046 should not be more than HV03050');
-}
-if(parseInt(HV03047) > parseInt(HV03050)){checker++;
- $("#HV03047").css({'background-color' : 'yellow'});
- $("#HV03047").prop('title', 'HV03047 should not be more than HV03050');
-}
-if(parseInt(HV03048) > parseInt(HV03050)){checker++;
- $("#HV03048").css({'background-color' : 'yellow'});
- $("#HV03048").prop('title', 'HV03048 should not be more than HV03050');
-}
-if(parseInt(HV03049) > parseInt(HV03050)){checker++;
- $("#HV03049").css({'background-color' : 'yellow'});
- $("#HV03049").prop('title', 'HV03049 should not be more than HV03050');
-}
+
 if(parseInt(HV03050) != (parseInt(HV03044)+parseInt(HV03045)+parseInt(HV03046)+parseInt(HV03047)+parseInt(HV03048)+parseInt(HV03049))){checker++;
  $("#HV03050").css({'background-color' : 'yellow'});
  $("#HV03050").prop('title', 'HV03050 should be equal to the sum of HV03044 to HV03049');
 }
-
+if(parseInt(HV03050) < parseInt(HV03057)){checker++;
+ $("#HV03050").css({'background-color' : 'yellow'});
+ $("#HV03050").prop('title', 'HV03050 should not be less than HV03057');
+}
 //3.7
-if(parseInt(HV03051) > parseInt(HV03057)){checker++;
- $("#HV03051").css({'background-color' : 'yellow'});
- $("#HV03051").prop('title', 'HV03051 should not be more than HV03057');
-}
-if(parseInt(HV03052) > parseInt(HV03057)){checker++;
- $("#HV03052").css({'background-color' : 'yellow'});
- $("#HV03052").prop('title', 'HV03052 should not be more than HV03057');
-}
-if(parseInt(HV03053) > parseInt(HV03057)){checker++;
- $("#HV03053").css({'background-color' : 'yellow'});
- $("#HV03053").prop('title', 'HV03053 should not be more than HV03057');
-}
-if(parseInt(HV03054) > parseInt(HV03057)){checker++;
- $("#HV03054").css({'background-color' : 'yellow'});
- $("#HV03054").prop('title', 'HV03054 should not be more than HV03057');
-}
-if(parseInt(HV03055) > parseInt(HV03057)){checker++;
- $("#HV03055").css({'background-color' : 'yellow'});
- $("#HV03055").prop('title', 'HV03055 should not be more than HV03057');
-}
-if(parseInt(HV03056) > parseInt(HV03057)){checker++;
- $("#HV03056").css({'background-color' : 'yellow'});
- $("#HV03056").prop('title', 'HV03056 should not be more than HV03057');
+
+if(parseInt(HV03057) < parseInt(HV03058)){checker++;
+ $("#HV03057").css({'background-color' : 'yellow'});
+ $("#HV03057").prop('title', 'HV03057 should not be less than HV03058');
 }
 if(parseInt(HV03057) != (parseInt(HV03051)+parseInt(HV03052)+parseInt(HV03053)+parseInt(HV03054)+parseInt(HV03055)+parseInt(HV03056))){checker++;
  $("#HV03057").css({'background-color' : 'yellow'});
  $("#HV03057").prop('title', 'HV03057 should be equal to the sum of HV051 to HV03056');
 }
 
-if(parseInt(HV03058) > parseInt(HV03057)){checker++;
- $("#HV03058").css({'background-color' : 'yellow'});
- $("#HV03058").prop('title', 'HV03058 should not be more than HV03057');
-}
-
 //3.8
-if(parseInt(HV03059) > parseInt(HV03065)){checker++;
- $("#HV03059").css({'background-color' : 'yellow'});
- $("#HV03059").prop('title', 'HV03059 should not be more than HV03065');
-}
-if(parseInt(HV03060) > parseInt(HV03065)){checker++;
- $("#HV03060").css({'background-color' : 'yellow'});
- $("#HV03060").prop('title', 'HV03060 should not be more than HV03065');
-}
-if(parseInt(HV03061) > parseInt(HV03065)){checker++;
- $("#HV03061").css({'background-color' : 'yellow'});
- $("#HV03061").prop('title', 'HV03061 should not be more than HV03065');
-}
-if(parseInt(HV03062) > parseInt(HV03065)){checker++;
- $("#HV03062").css({'background-color' : 'yellow'});
- $("#HV03062").prop('title', 'HV03062 should not be more than HV03065');
-}
-if(parseInt(HV03063) > parseInt(HV03065)){checker++;
- $("#HV03063").css({'background-color' : 'yellow'});
- $("#HV03063").prop('title', 'HV03063 should not be more than HV03065');
-}
-if(parseInt(HV03064) > parseInt(HV03065)){checker++;
- $("#HV03064").css({'background-color' : 'yellow'});
- $("#HV03064").prop('title', 'HV03064 should not be more than HV03065');
-}
-if(parseInt(HV03065) > (parseInt(HV03059)+parseInt(HV03060)+parseInt(HV03061)+parseInt(HV03062)+parseInt(HV03063)+parseInt(HV03064))){checker++;
+
+if(parseInt(HV03065) != (parseInt(HV03059)+parseInt(HV03060)+parseInt(HV03061)+parseInt(HV03062)+parseInt(HV03063)+parseInt(HV03064))){checker++;
  $("#HV03065").css({'background-color' : 'yellow'});
  $("#HV03065").prop('title', 'HV03065 should be equal to the sum of HV03059 to HV03064');
 }
 
-if(parseInt(HV03066) > parseInt(HV03065)){checker++; //clarification needed on the 12 month thing
- $("#HV03066").css({'background-color' : 'yellow'});
- $("#HV03066").prop('title', 'HV03066 should not be more than HV03065');
-}
 
 //3.9
-if(parseInt(HV03067) > parseInt(HV03069)){checker++;
- $("#HV03067").css({'background-color' : 'yellow'});
- $("#HV03067").prop('title', 'HV03067 should not be more than HV03069');
-}
-if(parseInt(HV03068) > parseInt(HV03069)){checker++;
- $("#HV03068").css({'background-color' : 'yellow'});
- $("#HV03068").prop('title', 'HV03068 should not be more than HV03069');
-}
 if(parseInt(HV03069) != (parseInt(HV03067)+parseInt(HV03068))){checker++;
  $("#HV03069").css({'background-color' : 'yellow'});
  $("#HV03069").prop('title', 'HV03069 should be equal to the sum of HV03067 to HV03068');
-}
-if(parseInt(HV03070) > parseInt(HV03072)){checker++;
- $("#HV03070").css({'background-color' : 'yellow'});
- $("#HV03070").prop('title', 'HV03070 should not be more than HV03072');
-}
-if(parseInt(HV03071) > parseInt(HV03072)){checker++;
- $("#HV03071").css({'background-color' : 'yellow'});
- $("#HV03071").prop('title', 'HV03071 should not be more than HV03072');
 }
 if(parseInt(HV03072) != (parseInt(HV03070)+parseInt(HV03071))){checker++;
  $("#HV03072").css({'background-color' : 'yellow'});
  $("#HV03072").prop('title', 'HV03072 shouldbe equal to the sum of HV03070 and HV03071');
 }
-if(parseInt(HV03073) > parseInt(HV03011)){checker++;
- $("#HV03073").css({'background-color' : 'yellow'});
- $("#HV03073").prop('title', 'HV03073 should not be more than HV03011');
-}
-if(parseInt(HV03074) > parseInt(HV03011)){checker++;
- $("#HV03074").css({'background-color' : 'yellow'});
- $("#HV03074").prop('title', 'HV03074 should not be more than HV03011');
-}
-if(parseInt(HV03075) > parseInt(HV03011)){checker++;
+if(parseInt(HV03075) != (parseInt(HV03073)+parseInt(HV03074))){checker++;
  $("#HV03075").css({'background-color' : 'yellow'});
- $("#HV03075").prop('title', 'HV03075 should not be more than HV03011');
-}
-
-//secondary
-if(parseInt(HV03070) > parseInt(HV03067)){checker++;
- $("#HV03070").css({'background-color' : 'yellow'});
- $("#HV03070").prop('title', 'HV03070 should not be more than HV03067');
-}
-if(parseInt(HV03071) > parseInt(HV03068)){checker++;
- $("#HV03071").css({'background-color' : 'yellow'});
- $("#HV03071").prop('title', 'HV03071 should not be more than HV03068');
-}
-if(parseInt(HV03072) > parseInt(HV03069)){checker++;
- $("#HV03072").css({'background-color' : 'yellow'});
- $("#HV03072").prop('title', 'HV03072 should not be more than HV03069');
-}
-if(parseInt(HV03073) > parseInt(HV03070)){checker++;
- $("#HV03073").css({'background-color' : 'yellow'});
- $("#HV03073").prop('title', 'HV03073 should not be more than HV03070');
-}
-if(parseInt(HV03074) > parseInt(HV03071)){checker++;
- $("#HV03074").css({'background-color' : 'yellow'});
- $("#HV03074").prop('title', 'HV03074 should not be more than HV03071');
-}
-if(parseInt(HV03075) > parseInt(HV03072)){checker++;
- $("#HV03075").css({'background-color' : 'yellow'});
- $("#HV03075").prop('title', 'HV03075 should not be more than HV03072');
+ $("#HV03075").prop('title', 'HV03075 shouldbe equal to the sum of HV03073 and HV03074');
 }
 
 //3.10
-if(parseInt(HV03077) > parseInt(HV03079)){checker++;
- $("#HV03077").css({'background-color' : 'yellow'});
- $("#HV03077").prop('title', 'HV03077 should not be more than HV03079');
-}
-if(parseInt(HV03078) > parseInt(HV03079)){checker++;
- $("#HV03078").css({'background-color' : 'yellow'});
- $("#HV03078").prop('title', 'HV03078 should not be more than HV03079');
+if(parseInt(HV03076) < parseInt(HV03079)){checker++;
+ $("#HV03076").css({'background-color' : 'yellow'});
+ $("#HV03076").prop('title', 'HV03076 should not be less than HV03079');
 }
 if(parseInt(HV03079) != (parseInt(HV03077)+parseInt(HV03078))){checker++;
  $("#HV03079").css({'background-color' : 'yellow'});
  $("#HV03079").prop('title', 'HV03079 should be equal to the sum of HV03077 and HV03078');
 }
-if(parseInt(HV03080) > parseInt(HV03079)){checker++;
- $("#HV03080").css({'background-color' : 'yellow'});
- $("#HV03080").prop('title', 'HV03080 should not be more than HV03079');
-}
 if(parseInt(HV03081) != (parseInt(HV03077)+parseFloat(HV03080))){checker++;
  $("#HV03081").css({'background-color' : 'yellow'});
  $("#HV03081").prop('title', 'HV03081 should be equal to the sum of HV03077 and HV03080');
-}
-if(parseInt(HV03082) > parseInt(HV03077)){checker++;
- $("#HV03082").css({'background-color' : 'yellow'});
- $("#HV03082").prop('title', 'HV03082 should not be more than HV03077');
-}
-if(parseInt(HV03083) > parseInt(HV03081)){checker++;
- $("#HV03083").css({'background-color' : 'yellow'});
- $("#HV03083").prop('title', 'HV03083 should not be more than HV03081');
-}
+ }
 if(parseInt(HV03084) != (parseInt(HV03082)+parseInt(HV03083))){checker++;
  $("#HV03084").css({'background-color' : 'yellow'});
  $("#HV03084").prop('title', 'HV03084 should be equal to the sum of HV03082 and HV03083');
 }
 
 //3.11
-if(parseInt(HV03085) > parseInt(HV03038)){checker++;
- $("#HV03085").css({'background-color' : 'yellow'});
- $("#HV03085").prop('title', 'HV03085 should not be more than HV03038');
-}
-if(parseInt(HV03086) > parseInt(HV03038)){checker++;
- $("#HV03086").css({'background-color' : 'yellow'});
- $("#HV03086").prop('title', 'HV03086 should not be more than HV03038');
-}
+
 
 //3.12
-if(parseInt(HV03087) > parseInt(HV03088)){checker++;
- $("#HV03087").css({'background-color' : 'yellow'});
- $("#HV03087").prop('title', 'HV03087 should not be more than HV03088');
-}
-if(parseInt(HV03088) > parseInt(HV03050)){checker++;
- $("#HV03088").css({'background-color' : 'yellow'});
- $("#HV03088").prop('title', 'HV03088 should not be more than HV03050');
-}
+
 
 //3.13
-if(parseInt(HV03089) > parseInt(HV03050)){checker++;
- $("#HV03089").css({'background-color' : 'yellow'});
- $("#HV03089").prop('title', 'HV03089 should not be more than HV03050');
-}
 
 //end
  return checker;
@@ -1310,74 +748,25 @@ while(i<17){
 }
     
 //   4.1
-if(parseInt(HV0401) > parseInt(HV0407)){checker++;
- $("#HV0401").css({'background-color' : 'yellow'});
- $("#HV0401").prop('title', 'HV0401 should not be more than HV0407');
-}
-if(parseInt(HV0402) > parseInt(HV0407)){checker++;
- $("#HV0402").css({'background-color' : 'yellow'});
- $("#HV0402").prop('title', 'HV0402 should not be more than HV0407');
-}
-if(parseInt(HV0403) > parseInt(HV0407)){checker++;
- $("#HV0403").css({'background-color' : 'yellow'});
- $("#HV0403").prop('title', 'HV0403 should not be more than HV0407');
-}
-if(parseInt(HV0404) > parseInt(HV0407)){checker++;
- $("#HV0404").css({'background-color' : 'yellow'});
- $("#HV0404").prop('title', 'HV0404 should not be more than HV0407');
-}
-if(parseInt(HV0405) > parseInt(HV0407)){checker++;
- $("#HV0405").css({'background-color' : 'yellow'});
- $("#HV0405").prop('title', 'HV0405 should not be more than HV0407');
-}
-if(parseInt(HV0406) > parseInt(HV0407)){checker++;
- $("#HV0406").css({'background-color' : 'yellow'});
- $("#HV0406").prop('title', 'HV0406 should not be more than HV0407');
-}
+
 if(parseInt(HV0407) != (parseInt(HV0401)+parseInt(HV0402)+parseInt(HV0403)+parseInt(HV0404)+parseInt(HV0405)+parseInt(HV0406))){checker++;
  $("#HV0407").css({'background-color' : 'yellow'});
  $("#HV0407").prop('title', 'HV0407 should be equal to the sum of HV0401 to HV0406');
 }
-if(parseInt(HV0408) > parseInt(HV0407)){checker++;
- $("#HV0408").css({'background-color' : 'yellow'});
- $("#HV0408").prop('title', 'HV0408 should not be more than HV0407');
+if(parseInt(HV0407) != (parseInt(HV0408)+parseInt(HV0409)+parseInt(HV0410))){checker++;
+ $("#HV0407").css({'background-color' : 'yellow'});
+ $("#HV0407").prop('title', 'HV0407 should be equal to the sum of HV0408 to HV0410');
 }
-if(parseInt(HV0409) > parseInt(HV0407)){checker++;
- $("#HV0409").css({'background-color' : 'yellow'});
- $("#HV0409").prop('title', 'HV0409 should not be more than HV0407');
+if(parseInt(HV0407) != (parseInt(HV0411)+parseInt(HV0412))){checker++;
+ $("#HV0407").css({'background-color' : 'yellow'});
+ $("#HV0407").prop('title', 'HV0407 should be equal to the sum of HV0411 to HV0412');
 }
-if(parseInt(HV0410) > parseInt(HV0407)){checker++;
- $("#HV0410").css({'background-color' : 'yellow'});
- $("#HV0410").prop('title', 'HV0410 should not be more than HV0407');
-}
+
 
 //4.2
-if(parseInt(HV0411) > parseInt(HV0407)){checker++;
- $("#HV0411").css({'background-color' : 'yellow'});
- $("#HV0411").prop('title', 'HV0411 should not be more than HV0407');
-}
-if(parseInt(HV0412) > parseInt(HV0407)){checker++;
- $("#HV0412").css({'background-color' : 'yellow'});
-  $("#HV0412").prop('title', 'HV0412 should not be more than HV0407');
-}
 
 //4.3
-if(parseInt(HV0413) > parseInt(HV0407)){checker++;
- $("#HV0413").css({'background-color' : 'yellow'});
-  $("#HV0413").prop('title', 'HV0413 should not be more than HV0407');
-}
-if(parseInt(HV0414) > parseInt(HV0407)){checker++;
- $("#HV0414").css({'background-color' : 'yellow'});
-  $("#HV0414").prop('title', 'HV0414 should not be more than HV0407');
-}
-if(parseInt(HV0415) > parseInt(HV0407)){checker++;
- $("#HV0415").css({'background-color' : 'yellow'});
-  $("#HV0415").prop('title', 'HV0415 should not be more than HV0407');
-}
-if(parseInt(HV0416) > parseInt(HV0407)){checker++;
- $("#HV0416").css({'background-color' : 'yellow'});
-  $("#HV0416").prop('title', 'HV0416 should not be more than HV0407');
-}
+
 // end
  return checker; 
 }
@@ -1387,52 +776,39 @@ function validatePEP(){
    var HV0501=document.getElementById("HV0501").value;
    var HV0502=document.getElementById("HV0502").value;
    var HV0503=document.getElementById("HV0503").value;
-   var HV0504=document.getElementById("HV0504").value;
+//   var HV0504=document.getElementById("HV0504").value;
    var HV0505=document.getElementById("HV0505").value;
    var HV0506=document.getElementById("HV0506").value;
+   var HV0507=document.getElementById("HV0507").value;
    
     if(HV0501==""){HV0501="0";}
     if(HV0502==""){HV0502="0";}
     if(HV0503==""){HV0503="0";}
-    if(HV0504==""){HV0504="0";}
+//    if(HV0504==""){HV0504="0";}
     if(HV0505==""){HV0505="0";}
     if(HV0506==""){HV0506="0";}
+    if(HV0507==""){HV0507="0";}
    
     var i=1;
-while(i<6){
+while(i<8){
     if(i<10){
- $("#HV050"+i).css({'background-color' : 'white'});
+        if(i!=4){
+        $("#HV050"+i).css({'background-color' : 'white'});
+    }
     }
 i++;   
 }
-//    else{
-//  $("#HV01"+i).css({'background-color' : 'white'});       
-//    }
     
- if(parseInt(HV0501) > parseInt(HV0503)){checker++;
- $("#HV0501").css({'background-color' : 'yellow'});
- $("#HV0501").prop('title', 'HV0501 should not be more than HV0503');
-}   
- if(parseInt(HV0502) > parseInt(HV0503)){checker++;
- $("#HV0502").css({'background-color' : 'yellow'});
- $("#HV0502").prop('title', 'HV0502 should not be more than HV0503');
-}   
+   
  if(parseInt(HV0503) != (parseInt(HV0501)+parseInt(HV0502))){checker++;
  $("#HV0503").css({'background-color' : 'yellow'});
  $("#HV0503").prop('title', 'HV0503 should be equal to the sum of HV0501 and HV0502');
 }   
- if(parseInt(HV0504) > parseInt(HV0501)){checker++;
- $("#HV0504").css({'background-color' : 'yellow'});
- $("#HV0504").prop('title', 'HV0504 should not be more than HV0501');
+ if(parseInt(HV0507) != (parseInt(HV0505)+parseInt(HV0506))){checker++;
+ $("#HV0507").css({'background-color' : 'yellow'});
+ $("#HV0507").prop('title', 'HV0507 should be equal to the sum of HV0505 and HV0506');
 }   
- if(parseInt(HV0505) > parseInt(HV0502)){checker++;
- $("#HV0505").css({'background-color' : 'yellow'});
- $("#HV0505").prop('title', 'HV0505 should not be more than HV0502');
-}   
- if(parseInt(HV0506) > parseInt(HV0503)){checker++;
- $("#HV0506").css({'background-color' : 'yellow'});
- $("#HV0506").prop('title', 'HV0506 should not be more than HV0503');
-}   
+   
 
  return checker;
 }
@@ -1440,6 +816,33 @@ i++;
 function validateMAT(){
   var checker=0;
   
-  
-  return checker;  
+    var checker=0;
+   var HV0601=document.getElementById("HV0601").value;
+   var HV0602=document.getElementById("HV0602").value;
+   var HV0603=document.getElementById("HV0603").value;
+   var HV0604=document.getElementById("HV0604").value;
+   
+    if(HV0601==""){HV0601="0";}
+    if(HV0602==""){HV0602="0";}
+    if(HV0603==""){HV0603="0";}
+    if(HV0604==""){HV0604="0";}
+   
+    var i=1;
+while(i<5){
+    if(i<10){
+        $("#HV060"+i).css({'background-color' : 'white'});
+    }
+    
+i++;   
 }
+    
+ if(parseInt(HV0601) < parseInt(HV0602)){checker++;
+ $("#HV0601").css({'background-color' : 'yellow'});
+ $("#HV0601").prop('title', 'HV0601 should be less than to HV0602');
+}   
+ if(parseInt(HV0602) < parseInt(HV0603)){checker++;
+ $("#HV0602").css({'background-color' : 'yellow'});
+ $("#HV0602").prop('title', 'HV0602 should be less than to HV0603');
+}   
+}
+

@@ -764,7 +764,8 @@
     <servlet>
         <servlet-name>LoadDHIS2_Data</servlet-name>
         <servlet-class>LoadExcels.LoadDHIS2_Data</servlet-class>
-        
+        </servlet>
+    <servlet>
         <servlet-name>sitestracker</servlet-name>
         <servlet-class>reports.sitestracker</servlet-class>
     </servlet>
@@ -1520,6 +1521,7 @@
         <servlet-name>LoadIndicators</servlet-name>
         <url-pattern>/LoadIndicators</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
       <servlet-name>loadIPT</servlet-name>
         <url-pattern>/loadIPT</url-pattern>
     </servlet-mapping>
