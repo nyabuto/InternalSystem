@@ -754,7 +754,7 @@
         <servlet-class>Ratios.LoadIndicators</servlet-class>
     </servlet>
     <servlet>
-         <servlet-name>loadIPT</servlet-name>
+        <servlet-name>loadIPT</servlet-name>
         <servlet-class>InternalSystem.loadIPT</servlet-class>
     </servlet>
     <servlet>
@@ -764,10 +764,18 @@
     <servlet>
         <servlet-name>LoadDHIS2_Data</servlet-name>
         <servlet-class>LoadExcels.LoadDHIS2_Data</servlet-class>
-        </servlet>
+    </servlet>
     <servlet>
         <servlet-name>sitestracker</servlet-name>
         <servlet-class>reports.sitestracker</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadhts</servlet-name>
+        <servlet-class>InternalSystem.loadhts</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savehts</servlet-name>
+        <servlet-class>InternalSystem.savehts</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -1522,7 +1530,7 @@
         <url-pattern>/LoadIndicators</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-      <servlet-name>loadIPT</servlet-name>
+        <servlet-name>loadIPT</servlet-name>
         <url-pattern>/loadIPT</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -1536,6 +1544,14 @@
     <servlet-mapping>
         <servlet-name>sitestracker</servlet-name>
         <url-pattern>/sitestracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadhts</servlet-name>
+        <url-pattern>/loadhts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savehts</servlet-name>
+        <url-pattern>/savehts</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
