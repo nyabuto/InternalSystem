@@ -1,9 +1,8 @@
 <%-- 
-    Document   : ITP
-    Created on : Feb 21, 2018, 2:36:31 PM
+    Document   : loadIndexTesting
+    Created on : Mar 12, 2018, 4:57:57 PM
     Author     : GNyabuto
 --%>
-
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,7 +11,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>IPT Form</title>
+   <title>Index Testing Form</title>
    
       <script src="assets/js/jquery-1.8.3.min.js"></script>    
      <link rel="shortcut icon" href="images/index.JPG"/>
@@ -86,6 +85,10 @@ border-width: 2px;
     font-weight: bolder;
     margin-bottom: 130px;
 }
+.indicator{
+    min-width: 100px;
+    margin: 2px 2px 2px 2px;
+}
 input[type=text]{
     border-color: black;
     border-width: 0.7px;
@@ -94,7 +97,7 @@ td{
  text-align: center;   
 }
 </style>
-<script type="text/javascript" src="js/sum_ipt.js"></script>
+<script type="text/javascript" src="js/indextestingsum.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -248,18 +251,18 @@ td{
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">IPT Cohort Outcome</b>
+                        <b style="color:white;text-align: center;font-size: 20px;">Index Testing & Linkage</b>
                        <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:16px;font-family: cambria;"><b></b></span>
                     <span id="newform" style="margin-left: 15%;background-color: white;padding: 2px;"><b></b></span>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="validate_ipt" class="form-horizontal">
-                   <div id="ipt_table">   
+                        <form action="validate_indextesting" class="form-horizontal">
+                   <div id="index_testing_table">   
              <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
                           
                        
-<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> IPT Cohort Outcome Monthly Report</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
+<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Index Testing and Linkage Monthly Report</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
                              
     </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
                       
@@ -353,11 +356,11 @@ success:function (data){
          
          
          $.ajax({
-            url:'loadIPT',
+            url:'loadIndexTesting',
             type:'post',
             dataType:'html',
             success:function (data){
-                 $("#ipt_table").html(data);                
+                 $("#index_testing_table").html(data);                
                  $("#newform").html($("#formstatus").html());  
                  $("#recordcounter").html($("#rc").html());  
                  $("#allunValidated").html($("#ufs").html());
@@ -528,117 +531,6 @@ success:function (data){
           
           
       }
-   
-      //______________________________________________________________________________________________________________   
-      
-     function p51dtotal(){
-     
-     
-     var one=document.getElementById("P51D1").value;
-      var two=document.getElementById("P51D9").value;
-      
-      var three=document.getElementById("P51D10").value;
-      var four=document.getElementById("P51D19").value;
-      
-      var five=document.getElementById("P51D24").value;
-      var six=document.getElementById("P51D49").value;
-      var sixhalf=document.getElementById("P51D29").value;
-      
-      var seven=document.getElementById("P51D50").value;
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      if(five==""){five=0;}
-      if(six==""){six=0;}
-      if(sixhalf==""){sixhalf=0;}
-      if(seven==""){seven=0;}
-      
-      
-  
-            
-           var ttl=parseInt(one)+parseInt(two)+parseInt(three)+parseInt(four)+parseInt(five)+parseInt(six)+parseInt(sixhalf)+parseInt(seven);
-         
-     
-           document.getElementById("P51DT").value=ttl;
-          
-            //now calculate the percentage and call a save           
-            autosave('P51DT'); 
-            
-     
-     
-     }
-      
-       function p52dtotal(){
-     
-      var one=document.getElementById("P521DM").value;
-      var two=document.getElementById("P521DS").value;
-      
-      var three=document.getElementById("P522DM").value;
-      var four=document.getElementById("P522DS").value;
-      
-    
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      
-      
-      var modttl=parseInt(one)+parseInt(three);
-      var sevttl=parseInt(two)+parseInt(four);
-      
-    var durttl=parseInt(one)+parseInt(two);
-    var pstttl=parseInt(three)+parseInt(four);
-            
-           var ttl=parseInt(one)+parseInt(two)+parseInt(three)+parseInt(four);         
-     
-           document.getElementById("P52DT").value=ttl;
-           document.getElementById("P52DM").value=modttl;
-           document.getElementById("P52DS").value=sevttl;
-           document.getElementById("P521DT").value=durttl;
-           document.getElementById("P522DT").value=pstttl;
-          
-            //now calculate the percentage and call a save           
-            autosave('P51DT'); 
-            autosave('P52DM'); 
-            autosave('P52DS'); 
-            autosave('P521DT'); 
-            autosave('P522DT'); 
-            autosave('P52DT'); 
-     
-     }
-     
-       function p53dtotal(){
-     
-      var one=document.getElementById("P53DF").value;
-      var two=document.getElementById("P53DO").value;      
-      var three=document.getElementById("P53DM").value;
-      
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      
-      
-      
-  
-            
-           var ttl=parseInt(one)+parseInt(two)+parseInt(three);
-         
-     
-           document.getElementById("P53D").value=ttl;
-          
-            //now calculate the percentage and call a save           
-            autosave('P53D'); 
-            
-     
-     
-     
-     }
-      //______________________________________________________________________________________________________________
-      
  
  
   $('body').on('keydown', 'input, select, textarea', function(e) {

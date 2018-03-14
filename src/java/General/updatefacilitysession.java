@@ -41,15 +41,17 @@ public class updatefacilitysession extends HttpServlet {
      String f711="";
      String f711new="";
      String f731new="";
+     String indextesting="";
+     String ipt = "";
      
         conn.rs=conn.st.executeQuery(getfacilname);
         while(conn.rs.next()){
          active=","; 
-        if(conn.rs.getInt("HTC")==1){active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)"; f731new="MOH 731 (New)";}
+        if(conn.rs.getInt("HTC")==1){active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)"; f731new="MOH 731 (New)"; indextesting="Index Testing";}
         if(conn.rs.getInt("FP")==1){active+="FP,";f711="MOH 711A,";f711new="MOH 711 (New)";}
         if(conn.rs.getInt("PMTCT")==1){active+="PMTCT,";f731="MOH 731,";f711="MOH 711A,";f711new="MOH 711 (New)";f731new="MOH 731 (New)";}
         if(conn.rs.getInt("EID")==1){active+="EID,";}
-        if(conn.rs.getInt("ART")==1){active+="ART,";f731="MOH 731,";f731new="MOH 731 (New)";}
+        if(conn.rs.getInt("ART")==1){active+="ART,";f731="MOH 731,";f731new="MOH 731 (New)"; ipt="IPT,";}
         if(conn.rs.getInt("VMMC")==1){active+="VMMC,";}
          if(conn.rs.getInt("Nutrition")==1){active+="Nutrition,";}
          if(conn.rs.getInt("GSN")==1){active+="GSN,";}
@@ -72,6 +74,8 @@ public class updatefacilitysession extends HttpServlet {
          active+=f711;
          active+=f711new;
          active+=f731new;
+         active+=ipt;
+         active+=indextesting;
          
         session.setAttribute("forms_holder", active);
         session.setAttribute("facilityname", conn.rs.getString("SubPartnerNom"));

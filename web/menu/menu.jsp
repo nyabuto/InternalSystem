@@ -153,10 +153,32 @@
             <%}}%>
             
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){out.println("____hey");  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){ %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
                <a href="loadsgbv.jsp">
                <!--<i class="icon-th-list"></i>--> 
                <span class="title">SGBV</span>
+               <!--<span class="arrow "></span>-->
+               </a>
+              
+            </li>
+            <%}}%>
+            
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("IPT")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
+               <a href="IPT.jsp">
+               <!--<i class="icon-th-list"></i>--> 
+               <span class="title">IPT</span>
+               <!--<span class="arrow "></span>-->
+               </a>
+              
+            </li>
+            <%}}%>
+            
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Index Testing")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
+               <a href="loadIndexTesting.jsp">
+               <!--<i class="icon-th-list"></i>--> 
+               <span class="title">Index Testing</span>
                <!--<span class="arrow "></span>-->
                </a>
               

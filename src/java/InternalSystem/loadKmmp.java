@@ -217,9 +217,24 @@ if(HV0205==null){HV0205=""; }
 
 HV0206=conn.rs.getString("HV0206");
 if(HV0206==null){HV0206=""; }
-        
-    }
-    
+  
+}
+
+    //READ DATA FROM THE OLD 731 done 14th march 2018
+       String getfrom731old = "SELECT HV0205,HV0206 FROM moh731 WHERE id='"+tableid+"'";
+       conn.rs1 = conn.st1.executeQuery(getfrom731old);
+       if(conn.rs1.next()){
+       
+        HV0205=conn.rs1.getString("HV0205");
+            if(HV0205==null){HV0205=""; }   
+      
+        HV0206=conn.rs1.getString("HV0206");
+        if(HV0206==null){HV0206=""; }   
+       
+       }
+
+//   end of reading data from old 731 done 14th march 2018
+
     String createdtable="";
     
     
@@ -244,9 +259,9 @@ if(HV0206==null){HV0206=""; }
       
       createdtable+="<tr><td>Successfully Resolved</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('KMMP5c','"+tableid+"');\" value='"+KMMP5c+"' name='KMMP5c' id='KMMP5c'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-05 Known positive status (at entry into ANC) :</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" tabindex='-1' readonly  autocomplete=\"off\"  onblur=\"autosave('HV0205','"+tableid+"');\" value='"+HV0205+"' name='HV0205' id='HV0205'></td></tr>";
    
-      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\"  onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span> <p id='ufs' style='display:none;'>"+unvalidatedLink+"</p>";
+      createdtable+="<tr><td></td><td colspan='2'>MOH 731 HV02-06 Antenatal:</td><td><input type='text' onclick=\"this.select();\" onkeypress=\"return numbers(event,this);\" autocomplete=\"off\" tabindex='-1' readonly   onblur=\"autosave('HV0206','"+tableid+"');\" value='"+HV0206+"' name='HV0206' id='HV0206'></td></tr></table></fieldset> <div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>"+formtype+" </span><span id='rc' style='display:none;'>"+label+" </span> <p id='ufs' style='display:none;'>"+unvalidatedLink+"</p>";
    }
     
     else {

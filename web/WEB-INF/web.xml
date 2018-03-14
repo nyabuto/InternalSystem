@@ -777,6 +777,14 @@
         <servlet-name>savehts</servlet-name>
         <servlet-class>InternalSystem.savehts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadIndexTesting</servlet-name>
+        <servlet-class>InternalSystem.loadIndexTesting</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate_indextesting</servlet-name>
+        <servlet-class>InternalSystem.validate_indextesting</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1552,6 +1560,14 @@
     <servlet-mapping>
         <servlet-name>savehts</servlet-name>
         <url-pattern>/savehts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadIndexTesting</servlet-name>
+        <url-pattern>/loadIndexTesting</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate_indextesting</servlet-name>
+        <url-pattern>/validate_indextesting</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

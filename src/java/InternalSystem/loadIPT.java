@@ -87,7 +87,7 @@ String iptcounter="SELECT 1 FROM ipt join subpartnera on ipt.SubPartnerID=subpar
  
  
  
- String countpmctfacility="Select * from subpartnera where VMMC ='1' and  DistrictID='"+distid+"'";
+ String countpmctfacility="Select * from subpartnera where ART ='1' and  DistrictID='"+distid+"'";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
  conn.rs1 = conn.st1.executeQuery(countpmctfacility);
  while(conn.rs1.next()){
@@ -100,12 +100,12 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+iptvalid+" </b>";
  
   String unvalidatedLink="";int counter=0;
      if(iptundone>0){
-     String getUnvalidated="SELECT vmmc_new.SubPartnerID,subpartnera.SubPartnerNom FROM vmmc_new JOIN subpartnera ON vmmc_new.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND vmmc_new.Mois='"+month+"' AND vmmc_new.Annee='"+year+"' AND vmmc_new.isValidated='0'";
+     String getUnvalidated="SELECT ipt.SubPartnerID,subpartnera.SubPartnerNom FROM ipt JOIN subpartnera ON ipt.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND vmmc_new.Mois='"+month+"' AND ipt.Annee='"+year+"' AND ipt.isValidated='0'";
      conn.rs=conn.st.executeQuery(getUnvalidated);
      while(conn.rs.next()){
          counter++;
 //     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=Form731.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
-     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=loadVmmc.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
+     unvalidatedLink+="<a href=\"changeFacilitySession?facilityID="+conn.rs.getString(1)+"&&src=IPT.jsp\">"+counter+". "+conn.rs.getString(2)+"</a><br><br>" ;   
                     }
     }
      
@@ -116,7 +116,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+iptvalid+" </b>";
  
  String label="Record counter <font color='white'><b>"+iptdone+"<b></font>  out of <b>"+facilssupporting+"</b>"+validated+unvalidated;
  
-            
+         enterdby="";   
             String check_data="SELECT * FROM ipt WHERE tableid=?";
             conn.pst=conn.conn.prepareStatement(check_data);
             conn.pst.setString(1, tableid);
@@ -126,306 +126,319 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+iptvalid+" </b>";
                     SubPartnerID= conn.rs.getString("SubPartnerID");
                     Annee= conn.rs.getString("Annee");
                     Mois= conn.rs.getString("Mois");
-                    m1_A_New_ART= conn.rs.getString("m1_A_New_ART");
-                    m1_A_Prev_ART= conn.rs.getString("m1_A_Prev_ART");
-                    m4_A_New_ART= conn.rs.getString("m4_A_New_ART");
-                    m4_A_Prev_ART= conn.rs.getString("m4_A_Prev_ART");
-                    m9_A_New_ART= conn.rs.getString("m9_A_New_ART");
-                    m9_A_Prev_ART= conn.rs.getString("m9_A_Prev_ART");
-                    m14_A_New_ART= conn.rs.getString("m14_A_New_ART");
-                    m14_A_Prev_ART= conn.rs.getString("m14_A_Prev_ART");
-                    m19_A_New_ART= conn.rs.getString("m19_A_New_ART");
-                    m19_A_Prev_ART= conn.rs.getString("m19_A_Prev_ART");
-                    m24_A_New_ART= conn.rs.getString("m24_A_New_ART");
-                    m24_A_Prev_ART= conn.rs.getString("m24_A_Prev_ART");
-                    m29_A_New_ART= conn.rs.getString("m29_A_New_ART");
-                    m29_A_Prev_ART= conn.rs.getString("m29_A_Prev_ART");
-                    m34_A_New_ART= conn.rs.getString("m34_A_New_ART");
-                    m34_A_Prev_ART= conn.rs.getString("m34_A_Prev_ART");
-                    m39_A_New_ART= conn.rs.getString("m39_A_New_ART");
-                    m39_A_Prev_ART= conn.rs.getString("m39_A_Prev_ART");
-                    m49_A_New_ART= conn.rs.getString("m49_A_New_ART");
-                    m49_A_Prev_ART= conn.rs.getString("m49_A_Prev_ART");
-                    m50_A_New_ART= conn.rs.getString("m50_A_New_ART");
-                    m50_A_Prev_ART= conn.rs.getString("m50_A_Prev_ART");
-                    tm_A_New_ART= conn.rs.getString("tm_A_New_ART");
-                    tm_A_Prev_ART= conn.rs.getString("tm_A_Prev_ART");
-                    f1_A_New_ART= conn.rs.getString("f1_A_New_ART");
-                    f1_A_Prev_ART= conn.rs.getString("f1_A_Prev_ART");
-                    f4_A_New_ART= conn.rs.getString("f4_A_New_ART");
-                    f4_A_Prev_ART= conn.rs.getString("f4_A_Prev_ART");
-                    f9_A_New_ART= conn.rs.getString("f9_A_New_ART");
-                    f9_A_Prev_ART= conn.rs.getString("f9_A_Prev_ART");
-                    f14_A_New_ART= conn.rs.getString("f14_A_New_ART");
-                    f14_A_Prev_ART= conn.rs.getString("f14_A_Prev_ART");
-                    f19_A_New_ART= conn.rs.getString("f19_A_New_ART");
-                    f19_A_Prev_ART= conn.rs.getString("f19_A_Prev_ART");
-                    f24_A_New_ART= conn.rs.getString("f24_A_New_ART");
-                    f24_A_Prev_ART= conn.rs.getString("f24_A_Prev_ART");
-                    f29_A_New_ART= conn.rs.getString("f29_A_New_ART");
-                    f29_A_Prev_ART= conn.rs.getString("f29_A_Prev_ART");
-                    f34_A_New_ART= conn.rs.getString("f34_A_New_ART");
-                    f34_A_Prev_ART= conn.rs.getString("f34_A_Prev_ART");
-                    f39_A_New_ART= conn.rs.getString("f39_A_New_ART");
-                    f39_A_Prev_ART= conn.rs.getString("f39_A_Prev_ART");
-                    f49_A_New_ART= conn.rs.getString("f49_A_New_ART");
-                    f49_A_Prev_ART= conn.rs.getString("f49_A_Prev_ART");
-                    f50_A_New_ART= conn.rs.getString("f50_A_New_ART");
-                    f50_A_Prev_ART= conn.rs.getString("f50_A_Prev_ART");
-                    tf_A_New_ART= conn.rs.getString("tf_A_New_ART");
-                    tf_A_Prev_ART= conn.rs.getString("tf_A_Prev_ART");
-                    GT_A_New_ART= conn.rs.getString("GT_A_New_ART");
-                    GT_A_Prev_ART= conn.rs.getString("GT_A_Prev_ART");
-                    m1_B_New_ART= conn.rs.getString("m1_B_New_ART");
-                    m1_B_Prev_ART= conn.rs.getString("m1_B_Prev_ART");
-                    m4_B_New_ART= conn.rs.getString("m4_B_New_ART");
-                    m4_B_Prev_ART= conn.rs.getString("m4_B_Prev_ART");
-                    m9_B_New_ART= conn.rs.getString("m9_B_New_ART");
-                    m9_B_Prev_ART= conn.rs.getString("m9_B_Prev_ART");
-                    m14_B_New_ART= conn.rs.getString("m14_B_New_ART");
-                    m14_B_Prev_ART= conn.rs.getString("m14_B_Prev_ART");
-                    m19_B_New_ART= conn.rs.getString("m19_B_New_ART");
-                    m19_B_Prev_ART= conn.rs.getString("m19_B_Prev_ART");
-                    m24_B_New_ART= conn.rs.getString("m24_B_New_ART");
-                    m24_B_Prev_ART= conn.rs.getString("m24_B_Prev_ART");
-                    m29_B_New_ART= conn.rs.getString("m29_B_New_ART");
-                    m29_B_Prev_ART= conn.rs.getString("m29_B_Prev_ART");
-                    m34_B_New_ART= conn.rs.getString("m34_B_New_ART");
-                    m34_B_Prev_ART= conn.rs.getString("m34_B_Prev_ART");
-                    m39_B_New_ART= conn.rs.getString("m39_B_New_ART");
-                    m39_B_Prev_ART= conn.rs.getString("m39_B_Prev_ART");
-                    m49_B_New_ART= conn.rs.getString("m49_B_New_ART");
-                    m49_B_Prev_ART= conn.rs.getString("m49_B_Prev_ART");
-                    m50_B_New_ART= conn.rs.getString("m50_B_New_ART");
-                    m50_B_Prev_ART= conn.rs.getString("m50_B_Prev_ART");
-                    tm_B_New_ART= conn.rs.getString("tm_B_New_ART");
-                    tm_B_Prev_ART= conn.rs.getString("tm_B_Prev_ART");
-                    f1_B_New_ART= conn.rs.getString("f1_B_New_ART");
-                    f1_B_Prev_ART= conn.rs.getString("f1_B_Prev_ART");
-                    f4_B_New_ART= conn.rs.getString("f4_B_New_ART");
-                    f4_B_Prev_ART= conn.rs.getString("f4_B_Prev_ART");
-                    f9_B_New_ART= conn.rs.getString("f9_B_New_ART");
-                    f9_B_Prev_ART= conn.rs.getString("f9_B_Prev_ART");
-                    f14_B_New_ART= conn.rs.getString("f14_B_New_ART");
-                    f14_B_Prev_ART= conn.rs.getString("f14_B_Prev_ART");
-                    f19_B_New_ART= conn.rs.getString("f19_B_New_ART");
-                    f19_B_Prev_ART= conn.rs.getString("f19_B_Prev_ART");
-                    f24_B_New_ART= conn.rs.getString("f24_B_New_ART");
-                    f24_B_Prev_ART= conn.rs.getString("f24_B_Prev_ART");
-                    f29_B_New_ART= conn.rs.getString("f29_B_New_ART");
-                    f29_B_Prev_ART= conn.rs.getString("f29_B_Prev_ART");
-                    f34_B_New_ART= conn.rs.getString("f34_B_New_ART");
-                    f34_B_Prev_ART= conn.rs.getString("f34_B_Prev_ART");
-                    f39_B_New_ART= conn.rs.getString("f39_B_New_ART");
-                    f39_B_Prev_ART= conn.rs.getString("f39_B_Prev_ART");
-                    f49_B_New_ART= conn.rs.getString("f49_B_New_ART");
-                    f49_B_Prev_ART= conn.rs.getString("f49_B_Prev_ART");
-                    f50_B_New_ART= conn.rs.getString("f50_B_New_ART");
-                    f50_B_Prev_ART= conn.rs.getString("f50_B_Prev_ART");
-                    tf_B_New_ART= conn.rs.getString("tf_B_New_ART");
-                    tf_B_Prev_ART= conn.rs.getString("tf_B_Prev_ART");
-                    GT_B_New_ART= conn.rs.getString("GT_B_New_ART");
-                    GT_B_Prev_ART= conn.rs.getString("GT_B_Prev_ART");
-                    m1_C_New_ART= conn.rs.getString("m1_C_New_ART");
-                    m1_C_Prev_ART= conn.rs.getString("m1_C_Prev_ART");
-                    m4_C_New_ART= conn.rs.getString("m4_C_New_ART");
-                    m4_C_Prev_ART= conn.rs.getString("m4_C_Prev_ART");
-                    m9_C_New_ART= conn.rs.getString("m9_C_New_ART");
-                    m9_C_Prev_ART= conn.rs.getString("m9_C_Prev_ART");
-                    m14_C_New_ART= conn.rs.getString("m14_C_New_ART");
-                    m14_C_Prev_ART= conn.rs.getString("m14_C_Prev_ART");
-                    m19_C_New_ART= conn.rs.getString("m19_C_New_ART");
-                    m19_C_Prev_ART= conn.rs.getString("m19_C_Prev_ART");
-                    m24_C_New_ART= conn.rs.getString("m24_C_New_ART");
-                    m24_C_Prev_ART= conn.rs.getString("m24_C_Prev_ART");
-                    m29_C_New_ART= conn.rs.getString("m29_C_New_ART");
-                    m29_C_Prev_ART= conn.rs.getString("m29_C_Prev_ART");
-                    m34_C_New_ART= conn.rs.getString("m34_C_New_ART");
-                    m34_C_Prev_ART= conn.rs.getString("m34_C_Prev_ART");
-                    m39_C_New_ART= conn.rs.getString("m39_C_New_ART");
-                    m39_C_Prev_ART= conn.rs.getString("m39_C_Prev_ART");
-                    m49_C_New_ART= conn.rs.getString("m49_C_New_ART");
-                    m49_C_Prev_ART= conn.rs.getString("m49_C_Prev_ART");
-                    m50_C_New_ART= conn.rs.getString("m50_C_New_ART");
-                    m50_C_Prev_ART= conn.rs.getString("m50_C_Prev_ART");
-                    tm_C_New_ART= conn.rs.getString("tm_C_New_ART");
-                    tm_C_Prev_ART= conn.rs.getString("tm_C_Prev_ART");
-                    f1_C_New_ART= conn.rs.getString("f1_C_New_ART");
-                    f1_C_Prev_ART= conn.rs.getString("f1_C_Prev_ART");
-                    f4_C_New_ART= conn.rs.getString("f4_C_New_ART");
-                    f4_C_Prev_ART= conn.rs.getString("f4_C_Prev_ART");
-                    f9_C_New_ART= conn.rs.getString("f9_C_New_ART");
-                    f9_C_Prev_ART= conn.rs.getString("f9_C_Prev_ART");
-                    f14_C_New_ART= conn.rs.getString("f14_C_New_ART");
-                    f14_C_Prev_ART= conn.rs.getString("f14_C_Prev_ART");
-                    f19_C_New_ART= conn.rs.getString("f19_C_New_ART");
-                    f19_C_Prev_ART= conn.rs.getString("f19_C_Prev_ART");
-                    f24_C_New_ART= conn.rs.getString("f24_C_New_ART");
-                    f24_C_Prev_ART= conn.rs.getString("f24_C_Prev_ART");
-                    f29_C_New_ART= conn.rs.getString("f29_C_New_ART");
-                    f29_C_Prev_ART= conn.rs.getString("f29_C_Prev_ART");
-                    f34_C_New_ART= conn.rs.getString("f34_C_New_ART");
-                    f34_C_Prev_ART= conn.rs.getString("f34_C_Prev_ART");
-                    f39_C_New_ART= conn.rs.getString("f39_C_New_ART");
-                    f39_C_Prev_ART= conn.rs.getString("f39_C_Prev_ART");
-                    f49_C_New_ART= conn.rs.getString("f49_C_New_ART");
-                    f49_C_Prev_ART= conn.rs.getString("f49_C_Prev_ART");
-                    f50_C_New_ART= conn.rs.getString("f50_C_New_ART");
-                    f50_C_Prev_ART= conn.rs.getString("f50_C_Prev_ART");
-                    tf_C_New_ART= conn.rs.getString("tf_C_New_ART");
-                    tf_C_Prev_ART= conn.rs.getString("tf_C_Prev_ART");
-                    GT_C_New_ART= conn.rs.getString("GT_C_New_ART");
-                    GT_C_Prev_ART= conn.rs.getString("GT_C_Prev_ART");
-                    m1_D_New_ART= conn.rs.getString("m1_D_New_ART");
-                    m1_D_Prev_ART= conn.rs.getString("m1_D_Prev_ART");
-                    m4_D_New_ART= conn.rs.getString("m4_D_New_ART");
-                    m4_D_Prev_ART= conn.rs.getString("m4_D_Prev_ART");
-                    m9_D_New_ART= conn.rs.getString("m9_D_New_ART");
-                    m9_D_Prev_ART= conn.rs.getString("m9_D_Prev_ART");
-                    m14_D_New_ART= conn.rs.getString("m14_D_New_ART");
-                    m14_D_Prev_ART= conn.rs.getString("m14_D_Prev_ART");
-                    m19_D_New_ART= conn.rs.getString("m19_D_New_ART");
-                    m19_D_Prev_ART= conn.rs.getString("m19_D_Prev_ART");
-                    m24_D_New_ART= conn.rs.getString("m24_D_New_ART");
-                    m24_D_Prev_ART= conn.rs.getString("m24_D_Prev_ART");
-                    m29_D_New_ART= conn.rs.getString("m29_D_New_ART");
-                    m29_D_Prev_ART= conn.rs.getString("m29_D_Prev_ART");
-                    m34_D_New_ART= conn.rs.getString("m34_D_New_ART");
-                    m34_D_Prev_ART= conn.rs.getString("m34_D_Prev_ART");
-                    m39_D_New_ART= conn.rs.getString("m39_D_New_ART");
-                    m39_D_Prev_ART= conn.rs.getString("m39_D_Prev_ART");
-                    m49_D_New_ART= conn.rs.getString("m49_D_New_ART");
-                    m49_D_Prev_ART= conn.rs.getString("m49_D_Prev_ART");
-                    m50_D_New_ART= conn.rs.getString("m50_D_New_ART");
-                    m50_D_Prev_ART= conn.rs.getString("m50_D_Prev_ART");
-                    tm_D_New_ART= conn.rs.getString("tm_D_New_ART");
-                    tm_D_Prev_ART= conn.rs.getString("tm_D_Prev_ART");
-                    f1_D_New_ART= conn.rs.getString("f1_D_New_ART");
-                    f1_D_Prev_ART= conn.rs.getString("f1_D_Prev_ART");
-                    f4_D_New_ART= conn.rs.getString("f4_D_New_ART");
-                    f4_D_Prev_ART= conn.rs.getString("f4_D_Prev_ART");
-                    f9_D_New_ART= conn.rs.getString("f9_D_New_ART");
-                    f9_D_Prev_ART= conn.rs.getString("f9_D_Prev_ART");
-                    f14_D_New_ART= conn.rs.getString("f14_D_New_ART");
-                    f14_D_Prev_ART= conn.rs.getString("f14_D_Prev_ART");
-                    f19_D_New_ART= conn.rs.getString("f19_D_New_ART");
-                    f19_D_Prev_ART= conn.rs.getString("f19_D_Prev_ART");
-                    f24_D_New_ART= conn.rs.getString("f24_D_New_ART");
-                    f24_D_Prev_ART= conn.rs.getString("f24_D_Prev_ART");
-                    f29_D_New_ART= conn.rs.getString("f29_D_New_ART");
-                    f29_D_Prev_ART= conn.rs.getString("f29_D_Prev_ART");
-                    f34_D_New_ART= conn.rs.getString("f34_D_New_ART");
-                    f34_D_Prev_ART= conn.rs.getString("f34_D_Prev_ART");
-                    f39_D_New_ART= conn.rs.getString("f39_D_New_ART");
-                    f39_D_Prev_ART= conn.rs.getString("f39_D_Prev_ART");
-                    f49_D_New_ART= conn.rs.getString("f49_D_New_ART");
-                    f49_D_Prev_ART= conn.rs.getString("f49_D_Prev_ART");
-                    f50_D_New_ART= conn.rs.getString("f50_D_New_ART");
-                    f50_D_Prev_ART= conn.rs.getString("f50_D_Prev_ART");
-                    tf_D_New_ART= conn.rs.getString("tf_D_New_ART");
-                    tf_D_Prev_ART= conn.rs.getString("tf_D_Prev_ART");
-                    GT_D_New_ART= conn.rs.getString("GT_D_New_ART");
-                    GT_D_Prev_ART= conn.rs.getString("GT_D_Prev_ART");
-                    m1_E_New_ART= conn.rs.getString("m1_E_New_ART");
-                    m1_E_Prev_ART= conn.rs.getString("m1_E_Prev_ART");
-                    m4_E_New_ART= conn.rs.getString("m4_E_New_ART");
-                    m4_E_Prev_ART= conn.rs.getString("m4_E_Prev_ART");
-                    m9_E_New_ART= conn.rs.getString("m9_E_New_ART");
-                    m9_E_Prev_ART= conn.rs.getString("m9_E_Prev_ART");
-                    m14_E_New_ART= conn.rs.getString("m14_E_New_ART");
-                    m14_E_Prev_ART= conn.rs.getString("m14_E_Prev_ART");
-                    m19_E_New_ART= conn.rs.getString("m19_E_New_ART");
-                    m19_E_Prev_ART= conn.rs.getString("m19_E_Prev_ART");
-                    m24_E_New_ART= conn.rs.getString("m24_E_New_ART");
-                    m24_E_Prev_ART= conn.rs.getString("m24_E_Prev_ART");
-                    m29_E_New_ART= conn.rs.getString("m29_E_New_ART");
-                    m29_E_Prev_ART= conn.rs.getString("m29_E_Prev_ART");
-                    m34_E_New_ART= conn.rs.getString("m34_E_New_ART");
-                    m34_E_Prev_ART= conn.rs.getString("m34_E_Prev_ART");
-                    m39_E_New_ART= conn.rs.getString("m39_E_New_ART");
-                    m39_E_Prev_ART= conn.rs.getString("m39_E_Prev_ART");
-                    m49_E_New_ART= conn.rs.getString("m49_E_New_ART");
-                    m49_E_Prev_ART= conn.rs.getString("m49_E_Prev_ART");
-                    m50_E_New_ART= conn.rs.getString("m50_E_New_ART");
-                    m50_E_Prev_ART= conn.rs.getString("m50_E_Prev_ART");
-                    tm_E_New_ART= conn.rs.getString("tm_E_New_ART");
-                    tm_E_Prev_ART= conn.rs.getString("tm_E_Prev_ART");
-                    f1_E_New_ART= conn.rs.getString("f1_E_New_ART");
-                    f1_E_Prev_ART= conn.rs.getString("f1_E_Prev_ART");
-                    f4_E_New_ART= conn.rs.getString("f4_E_New_ART");
-                    f4_E_Prev_ART= conn.rs.getString("f4_E_Prev_ART");
-                    f9_E_New_ART= conn.rs.getString("f9_E_New_ART");
-                    f9_E_Prev_ART= conn.rs.getString("f9_E_Prev_ART");
-                    f14_E_New_ART= conn.rs.getString("f14_E_New_ART");
-                    f14_E_Prev_ART= conn.rs.getString("f14_E_Prev_ART");
-                    f19_E_New_ART= conn.rs.getString("f19_E_New_ART");
-                    f19_E_Prev_ART= conn.rs.getString("f19_E_Prev_ART");
-                    f24_E_New_ART= conn.rs.getString("f24_E_New_ART");
-                    f24_E_Prev_ART= conn.rs.getString("f24_E_Prev_ART");
-                    f29_E_New_ART= conn.rs.getString("f29_E_New_ART");
-                    f29_E_Prev_ART= conn.rs.getString("f29_E_Prev_ART");
-                    f34_E_New_ART= conn.rs.getString("f34_E_New_ART");
-                    f34_E_Prev_ART= conn.rs.getString("f34_E_Prev_ART");
-                    f39_E_New_ART= conn.rs.getString("f39_E_New_ART");
-                    f39_E_Prev_ART= conn.rs.getString("f39_E_Prev_ART");
-                    f49_E_New_ART= conn.rs.getString("f49_E_New_ART");
-                    f49_E_Prev_ART= conn.rs.getString("f49_E_Prev_ART");
-                    f50_E_New_ART= conn.rs.getString("f50_E_New_ART");
-                    f50_E_Prev_ART= conn.rs.getString("f50_E_Prev_ART");
-                    tf_E_New_ART= conn.rs.getString("tf_E_New_ART");
-                    tf_E_Prev_ART= conn.rs.getString("tf_E_Prev_ART");
-                    GT_E_New_ART= conn.rs.getString("GT_E_New_ART");
-                    GT_E_Prev_ART= conn.rs.getString("GT_E_Prev_ART");
-                    m1_F_New_ART= conn.rs.getString("m1_F_New_ART");
-                    m1_F_Prev_ART= conn.rs.getString("m1_F_Prev_ART");
-                    m4_F_New_ART= conn.rs.getString("m4_F_New_ART");
-                    m4_F_Prev_ART= conn.rs.getString("m4_F_Prev_ART");
-                    m9_F_New_ART= conn.rs.getString("m9_F_New_ART");
-                    m9_F_Prev_ART= conn.rs.getString("m9_F_Prev_ART");
-                    m14_F_New_ART= conn.rs.getString("m14_F_New_ART");
-                    m14_F_Prev_ART= conn.rs.getString("m14_F_Prev_ART");
-                    m19_F_New_ART= conn.rs.getString("m19_F_New_ART");
-                    m19_F_Prev_ART= conn.rs.getString("m19_F_Prev_ART");
-                    m24_F_New_ART= conn.rs.getString("m24_F_New_ART");
-                    m24_F_Prev_ART= conn.rs.getString("m24_F_Prev_ART");
-                    m29_F_New_ART= conn.rs.getString("m29_F_New_ART");
-                    m29_F_Prev_ART= conn.rs.getString("m29_F_Prev_ART");
-                    m34_F_New_ART= conn.rs.getString("m34_F_New_ART");
-                    m34_F_Prev_ART= conn.rs.getString("m34_F_Prev_ART");
-                    m39_F_New_ART= conn.rs.getString("m39_F_New_ART");
-                    m39_F_Prev_ART= conn.rs.getString("m39_F_Prev_ART");
-                    m49_F_New_ART= conn.rs.getString("m49_F_New_ART");
-                    m49_F_Prev_ART= conn.rs.getString("m49_F_Prev_ART");
-                    m50_F_New_ART= conn.rs.getString("m50_F_New_ART");
-                    m50_F_Prev_ART= conn.rs.getString("m50_F_Prev_ART");
-                    tm_F_New_ART= conn.rs.getString("tm_F_New_ART");
-                    tm_F_Prev_ART= conn.rs.getString("tm_F_Prev_ART");
-                    f1_F_New_ART= conn.rs.getString("f1_F_New_ART");
-                    f1_F_Prev_ART= conn.rs.getString("f1_F_Prev_ART");
-                    f4_F_New_ART= conn.rs.getString("f4_F_New_ART");
-                    f4_F_Prev_ART= conn.rs.getString("f4_F_Prev_ART");
-                    f9_F_New_ART= conn.rs.getString("f9_F_New_ART");
-                    f9_F_Prev_ART= conn.rs.getString("f9_F_Prev_ART");
-                    f14_F_New_ART= conn.rs.getString("f14_F_New_ART");
-                    f14_F_Prev_ART= conn.rs.getString("f14_F_Prev_ART");
-                    f19_F_New_ART= conn.rs.getString("f19_F_New_ART");
-                    f19_F_Prev_ART= conn.rs.getString("f19_F_Prev_ART");
-                    f24_F_New_ART= conn.rs.getString("f24_F_New_ART");
-                    f24_F_Prev_ART= conn.rs.getString("f24_F_Prev_ART");
-                    f29_F_New_ART= conn.rs.getString("f29_F_New_ART");
-                    f29_F_Prev_ART= conn.rs.getString("f29_F_Prev_ART");
-                    f34_F_New_ART= conn.rs.getString("f34_F_New_ART");
-                    f34_F_Prev_ART= conn.rs.getString("f34_F_Prev_ART");
-                    f39_F_New_ART= conn.rs.getString("f39_F_New_ART");
-                    f39_F_Prev_ART= conn.rs.getString("f39_F_Prev_ART");
-                    f49_F_New_ART= conn.rs.getString("f49_F_New_ART");
-                    f49_F_Prev_ART= conn.rs.getString("f49_F_Prev_ART");
-                    f50_F_New_ART= conn.rs.getString("f50_F_New_ART");
-                    f50_F_Prev_ART= conn.rs.getString("f50_F_Prev_ART");
-                    tf_F_New_ART= conn.rs.getString("tf_F_New_ART");
-                    tf_F_Prev_ART= conn.rs.getString("tf_F_Prev_ART");
-                    GT_F_New_ART= conn.rs.getString("GT_F_New_ART");
-                    GT_F_Prev_ART= conn.rs.getString("GT_F_Prev_ART");
+                    
+                    if(conn.rs.getString("m1_A_New_ART")!=null){m1_A_New_ART= conn.rs.getString("m1_A_New_ART");}
+                    if(conn.rs.getString("m1_A_Prev_ART")!=null){m1_A_Prev_ART= conn.rs.getString("m1_A_Prev_ART");}
+                    if(conn.rs.getString("m4_A_New_ART")!=null){m4_A_New_ART= conn.rs.getString("m4_A_New_ART");}
+                    if(conn.rs.getString("m4_A_Prev_ART")!=null){m4_A_Prev_ART= conn.rs.getString("m4_A_Prev_ART");}
+                    if(conn.rs.getString("m9_A_New_ART")!=null){m9_A_New_ART= conn.rs.getString("m9_A_New_ART");}
+                    if(conn.rs.getString("m9_A_Prev_ART")!=null){m9_A_Prev_ART= conn.rs.getString("m9_A_Prev_ART");}
+                    if(conn.rs.getString("m14_A_New_ART")!=null){m14_A_New_ART= conn.rs.getString("m14_A_New_ART");}
+                    if(conn.rs.getString("m14_A_Prev_ART")!=null){m14_A_Prev_ART= conn.rs.getString("m14_A_Prev_ART");}
+                    if(conn.rs.getString("m19_A_New_ART")!=null){m19_A_New_ART= conn.rs.getString("m19_A_New_ART");}
+                    if(conn.rs.getString("m19_A_Prev_ART")!=null){m19_A_Prev_ART= conn.rs.getString("m19_A_Prev_ART");}
+                    if(conn.rs.getString("m24_A_New_ART")!=null){m24_A_New_ART= conn.rs.getString("m24_A_New_ART");}
+                    if(conn.rs.getString("m24_A_Prev_ART")!=null){m24_A_Prev_ART= conn.rs.getString("m24_A_Prev_ART");}
+                    if(conn.rs.getString("m29_A_New_ART")!=null){m29_A_New_ART= conn.rs.getString("m29_A_New_ART");}
+                    if(conn.rs.getString("m29_A_Prev_ART")!=null){m29_A_Prev_ART= conn.rs.getString("m29_A_Prev_ART");}
+                    if(conn.rs.getString("m34_A_New_ART")!=null){m34_A_New_ART= conn.rs.getString("m34_A_New_ART");}
+                    if(conn.rs.getString("m34_A_Prev_ART")!=null){m34_A_Prev_ART= conn.rs.getString("m34_A_Prev_ART");}
+                    if(conn.rs.getString("m39_A_New_ART")!=null){m39_A_New_ART= conn.rs.getString("m39_A_New_ART");}
+                    if(conn.rs.getString("m39_A_Prev_ART")!=null){m39_A_Prev_ART= conn.rs.getString("m39_A_Prev_ART");}
+                    if(conn.rs.getString("m49_A_New_ART")!=null){m49_A_New_ART= conn.rs.getString("m49_A_New_ART");}
+                    if(conn.rs.getString("m49_A_Prev_ART")!=null){m49_A_Prev_ART= conn.rs.getString("m49_A_Prev_ART");}
+                    if(conn.rs.getString("m50_A_New_ART")!=null){m50_A_New_ART= conn.rs.getString("m50_A_New_ART");}
+                    if(conn.rs.getString("m50_A_Prev_ART")!=null){m50_A_Prev_ART= conn.rs.getString("m50_A_Prev_ART");}
+                    if(conn.rs.getString("tm_A_New_ART")!=null){tm_A_New_ART= conn.rs.getString("tm_A_New_ART");}
+                    if(conn.rs.getString("tm_A_Prev_ART")!=null){tm_A_Prev_ART= conn.rs.getString("tm_A_Prev_ART");}
+                    
+                    if(conn.rs.getString("f1_A_New_ART")!=null){f1_A_New_ART= conn.rs.getString("f1_A_New_ART");}
+                    if(conn.rs.getString("f1_A_Prev_ART")!=null){f1_A_Prev_ART= conn.rs.getString("f1_A_Prev_ART");}
+                    if(conn.rs.getString("f4_A_New_ART")!=null){f4_A_New_ART= conn.rs.getString("f4_A_New_ART");}
+                    if(conn.rs.getString("f4_A_Prev_ART")!=null){f4_A_Prev_ART= conn.rs.getString("f4_A_Prev_ART");}
+                    if(conn.rs.getString("f9_A_New_ART")!=null){f9_A_New_ART= conn.rs.getString("f9_A_New_ART");}
+                    if(conn.rs.getString("f9_A_Prev_ART")!=null){f9_A_Prev_ART= conn.rs.getString("f9_A_Prev_ART");}
+                    if(conn.rs.getString("f14_A_New_ART")!=null){f14_A_New_ART= conn.rs.getString("f14_A_New_ART");}
+                    if(conn.rs.getString("f14_A_Prev_ART")!=null){f14_A_Prev_ART= conn.rs.getString("f14_A_Prev_ART");}
+                    if(conn.rs.getString("f19_A_New_ART")!=null){f19_A_New_ART= conn.rs.getString("f19_A_New_ART");}
+                    if(conn.rs.getString("f19_A_Prev_ART")!=null){f19_A_Prev_ART= conn.rs.getString("f19_A_Prev_ART");}
+                    if(conn.rs.getString("f24_A_New_ART")!=null){f24_A_New_ART= conn.rs.getString("f24_A_New_ART");}
+                    if(conn.rs.getString("f24_A_Prev_ART")!=null){f24_A_Prev_ART= conn.rs.getString("f24_A_Prev_ART");}
+                    if(conn.rs.getString("f29_A_New_ART")!=null){f29_A_New_ART= conn.rs.getString("f29_A_New_ART");}
+                    if(conn.rs.getString("f29_A_Prev_ART")!=null){f29_A_Prev_ART= conn.rs.getString("f29_A_Prev_ART");}
+                    if(conn.rs.getString("f34_A_New_ART")!=null){f34_A_New_ART= conn.rs.getString("f34_A_New_ART");}
+                    if(conn.rs.getString("f34_A_Prev_ART")!=null){f34_A_Prev_ART= conn.rs.getString("f34_A_Prev_ART");}
+                    if(conn.rs.getString("f39_A_New_ART")!=null){f39_A_New_ART= conn.rs.getString("f39_A_New_ART");}
+                    if(conn.rs.getString("f39_A_Prev_ART")!=null){f39_A_Prev_ART= conn.rs.getString("f39_A_Prev_ART");}
+                    if(conn.rs.getString("f49_A_New_ART")!=null){f49_A_New_ART= conn.rs.getString("f49_A_New_ART");}
+                    if(conn.rs.getString("f49_A_Prev_ART")!=null){f49_A_Prev_ART= conn.rs.getString("f49_A_Prev_ART");}
+                    if(conn.rs.getString("f50_A_New_ART")!=null){f50_A_New_ART= conn.rs.getString("f50_A_New_ART");}
+                    if(conn.rs.getString("f50_A_Prev_ART")!=null){f50_A_Prev_ART= conn.rs.getString("f50_A_Prev_ART");}
+                    if(conn.rs.getString("tf_A_New_ART")!=null){tf_A_New_ART= conn.rs.getString("tf_A_New_ART");}
+                    if(conn.rs.getString("tf_A_Prev_ART")!=null){tf_A_Prev_ART= conn.rs.getString("tf_A_Prev_ART");}
+                    if(conn.rs.getString("GT_A_New_ART")!=null){GT_A_New_ART= conn.rs.getString("GT_A_New_ART");}
+                    if(conn.rs.getString("GT_A_Prev_ART")!=null){GT_A_Prev_ART= conn.rs.getString("GT_A_Prev_ART");}
+                    
+                    if(conn.rs.getString("m1_B_New_ART")!=null){m1_B_New_ART= conn.rs.getString("m1_B_New_ART");}
+                    if(conn.rs.getString("m1_B_Prev_ART")!=null){m1_B_Prev_ART= conn.rs.getString("m1_B_Prev_ART");}
+                    if(conn.rs.getString("m4_B_New_ART")!=null){m4_B_New_ART= conn.rs.getString("m4_B_New_ART");}
+                    if(conn.rs.getString("m4_B_Prev_ART")!=null){m4_B_Prev_ART= conn.rs.getString("m4_B_Prev_ART");}
+                    if(conn.rs.getString("m9_B_New_ART")!=null){m9_B_New_ART= conn.rs.getString("m9_B_New_ART");}
+                    if(conn.rs.getString("m9_B_Prev_ART")!=null){m9_B_Prev_ART= conn.rs.getString("m9_B_Prev_ART");}
+                    if(conn.rs.getString("m14_B_New_ART")!=null){m14_B_New_ART= conn.rs.getString("m14_B_New_ART");}
+                    if(conn.rs.getString("m14_B_Prev_ART")!=null){m14_B_Prev_ART= conn.rs.getString("m14_B_Prev_ART");}
+                    if(conn.rs.getString("m19_B_New_ART")!=null){m19_B_New_ART= conn.rs.getString("m19_B_New_ART");}
+                    if(conn.rs.getString("m19_B_Prev_ART")!=null){m19_B_Prev_ART= conn.rs.getString("m19_B_Prev_ART");}
+                    if(conn.rs.getString("m24_B_New_ART")!=null){m24_B_New_ART= conn.rs.getString("m24_B_New_ART");}
+                    if(conn.rs.getString("m24_B_Prev_ART")!=null){m24_B_Prev_ART= conn.rs.getString("m24_B_Prev_ART");}
+                    if(conn.rs.getString("m29_B_New_ART")!=null){m29_B_New_ART= conn.rs.getString("m29_B_New_ART");}
+                    if(conn.rs.getString("m29_B_Prev_ART")!=null){m29_B_Prev_ART= conn.rs.getString("m29_B_Prev_ART");}
+                    if(conn.rs.getString("m34_B_New_ART")!=null){m34_B_New_ART= conn.rs.getString("m34_B_New_ART");}
+                    if(conn.rs.getString("m34_B_Prev_ART")!=null){m34_B_Prev_ART= conn.rs.getString("m34_B_Prev_ART");}
+                    if(conn.rs.getString("m39_B_New_ART")!=null){m39_B_New_ART= conn.rs.getString("m39_B_New_ART");}
+                    if(conn.rs.getString("m39_B_Prev_ART")!=null){m39_B_Prev_ART= conn.rs.getString("m39_B_Prev_ART");}
+                    if(conn.rs.getString("m49_B_New_ART")!=null){m49_B_New_ART= conn.rs.getString("m49_B_New_ART");}
+                    if(conn.rs.getString("m49_B_Prev_ART")!=null){m49_B_Prev_ART= conn.rs.getString("m49_B_Prev_ART");}
+                    if(conn.rs.getString("m50_B_New_ART")!=null){m50_B_New_ART= conn.rs.getString("m50_B_New_ART");}
+                    if(conn.rs.getString("m50_B_Prev_ART")!=null){m50_B_Prev_ART= conn.rs.getString("m50_B_Prev_ART");}
+                    if(conn.rs.getString("tm_B_New_ART")!=null){tm_B_New_ART= conn.rs.getString("tm_B_New_ART");}
+                    if(conn.rs.getString("tm_B_Prev_ART")!=null){tm_B_Prev_ART= conn.rs.getString("tm_B_Prev_ART");}
+                    
+                    if(conn.rs.getString("f1_B_New_ART")!=null){f1_B_New_ART= conn.rs.getString("f1_B_New_ART");}
+                    if(conn.rs.getString("f1_B_Prev_ART")!=null){f1_B_Prev_ART= conn.rs.getString("f1_B_Prev_ART");}
+                    if(conn.rs.getString("f4_B_New_ART")!=null){f4_B_New_ART= conn.rs.getString("f4_B_New_ART");}
+                    if(conn.rs.getString("f4_B_Prev_ART")!=null){f4_B_Prev_ART= conn.rs.getString("f4_B_Prev_ART");}
+                    if(conn.rs.getString("f9_B_New_ART")!=null){f9_B_New_ART= conn.rs.getString("f9_B_New_ART");}
+                    if(conn.rs.getString("f9_B_Prev_ART")!=null){f9_B_Prev_ART= conn.rs.getString("f9_B_Prev_ART");}
+                    if(conn.rs.getString("f14_B_New_ART")!=null){f14_B_New_ART= conn.rs.getString("f14_B_New_ART");}
+                    if(conn.rs.getString("f14_B_Prev_ART")!=null){f14_B_Prev_ART= conn.rs.getString("f14_B_Prev_ART");}
+                    if(conn.rs.getString("f19_B_New_ART")!=null){f19_B_New_ART= conn.rs.getString("f19_B_New_ART");}
+                    if(conn.rs.getString("f19_B_Prev_ART")!=null){f19_B_Prev_ART= conn.rs.getString("f19_B_Prev_ART");}
+                    if(conn.rs.getString("f24_B_New_ART")!=null){f24_B_New_ART= conn.rs.getString("f24_B_New_ART");}
+                    if(conn.rs.getString("f24_B_Prev_ART")!=null){f24_B_Prev_ART= conn.rs.getString("f24_B_Prev_ART");}
+                    if(conn.rs.getString("f29_B_New_ART")!=null){f29_B_New_ART= conn.rs.getString("f29_B_New_ART");}
+                    if(conn.rs.getString("f29_B_Prev_ART")!=null){f29_B_Prev_ART= conn.rs.getString("f29_B_Prev_ART");}
+                    if(conn.rs.getString("f34_B_New_ART")!=null){f34_B_New_ART= conn.rs.getString("f34_B_New_ART");}
+                    if(conn.rs.getString("f34_B_Prev_ART")!=null){f34_B_Prev_ART= conn.rs.getString("f34_B_Prev_ART");}
+                    if(conn.rs.getString("f39_B_New_ART")!=null){f39_B_New_ART= conn.rs.getString("f39_B_New_ART");}
+                    if(conn.rs.getString("f39_B_Prev_ART")!=null){f39_B_Prev_ART= conn.rs.getString("f39_B_Prev_ART");}
+                    if(conn.rs.getString("f49_B_New_ART")!=null){f49_B_New_ART= conn.rs.getString("f49_B_New_ART");}
+                    if(conn.rs.getString("f49_B_Prev_ART")!=null){f49_B_Prev_ART= conn.rs.getString("f49_B_Prev_ART");}
+                    if(conn.rs.getString("f50_B_New_ART")!=null){f50_B_New_ART= conn.rs.getString("f50_B_New_ART");}
+                    if(conn.rs.getString("f50_B_Prev_ART")!=null){f50_B_Prev_ART= conn.rs.getString("f50_B_Prev_ART");}
+                    if(conn.rs.getString("tf_B_New_ART")!=null){tf_B_New_ART= conn.rs.getString("tf_B_New_ART");}
+                    if(conn.rs.getString("tf_B_Prev_ART")!=null){tf_B_Prev_ART= conn.rs.getString("tf_B_Prev_ART");}
+                    if(conn.rs.getString("GT_B_New_ART")!=null){GT_B_New_ART= conn.rs.getString("GT_B_New_ART");}
+                    if(conn.rs.getString("GT_B_Prev_ART")!=null){GT_B_Prev_ART= conn.rs.getString("GT_B_Prev_ART");}
+                    
+                    if(conn.rs.getString("m1_C_New_ART")!=null){m1_C_New_ART= conn.rs.getString("m1_C_New_ART");}
+                    if(conn.rs.getString("m1_C_Prev_ART")!=null){m1_C_Prev_ART= conn.rs.getString("m1_C_Prev_ART");}
+                    if(conn.rs.getString("m4_C_New_ART")!=null){m4_C_New_ART= conn.rs.getString("m4_C_New_ART");}
+                    if(conn.rs.getString("m4_C_Prev_ART")!=null){m4_C_Prev_ART= conn.rs.getString("m4_C_Prev_ART");}
+                    if(conn.rs.getString("m9_C_New_ART")!=null){m9_C_New_ART= conn.rs.getString("m9_C_New_ART");}
+                    if(conn.rs.getString("m9_C_Prev_ART")!=null){m9_C_Prev_ART= conn.rs.getString("m9_C_Prev_ART");}
+                    if(conn.rs.getString("m14_C_New_ART")!=null){m14_C_New_ART= conn.rs.getString("m14_C_New_ART");}
+                    if(conn.rs.getString("m14_C_Prev_ART")!=null){m14_C_Prev_ART= conn.rs.getString("m14_C_Prev_ART");}
+                    if(conn.rs.getString("m19_C_New_ART")!=null){m19_C_New_ART= conn.rs.getString("m19_C_New_ART");}
+                    if(conn.rs.getString("m19_C_Prev_ART")!=null){m19_C_Prev_ART= conn.rs.getString("m19_C_Prev_ART");}
+                    if(conn.rs.getString("m24_C_New_ART")!=null){m24_C_New_ART= conn.rs.getString("m24_C_New_ART");}
+                    if(conn.rs.getString("m24_C_Prev_ART")!=null){m24_C_Prev_ART= conn.rs.getString("m24_C_Prev_ART");}
+                    if(conn.rs.getString("m29_C_New_ART")!=null){m29_C_New_ART= conn.rs.getString("m29_C_New_ART");}
+                    if(conn.rs.getString("m29_C_Prev_ART")!=null){m29_C_Prev_ART= conn.rs.getString("m29_C_Prev_ART");}
+                    if(conn.rs.getString("m34_C_New_ART")!=null){m34_C_New_ART= conn.rs.getString("m34_C_New_ART");}
+                    if(conn.rs.getString("m34_C_Prev_ART")!=null){m34_C_Prev_ART= conn.rs.getString("m34_C_Prev_ART");}
+                    if(conn.rs.getString("m39_C_New_ART")!=null){m39_C_New_ART= conn.rs.getString("m39_C_New_ART");}
+                    if(conn.rs.getString("m39_C_Prev_ART")!=null){m39_C_Prev_ART= conn.rs.getString("m39_C_Prev_ART");}
+                    if(conn.rs.getString("m49_C_New_ART")!=null){m49_C_New_ART= conn.rs.getString("m49_C_New_ART");}
+                    if(conn.rs.getString("m49_C_Prev_ART")!=null){m49_C_Prev_ART= conn.rs.getString("m49_C_Prev_ART");}
+                    if(conn.rs.getString("m50_C_New_ART")!=null){m50_C_New_ART= conn.rs.getString("m50_C_New_ART");}
+                    if(conn.rs.getString("m50_C_Prev_ART")!=null){m50_C_Prev_ART= conn.rs.getString("m50_C_Prev_ART");}
+                    if(conn.rs.getString("tm_C_New_ART")!=null){tm_C_New_ART= conn.rs.getString("tm_C_New_ART");}
+                    if(conn.rs.getString("tm_C_Prev_ART")!=null){tm_C_Prev_ART= conn.rs.getString("tm_C_Prev_ART");}
+                    
+                    if(conn.rs.getString("f1_C_New_ART")!=null){f1_C_New_ART= conn.rs.getString("f1_C_New_ART");}
+                    if(conn.rs.getString("f1_C_Prev_ART")!=null){f1_C_Prev_ART= conn.rs.getString("f1_C_Prev_ART");}
+                    if(conn.rs.getString("f4_C_New_ART")!=null){f4_C_New_ART= conn.rs.getString("f4_C_New_ART");}
+                    if(conn.rs.getString("f4_C_Prev_ART")!=null){f4_C_Prev_ART= conn.rs.getString("f4_C_Prev_ART");}
+                    if(conn.rs.getString("f9_C_New_ART")!=null){f9_C_New_ART= conn.rs.getString("f9_C_New_ART");}
+                    if(conn.rs.getString("f9_C_Prev_ART")!=null){f9_C_Prev_ART= conn.rs.getString("f9_C_Prev_ART");}
+                    if(conn.rs.getString("f14_C_New_ART")!=null){f14_C_New_ART= conn.rs.getString("f14_C_New_ART");}
+                    if(conn.rs.getString("f14_C_Prev_ART")!=null){f14_C_Prev_ART= conn.rs.getString("f14_C_Prev_ART");}
+                    if(conn.rs.getString("f19_C_New_ART")!=null){f19_C_New_ART= conn.rs.getString("f19_C_New_ART");}
+                    if(conn.rs.getString("f19_C_Prev_ART")!=null){f19_C_Prev_ART= conn.rs.getString("f19_C_Prev_ART");}
+                    if(conn.rs.getString("f24_C_New_ART")!=null){f24_C_New_ART= conn.rs.getString("f24_C_New_ART");}
+                    if(conn.rs.getString("f24_C_Prev_ART")!=null){f24_C_Prev_ART= conn.rs.getString("f24_C_Prev_ART");}
+                    if(conn.rs.getString("f29_C_New_ART")!=null){f29_C_New_ART= conn.rs.getString("f29_C_New_ART");}
+                    if(conn.rs.getString("f29_C_Prev_ART")!=null){f29_C_Prev_ART= conn.rs.getString("f29_C_Prev_ART");}
+                    if(conn.rs.getString("f34_C_New_ART")!=null){f34_C_New_ART= conn.rs.getString("f34_C_New_ART");}
+                    if(conn.rs.getString("f34_C_Prev_ART")!=null){f34_C_Prev_ART= conn.rs.getString("f34_C_Prev_ART");}
+                    if(conn.rs.getString("f39_C_New_ART")!=null){f39_C_New_ART= conn.rs.getString("f39_C_New_ART");}
+                    if(conn.rs.getString("f39_C_Prev_ART")!=null){f39_C_Prev_ART= conn.rs.getString("f39_C_Prev_ART");}
+                    if(conn.rs.getString("f49_C_New_ART")!=null){f49_C_New_ART= conn.rs.getString("f49_C_New_ART");}
+                    if(conn.rs.getString("f49_C_Prev_ART")!=null){f49_C_Prev_ART= conn.rs.getString("f49_C_Prev_ART");}
+                    if(conn.rs.getString("f50_C_New_ART")!=null){f50_C_New_ART= conn.rs.getString("f50_C_New_ART");}
+                    if(conn.rs.getString("f50_C_Prev_ART")!=null){f50_C_Prev_ART= conn.rs.getString("f50_C_Prev_ART");}
+                    if(conn.rs.getString("tf_C_New_ART")!=null){tf_C_New_ART= conn.rs.getString("tf_C_New_ART");}
+                    if(conn.rs.getString("tf_C_Prev_ART")!=null){tf_C_Prev_ART= conn.rs.getString("tf_C_Prev_ART");}
+                    if(conn.rs.getString("GT_C_New_ART")!=null){GT_C_New_ART= conn.rs.getString("GT_C_New_ART");}
+                    if(conn.rs.getString("GT_C_Prev_ART")!=null){GT_C_Prev_ART= conn.rs.getString("GT_C_Prev_ART");}
+                    
+                    if(conn.rs.getString("m1_D_New_ART")!=null){m1_D_New_ART= conn.rs.getString("m1_D_New_ART");}
+                    if(conn.rs.getString("m1_D_Prev_ART")!=null){m1_D_Prev_ART= conn.rs.getString("m1_D_Prev_ART");}
+                    if(conn.rs.getString("m4_D_New_ART")!=null){m4_D_New_ART= conn.rs.getString("m4_D_New_ART");}
+                    if(conn.rs.getString("m4_D_Prev_ART")!=null){m4_D_Prev_ART= conn.rs.getString("m4_D_Prev_ART");}
+                    if(conn.rs.getString("m9_D_New_ART")!=null){m9_D_New_ART= conn.rs.getString("m9_D_New_ART");}
+                    if(conn.rs.getString("m9_D_Prev_ART")!=null){m9_D_Prev_ART= conn.rs.getString("m9_D_Prev_ART");}
+                    if(conn.rs.getString("m14_D_New_ART")!=null){m14_D_New_ART= conn.rs.getString("m14_D_New_ART");}
+                    if(conn.rs.getString("m14_D_Prev_ART")!=null){m14_D_Prev_ART= conn.rs.getString("m14_D_Prev_ART");}
+                    if(conn.rs.getString("m19_D_New_ART")!=null){m19_D_New_ART= conn.rs.getString("m19_D_New_ART");}
+                    if(conn.rs.getString("m19_D_Prev_ART")!=null){m19_D_Prev_ART= conn.rs.getString("m19_D_Prev_ART");}
+                    if(conn.rs.getString("m24_D_New_ART")!=null){m24_D_New_ART= conn.rs.getString("m24_D_New_ART");}
+                    if(conn.rs.getString("m24_D_Prev_ART")!=null){m24_D_Prev_ART= conn.rs.getString("m24_D_Prev_ART");}
+                    if(conn.rs.getString("m29_D_New_ART")!=null){m29_D_New_ART= conn.rs.getString("m29_D_New_ART");}
+                    if(conn.rs.getString("m29_D_Prev_ART")!=null){m29_D_Prev_ART= conn.rs.getString("m29_D_Prev_ART");}
+                    if(conn.rs.getString("m34_D_New_ART")!=null){m34_D_New_ART= conn.rs.getString("m34_D_New_ART");}
+                    if(conn.rs.getString("m34_D_Prev_ART")!=null){m34_D_Prev_ART= conn.rs.getString("m34_D_Prev_ART");}
+                    if(conn.rs.getString("m39_D_New_ART")!=null){m39_D_New_ART= conn.rs.getString("m39_D_New_ART");}
+                    if(conn.rs.getString("m39_D_Prev_ART")!=null){m39_D_Prev_ART= conn.rs.getString("m39_D_Prev_ART");}
+                    if(conn.rs.getString("m49_D_New_ART")!=null){m49_D_New_ART= conn.rs.getString("m49_D_New_ART");}
+                    if(conn.rs.getString("m49_D_Prev_ART")!=null){m49_D_Prev_ART= conn.rs.getString("m49_D_Prev_ART");}
+                    if(conn.rs.getString("m50_D_New_ART")!=null){m50_D_New_ART= conn.rs.getString("m50_D_New_ART");}
+                    if(conn.rs.getString("m50_D_Prev_ART")!=null){m50_D_Prev_ART= conn.rs.getString("m50_D_Prev_ART");}
+                    if(conn.rs.getString("tm_D_New_ART")!=null){tm_D_New_ART= conn.rs.getString("tm_D_New_ART");}
+                    if(conn.rs.getString("tm_D_Prev_ART")!=null){tm_D_Prev_ART= conn.rs.getString("tm_D_Prev_ART");}
+                    
+                    if(conn.rs.getString("f1_D_New_ART")!=null){f1_D_New_ART= conn.rs.getString("f1_D_New_ART");}
+                    if(conn.rs.getString("f1_D_Prev_ART")!=null){f1_D_Prev_ART= conn.rs.getString("f1_D_Prev_ART");}
+                    if(conn.rs.getString("f4_D_New_ART")!=null){f4_D_New_ART= conn.rs.getString("f4_D_New_ART");}
+                    if(conn.rs.getString("f4_D_Prev_ART")!=null){f4_D_Prev_ART= conn.rs.getString("f4_D_Prev_ART");}
+                    if(conn.rs.getString("f9_D_New_ART")!=null){f9_D_New_ART= conn.rs.getString("f9_D_New_ART");}
+                    if(conn.rs.getString("f9_D_Prev_ART")!=null){f9_D_Prev_ART= conn.rs.getString("f9_D_Prev_ART");}
+                    if(conn.rs.getString("f14_D_New_ART")!=null){f14_D_New_ART= conn.rs.getString("f14_D_New_ART");}
+                    if(conn.rs.getString("f14_D_Prev_ART")!=null){f14_D_Prev_ART= conn.rs.getString("f14_D_Prev_ART");}
+                    if(conn.rs.getString("f19_D_New_ART")!=null){f19_D_New_ART= conn.rs.getString("f19_D_New_ART");}
+                    if(conn.rs.getString("f19_D_Prev_ART")!=null){f19_D_Prev_ART= conn.rs.getString("f19_D_Prev_ART");}
+                    if(conn.rs.getString("f24_D_New_ART")!=null){f24_D_New_ART= conn.rs.getString("f24_D_New_ART");}
+                    if(conn.rs.getString("f24_D_Prev_ART")!=null){f24_D_Prev_ART= conn.rs.getString("f24_D_Prev_ART");}
+                    if(conn.rs.getString("f29_D_New_ART")!=null){f29_D_New_ART= conn.rs.getString("f29_D_New_ART");}
+                    if(conn.rs.getString("f29_D_Prev_ART")!=null){f29_D_Prev_ART= conn.rs.getString("f29_D_Prev_ART");}
+                    if(conn.rs.getString("f34_D_New_ART")!=null){f34_D_New_ART= conn.rs.getString("f34_D_New_ART");}
+                    if(conn.rs.getString("f34_D_Prev_ART")!=null){f34_D_Prev_ART= conn.rs.getString("f34_D_Prev_ART");}
+                    if(conn.rs.getString("f39_D_New_ART")!=null){f39_D_New_ART= conn.rs.getString("f39_D_New_ART");}
+                    if(conn.rs.getString("f39_D_Prev_ART")!=null){f39_D_Prev_ART= conn.rs.getString("f39_D_Prev_ART");}
+                    if(conn.rs.getString("f49_D_New_ART")!=null){f49_D_New_ART= conn.rs.getString("f49_D_New_ART");}
+                    if(conn.rs.getString("f49_D_Prev_ART")!=null){f49_D_Prev_ART= conn.rs.getString("f49_D_Prev_ART");}
+                    if(conn.rs.getString("f50_D_New_ART")!=null){f50_D_New_ART= conn.rs.getString("f50_D_New_ART");}
+                    if(conn.rs.getString("f50_D_Prev_ART")!=null){f50_D_Prev_ART= conn.rs.getString("f50_D_Prev_ART");}
+                    if(conn.rs.getString("tf_D_New_ART")!=null){tf_D_New_ART= conn.rs.getString("tf_D_New_ART");}
+                    if(conn.rs.getString("tf_D_Prev_ART")!=null){tf_D_Prev_ART= conn.rs.getString("tf_D_Prev_ART");}
+                    if(conn.rs.getString("GT_D_New_ART")!=null){GT_D_New_ART= conn.rs.getString("GT_D_New_ART");}
+                    if(conn.rs.getString("GT_D_Prev_ART")!=null){GT_D_Prev_ART= conn.rs.getString("GT_D_Prev_ART");}
+                    
+                    if(conn.rs.getString("m1_E_New_ART")!=null){m1_E_New_ART= conn.rs.getString("m1_E_New_ART");}
+                    if(conn.rs.getString("m1_E_Prev_ART")!=null){m1_E_Prev_ART= conn.rs.getString("m1_E_Prev_ART");}
+                    if(conn.rs.getString("m4_E_New_ART")!=null){m4_E_New_ART= conn.rs.getString("m4_E_New_ART");}
+                    if(conn.rs.getString("m4_E_Prev_ART")!=null){m4_E_Prev_ART= conn.rs.getString("m4_E_Prev_ART");}
+                    if(conn.rs.getString("m9_E_New_ART")!=null){m9_E_New_ART= conn.rs.getString("m9_E_New_ART");}
+                    if(conn.rs.getString("m9_E_Prev_ART")!=null){m9_E_Prev_ART= conn.rs.getString("m9_E_Prev_ART");}
+                    if(conn.rs.getString("m14_E_New_ART")!=null){m14_E_New_ART= conn.rs.getString("m14_E_New_ART");}
+                    if(conn.rs.getString("m14_E_Prev_ART")!=null){m14_E_Prev_ART= conn.rs.getString("m14_E_Prev_ART");}
+                    if(conn.rs.getString("m19_E_New_ART")!=null){m19_E_New_ART= conn.rs.getString("m19_E_New_ART");}
+                    if(conn.rs.getString("m19_E_Prev_ART")!=null){m19_E_Prev_ART= conn.rs.getString("m19_E_Prev_ART");}
+                    if(conn.rs.getString("m24_E_New_ART")!=null){m24_E_New_ART= conn.rs.getString("m24_E_New_ART");}
+                    if(conn.rs.getString("m24_E_Prev_ART")!=null){m24_E_Prev_ART= conn.rs.getString("m24_E_Prev_ART");}
+                    if(conn.rs.getString("m29_E_New_ART")!=null){m29_E_New_ART= conn.rs.getString("m29_E_New_ART");}
+                    if(conn.rs.getString("m29_E_Prev_ART")!=null){m29_E_Prev_ART= conn.rs.getString("m29_E_Prev_ART");}
+                    if(conn.rs.getString("m34_E_New_ART")!=null){m34_E_New_ART= conn.rs.getString("m34_E_New_ART");}
+                    if(conn.rs.getString("m34_E_Prev_ART")!=null){m34_E_Prev_ART= conn.rs.getString("m34_E_Prev_ART");}
+                    if(conn.rs.getString("m39_E_New_ART")!=null){m39_E_New_ART= conn.rs.getString("m39_E_New_ART");}
+                    if(conn.rs.getString("m39_E_Prev_ART")!=null){m39_E_Prev_ART= conn.rs.getString("m39_E_Prev_ART");}
+                    if(conn.rs.getString("m49_E_New_ART")!=null){m49_E_New_ART= conn.rs.getString("m49_E_New_ART");}
+                    if(conn.rs.getString("m49_E_Prev_ART")!=null){m49_E_Prev_ART= conn.rs.getString("m49_E_Prev_ART");}
+                    if(conn.rs.getString("m50_E_New_ART")!=null){m50_E_New_ART= conn.rs.getString("m50_E_New_ART");}
+                    if(conn.rs.getString("m50_E_Prev_ART")!=null){m50_E_Prev_ART= conn.rs.getString("m50_E_Prev_ART");}
+                    if(conn.rs.getString("tm_E_New_ART")!=null){tm_E_New_ART= conn.rs.getString("tm_E_New_ART");}
+                    if(conn.rs.getString("tm_E_Prev_ART")!=null){tm_E_Prev_ART= conn.rs.getString("tm_E_Prev_ART");}
+                    
+                    if(conn.rs.getString("f1_E_New_ART")!=null){f1_E_New_ART= conn.rs.getString("f1_E_New_ART");}
+                    if(conn.rs.getString("f1_E_Prev_ART")!=null){f1_E_Prev_ART= conn.rs.getString("f1_E_Prev_ART");}
+                    if(conn.rs.getString("f4_E_New_ART")!=null){f4_E_New_ART= conn.rs.getString("f4_E_New_ART");}
+                    if(conn.rs.getString("f4_E_Prev_ART")!=null){f4_E_Prev_ART= conn.rs.getString("f4_E_Prev_ART");}
+                    if(conn.rs.getString("f9_E_New_ART")!=null){f9_E_New_ART= conn.rs.getString("f9_E_New_ART");}
+                    if(conn.rs.getString("f9_E_Prev_ART")!=null){f9_E_Prev_ART= conn.rs.getString("f9_E_Prev_ART");}
+                    if(conn.rs.getString("f14_E_New_ART")!=null){f14_E_New_ART= conn.rs.getString("f14_E_New_ART");}
+                    if(conn.rs.getString("f14_E_Prev_ART")!=null){f14_E_Prev_ART= conn.rs.getString("f14_E_Prev_ART");}
+                    if(conn.rs.getString("f19_E_New_ART")!=null){f19_E_New_ART= conn.rs.getString("f19_E_New_ART");}
+                    if(conn.rs.getString("f19_E_Prev_ART")!=null){f19_E_Prev_ART= conn.rs.getString("f19_E_Prev_ART");}
+                    if(conn.rs.getString("f24_E_New_ART")!=null){f24_E_New_ART= conn.rs.getString("f24_E_New_ART");}
+                    if(conn.rs.getString("f24_E_Prev_ART")!=null){f24_E_Prev_ART= conn.rs.getString("f24_E_Prev_ART");}
+                    if(conn.rs.getString("f29_E_New_ART")!=null){f29_E_New_ART= conn.rs.getString("f29_E_New_ART");}
+                    if(conn.rs.getString("f29_E_Prev_ART")!=null){f29_E_Prev_ART= conn.rs.getString("f29_E_Prev_ART");}
+                    if(conn.rs.getString("f34_E_New_ART")!=null){f34_E_New_ART= conn.rs.getString("f34_E_New_ART");}
+                    if(conn.rs.getString("f34_E_Prev_ART")!=null){f34_E_Prev_ART= conn.rs.getString("f34_E_Prev_ART");}
+                    if(conn.rs.getString("f39_E_New_ART")!=null){f39_E_New_ART= conn.rs.getString("f39_E_New_ART");}
+                    if(conn.rs.getString("f39_E_Prev_ART")!=null){f39_E_Prev_ART= conn.rs.getString("f39_E_Prev_ART");}
+                    if(conn.rs.getString("f49_E_New_ART")!=null){f49_E_New_ART= conn.rs.getString("f49_E_New_ART");}
+                    if(conn.rs.getString("f49_E_Prev_ART")!=null){f49_E_Prev_ART= conn.rs.getString("f49_E_Prev_ART");}
+                    if(conn.rs.getString("f50_E_New_ART")!=null){f50_E_New_ART= conn.rs.getString("f50_E_New_ART");}
+                    if(conn.rs.getString("f50_E_Prev_ART")!=null){f50_E_Prev_ART= conn.rs.getString("f50_E_Prev_ART");}
+                    if(conn.rs.getString("tf_E_New_ART")!=null){tf_E_New_ART= conn.rs.getString("tf_E_New_ART");}
+                    if(conn.rs.getString("tf_E_Prev_ART")!=null){tf_E_Prev_ART= conn.rs.getString("tf_E_Prev_ART");}
+                    if(conn.rs.getString("GT_E_New_ART")!=null){GT_E_New_ART= conn.rs.getString("GT_E_New_ART");}
+                    if(conn.rs.getString("GT_E_Prev_ART")!=null){GT_E_Prev_ART= conn.rs.getString("GT_E_Prev_ART");}
+                    
+                    if(conn.rs.getString("m1_F_New_ART")!=null){m1_F_New_ART= conn.rs.getString("m1_F_New_ART");}
+                    if(conn.rs.getString("m1_F_Prev_ART")!=null){m1_F_Prev_ART= conn.rs.getString("m1_F_Prev_ART");}
+                    if(conn.rs.getString("m4_F_New_ART")!=null){m4_F_New_ART= conn.rs.getString("m4_F_New_ART");}
+                    if(conn.rs.getString("m4_F_Prev_ART")!=null){m4_F_Prev_ART= conn.rs.getString("m4_F_Prev_ART");}
+                    if(conn.rs.getString("m9_F_New_ART")!=null){m9_F_New_ART= conn.rs.getString("m9_F_New_ART");}
+                    if(conn.rs.getString("m9_F_Prev_ART")!=null){m9_F_Prev_ART= conn.rs.getString("m9_F_Prev_ART");}
+                    if(conn.rs.getString("m14_F_New_ART")!=null){m14_F_New_ART= conn.rs.getString("m14_F_New_ART");}
+                    if(conn.rs.getString("m14_F_Prev_ART")!=null){m14_F_Prev_ART= conn.rs.getString("m14_F_Prev_ART");}
+                    if(conn.rs.getString("m19_F_New_ART")!=null){m19_F_New_ART= conn.rs.getString("m19_F_New_ART");}
+                    if(conn.rs.getString("m19_F_Prev_ART")!=null){m19_F_Prev_ART= conn.rs.getString("m19_F_Prev_ART");}
+                    if(conn.rs.getString("m24_F_New_ART")!=null){m24_F_New_ART= conn.rs.getString("m24_F_New_ART");}
+                    if(conn.rs.getString("m24_F_Prev_ART")!=null){m24_F_Prev_ART= conn.rs.getString("m24_F_Prev_ART");}
+                    if(conn.rs.getString("m29_F_New_ART")!=null){m29_F_New_ART= conn.rs.getString("m29_F_New_ART");}
+                    if(conn.rs.getString("m29_F_Prev_ART")!=null){m29_F_Prev_ART= conn.rs.getString("m29_F_Prev_ART");}
+                    if(conn.rs.getString("m34_F_New_ART")!=null){m34_F_New_ART= conn.rs.getString("m34_F_New_ART");}
+                    if(conn.rs.getString("m34_F_Prev_ART")!=null){m34_F_Prev_ART= conn.rs.getString("m34_F_Prev_ART");}
+                    if(conn.rs.getString("m39_F_New_ART")!=null){m39_F_New_ART= conn.rs.getString("m39_F_New_ART");}
+                    if(conn.rs.getString("m39_F_Prev_ART")!=null){m39_F_Prev_ART= conn.rs.getString("m39_F_Prev_ART");}
+                    if(conn.rs.getString("m49_F_New_ART")!=null){m49_F_New_ART= conn.rs.getString("m49_F_New_ART");}
+                    if(conn.rs.getString("m49_F_Prev_ART")!=null){m49_F_Prev_ART= conn.rs.getString("m49_F_Prev_ART");}
+                    if(conn.rs.getString("m50_F_New_ART")!=null){m50_F_New_ART= conn.rs.getString("m50_F_New_ART");}
+                    if(conn.rs.getString("m50_F_Prev_ART")!=null){m50_F_Prev_ART= conn.rs.getString("m50_F_Prev_ART");}
+                    if(conn.rs.getString("tm_F_New_ART")!=null){tm_F_New_ART= conn.rs.getString("tm_F_New_ART");}
+                    if(conn.rs.getString("tm_F_Prev_ART")!=null){tm_F_Prev_ART= conn.rs.getString("tm_F_Prev_ART");}
+                    
+                    if(conn.rs.getString("f1_F_New_ART")!=null){f1_F_New_ART= conn.rs.getString("f1_F_New_ART");}
+                    if(conn.rs.getString("f1_F_Prev_ART")!=null){f1_F_Prev_ART= conn.rs.getString("f1_F_Prev_ART");}
+                    if(conn.rs.getString("f4_F_New_ART")!=null){f4_F_New_ART= conn.rs.getString("f4_F_New_ART");}
+                    if(conn.rs.getString("f4_F_Prev_ART")!=null){f4_F_Prev_ART= conn.rs.getString("f4_F_Prev_ART");}
+                    if(conn.rs.getString("f9_F_New_ART")!=null){f9_F_New_ART= conn.rs.getString("f9_F_New_ART");}
+                    if(conn.rs.getString("f9_F_Prev_ART")!=null){f9_F_Prev_ART= conn.rs.getString("f9_F_Prev_ART");}
+                    if(conn.rs.getString("f14_F_New_ART")!=null){f14_F_New_ART= conn.rs.getString("f14_F_New_ART");}
+                    if(conn.rs.getString("f14_F_Prev_ART")!=null){f14_F_Prev_ART= conn.rs.getString("f14_F_Prev_ART");}
+                    if(conn.rs.getString("f19_F_New_ART")!=null){f19_F_New_ART= conn.rs.getString("f19_F_New_ART");}
+                    if(conn.rs.getString("f19_F_Prev_ART")!=null){f19_F_Prev_ART= conn.rs.getString("f19_F_Prev_ART");}
+                    if(conn.rs.getString("f24_F_New_ART")!=null){f24_F_New_ART= conn.rs.getString("f24_F_New_ART");}
+                    if(conn.rs.getString("f24_F_Prev_ART")!=null){f24_F_Prev_ART= conn.rs.getString("f24_F_Prev_ART");}
+                    if(conn.rs.getString("f29_F_New_ART")!=null){f29_F_New_ART= conn.rs.getString("f29_F_New_ART");}
+                    if(conn.rs.getString("f29_F_Prev_ART")!=null){f29_F_Prev_ART= conn.rs.getString("f29_F_Prev_ART");}
+                    if(conn.rs.getString("f34_F_New_ART")!=null){f34_F_New_ART= conn.rs.getString("f34_F_New_ART");}
+                    if(conn.rs.getString("f34_F_Prev_ART")!=null){f34_F_Prev_ART= conn.rs.getString("f34_F_Prev_ART");}
+                    if(conn.rs.getString("f39_F_New_ART")!=null){f39_F_New_ART= conn.rs.getString("f39_F_New_ART");}
+                    if(conn.rs.getString("f39_F_Prev_ART")!=null){f39_F_Prev_ART= conn.rs.getString("f39_F_Prev_ART");}
+                    if(conn.rs.getString("f49_F_New_ART")!=null){f49_F_New_ART= conn.rs.getString("f49_F_New_ART");}
+                    if(conn.rs.getString("f49_F_Prev_ART")!=null){f49_F_Prev_ART= conn.rs.getString("f49_F_Prev_ART");}
+                    if(conn.rs.getString("f50_F_New_ART")!=null){f50_F_New_ART= conn.rs.getString("f50_F_New_ART");}
+                    if(conn.rs.getString("f50_F_Prev_ART")!=null){f50_F_Prev_ART= conn.rs.getString("f50_F_Prev_ART");}
+                    if(conn.rs.getString("tf_F_New_ART")!=null){tf_F_New_ART= conn.rs.getString("tf_F_New_ART");}
+                    if(conn.rs.getString("tf_F_Prev_ART")!=null){tf_F_Prev_ART= conn.rs.getString("tf_F_Prev_ART");}
+                    if(conn.rs.getString("GT_F_New_ART")!=null){GT_F_New_ART= conn.rs.getString("GT_F_New_ART");}
+                    if(conn.rs.getString("GT_F_Prev_ART")!=null){GT_F_Prev_ART= conn.rs.getString("GT_F_Prev_ART");}
+                    
                     user_id= conn.rs.getString("user_id");
                     isValidated= conn.rs.getString("isValidated");
                     isLocked= conn.rs.getString("isLocked");
@@ -437,7 +450,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+iptvalid+" </b>";
                 
                   if(isLocked.equals("1")){lock="disabled";}
         //get the name of the person who entered the form 
-        
+         enterdby="";
         String enterer="select * from user where userid='"+conn.rs.getString("user_id") +"'";
         
         conn.rs1=conn.st1.executeQuery(enterer);
@@ -793,60 +806,60 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+iptvalid+" </b>";
         + "<td  rowspan=\"2\" class=\"title\">Number died [D]</td>"
         
         + "<td>New on ART</td>"
-        + "<td><input type=\"text\" name=\"m1_D_New_ART\" id=\"m1_D_New_ART\" value=\""+m1_D_New_ART+"\"  onblur=\"autosave('m1_D_New_ART');\"  oninput=\"E('m1_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f1_D_New_ART\" id=\"f1_D_New_ART\" value=\""+f1_D_New_ART+"\"  onblur=\"autosave('f1_D_New_ART');\"  oninput=\"E('f1_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m4_D_New_ART\" id=\"m4_D_New_ART\" value=\""+m4_D_New_ART+"\"  onblur=\"autosave('m4_D_New_ART');\"  oninput=\"E('m4_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f4_D_New_ART\" id=\"f4_D_New_ART\" value=\""+f4_D_New_ART+"\"  onblur=\"autosave('f4_D_New_ART');\"  oninput=\"E('f4_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m9_D_New_ART\" id=\"m9_D_New_ART\" value=\""+m9_D_New_ART+"\"  onblur=\"autosave('m9_D_New_ART');\"  oninput=\"E('m9_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f9_D_New_ART\" id=\"f9_D_New_ART\" value=\""+f9_D_New_ART+"\"  onblur=\"autosave('f9_D_New_ART');\"  oninput=\"E('f9_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m14_D_New_ART\" id=\"m14_D_New_ART\" value=\""+m14_D_New_ART+"\" onblur=\"autosave('m14_D_New_ART');\"  oninput=\"E('m14_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f14_D_New_ART\" id=\"f14_D_New_ART\" value=\""+f14_D_New_ART+"\" onblur=\"autosave('f14_D_New_ART');\"  oninput=\"E('f14_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m19_D_New_ART\" id=\"m19_D_New_ART\" value=\""+m19_D_New_ART+"\"  onblur=\"autosave('m19_D_New_ART');\"  oninput=\"E('m19_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f19_D_New_ART\" id=\"f19_D_New_ART\" value=\""+f19_D_New_ART+"\"  onblur=\"autosave('f19_D_New_ART');\"  oninput=\"E('f19_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m24_D_New_ART\" id=\"m24_D_New_ART\" value=\""+m24_D_New_ART+"\"  onblur=\"autosave('m24_D_New_ART');\"  oninput=\"E('m24_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f24_D_New_ART\" id=\"f24_D_New_ART\" value=\""+f24_D_New_ART+"\"  onblur=\"autosave('f24_D_New_ART');\"  oninput=\"E('f24_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m29_D_New_ART\" id=\"m29_D_New_ART\" value=\""+m29_D_New_ART+"\"  onblur=\"autosave('m29_D_New_ART');\"  oninput=\"E('m29_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f29_D_New_ART\" id=\"f29_D_New_ART\" value=\""+f29_D_New_ART+"\"  onblur=\"autosave('f29_D_New_ART');\"  oninput=\"E('f29_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m34_D_New_ART\" id=\"m34_D_New_ART\" value=\""+m34_D_New_ART+"\"  onblur=\"autosave('m34_D_New_ART');\"  oninput=\"E('m34_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f34_D_New_ART\" id=\"f34_D_New_ART\" value=\""+f34_D_New_ART+"\"  onblur=\"autosave('f34_D_New_ART');\"  oninput=\"E('f34_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m39_D_New_ART\" id=\"m39_D_New_ART\" value=\""+m39_D_New_ART+"\"  onblur=\"autosave('m39_D_New_ART');\"  oninput=\"E('m39_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f39_D_New_ART\" id=\"f39_D_New_ART\" value=\""+f39_D_New_ART+"\"  onblur=\"autosave('f39_D_New_ART');\"  oninput=\"E('f39_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m49_D_New_ART\" id=\"m49_D_New_ART\" value=\""+m49_D_New_ART+"\"  onblur=\"autosave('m49_D_New_ART');\"  oninput=\"E('m49_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f49_D_New_ART\" id=\"f49_D_New_ART\" value=\""+f49_D_New_ART+"\"  onblur=\"autosave('f49_D_New_ART');\"  oninput=\"E('f49_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m50_D_New_ART\" id=\"m50_D_New_ART\" value=\""+m50_D_New_ART+"\"  onblur=\"autosave('m50_D_New_ART');\"  oninput=\"E('m50_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f50_D_New_ART\" id=\"f50_D_New_ART\" value=\""+f50_D_New_ART+"\"  onblur=\"autosave('f50_D_New_ART');\"  oninput=\"E('f50_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"tm_D_New_ART\" id=\"tm_D_New_ART\" value=\""+tm_D_New_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tm_D_New_ART');\"  oninput=\"E('tm_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
-        + "<td><input type=\"text\" name=\"tf_D_New_ART\" id=\"tf_D_New_ART\" value=\""+tf_D_New_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tf_D_New_ART');\"  oninput=\"E('tf_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
-        + "<td><input type=\"text\" name=\"GT_D_New_ART\" id=\"GT_D_New_ART\" value=\""+GT_D_New_ART+"\" tabindex=\"-1\"  onblur=\"autosave('GT_D_New_ART');\"  oninput=\"E('GT_D_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"m1_D_New_ART\" id=\"m1_D_New_ART\" value=\""+m1_D_New_ART+"\"  onblur=\"autosave('m1_D_New_ART');\"  oninput=\"E('m1_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f1_D_New_ART\" id=\"f1_D_New_ART\" value=\""+f1_D_New_ART+"\"  onblur=\"autosave('f1_D_New_ART');\"  oninput=\"E('f1_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m4_D_New_ART\" id=\"m4_D_New_ART\" value=\""+m4_D_New_ART+"\"  onblur=\"autosave('m4_D_New_ART');\"  oninput=\"E('m4_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f4_D_New_ART\" id=\"f4_D_New_ART\" value=\""+f4_D_New_ART+"\"  onblur=\"autosave('f4_D_New_ART');\"  oninput=\"E('f4_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m9_D_New_ART\" id=\"m9_D_New_ART\" value=\""+m9_D_New_ART+"\"  onblur=\"autosave('m9_D_New_ART');\"  oninput=\"E('m9_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f9_D_New_ART\" id=\"f9_D_New_ART\" value=\""+f9_D_New_ART+"\"  onblur=\"autosave('f9_D_New_ART');\"  oninput=\"E('f9_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m14_D_New_ART\" id=\"m14_D_New_ART\" value=\""+m14_D_New_ART+"\" onblur=\"autosave('m14_D_New_ART');\"  oninput=\"E('m14_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f14_D_New_ART\" id=\"f14_D_New_ART\" value=\""+f14_D_New_ART+"\" onblur=\"autosave('f14_D_New_ART');\"  oninput=\"E('f14_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m19_D_New_ART\" id=\"m19_D_New_ART\" value=\""+m19_D_New_ART+"\"  onblur=\"autosave('m19_D_New_ART');\"  oninput=\"E('m19_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f19_D_New_ART\" id=\"f19_D_New_ART\" value=\""+f19_D_New_ART+"\"  onblur=\"autosave('f19_D_New_ART');\"  oninput=\"E('f19_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m24_D_New_ART\" id=\"m24_D_New_ART\" value=\""+m24_D_New_ART+"\"  onblur=\"autosave('m24_D_New_ART');\"  oninput=\"E('m24_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f24_D_New_ART\" id=\"f24_D_New_ART\" value=\""+f24_D_New_ART+"\"  onblur=\"autosave('f24_D_New_ART');\"  oninput=\"E('f24_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m29_D_New_ART\" id=\"m29_D_New_ART\" value=\""+m29_D_New_ART+"\"  onblur=\"autosave('m29_D_New_ART');\"  oninput=\"E('m29_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f29_D_New_ART\" id=\"f29_D_New_ART\" value=\""+f29_D_New_ART+"\"  onblur=\"autosave('f29_D_New_ART');\"  oninput=\"E('f29_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m34_D_New_ART\" id=\"m34_D_New_ART\" value=\""+m34_D_New_ART+"\"  onblur=\"autosave('m34_D_New_ART');\"  oninput=\"E('m34_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f34_D_New_ART\" id=\"f34_D_New_ART\" value=\""+f34_D_New_ART+"\"  onblur=\"autosave('f34_D_New_ART');\"  oninput=\"E('f34_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m39_D_New_ART\" id=\"m39_D_New_ART\" value=\""+m39_D_New_ART+"\"  onblur=\"autosave('m39_D_New_ART');\"  oninput=\"E('m39_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f39_D_New_ART\" id=\"f39_D_New_ART\" value=\""+f39_D_New_ART+"\"  onblur=\"autosave('f39_D_New_ART');\"  oninput=\"E('f39_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m49_D_New_ART\" id=\"m49_D_New_ART\" value=\""+m49_D_New_ART+"\"  onblur=\"autosave('m49_D_New_ART');\"  oninput=\"E('m49_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f49_D_New_ART\" id=\"f49_D_New_ART\" value=\""+f49_D_New_ART+"\"  onblur=\"autosave('f49_D_New_ART');\"  oninput=\"E('f49_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m50_D_New_ART\" id=\"m50_D_New_ART\" value=\""+m50_D_New_ART+"\"  onblur=\"autosave('m50_D_New_ART');\"  oninput=\"E('m50_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f50_D_New_ART\" id=\"f50_D_New_ART\" value=\""+f50_D_New_ART+"\"  onblur=\"autosave('f50_D_New_ART');\"  oninput=\"E('f50_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"tm_D_New_ART\" id=\"tm_D_New_ART\" value=\""+tm_D_New_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tm_D_New_ART');\"  oninput=\"E('tm_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"tf_D_New_ART\" id=\"tf_D_New_ART\" value=\""+tf_D_New_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tf_D_New_ART');\"  oninput=\"E('tf_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"GT_D_New_ART\" id=\"GT_D_New_ART\" value=\""+GT_D_New_ART+"\" tabindex=\"-1\"  onblur=\"autosave('GT_D_New_ART');\"  oninput=\"E('GT_E_New_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "</tr>"
             
         + "<tr>"
         + "<td>Previously on ART</td>"
-        + "<td><input type=\"text\" name=\"m1_D_Prev_ART\" id=\"m1_D_Prev_ART\" value=\""+m1_D_Prev_ART+"\"  onblur=\"autosave('m1_D_Prev_ART');\"  oninput=\"E('m1_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f1_D_Prev_ART\" id=\"f1_D_Prev_ART\" value=\""+f1_D_Prev_ART+"\"  onblur=\"autosave('f1_D_Prev_ART');\"  oninput=\"E('f1_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m4_D_Prev_ART\" id=\"m4_D_Prev_ART\" value=\""+m4_D_Prev_ART+"\"  onblur=\"autosave('m4_D_Prev_ART');\"  oninput=\"E('m4_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f4_D_Prev_ART\" id=\"f4_D_Prev_ART\" value=\""+f4_D_Prev_ART+"\"  onblur=\"autosave('f4_D_Prev_ART');\"  oninput=\"E('f4_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m9_D_Prev_ART\" id=\"m9_D_Prev_ART\" value=\""+m9_D_Prev_ART+"\"  onblur=\"autosave('m9_D_Prev_ART');\"  oninput=\"E('m9_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f9_D_Prev_ART\" id=\"f9_D_Prev_ART\" value=\""+f9_D_Prev_ART+"\"  onblur=\"autosave('f9_D_Prev_ART');\"  oninput=\"E('f9_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m14_D_Prev_ART\" id=\"m14_D_Prev_ART\" value=\""+m14_D_Prev_ART+"\" onblur=\"autosave('m14_D_Prev_ART');\"  oninput=\"E('m14_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f14_D_Prev_ART\" id=\"f14_D_Prev_ART\" value=\""+f14_D_Prev_ART+"\" onblur=\"autosave('f14_D_Prev_ART');\"  oninput=\"E('f14_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m19_D_Prev_ART\" id=\"m19_D_Prev_ART\" value=\""+m19_D_Prev_ART+"\"  onblur=\"autosave('m19_D_Prev_ART');\"  oninput=\"E('m19_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f19_D_Prev_ART\" id=\"f19_D_Prev_ART\" value=\""+f19_D_Prev_ART+"\"  onblur=\"autosave('f19_D_Prev_ART');\"  oninput=\"E('f19_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m24_D_Prev_ART\" id=\"m24_D_Prev_ART\" value=\""+m24_D_Prev_ART+"\"  onblur=\"autosave('m24_D_Prev_ART');\"  oninput=\"E('m24_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f24_D_Prev_ART\" id=\"f24_D_Prev_ART\" value=\""+f24_D_Prev_ART+"\"  onblur=\"autosave('f24_D_Prev_ART');\"  oninput=\"E('f24_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m29_D_Prev_ART\" id=\"m29_D_Prev_ART\" value=\""+m29_D_Prev_ART+"\"  onblur=\"autosave('m29_D_Prev_ART');\"  oninput=\"E('m29_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f29_D_Prev_ART\" id=\"f29_D_Prev_ART\" value=\""+f29_D_Prev_ART+"\"  onblur=\"autosave('f29_D_Prev_ART');\"  oninput=\"E('f29_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m34_D_Prev_ART\" id=\"m34_D_Prev_ART\" value=\""+m34_D_Prev_ART+"\"  onblur=\"autosave('m34_D_Prev_ART');\"  oninput=\"E('m34_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f34_D_Prev_ART\" id=\"f34_D_Prev_ART\" value=\""+f34_D_Prev_ART+"\"  onblur=\"autosave('f34_D_Prev_ART');\"  oninput=\"E('f34_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m39_D_Prev_ART\" id=\"m39_D_Prev_ART\" value=\""+m39_D_Prev_ART+"\"  onblur=\"autosave('m39_D_Prev_ART');\"  oninput=\"E('m39_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f39_D_Prev_ART\" id=\"f39_D_Prev_ART\" value=\""+f39_D_Prev_ART+"\"  onblur=\"autosave('f39_D_Prev_ART');\"  oninput=\"E('f39_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m49_D_Prev_ART\" id=\"m49_D_Prev_ART\" value=\""+m49_D_Prev_ART+"\"  onblur=\"autosave('m49_D_Prev_ART');\"  oninput=\"E('m49_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f49_D_Prev_ART\" id=\"f49_D_Prev_ART\" value=\""+f49_D_Prev_ART+"\"  onblur=\"autosave('f49_D_Prev_ART');\"  oninput=\"E('f49_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"m50_D_Prev_ART\" id=\"m50_D_Prev_ART\" value=\""+m50_D_Prev_ART+"\"  onblur=\"autosave('m50_D_Prev_ART');\"  oninput=\"E('m50_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"f50_D_Prev_ART\" id=\"f50_D_Prev_ART\" value=\""+f50_D_Prev_ART+"\"  onblur=\"autosave('f50_D_Prev_ART');\"  oninput=\"E('f50_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
-        + "<td><input type=\"text\" name=\"tm_D_Prev_ART\" id=\"tm_D_Prev_ART\" value=\""+tm_D_Prev_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tm_D_Prev_ART');\"  oninput=\"E('tm_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
-        + "<td><input type=\"text\" name=\"tf_D_Prev_ART\" id=\"tf_D_Prev_ART\" value=\""+tf_D_Prev_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tf_D_Prev_ART');\"  oninput=\"E('tf_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
-        + "<td><input type=\"text\" name=\"GT_D_Prev_ART\" id=\"GT_D_Prev_ART\" value=\""+GT_D_Prev_ART+"\" tabindex=\"-1\"  onblur=\"autosave('GT_D_Prev_ART');\"  oninput=\"E('GT_D_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"m1_D_Prev_ART\" id=\"m1_D_Prev_ART\" value=\""+m1_D_Prev_ART+"\"  onblur=\"autosave('m1_D_Prev_ART');\"  oninput=\"E('m1_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f1_D_Prev_ART\" id=\"f1_D_Prev_ART\" value=\""+f1_D_Prev_ART+"\"  onblur=\"autosave('f1_D_Prev_ART');\"  oninput=\"E('f1_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m4_D_Prev_ART\" id=\"m4_D_Prev_ART\" value=\""+m4_D_Prev_ART+"\"  onblur=\"autosave('m4_D_Prev_ART');\"  oninput=\"E('m4_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f4_D_Prev_ART\" id=\"f4_D_Prev_ART\" value=\""+f4_D_Prev_ART+"\"  onblur=\"autosave('f4_D_Prev_ART');\"  oninput=\"E('f4_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m9_D_Prev_ART\" id=\"m9_D_Prev_ART\" value=\""+m9_D_Prev_ART+"\"  onblur=\"autosave('m9_D_Prev_ART');\"  oninput=\"E('m9_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f9_D_Prev_ART\" id=\"f9_D_Prev_ART\" value=\""+f9_D_Prev_ART+"\"  onblur=\"autosave('f9_D_Prev_ART');\"  oninput=\"E('f9_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m14_D_Prev_ART\" id=\"m14_D_Prev_ART\" value=\""+m14_D_Prev_ART+"\" onblur=\"autosave('m14_D_Prev_ART');\"  oninput=\"E('m14_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f14_D_Prev_ART\" id=\"f14_D_Prev_ART\" value=\""+f14_D_Prev_ART+"\" onblur=\"autosave('f14_D_Prev_ART');\"  oninput=\"E('f14_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m19_D_Prev_ART\" id=\"m19_D_Prev_ART\" value=\""+m19_D_Prev_ART+"\"  onblur=\"autosave('m19_D_Prev_ART');\"  oninput=\"E('m19_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f19_D_Prev_ART\" id=\"f19_D_Prev_ART\" value=\""+f19_D_Prev_ART+"\"  onblur=\"autosave('f19_D_Prev_ART');\"  oninput=\"E('f19_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m24_D_Prev_ART\" id=\"m24_D_Prev_ART\" value=\""+m24_D_Prev_ART+"\"  onblur=\"autosave('m24_D_Prev_ART');\"  oninput=\"E('m24_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f24_D_Prev_ART\" id=\"f24_D_Prev_ART\" value=\""+f24_D_Prev_ART+"\"  onblur=\"autosave('f24_D_Prev_ART');\"  oninput=\"E('f24_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m29_D_Prev_ART\" id=\"m29_D_Prev_ART\" value=\""+m29_D_Prev_ART+"\"  onblur=\"autosave('m29_D_Prev_ART');\"  oninput=\"E('m29_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f29_D_Prev_ART\" id=\"f29_D_Prev_ART\" value=\""+f29_D_Prev_ART+"\"  onblur=\"autosave('f29_D_Prev_ART');\"  oninput=\"E('f29_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m34_D_Prev_ART\" id=\"m34_D_Prev_ART\" value=\""+m34_D_Prev_ART+"\"  onblur=\"autosave('m34_D_Prev_ART');\"  oninput=\"E('m34_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f34_D_Prev_ART\" id=\"f34_D_Prev_ART\" value=\""+f34_D_Prev_ART+"\"  onblur=\"autosave('f34_D_Prev_ART');\"  oninput=\"E('f34_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m39_D_Prev_ART\" id=\"m39_D_Prev_ART\" value=\""+m39_D_Prev_ART+"\"  onblur=\"autosave('m39_D_Prev_ART');\"  oninput=\"E('m39_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f39_D_Prev_ART\" id=\"f39_D_Prev_ART\" value=\""+f39_D_Prev_ART+"\"  onblur=\"autosave('f39_D_Prev_ART');\"  oninput=\"E('f39_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m49_D_Prev_ART\" id=\"m49_D_Prev_ART\" value=\""+m49_D_Prev_ART+"\"  onblur=\"autosave('m49_D_Prev_ART');\"  oninput=\"E('m49_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f49_D_Prev_ART\" id=\"f49_D_Prev_ART\" value=\""+f49_D_Prev_ART+"\"  onblur=\"autosave('f49_D_Prev_ART');\"  oninput=\"E('f49_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"m50_D_Prev_ART\" id=\"m50_D_Prev_ART\" value=\""+m50_D_Prev_ART+"\"  onblur=\"autosave('m50_D_Prev_ART');\"  oninput=\"E('m50_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"f50_D_Prev_ART\" id=\"f50_D_Prev_ART\" value=\""+f50_D_Prev_ART+"\"  onblur=\"autosave('f50_D_Prev_ART');\"  oninput=\"E('f50_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"tm_D_Prev_ART\" id=\"tm_D_Prev_ART\" value=\""+tm_D_Prev_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tm_D_Prev_ART');\"  oninput=\"E('tm_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"tf_D_Prev_ART\" id=\"tf_D_Prev_ART\" value=\""+tf_D_Prev_ART+"\" tabindex=\"-1\"  onblur=\"autosave('tf_D_Prev_ART');\"  oninput=\"E('tf_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"GT_D_Prev_ART\" id=\"GT_D_Prev_ART\" value=\""+GT_D_Prev_ART+"\" tabindex=\"-1\"  onblur=\"autosave('GT_D_Prev_ART');\"  oninput=\"E('GT_E_Prev_ART'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "</tr>"
             + "";
     F = ""
