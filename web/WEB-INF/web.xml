@@ -785,6 +785,14 @@
         <servlet-name>validate_indextesting</servlet-name>
         <servlet-class>InternalSystem.validate_indextesting</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadAllVLData</servlet-name>
+        <servlet-class>LoadExcels.LoadAllVLData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Compare_DHIS_IMIS</servlet-name>
+        <servlet-class>LoadExcels.Compare_DHIS_IMIS</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1568,6 +1576,14 @@
     <servlet-mapping>
         <servlet-name>validate_indextesting</servlet-name>
         <url-pattern>/validate_indextesting</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadAllVLData</servlet-name>
+        <url-pattern>/LoadAllVLData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Compare_DHIS_IMIS</servlet-name>
+        <url-pattern>/Compare_DHIS_IMIS</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

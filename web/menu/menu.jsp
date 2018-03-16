@@ -234,12 +234,11 @@
                     
                   <li ><a href="upload_tb_raw_data.jsp" Title="Tb raw data"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>
                   <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Data(.xls)</a></li>
-                  <li ><a href="loadviralloadraw.jsp"><i class="icon-plus"></i>Viral Load raw (.xls)</a></li>
+                  <li ><a href="UploadVL.jsp"><i class="icon-plus"></i>Viral Load raw (.xlsx)</a></li>
                   <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>EID Positive raw (.xlsx)</a></li>
                   <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>EID tested raw (.xlsx)</a></li>
                   <li ><a href="UploadNewANCData.jsp"><i class="icon-plus"></i>New on ANC [MOH 711] (.xlsx)</a></li>
-                  
-                   <!--<li ><a href="loadKEPMS.jsp"><i class="icon-plus"></i>Kepms Access Data (.mdb)</a></li>-->
+                  <li ><a href="UploadDHISData.jsp"><i class="icon-plus"></i>DHIS Data (.xlxs)</a></li>
                </ul>
             </li>
              <%}}}else{}}%>
