@@ -154,7 +154,7 @@
             
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){ %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="loadsgbv.jsp">
+               <a href="loadsgbv_new.jsp">
                <!--<i class="icon-th-list"></i>--> 
                <span class="title">SGBV</span>
                <!--<span class="arrow "></span>-->
@@ -254,7 +254,7 @@
                <ul class="sub">
                   <li ><a href="rawdata.jsp">Facility raw data</a></li>
                   <li><a href="staticFormData.jsp">Static Reports</a></li>
-                  <li><a href="reportsTracker.jsp">Reports Tracker</a></li>
+                  <li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>
                    <li><a href="datimReport.jsp">Datim Report</a></li>
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
                   <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>

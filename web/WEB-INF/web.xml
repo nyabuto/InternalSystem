@@ -793,6 +793,18 @@
         <servlet-name>Compare_DHIS_IMIS</servlet-name>
         <servlet-class>LoadExcels.Compare_DHIS_IMIS</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadsgbv_new</servlet-name>
+        <servlet-class>InternalSystem.loadsgbv_new</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validatesgbv_new</servlet-name>
+        <servlet-class>InternalSystem.validatesgbv_new</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savesgbv_new</servlet-name>
+        <servlet-class>InternalSystem.savesgbv_new</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1584,6 +1596,18 @@
     <servlet-mapping>
         <servlet-name>Compare_DHIS_IMIS</servlet-name>
         <url-pattern>/Compare_DHIS_IMIS</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadsgbv_new</servlet-name>
+        <url-pattern>/loadsgbv_new</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validatesgbv_new</servlet-name>
+        <url-pattern>/validatesgbv_new</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savesgbv_new</servlet-name>
+        <url-pattern>/savesgbv_new</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

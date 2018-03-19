@@ -143,18 +143,13 @@ public void transfermacros(String src1,String desteepath ){
             //the source of the application is known and is fixed.
             //however, the destination may change and is different.
             
-            
-            
-           
                   String mydrive = desteepath.substring(0, 1);
                   //dbconnpath=mydrive+":\\MNHC_SYSTEM_APHIA_PLUS\\"; 
                 dbconnpath=mydrive+":\\APHIAPLUS\\InternalSystem\\"; 
                  
                 //create a directory
-                
                 // new File(dbconnpath).mkdir();
                new File(dbconnpath).mkdirs();
-                  
                   
           /*        
           String sourcepath=dbconnpath+"\\Partnerbasedkepms.xlsm";
@@ -164,7 +159,6 @@ public void transfermacros(String src1,String desteepath ){
               //dbsetup=ctx.getRealPath("/dbase.txt");
                   
       
-             
              
               Path FROM = Paths.get(src1);
               Path TO = Paths.get(desteepath);
@@ -226,6 +220,7 @@ public void copymacros(String sourcepath,String destpath ){
         }
         //=======================================================================
         catch (IOException ex) {
+            System.out.println("Error while tranferring"+ex);
             Logger.getLogger(copytemplates.class.getName()).log(Level.SEVERE, null, ex);
         }
     
