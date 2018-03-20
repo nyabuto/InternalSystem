@@ -1852,9 +1852,9 @@ int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50
         +"d_nd_1,d_nd_9,d_nd_0_9,d_nd_f_14,d_nd_f_19,d_nd_f_24,d_nd_f_49,d_nd_f_50,d_nd_10_50_f,d_nd_m_14,d_nd_m_19,d_nd_m_24,d_nd_m_49,d_nd_m_50,d_nd_10_50_m,d_nd_0_50").split(",");       
   
         String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
-"SELECT county.County AS County, DistrictNom,constituency,ward,"+facilitiestable+".SubPartnerNom AS SubPartnerNom ,CentreSanteId AS mfl_code, " +
+"SELECT county.County AS County, DistrictNom,constituency,ward,SubPartnerNom ,mfl_code, " +
 "GSN,ART_Support,PMTCT_Support,HTC_Support1,Type,ART_highvolume,PMTCT_highvolume, " +
-"HTC_highvolume,latitude,longitude, 'DSD' AS support_type, " +
+"HTC_highvolume,latitude,longitude,support_type, " +
 "COUNT( CASE WHEN Suppressed='Y' THEN  'Numerator' END) AS Numerator, " +
 "COUNT( CASE WHEN Suppressed='Y' AND Justification='Routine VL' THEN  'Routine' END) AS n_Routine, " +
 "COUNT( CASE WHEN Suppressed='Y' AND (Justification='Baseline' OR Justification='Confirmation of Treatment Failure (Repeat VL)' OR Justification='Single Drug Substitution' OR Justification='Clinical Failure') THEN  'Targeted' END) AS n_Targeted, " +
@@ -2015,10 +2015,20 @@ int sumedtotalsafter=total_1_9+f_14+f_19+f_24+f_49+f_50+m_14+m_19+m_24+m_49+m_50
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=50 AND AgeYrs<=100) THEN  'd_nd_m_50' END) AS d_nd_m_50, " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs >=10 AND AgeYrs<=100) THEN  'd_nd_10_50_m' END) AS d_nd_10_50_m, " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (AgeYrs<=100) THEN  'd_nd_0_50' END) AS d_nd_0_50 " +
-"FROM vl_validation join "+facilitiestable+" ON vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
+"FROM ("
++ ""+
+"SELECT MAX(Date_Dispatched),county.County AS County, DistrictNom,constituency,ward,"+facilitiestable+".SubPartnerNom AS SubPartnerNom ,CentreSanteId AS mfl_code, " +
+"GSN,ART_Support,PMTCT_Support,HTC_Support1,Type,ART_highvolume,PMTCT_highvolume, " +
+"HTC_highvolume,latitude,longitude,'DSD' support_type, " +
+"autokey,`#`,System_ID,Batch_No,Patient_CCC_No,Testing_Lab,Partner,county.County AS County,Sub_County,Facility_Name,MFL_Code AS mflcode,"
++ "Sex,AgeYrs,Sample_Type,Date_Collected,Received_Status,`Reason for Repeat / Rejection`,Regimen,Other_Regimen,Justification,"
++ "vl_validation.PMTCT AS PMTCT,ART_Initiation_Date,Date_Received,Date_Tested,Date_Dispatched,Valid_Result,Value,Suppressed,year,quarter" +      
+"vl_validation join "+facilitiestable+" ON vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
 +"join district on "+facilitiestable+".DistrictID=district.DistrictID join county on county.CountyID=district.CountyID " +
-""+joinedwhere+" GROUP BY mfl_code "; 
+""+joinedwhere+" GROUP BY Patient_CCC_No) AS vl_validation GROUP BY mfl_code "; 
         
+//         System.out.println("vlquery: "+getVLData);
+
         conn.rs=conn.st.executeQuery(getVLData);
     
     while(conn.rs.next()){

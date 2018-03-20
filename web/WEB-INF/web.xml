@@ -805,6 +805,10 @@
         <servlet-name>savesgbv_new</servlet-name>
         <servlet-class>InternalSystem.savesgbv_new</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>testdatimTbViralRetention_2018Q1</servlet-name>
+        <servlet-class>testdatimTbViralRetention_2018Q1</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1608,6 +1612,10 @@
     <servlet-mapping>
         <servlet-name>savesgbv_new</servlet-name>
         <url-pattern>/savesgbv_new</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>testdatimTbViralRetention_2018Q1</servlet-name>
+        <url-pattern>/testdatimTbViralRetention_2018Q1</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

@@ -2472,6 +2472,7 @@ else if(z==pmtct_blankrows-4){
             String quarter = "";
             String eidduration="";
             String excelDuration;
+            String eidposdate="",eidtesteddate="";
             //==================================================================================================
             //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             int yearcopy = Integer.parseInt(year);
@@ -2487,19 +2488,28 @@ else if(z==pmtct_blankrows-4){
             //annually
             if (reportDuration.equals("1")) {
                 yearmonth = "Annual Report For " + year;
-                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
+                duration = " " + form + ".reportingyearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
                 eidduration="year='"+year+"'";
+                eidposdate=" testingdate BETWEEN '"+prevYear+"10-01' AND '"+year+"-09-31' "; 
+                eidtesteddate=" datetested BETWEEN '"+prevYear+"10-01' AND '"+year+"-09-31' "; 
             } else if (reportDuration.equals("2")) {
                 semi_annual = request.getParameter("semi_annual");
 //        semi_annual="2";
                 if (semi_annual.equals("1")) {
                     yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
-                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
+                    duration = " " + form + ".reportingyearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
+                    eidposdate=" testingdate BETWEEN '"+prevYear+"10-01' AND '"+year+"-03-31' "; 
+                    eidtesteddate=" datetested BETWEEN '"+prevYear+"10-01' AND '"+year+"-03-31' "; 
+                
                      eidduration="year='"+year+"' and (quarter='1' || quarter='2') ";
                 } else {
                     yearmonth = "Semi Annual Report for Apr to  Sep " + year;
-                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
+                    duration = " " + form + ".reportingyearmonth BETWEEN " + year + "04 AND " + year + "09";
                      eidduration="year='"+year+"' and (quarter='2' || quarter='3') ";
+                     
+                    eidposdate=" testingdate BETWEEN '"+year+"04-01' AND '"+year+"-09-31' "; 
+                    eidtesteddate=" datetested BETWEEN '"+year+"04-01' AND '"+year+"-09-31' "; 
+                     
                 }
             } else if (reportDuration.equals("3")) {
                 try {
@@ -2520,11 +2530,16 @@ else if(z==pmtct_blankrows-4){
                             startMonth = months[0];
                             endMonth = months[2];
                             if (quarter.equals("1")) {
-                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
+                                duration = " " + form + ".reportingyearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
                                 yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
+                                
+                                eidposdate=" testingdate BETWEEN '"+prevYear+"-"+startMonth+"-01' AND '"+prevYear+"-"+endMonth+"-31' "; 
+                                eidtesteddate=" datetested BETWEEN '"+prevYear+"-"+startMonth+"-01' AND '"+prevYear+"-"+endMonth+"-31' "; 
                             } else {
                                 yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
-                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
+                                duration = " " + form + ".reportingyearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
+                                eidposdate=" testingdate BETWEEN '"+year+"-"+startMonth+"-01' AND '"+year+"-"+endMonth+"-31' "; 
+                                eidtesteddate=" datetested BETWEEN '"+year+"-"+startMonth+"-01' AND '"+year+"-"+endMonth+"-31' "; 
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
@@ -2538,16 +2553,23 @@ else if(z==pmtct_blankrows-4){
                 monthcopy = Integer.parseInt(request.getParameter("month"));
                 
                 //since we dont want data to appear for monthly reports, we set an impossible 
-                eidduration=" 1=2 "; 
+                eidposdate=" testingdate BETWEEN '"+year+"-"+monthcopy+"-01' AND '"+year+"-"+monthcopy+"-31' "; 
+                eidtesteddate=" datetested BETWEEN '"+year+"-"+monthcopy+"-01' AND '"+year+"-"+monthcopy+"-31' "; 
 //     month=5;
                 if (monthcopy >= 10) {
                     
                     yearmonth = "Monthly Report For " + prevYear + "_(" + month + ")";
                     duration = "1=2";// this will make the report not output any data which is what i wanted
+                   
+                eidposdate=" testingdate BETWEEN '"+year+"-"+monthcopy+"-01' AND '"+year+"-"+monthcopy+"-31' "; 
+                eidtesteddate=" datetested BETWEEN '"+year+"-"+monthcopy+"-01' AND '"+year+"-"+monthcopy+"-31' "; 
                 } 
                 else {
                     duration = " 1=2"; // this will make the report not output any data which is what i wanted
                     yearmonth = "Monthly Report For " + year + "_(" + month + ")";
+                    
+                    eidposdate=" testingdate BETWEEN '"+year+"-0"+monthcopy+"-01' AND '"+year+"-0"+monthcopy+"-31' "; 
+                    eidtesteddate=" datetested BETWEEN '"+year+"-0"+monthcopy+"-01' AND '"+year+"-0"+monthcopy+"-31' "; 
                 }
             }
             else {
@@ -2588,7 +2610,7 @@ else if(z==pmtct_blankrows-4){
                 
             }
             
-            String joinedwhwere = " where 1=1 " + yearwhere + " && " + eidduration + " " + countywhere + " " + subcountywhere;
+            String joinedwhwere = " where 1=1 " + countywhere + " " + subcountywhere;
            //old eid format 
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
 //            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode "
@@ -2651,7 +2673,7 @@ else if(z==pmtct_blankrows-4){
                             "LEFT JOIN "+facilitiestable+" ON eid_raw_pos.SubPartnerID="+facilitiestable+".SubPartnerID " +
                             "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
                             "LEFT JOIN county ON district.CountyID=county.CountyID " +
-                            " "+joinedwhwere+" and "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && ('validation' !='A' || 'validation'!='VL') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
+                            " "+joinedwhwere+" and "+eidposdate+" and "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && (`validation` !='A' && `validation` !='VL') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
                             "   UNION ALL           " +
                             "SELECT "+facilitiestable+".SubPartnerNom AS facility_name,district.DistrictNom AS district_name,county.County AS county," +
                             ""+facilitiestable+".CentreSanteId AS mfl_code,ART_Support,PMTCT_Support," +
@@ -2668,7 +2690,7 @@ else if(z==pmtct_blankrows-4){
                             "LEFT JOIN "+facilitiestable+" ON eid_raw_tested.SubPartnerID="+facilitiestable+".SubPartnerID " +
                             "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
                             "LEFT JOIN county ON district.CountyID=county.CountyID " +
-                            " "+joinedwhwere+" and  "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
+                            " "+joinedwhwere+" and "+eidtesteddate+" AND  "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
                             ") AS eid_data group by mfl_code";  
             
             System.out.println("EID QUERY : "+eid_query);

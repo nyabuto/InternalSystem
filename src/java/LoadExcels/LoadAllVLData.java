@@ -81,7 +81,7 @@ public class LoadAllVLData extends HttpServlet {
 
         int i=1,y=0;
         while(rowIterator.hasNext()){
-            query = "REPLACE INTO vl_validation SET ";
+            query = "INSERT INTO vl_validation SET ";
             checker_query="SELECT System_ID FROM vl_validation WHERE ";
              int colmnscounter=0;
         SubPartnerID=mfl_code="";
@@ -111,14 +111,16 @@ public class LoadAllVLData extends HttpServlet {
                }
                if(value==null){
           query+=label+"="+value+",";
-          checker_query+=label+"="+value+" AND ";
+//          checker_query+=label+"="+value+" AND ";
                }
                else{
                    if(value.contains("'")){
                        value=value.replace("'", "");
                    }
-               query+=label+"='"+value+"',";    
-               checker_query+=label+"='"+value+"' AND ";    
+               query+=label+"='"+value+"',";
+               if(colmnscounter<=3){
+               checker_query+=label+"='"+value+"' AND "; 
+               }
                }
             
             }
@@ -134,12 +136,12 @@ public class LoadAllVLData extends HttpServlet {
                checker_query=removeLast(checker_query,5); 
             //END OF REMOVING LAST ELEMENT
             System.out.println("CHECKER : "+checker_query);
-            System.out.println(query);
+//            System.out.println(query);
             
 //            check existence
         conn.rs1 = conn.st1.executeQuery(checker_query);
         if(conn.rs1.next()){
-            System.out.println("recor not added : "+mfl_code);
+            System.out.println("record not added : "+mfl_code);
             skipped++;
         }
         else{
