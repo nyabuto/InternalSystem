@@ -86,7 +86,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 
         int i=1,y=0;
         while(rowIterator.hasNext()){
-            query = "REPLACE INTO vl_validation SET ";
+            query = "REPLACE INTO dhis_data SET ";
              int colmnscounter=0;
         SubPartnerID=mfl_code="";
         XSSFRow rowi = worksheet.getRow(i);
@@ -134,17 +134,17 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             month = getMonth(mn);
             int mois=Integer.parseInt(month);
             if(mois>=10){
-                pepfaryear=Integer.parseInt(year)+1;
+                pepfaryear=Integer.parseInt(year)-1;
             }
             else{
                 pepfaryear = Integer.parseInt(year);
             }
             
-            yearmonth=year+""+month;
+            yearmonth=pepfaryear+""+month;
         SubPartnerID=getSubPartnerID(conn,mfl_code);    
-         id=pepfaryear+"_"+mois+"_"+SubPartnerID; 
+         id=year+"_"+mois+"_"+SubPartnerID; 
         if(!SubPartnerID.equals("")){
-         query+="Annee='"+year+"',Mois='"+month+"',yearmonth='"+yearmonth+"',SubPartnerID='"+SubPartnerID+"',id='"+id+"'";
+         query+="Annee='"+pepfaryear+"',Mois='"+month+"',yearmonth='"+yearmonth+"',SubPartnerID='"+SubPartnerID+"',id='"+id+"'";
             System.out.println(query);
          conn.st.executeUpdate(query);
         

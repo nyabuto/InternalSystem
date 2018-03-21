@@ -100,7 +100,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+iptvalid+" </b>";
  
   String unvalidatedLink="";int counter=0;
      if(iptundone>0){
-     String getUnvalidated="SELECT ipt.SubPartnerID,subpartnera.SubPartnerNom FROM ipt JOIN subpartnera ON ipt.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND vmmc_new.Mois='"+month+"' AND ipt.Annee='"+year+"' AND ipt.isValidated='0'";
+     String getUnvalidated="SELECT ipt.SubPartnerID,subpartnera.SubPartnerNom FROM ipt JOIN subpartnera ON ipt.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND ipt.Mois='"+month+"' AND ipt.Annee='"+year+"' AND ipt.isValidated='0'";
      conn.rs=conn.st.executeQuery(getUnvalidated);
      while(conn.rs.next()){
          counter++;
