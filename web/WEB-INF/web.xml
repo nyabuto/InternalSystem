@@ -813,6 +813,18 @@
         <servlet-name>IMIS_DHIS_Mapping</servlet-name>
         <servlet-class>DataMapping.IMIS_DHIS_Mapping</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadGaps</servlet-name>
+        <servlet-class>GapAnalysis.LoadGaps</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DownloadGaps</servlet-name>
+        <servlet-class>GapAnalysis.DownloadGaps</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updatedbpwordweb</servlet-name>
+        <servlet-class>database.updatedbpwordweb</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1624,6 +1636,18 @@
     <servlet-mapping>
         <servlet-name>IMIS_DHIS_Mapping</servlet-name>
         <url-pattern>/IMIS_DHIS_Mapping</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadGaps</servlet-name>
+        <url-pattern>/LoadGaps</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadGaps</servlet-name>
+        <url-pattern>/DownloadGaps</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatedbpwordweb</servlet-name>
+        <url-pattern>/updatedbpwordweb</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

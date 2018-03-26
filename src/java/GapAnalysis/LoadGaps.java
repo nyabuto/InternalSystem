@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package LoadExcels;
+package GapAnalysis;
 
-import DataMapping.DHIS_IMIS;
-import General.IdGenerator;
 import database.dbConn;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +29,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author GNyabuto
  */
-public class LoadDHIS2_Data extends HttpServlet {
+public class LoadGaps extends HttpServlet {
     String output;
     HttpSession session;
     String full_path="";
@@ -40,20 +37,18 @@ public class LoadDHIS2_Data extends HttpServlet {
     File file_source;
     private static final long serialVersionUID = 205242440643911308L;
     private static final String UPLOAD_DIR = "uploads";
-    String[] columns =  {"country","county","subcounty","ward","facility","facility_id","facility_name","mfl_code","orgdescription","new_anc","hv0206","hv0201","hv0218","hv0219","hv0220","hv0237","hv0212","hv0233","hv0234","hv0241","hv0205","hv0221","hv0202","hv0207","hv0242","hv0235","hv0211","hv0238","hv0239","hv0230","hv0231","hv0229","hv0227","hv0225","hv0224","hv0243","hv0208","hv0203","hv0214","hv0215","hv0216","hv0213","hv0226","hv0232","hv0240","hv0236","hv0228","hv0244","hv0217","hv0209","hv0204","hv0345","hv0334","hv0336","hv0338","hv0335","hv0337","hv0371","hv0372","hv0370","hv0319","hv0302","hv0301","hv0904","therapy_m_less_15","therapy_m_greater_15","isoniazid_preventive_therapy","therapy_f_greater_15","hv0348","hv0346","hv0347","hv0326","hv0905","hv0355","hv0327","hv0313","hv0344","hv0373","hv0333","hv0354","hv0325","hv0339","hv0307","hv0349","hv0320","hv0322","hv0324","hv0321","hv0323","hv0101","hv0102","hv0103","hv0107","hv0106","hv0105","hv0108","hv0109","hv0111","hv0110","hv0113","hv0112","hv0115","hv0114","hv0116"};
-    String SubPartnerID,mfl_code,year,month,yearmonth,id;
+    String[] columns =  {"rule","gap","program_area","county","sub_county","facility","year","month","ward","latitude","longitude"};
+    String year,month;
     int pepfaryear;
-    String query="",value;
-protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    String query="",value,query_checker;
+    ArrayList deletedrecords = new ArrayList();
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-    
         dbConn  conn = new dbConn();
         session = request.getSession();
         
-        year = request.getParameter("year");
-        String mn = request.getParameter("month");
         
-        
+        deletedrecords.clear();
         
         
          String applicationPath = request.getServletContext().getRealPath("");
@@ -78,10 +73,12 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
         query=value="";
+        year=month="";
   FileInputStream fileInputStream = new FileInputStream(full_path);
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
         int j=0;
-        int number_sheets = workbook.getNumberOfSheets();
+//        int number_sheets = workbook.getNumberOfSheets();
+        int number_sheets = 1;
         while(j<number_sheets){
         XSSFSheet worksheet;
         
@@ -90,9 +87,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 
         int i=1,y=0;
         while(rowIterator.hasNext()){
-            query = "REPLACE INTO dhis_data SET ";
+            query = "INSERT INTO gaps SET ";
+            query_checker = "SELECT id FROM gaps WHERE ";
              int colmnscounter=0;
-        SubPartnerID=mfl_code="";
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
          break;}
@@ -117,6 +114,10 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                        value = cell.getRawValue();
                        break;
                }
+              if(label.equals("latitude") || label.equals("longitude")) {
+               value = ""+(Double)cell.getNumericCellValue();   
+              }
+               
                if(value==null){
           query+=label+"="+value+",";
                }
@@ -125,73 +126,66 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                        value=value.replace("'", "");
                    }
                query+=label+"='"+value+"',";    
+               query_checker+=label+"='"+value+"' AND ";    
                }
             
             }
-            if(colmnscounter==7){
-                mfl_code = value;
+            if(colmnscounter==6){
+                year = value;
             }
+            if(colmnscounter==7){
+                if(!month.equals(value)){
+                month = value;
+                // clear previous gaps data
+                if(!deletedrecords.contains(year+""+month)){ // if the yearmonth has not already been deleted.. do delete
+                String deleter = "DELETE FROM gaps WHERE year=? AND month=? AND status=?";
+                conn.pst = conn.conn.prepareStatement(deleter);
+                conn.pst.setString(1, year);
+                conn.pst.setString(2, month);
+                conn.pst.setInt(3, 0);
+                
+                    System.out.println("deleter: "+conn.pst);
+                conn.pst.executeUpdate();
+                deletedrecords.add(year+""+month);
+                }
+                else{ // if it has already been deleted, skip
+                    
+                }
+                }
+                
+                else{
+              month = value;   
+            } 
+            }
+            
             colmnscounter++;
        } 
+// check the record, add or jump it
+   query=removeLast(query,1);    
+   query_checker=removeLast(query_checker,5);
+   
+//check existence
+conn.rs = conn.st.executeQuery(query_checker);
+if(conn.rs.next()){
+ System.out.println("EXIST>>> : "+query_checker);   
+}
+else{
+    conn.st.executeUpdate(query);
+    System.out.println("success>>> : "+query);
+}
 
-            
-            month = getMonth(mn);
-            int mois=Integer.parseInt(month);
-            if(mois>=10){
-                pepfaryear=Integer.parseInt(year)-1;
-            }
-            else{
-                pepfaryear = Integer.parseInt(year);
-            }
-            
-            yearmonth=pepfaryear+""+month;
-        SubPartnerID=getSubPartnerID(conn,mfl_code);    
-         id=year+"_"+mois+"_"+SubPartnerID; 
-        if(!SubPartnerID.equals("")){
-         query+="Annee='"+pepfaryear+"',Mois='"+month+"',yearmonth='"+yearmonth+"',SubPartnerID='"+SubPartnerID+"',id='"+id+"'";
-            System.out.println(query);
-         conn.st.executeUpdate(query);
-        
-        }
-        else{
-          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
-        }
-            i++;
+     i++;
         }
         
         j++;
         }
           
         }
-        
-        //GENERATE EXCEL OUTPUT
-        
-    DHIS_IMIS imis_dhis_mapping = new DHIS_IMIS();
-      XSSFWorkbook wb =  new XSSFWorkbook();
-      wb = imis_dhis_mapping.get_data(yearmonth, wb);
-
-  IdGenerator IG = new IdGenerator();
-  String createdOn = IG.CreatedOn();
-
-  ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
-  wb.write(outByteStream);
-  byte[] outArray = outByteStream.toByteArray();
-  response.setContentType("application/ms-excel");
-  response.setContentLength(outArray.length);
-  response.setHeader("Expires:", "0"); // eliminates browser caching
-  response.setHeader("Content-Disposition", "attachment; filename=IMIS_DHIS_Comparison_For_"+pepfaryear+"("+month+")_Created_On_" + createdOn + ".xlsx");
-  OutputStream outStream = response.getOutputStream();
-  outStream.write(outArray);
-  outStream.flush();
-  outStream.close();      
-        
-        
-        
+     
 //   END OF EXCEL OUTPUT     
+session.setAttribute("gaps", "Gaps uploaded successfully.");
         
-        
-        
-//        response.sendRedirect("UploadDHISData.jsp");
+        response.sendRedirect("UploadGaps.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -209,7 +203,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(LoadDHIS2_Data.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoadGaps.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -227,7 +221,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(LoadDHIS2_Data.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoadGaps.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -257,33 +251,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
          System.out.println("content-disposition final : "+file_name);
         return file_name;
     }
-    
-    
-    public String getMonth(String st_month){
-        int mn=Integer.parseInt(st_month);
-        String month_1="";
-        if(mn<10){
-        month_1="0"+mn;    
-        }
-        else{
-            month_1=""+mn;
-        }
-        
-        return month_1;
+  
+   public String removeLast(String str, int num) {
+    if (str != null && str.length() > 0) {
+        str = str.substring(0, str.length() - num);
     }
-    
-    public String getSubPartnerID(dbConn conn, String code) throws SQLException{
-     String subpatID="";
-     
-    String gett="SELECT SubPartnerID FROM subpartnera WHERE CentreSanteId=?";
-    conn.pst=conn.conn.prepareStatement(gett);
-    conn.pst.setString(1, code);
-    conn.rs=conn.pst.executeQuery();
-    if(conn.rs.next()){
-        subpatID =conn.rs.getString(1);
-    }
-     
-     return subpatID;
-    }
- 
+    return str;
+    }  
 }

@@ -26,8 +26,8 @@ public class DHIS_IMIS{
  dbConn conn = new dbConn();
  String id,query,dhis_label,imis_label,explanation,service_area;
  int imis,dhis,variance;
- String county,sub_county,ward,facility,mfl_code;
- int rowcounter;
+ String county,sub_county,ward,facility;
+ int rowcounter,mfl_code;
  int elems_counter,facil_counter;
  String systems[] = {"DHIS","IMIS",""};
     ArrayList mfl_codes = new ArrayList();
@@ -173,10 +173,15 @@ public class DHIS_IMIS{
      String compare_data = "SELECT id,IFNULL(query,'') AS query,IFNULL(dhis_label,'') AS dhis_label,IFNULL(imis_label,'') AS imis_label,IFNULL(explanation,'') AS explanation,IFNULL(service_area,'') AS service_area FROM imis_dhis_mapping WHERE active=1"; 
      conn.rs = conn.st.executeQuery(compare_data);
      while(conn.rs.next()){
+         dhis_label = imis_label = explanation = service_area = "";
         id  = conn.rs.getString("id");
         query  = conn.rs.getString("query");
+        if(conn.rs.getString("dhis_label")!=null){
         dhis_label  = conn.rs.getString("dhis_label");
+        }
+        if(conn.rs.getString("imis_label")!=null){
         imis_label  = conn.rs.getString("imis_label");
+        }
         explanation  = conn.rs.getString("explanation");
         service_area  = conn.rs.getString("service_area");
         
@@ -206,7 +211,7 @@ public class DHIS_IMIS{
          sub_county = conn.rs1.getString(3);
          ward = conn.rs1.getString(4);
          facility = conn.rs1.getString(1);
-         mfl_code = conn.rs1.getString(5); 
+         mfl_code = conn.rs1.getInt(5); 
          
          
         imis = conn.rs1.getInt(6);

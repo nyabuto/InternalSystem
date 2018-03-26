@@ -47,9 +47,6 @@
      <br/>
      <br/>
      
-    
-     
-     
             <li>
                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
                <div class="sidebar-toggler hidden-phone"></div>
@@ -98,7 +95,7 @@
             
             
              <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
-                 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",uploads,")){%> 
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",uploads,")){%> 
                  
                <li class="has-sub ">
                <a href="#">
@@ -114,7 +111,7 @@
                   <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>EID Positive raw (.xlsx)</a></li>
                   <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>EID tested raw (.xlsx)</a></li>
                   <li ><a href="UploadNewANCData.jsp"><i class="icon-plus"></i>New on ANC [MOH 711] (.xlsx)</a></li>
-                  <li ><a href="UploadDHISData.jsp"><i class="icon-plus"></i>DHIS Data (.xlxs)</a></li>
+                  <li ><a href="UploadDHISData.jsp"><i class="icon-plus"></i>DHIS Data (.xlsx)</a></li>
                </ul>
             </li>
              <%}}}else{}}%>
@@ -137,6 +134,7 @@
                   <li ><a href="masterlist.jsp">Master List</a></li>
             `     <li ><a href="analysisreports.jsp">Analysis Report</a></li>
                   <li ><a href="T1SummaryReports.jsp">Training Report</a></li>
+                  <li ><a href="IMIS_DHIS_Validation.jsp">IMIS DHIS Report</a></li>
             
                </ul>
             </li>

@@ -50,7 +50,7 @@ String excelDuration;
  ArrayList allFacilities = new ArrayList();
  int year,month,prevYear,maxYearMonth;
 String reportDuration,duration,semi_annual,quarter;
-String facilityName,mflcode,countyName,districtName,facilityIds,facilityId;
+String facilityName,mflcode,countyName,districtName,facilityIds,facilityIdsCohort,facilityId;
 String createdOn,period,ARTSupport;
 
 int HV0210,HV0209,HV0205,HV0217,HV0216;
@@ -666,6 +666,7 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
         prevYear=year-1; 
         maxYearMonth=0;
         facilityIds="(";
+        facilityIdsCohort="(";
         facilityIds1="(";
         retentionPos=0;
 //        GET REPORT DURATION============================================
@@ -737,7 +738,7 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
      
      if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
          String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    String getDist="SELECT "+facilitiestable+".SubPartnerID,"+facilitiestable+".CentreSanteId AS mfl_code  FROM "+facilitiestable+" "
     + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
      subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
@@ -746,17 +747,20 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
     while(conn.rs.next()){
      allFacilities.add(conn.rs.getString(1));
      facilityIds+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+     facilityIdsCohort+=" pmtct_cohort.mflcode='"+conn.rs.getString(2)+"' || ";
      facilityIds1+=" moh711.SubPartnerID='"+conn.rs.getString(1)+"' || ";
     }
       facilityIds = facilityIds.substring(0, facilityIds.length()-3);
      facilityIds+=") && ";   
+      facilityIdsCohort = facilityIdsCohort.substring(0, facilityIdsCohort.length()-3);
+     facilityIdsCohort+=") && ";   
       facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
      facilityIds1+=") && ";   
      } 
      else{
         if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
          String county=request.getParameter("county");
-         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+         String getCounty="SELECT "+facilitiestable+".SubPartnerID,"+facilitiestable+".CentreSanteId AS mfl_code FROM "+facilitiestable+" "
     + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
          
@@ -766,10 +770,13 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
     while(conn.rs.next()){
      allFacilities.add(conn.rs.getString(1));
      facilityIds+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+     facilityIdsCohort+=" pmtct_cohort.mflcode='"+conn.rs.getString(2)+"' || ";
      facilityIds1+=" moh711.SubPartnerID='"+conn.rs.getString(1)+"' || ";
     }
     facilityIds = facilityIds.substring(0, facilityIds.length()-3);
      facilityIds+=") && ";     
+    facilityIdsCohort = facilityIdsCohort.substring(0, facilityIdsCohort.length()-3);
+     facilityIdsCohort+=") && ";     
     facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
      facilityIds1+=") && "; 
      
@@ -777,6 +784,7 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
        
         else{
        facilityIds="";    
+       facilityIdsCohort="";    
        facilityIds1="";    
         }   
         
@@ -980,14 +988,14 @@ ArrayList staticpmtct_hv= new ArrayList();
      //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
   
-// GET STARTING ART DATA
+// GET STARTING ART RETENTION DATA
 
 //Retention both numerator and denominator From oct 2017
 if(1==1){
     if(facilityId==null){
         facilityId="";
     }
-    System.out.println("facility ids:"+facilityId);
+    System.out.println("i wonder facility ids:"+facilityId);
 int new_retentionPOS=0;
  new_retentionPOS=retentionPOS=3;
 // numerator
@@ -1040,8 +1048,8 @@ String getNumerator="  " +
 "0 AS retention_12months, " +
 "0 AS retention_24months, " +
 "0 AS retention_36months, " +
-"CASE WHEN County='Baringo' THEN  ROUND(0.962*SUM(np_12m))  WHEN County='Laikipia' THEN  ROUND(0.969*SUM(np_12m))  WHEN County='Kajiado' THEN  ROUND(0.984*SUM(np_12m))  WHEN County='Nakuru' THEN  ROUND(0.982*SUM(np_12m))  WHEN County='Narok' THEN  ROUND(0.889*SUM(np_12m)) end as pregnant, " +
-"SUM(np_12m)-CASE WHEN County='Baringo' THEN  ROUND(0.962*SUM(np_12m))  WHEN County='Laikipia' THEN  ROUND(0.969*SUM(np_12m))  WHEN County='Kajiado' THEN  ROUND(0.984*SUM(np_12m))  WHEN County='Nakuru' THEN  ROUND(0.982*SUM(np_12m))  WHEN County='Narok' THEN  ROUND(0.889*SUM(np_12m)) end  as breastfeeding, " +
+"ROUND(f_34*SUM(np_12m)) as pregnant, " +
+"SUM(np_12m)-ROUND(f_34*SUM(np_12m)) as breastfeeding, " +
 "0 as f_1, " +
 "0 as m_1, " +
 "0 as f_9, " +
@@ -1068,7 +1076,8 @@ String getNumerator="  " +
 " JOIN internal_system." + facilitiestable + " ON pmtct_art_cohort.pmtct_cohort.mflcode=internal_system." + facilitiestable + ".CentreSanteId " +
 "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID " +
-"WHERE "+facilityIds+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1 " +
+"JOIN ratios ON county.CountyID=ratios.county_id " +
+"WHERE "+facilityIdsCohort+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM_PREG' " +
 "AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9) " +
 "GROUP BY internal_system." + facilitiestable + ".SubPartnerID ) AS all_data group by CentreSanteId ORDER BY CentreSanteId" ;
 
@@ -1128,17 +1137,17 @@ String getNumerator="  " +
             f_14 = conn.rs.getInt("f_14");
             f_19 = conn.rs.getInt("f_19");
             f_24 = conn.rs.getInt("f_24");
-            f_29 = conn.rs.getInt("f_24");
-            f_34 = conn.rs.getInt("f_24");
-            f_39 = conn.rs.getInt("f_24");
+            f_29 = conn.rs.getInt("f_29");
+            f_34 = conn.rs.getInt("f_34");
+            f_39 = conn.rs.getInt("f_39");
             f_49 = conn.rs.getInt("f_49");
             f_50 = conn.rs.getInt("f_50");
             m_14 = conn.rs.getInt("m_14");
             m_19 = conn.rs.getInt("m_19");
             m_24 = conn.rs.getInt("m_24");
-            m_29 = conn.rs.getInt("m_24");
-            m_34 = conn.rs.getInt("m_24");
-            m_39 = conn.rs.getInt("m_24");
+            m_29 = conn.rs.getInt("m_29");
+            m_34 = conn.rs.getInt("m_34");
+            m_39 = conn.rs.getInt("m_39");
             m_49 = conn.rs.getInt("m_49");
             m_50 = conn.rs.getInt("m_50");
 
@@ -1149,11 +1158,20 @@ String getNumerator="  " +
                 int counter=0;
                 while(rounds>0){
                   counter++;
-                  if(counter<5){
-                  f_49--;    
+                  if(counter==1){
+                  m_34--;    
+                  }
+                  if(counter==2){
+                  f_24--;    
+                  }
+                  if(counter==3){
+                  m_24--;    
+                  }
+                  if(counter==4){
+                  f_34--;    
                   }
                   else if(counter==5){
-                  m_49--;
+                  m_39--;
                   counter=0;
                   }
 
@@ -1165,11 +1183,20 @@ String getNumerator="  " +
                 int counter=0;
                 while(rounds>0){
                   counter++;
-                  if(counter<5){
-                  f_49++;    
+                  if(counter==1){
+                  m_34++;    
+                  }
+                  if(counter==2){
+                  f_24++;    
+                  }
+                  if(counter==3){
+                  m_24++;    
+                  }
+                  if(counter==4){
+                  f_34++;    
                   }
                   else if(counter==5){
-                  m_49++;
+                  m_39++;
                   counter=0;
                   }
 
@@ -1231,26 +1258,26 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
 "0 AS retention_36months,     " +
 "0 as pregnant,  " +
 "0 as breastfeeding,  " +
-"ROUND(SUM(HV0349)*f_1) as 'f_1'," +
-"ROUND(SUM(HV0349)*m_1) as 'm_1'," +
-"ROUND(SUM(HV0349)*(f_4+f_9)) as 'f_9'," +
-"ROUND(SUM(HV0349)*(m_4+m_9)) as 'm_9'," +
-"ROUND(SUM(HV0349)*f_14) as 'f_14'," +
-"ROUND(SUM(HV0349)*m_14) as 'm_14'," +
-"ROUND(SUM(HV0349)*f_19) as 'f_19'," +
-"ROUND(SUM(HV0349)*m_19) as 'm_19', " +
-"ROUND(SUM(HV0349)*f_24) as 'f_24'," +
-"ROUND(SUM(HV0349)*m_24) as 'm_24'," +
-"ROUND(SUM(HV0349)*f_29) as 'f_29', " +
-"ROUND(SUM(HV0349)*m_29) as 'm_29', " +
-"ROUND(SUM(HV0349)*f_34) as 'f_34', " +
-"ROUND(SUM(HV0349)*m_34) as 'm_34', " +
-"ROUND(SUM(HV0349)*f_39) as 'f_39', " +
-"ROUND(SUM(HV0349)*m_39) as 'm_39', " +
-"ROUND(SUM(HV0349)*f_49) as 'f_49', " +
-"ROUND(SUM(HV0349)*m_49) as 'm_49', " +
-"ROUND(SUM(HV0349)*f_50) as 'f_50', " +
-"ROUND(SUM(HV0349)*m_50) as 'm_50' " +
+"ROUND(SUM(HV0345)*f_1) as 'f_1'," +
+"ROUND(SUM(HV0345)*m_1) as 'm_1'," +
+"ROUND(SUM(HV0345)*(f_4+f_9)) as 'f_9'," +
+"ROUND(SUM(HV0345)*(m_4+m_9)) as 'm_9'," +
+"ROUND(SUM(HV0345)*f_14) as 'f_14'," +
+"ROUND(SUM(HV0345)*m_14) as 'm_14'," +
+"ROUND(SUM(HV0345)*f_19) as 'f_19'," +
+"ROUND(SUM(HV0345)*m_19) as 'm_19', " +
+"ROUND(SUM(HV0345)*f_24) as 'f_24'," +
+"ROUND(SUM(HV0345)*m_24) as 'm_24'," +
+"ROUND(SUM(HV0345)*f_29) as 'f_29', " +
+"ROUND(SUM(HV0345)*m_29) as 'm_29', " +
+"ROUND(SUM(HV0345)*f_34) as 'f_34', " +
+"ROUND(SUM(HV0345)*m_34) as 'm_34', " +
+"ROUND(SUM(HV0345)*f_39) as 'f_39', " +
+"ROUND(SUM(HV0345)*m_39) as 'm_39', " +
+"ROUND(SUM(HV0345)*f_49) as 'f_49', " +
+"ROUND(SUM(HV0345)*m_49) as 'm_49', " +
+"ROUND(SUM(HV0345)*f_50) as 'f_50', " +
+"ROUND(SUM(HV0345)*m_50) as 'm_50' " +
 "FROM internal_system.moh731  " +
 "JOIN internal_system." + facilitiestable + " ON internal_system.moh731.SubPartnerID=internal_system." + facilitiestable + ".SubPartnerID  " +
 "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
@@ -1266,8 +1293,8 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
 "0 AS retention_12months,  " +
 "0 AS retention_24months,  " +
 "0 AS retention_36months,     " +
-"CASE WHEN County='Baringo' THEN  ROUND(0.878*SUM(np_12m))  WHEN County='Laikipia' THEN  ROUND(0.962*SUM(np_12m))  WHEN County='Kajiado' THEN  ROUND(0.978*SUM(np_12m))  WHEN County='Nakuru' THEN  ROUND(0.975*SUM(np_12m))  WHEN County='Narok' THEN  ROUND(0.806*SUM(np_12m)) end as pregnant,  " +
-"SUM(np_12m)-CASE WHEN County='Baringo' THEN  ROUND(0.878*SUM(np_12m))  WHEN County='Laikipia' THEN  ROUND(0.962*SUM(np_12m))  WHEN County='Kajiado' THEN  ROUND(0.978*SUM(np_12m))  WHEN County='Nakuru' THEN  ROUND(0.975*SUM(np_12m))  WHEN County='Narok' THEN  ROUND(0.806*SUM(np_12m)) end  as breastfeeding,  " +
+"ROUND(f_34*SUM(np_12m)) as pregnant, " +
+"SUM(np_12m)-ROUND(f_34*SUM(np_12m)) as breastfeeding, " +
 "0 as f_1,  " +
 "0 as m_1,  " +
 "0 as f_9,  " +
@@ -1292,11 +1319,12 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
 " JOIN internal_system." + facilitiestable + " ON pmtct_art_cohort.pmtct_cohort.mflcode=internal_system." + facilitiestable + ".CentreSanteId  " +
 "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
-" WHERE "+facilityIds+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1 " +
+"JOIN ratios ON county.CountyID=ratios.county_id " +
+" WHERE "+facilityIdsCohort+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1 AND ratios.indicator='TX_RETENTION_DEN_PREG' " +
 " AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16) " +
 " GROUP BY internal_system." + facilitiestable + ".SubPartnerID ) AS all_data group by CentreSanteId  ORDER BY CentreSanteId";
 
-
+    System.out.println("denominator : "+getDenominator);
      conn.rs=conn.st.executeQuery(getDenominator);
         while(conn.rs.next()){
 
@@ -1373,11 +1401,20 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
                 int counter=0;
                 while(rounds>0){
                   counter++;
-                  if(counter<5){
-                  f_49--;    
+                   if(counter==1){
+                  m_34--;    
+                  }
+                  if(counter==2){
+                  f_24--;    
+                  }
+                  if(counter==3){
+                  m_24--;    
+                  }
+                  if(counter==4){
+                  f_34--;    
                   }
                   else if(counter==5){
-                  m_49--;
+                  m_39--;
                   counter=0;
                   }
 
@@ -1389,11 +1426,20 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
                 int counter=0;
                 while(rounds>0){
                   counter++;
-                  if(counter<5){
-                  f_49++;    
+                  if(counter==1){
+                  m_34++;    
+                  }
+                  if(counter==2){
+                  f_24++;    
+                  }
+                  if(counter==3){
+                  m_24++;    
+                  }
+                  if(counter==4){
+                  f_34++;    
                   }
                   else if(counter==5){
-                  m_49++;
+                  m_39++;
                   counter=0;
                   }
 
@@ -1402,7 +1448,7 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
             }
 
           else{
-    //          They are equal hence no normalization
+    //  They are equal hence no normalization
           }
       int  total_1_9 = m_1+m_9+f_1+f_9;    
     //     completed normalization
@@ -1566,6 +1612,12 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
             String subcountywhere = "";
             
             String subcounty = "";
+            
+            if (!request.getParameter("county").equals("")) {
+                
+                county = request.getParameter("county");
+                
+            }
             
             if (!request.getParameter("subcounty").equals("")) {
                 

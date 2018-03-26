@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataMapping;
+package GapAnalysis;
 
-import General.IdGenerator;
-import java.io.ByteArrayOutputStream;
+import database.dbConn;
+import database.dbConnWeb;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,54 +16,48 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
  * @author GNyabuto
  */
-public class IMIS_DHIS_Mapping extends HttpServlet {
-HttpSession session;
-String yearmonth;
-String yr,mn; 
-int pepfaryear;
+public class DownloadGaps extends HttpServlet {
+String[] columns =  {"rule","gap","program_area","county","sub_county","facility","year","month","ward","latitude","longitude"};
+String query,value,id;
+int downloaded,existing;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-    
-    DHIS_IMIS imis_dhis_mapping = new DHIS_IMIS();
-    XSSFWorkbook wb =  new XSSFWorkbook();
-      
-    yr = request.getParameter("year");
-    mn = request.getParameter("month");
-    int year = Integer.parseInt(yr);
-    int month = Integer.parseInt(mn);
-     
-    if(month>=10){
-        pepfaryear = year-1;
-    }
-    else{
-        pepfaryear = year;  
-        mn = "0"+month;
-    }
-      yearmonth = pepfaryear+""+mn;
-      System.out.println("yearmonth : "+yearmonth);
-      wb = imis_dhis_mapping.get_data(yearmonth, wb);
-      
-        IdGenerator IG = new IdGenerator();
-        String createdOn = IG.CreatedOn();
-
-        ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
-        wb.write(outByteStream);
-        byte[] outArray = outByteStream.toByteArray();
-        response.setContentType("application/ms-excel");
-        response.setContentLength(outArray.length);
-        response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=IMIS_DHIS_Comparison_" + createdOn + ".xlsx");
-        OutputStream outStream = response.getOutputStream();
-        outStream.write(outArray);
-        outStream.flush();
-        outStream.close();  
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        try {
+          dbConn conn = new dbConn();
+          dbConnWeb webconn = new dbConnWeb();
+          downloaded=existing=0; 
+          
+        String Get_all_gaps = "SELECT * FROM gaps WHERE status=1 AND downloaded=0";
+        webconn.rs = conn.st.executeQuery(Get_all_gaps);
+        while(webconn.rs.next()){
+            query = "REPLACE INTO gaps SET ";
+            
+            for (String label : columns){
+               value = webconn.rs.getString(label);
+               query+=label+"='"+value+"',"; 
+               
+               }
+            id = webconn.rs.getString("id");
+            
+            // insert into the local db
+            int rec = conn.st.executeUpdate(query);
+            if(rec>0){
+            String updatedWeb = "UPDATE gaps SET downloaded=1 WHERE id='"+id+"'";
+            webconn.st.executeUpdate(updatedWeb);
+            downloaded++;
+            }
+            }
+          
+        } finally {
+            out.close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,7 +75,7 @@ int pepfaryear;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(IMIS_DHIS_Mapping.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(DownloadGaps.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -99,7 +93,7 @@ int pepfaryear;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(IMIS_DHIS_Mapping.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(DownloadGaps.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
