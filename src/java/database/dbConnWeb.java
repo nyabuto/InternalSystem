@@ -105,7 +105,7 @@ public  Connection conn = null;
 
         } catch (Exception ex) {
             Logger.getLogger(dbConn.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("ERROR WHILE CONNECTING TO DATABASE. CHECK YOUR CONNECTION CREDENTIALS SETTINGS in dbConn.java");
+            System.out.println("ERROR WHILE CONNECTING TO DATABASE. CHECK YOUR CONNECTION CREDENTIALS SETTINGS in dbConnWeb.java");
             //error in dbase configuration 
             //call the jsp page that does configuration
 

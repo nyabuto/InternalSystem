@@ -221,15 +221,12 @@
                 
 </script>
    
- <%if (session.getAttribute("upload_success") != null) { %>
+ <%if (session.getAttribute("gaps_downloaded") != null) { %>
                                 <script type="text/javascript"> 
-                    
-                    
-                    
-                         
+                     
       $.notify(
       {icon: "images/checked.png", 
-  message:'<%=session.getAttribute("upload_success")%>'},
+  message:'<%=session.getAttribute("gaps_downloaded")%>'},
       {
 	icon_type: 'image'
       }, 
@@ -245,7 +242,7 @@
                 </script>
                 
                 <%
-                session.removeAttribute("upload_success");
+                session.removeAttribute("gaps_downloaded");
                             }
 
                         %>

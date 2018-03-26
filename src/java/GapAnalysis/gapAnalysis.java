@@ -350,7 +350,7 @@ int position = conn.rs.getInt("id");
 if(position==55 || position==56){
   int prevmonth = prevmonth(current_year);  
   running_query=running_query.replace("PMONTH", ""+prevmonth);
-  System.out.println(""+running_query);
+  System.out.println("expected query: "+running_query);
  }
  }
  else{
@@ -644,17 +644,17 @@ outStream.close();
     return monthbetween;
     }
     public int prevmonth(int currentmonth){
-      int prev=0;  
+      int pepfaryear=0;  
       String[] montharray = String.valueOf(currentmonth).split("");
       int year=Integer.parseInt(montharray[0]+""+montharray[1]+""+montharray[2]+""+montharray[3]);
       int month=Integer.parseInt(montharray[4]+""+montharray[5]);
-     if(month==1){
-      prev=Integer.parseInt((year-1)+"12");   
+     if(month>=10){
+      pepfaryear=Integer.parseInt(year+"09");   
      }
      else{
-      prev=currentmonth-1;   
+      pepfaryear=Integer.parseInt((year-1)+"09");   
      }
-     return prev;
+     return pepfaryear;
     } 
     
         public boolean isNumeric(String s) {  
