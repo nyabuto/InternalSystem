@@ -825,6 +825,42 @@
         <servlet-name>updatedbpwordweb</servlet-name>
         <servlet-class>database.updatedbpwordweb</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewGaps</servlet-name>
+        <servlet-class>GapAnalysis.ViewGaps</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>years</servlet-name>
+        <servlet-class>GapAnalysis.years</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>months</servlet-name>
+        <servlet-class>GapAnalysis.months</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>county</servlet-name>
+        <servlet-class>GapAnalysis.county</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>subcounty</servlet-name>
+        <servlet-class>GapAnalysis.subcounty</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>gaps</servlet-name>
+        <servlet-class>GapAnalysis.gaps</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>facility</servlet-name>
+        <servlet-class>GapAnalysis.facility</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>approvegap</servlet-name>
+        <servlet-class>GapAnalysis.approvegap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updategap</servlet-name>
+        <servlet-class>GapAnalysis.updategap</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1648,6 +1684,42 @@
     <servlet-mapping>
         <servlet-name>updatedbpwordweb</servlet-name>
         <url-pattern>/updatedbpwordweb</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewGaps</servlet-name>
+        <url-pattern>/ViewGaps</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>years</servlet-name>
+        <url-pattern>/years</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>months</servlet-name>
+        <url-pattern>/months</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>county</servlet-name>
+        <url-pattern>/county</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>subcounty</servlet-name>
+        <url-pattern>/subcounty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gaps</servlet-name>
+        <url-pattern>/gaps</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>facility</servlet-name>
+        <url-pattern>/facility</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>approvegap</servlet-name>
+        <url-pattern>/approvegap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updategap</servlet-name>
+        <url-pattern>/updategap</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

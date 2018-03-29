@@ -257,21 +257,33 @@
                   <li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>
                    <li><a href="datimReport.jsp">Datim Report</a></li>
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
-                  <li ><a href="gapanalysis.jsp">Gap Analysis</a></li>
                   <li ><a href="masterlist.jsp">Master List</a></li>
-                  <li ><a href="analysisreports.jsp">Analysis Report</a></li>
                   <li ><a href="T1SummaryReports.jsp">Training Report</a></li>
                   <li ><a href="IMIS_DHIS_Validation.jsp">IMIS DHIS Report</a></li>
-                 
-                  <!--<li ><a href="#">Edit Profile</a></li>-->
-           
+                  <li ><a href="analysisreports.jsp">Analysis Report</a></li>
                </ul>
             </li>
             <%}}%>
+            
             <li class="has-sub">
-                <i class="glyphicon glyphicon-education"></i> 
+               <a href="#">
+               <i class="icon-envelope"></i>
+               <span class="title">Gap Analysis</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                  <li ><a href="gapanalysis.jsp"> Generate Report</a></li>
+                  <li><a href="UploadGaps.jsp">Upload Gaps</a></li>
+                  <li><a href="ManageGaps.jsp">Manage Gaps</a></li>
+                  <li><a href="DownloadGaps.jsp">Download Verified Gaps</a></li>
+               </ul>
+            </li>            
+          
+            
+            <li class="has-sub">
                 <a href="T1FORM.jsp">
-               <span class="title">Trainings</span>
+                <i class="icon-trophy"></i>
+               <span class="title">Training Module</span>
                </a>
             </li>
             <li class="">

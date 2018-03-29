@@ -6,6 +6,7 @@
 package GapAnalysis;
 
 import database.dbConn;
+import database.dbConnWeb;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,10 +45,9 @@ public class LoadGaps extends HttpServlet {
     ArrayList deletedrecords = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        dbConn  conn = new dbConn();
+        dbConnWeb  conn = new dbConnWeb(); // it uploads gaps to the set web server
         session = request.getSession();
-        
-        
+
         deletedrecords.clear();
         
         

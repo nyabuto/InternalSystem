@@ -365,7 +365,6 @@ if(position==55 || position==56){
  System.out.println("Query is : "+running_query);
  conn.rs1=conn.st1.executeQuery(running_query);
  while (conn.rs1.next()) {
-    row++; 
     String value = "";
     String county=conn.rs1.getString("County");
     String sub_county=conn.rs1.getString("DistrictNom");
@@ -412,7 +411,24 @@ if(position==55 || position==56){
         default:
             mn_name="No Month";
     }
-            
+    
+    //check on accounted for gaps
+    
+    String checkifaccounted = "SELECT id FROM gaps WHERE year=? AND month=? AND gap=? AND program_area=? AND facility=? AND status=? ";
+    conn.pst3 = conn.conn.prepareStatement(checkifaccounted);
+    conn.pst3.setInt(1, yr);
+    conn.pst3.setString(2, mn_name);
+    conn.pst3.setString(3, gap);
+    conn.pst3.setString(4, section);
+    conn.pst3.setString(5, facility);
+    conn.pst3.setInt(6, 1);
+    conn.rs = conn.pst3.executeQuery();
+    if(conn.rs.next()){
+        
+    }
+  
+    else{
+    row++; 
     Row rwx=shet.createRow(row);
     
       Cell c1= rwx.createCell(0);
@@ -472,6 +488,7 @@ if(position==55 || position==56){
       
       c12.setCellStyle(style2); 
       
+    }
       //my key is a 
 //      String mykey=active_section+conn.rs1.getString("SubPartnerNom")+"_"+current_year+"_";
 
@@ -483,12 +500,9 @@ i++;
 }//end of all queries per section
 
   }// end of sheets loop   
-
-      
-      
-	  IdGenerator IG = new IdGenerator();
+ 
+     IdGenerator IG = new IdGenerator();
      String   createdOn=IG.CreatedOn();
-
 
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);
@@ -643,25 +657,28 @@ outStream.close();
     monthbetween="yearmonth between "+start+" and "+end+"###"+no_months;
     return monthbetween;
     }
-    public int prevmonth(int currentmonth){
+    public int prevmonth(int currentymonth){
       int pepfaryear=0;  
-      String[] montharray = String.valueOf(currentmonth).split("");
+      String[] montharray = String.valueOf(currentymonth).split("");
       int year=Integer.parseInt(montharray[0]+""+montharray[1]+""+montharray[2]+""+montharray[3]);
       int month=Integer.parseInt(montharray[4]+""+montharray[5]);
-     if(month>=10){
-      pepfaryear=Integer.parseInt(year+"09");   
+     if(month<=3){
+      pepfaryear=Integer.parseInt((year-1)+"09");   
+     }
+     else if(month>=10){
+      pepfaryear=Integer.parseInt((year)+"09");   
      }
      else{
-      pepfaryear=Integer.parseInt((year-1)+"09");   
+      pepfaryear=Integer.parseInt((year)+"03");   
      }
      return pepfaryear;
     } 
     
-        public boolean isNumeric(String s) {  
+   public boolean isNumeric(String s) {  
     return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
 }
         
-        public boolean hasValue(ResultSetMetaData rsmd) throws SQLException{
+    public boolean hasValue(ResultSetMetaData rsmd) throws SQLException{
           boolean exist=false;  
           int columns = rsmd.getColumnCount();
             for (int x = 1; x <= columns; x++) {
