@@ -66,7 +66,7 @@ String output,where,query;
         where = removeLast(where, 5);
         
         output="<option value =\"\">Choose Gap</option>";
-        String getgaps = "SELECT DISTINCT(gap) AS county,program_area FROM gaps "+where+" GROUP BY gap ORDER BY gap";
+        String getgaps = "SELECT DISTINCT(gap) AS county,program_area FROM gaps "+where+" GROUP BY gap ORDER BY program_area,gap";
             System.out.println("getgaps : ");
         conn.rs = conn.st.executeQuery(getgaps);
         while(conn.rs.next()){

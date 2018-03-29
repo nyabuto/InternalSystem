@@ -158,9 +158,8 @@ td{
                            </div>
             <!-- END LOGO -->
             </div>
-            <br><br>
             <div style="text-align: center; color: white; font-weight: bolder; height: 30px;">
-                Ratio Management Module.
+
          </div>
             
       </div>
@@ -187,11 +186,10 @@ td{
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div style="min-width:1150px;">
-                  <br><br>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <div id="gaps_data" style="overflow: auto;">   
-             NO GAPS LOADED
+                            <b style="margin-left: 45%;">NO GAPS LOADED</b>
                    </div>
                         <!-- END FORM--> 
            

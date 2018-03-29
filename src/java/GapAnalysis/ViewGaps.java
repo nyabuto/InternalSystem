@@ -33,12 +33,12 @@ int status,pos,approvesgaps;
         try {
             dbConnWeb conn = new dbConnWeb();
             session = request.getSession();
-        
+         
+            if(session.getAttribute("access_gapanalysis")!=null){
+                
             
-         approvesgaps=1;   
-            
-            
-            
+         approvesgaps=Integer.parseInt(session.getAttribute("access_gapanalysis").toString());   
+             
         headers = "<thead>"
         + "<tr border=\"1px;\">"
         + "<th class=\"title\" style=\"width:2%\">No.</th>"
@@ -149,14 +149,23 @@ int status,pos,approvesgaps;
              else{
                 status_label="Not Approved";
                 if(approvesgaps==1 && !explanation.equals("")){
-                Update_btn="<input type='submit' class='btn blue' value='Approve Gap' onclick=\"approve_gap("+pos+");\" name='approve_gap' id='approve_gap'/>";    
+                Update_btn="<input type='submit' class='btn green'   style='height:30px;' value='Approve Gap' onclick=\"approve_gap("+pos+");\" name='approve_gap' id='approve_gap'/>";    
+                lock="disabled";
+                }
+                else if(approvesgaps==1 && explanation.equals("")){
+                Update_btn="";  
+                lock="disabled";
+                }
+                
+                else if(approvesgaps==0){
+                 Update_btn="<input type='submit' class='btn blue '  style='height:30px;' value='Update Gap' onclick=\"update_gap("+pos+");\" name='update_gap' id='update_gap'/>";   
+                lock="";
                 }
                 else{
-                 Update_btn="<input type='submit' class='btn btn-blue btn-lg' value='Update Gap' onclick=\"update_gap("+pos+");\" name='update_gap' id='update_gap'/>";   
+                Update_btn="";
+                lock="disabled";
                 }
-                lock="";
              }
-            
             data = data+ "<tr border=\"1px;\">"
                        + ""
                         + "<td class=\"title\">"+pos+" <input type=\"hidden\" name=\"gapid_"+pos+"\" id=\"gapid_"+pos+"\" value=\""+id+"\"></td>"
@@ -168,18 +177,27 @@ int status,pos,approvesgaps;
                         + "<td class=\"title\">"+ward+"</td>"
                         + "<td class=\"title\">"+facility+"</td>"
                         + "<td class=\"title\">"+year+"</td>"
-                        + "<td class=\"title\">"+month+"</td>"
-                        + "<td class=\"title\"><textarea style=\"width:95%\" id=\"explanation_"+pos+"\" "+lock+" name=\"explanation_"+pos+"\">"+explanation+"</textarea></td>"
-                        + "<td class=\"title\">"+status_label+"</td>"
+                        + "<td class=\"title\">"+month+"</td>";
+                        if(lock.equals("")){
+                       data+= "<td class=\"title\"><textarea style=\"width:95%\" id=\"explanation_"+pos+"\" "+lock+" name=\"explanation_"+pos+"\">"+explanation+"</textarea></td>";
+                        }
+                        else{
+                        data+= "<td class=\"title\">"+explanation+"</td>";    
+                        }
+                        data+= "<td class=\"title\">"+status_label+"</td>"
                          + "<td class=\"title\">"+Update_btn+"</td>"
                         + "</tr>"
                         + "";  
             }
           data+="</tdata>";
+          }
+            else{
+              headers="";
+              data="<div style=\"height:50px; margin: 10 10 10 10 \" ><br><b style=\"font-size: 25px; color:black; font-weight: bolder;\">Not Authorised to view Gaps</b></div>";
+            }
            String output=headers+""+data;
-           
-            out.println(output);
-            
+           out.println(output);
+       
         } finally {
             out.close();
         }

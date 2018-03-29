@@ -24,9 +24,9 @@ import javax.servlet.http.HttpSession;
  */
 public class loadUsers extends HttpServlet {
 HttpSession session;
-String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC;
+String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC,checkedGapanalysis;
 String data;
-int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads;
+int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads,gapanalysis;
 String userid,fname,mname,lname,username,fullname,Access;
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -53,12 +53,13 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 + "<th>Access KMMP</th>"
 + "<th>Access TB</th>"
 + "<th>Access VMMC</th>"
++ "<th>Gap Analysis</th>"
 + "</tr></thead>";
          
           String getAllUsers="SELECT * FROM user";
           conn.rs=conn.st.executeQuery(getAllUsers);
           while(conn.rs.next()){
-checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP="";
+checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP=checkedGapanalysis="";
          position++;
          
         userid=conn.rs.getString("userid");
@@ -82,6 +83,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         kmmp=conn.rs.getInt("access_kmmp");
         vmmc=conn.rs.getInt("access_vmmc");
         uploads=conn.rs.getInt("access_uploads");
+        gapanalysis=conn.rs.getInt("gapanalysis");
         
         if(report==1){checkedReport="checked";}      
         if(management==1){checkedManagement="checked";}      
@@ -93,6 +95,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         if(kmmp==1){checkedKMMP="checked";}
         if(vmmc==1){checkedVMMC="checked";}
         if(uploads==1){checkedUploads="checked";}
+        if(gapanalysis==1){checkedGapanalysis="checked";}
 
  data+="<tr id="+userid+">"
          + "<input type=\"hidden\" name=\"userid_"+position+"\" value=\""+userid+"\" id=\"userid_"+position+"\">";       
@@ -110,6 +113,7 @@ data+="<td><input type=\"checkbox\" name=\"access_nutrition_"+position+"\" oncha
 data+="<td><input type=\"checkbox\" name=\"access_kmmp_"+position+"\" onchange=\"return updator('access_kmmp##"+position+"');\" id=\"access_kmmp##"+position+"\" style=\"width:20px;\" "+checkedKMMP+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_tb_"+position+"\" onchange=\"return updator('access_tb##"+position+"');\" id=\"access_tb##"+position+"\" style=\"width:20px;\" "+checkedTB+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_vmmc_"+position+"\" onchange=\"return updator('access_vmmc##"+position+"');\" id=\"access_vmmc##"+position+"\" style=\"width:20px;\" "+checkedVMMC+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"gapanalysis_"+position+"\" onchange=\"return updator('gapanalysis##"+position+"');\" id=\"gapanalysis##"+position+"\" style=\"width:20px;\" "+checkedGapanalysis+" ></td>"; 
 data+="</tr>";
 
     }

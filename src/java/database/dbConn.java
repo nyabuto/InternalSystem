@@ -26,8 +26,8 @@ import java.util.logging.Logger;
  */
 public final class dbConn {
 
-    public ResultSet rs0,rs, rs1, rs2, rs3, rs4, rs_1, rs_2, rs_3, rs_4, rs_5, rs_6, anc_sch_rs;
-    public Statement st0,st, st1, st2, st3, st4, st_1, st_2, st_3, st_4, st_5, st_6, anc_scheduling_st;
+  public ResultSet rs0,rs, rs1, rs2, rs3, rs4, rs_1, rs_2, rs_3, rs_4, rs_5, rs_6, anc_sch_rs;
+  public Statement st0,st, st1, st2, st3, st4, st_1, st_2, st_3, st_4, st_5, st_6, anc_scheduling_st;
   public  PreparedStatement pst,pst1,pst2,pst3,pst4,pst5;
   public  PreparedStatement prest,prest1,prest2,prest3,prest4,prest5;
   public  CallableStatement csmt,csmt1,csmt2,csmt3,csmt4;

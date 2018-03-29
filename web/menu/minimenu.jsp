@@ -148,9 +148,16 @@
                </a>
                <ul class="sub">
                   <li ><a href="gapanalysis.jsp"> Generate Report</a></li>
+                  
+                   <%if(session.getAttribute("access_gapanalysis")!=null){if(session.getAttribute("access_gapanalysis").toString().equals("1")){%> 
                   <li><a href="UploadGaps.jsp">Upload Gaps</a></li>
+                  <%}}%>
+                   <%if(session.getAttribute("access_gapanalysis")!=null){%> 
                   <li><a href="ManageGaps.jsp">Manage Gaps</a></li>
+                  <%}%>
+                   <%if(session.getAttribute("access_gapanalysis")!=null){if(session.getAttribute("access_gapanalysis").toString().equals("1")){%>
                   <li ><a href="DownloadGaps.jsp">Download Verified Gaps</a></li>
+                  <%}}%>
                </ul>
             </li>            
           
