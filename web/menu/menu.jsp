@@ -185,7 +185,16 @@
             </li>
             <%}}%>
             
-            
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains("hts")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("HTS")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
+               <a href="loadhts.jsp">
+               <!--<i class="icon-th-list"></i>--> 
+               <span class="title">HTS</span>
+               <!--<span class="arrow "></span>-->
+               </a>
+              
+            </li>
+            <%}}%>
             
             
             

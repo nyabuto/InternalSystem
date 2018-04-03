@@ -43,11 +43,12 @@ public class updatefacilitysession extends HttpServlet {
      String f731new="";
      String indextesting="";
      String ipt = "";
+     String hts = "";
      
         conn.rs=conn.st.executeQuery(getfacilname);
         while(conn.rs.next()){
          active=","; 
-        if(conn.rs.getInt("HTC")==1){active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)"; f731new="MOH 731 (New)"; indextesting="Index Testing";}
+        if(conn.rs.getInt("HTC")==1){active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)"; f731new="MOH 731 (New)"; indextesting="Index Testing"; hts="HTS";}
         if(conn.rs.getInt("FP")==1){active+="FP,";f711="MOH 711A,";f711new="MOH 711 (New)";}
         if(conn.rs.getInt("PMTCT")==1){active+="PMTCT,";f731="MOH 731,";f711="MOH 711A,";f711new="MOH 711 (New)";f731new="MOH 731 (New)";}
         if(conn.rs.getInt("EID")==1){active+="EID,";}
@@ -76,6 +77,7 @@ public class updatefacilitysession extends HttpServlet {
          active+=f731new;
          active+=ipt;
          active+=indextesting;
+         active+=hts;
          
         session.setAttribute("forms_holder", active);
         session.setAttribute("facilityname", conn.rs.getString("SubPartnerNom"));

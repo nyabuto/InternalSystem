@@ -861,6 +861,10 @@
         <servlet-name>updategap</servlet-name>
         <servlet-class>GapAnalysis.updategap</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updatesdpsession</servlet-name>
+        <servlet-class>General.updatesdpsession</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1720,6 +1724,10 @@
     <servlet-mapping>
         <servlet-name>updategap</servlet-name>
         <url-pattern>/updategap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatesdpsession</servlet-name>
+        <url-pattern>/updatesdpsession</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
