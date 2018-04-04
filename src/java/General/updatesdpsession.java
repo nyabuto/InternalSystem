@@ -31,11 +31,20 @@ public class updatesdpsession extends HttpServlet {
         try {
             
         session= request.getSession();
+        
+        String lastselectedsdp="";
+        
+        
+        
         String sdp="";
         String sdplist="<option title='Service Delivery point' value=''>---Select SDP--</option>";
         
-        if(request.getParameter("sdp")!=null){
+        if(request.getParameter("sdp")!=null && !request.getParameter("sdp").equals("")){
         sdp=request.getParameter("sdp");
+        session.setAttribute("activesdp",sdp);
+        }
+        else  if(session.getAttribute("activesdp")!=null){
+        sdp=session.getAttribute("activesdp").toString();
         }
         
            String getsdp="select * from hts_sdp";
@@ -44,11 +53,11 @@ public class updatesdpsession extends HttpServlet {
            conn.rs=conn.st.executeQuery(getsdp);
            
            while(conn.rs.next()){
-           if(conn.rs.getString("sdpid").equalsIgnoreCase("sdp")){
-           sdplist+="<option selected value='"+conn.rs.getString("sdpid")+"'>"+conn.rs.getString("sdp")+"</option>";
+           if(conn.rs.getString("sdpid").equalsIgnoreCase(sdp)){
+           sdplist+="<option selected value='"+conn.rs.getString("sdpid")+"'>("+conn.rs.getString("id")+") "+conn.rs.getString("sdp")+"</option>";
            }
            else{
-           sdplist+="<option  value='"+conn.rs.getString("sdpid")+"'>"+conn.rs.getString("sdp")+"</option>";
+           sdplist+="<option  value='"+conn.rs.getString("sdpid")+"'>("+conn.rs.getString("id")+") "+conn.rs.getString("sdp")+"</option>";
            }
            
            

@@ -1377,7 +1377,7 @@ System.out.println(runvalidate);
   
     
      int monthDiff=0;
-     String getMonths="SELECT TIMESTAMPDIFF(MONTH, timestamp, now()) FROM sgbv WHERE id='"+tableid+"'";
+     String getMonths="SELECT TIMESTAMPDIFF(MONTH, timestamp, now()) FROM sgbv_new WHERE id='"+tableid+"'";
      conn.rs1=conn.st1.executeQuery(getMonths);
      if(conn.rs1.next()==true){
          System.out.println("months are : "+conn.rs1.getString(1));

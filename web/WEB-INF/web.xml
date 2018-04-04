@@ -865,6 +865,10 @@
         <servlet-name>updatesdpsession</servlet-name>
         <servlet-class>General.updatesdpsession</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>validatehts</servlet-name>
+        <servlet-class>InternalSystem.validatehts</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1728,6 +1732,10 @@
     <servlet-mapping>
         <servlet-name>updatesdpsession</servlet-name>
         <url-pattern>/updatesdpsession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validatehts</servlet-name>
+        <url-pattern>/validatehts</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

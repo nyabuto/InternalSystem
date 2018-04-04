@@ -256,7 +256,7 @@ td{
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="validate_hts" class="form-horizontal">
+                        <form action="validatehts" class="form-horizontal">
                    <div id="ipt_table">   
              <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
                           
@@ -469,29 +469,37 @@ success:function (data){
 };
              
              function autosave(col){
-//            var achieved=document.getElementById(col).value;
-         document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
-         $("#"+col).css({'background-color' : '#CCFFCC'});         
-            
-//             $.ajax({
-//url:'saveIPT?col='+col+"&achieved="+achieved,
-//type:'post',
-//dataType:'html',
-//success:function (data){      
-//    document.getElementById("checkblank").value='0';
-      //if the col being autoseved is a total, show a different color 
-//      if(col.endsWith("total")){
-//       $("#"+col).css({'background-color' : 'plum'});
-//      }
-//      else {
-//        $("#"+col).css({'background-color' : '#CCFFCC'});  
-//      }
-//      }
+                 
+var totalsVariables =",couns_T_M,couns_T_F,couns_GT,tes_T_M,tes_T_F,tes_GT,tes_new_T_M,tes_new_T_F,tes_new_GT,res_T_M,res_T_F,res_GT,tes_new_res_T_M,tes_new_res_T_F,tes_new_res_GT,pos_T_M,pos_T_F,pos_GT,pos_tes_T_M,pos_tes_T_F,pos_tes_GT,ref_T_M,ref_T_F,ref_GT,tes_marps_T_M,tes_marps_T_F,tes_marps_GT,pos_marps_T_M,pos_marps_T_F,pos_marps_GT,tes_coup_T_M,tes_coup_T_F,tes_coup_GT,tes_coup_dis_T_M,tes_coup_dis_T_F,tes_coup_dis_GT,";          
+ 
+var achieved=$("#"+col).val();
+           var sdp=$("#sdp").val(); 
+          
+             $.ajax({
+url:'savehts?col='+col+"&achieved="+achieved,
+type:'post',
+dataType:'html',
+success:function (data){
+   if(data.trim()!=="success"){$("#error").html(data);
+//     $("#"+col).css({'background-color' : 'red'});
+        }
+    else{
+        $("#error").html("");
+    if(achieved===""){}
+  else if(totalsVariables.indexOf(","+col+",")>-1) {
+   $("#"+col).css({'background-color' : 'plum'});    
+  } else
+  {
+      $("#"+col).css({'background-color' : '#CCFFCC'});
+  }
+
+$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
+}
+}
              
-           //  });
-             //}
-             
+             });
              }
+             
            
              
           
@@ -545,7 +553,7 @@ success:function (data){
     
     $("#sdp").html(data);
     
-    //location.reload();
+    location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
                        }
              
@@ -555,114 +563,50 @@ success:function (data){
           
       }
    
+   
+   //default call of loading sdp
+   
+         function autosum(sourceindicators,destinationindicator){
+    var sourceindicatorsarray=sourceindicators.split("@");
+  
+   
+    var destinationelement=destinationindicator;
+    var total=0;
+    var allblanks=true;
+    for(b=0;b<sourceindicatorsarray.length;b++){
+        //check if there
+        if($("#"+sourceindicatorsarray[b]).val()!==''){
+      total=parseInt(total)+parseInt($("#"+sourceindicatorsarray[b]).val()); 
+        
+            $("#"+destinationelement).val(total);
+             allblanks=false;
+            }
+                                               
+        }
+          if(allblanks===true){  $("#"+destinationelement).val("");   }                                    
+       autosave(destinationindicator);                                      
+    
+}
+   
+   
+      $.ajax({
+url:'updatesdpsession',
+type:'post',
+dataType:'html',
+success:function (data){  
+    
+    $("#sdp").html(data);
+    
+    //location.reload();
+    //  $("#"+col).css({'background-color' : '#CCFFCC'});
+                       }
+             
+             });
+   
+   
       //______________________________________________________________________________________________________________   
       
-     function p51dtotal(){
      
-     
-     var one=document.getElementById("P51D1").value;
-      var two=document.getElementById("P51D9").value;
-      
-      var three=document.getElementById("P51D10").value;
-      var four=document.getElementById("P51D19").value;
-      
-      var five=document.getElementById("P51D24").value;
-      var six=document.getElementById("P51D49").value;
-      var sixhalf=document.getElementById("P51D29").value;
-      
-      var seven=document.getElementById("P51D50").value;
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      if(five==""){five=0;}
-      if(six==""){six=0;}
-      if(sixhalf==""){sixhalf=0;}
-      if(seven==""){seven=0;}
-      
-      
-  
-            
-           var ttl=parseInt(one)+parseInt(two)+parseInt(three)+parseInt(four)+parseInt(five)+parseInt(six)+parseInt(sixhalf)+parseInt(seven);
-         
-     
-           document.getElementById("P51DT").value=ttl;
-          
-            //now calculate the percentage and call a save           
-            autosave('P51DT'); 
-            
-     
-     
-     }
-      
-       function p52dtotal(){
-     
-      var one=document.getElementById("P521DM").value;
-      var two=document.getElementById("P521DS").value;
-      
-      var three=document.getElementById("P522DM").value;
-      var four=document.getElementById("P522DS").value;
-      
-    
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      if(four==""){four=0;}
-      
-      
-      var modttl=parseInt(one)+parseInt(three);
-      var sevttl=parseInt(two)+parseInt(four);
-      
-    var durttl=parseInt(one)+parseInt(two);
-    var pstttl=parseInt(three)+parseInt(four);
-            
-           var ttl=parseInt(one)+parseInt(two)+parseInt(three)+parseInt(four);         
-     
-           document.getElementById("P52DT").value=ttl;
-           document.getElementById("P52DM").value=modttl;
-           document.getElementById("P52DS").value=sevttl;
-           document.getElementById("P521DT").value=durttl;
-           document.getElementById("P522DT").value=pstttl;
-          
-            //now calculate the percentage and call a save           
-            autosave('P51DT'); 
-            autosave('P52DM'); 
-            autosave('P52DS'); 
-            autosave('P521DT'); 
-            autosave('P522DT'); 
-            autosave('P52DT'); 
-     
-     }
-     
-       function p53dtotal(){
-     
-      var one=document.getElementById("P53DF").value;
-      var two=document.getElementById("P53DO").value;      
-      var three=document.getElementById("P53DM").value;
-      
-   
-      if(one==""){one=0;}
-      if(two==""){two=0;}
-      if(three==""){three=0;}
-      
-      
-      
-  
-            
-           var ttl=parseInt(one)+parseInt(two)+parseInt(three);
-         
-     
-           document.getElementById("P53D").value=ttl;
-          
-            //now calculate the percentage and call a save           
-            autosave('P53D'); 
-            
-     
-     
-     
-     }
       //______________________________________________________________________________________________________________
       
  
@@ -774,7 +718,7 @@ success:function (data){
  loadcounty(); 
       
       
-      updatesdpsession();
+      //updatesdpsession();
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>
