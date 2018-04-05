@@ -30,8 +30,9 @@ public class DHIS_IMIS{
  int rowcounter,mfl_code;
  int elems_counter,facil_counter;
  String systems[] = {"DHIS","IMIS",""};
-    ArrayList mfl_codes = new ArrayList();
-    public XSSFWorkbook get_data(String ym, XSSFWorkbook wb) throws SQLException{
+ ArrayList mfl_codes = new ArrayList();
+    
+    public XSSFWorkbook get_data(String[] yearmonths, XSSFWorkbook wb) throws SQLException{
         // HSSFWorkbook wb = new HSSFWorkbook();
         mfl_codes.clear();
         XSSFFont font = wb.createFont();
@@ -69,7 +70,6 @@ public class DHIS_IMIS{
         stDHIS.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         stDHIS.setBorderRight(XSSFCellStyle.BORDER_THIN);
         stDHIS.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-        
         
         XSSFCellStyle stIMIS = wb.createCellStyle();
         stIMIS.setFillForegroundColor(IndexedColors.ROSE.getIndex());
@@ -123,18 +123,21 @@ public class DHIS_IMIS{
         XSSFCell cellward = rw.createCell(2);
         XSSFCell cellfacility = rw.createCell(3);
         XSSFCell cellmfl = rw.createCell(4);
+        XSSFCell cellym_name = rw.createCell(5);
 
         cellcounty.setCellValue("County");
         cellsubcounty.setCellValue("Sub County");
         cellward.setCellValue("Ward");
         cellfacility.setCellValue("Health Facility");
         cellmfl.setCellValue("MFL Code");
+        cellym_name.setCellValue("Period");
 
         cellcounty.setCellStyle(style2);
         cellsubcounty.setCellStyle(style2);
         cellward.setCellStyle(style2);
         cellfacility.setCellStyle(style2);
         cellmfl.setCellStyle(style2);
+        cellym_name.setCellStyle(style2);
          
         //
         int numcolumns = 0;
@@ -153,8 +156,8 @@ public class DHIS_IMIS{
             }
         }
         
-        int j=5;
-       while(j<((numcolumns+1)*3)){
+        int j=6;
+       while(j<((numcolumns+2)*3)){
           int i=0;
            
            for(String h:systems){
@@ -167,9 +170,18 @@ public class DHIS_IMIS{
         }
         //
             
-         rowcounter++;   
-        yearmonth = ym;
+      rowcounter++;   
+      int ymcounter=0;
+      
+      
+      for(String ym:yearmonths){
       elems_counter = 0;
+      yearmonth = ym;
+//      mfl_codes.clear();
+      
+      String yearmonth_name = getperiod(Integer.parseInt(yearmonth));
+      
+      ymcounter++;
      String compare_data = "SELECT id,IFNULL(query,'') AS query,IFNULL(dhis_label,'') AS dhis_label,IFNULL(imis_label,'') AS imis_label,IFNULL(explanation,'') AS explanation,IFNULL(service_area,'') AS service_area FROM imis_dhis_mapping WHERE active=1"; 
      conn.rs = conn.st.executeQuery(compare_data);
      while(conn.rs.next()){
@@ -186,10 +198,10 @@ public class DHIS_IMIS{
         service_area  = conn.rs.getString("service_area");
         
         //output headers
-        
-            XSSFCell celldhis = rw.createCell(((elems_counter+1)*4)+1-(elems_counter));
-            XSSFCell cellimis = rw.createCell(((elems_counter+1)*4)+2-(elems_counter));
-            XSSFCell cellvariance = rw.createCell(((elems_counter+1)*4)+3-(elems_counter));
+        if(ymcounter==1){
+            XSSFCell celldhis = rw.createCell(((elems_counter+1)*4)+2-(elems_counter));
+            XSSFCell cellimis = rw.createCell(((elems_counter+1)*4)+3-(elems_counter));
+            XSSFCell cellvariance = rw.createCell(((elems_counter+1)*4)+4-(elems_counter));
             
             celldhis.setCellValue(dhis_label);
             cellimis.setCellValue(imis_label);
@@ -198,6 +210,7 @@ public class DHIS_IMIS{
             cellimis.setCellStyle(stIMIS);
             cellvariance.setCellStyle(style2);
        
+        }
         
          query = query.replace("YM", yearmonth);
          System.out.println("final query is : "+query);
@@ -218,7 +231,7 @@ public class DHIS_IMIS{
         dhis = conn.rs1.getInt(7);
         variance = conn.rs1.getInt(8); 
         if(elems_counter==0){ 
-        mfl_codes.add(mfl_code);
+        mfl_codes.add(ymcounter+"-"+mfl_code);
         rwdata = shet.createRow(rowcounter);
        
             XSSFCell cellcountyV = rwdata.createCell(0);
@@ -226,32 +239,36 @@ public class DHIS_IMIS{
             XSSFCell cellwardV = rwdata.createCell(2);
             XSSFCell cellfacilityV = rwdata.createCell(3);
             XSSFCell cellmflV = rwdata.createCell(4);
+            XSSFCell yearmonthV = rwdata.createCell(5);
             
             cellcountyV.setCellValue(county);
             cellsubcountyV.setCellValue(sub_county);
             cellwardV.setCellValue(ward);
             cellfacilityV.setCellValue(facility);
             cellmflV.setCellValue(mfl_code);
+            yearmonthV.setCellValue(yearmonth_name);
             
             cellcountyV.setCellStyle(stborder);
             cellsubcountyV.setCellStyle(stborder);
             cellwardV.setCellStyle(stborder);
             cellfacilityV.setCellStyle(stborder);
             cellmflV.setCellStyle(stborder);
+            yearmonthV.setCellStyle(stborder);
 
         rowcounter++;
        }
        else{
-          facil_counter = mfl_codes.indexOf(mfl_code)+2;
+          facil_counter = mfl_codes.indexOf(ymcounter+"-"+mfl_code)+2;
             
            rwdata = shet.getRow(facil_counter);
+           
        }
 //       append data here
-              rwdata.setHeightInPoints(26); 
+        rwdata.setHeightInPoints(26); 
             
-        XSSFCell celldhisV = rwdata.createCell(((elems_counter+1)*4)+1-(elems_counter));
-        XSSFCell cellimisV = rwdata.createCell(((elems_counter+1)*4)+2-(elems_counter));
-        XSSFCell cellvarianceV = rwdata.createCell(((elems_counter+1)*4)+3-(elems_counter));   
+        XSSFCell celldhisV = rwdata.createCell(((elems_counter+1)*4)+2-(elems_counter));
+        XSSFCell cellimisV = rwdata.createCell(((elems_counter+1)*4)+3-(elems_counter));
+        XSSFCell cellvarianceV = rwdata.createCell(((elems_counter+1)*4)+4-(elems_counter));   
         
         celldhisV.setCellValue(dhis);
         cellimisV.setCellValue(imis);
@@ -269,6 +286,48 @@ public class DHIS_IMIS{
         
         elems_counter++;
      }
+    }
      return wb; 
     }
+    
+    
+    public String getperiod(int ym){
+    String period="";  
+    String[] montharray = String.valueOf(ym).split("");
+    int year=Integer.parseInt(montharray[0]+""+montharray[1]+""+montharray[2]+""+montharray[3]);
+    int month=Integer.parseInt(montharray[4]+""+montharray[5]);
+
+    String mn_name="";
+    switch (month){
+        case 1: mn_name="Jan";
+        break;
+        case 2: mn_name="Feb"; 
+        break;
+        case 3: mn_name="Mar";  
+        break;
+        case 4: mn_name="Apr"; 
+        break;
+        case 5: mn_name="May"; 
+        break;
+        case 6: mn_name="Jun"; 
+        break;
+        case 7: mn_name="Jul";
+        break;
+        case 8: mn_name="Aug"; 
+        break;
+        case 9: mn_name="Sep";  
+        break;
+        case 10: mn_name="Oct";  
+        break;
+        case 11: mn_name="Nov"; 
+        break;
+        case 12: mn_name="Dec"; 
+        break;
+        default:
+            mn_name="No Month";
+    }
+   
+    period = mn_name+"' "+year;
+return period;
+}
 }

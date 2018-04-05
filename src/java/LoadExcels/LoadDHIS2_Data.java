@@ -168,7 +168,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         
     DHIS_IMIS imis_dhis_mapping = new DHIS_IMIS();
       XSSFWorkbook wb =  new XSSFWorkbook();
-      wb = imis_dhis_mapping.get_data(yearmonth, wb);
+      
+      String yearmonths[] = {yearmonth};
+      wb = imis_dhis_mapping.get_data(yearmonths, wb);
 
   IdGenerator IG = new IdGenerator();
   String createdOn = IG.CreatedOn();

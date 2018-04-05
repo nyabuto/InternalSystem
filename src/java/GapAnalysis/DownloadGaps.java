@@ -10,6 +10,7 @@ import database.dbConnWeb;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +27,9 @@ import javax.servlet.http.HttpSession;
 public class DownloadGaps extends HttpServlet {
 String[] columns =  {"id","rule","gap","program_area","county","sub_county","facility","year","month","ward","latitude","longitude","explanation","status","downloaded","timestamp"};
 String query,value,id;
-int downloaded,existing;
+int downloaded,existing,counter;
 HttpSession session;
+    ArrayList arr_values = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,8 +37,12 @@ HttpSession session;
         try {
             session = request.getSession();
             
-          dbConn conn = new dbConn();
-          dbConnWeb webconn = new dbConnWeb();
+            arr_values.clear();
+            
+          dbConn conn = new dbConn();// connection to the local server. can be set up at db.jsp
+          dbConnWeb webconn = new dbConnWeb(); // connection to the web server can be set at dbweb.jsp
+          
+          
           downloaded=existing=0; 
             System.out.println(Arrays.toString(webconn.dbsetup));
         String Get_all_gaps = "SELECT * FROM gaps WHERE status=1 AND downloaded=0";
@@ -50,14 +56,13 @@ HttpSession session;
 //    get all approved gaps
         while(webconn.rs.next()){
             query = "REPLACE INTO gaps SET ";
-            System.out.println("id : "+webconn.rs.getInt(1));
-            
+                arr_values.clear();
             for (String label : columns){
                 
                value = webconn.rs.getString(label);
                
-               query+=label+"='"+value+"',"; 
-               
+               query+=label+"=?,"; 
+               arr_values.add(value);
                }
             
             id = webconn.rs.getString("id");
@@ -65,10 +70,15 @@ HttpSession session;
             // remove the last character. Usually it is a comma.
             query=removeLast(query,1); 
             // insert into the local db
+            conn.pst = conn.conn.prepareStatement(query);
+            for(int i=0;i<arr_values.size();i++){
+              conn.pst.setString(i+1, arr_values.get(i).toString());
+            }
+            System.out.println("query:"+conn.pst);
             
-            System.out.println("query:"+query);
-            int rec = conn.st.executeUpdate(query);
+            int rec = conn.pst.executeUpdate();
             
+        
             // update the server to show that the record has already been downloaded.
             if(rec>0){
             String updatedWeb = "UPDATE gaps SET downloaded=1 WHERE id='"+id+"'";

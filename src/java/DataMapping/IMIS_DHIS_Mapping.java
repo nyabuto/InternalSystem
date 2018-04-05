@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -26,19 +27,26 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class IMIS_DHIS_Mapping extends HttpServlet {
 HttpSession session;
 String yearmonth;
-String yr,mn; 
+String yr; 
 int pepfaryear;
+ArrayList yms = new ArrayList();
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
     
     DHIS_IMIS imis_dhis_mapping = new DHIS_IMIS();
     XSSFWorkbook wb =  new XSSFWorkbook();
       
+    yms.clear();
+            
     yr = request.getParameter("year");
-    mn = request.getParameter("month");
+    String[] months = request.getParameterValues("month");
+    
     int year = Integer.parseInt(yr);
-    int month = Integer.parseInt(mn);
      
+    for(String mn:months){
+    int month = Integer.parseInt(mn);
+    
     if(month>=10){
         pepfaryear = year-1;
     }
@@ -47,8 +55,15 @@ int pepfaryear;
         mn = "0"+month;
     }
       yearmonth = pepfaryear+""+mn;
+     yms.add(yearmonth);
+    }
+    
       System.out.println("yearmonth : "+yearmonth);
-      wb = imis_dhis_mapping.get_data(yearmonth, wb);
+      
+      
+      String[] yearmonths = (String[]) yms.toArray(new String[yms.size()]);
+      
+      wb = imis_dhis_mapping.get_data(yearmonths, wb);
       
         IdGenerator IG = new IdGenerator();
         String createdOn = IG.CreatedOn();

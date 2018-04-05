@@ -139,9 +139,9 @@
                            </div>
                           
                              <div class="control-group">
-                              <label class="control-label">Reporting Month<font color='red'><b>*</b></font></label>
+                              <label class="control-label">Reporting Month (s)<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                 <select required data-placeholder="Reporting Month" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
+                                  <select required data-placeholder="Reporting Month" multiple="true" class="span6 m-wrap" tabindex="-1"  id="month" name="month">
                                     <option value="">Choose reporting year first</option>                                 
                                    
                                  </select>
@@ -227,8 +227,8 @@ $.ajax({
     dataType:'html',
     success:function (data){
         //alert("_");
-        // $("#year").html(data);
-        document.getElementById("year").innerHTML=data;
+         $("#year").html(data);
+         $("#year").select2(); 
         loadmonths();
     }
     
@@ -248,6 +248,7 @@ $.ajax({
                 dataType:'html',
                 success:function (data){
                     $("#month").html(data);     
+                    $("#month").select2();     
 }
 
 

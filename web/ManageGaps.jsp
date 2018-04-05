@@ -230,7 +230,11 @@ td{
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-<script src="assets/js/jquery-1.8.3.min.js"></script>    
+        <script src="assets/js/jquery-1.8.3.min.js"></script>
+
+
+        <script type="text/javascript" src="js/bootstrap-notify.js"></script>
+  
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -250,11 +254,8 @@ td{
    <script type="text/javascript" src="assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>  
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>  
-      <script src="select2/js/select2.js"></script>
-<script type="text/javascript" src="js/noty/jquery.noty.js"></script>
-<script type="text/javascript" src="js/noty/layouts/top.js"></script>
-<script type="text/javascript" src="js/noty/layouts/center.js"></script>
-<script type="text/javascript" src="js/noty/themes/default.js"></script>
+   <script src="select2/js/select2.js"></script>
+
 
  <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
 <script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
@@ -455,13 +456,13 @@ function LoadData(){
         });  
          }
          
-         
          function approve_gap(pos){
      var id = $("#gapid_"+pos).val();    
      var form_data = {"id":id};
      var url = "approvegap";
      $.post(url,form_data , function(data) {
         //notify user on the status
+        LoadData();
         $.notify(
         {icon: "images/checked.png", 
         message:data},
@@ -489,6 +490,7 @@ function LoadData(){
         var url = "updategap";
         $.post(url,form_data , function(data) {
        //notify user on the status
+        LoadData();
         $.notify(
         {icon: "images/checked.png", 
         message:data},
@@ -505,12 +507,31 @@ function LoadData(){
         // end of notification
         
         });  
-         
-         
          }
          
          
    </script>
+   <script>
+   
+     jQuery(document).ready(function() { 
+//    var data = "Trial just worked";
+//    $.notify(
+//        {icon: "images/checked.png", 
+//        message:data},
+//        {
+//	icon_type: 'image'
+//        }, 
+//        {
+//	offset: {
+//		x: 600,
+//		y: 300
+//	}
+//       }
+//        );
+
+    });
+
+ </script>
    <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->

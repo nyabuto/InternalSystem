@@ -43,13 +43,15 @@ public class LoadGaps extends HttpServlet {
     int pepfaryear;
     String query="",value,query_checker;
     ArrayList deletedrecords = new ArrayList();
+        ArrayList arr_values = new ArrayList();
+        
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         dbConnWeb  conn = new dbConnWeb(); // it uploads gaps to the set web server
         session = request.getSession();
 
         deletedrecords.clear();
-        
+        arr_values.clear();
         
          String applicationPath = request.getServletContext().getRealPath("");
          String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
@@ -94,6 +96,7 @@ public class LoadGaps extends HttpServlet {
         if( rowi==null){
          break;}
         
+             arr_values.clear();
         
        for (String label : columns){
           
@@ -119,13 +122,14 @@ public class LoadGaps extends HttpServlet {
               }
                
                if(value==null){
-          query+=label+"="+value+",";
+          query+=label+"=?,";
+          arr_values.add(value);
                }
                else{
-                   if(value.contains("'")){
-                       value=value.replace("'", "");
-                   }
-               query+=label+"='"+value+"',";    
+                   
+               query+=label+"=?,";   
+               arr_values.add(value);
+               
                query_checker+=label+"='"+value+"' AND ";    
                }
             
@@ -138,7 +142,7 @@ public class LoadGaps extends HttpServlet {
                 month = value;
                 // clear previous gaps data
                 if(!deletedrecords.contains(year+""+month)){ // if the yearmonth has not already been deleted.. do delete
-                String deleter = "DELETE FROM gaps WHERE year=? AND month=? AND status=?";
+                String deleter = "DELETE FROM gaps WHERE year=? AND month=? AND status=? AND (explanation=null OR explanation='')";
                 conn.pst = conn.conn.prepareStatement(deleter);
                 conn.pst.setString(1, year);
                 conn.pst.setString(2, month);
@@ -161,7 +165,13 @@ public class LoadGaps extends HttpServlet {
             colmnscounter++;
        } 
 // check the record, add or jump it
-   query=removeLast(query,1);    
+   query=removeLast(query,1); 
+   conn.pst = conn.conn.prepareStatement(query);
+            System.out.println("size is : "+arr_values.size()+" query : "+query);
+    for(int k=0;k<arr_values.size();k++){
+        conn.pst.setString(k+1, arr_values.get(k).toString());
+    }
+   
    query_checker=removeLast(query_checker,5);
    
 //check existence
@@ -170,8 +180,8 @@ if(conn.rs.next()){
  System.out.println("EXIST>>> : "+query_checker);   
 }
 else{
-    conn.st.executeUpdate(query);
-    System.out.println("success>>> : "+query);
+        System.out.println("success>>> : "+conn.pst);
+    conn.pst.executeUpdate();
 }
 
      i++;

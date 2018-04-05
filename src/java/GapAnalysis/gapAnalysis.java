@@ -24,11 +24,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -48,6 +43,8 @@ public class gapAnalysis extends HttpServlet {
 
 String pathtodelete=null;
  int no_months = 0;  
+ String[] columns =  {"rule","gap","program_area","county","sub_county","facility","year","month","ward","latitude","longitude","explanation"};
+ ArrayList periods = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -61,6 +58,8 @@ String pathtodelete=null;
             ArrayList yearmonthal= new ArrayList();
             ArrayList monthal= new ArrayList();
             ArrayList sectional= new ArrayList();
+            
+            periods.clear();
             
          XSSFWorkbook wb;    
             
@@ -253,7 +252,8 @@ pathtodelete=filepth;
             //==================================================
             
             
-          Sheet shet= wb.getSheet("Sheet1");
+    Sheet shet= wb.getSheet("Sheet1");
+    Sheet shetGap= wb.createSheet("Justified Gaps");
           
         shet.setColumnWidth(0, 8000);  
         shet.setColumnWidth(1, 8000);  
@@ -267,11 +267,42 @@ pathtodelete=filepth;
         shet.setColumnWidth(9, 4000); 
         shet.setColumnWidth(10, 4000); 
         shet.setColumnWidth(11, 4000); 
+        
+        shetGap.setColumnWidth(0, 8000);  
+        shetGap.setColumnWidth(1, 8000);  
+        shetGap.setColumnWidth(2, 4000);  
+        shetGap.setColumnWidth(3, 4000);  
+        shetGap.setColumnWidth(4, 6000); 
+        shetGap.setColumnWidth(5, 7000); 
+        shetGap.setColumnWidth(6, 2000); 
+        shetGap.setColumnWidth(7, 2000); 
+        shetGap.setColumnWidth(8, 4000); 
+        shetGap.setColumnWidth(9, 4000); 
+        shetGap.setColumnWidth(10, 4000); 
+        shetGap.setColumnWidth(11, 4000); 
+        shetGap.setColumnWidth(12, 8000); 
     
         int row=0;
 
     //Row heading
 //    row++;
+
+
+String[] headers_just =  {"Rule","Gap","Program Area","County","Sub County","Facility","Year","Month","Ward","Latitude","Longitude","Explanation"};
+//header for justified gaps
+int ct=0,gaprow=0;
+Row rw_gp=shetGap.createRow(gaprow);            
+ rw_gp.setHeightInPoints(24);
+for(String header_elem:headers_just){
+    
+      Cell c1x= rw_gp.createCell(ct);
+      c1x.setCellValue(header_elem);
+      c1x.setCellStyle(stylex); 
+      ct++;
+}
+gaprow++;
+//end
+
      Row rwh=shet.createRow(row);            
       rwh.setHeightInPoints(24);
       
@@ -337,6 +368,7 @@ pathtodelete=filepth;
  String rule = conn.rs.getString("explanation");
  String gap = conn.rs.getString("rule");
  String currentqry=conn.rs.getString("query");
+     System.out.println("gaps are : "+gap);
 int position = conn.rs.getInt("id");
  int i=0;
  while(i<3){
@@ -422,8 +454,8 @@ if(position==55 || position==56){
     conn.pst3.setString(4, section);
     conn.pst3.setString(5, facility);
     conn.pst3.setInt(6, 1);
-    conn.rs = conn.pst3.executeQuery();
-    if(conn.rs.next()){
+    conn.rs3 = conn.pst3.executeQuery();
+    if(conn.rs3.next()){
         
     }
   
@@ -493,13 +525,49 @@ if(position==55 || position==56){
 //      String mykey=active_section+conn.rs1.getString("SubPartnerNom")+"_"+current_year+"_";
 
  }
- 
+
+  
+if(!periods.contains(current_year)){
+  periods.add(current_year);
+  
+  String[] dets = getperiod(current_year).split("#");
+  
+  String yr = dets[0];
+  String mn_name = dets[1];
+  
+  String getjustified = "SELECT * FROM gaps WHERE year=? AND month=? AND status=?";
+  conn.pst3 = conn.conn.prepareStatement(getjustified);
+  conn.pst3.setString(1, yr);
+  conn.pst3.setString(2, mn_name);
+  conn.pst3.setInt(3, 1);
+  conn.rs3 = conn.pst3.executeQuery();
+  
+    System.out.println("---------get justified gaps : "+conn.pst3);
+  while(conn.rs3.next()){
+     Row rwx=shetGap.createRow(gaprow);
+    int gp=0;
+     for(String label:columns){
+         
+      Cell c1= rwx.createCell(gp);
+      if(isNumeric(conn.rs3.getString(label))){
+      c1.setCellValue(conn.rs3.getDouble(label));
+      }
+      else{
+        c1.setCellValue(conn.rs3.getString(label));   
+      }
+      c1.setCellStyle(style2);
+      
+      gp++;
+     }
+      gaprow++;
+  }
+ }
 // end of month looping
 i++;
  }
 }//end of all queries per section
 
-  }// end of sheets loop   
+}// end of sheets loop   
  
      IdGenerator IG = new IdGenerator();
      String   createdOn=IG.CreatedOn();
@@ -690,4 +758,46 @@ outStream.close();
             
           return exist;   
         }
+
+
+public String getperiod(int ym){
+    String period="";  
+    String[] montharray = String.valueOf(ym).split("");
+    int year=Integer.parseInt(montharray[0]+""+montharray[1]+""+montharray[2]+""+montharray[3]);
+    int month=Integer.parseInt(montharray[4]+""+montharray[5]);
+
+    String mn_name="";
+    switch (month){
+        case 1: mn_name="Jan";
+        break;
+        case 2: mn_name="Feb"; 
+        break;
+        case 3: mn_name="Mar";  
+        break;
+        case 4: mn_name="Apr"; 
+        break;
+        case 5: mn_name="May"; 
+        break;
+        case 6: mn_name="Jun"; 
+        break;
+        case 7: mn_name="Jul";
+        break;
+        case 8: mn_name="Aug"; 
+        break;
+        case 9: mn_name="Sep";  
+        break;
+        case 10: mn_name="Oct";  
+        break;
+        case 11: mn_name="Nov"; 
+        break;
+        case 12: mn_name="Dec"; 
+        break;
+        default:
+            mn_name="No Month";
+    }
+   
+    period = year+"#"+mn_name;
+return period;
+}
+
 }
