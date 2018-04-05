@@ -1,6 +1,6 @@
 <%-- 
-    Document   : loadIndexTesting
-    Created on : Mar 12, 2018, 4:57:57 PM
+    Document   : ART
+    Created on : Apr 5, 2018, 11:39:28 AM
     Author     : GNyabuto
 --%>
 <%@page import="java.util.Calendar"%>
@@ -11,7 +11,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Index Testing Form</title>
+   <title>ART (New & Current) Form</title>
    
       <script src="assets/js/jquery-1.8.3.min.js"></script>    
      <link rel="shortcut icon" href="images/index.JPG"/>
@@ -76,7 +76,7 @@ legend.formatter {
 table{
     width: 1100px;
     border-width: 2px;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 tr > .st{
 border-width: 2px;    
@@ -97,7 +97,7 @@ td{
  text-align: center;   
 }
 </style>
-<script type="text/javascript" src="js/indextestingsum.js"></script>
+<script type="text/javascript" src="js/sum_art.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -244,18 +244,18 @@ td{
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">Index Testing & Linkage</b>
+                        <b style="color:white;text-align: center;font-size: 20px;">New and Current on ART</b>
                        <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:16px;font-family: cambria;"><b></b></span>
                     <span id="newform" style="margin-left: 15%;background-color: white;padding: 2px;"><b></b></span>
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="validate_indextesting" class="form-horizontal">
-                   <div id="index_testing_table">   
+                        <form action="validate_ART" class="form-horizontal">
+                   <div id="art_table">   
              <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
                           
                        
-<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> Index Testing and Linkage Monthly Report</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
+<fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> ART Data Collection Tool</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
                              
     </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
                       
@@ -349,11 +349,11 @@ success:function (data){
          
          
          $.ajax({
-            url:'loadIndexTesting',
+            url:'loadART',
             type:'post',
             dataType:'html',
             success:function (data){
-                 $("#index_testing_table").html(data);                
+                 $("#art_table").html(data);                
                  $("#newform").html($("#formstatus").html());  
                  $("#recordcounter").html($("#rc").html());  
                  $("#allunValidated").html($("#ufs").html());

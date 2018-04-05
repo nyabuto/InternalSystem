@@ -869,6 +869,22 @@
         <servlet-name>validatehts</servlet-name>
         <servlet-class>InternalSystem.validatehts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadART</servlet-name>
+        <servlet-class>InternalSystem.loadART</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate_ART</servlet-name>
+        <servlet-class>InternalSystem.validate_ART</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadPMTCT</servlet-name>
+        <servlet-class>InternalSystem.loadPMTCT</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validate_PMTCT</servlet-name>
+        <servlet-class>InternalSystem.validate_PMTCT</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1736,6 +1752,22 @@
     <servlet-mapping>
         <servlet-name>validatehts</servlet-name>
         <url-pattern>/validatehts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadART</servlet-name>
+        <url-pattern>/loadART</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate_ART</servlet-name>
+        <url-pattern>/validate_ART</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadPMTCT</servlet-name>
+        <url-pattern>/loadPMTCT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validate_PMTCT</servlet-name>
+        <url-pattern>/validate_PMTCT</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

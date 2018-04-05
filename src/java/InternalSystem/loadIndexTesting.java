@@ -100,7 +100,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+indextestingvalid+" </b>";
  
   String unvalidatedLink="";int counter=0;
      if(indextestingundone>0){
-     String getUnvalidated="SELECT index_testing.SubPartnerID,subpartnera.SubPartnerNom FROM index_testing JOIN subpartnera ON index_testing.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND vmmc_new.Mois='"+month+"' AND index_testing.Annee='"+year+"' AND index_testing.isValidated='0'";
+     String getUnvalidated="SELECT index_testing.SubPartnerID,subpartnera.SubPartnerNom FROM index_testing JOIN subpartnera ON index_testing.SubPartnerID=subpartnera.SubPartnerID WHERE subpartnera.DistrictID='"+distid+"' AND index_testing.Mois='"+month+"' AND index_testing.Annee='"+year+"' AND index_testing.isValidated='0'";
      conn.rs=conn.st.executeQuery(getUnvalidated);
      while(conn.rs.next()){
          counter++;
@@ -128,7 +128,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+indextestingvalid+" </b>";
                     Mois= conn.rs.getString("Mois");
                     if(conn.rs.getString("clientsListed_1m")!=null){clientsListed_1m= conn.rs.getString("clientsListed_1m");}
                     if(conn.rs.getString("clientsListed_1f")!=null){clientsListed_1f= conn.rs.getString("clientsListed_1f");}
-                    if(conn.rs.getString("clientsListed_1f")!=null){clientsListed_1f= conn.rs.getString("clientsListed_4m");}
+                    if(conn.rs.getString("clientsListed_4m")!=null){clientsListed_4m= conn.rs.getString("clientsListed_4m");}
                     if(conn.rs.getString("clientsListed_4f")!=null){clientsListed_4f= conn.rs.getString("clientsListed_4f");}
                     if(conn.rs.getString("clientsListed_9m")!=null){clientsListed_9m= conn.rs.getString("clientsListed_9m");}
                     if(conn.rs.getString("clientsListed_9f")!=null){clientsListed_9f= conn.rs.getString("clientsListed_9f");}

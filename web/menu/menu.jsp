@@ -194,16 +194,31 @@
                </a>
               
             </li>
+            
+            <%}}%>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains("art")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("ART")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
+               <a href="loadART.jsp">
+               <!--<i class="icon-th-list"></i>--> 
+               <span class="title">ART</span>
+               <!--<span class="arrow "></span>-->
+               </a>
+              
+            </li>
+            
+            <%}}%>
+             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains("pmtct")){%> 
+            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("PMTCT")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
+               <a href="loadPMTCT.jsp">
+               <!--<i class="icon-th-list"></i>--> 
+               <span class="title">PMTCT</span>
+               <!--<span class="arrow "></span>-->
+               </a>
+              
+            </li>
             <%}}%>
             
-            
-            
-<!--             <li class="">
-               <a href="#">
-               <i class="icon-calendar"></i> 
-               <span class="title">HEI</span>
-               </a>
-            </li>-->
+      
            <li class="has-sub ">
                <a href="#">
                <i class="icon-signin"></i>

@@ -46,7 +46,7 @@ conn.pst.setString(2, userID);
      if(conn.pst!=null){conn.pst.close();}
      if(conn.conn!=null){conn.conn.close();}
  
-  System.out.println("updated : user id : "+userID+" columnname : "+columnName+"  value : "+data);
+     System.out.println("updated : user id : "+userID+" columnname : "+columnName+"  value : "+data);
      
   if(columnName.equals("gapanalysis")){
       session.setAttribute("access_gapanalysis",data);

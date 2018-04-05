@@ -24,9 +24,9 @@ import javax.servlet.http.HttpSession;
  */
 public class loadUsers extends HttpServlet {
 HttpSession session;
-String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC,checkedGapanalysis;
+String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC,checkedGapanalysis,checkedHTS,checkedART,checkedPMTCT;
 String data;
-int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads,gapanalysis;
+int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads,gapanalysis,hts,art,pmtct;
 String userid,fname,mname,lname,username,fullname,Access;
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -54,12 +54,15 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 + "<th>Access TB</th>"
 + "<th>Access VMMC</th>"
 + "<th>Gap Analysis</th>"
++ "<th>HTS</th>"
++ "<th>ART</th>"
++ "<th>PMTCT</th>"
 + "</tr></thead>";
          
           String getAllUsers="SELECT * FROM user";
           conn.rs=conn.st.executeQuery(getAllUsers);
           while(conn.rs.next()){
-checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP=checkedGapanalysis="";
+checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP=checkedGapanalysis=checkedHTS=checkedART=checkedPMTCT="";
          position++;
          
         userid=conn.rs.getString("userid");
@@ -84,6 +87,9 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         vmmc=conn.rs.getInt("access_vmmc");
         uploads=conn.rs.getInt("access_uploads");
         gapanalysis=conn.rs.getInt("gapanalysis");
+        hts=conn.rs.getInt("access_hts");
+        art=conn.rs.getInt("access_art");
+        pmtct=conn.rs.getInt("access_pmtct");
         
         if(report==1){checkedReport="checked";}      
         if(management==1){checkedManagement="checked";}      
@@ -96,6 +102,9 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         if(vmmc==1){checkedVMMC="checked";}
         if(uploads==1){checkedUploads="checked";}
         if(gapanalysis==1){checkedGapanalysis="checked";}
+        if(hts==1){checkedHTS="checked";}
+        if(art==1){checkedART="checked";}
+        if(pmtct==1){checkedPMTCT="checked";}
 
  data+="<tr id="+userid+">"
          + "<input type=\"hidden\" name=\"userid_"+position+"\" value=\""+userid+"\" id=\"userid_"+position+"\">";       
@@ -114,6 +123,9 @@ data+="<td><input type=\"checkbox\" name=\"access_kmmp_"+position+"\" onchange=\
 data+="<td><input type=\"checkbox\" name=\"access_tb_"+position+"\" onchange=\"return updator('access_tb##"+position+"');\" id=\"access_tb##"+position+"\" style=\"width:20px;\" "+checkedTB+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_vmmc_"+position+"\" onchange=\"return updator('access_vmmc##"+position+"');\" id=\"access_vmmc##"+position+"\" style=\"width:20px;\" "+checkedVMMC+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"gapanalysis_"+position+"\" onchange=\"return updator('gapanalysis##"+position+"');\" id=\"gapanalysis##"+position+"\" style=\"width:20px;\" "+checkedGapanalysis+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"access_hts_"+position+"\" onchange=\"return updator('access_hts##"+position+"');\" id=\"access_hts##"+position+"\" style=\"width:20px;\" "+checkedHTS+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"access_art_"+position+"\" onchange=\"return updator('access_art##"+position+"');\" id=\"access_art##"+position+"\" style=\"width:20px;\" "+checkedART+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"access_pmtct_"+position+"\" onchange=\"return updator('access_pmtct##"+position+"');\" id=\"access_pmtct##"+position+"\" style=\"width:20px;\" "+checkedPMTCT+" ></td>"; 
 data+="</tr>";
 
     }

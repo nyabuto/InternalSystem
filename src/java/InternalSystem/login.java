@@ -48,7 +48,7 @@ String userAccess;
         System.out.println("username : "+username+" password : "+password);  
         String logger="SELECT userid,fname,mname,lname,level,"
        + "access_reports,access_maintenance,access_moh711,access_moh731,"
-                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts " 
+                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct " 
                 + " FROM user WHERE username=? && password=?" ;
         conn.pst=conn.conn.prepareStatement(logger);
         conn.pst.setString(1, username);
@@ -80,11 +80,13 @@ String userAccess;
              if(conn.rs.getInt("access_kmmp")==1){userAccess+="kmmp,";}
              if(conn.rs.getInt("access_vmmc")==1){userAccess+="vmmc,";}
              if(conn.rs.getInt("access_uploads")==1){userAccess+="uploads,";}
+             if(conn.rs.getInt("access_hts")==1){userAccess+="hts,";}
+             if(conn.rs.getInt("access_art")==1){userAccess+="art,";}
+             if(conn.rs.getInt("access_pmtct")==1){userAccess+="pmtct,";}
              
              
              session.setAttribute("access_gapanalysis",conn.rs.getInt("gapanalysis"));
-             
-             if(conn.rs.getInt("access_hts")==1){userAccess+="hts,";}
+         
              
            session.setAttribute("userAccess", userAccess);  
           status="success"; 
