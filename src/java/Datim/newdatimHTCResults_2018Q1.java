@@ -3024,22 +3024,32 @@ cl3e.setCellStyle(stylex);
  clx.setCellStyle(stylex);
                           }
    
-     HSSFCell cl3f= rw2.createCell(23);
+  HSSFCell cl3e1= rw2.createCell(23);
+cl3e1.setCellValue("Disaggregated by Followup (For Device Based only) ");
+cl3e1.setCellStyle(stylex); 
+
+   for(int a=24;a<25;a++){ 
+ HSSFCell clx= rw2.createCell(a);
+ clx.setCellValue("");
+ clx.setCellStyle(stylex);
+                          }
+   
+HSSFCell cl3f= rw2.createCell(25);
 cl3f.setCellValue("VMMC_AE Disaggregated by AE Type");
 cl3f.setCellStyle(stylex); 
    
- for(int a=24;a<40;a++){ 
+ for(int a=26;a<42;a++){ 
  HSSFCell clx= rw2.createCell(a);
  clx.setCellValue("");
  clx.setCellStyle(stylex);
                           }
  
-   HSSFCell cl3f1= rw2.createCell(28);
+   HSSFCell cl3f1= rw2.createCell(30);
 cl3f1.setCellValue("VMMC_Services");
 cl3f1.setCellStyle(stylex);
      //
  //String VMMCheaders[]={"County","Sub-County","Facility Name","Mfl Code","Type Of Support","Numerator","< 1","1-9","10-14","15-19","20-24","25-29","30-49","50+","Number of HIV-positive clients (tested HIV positive at VMMC site)","Number of HIV-negative clients (tested HIV negative at VMMC site)","Number of clients with indeterminate HIV status or  not tested for HIV at site (regardless of previous documentation) ","Device-Based","Follow-up Status within 14 days of surgery","Surgical VMMC","Numerator","Surgical Intra- operative: Moderate","Surgical Intra- operative: Severe","Surgical Post- operative: Moderate","Surgical Post- operative: Severe","Medical Device-related: Moderate","Medical Device-related: Severe","Numerator","<60 days","2Mo-9Yr","10-14","15-19","20-24","25-29","30-49","50+"};
- String VMMCheaders[]={"County","Sub-County","Facility Name","Mfl Code","Type Of Support","Numerator","< 1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Number of HIV-positive clients (tested HIV positive at VMMC site)","Number of HIV-negative clients (tested HIV negative at VMMC site)","Number of clients with indeterminate HIV status or  not tested for HIV at site (regardless of previous documentation) ","Surgical VMMC","Device-Based VMMC","Returned for postoperative follow-up care within 14 days of surgery","Did not return for postoperative follow-up care within 14 days of surgery","Numerator","During Circumcision Moderate","During Circumcision Severe","Post Circumcision Moderate","Post Circumcision Severe","Numerator","<60 days","2Mo-4Yr","5-9Yr","10-14Yr","15-19Yr","20-24Yr","25-29Yr","30-34Yr","35-39Yr","40-49Yr","50+Yr"};
+ String VMMCheaders[]={"County","Sub-County","Facility Name","Mfl Code","Type Of Support","Numerator","< 1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Number of HIV-positive clients (tested HIV positive at VMMC site)","Number of HIV-negative clients (tested HIV negative at VMMC site)","Number of clients with indeterminate HIV status or  not tested for HIV at site (regardless of previous documentation) ","Surgical VMMC","Device-Based VMMC","Returned for postoperative follow-up care within 14 days of surgery","Did not return for postoperative follow-up care within 14 days of surgery","Within 14 days of device placement. May include device removal","NOT within 14 days, or did not follow-up within reporting period","Numerator","During Circumcision Moderate","During Circumcision Severe","Post Circumcision Moderate","Post Circumcision Severe","Numerator","<60 days","2Mo-4Yr","5-9Yr","10-14Yr","15-19Yr","20-24Yr","25-29Yr","30-34Yr","35-39Yr","40-49Yr","50+Yr"};
  
  HSSFRow rw3=shet.createRow(3);
  rw3.setHeightInPoints(63);
@@ -3052,15 +3062,16 @@ cl3f1.setCellStyle(stylex);
   
     //shet.addMergedRegion(new CellRangeAddress(2,10,0,0));  
     shet.addMergedRegion(new CellRangeAddress(0,0,0,15));  
-    shet.addMergedRegion(new CellRangeAddress(1,1,0,39));  
+    shet.addMergedRegion(new CellRangeAddress(1,1,0,41));  
   //shet.addMergedRegion(new CellRangeAddress(1,1,0,4));  
     shet.addMergedRegion(new CellRangeAddress(2,2,1,5));  
     shet.addMergedRegion(new CellRangeAddress(2,2,6,15));  
     shet.addMergedRegion(new CellRangeAddress(2,2,16,18));  
     shet.addMergedRegion(new CellRangeAddress(2,2,19,20));  
     shet.addMergedRegion(new CellRangeAddress(2,2,21,22));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,23,27));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,28,39));  
+    shet.addMergedRegion(new CellRangeAddress(2,2,23,24));  
+    shet.addMergedRegion(new CellRangeAddress(2,2,25,29));  
+    shet.addMergedRegion(new CellRangeAddress(2,2,30,41));  
     shet.setColumnWidth(0, 5000);  
     shet.setColumnWidth(1, 5000);  
     shet.setColumnWidth(2, 6000);  
@@ -3080,6 +3091,8 @@ cl3f1.setCellStyle(stylex);
     shet.setColumnWidth(26, 6000);
     shet.setColumnWidth(27, 6000);  
     shet.setColumnWidth(28, 6000);
+    shet.setColumnWidth(29, 6000);  
+    shet.setColumnWidth(30, 6000);
     
      
 
@@ -3091,7 +3104,7 @@ cl3f1.setCellStyle(stylex);
     ArrayList staticdistrict= new ArrayList();
     ArrayList staticmfl= new ArrayList();
     ArrayList staticdsd_ta= new ArrayList();
-    int blankrows=40;
+    int blankrows=42;
     
    String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
             + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport "
@@ -3117,7 +3130,8 @@ cl3f1.setCellStyle(stylex);
 //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(P51DT) as P51DT, sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
 getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(v1_total) as v1_total, sum(v1_60d) as v1_60d,  sum(v1_4y) as v1_4y,   sum(v1_9y) as v1_9y,   sum(v1_14y) as v1_14y,   sum(v1_19y) as v1_19y,sum(v1_24y) as v1_24y, sum(v1_29y) as v1_29y, sum(v1_34y) as v1_34y, sum(v1_39y) as v1_39y,  sum(v1_49y) as  v1_49y,   sum(v1_50y) as v1_50y,"
         + " sum(v2_dc_m_total) AS v2_dc_m_total,sum(v2_dc_s_total) as v2_dc_s_total, sum(v2_pc_m_total) AS v2_pc_m_total, sum(v2_pc_s_total) AS v2_pc_s_total,  "
-        + " sum(v3_tp_total) AS v3_tp_total, sum(v3_srp_total) as v3_srp_total , sum(v3_tn_total) as v3_tn_total, sum(v3_nt_total) as v3_nt_total ,   sum(v3_us_total) as v3_us_total ,   sum(v3_srn_total) as v3_srn_total ,   sum(v4_s_vmmc_total) as v4_s_vmmc_total , sum(v4_db_vmmc_total) AS v4_db_vmmc_total, sum(v5_followup_total) as v5_followup_total , sum(v6_nofollowup_total) as v6_nofollowup_total from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
+        + " sum(v3_tp_total) AS v3_tp_total, sum(v3_srp_total) as v3_srp_total , sum(v3_tn_total) as v3_tn_total, sum(v3_nt_total) as v3_nt_total ,   sum(v3_us_total) as v3_us_total ,   sum(v3_srn_total) as v3_srn_total ,   sum(v4_s_vmmc_total) as v4_s_vmmc_total , sum(v4_db_vmmc_total) AS v4_db_vmmc_total, sum(v5_followup_total) as v5_followup_total , sum(v6_nofollowup_total) as v6_nofollowup_total,"
+        + "SUM(0) AS db_followup,SUM(0) AS db_no_followup from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
 
             System.out.println("VMMV_____"+getexistingdata);
             String v1_60d = "";
@@ -3145,8 +3159,10 @@ getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mfl
             String srn = "";
             String surgical_vmmc="";
             String device_based_vmmc="";
-            String follow_up="";
-            String no_follow_up="";
+            String surgical_follow_up="";
+            String surgical_no_follow_up="";
+            String db_follow_up="";
+            String db_no_follow_up="";
 
             String distid="";
 
@@ -3308,14 +3324,24 @@ int counter=0;
                     device_based_vmmc = "0";
                 }
 
-                follow_up = conn.rs.getString("v5_followup_total");
-                if (follow_up == null) {
-                    follow_up = "0";
+                surgical_follow_up = conn.rs.getString("v5_followup_total");
+                if (surgical_follow_up == null) {
+                    surgical_follow_up = "0";
                 }
 //
-                no_follow_up = conn.rs.getString("v6_nofollowup_total");
-                if (no_follow_up == null) {
-                    no_follow_up = "0";
+                surgical_no_follow_up = conn.rs.getString("v6_nofollowup_total");
+                if (surgical_no_follow_up == null) {
+                    surgical_no_follow_up = "0";
+                }
+                
+                db_follow_up = conn.rs.getString("db_followup");
+                if (db_follow_up == null) {
+                    db_follow_up = "0";
+                }
+//
+                db_no_follow_up = conn.rs.getString("db_no_followup");
+                if (db_no_follow_up == null) {
+                    db_no_follow_up = "0";
                 }
 
         
@@ -3536,17 +3562,33 @@ if(1==1){
  celpos1++;
          }
   //=============================================================
-  //Returned
+  //Returned Surgical
   if(1==1){  
   HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(follow_up));
+  clx1.setCellValue(new Integer(surgical_follow_up));
   clx1.setCellStyle(style2);
   celpos++;
  celpos1++;
          }
   if(1==1){ 
   HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(no_follow_up));
+  clx1.setCellValue(new Integer(surgical_no_follow_up));
+  clx1.setCellStyle(style2);
+  //increment to get past P511Surg
+  celpos++;
+ celpos1++;
+         }
+  //Returned Device Based
+  if(1==1){  
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(new Integer(db_follow_up));
+  clx1.setCellStyle(style2);
+  celpos++;
+ celpos1++;
+         }
+  if(1==1){ 
+  HSSFCell clx1= rwx.createCell(celpos);
+  clx1.setCellValue(new Integer(db_no_follow_up));
   clx1.setCellStyle(style2);
   //increment to get past P511Surg
   celpos++;
