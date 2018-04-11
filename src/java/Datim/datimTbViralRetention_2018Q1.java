@@ -617,7 +617,11 @@ String header4[]={"County","Sub-County","Health Facility","MFL Code","Type of Su
 
         shet.setDisplayGridlines(false);
         shet.createFreezePane(5,5);  
+        int tobehidden[]={34,35,36,6,7,8,9,10,11,12,13,14};
+for (int a=0;a< tobehidden.length;a++){
+shet.setColumnHidden(tobehidden[a], true);
 
+}
 
 }      
         
