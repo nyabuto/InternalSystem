@@ -273,7 +273,7 @@ td{
                    
                    </div>
                           <input type="hidden" name="checkblank" id="checkblank" value="0"/>
-                            
+                            <input type="hidden" value='0' id='isautosave'/>
                         </form>
                         <!-- END FORM-->           
                      </div>
@@ -479,6 +479,7 @@ var totalsVariables =",couns_T_M,couns_T_F,couns_GT,tes_T_M,tes_T_F,tes_GT,tes_n
  
 var achieved=$("#"+col).val();
            var sdp=$("#sdp").val(); 
+          var is=$("#isautosave").val();
           
           if(sdp===''){
         $("#loadhtsform").hide();
@@ -486,7 +487,10 @@ var achieved=$("#"+col).val();
         $("#sdp").focus();
         }
           else {
-          
+              //save the first entry only but for the rest do autosave
+              
+          if(is=='0'){
+             $("#isautosave").val("1");
              $.ajax({
 url:'savehts?col='+col+"&achieved="+achieved,
 type:'post',
@@ -511,8 +515,29 @@ $("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"m
              
              });
              
+        }
+    else {
+        
+        //show color codes but no autosave
+        
+        if(totalsVariables.indexOf(","+col+",")>-1) {
+   $("#"+col).css({'background-color' : 'plum'});    
+  } else
+  {
+      $("#"+col).css({'background-color' : '#CCFFCC'});
+  }
+
+$("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
+
+        
+        
     }
-             }//end of function
+        
+        
+        }
+             
+    
+    }//end of function
              
            
              
