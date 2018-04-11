@@ -234,11 +234,16 @@ td{
                      <li>
                         <i class="icon-hospital"></i>
                         <font color="#4b8df8">Service delivery point</font>
+                        
+                     
+                     </li>
+                     <li>
                         <select onchange="updatesdpsession();" style="width:200px;color:black;" data-placeholder="SDP" required class="chosen-with-diselect span6" tabindex="-1"  id="sdp" name="sdp">
                             <% if(session.getAttribute("sdp")!=null){out.println(session.getAttribute("sdp"));} %>
                                  </select>
+                     
                      </li>
-           
+           <li><h3 id="validationmsg" color="red"></h3></li>
                   </ul>
                </div>
             </div>
@@ -256,7 +261,7 @@ td{
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="validatehts" class="form-horizontal">
+                        <form action="validatehts" class="form-horizontal" id="loadhtsform">
                    <div id="ipt_table">   
              <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
                           
@@ -475,6 +480,13 @@ var totalsVariables =",couns_T_M,couns_T_F,couns_GT,tes_T_M,tes_T_F,tes_GT,tes_n
 var achieved=$("#"+col).val();
            var sdp=$("#sdp").val(); 
           
+          if(sdp===''){
+        $("#loadhtsform").hide();
+        $("#validationmsg").html("<font color='red'>Select SDP first!!</font>");
+        $("#sdp").focus();
+        }
+          else {
+          
              $.ajax({
 url:'savehts?col='+col+"&achieved="+achieved,
 type:'post',
@@ -498,7 +510,9 @@ $("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"m
 }
              
              });
-             }
+             
+    }
+             }//end of function
              
            
              
@@ -545,6 +559,21 @@ success:function (data){
       function updatesdpsession(){
           //alert("update sdp called");
         var sdp=document.getElementById("sdp").value;
+        
+        
+        if(sdp!==''){
+            
+            $("#loadhtsform").show();
+        $("#validationmsg").html("");
+            
+        }
+        else{
+           $("#loadhtsform").hide();
+        $("#validationmsg").html("<font color='red'>Select SDP first!!</font>");    
+            
+        }
+        
+        
         $.ajax({
 url:'updatesdpsession?sdp='+sdp,
 type:'post',
