@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  *
@@ -31,9 +32,26 @@ public class DHIS_IMIS{
  int elems_counter,facil_counter;
  String systems[] = {"DHIS","IMIS",""};
  ArrayList mfl_codes = new ArrayList();
-    
+ int art,htc,pmtct;
     public XSSFWorkbook get_data(String[] yearmonths, XSSFWorkbook wb) throws SQLException{
         // HSSFWorkbook wb = new HSSFWorkbook();
+        
+        //get number of supported indicators
+        art=htc=pmtct=0;
+        String service_area_counter = "SELECT " +
+                "COUNT(CASE WHEN service_area='ART' THEN 1 END) AS art," +
+                "COUNT(CASE WHEN service_area='HTC' THEN 1 END) AS htc," +
+                "COUNT(CASE WHEN service_area='PMTCT' THEN 1 END) AS pmtct " +
+                "FROM imis_dhis_mapping WHERE active=1";
+        conn.rs = conn.st.executeQuery(service_area_counter);
+        if(conn.rs.next()){
+         art = conn.rs.getInt(1);
+         htc = conn.rs.getInt(2);
+         pmtct = conn.rs.getInt(3); 
+        }
+        
+        //end of getting supported areas
+        
         mfl_codes.clear();
         XSSFFont font = wb.createFont();
         font.setFontHeightInPoints((short) 18);
@@ -54,6 +72,21 @@ public class DHIS_IMIS{
         style2.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         style2.setBorderRight(XSSFCellStyle.BORDER_THIN);
         style2.setAlignment(XSSFCellStyle.ALIGN_LEFT);
+        
+        XSSFFont fontheader = wb.createFont();
+        fontheader.setFontName("Cambria");
+        fontheader.setColor((short) 0000);
+        fontheader.setFontHeight(30);
+        
+        CellStyle style_header = wb.createCellStyle();
+        style_header.setFont(fontheader);
+        style_header.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        style_header.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+        style_header.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style_header.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        style_header.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style_header.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style_header.setAlignment(XSSFCellStyle.ALIGN_CENTER);
 
         XSSFCellStyle stborder = wb.createCellStyle();
         stborder.setBorderTop(XSSFCellStyle.BORDER_THIN);
@@ -107,24 +140,66 @@ public class DHIS_IMIS{
         stylered.setFont(fontx);
         stylered.setWrapText(true);
 
+        XSSFCellStyle STYLE_TITLE = wb.createCellStyle();
+        STYLE_TITLE.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        STYLE_TITLE.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+        STYLE_TITLE.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        STYLE_TITLE.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        STYLE_TITLE.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        STYLE_TITLE.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        STYLE_TITLE.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        STYLE_TITLE.setWrapText(true);
+        
+        
         XSSFSheet shet = wb.createSheet("IMIS-DHIS MAPPING");
         rowcounter  =facil_counter= 0;
+        
+        XSSFRow rw_area = shet.createRow(rowcounter);
+        rw_area.setHeightInPoints(70);
+         
+       int m=6,n=0; 
+       for(int a=0;a<(((art+pmtct+htc)*3)+6);a++){
+          XSSFCell cellrw = rw_area.createCell(a); 
+          cellrw.setCellStyle(style_header);
+       }
+       
+        if(art>0){
+         XSSFCell cellart = rw_area.getCell(6);
+         cellart.setCellValue("CARE AND TREATMENT");
+         shet.addMergedRegion(new CellRangeAddress(rowcounter,rowcounter,6,6+(art*3)-1));//ART
+        }
+        
+        if(htc>0){
+          XSSFCell cellhtc = rw_area.getCell(6+(art*3)); 
+          cellhtc.setCellValue("HIV TESTING SERVICES");
+          shet.addMergedRegion(new CellRangeAddress(rowcounter,rowcounter,6+(art*3),6+((art+htc)*3)-1));//HTC
+        }
+        
+        if(pmtct>0){
+         XSSFCell cellpmtct = rw_area.getCell(6+((art+htc)*3)); 
+        cellpmtct.setCellValue("PMTCT");
+        shet.addMergedRegion(new CellRangeAddress(rowcounter,rowcounter,6+((art+htc)*3),6+((art+htc+pmtct)*3)-1));//PMTCT
+        }
+        
+//        end of setting headers
+        
+        rowcounter++;
         XSSFRow rw0 = shet.createRow(rowcounter);
         rw0.setHeightInPoints(45);
         
         rowcounter++;
         XSSFRow rw = shet.createRow(rowcounter);
-        rw.setHeightInPoints(45);
-        
-        
-                
-        XSSFCell cellcounty = rw.createCell(0);
-        XSSFCell cellsubcounty = rw.createCell(1);
-        XSSFCell cellward = rw.createCell(2);
-        XSSFCell cellfacility = rw.createCell(3);
-        XSSFCell cellmfl = rw.createCell(4);
-        XSSFCell cellym_name = rw.createCell(5);
+        XSSFRow rwdt = shet.getRow(0);
+//        rw.setHeightInPoints(45);
+             
+        XSSFCell cellcounty = rwdt.getCell(0);
+        XSSFCell cellsubcounty = rwdt.getCell(1);
+        XSSFCell cellward = rwdt.getCell(2);
+        XSSFCell cellfacility = rwdt.getCell(3);
+        XSSFCell cellmfl = rwdt.getCell(4);
+        XSSFCell cellym_name = rwdt.getCell(5);
 
+        
         cellcounty.setCellValue("County");
         cellsubcounty.setCellValue("Sub County");
         cellward.setCellValue("Ward");
@@ -132,13 +207,18 @@ public class DHIS_IMIS{
         cellmfl.setCellValue("MFL Code");
         cellym_name.setCellValue("Period");
 
-        cellcounty.setCellStyle(style2);
-        cellsubcounty.setCellStyle(style2);
-        cellward.setCellStyle(style2);
-        cellfacility.setCellStyle(style2);
-        cellmfl.setCellStyle(style2);
-        cellym_name.setCellStyle(style2);
+        cellcounty.setCellStyle(STYLE_TITLE);
+        cellsubcounty.setCellStyle(STYLE_TITLE);
+        cellward.setCellStyle(STYLE_TITLE);
+        cellfacility.setCellStyle(STYLE_TITLE);
+        cellmfl.setCellStyle(STYLE_TITLE);
+        cellym_name.setCellStyle(STYLE_TITLE);
          
+        
+        for(int y=0;y<6;y++){
+            shet.addMergedRegion(new CellRangeAddress(0,2,y,y)); // merge facil dets
+        }
+        
         //
         int numcolumns = 0;
         String countactiveelems = "SELECT COUNT(id) FROM imis_dhis_mapping WHERE active=1";
@@ -163,7 +243,7 @@ public class DHIS_IMIS{
            for(String h:systems){
              XSSFCell cell = rw0.createCell(j+i);
              cell.setCellValue(h);  
-             cell.setCellStyle(style2);  
+             cell.setCellStyle(STYLE_TITLE);  
                i++;
            }
         j+=3; 
@@ -182,7 +262,7 @@ public class DHIS_IMIS{
       String yearmonth_name = getperiod(Integer.parseInt(yearmonth));
       
       ymcounter++;
-     String compare_data = "SELECT id,IFNULL(query,'') AS query,IFNULL(dhis_label,'') AS dhis_label,IFNULL(imis_label,'') AS imis_label,IFNULL(explanation,'') AS explanation,IFNULL(service_area,'') AS service_area FROM imis_dhis_mapping WHERE active=1"; 
+     String compare_data = "SELECT id,IFNULL(query,'') AS query,IFNULL(dhis_label,'') AS dhis_label,IFNULL(imis_label,'') AS imis_label,IFNULL(explanation,'') AS explanation,IFNULL(service_area,'') AS service_area FROM imis_dhis_mapping WHERE active=1 order by service_area"; 
      conn.rs = conn.st.executeQuery(compare_data);
      while(conn.rs.next()){
          dhis_label = imis_label = explanation = service_area = "";
@@ -206,13 +286,13 @@ public class DHIS_IMIS{
             celldhis.setCellValue(dhis_label);
             cellimis.setCellValue(imis_label);
             cellvariance.setCellValue("Variance");
-            celldhis.setCellStyle(stDHIS);
-            cellimis.setCellStyle(stIMIS);
-            cellvariance.setCellStyle(style2);
+            celldhis.setCellStyle(STYLE_TITLE);
+            cellimis.setCellStyle(STYLE_TITLE);
+            cellvariance.setCellStyle(STYLE_TITLE);
        
         }
         
-         query = query.replace("YM", yearmonth);
+         query = query.replace("YM", yearmonth+" AND subpartnera."+service_area+"=1 AND subpartnera.active=1");
          System.out.println("final query is : "+query);
          
          facil_counter=1;
@@ -230,7 +310,7 @@ public class DHIS_IMIS{
         imis = conn.rs1.getInt(6);
         dhis = conn.rs1.getInt(7);
         variance = conn.rs1.getInt(8); 
-        if(elems_counter==0){ 
+        if(!mfl_codes.contains(ymcounter+"-"+mfl_code)){ 
         mfl_codes.add(ymcounter+"-"+mfl_code);
         rwdata = shet.createRow(rowcounter);
        
@@ -258,7 +338,7 @@ public class DHIS_IMIS{
         rowcounter++;
        }
        else{
-          facil_counter = mfl_codes.indexOf(ymcounter+"-"+mfl_code)+2;
+          facil_counter = mfl_codes.indexOf(ymcounter+"-"+mfl_code)+3;
             
            rwdata = shet.getRow(facil_counter);
            
@@ -287,10 +367,33 @@ public class DHIS_IMIS{
         elems_counter++;
      }
     }
+      
+      wb = addborders(rowcounter,((numcolumns*3)+6),wb,stborder,STYLE_TITLE);
      return wb; 
     }
     
-    
+    public XSSFWorkbook addborders(int rows, int columns, XSSFWorkbook wb,XSSFCellStyle stborder,XSSFCellStyle STYLE_TITLE){
+     //adds borders for the indicators not supported by that facility. i.e where the cell was not created.
+        for (int i=0;i<rows;i++){
+            System.out.println("row : "+i);
+            XSSFSheet shet = wb.getSheet("IMIS-DHIS MAPPING");
+            XSSFRow row = shet.getRow(i);
+            for (int j=0;j<columns;j++){
+                if(row.getCell(j)==null){
+               XSSFCell cell = row.createCell(j);
+               if(rows<=2){
+                   cell.setCellStyle(STYLE_TITLE);
+               }
+               else{
+                cell.setCellStyle(stborder);    
+               }
+               
+                }
+            }
+        }
+        
+        return wb;
+    }
     public String getperiod(int ym){
     String period="";  
     String[] montharray = String.valueOf(ym).split("");
