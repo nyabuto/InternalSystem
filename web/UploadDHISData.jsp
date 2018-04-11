@@ -143,7 +143,7 @@ tr>td {
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4 style="text-align:center;"><i class="icon-reorder"></i> Uploading New ANC data from excel</h4>
+                        <h4 style="text-align:center;"><i class="icon-reorder"></i> Uploading DHIS data from excel</h4>
                        
                      </div>
                      <div class="portlet-body form">
