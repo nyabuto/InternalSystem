@@ -136,7 +136,7 @@
   </div>
                         
                         
-                        <img src="images/aphia_logo.png" style="height:110px;border:1px solid #cbcdcc; padding:1%; width:410px;margin-left: 0%;"  />
+                        <img src="images/aphia_logo.png" style="border:1px solid #cbcdcc; padding:1%; width:410px;margin-left: 0%;"  />
                         
                         
   </div>                 
@@ -150,7 +150,7 @@ int year= cal.get(Calendar.YEAR);
 
 %>
 <br><br>
-               <p align="center" style=" font-size: 18px;"> &copy IMIS - APHIAPLUS | USAID <%=year%></p>
+               <p align="center" style=" font-size: 18px;"> &copy IMIS - HSDSA | USAID <%=year%></p>
             </div>
   </div>
   <!-- END COPYRIGHT -->

@@ -728,6 +728,8 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#county").html(data);
+                $("#county").val("");
+                
                 loadsubcounty();
               //  App.init();   
             }
@@ -747,6 +749,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#subcounty").html(data);
+                 $("#subcounty").val("");
                 
               //  App.init();   
             }
