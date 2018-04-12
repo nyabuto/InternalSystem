@@ -1664,9 +1664,11 @@ staticpmtct_hv.remove(mflindex);
 	
 	//do a query that calculates the sites supporting inpatient and outpatient for the last six months
        //since we are already in a loop, see if the current site calculates 
-       String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
-                System.out.println("%%"+issiteipd);
-                
+      // String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
+       String issiteipd=" select sum(IPD) as DTCB_Test_In_Tot from subpartnera where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' ";
+               
+       //String issiteipd=" select IPD as DTCB_Test_In_Tot from "+facilitiestable+" where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and IPD='1' ";
+                    
         conn.rs1=conn.st1.executeQuery(issiteipd);
        if(conn.rs1.next()){
          
@@ -1676,6 +1678,8 @@ staticpmtct_hv.remove(mflindex);
        
            if(semiannualinpatient>0)
               {
+                  
+              System.out.println("%%"+issiteipd);     
        	//Sites with Inpatient services
  	              //OPD	IPD	VCT
 
@@ -4311,6 +4315,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
  
      System.out.println("2017q1IPD : "+get731data);
     conn.rs=conn.st.executeQuery(get731data);
+    int tala=0;
     while(conn.rs.next())  {
     
 	 //INSIDE WHILE LOOP
@@ -4669,18 +4674,26 @@ double  ChildMaleHIV9=0;
 	
       //do a query that calculates the sites supporting inpatient and outpatient for the last six months
       //since we are already in a loop, see if the current site calculates 
-       String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
-                System.out.println("%%"+issiteipd);
-                
+       //String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
+      String issiteipd=" select sum(IPD) as DTCB_Test_In_Tot from "+facilitiestable+" where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' ";
+          
+       System.out.println("%%"+issiteipd);
+                  
         conn.rs1=conn.st1.executeQuery(issiteipd);
        if(conn.rs1.next()){
          
        int semiannualinpatient=0;
+       
+            tala++;  
+           //System.out.println(tala+"*"+county+countyName+countyid+"|"+facilityName+facilityname+facilname+"%%%%"+issiteipd);   
+       
+       
        if(conn.rs1.getString("DTCB_Test_In_Tot")!=null){ semiannualinpatient=conn.rs1.getInt("DTCB_Test_In_Tot");}
        
        
            if(semiannualinpatient>0)
               {
+                
        	//Sites with Inpatient services
  	              //OPD	IPD	VCT
 
@@ -6650,9 +6663,10 @@ staticispmtct.remove(mflindex);
 	
       //do a query that calculates the sites supporting inpatient and outpatient for the last six months
       //since we are already in a loop, see if the current site calculates 
-       String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
+       //String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
                 //System.out.println("%%"+issiteipd);
-                
+        String issiteipd=" select sum(IPD) as DTCB_Test_In_Tot from "+facilitiestable+" where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' ";
+               
         conn.rs1=conn.st1.executeQuery(issiteipd);
        if(conn.rs1.next()){
          
@@ -8814,8 +8828,11 @@ double AdultFemaleHIV39=0;
 	
       //do a query that calculates the sites supporting inpatient and outpatient for the last six months
       //since we are already in a loop, see if the current site calculates 
-       String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
-                System.out.println("%%"+issiteipd);
+      // String issiteipd=" select sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot from moh711 where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ( yearmonth between '201510' and '201603') ";
+       
+       String issiteipd=" select sum(IPD) as DTCB_Test_In_Tot from "+facilitiestable+" where  SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' ";
+      
+      System.out.println("%%"+issiteipd);
                 
         conn.rs1=conn.st1.executeQuery(issiteipd);
        if(conn.rs1.next()){
