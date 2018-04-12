@@ -107,13 +107,13 @@ String excelDuration="";
 //       String headerTB[]="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+Y,Positive,Negative,Total PLVHIV enrolled in clinical care (HVO319),Ho of PLV in HIV clinical care screened for TB (HV0354),Female,Male, Screened for TB <15 Years,<1,1-4Y,5-9Y,10-14Y,Screened for TB >15 years,15-19Y,20+Y,Numerator,Denominator,Female,Male,<1,1-4Y,5-9Y,10-14Y,15-19Y,20+,Verification Status".split(",") ;
       //updated 2017
         String headerART []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,Numerator,Pregnant,Breastfeeding,On TB treatment,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-29Y,30-34Y,35-39Y,40-49Y,50+Y,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
-        String headerART1 []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Numerator,Pregnant,Breastfeeding,On TB treatment,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Paeds < 15 yrs,,,Adults 15 + yrs,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
+        String headerART1 []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Paeds < 15 yrs,,,,Adults 15 + yrs,,,,,,,Paeds < 15 yrs,,,,Adults 15 + yrs,,,,,,,Numerator,Pregnant,Breastfeeding,On TB treatment,Paeds < 15 yrs,,,,Adults 15 + yrs,,,,,,,Paeds < 15 yrs,,,,Adults 15 + yrs,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
         String headerART2 []="County,Sub County,Health Facility,MFL Code,Type of support,Numerator,Female,,,,,,,,,,,Male,,,,,,,,,,,Numerator,Pregnant,Breastfeeding,On TB treatment,Female,,,,,,,,,,,Male,,,,,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
         String headerART3 []="County,Sub County,Health Facility,MFL Code,Type of support,Current On ART,,,,,,,,,,,,,,,,,,,,,,,New on ART,,,,,,,,,,,,,,,,,,,,,,,,,,Verification Status,ART High Volume,HTC High Volume,PMTCT High Volume".split(",") ;
       
        
       
-        int [][] ARTmergeheaders ={{0,4,5,27,28,53,54,57},{0,4,6,16,17,27,32,42,43,53,54,57},{0,4,6,9,10,16,17,20,21,27,32,35,36,42,43,46,49,53}};
+        int [][] ARTmergeheaders ={{0,4,5,27,28,53,54,57},{0,4,6,16,17,27,32,42,43,53,54,57},{0,4,6,9,10,16,17,20,21,27,32,35,36,42,43,46,47,53}};
         
          Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
@@ -265,7 +265,6 @@ String excelDuration="";
         }   
         
      }
-     System.out.println("period is : "+period);
      
 //     GET FACILITIES TO OUTPUT.................................
     mflcode=countyName=districtName=facilityName="";    
@@ -676,7 +675,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     ArrayList art_statichtc_hv= new ArrayList();
     ArrayList art_staticpmtct_hv= new ArrayList();
     
-    int art_blankrows=54;
+    int art_blankrows=58;
     int care_blankrows=43;
     
    String getartstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
@@ -1026,7 +1025,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
      under1_newcare=conn.rs.getInt("under1_newcare");   
      under1_newcarem=(float)Math.round((under1careratio_male*under1_newcare));   
      under1_newcaref=under1_newcare-under1_newcarem;
-     System.out.println("Total "+under1_newcare+" = "+under1_newcarem+" + "+under1_newcaref);
+//     System.out.println("Total "+under1_newcare+" = "+under1_newcarem+" + "+under1_newcaref);
      
 //   HV0302=0;
      String getMaxYearMonth="SELECT MAX(yearmonth) FROM moh731 WHERE moh731.SubPartnerID='"+facilityId+"' && "+duration ;
@@ -1048,7 +1047,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
     + " WHERE "
     + " moh731.SubPartnerID='"+facilityId+"' && yearmonth='"+maxYearMonth+"' "
     + " AND  indicator='TX_CURR'";
-//     System.out.println("current : "+getCurrent);
+     System.out.println(countyName+"current : "+getCurrent);
      conn.rs1=conn.st1.executeQuery(getCurrent);
      if(conn.rs1.next()==true){
      HV0314=conn.rs1.getInt(1);
@@ -1091,7 +1090,6 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
         under1_curcare=conn.rs1.getInt("under1_curcare");
         under1_curtx=conn.rs1.getInt("under1_curtx");
      
-  
         
      double malepercentagecare=0.5;
             
@@ -1121,20 +1119,21 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
             malepercentagecare=0.5;
             }
         
-            System.out.println("Facility ni: "+facilityName+"  "+malepercentagecare+" _ Male:"+HV0315+"Female: "+HV0316);
+//            System.out.println("Facility ni: "+facilityName+"  "+malepercentagecare+" _ Male:"+HV0315+"Female: "+HV0316);
             
      under1_curcarem=(float)Math.round((malepercentagecare*under1_curcare));   
      under1_curcaref=under1_curcare-under1_curcarem;
-     System.out.println("Total cur care "+under1_curcare+" = "+under1_curcarem+" + "+under1_curcaref); 
+//     System.out.println("Total cur care "+under1_curcare+" = "+under1_curcarem+" + "+under1_curcaref); 
        
             
       under1_curtxm=(float)Math.round((c_m_1*under1_curtx));   
      under1_curtxf=under1_curtx-under1_curtxm;
-     System.out.println(facilityName+" Total Tx "+under1_curtx+" = "+under1_curtxm+" + "+under1_curtxf);
+//     System.out.println(facilityName+" Total Tx "+under1_curtx+" = "+under1_curtxm+" + "+under1_curtxf);
 
      }
      
       if(ARTSupport!=null){
+          System.out.println("county : "+countyName+" facility : "+facilityName);
   double splitData; int adderPos=0;
 // .>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // >>>>>>>>>>>>>>>>>>>>>>ART STARTS HERE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1159,10 +1158,10 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
 
  if(_HV0335>=under1_curtxm){     
  _HV0335=(int) (_HV0335-under1_curtxm); 
-     System.out.println(facilityName+" under1 m :"+under1_curtxm+" HV0335 "+HV0335+" _HV0335 "+_HV0335);
+//     System.out.println(facilityName+" under1 m :"+under1_curtxm+" HV0335 "+HV0335+" _HV0335 "+_HV0335);
  }
  else {
-     System.out.println(facilityName+" Should have multiplied but dint ");
+//     System.out.println(facilityName+" Should have multiplied but dint ");
       }
  currentART1_4M=(float)Math.round((c_m_4*_HV0335));
  currentART5_9M=(float)Math.round((c_m_9*_HV0335));
@@ -1236,10 +1235,10 @@ currentART1F=under1_curtxf;  //NEED CLARIFICATION
 int _HV0336=HV0336;
  if(_HV0336>=under1_curtxf){     
  _HV0336=(int) (_HV0336-under1_curtxf);
- System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
+// System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
  }
  else {
-     System.out.println("Should have multiplied but dint ");
+//     System.out.println("Should have multiplied but dint ");
       }
 
 currentART1_4F=(float)Math.round((c_f_4*_HV0336));
@@ -1309,7 +1308,7 @@ totalCurrentART=HV0338+HV0336+HV0337+HV0335;
  newART1_4M=newART1_4M-under1_newtxm;
     }
  else {
-     System.out.println("Should have multiplied but dint ");
+//     System.out.println("Should have multiplied but dint ");
  }
         
 splitData=newART10_14M+newART1_4M+newART5_9M+newART1M;
@@ -1407,7 +1406,7 @@ adderPos++  ;
  newART1_4F=newART1_4F-under1_newtxf;
      }
  else {
-     System.out.println("Should have deducted newtx but dint "+facilityName+" "+newART1_4F+" -- "+under1_newtxf);
+//     System.out.println("Should have deducted newtx but dint "+facilityName+" "+newART1_4F+" -- "+under1_newtxf);
       }
     
 splitData=newART10_14F+newART1_4F+newART5_9F+newART1F;
@@ -1420,7 +1419,7 @@ while(splitData<HV0322){
  else{newART1_4F+=1; splitData++; }
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
-    System.out.println("looping on HV0322+");
+//    System.out.println("looping on HV0322+");
 }   
   
 splitData=newART10_14F+newART1_4F+newART5_9F+newART1F;
@@ -1453,7 +1452,7 @@ while(splitData>HV0322){
  else{if(newART1_4F>0){newART1_4F-=1; splitData--;} }
 adderPos++  ;
  if(adderPos>2){adderPos=0;}
-     System.out.println("looping on HV0322- split data"+splitData+" HV0322 : "+HV0322+" "+newART1_4F+" "+newART5_9F+" "+newART10_14F);
+//     System.out.println("looping on HV0322- split data"+splitData+" HV0322 : "+HV0322+" "+newART1_4F+" "+newART5_9F+" "+newART10_14F);
 }
  //}
   
@@ -1487,7 +1486,7 @@ while(splitData<HV0324){
  if(adderPos==8){newART20_24F+=1; splitData++; }
 adderPos++  ;
  if(adderPos>8){adderPos=0;}
-     System.out.println("looping on HV0324+");
+//     System.out.println("looping on HV0324+");
 }     
      splitData=newART25_29f+newART30_34f+newART35_39f+newART40_49f+newART50F+newART20_24F+newART15_19F;
 adderPos=0;
@@ -1501,7 +1500,7 @@ while(splitData>HV0324){
  if(adderPos==8){if(newART20_24F>0){newART20_24F-=1; splitData--;} }
 adderPos++  ;
  if(adderPos>8){adderPos=0;}
-     System.out.println("looping on HV0324-");
+//     System.out.println("looping on HV0324-");
 }
  }
         totalNewART=HV0324+HV0322+HV0323+HV0321;
@@ -1514,11 +1513,11 @@ adderPos++  ;
          int _HV0309=HV0309;
  if(_HV0309>=under1_newcarem){     
  _HV0309=(int) (_HV0309-under1_newcarem); 
-     System.out.println(facilityName+" under1 care m :"+under1_newcarem+" HV0309 "+HV0309+" _HV0309 "+_HV0309);
+//     System.out.println(facilityName+" under1 care m :"+under1_newcarem+" HV0309 "+HV0309+" _HV0309 "+_HV0309);
      //System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
  }
  else {
-     System.out.println("Should have multiplied but dint ");
+//     System.out.println("Should have multiplied but dint ");
       }
         
         newCARE1_4M=((float)Math.round((0.52*_HV0309)) );
@@ -1582,11 +1581,11 @@ splitData--;
         int _HV0310=HV0310;
  if(_HV0310>=under1_newcaref){     
  _HV0310=(int) (_HV0310-under1_newcaref); 
-     System.out.println(facilityName+" under1 care f :"+under1_newcaref+" HV0310 "+HV0310+" _HV0310 "+_HV0310);
+//     System.out.println(facilityName+" under1 care f :"+under1_newcaref+" HV0310 "+HV0310+" _HV0310 "+_HV0310);
      //System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
  }
  else {
-     System.out.println("Should have multiplied but dint ");
+//     System.out.println("Should have multiplied but dint ");
       }
        
         newCARE1_4F=(float)Math.round((0.52*_HV0310));
@@ -1653,12 +1652,12 @@ splitData--;
  if(_HV0315>=under1_curcarem){  
      
  _HV0315=(int) (_HV0315-under1_curcarem); 
-     System.out.println(facilityName+" under1 cur care m :"+under1_curcarem+" HV0315 "+HV0315+" _HV0315 "+_HV0315);
+//     System.out.println(facilityName+" under1 cur care m :"+under1_curcarem+" HV0315 "+HV0315+" _HV0315 "+_HV0315);
      //System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
      
  }
  else {
-     System.out.println("Should have subtracted curcare but dint "+facilityName+" "+under1_curcarem+" "+HV0315);
+//     System.out.println("Should have subtracted curcare but dint "+facilityName+" "+under1_curcarem+" "+HV0315);
       }
         
         currentCARE1_4M=(float)Math.round((0.17*_HV0315));
@@ -1716,11 +1715,11 @@ splitData--;
            int _HV0316=HV0316;
  if(_HV0316>=under1_curcaref){     
  _HV0316=(int) (_HV0316-under1_curcaref); 
-     System.out.println(facilityName+" under1 cur care f :"+under1_curcaref+" HV0316 "+HV0316+" _HV0316 "+_HV0316);
+//     System.out.println(facilityName+" under1 cur care f :"+under1_curcaref+" HV0316 "+HV0316+" _HV0316 "+_HV0316);
      //System.out.println(facilityName+" under1 f :"+under1_curtxf+" HV0336 "+HV0336+" _HV0336 "+_HV0336);
  }
  else {
-     System.out.println("Should have multiplied but dint ");
+//     System.out.println("Should have multiplied but dint ");
       }
         
         currentCARE1_4F=(float)Math.round((0.172*_HV0316));
@@ -1793,6 +1792,7 @@ splitData--;
       errorART = 900000;
    }  
       
+          System.out.println("county : "+countyName+" facility : "+facilityName+"CURRENT:"+totalCurrentART+" NEW :"+totalNewART);
        String dataART []=(countyName+","+districtName+","+facilityName+","+mflcode+",DSD,"+totalCurrentART+","
            + ""+currentART1F+","+currentART1_4F+","+currentART5_9F+","+currentART10_14F+","+currentART15_19F+","
            + ""+currentART20_24F+","+currentART25_29f+","+currentART30_34f+","+currentART35_39f+","
@@ -1819,14 +1819,14 @@ splitData--;
        rw3shet1.setHeightInPoints(25);
        for(int positionART=0;positionART<dataART.length;positionART++){
        String value=dataART[positionART];
-           System.out.println("_"+value);
+//           System.out.println("_"+value);
            c11=rw3shet1.createCell(positionART);
         if(isNumeric(value)){ 
             c11.setCellValue(Double.parseDouble(value));
         }
         else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
-          if(positionART==5 || positionART==20){ c11.setCellStyle(styleHeader);}
+          if(positionART==5 || positionART==28){ c11.setCellStyle(styleHeader);}
           if(positionART==dataART.length-4){
          
        if(errorART>=900000){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}  
@@ -3347,7 +3347,7 @@ else if(z==pmtct_blankrows-4){
            
             
             
-            System.out.println(getexistingdata);
+//            System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
             
@@ -3872,7 +3872,7 @@ supporttype="DSD";
            
             
             
-            System.out.println(getexistingdata);
+//            System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
             
