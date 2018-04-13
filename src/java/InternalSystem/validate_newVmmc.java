@@ -69,7 +69,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                 yearmonth=(Integer.parseInt(year)-1)+""+month;
             }
             else{
-              yearmonth=Integer.parseInt(year)+""+month;  
+              yearmonth=Integer.parseInt(year)+"0"+month;  
             }
             System.out.println("Yearmonth : "+yearmonth);
            
