@@ -400,14 +400,14 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
 //---------------------------
 
-String header1[]={"Facility Details","","","","","TBSTAT (Numerator)","","","","","","","","","","","","","","","","","","","","","","","","","","","","TB_STAT (Denominator)","","","","","","","","","","TB_ART(Numerator)","","","","","","","","","","","","","","","","","","","","","","","","","","","TB_ART (Denominator)","","","","","","","","","","","","","","","","","","","","","","","","","","","TX_TB(Numerator)","","","","","","","TX_TB (Denominator)","","","","","","","","","",""};
+String header1[]={"Facility Details","","","","","TBSTAT (Numerator)","","","","","","","","","","","","","","","","","","","","","","","","","","","","TB_STAT (Denominator)","","","","","","","","","","TB_ART(Numerator)","","","","","","","","","","","","","","","","","","","","","","","","","","","TB_ART (Denominator)","","","","","","","","","","","","","","","","","","","","","","","","","","","TX_TB(Numerator)","","","","","","","TX_TB (Denominator)","","","","","","","","","","","",""};
 
 
-String header2[]={"County","Sub-County","Health Facility","MFL Code","Type of Support","Numerator","Unknown Sex","","","","","","","","","Female","","","","","","","","","Male","","","","","","","","","Denominator","Unknown Sex","","","Female","","","Male","","","Numerator","Disaggregated by Result","","Disaggregated by Age / Sex (Fine Disaggregate)","","","","","","","","","","","","","","","","","","","","Disaggregated by age/Sex(Coarse Disaggregate)","","","","Denominator","Disaggregated by Result","","Disaggregated by Age / Sex (Fine Disaggregate)","","","","","","","","","","","","","","","","","","","","Disaggregated by age/Sex(Coarse Disaggregate)","","","","Numerator","Disaggregated by Current / New on ART","","Disaggregated by age/Sex(Coarse Disaggregate)","","","","Denominator","Disaggregated by Screen Result","","Disaggregated by Specimen sent","[Disagg of specimen Sent] Diagonistic Test","","","Disaggregated by age/Sex(Coarse Disaggregate)","","",""};
+String header2[]={"County","Sub-County","Health Facility","MFL Code","Type of Support","Numerator","Unknown Sex","","","","","","","","","Female","","","","","","","","","Male","","","","","","","","","Denominator","Unknown Sex","","","Female","","","Male","","","Numerator","Disaggregated by Result","","Disaggregated by Age / Sex (Fine Disaggregate)","","","","","","","","","","","","","","","","","","","","Disaggregated by age/Sex(Coarse Disaggregate)","","","","Denominator","Disaggregated by Result","","Disaggregated by Age / Sex (Fine Disaggregate)","","","","","","","","","","","","","","","","","","","","Disaggregated by age/Sex(Coarse Disaggregate)","","","","Numerator","Disaggregated by Current / New on ART","","Disaggregated by age/Sex(Coarse Disaggregate)","","","","Denominator","Disaggregated by Start of ART by Screen Result","","","","Disaggregated by Specimen sent","[Disagg of specimen Sent] Diagonistic Test","","","Disaggregated by age/Sex(Coarse Disaggregate)","","",""};
 
-String header3[]={"County","Sub-County","Health Facility","MFL Code","Type of Support","Numerator","Known Positives","","","Newly Tested Positives","","","New Negatives","","","Known Positives","","","Newly Tested Positives","","","New Negatives","","","Known Positives","","","Newly Tested Positives","","","New Negatives","","","Denominator","Unknown Sex","","","Female","","","Male","","","Numerator","Disaggregated by Result","","Female","","","","","","","","","","Male","","","","","","","","","","Female","","Male","","Denominator","Disaggregated by Result","","Female","","","","","","","","","","Male","","","","","","","","","","Female","","Male","","Numertaor","The number of patients starting TB treatment who newly started ART during the reporting period","The number of patients starting TB treatment who were already ART during the reporting period","Female","","Male","","Denominator","Disaggregated by Screen Result","","Disaggregated by Specimen sent","Number of Patients whose specimens were sent for the following diagnostic tests","","","Female","","Male",""};
+String header3[]={"County","Sub-County","Health Facility","MFL Code","Type of Support","Numerator","Known Positives","","","Newly Tested Positives","","","New Negatives","","","Known Positives","","","Newly Tested Positives","","","New Negatives","","","Known Positives","","","Newly Tested Positives","","","New Negatives","","","Denominator","Unknown Sex","","","Female","","","Male","","","Numerator","Disaggregated by Result","","Female","","","","","","","","","","Male","","","","","","","","","","Female","","Male","","Denominator","Disaggregated by Result","","Female","","","","","","","","","","Male","","","","","","","","","","Female","","Male","","Numertaor","The number of patients starting TB treatment who newly started ART during the reporting period","The number of patients starting TB treatment who were already ART during the reporting period","Female","","Male","","Denominator","Disaggregated by Start of ART by Screen Result","","","","Disaggregated by Specimen sent","Number of Patients whose specimens were sent for the following diagnostic tests","","","Female","","Male",""};
 
-String header4[]={"County","Sub-County","Health Facility","MFL Code","Type of Support","Numerator","unknown","<15",">15","unknown","<15","> 15","unknown","<15","> 15","unknown","<15","> 15","unknown","<15","unknown","<15","> 15","unknown","<15","> 15","unknown","<15","> 15","> 15","unknown","<15","> 15","Denominator","Unknown","<15","15+","Unknown","<15","15+","Unknown","<15","15+","Numerator","Already on ART","New on ART","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<15","15+","<15","15+","Denominator","On ART","Not on ART","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<15","15+","<15","15+","Numerator","The number of patients starting TB treatment who newly started ART during the reporting period","The number of patients starting TB treatment who were already ART during the reporting period","<15","15+","<15","15+","Denominator","Number of ART patients who had atleast one positive screen during the reporting period.","Number of ART patients who had all negative screens during the reporting period.","Number of ART Patients who had a specimen sent for bacteriologic diagnosis of active TB disease","Smear Only","Gene Xpert MTB / R if Assay","Other (No Xpert)","<15","15+","<15","15+"} ;   
+String header4[]={"County","Sub-County","Health Facility","MFL Code","Type of Support","Numerator","unknown","<15",">15","unknown","<15","> 15","unknown","<15","> 15","unknown","<15","> 15","unknown","<15","unknown","<15","> 15","unknown","<15","> 15","unknown","<15","> 15","> 15","unknown","<15","> 15","Denominator","Unknown","<15","15+","Unknown","<15","15+","Unknown","<15","15+","Numerator","Already on ART","New on ART","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<15","15+","<15","15+","Denominator","On ART","Not on ART","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","<15","15+","<15","15+","Numerator","The number of patients starting TB treatment who newly started ART during the reporting period","The number of patients starting TB treatment who were already ART during the reporting period","<15","15+","<15","15+","Denominator","Newly enrolled on ART Screen Positive","Previously enrolled on ART Screen Positive","Newly enrolled on ART negative screen.","Previously enrolled on ART negative screen.","Number of ART Patients who had a specimen sent for bacteriologic diagnosis of active TB disease","Smear Only","Gene Xpert MTB / R if Assay","Other (No Xpert)","<15","15+","<15","15+"} ;   
 
 
 
@@ -535,7 +535,7 @@ String header4[]={"County","Sub-County","Health Facility","MFL Code","Type of Su
         //========Query 1=================
         // String mergerecords[]={"0,0,0,6","1,1,0,4","1,1,5,32","1,1,33,42","1,1,43,63","1,1,64,84","1,1,85,91","1,1,92,102","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,2,6,14","2,2,15,23","2,2,24,32","2,3,34,36","2,3,37,39","2,3,40,42","2,4,33,33","2,4,43,43","2,3,44,45","2,3,44,45","2,2,46,59","2,2,60,63","2,4,64,64","2,3,65,66","2,2,67,80","2,2,81,84","2,4,85,85","2,2,86,87","2,2,88,91","2,4,92,92","2,3,93,94","2,3,95,95","2,2,96,98","2,2,99,102","3,3,6,8","3,3,9,11","3,3,12,14","3,3,15,17","3,3,18,20","3,3,21,23","3,3,24,26","3,3,27,29","3,3,30,32","3,3,46,52","3,3,53,59","3,3,60,61","3,3,62,63","3,3,67,73","3,3,74,80","3,3,81,82","3,3,83,84","3,3,88,89","3,3,90,91","3,4,86,86","3,4,87,87","3,3,96,98","3,3,99,100","3,3,101,102"};
         
-        String mergerecords[]={"0,0,0,6","1,1,0,4","1,1,5,32","1,1,33,42","1,1,43,69","1,1,70,96","1,1,97,103","1,1,104,114","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,2,6,14","2,2,15,23","2,2,24,32","2,3,34,36","2,3,37,39","2,3,40,42","2,4,33,33","2,4,43,43","2,3,44,45","2,3,44,45","2,2,46,65","2,2,66,69","2,4,70,70","2,3,71,72","2,2,73,92","2,2,93,96","2,4,97,97","2,2,98,99","2,2,100,103","2,4,104,104","2,3,105,106","2,3,107,107","2,2,108,110","2,2,111,114","3,3,6,8","3,3,9,11","3,3,12,14","3,3,15,17","3,3,18,20","3,3,21,23","3,3,24,26","3,3,27,29","3,3,30,32","3,3,46,55","3,3,56,65","3,3,66,67","3,3,68,69","3,3,73,82","3,3,83,92","3,3,93,94","3,3,95,96","3,3,100,101","3,3,102,103","3,4,98,98","3,4,99,99","3,3,108,110","3,3,111,112","3,3,113,114"};
+        String mergerecords[]={"0,0,0,6","1,1,0,4","1,1,5,32","1,1,33,42","1,1,43,69","1,1,70,96","1,1,97,103","1,1,104,116","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,2,6,14","2,2,15,23","2,2,24,32","2,3,34,36","2,3,37,39","2,3,40,42","2,4,33,33","2,4,43,43","2,3,44,45","2,3,44,45","2,2,46,65","2,2,66,69","2,4,70,70","2,3,71,72","2,2,73,92","2,2,93,96","2,4,97,97","2,2,98,99","2,2,100,103","2,4,104,104","2,3,105,108","2,3,109,109","2,2,110,113","2,2,113,116","3,3,6,8","3,3,9,11","3,3,12,14","3,3,15,17","3,3,18,20","3,3,21,23","3,3,24,26","3,3,27,29","3,3,30,32","3,3,46,55","3,3,56,65","3,3,66,67","3,3,68,69","3,3,73,82","3,3,83,92","3,3,93,94","3,3,95,96","3,3,100,101","3,3,102,103","3,4,98,98","3,4,99,99","3,3,110,113","3,3,113,114","3,3,115,116"};
        
         HSSFRow rw0=shet.createRow(0);
         HSSFCell cell = rw0.createCell(0);
@@ -625,7 +625,487 @@ shet.setColumnHidden(tobehidden[a], true);
 
 }      
         
+ if(4==4){
+ 
+
+    
+    
+    
+                
+    HSSFCellStyle stylex = wb.createCellStyle();
+stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    
+HSSFFont fontx = wb.createFont();
+fontx.setColor(HSSFColor.BLACK.index);
+stylex.setFont(fontx);
+stylex.setWrapText(true);
+
+HSSFCellStyle stylemainHeader = wb.createCellStyle();
+stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+stylemainHeader.setWrapText(true);
+
+    HSSFCellStyle styleHeader = wb.createCellStyle();
+    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    styleHeader.setWrapText(true);  
+    
+    
+       
+   HSSFCellStyle stborder = wb.createCellStyle();
+    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+    stborder.setWrapText(true);
+
+    
+      HSSFFont font1 = wb.createFont();
+            font1.setFontName("Cambria");
+            font1.setColor((short) 0000);
+           stborder.setFont(font1);
+            
+    
+    
+    
+    // for the red color
+   HSSFCellStyle redstyle = wb.createCellStyle();
+    redstyle.setFillForegroundColor(HSSFColor.RED.index);
+    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    redstyle.setWrapText(true);
+    
+    
+    
+    
+      HSSFFont font = wb.createFont();
+            font.setFontHeightInPoints((short) 12);
+            font.setFontName("Cambria");
+            font.setColor((short) 0000);
+            CellStyle style = wb.createCellStyle();
+            style.setFont(font);
+            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            HSSFFont font2 = wb.createFont();
+            font2.setFontName("Cambria");
+            font2.setColor((short) 0000);
+            CellStyle style2 = wb.createCellStyle();
+            style2.setFont(font2);
+            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+           
+            //this font will be used to show errors on negatives
+            HSSFCellStyle errorstyle = wb.createCellStyle();
+            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
+            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    
+ //__________________________________________________________________________________________
+
+ArrayList allFacilities = new ArrayList();
+                     
+int year,month,prevYear,maxYearMonth,mflcode;
+			  
+String reportDuration,duration,semi_annual,quarter;
+
+String facilityName,countyName,districtName,facilityIds,facilityId;
+
+year=month=prevYear=maxYearMonth=mflcode=0;
+   
+reportDuration=duration=semi_annual=quarter="";
+ 
+facilityName=countyName=districtName=facilityIds=facilityId="";
+
+//_________________startdate________________________
+
+
+String startdate="";
+String enddate="";
+
+//_________________enddate__________________________
+
+year=Integer.parseInt(request.getParameter("year"));
+  
+  
+ ca= Calendar.getInstance();
+  
+ currentyear=ca.get(Calendar.YEAR);
+  
+ facilitiestable="subpartnera";
+  
+ selectedyear=year;
+  
+if(selectedyear<currentyear){
+      
+      if(year<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+  
+ 
+ facilityIds1="";
+
+facilityIds1="(";
+
+if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
+
+String subcounty=request.getParameter("subcounty");
+
+String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+
+
++ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+
++ "WHERE district.DistrictID='"+subcounty+"'" ;
+
+subcounty_countywhere=" ( district.DistrictID='"+subcounty+"') and ";//20160711
+    
+
+conn.rs=conn.st.executeQuery(getDist);
+
+while(conn.rs.next()){
+
+allFacilities.add(conn.rs.getString(1));
+ 
+
+ facilityIds1+=" ipt.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+ 
+    }
+     
+facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+     
+
+	 facilityIds1+=") && ";   
+
+	 } 
+	 
+     else{
+		 
+
+if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
+
+		 
+String county=request.getParameter("county");
+		 
+String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+		 
++ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+	
++ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+         
+subcounty_countywhere=" (county.CountyID='"+county+"') and  ";//20160711
+         
+conn.rs=conn.st.executeQuery(getCounty);
+
+while(conn.rs.next()){
+		
+		
+allFacilities.add(conn.rs.getString(1));
+    
+
+facilityIds1+=" ipt.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+                         }
+   
+facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+	
+     facilityIds1+=") && "; 
+	 
+     }
+       
+        else{
+  
+       facilityIds1=""; 
+	   
+        }   
         
+     }      
+        reportDuration=request.getParameter("reportDuration");
+        
+
+        String period1="";
+        String duration1="";
+        prevYear=year-1; 
+        maxYearMonth=0;
+        
+//    GET REPORT DURATION============================================
+
+        if(reportDuration.equals("1")){
+			
+         duration1=" yearmonth Between "+prevYear+"10 and "+year+"09";   
+        period1="DATIM TB_PREV for October "+prevYear+" to September "+year;
+        
+        startdate=prevYear+"1001";
+        enddate=year+"0930";
+        
+        }
+        else if(reportDuration.equals("2")){
+        semi_annual=request.getParameter("semi_annual");
+//        semi_annual="2";
+       if(semi_annual.equals("1")){
+     duration1=" yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
+       
+     period1="DATIM TB_PREV for October "+prevYear+" to March "+year;
+    //______start and end date_________ 
+     startdate=prevYear+"1001";
+        enddate=year+"0331";
+     
+       }
+           else{
+       duration1=" yearmonth BETWEEN "+year+"04 AND "+year+"09";      
+      period1="DATIM TB_PREV for April "+year+" to September "+year; 
+       
+      //______start and end date_________ 
+     startdate=year+"0401";
+        enddate=year+"0930";
+       
+       
+       }
+       }
+         
+       else if(reportDuration.equals("3")){
+            
+            String startMonth,endMonth;
+            
+       quarter=request.getParameter("quarter");
+//       quarter="3";
+       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
+       
+       conn.rs=conn.st.executeQuery(getMonths);
+       
+       if(conn.rs.next()==true){
+           
+      String months []=conn.rs.getString(1).split(",");
+      
+       startMonth=months[0];
+       
+       endMonth=months[2];
+       
+      if(quarter.equals("1")){
+          
+      duration1=" yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
+      
+      period1="DATIM TB_PREV for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
+      
+     //___start and end date____
+     startdate=prevYear+"1001";
+     enddate=prevYear+"1231";
+      
+      }
+      else{
+          
+           //___start and end date____
+     startdate=year+startMonth+"01";
+     enddate=year+endMonth+""+conn.rs.getString("enddate");
+      
+          
+     duration1=" yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
+     
+     period1="DATIM TB_PREV for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
+      }
+        }
+       
+        }//end of quarrtely if  
+        
+      else if(reportDuration.equals("4")){
+          
+     month=Integer.parseInt(request.getParameter("month"));
+//            month=5;
+           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
+    conn.rs=conn.st.executeQuery(getMonthName);
+    if(conn.rs.next()==true){
+   if(month>=10){
+     duration1=" yearmonth="+prevYear+""+month;    
+     period1="DATIM TB_PREV for : "+conn.rs.getString(1)+"("+prevYear+")";
+                 
+     //___start and end date____
+     startdate=prevYear+month+"01";
+     enddate=prevYear+month+conn.rs.getString("days");
+     
+     }
+     else{
+  duration1=" yearmonth="+year+"0"+month;  
+    period1="DATIM TB_PREV for : "+conn.rs.getString(1)+"("+year+")";
+    
+    //___start and end date____
+     startdate=year+"0"+month+"01";
+     enddate=year+"0"+month+conn.rs.getString("days");
+    
+     }
+      }
+      }
+      else{
+     duration1="";     
+      }
+
+ //__________________________________________________________________________________________ 
+    
+//______________________________________________________________________________________
+//                       CREATE THE WORKSHEETS          
+//______________________________________________________________________________________  
+       // HSSFWorkbook wb = new HSSFWorkbook();
+
+       
+
+        HSSFCellStyle stylesum = wb.createCellStyle();
+        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+        
+
+        stylesum.setFont(fontx);
+        stylesum.setWrapText(true);
+
+        HSSFSheet shet = wb.createSheet("TB_PREV");
+
+         mwaka="";
+        
+        if(request.getParameter("year")!=null){
+        
+            mwaka=request.getParameter("year");
+        
+        }
+       // dbConn conn = new dbConn();
+        //========Query 1=================
+        
+        HSSFRow rw0=shet.createRow(1);
+        HSSFCell cell = rw0.createCell(0);
+                    cell.setCellValue(""+period1);
+                    cell.setCellStyle(style);
+        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
+                    
+                int count1  = 3;
+        
+        
+        
+         String qry1 = "call rpt_ipt(\""+startdate.substring(0, 6)+"\",\""+enddate.substring(0, 6)+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
+         
+                //call internal_system.rpt_sti(201710, 201803, 'subpartnera', '', 'sti');
+    System.out.println(""+qry1);
+                
+        conn.rs = conn.st.executeQuery(qry1);
+
+        ResultSetMetaData metaData = conn.rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+       
+        ArrayList mycolumns1 = new ArrayList();
+
+        while (conn.rs.next()) {
+
+            if (count1 == 3) {
+//header rows
+                HSSFRow rw = shet.createRow(count1);
+rw.setHeightInPoints(26);
+                for (int i = 1; i <= columnCount; i++) 
+                {
+
+                    mycolumns1.add(metaData.getColumnLabel(i));
+                    HSSFCell cell0 = rw.createCell(i - 1);
+                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
+                    cell0.setCellStyle(stylex);
+
+                    //create row header
+                }//end of for loop
+                count1++;
+            }//end of if
+            //data rows     
+            HSSFRow rw = shet.createRow(count1);
+
+            for (int a = 0; a < columnCount; a++) {
+               // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
+
+                HSSFCell cell0 = rw.createCell(a);
+                 if(a==3){
+                
+                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    
+                   }
+                 else if(a > 4){
+                
+                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    
+                   }
+                else {
+                    
+                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
+                }
+            
+                cell0.setCellStyle(style2);
+
+            }
+
+            // System.out.println("");
+            count1++;
+        }
+  
+        
+        //Autofreeze  || Autofilter  || Remove Gridlines ||  
+        
+        //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
+
+        //System.out.println("1,"+rowpos+",0,"+colposcopy);
+        for (int i = 0; i <= columnCount; i++) {
+            shet.autoSizeColumn(i);
+        }
+
+        shet.setDisplayGridlines(false);
+        shet.createFreezePane(5, 4); 
+
+
+
+
+ 
+ }       
         
         
         
