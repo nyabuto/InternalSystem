@@ -671,11 +671,28 @@ String counselling_T="";
                 conn.pst.setString(1, id);
                 conn.rs=conn.pst.executeQuery();
                 String islocked="";
+                
+                       String yearmonth="";
+        String tempmonth=month;
+        int pepfaryear=Integer.parseInt(year);
+        if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+        else {pepfaryear--;}
+
+
+        yearmonth=pepfaryear+""+tempmonth;
+    String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND sgbv=?";
+    conn.pst = conn.conn.prepareStatement(locked_DATA);
+    conn.pst.setString(1, yearmonth);
+    conn.pst.setInt(2, 1);
+    conn.rs = conn.pst.executeQuery();
+    if(conn.rs.next()){
+      islocked= "disabled='true'";
+    }
+    
                 if(conn.rs.next()==true){
-                    
-                  
-                    
+                   
                     if(conn.rs.getString("isLocked").equals("1")){islocked="disabled='true'";}
+                    if(conn.rs.getString("isLocked").equals("0")){islocked="";}
                     
                     if(conn.rs.getString("rapesurvivor_1_M")!=null){ rapesurvivor_1_M=conn.rs.getString("rapesurvivor_1_M");}else{rapesurvivor_1_M="";}
 if(conn.rs.getString("rapesurvivor_1_F")!=null){ rapesurvivor_1_F=conn.rs.getString("rapesurvivor_1_F");}else{rapesurvivor_1_F="";}

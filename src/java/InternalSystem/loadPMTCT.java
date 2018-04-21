@@ -116,6 +116,25 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+PMTCTvalid+" </b>";
  
  String label="Record counter <font color='white'><b>"+PMTCTdone+"<b></font>  out of <b>"+facilssupporting+"</b>"+validated+unvalidated;
  
+ 
+         yearmonth="";
+        String tempmonth=month;
+        int pepfaryear=Integer.parseInt(year);
+        if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+        else {pepfaryear--;}
+
+
+        yearmonth=pepfaryear+""+tempmonth;
+    String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND pmtct=?";
+    conn.pst = conn.conn.prepareStatement(locked_DATA);
+    conn.pst.setString(1, yearmonth);
+    conn.pst.setInt(2, 1);
+    conn.rs = conn.pst.executeQuery();
+    if(conn.rs.next()){
+      isLocked= "1";
+      lock="disabled";
+    } 
+    
          enterdby="";   
             String check_data="SELECT * FROM pmtct WHERE tableid=?";
             conn.pst=conn.conn.prepareStatement(check_data);
@@ -211,6 +230,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+PMTCTvalid+" </b>";
        
                 
                   if(isLocked.equals("1")){lock="disabled";}
+                  else if(isLocked.equals("0")){lock="";}
         //get the name of the person who entered the form 
         enterdby="";
         String enterer="select * from user where userid='"+conn.rs.getString("user_id") +"'";

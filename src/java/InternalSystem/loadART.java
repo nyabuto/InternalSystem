@@ -117,6 +117,25 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+ARTvalid+" </b>";
  
  String label="Record counter <font color='white'><b>"+ARTdone+"<b></font>  out of <b>"+facilssupporting+"</b>"+validated+unvalidated;
  
+        yearmonth="";
+        String tempmonth=month;
+        int pepfaryear=Integer.parseInt(year);
+        if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+        else {pepfaryear--;}
+
+
+        yearmonth=pepfaryear+""+tempmonth;
+    String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND art=?";
+    conn.pst = conn.conn.prepareStatement(locked_DATA);
+    conn.pst.setString(1, yearmonth);
+    conn.pst.setInt(2, 1);
+    conn.rs = conn.pst.executeQuery();
+    if(conn.rs.next()){
+      isLocked= "1";
+      lock="disabled";
+    }
+    
+ 
          enterdby="";   
             String check_data="SELECT * FROM art WHERE tableid=?";
             conn.pst=conn.conn.prepareStatement(check_data);
@@ -230,6 +249,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+ARTvalid+" </b>";
         }//end of if updated !=null
                      
             }
+            
               System.out.println("Validity checker : "+isValidated);
       if(isValidated.equals("0")){
      validity="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:5px;'></b></font>";

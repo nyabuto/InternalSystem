@@ -442,6 +442,26 @@ int yrmonth=Integer.parseInt(maxyearmonth);
 ////}
 // HV03040=HV03040_1;HV03041=HV03041_1;HV03042=HV03042_1;HV03043=HV03043_1;HV03044=HV03044_1;
      
+
+        yearmonth="";
+        tempmonth=month;
+        pepfaryear=Integer.parseInt(year);
+        if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+        else {pepfaryear--;}
+
+
+        yearmonth=pepfaryear+""+tempmonth;
+    String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND moh731=?";
+    conn.pst = conn.conn.prepareStatement(locked_DATA);
+    conn.pst.setString(1, yearmonth);
+    conn.pst.setInt(2, 1);
+    conn.rs = conn.pst.executeQuery();
+    if(conn.rs.next()){
+      isLocked= 1;
+      lock="disabled";
+    }
+    
+    
           String checker="SELECT * FROM moh731_new WHERE id=?" ;
           conn.pst=conn.conn.prepareStatement(checker);
           conn.pst.setString(1, id);
@@ -726,6 +746,7 @@ if(conn.rs.getString("HV0604")!=null){HV0604=conn.rs.getString("HV0604");}
 isLocked=conn.rs.getInt("isLocked");
 //isLocked=1;
 if(isLocked==1){lock="disabled";}
+else if(isLocked==0){lock="";}
 
 //if(HV03040.equals("")){HV03040=HV03040_1;}
 //if(HV03041.equals("")){HV03041=HV03041_1;}

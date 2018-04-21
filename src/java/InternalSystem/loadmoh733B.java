@@ -139,7 +139,24 @@ String facilityId,subcountyid,validated,validity;
      
          
          System.out.println("id is : "+id); 
-         
+               String  yearmonth="";
+        String tempmonth=month;
+        int pepfaryear=Integer.parseInt(year);
+        if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+        else {pepfaryear--;}
+
+
+        yearmonth=pepfaryear+""+tempmonth;
+    String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND nutrition=?";
+    conn.pst = conn.conn.prepareStatement(locked_DATA);
+    conn.pst.setString(1, yearmonth);
+    conn.pst.setInt(2, 1);
+    conn.rs = conn.pst.executeQuery();
+    if(conn.rs.next()){
+      isLocked= 1;
+      lock="disabled";
+    }
+    
         String query="SELECT * FROM moh733b WHERE id='"+id+"'"; 
         conn.rs=conn.st.executeQuery(query);
         if(conn.rs.next()){
@@ -148,7 +165,7 @@ String facilityId,subcountyid,validated,validity;
          facility_id = conn.rs.getString("SubPartnerID");
          String  Mois = conn.rs.getString("Mois");
          String  Annee = conn.rs.getString("Annee");
-         String  yearmonth = conn.rs.getString("yearmonth");
+         yearmonth = conn.rs.getString("yearmonth");
          isValidated = conn.rs.getString("isValidated");
          int isLocked = conn.rs.getInt("isLocked");
          if(isLocked==1){lock="disabled";}

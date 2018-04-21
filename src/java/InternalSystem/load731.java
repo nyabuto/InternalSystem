@@ -367,7 +367,25 @@ HV0344_1=conn.rs.getString(5);
     found=0;
 //}
  HV0340=HV0340_1;HV0341=HV0341_1;HV0342=HV0342_1;HV0343=HV0343_1;HV0344=HV0344_1;
-     
+        
+        yearmonth="";
+        tempmonth=month;
+        pepfaryear=Integer.parseInt(year);
+        if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+        else {pepfaryear--;}
+
+
+        yearmonth=pepfaryear+""+tempmonth;
+    String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND moh731=?";
+    conn.pst = conn.conn.prepareStatement(locked_DATA);
+    conn.pst.setString(1, yearmonth);
+    conn.pst.setInt(2, 1);
+    conn.rs = conn.pst.executeQuery();
+    if(conn.rs.next()){
+      isLocked= 1;
+      lock="disabled";
+    }
+    
            String checker="SELECT * FROM moh731 WHERE id=?";
           conn.pst=conn.conn.prepareStatement(checker);
           conn.pst.setString(1, id);
@@ -580,6 +598,7 @@ if(conn.rs.getString("HV0605")!=null){HV0605=conn.rs.getString("HV0605");}
 isLocked=conn.rs.getInt("isLocked");
 //isLocked=1;
 if(isLocked==1){lock="disabled";}
+else if(isLocked==0){lock="";}
 
 if(HV0340.equals("")){HV0340=HV0340_1;}
 if(HV0341.equals("")){HV0341=HV0341_1;}
