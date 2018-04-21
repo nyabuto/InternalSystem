@@ -76,7 +76,7 @@ public class loadForms extends HttpServlet {
     }
        
         else{
-            System.out.println("forms holder : "+session.getAttribute("forms_holder").toString());    
+           // System.out.println("forms holder : "+session.getAttribute("forms_holder").toString());    
      if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     
     if(session.getAttribute("userAccess")!=null){ if(session.getAttribute("userAccess").toString().contains(","+user_access+",")) {         
     

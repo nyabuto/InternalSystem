@@ -885,6 +885,10 @@
         <servlet-name>validate_PMTCT</servlet-name>
         <servlet-class>InternalSystem.validate_PMTCT</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DATIM_IMIS</servlet-name>
+        <servlet-class>DataMapping.DATIM_IMIS</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1768,6 +1772,10 @@
     <servlet-mapping>
         <servlet-name>validate_PMTCT</servlet-name>
         <url-pattern>/validate_PMTCT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DATIM_IMIS</servlet-name>
+        <url-pattern>/DATIM_IMIS</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
