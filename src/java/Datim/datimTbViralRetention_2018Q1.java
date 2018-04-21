@@ -197,7 +197,7 @@ String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+"
 
 + "WHERE district.DistrictID='"+subcounty+"'" ;
 
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"') and ";//20160711
+subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1   and ";//20160711
     
 
 conn.rs=conn.st.executeQuery(getDist);
@@ -232,7 +232,7 @@ String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable
 	
 + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
          
-subcounty_countywhere=" (county.CountyID='"+county+"') and  ";//20160711
+subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1   and  ";//20160711
          
 conn.rs=conn.st.executeQuery(getCounty);
 
@@ -805,7 +805,7 @@ String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+"
 
 + "WHERE district.DistrictID='"+subcounty+"'" ;
 
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"') and ";//20160711
+subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1   and ";//20160711
     
 
 conn.rs=conn.st.executeQuery(getDist);
@@ -840,7 +840,7 @@ String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable
 	
 + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
          
-subcounty_countywhere=" (county.CountyID='"+county+"') and  ";//20160711
+subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1   and  ";//20160711
          
 conn.rs=conn.st.executeQuery(getCounty);
 
@@ -1226,7 +1226,7 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
     String getDist="SELECT "+facilitiestable+".SubPartnerID,"+facilitiestable+".CentreSanteId AS mfl_code  FROM "+facilitiestable+" "
     + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
-     subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
+     subcounty_countywhere=" (district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1   and ";
     
     conn.rs=conn.st.executeQuery(getDist);
     while(conn.rs.next()){
@@ -1249,7 +1249,7 @@ String headerRETENTION[]="County,Sub County,Health Facility,MFL Code,Type of sup
     + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
          
-           subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711
+           subcounty_countywhere=" (county.CountyID='"+county+"')   AND "+facilitiestable+".active=1  and ";//20160711
          
     conn.rs=conn.st.executeQuery(getCounty);
     while(conn.rs.next()){
@@ -1449,7 +1449,7 @@ ArrayList staticpmtct_hv= new ArrayList();
     
    String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
             + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( ART='1' || PMTCT='1') group by "+facilitiestable+".SubPartnerID   "; 
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( ART='1' || PMTCT='1')  AND "+facilitiestable+".active=1   group by "+facilitiestable+".SubPartnerID   "; 
     
    conn.rs=conn.st.executeQuery(getstaticfacilities);
     while(conn.rs.next()){
@@ -1523,7 +1523,7 @@ String getNumerator="  " +
 "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID "+
 "JOIN ratios ON county.CountyID=ratios.county_id " +
-"WHERE "+facilityIds+" internal_system.moh731"+duration+" && "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM'" +
+"WHERE "+facilityIds+" internal_system.moh731"+duration+" && "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM'  AND "+facilitiestable+".active=1  " +
 "GROUP BY internal_system." + facilitiestable + ".SubPartnerID " +
 " " +
 "UNION " +
@@ -1563,7 +1563,7 @@ String getNumerator="  " +
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID " +
 "JOIN ratios ON county.CountyID=ratios.county_id " +
 "WHERE "+facilityIdsCohort+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM_PREG' " +
-"AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9) " +
+"AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  AND "+facilitiestable+".active=1   " +
 "GROUP BY internal_system." + facilitiestable + ".SubPartnerID ) AS all_data group by CentreSanteId ORDER BY CentreSanteId" ;
 
     System.out.println("num : "+getNumerator);
@@ -1768,7 +1768,7 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
 "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
 "JOIN ratios ON county.CountyID=ratios.county_id " +
-" WHERE "+facilityIds+" internal_system.moh731"+duration+" && "+facilitiestable+".ART=1   AND ratios.indicator='TX_RETENTION_DEN'" +
+" WHERE "+facilityIds+" internal_system.moh731"+duration+" && "+facilitiestable+".ART=1   AND ratios.indicator='TX_RETENTION_DEN'  AND "+facilitiestable+".active=1  " +
 " GROUP BY internal_system." + facilitiestable + ".SubPartnerID  " +
 "  " +
 " UNION  " +
@@ -1806,7 +1806,7 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
 "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
 "JOIN ratios ON county.CountyID=ratios.county_id " +
 " WHERE "+facilityIdsCohort+" pmtct_art_cohort.pmtct_cohort"+duration+" && "+facilitiestable+".ART=1 AND ratios.indicator='TX_RETENTION_DEN_PREG' " +
-" AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16) " +
+" AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  AND "+facilitiestable+".active=1   " +
 " GROUP BY internal_system." + facilitiestable + ".SubPartnerID ) AS all_data group by CentreSanteId  ORDER BY CentreSanteId";
 
     System.out.println("denominator : "+getDenominator);
@@ -2120,7 +2120,7 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
             
             if (!subcounty.equals("")) {
                 
-                subcountywhere = " and "+facilitiestable+".DistrictID = '" + subcounty + "'";
+                subcountywhere = "  AND "+facilitiestable+".active=1   and "+facilitiestable+".DistrictID = '" + subcounty + "'";
                 
             }
             
@@ -2131,7 +2131,7 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
             }
             
             String joinedwhere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " +subcountywhere+" "+facilitywhere+" "
-            + " and ("+facilitiestable+".ART=1 OR "+facilitiestable+".PMTCT=1) and "+facilitiestable+".active=1  and Gender !='' and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
+            + " and ("+facilitiestable+".ART=1 OR "+facilitiestable+".PMTCT=1) and "+facilitiestable+".active=1  and Gender !=''  AND "+facilitiestable+".active=1   and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
 
 //    ====================START OF NEW VIRAL LOAD REPORT OCT 2017 -------------
 //                       NOW CREATE THE WORKSHEETS
@@ -2932,7 +2932,7 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
                 try {
                     facil = request.getParameter("facility");
                     
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'  AND "+facilitiestable+".active=1  ";
                     conn.rs = conn.st.executeQuery(getfacil);
                     
                     while (conn.rs.next()) {
@@ -3105,17 +3105,17 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
             
             if (!subcounty.equals("")) {
                 
-                subcountywhere = " and "+facilitiestable+".DistrictID = '" + subcounty + "'";
+                subcountywhere = "  AND "+facilitiestable+".active=1   and "+facilitiestable+".DistrictID = '" + subcounty + "'";
                 
             }
             
             if (!facil.equals("")) {
                 
-                facilitywhere = " and " + form + ".SubPartnerID = '" + facil + "'";
+                facilitywhere = "  AND "+facilitiestable+".active=1   and " + form + ".SubPartnerID = '" + facil + "'";
                 
             }
             
-            String joinedwhwere = " where ("+facilitiestable+".PEP=1) " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
+            String joinedwhwere = " where ("+facilitiestable+".PEP=1)  AND "+facilitiestable+".active=1   " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
         
             
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
@@ -3140,7 +3140,7 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
     
    String getstaticfacilities="SELECT  county.County as county,district.DistrictNom as district," //
             + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( PEP='1') group by "+facilitiestable+".SubPartnerID   "; 
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( PEP='1')  AND "+facilitiestable+".active=1   group by "+facilitiestable+".SubPartnerID   "; 
     
    conn.rs=conn.st.executeQuery(getstaticfacilities);
     while(conn.rs.next()){

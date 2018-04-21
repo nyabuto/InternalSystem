@@ -226,7 +226,7 @@ String excelDuration="";
     String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
     + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
      + "WHERE district.DistrictID='"+subcounty+"'" ;
-     subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";
+     subcounty_countywhere=" (district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";
  
     
     conn.rs=conn.st.executeQuery(getDist);
@@ -244,7 +244,7 @@ String excelDuration="";
          String county=request.getParameter("county");
          String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
     + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+     + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'  AND "+facilitiestable+".active=1 " ;
          
            subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711
          
@@ -680,7 +680,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     
    String getartstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
             + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where "+subcounty_countywhere+" ( ART='1') group by "+facilitiestable+".SubPartnerID   "; 
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where "+subcounty_countywhere+" ( ART='1')  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID   "; 
     
    conn.rs=conn.st.executeQuery(getartstaticfacilities);
     while(conn.rs.next())
@@ -721,7 +721,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
     
    String getpmtctstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
             + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where "+subcounty_countywhere+" ( PMTCT='1') group by "+facilitiestable+".SubPartnerID   "; 
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where "+subcounty_countywhere+" ( PMTCT='1')  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID   "; 
     
    conn.rs=conn.st.executeQuery(getpmtctstaticfacilities);
     while(conn.rs.next())
@@ -780,7 +780,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
             + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
             + " WHERE "
             + " "+facilityIds+" "+duration+"  "
-            + " AND  indicator='TX_NEW'"
+            + " AND  indicator='TX_NEW' AND "+facilitiestable+".active=1 "
             + "GROUP BY moh731.SubPartnerID " ;
        
    System.out.println("new : "+getData);
@@ -1046,7 +1046,7 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
     + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
     + " WHERE "
     + " moh731.SubPartnerID='"+facilityId+"' && yearmonth='"+maxYearMonth+"' "
-    + " AND  indicator='TX_CURR'";
+    + " AND  indicator='TX_CURR'  AND "+facilitiestable+".active=1 ";
      System.out.println(countyName+"current : "+getCurrent);
      conn.rs1=conn.st1.executeQuery(getCurrent);
      if(conn.rs1.next()==true){
@@ -2411,7 +2411,7 @@ else if(z==pmtct_blankrows-4){
                 try {
                     facil = request.getParameter("facility");
                     
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'  AND "+facilitiestable+".active=1 ";
                     conn.rs = conn.st.executeQuery(getfacil);
                     
                     while (conn.rs.next()) {
@@ -3121,7 +3121,7 @@ else if(z==pmtct_blankrows-4){
                 try {
                     facil = request.getParameter("facility");
                     
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'  AND "+facilitiestable+".active=1 ";
                     conn.rs = conn.st.executeQuery(getfacil);
                     
                     while (conn.rs.next()) {
@@ -3340,7 +3340,7 @@ else if(z==pmtct_blankrows-4){
 " ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume " +
 
 " FROM hei.results join "+facilitiestable+" on hei.results.facility_id="+facilitiestable+".SubPartnerID join (internal_system.district join internal_system.county on internal_system.county.CountyID=internal_system.district.CountyID ) on internal_system.district.DistrictID="+facilitiestable+".DistrictID " +
-" "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) " +
+" "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  " +
 " group by "+facilitiestable+".SubPartnerID ";
            
            //+ " FROM pmtct_fo join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_fo.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) group by "+facilitiestable+".SubPartnerID ";
@@ -3654,7 +3654,7 @@ supporttype="DSD";
                 try {
                     facil = request.getParameter("facility");
                     
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'";
+                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from "+facilitiestable+" where SubPartnerID='" + facil + "'  AND "+facilitiestable+".active=1 ";
                     conn.rs = conn.st.executeQuery(getfacil);
                     
                     while (conn.rs.next()) {
@@ -3868,7 +3868,7 @@ supporttype="DSD";
                    + " SUM(total_started_art_at_anc)as Total_Started_ART_at_ANC, " //__HIV_infected
                    + " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
            
-           + " FROM pmtct_art join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_art.mflcode = "+facilitiestable+".CentreSanteId   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) group by "+facilitiestable+".SubPartnerID ";
+           + " FROM pmtct_art join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_art.mflcode = "+facilitiestable+".CentreSanteId   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID ";
            
             
             

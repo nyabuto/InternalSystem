@@ -87,9 +87,9 @@ String iptcounter="SELECT 1 FROM ipt join subpartnera on ipt.SubPartnerID=subpar
  
  
  
- String countpmctfacility="Select * from subpartnera where ART ='1' and  DistrictID='"+distid+"'";
+ String countartfacility="Select * from subpartnera where ART ='1' and  DistrictID='"+distid+"'";
 // String countfacility="Select * from subpartnera where FP='1' || PMTCT ='1' || Maternity='1' || HTC='1' ";
- conn.rs1 = conn.st1.executeQuery(countpmctfacility);
+ conn.rs1 = conn.st1.executeQuery(countartfacility);
  while(conn.rs1.next()){
  facilssupporting++;
  }
@@ -930,7 +930,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+iptvalid+" </b>";
      
      
       if (session.getAttribute("forms_holder") != null) {
-     if (session.getAttribute("forms_holder").toString().contains("TB")) {
+     if (session.getAttribute("forms_holder").toString().contains("ART")) {
         output=enterdby+Header+A+B+C+D+E+F;
         if(isLocked.equals("1")){
             output += "<div class='form-actions' style=\"text-align:center;\"><input type='submit' disabled class='btn red' value='Form Locked' name='validate' id='validate'/></div><span id='formstatus' style='display:none;'>" + validity + " </span><span id='rc' style='display:none;'>"+label+" </span><span id='ufs' style='display:none;'>"+unvalidatedLink+"</span>";
