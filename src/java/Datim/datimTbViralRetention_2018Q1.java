@@ -2131,7 +2131,7 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
             }
             
             String joinedwhere = " where 1=1 " + yearwhere + " && " + viralloadduration + " " + countywhere + " " +subcountywhere+" "+facilitywhere+" "
-            + " and ("+facilitiestable+".ART=1 OR "+facilitiestable+".PMTCT=1) and "+facilitiestable+".active=1  and Gender !=''  AND "+facilitiestable+".active=1   and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
+            + " and ("+facilitiestable+".ART=1 OR "+facilitiestable+".PMTCT=1) and "+facilitiestable+".active=1  and Sex !=''  AND "+facilitiestable+".active=1   and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
 
 //    ====================START OF NEW VIRAL LOAD REPORT OCT 2017 -------------
 //                       NOW CREATE THE WORKSHEETS
