@@ -228,15 +228,16 @@ legend.formatter {
                                    Form : <font color="red">*</font>
                                </td><td>
                                  <select onchange="" multiple required style="width:300px;float:right;color:black;" data-placeholder="Form" class="span6" tabindex="-1"  id="form" name="form">
-                                    <option value="">Select form </option>
+                                     <option value="">Loading Forms ...</option>
+<!--                                    <option value="">Select form </option>
                                     <option value="moh711">MOH 711 A</option>
                                     <option value="moh731">MOH 731</option>
                                     <option value="gender">Gender</option>
                                     <option value="kmmp">KMMP</option>
                                     <option value="nutrition">Nutrition</option>
                                     <option value="vmmc">VMMC</option>
-                                    <option value="tb">TB</option>
-                                    <!--<option value="hei">HEI</option>-->
+                                    <option value="tb">TB</option>-->
+                                    
                                  </select></div>  
                            </td></tr>
                    
@@ -360,6 +361,20 @@ return true;
     success:function (data){
          $("#year").html(data);
          loadmonths();
+//        document.getElementById("year").innerHTML=data;
+        
+    }
+    
+    
+});
+
+            $.ajax({
+    url:'load_to_lock_forms',
+    type:'post',
+    dataType:'html',
+    success:function (data){
+         $("#form").html(data);
+         $('#form').select2(); 
 //        document.getElementById("year").innerHTML=data;
         
     }

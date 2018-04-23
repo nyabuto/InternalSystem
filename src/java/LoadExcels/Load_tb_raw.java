@@ -491,15 +491,16 @@ String genexpert="";
                           if(cellhivtestdate.getCellType()==1){
                                 //this is a string
 			   hivtestdate = (String)cellhivtestdate.getStringCellValue();
+                           System.out.println("hiv test date solved at level 1="+hivtestdate);
                             }
                             else if(cellhivtestdate.getCellType()==0){
                            //this is a numeric value     
                            hivtestdate =""+(int)cellhivtestdate.getNumericCellValue();
-                            
+                            System.out.println("hiv test date solved at level 2="+hivtestdate);
                             }
                             else {
                            hivtestdate = ""+cellhivtestdate.getDateCellValue();
-                        
+                              System.out.println("hiv test date solved at level 3="+hivtestdate);
                             }
                           
                            //hiv status

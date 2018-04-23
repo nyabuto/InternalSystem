@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -148,15 +149,19 @@ int datastartcol=10;   //column that starts reading data
               int totalsheets = workbook.getNumberOfSheets();
               DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 
-              
-              
+             
 //[3]________________________________________loop through excel data______________________________________________         
 
 
 for(int a=0;a<totalsheets;a++){
     
      HashMap<String, String> imishm = new HashMap<String, String>();
-    
+     HashMap<String, String> imisinsertqrt = new HashMap<String, String>();
+     HashMap<String, String> datiminsertqrt = new HashMap<String, String>();
+     
+    ArrayList headers= new ArrayList();
+    ArrayList activecolumns= new ArrayList();
+    ArrayList elementid= new ArrayList();
    int rowcount=0; 
     XSSFSheet sheet = workbook.getSheetAt(a);
     
@@ -174,12 +179,13 @@ for(int a=0;a<totalsheets;a++){
             Iterator<Cell> cellIterator = rowi.cellIterator();
 
             int i=0;
+            
 //[5]________________________________________loop through columns___________________________________________
-
+String mflcode="";
 while (cellIterator.hasNext()) {
                 
 //----------------------------------------------------------------------
-                
+
 XSSFCell cellfacil = sheet.getRow(rowcount).getCell((short) i);
 
 if(sheet.getRow(rowcount).getCell((short) i)!=null)
@@ -192,26 +198,63 @@ if(cellfacil.getCellType()==0){
 else if(cellfacil.getCellType()==1){
     value =cellfacil.getStringCellValue();
 }
+
 //[6]________________________________________get headers from excel and find which column stores which data______________________________________________
 if(rowcount==0){
-
+   
+    //add headers to arralist for future reference
+headers.add(value);
     
+
+
     String getheaders="select * from datim_imis_map where datim_element='"+value+"' and active='1'";
     conn.rs=conn.st.executeQuery(getheaders);
     
-    while(conn.rs.next()){
+    if(conn.rs.next()){
         
+        String eleid=conn.rs.getString("elementid");
         
+        elementid.add(eleid);
         
+        String imisqry="";
     
     if(!conn.rs.getString("technicalarea").equals("Organisational Unit")){
         
-        String imisqry=conn.rs.getString("orgunits")+conn.rs.getString("imiscolumn");
+        if(!conn.rs.getString("imiscolumn").equals("")){
+        // mark the columns that are active
+        activecolumns.add("1");
+            //query for fetching data from imis into datim output
+        imisqry=conn.rs.getString("orgunits")+","+conn.rs.getString("imiscolumn")+" From "+conn.rs.getString("maintable")+" "+conn.rs.getString("jointable")+" where "+conn.rs.getString("where");
+           
+        //System.out.println("imisqry for "+eleid+"::"+imisqry);
         
         imishm.put("col"+i,imisqry);
+        
+        
+         
+        
+        }
+        else {
+        
+        // mark the columns that are active
+        activecolumns.add("2");
+        imishm.put("col"+i,"");
+        }
+        
+    }
+    else {
+    // mark the columns that are active
+        activecolumns.add("0");
+        imishm.put("col"+i,"");
     }
     
     
+    
+    }
+    else {
+    // mark the columns that are active
+        activecolumns.add("0");
+        imishm.put("col"+i,"");
     
     }
     
@@ -219,7 +262,103 @@ if(rowcount==0){
 }
 
 
-            System.out.print(i+""+facilityName+"_|_");
+
+//___________________________________________rows above 0______________________________
+    
+//[7]________________________________________Now get the values and run insert into datim ______________________________________________
+    
+else  
+{
+    //column 8 (counting from 0) is the mflcode
+    
+if(i<10)
+{       
+
+if(i==8){mflcode=value.replace("keipsl","");}
+    
+    
+}
+else {
+//____check if imis queries are already set_____
+//use active columns arraylist  to determine the active data columns 
+ // 0 are org units columns, 1 are active elements  , 2 are active elements without Imis data source
+ 
+ if(activecolumns.get(i).equals("1")){
+ 
+     //@lastmonthkey
+     //@startkey
+     //@endkey
+     //@startdatekey
+     //@enddatekey
+     //@mflcode
+     
+     //pull imis qry from the hashmap
+ String extractimisdata=imishm.get("col"+i).
+         replace("@mflcode",mflcode).
+         replace("@startkey",startdate.substring(0,6)).
+         replace("@endkey",enddate.substring(0,6)).
+         replace("@lastmonthkey",enddate.substring(0,6)).
+         replace("@startdatekey",startdate).
+         replace("@enddatekey",enddate);
+ //replace startdate, enddate, mflcode, lastdate
+ 
+     System.out.println("  Imisreadyquerry "+extractimisdata);
+ 
+     
+     conn.rs2=conn.st2.executeQuery(extractimisdata);
+     
+     while(conn.rs2.next()){
+     /**
+County,
+SubCounty,  
+Facility,
+mflcode ,
+SupportType,
+SUM(HV0201+HV0205)
+     **/
+         
+         
+     String county=conn.rs2.getString(1);
+     String subcounty=conn.rs2.getString(2);
+     String facility=conn.rs2.getString(3);
+     String supporttype=conn.rs2.getString(5);
+     int imisvalue=conn.rs2.getInt(6);
+     int datimvalue=0;
+     String eleid=elementid.get(i).toString();
+     String id=eleid+"_"+mflcode+"_"+enddate.substring(0,6);
+     if(!value.equals("")){
+     datimvalue=new Integer(value);
+     }
+     
+     String datiminsert="replace into datim_imis(id,county,subcounty,facilityname,mflcode,indicatorid,supporttype,datimvalue,imisvalue,startyearmonth,endyearmonth) "
+                                   + "values ('"+id+"','"+county+"',?,?,'"+mflcode+"','"+eleid+"','"+supporttype+"','"+datimvalue+"','"+imisvalue+"','"+startdate.substring(0,6)+"','"+enddate.substring(0,6)+"')";
+     
+     conn.pst=conn.conn.prepareStatement(datiminsert);
+                         conn.pst.setString(1,subcounty);
+                         conn.pst.setString(2,facility);
+						 conn.pst.executeUpdate();
+                          System.out.println("insertcode:: "+conn.pst);
+     
+     }
+     
+ }
+ else if(activecolumns.get(i).equals("1")){
+ 
+ 
+ 
+ }
+ 
+    
+}
+            
+            
+            
+
+        }
+
+
+
+    //        System.out.print(i+""+value+"_|_");
                 }
                 else {
                     
