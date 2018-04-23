@@ -769,7 +769,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
             + "SUM(HV0302) as HV0302,SUM(HV0206) as HV0206,SUM(HV0207) as HV0207,SUM(HV0208) as HV0208"
             + ",SUM(HV0350) as HV0350,SUM(HV0351) as HV0351,SUM(HV0352) as HV0352,SUM(HV0353) as HV0353,SUM(HV0354) as HV0354,"
             + " SUM(HV0320) as under1_newtx,SUM(HV0308) as under1_newcare , "
-            + " ART_highvolume, HTC_highvolume,PMTCT_highvolume,IFNULL(SUM(HV0326),0) as pregnant, SUM(HV0327) as tbtreatment, ROUND(SUM(HV0327)*0.1333) as breastfeeding,SUM(HV0201) as HV0201,  "
+            + " ART_highvolume, HTC_highvolume,PMTCT_highvolume,IFNULL(SUM(HV0326),0) as pregnant, SUM(HV0327) as tbtreatment, SUM((HV0205+HV0206)-HV0217) as breastfeeding,SUM(HV0201) as HV0201,  "
             + " IFNULL(f_1,0) AS f_1,IFNULL(f_4,0) AS f_4,IFNULL(f_9,0) AS f_9,IFNULL(f_14,0) AS f_14,IFNULL(f_19,0) AS f_19,IFNULL(f_24,0) AS f_24,IFNULL(f_29,0) f_29,IFNULL(f_34,0) f_34," +
                 "IFNULL(f_39,0) AS f_39,IFNULL(f_49,0) f_49,IFNULL(f_50,0) f_50, IFNULL(m_1,0) AS m_1,IFNULL(m_4,0) AS m_4,IFNULL(m_9,0) AS m_9,IFNULL(m_14,0) AS m_14,IFNULL(m_19,0) AS m_19," +
                 "IFNULL(m_24,0) AS m_24,IFNULL(m_29,0) m_29,IFNULL(m_34,0) AS m_34,IFNULL(m_39,0) AS m_39,IFNULL(m_49,0) AS m_49,IFNULL(m_50,0) AS m_50 "
@@ -780,7 +780,7 @@ shet2.addMergedRegion(new CellRangeAddress(1,1,22,38));
             + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
             + " WHERE "
             + " "+facilityIds+" "+duration+"  "
-            + " AND  indicator='TX_NEW' AND "+facilitiestable+".active=1 "
+            + " AND  indicator='TX_NEW' AND ART=1 AND "+facilitiestable+".active=1 "
             + "GROUP BY moh731.SubPartnerID " ;
        
    System.out.println("new : "+getData);
@@ -940,8 +940,8 @@ HV0319=HV0350=HV0351=HV0352=HV0353=HV0354=0;
     m_50 = conn.rs.getDouble("m_50"); 
     
       Pregnant=conn.rs.getInt("pregnant");
-      //breastfeeding=(float)Math.round((0.1333*Pregnant));
-      breastfeeding=0;
+      breastfeeding=conn.rs.getInt("breastfeeding");
+//      breastfeeding=0;
       ontbtreatment=conn.rs.getInt("tbtreatment");
     
       
@@ -2673,7 +2673,7 @@ else if(z==pmtct_blankrows-4){
                             "LEFT JOIN "+facilitiestable+" ON eid_raw_pos.SubPartnerID="+facilitiestable+".SubPartnerID " +
                             "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
                             "LEFT JOIN county ON district.CountyID=county.CountyID " +
-                            " "+joinedwhwere+" and "+eidposdate+" and "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && (`validation` !='A' && `validation` !='VL') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
+                            " "+joinedwhwere+" and "+eidposdate+" and "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && (`validation` !='A') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
                             "   UNION ALL           " +
                             "SELECT "+facilitiestable+".SubPartnerNom AS facility_name,district.DistrictNom AS district_name,county.County AS county," +
                             ""+facilitiestable+".CentreSanteId AS mfl_code,ART_Support,PMTCT_Support," +
@@ -2829,7 +2829,10 @@ else if(z==pmtct_blankrows-4){
     String facility_name,district_name,mfl_code,ART_Support,PMTCT_Support,eid_tested_0_2months,
             eid_tested_2_12months,eid_pos_0_2months,eid_pos_2_12months,eid_pos_0_2months_ART,eid_pos_2_12months_ART,
              ART_highvolume,HTC_highvolume,PMTCT_highvolume,support_type;
-             
+         
+
+
+    
     while(conn.rs.next()){
     
         facility_name = conn.rs.getString(1);
@@ -2849,7 +2852,8 @@ else if(z==pmtct_blankrows-4){
         PMTCT_highvolume = conn.rs.getString(15);
         
         support_type = PMTCT_Support;
-                    
+           
+        System.out.println("facility : "+facility_name+" pos 0-2 : "+eid_pos_0_2months+" 2-12 months "+eid_pos_2_12months);
            int colpos=0; 
            int conpos=1;
            int loopstart=5;
