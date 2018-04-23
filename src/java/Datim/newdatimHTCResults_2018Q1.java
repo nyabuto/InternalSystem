@@ -10426,7 +10426,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             + " left JOIN new_anc on moh731.id=new_anc.id "//added on 9th October 2017
             + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "//added on 4th Jan 2018
             + " WHERE "
-            + " "+facilityIds1+" "+duration1+" && ( "+facilitiestable+".PMTCT=1  or HTC=1 ) "
+            + " "+facilityIds1+" "+duration1+" && ( "+facilitiestable+".PMTCT=1) "
             + " AND (indicator='PMTCT_Known_Postive' OR indicator='PMTCT_New_Postive' OR indicator='PMTCT_ANC')  AND "+facilitiestable+".active=1  "
             + " GROUP BY moh731.SubPartnerID " ;
     
