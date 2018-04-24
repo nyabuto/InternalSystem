@@ -660,7 +660,10 @@ String st=conn.rs.getString("htcsupport");
  double nf19=(new Double(ipdhm.getOrDefault("nf19_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf19_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf19_"+mfl,"0")));
  double nm19=(new Double(ipdhm.getOrDefault("nm19_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm19_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm19_"+mfl,"0")));
  double nf24=(new Double(ipdhm.getOrDefault("nf24_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf24_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf24_"+mfl,"0")));
- double nm24=(new Double(ipdhm.getOrDefault("nm24_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm24_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm24_"+mfl,"0")));
+ double nm24=(new Double(ipdhm.getOrDefault("nm24_"+mfl,"0")) 
+         + new Double(opdhm.getOrDefault("nm24_"+mfl,"0")) 
+         + new Double(vcthm.getOrDefault("nm24_"+mfl,"0"))
+         + new Double(pmtcthm.getOrDefault("nm24_"+mfl,"0")));
  double nf29=(new Double(ipdhm.getOrDefault("nf29_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf29_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf29_"+mfl,"0")));
  double nm29=(new Double(ipdhm.getOrDefault("nm29_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm29_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm29_"+mfl,"0")));
  double nf34=(new Double(ipdhm.getOrDefault("nf34_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf34_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf34_"+mfl,"0")));
@@ -9746,13 +9749,15 @@ TotalNegativeMale1=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMa
   String alldatavals[]={county,district,facilityname,""+mflcode,dsdta
         ,"0","0"
         ,""+ChildFemaleHIV1,""+ChildMaleHIV1
-        ,""+(ChildFemaleHIV4),""+(ChildMaleHIV4)
-        ,""+(ChildFemaleHIV9),""+(ChildMaleHIV9)
-        ,""+ChildFemaleHIV14,""+ChildMaleHIV14
-        ,""+AdultFemaleHIV19,""+AdultMaleHIV19
-        ,""+AdultFemaleHIV24,""+AdultMaleHIV24
-          
-          ,""+AdultFemaleHIV29,""+AdultMaleHIV29
+        //,""+(ChildFemaleHIV4),""+(ChildMaleHIV4)//
+        //,""+(ChildFemaleHIV9),""+(ChildMaleHIV9)//
+        //,""+ChildFemaleHIV14,""+ChildMaleHIV14//
+        ,"0","0"//
+        ,"0","0"//
+        ,"0","0"//
+        ,""+(AdultFemaleHIV19+(ChildFemaleHIV4)),""+(AdultMaleHIV19+(ChildMaleHIV4))
+        ,""+(AdultFemaleHIV24+(ChildFemaleHIV9)),""+(AdultMaleHIV24+(ChildMaleHIV9))
+        ,""+(AdultFemaleHIV29+ChildFemaleHIV14),""+(AdultMaleHIV29+ChildMaleHIV14)
           ,""+AdultFemaleHIV34,""+AdultMaleHIV34
           ,""+AdultFemaleHIV39,""+AdultMaleHIV39
           
@@ -9761,13 +9766,16 @@ TotalNegativeMale1=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMa
          //negative starts here 
         ,"0","0"
         ,""+ChildFemaleHIV1Neg,""+ChildMaleHIV1Neg
-        ,""+(ChildFemaleHIV4Neg),""+(ChildMaleHIV4Neg)
-        ,""+(ChildFemaleHIV9Neg),""+(ChildMaleHIV9Neg)
-        ,""+ChildFemaleHIV14Neg,""+ChildMaleHIV14Neg
-        ,""+AdultFemaleHIV19Neg,""+AdultMaleHIV19Neg
+        //,""+(ChildFemaleHIV4Neg),""+(ChildMaleHIV4Neg)//
+        //,""+(ChildFemaleHIV9Neg),""+(ChildMaleHIV9Neg)//
+        //,""+ChildFemaleHIV14Neg,""+ChildMaleHIV14Neg//
+        ,"0","0"//
+        ,"0","0"//
+        ,"0","0"//
+        ,""+(AdultFemaleHIV19Neg+(ChildFemaleHIV4Neg)),""+(AdultMaleHIV19Neg+(ChildMaleHIV4Neg))
           
-        ,""+AdultFemaleHIV24Neg,""+AdultMaleHIV24Neg
-        ,""+AdultFemaleHIV29Neg,""+AdultMaleHIV29Neg
+        ,""+(AdultFemaleHIV24Neg+(ChildFemaleHIV9Neg)),""+(AdultMaleHIV24Neg+(ChildMaleHIV9Neg))
+        ,""+(AdultFemaleHIV29Neg+ChildFemaleHIV14Neg),""+(AdultMaleHIV29Neg+ChildMaleHIV14Neg)
         ,""+AdultFemaleHIV34Neg,""+AdultMaleHIV34Neg
         ,""+AdultFemaleHIV39Neg,""+AdultMaleHIV39Neg
           
@@ -9788,18 +9796,24 @@ TotalNegativeMale1=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMa
   vcthm.put("ukpm"+"_"+mflcode,"0");
   vcthm.put("pf1"+"_"+mflcode,""+(ChildFemaleHIV1 ));
   vcthm.put("pm1"+"_"+mflcode,""+ChildMaleHIV1);
-  vcthm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);
-  vcthm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);
-  vcthm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);
-  vcthm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);
-  vcthm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14));
-  vcthm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);
-  vcthm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19));
-  vcthm.put("pm19"+"_"+mflcode,""+AdultMaleHIV19);
-  vcthm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24));
-  vcthm.put("pm24"+"_"+mflcode,""+AdultMaleHIV24);
-  vcthm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29));
-  vcthm.put("pm29"+"_"+mflcode,""+AdultMaleHIV29);
+//  vcthm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);//
+//  vcthm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);//
+//  vcthm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);//
+//  vcthm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);//
+//  vcthm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14));//
+//  vcthm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);//
+  vcthm.put("pf4"+"_"+mflcode,"0");//
+  vcthm.put("pm4"+"_"+mflcode,"0");//
+  vcthm.put("pf9"+"_"+mflcode,"0");//
+  vcthm.put("pm9"+"_"+mflcode,"0");//
+  vcthm.put("pf14"+"_"+mflcode,"0");//
+  vcthm.put("pm14"+"_"+mflcode,"0");//
+  vcthm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19+ChildFemaleHIV4));
+  vcthm.put("pm19"+"_"+mflcode,""+(AdultMaleHIV19+ChildMaleHIV4));
+  vcthm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24+ChildFemaleHIV9));
+  vcthm.put("pm24"+"_"+mflcode,""+(AdultMaleHIV24+ChildMaleHIV9));
+  vcthm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29+ChildFemaleHIV14));
+  vcthm.put("pm29"+"_"+mflcode,""+(AdultMaleHIV29+ChildMaleHIV14));
   vcthm.put("pf34"+"_"+mflcode,""+(AdultFemaleHIV34));
   vcthm.put("pm34"+"_"+mflcode,""+AdultMaleHIV34);
   vcthm.put("pf39"+"_"+mflcode,""+(AdultFemaleHIV39));
@@ -9813,18 +9827,24 @@ TotalNegativeMale1=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMa
   vcthm.put("uknm"+"_"+mflcode,"0");
   vcthm.put("nf1"+"_"+mflcode,""+ChildFemaleHIV1Neg);
   vcthm.put("nm1"+"_"+mflcode,""+ChildMaleHIV1Neg);
-  vcthm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);
-  vcthm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);
-  vcthm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);
-  vcthm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);
-  vcthm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg));
-  vcthm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);
-  vcthm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg));
-  vcthm.put("nm19"+"_"+mflcode,""+AdultMaleHIV19Neg);
-  vcthm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg));
-  vcthm.put("nm24"+"_"+mflcode,""+AdultMaleHIV24Neg);
-  vcthm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg));
-  vcthm.put("nm29"+"_"+mflcode,""+AdultMaleHIV29Neg);
+//  vcthm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);//
+//  vcthm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);//
+//  vcthm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);//
+//  vcthm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);//
+//  vcthm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg));//
+//  vcthm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);//
+  vcthm.put("nf4"+"_"+mflcode,"0");//
+  vcthm.put("nm4"+"_"+mflcode,"0");//
+  vcthm.put("nf9"+"_"+mflcode,"0");//
+  vcthm.put("nm9"+"_"+mflcode,"0");//
+  vcthm.put("nf14"+"_"+mflcode,"0");//
+  vcthm.put("nm14"+"_"+mflcode,"0");//
+  vcthm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg+ChildFemaleHIV4Neg));
+  vcthm.put("nm19"+"_"+mflcode,""+(AdultMaleHIV19Neg+ChildMaleHIV4Neg));
+  vcthm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg+ChildFemaleHIV9Neg));
+  vcthm.put("nm24"+"_"+mflcode,""+(AdultMaleHIV24Neg+ChildMaleHIV9Neg));
+  vcthm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg+(ChildFemaleHIV14Neg)));
+  vcthm.put("nm29"+"_"+mflcode,""+(AdultMaleHIV29Neg+ChildMaleHIV14Neg));
   vcthm.put("nf34"+"_"+mflcode,""+(AdultFemaleHIV34Neg));
   vcthm.put("nm34"+"_"+mflcode,""+AdultMaleHIV34Neg);
   vcthm.put("nf39"+"_"+mflcode,""+(AdultFemaleHIV39Neg));
