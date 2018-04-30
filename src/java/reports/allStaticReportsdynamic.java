@@ -1017,6 +1017,13 @@ public class allStaticReportsdynamic extends HttpServlet {
                 }//end of for loop
 
 //create is validated header
+//highvolume
+                shet.setColumnWidth(headercellpos, 6000);
+                XSSFCell cell0x = rw.createCell(headercellpos);
+                cell0x.setCellValue("Overall High Volume");
+                cell0x.setCellStyle(stylex);
+                headercellpos++;
+
                 shet.setColumnWidth(headercellpos, 6000);
                 XSSFCell cell0 = rw.createCell(headercellpos);
                 cell0.setCellValue("ART High Volume");
@@ -1112,7 +1119,7 @@ System.out.println("enntered loop");
                 }
 
 //---------------------------------add highvolume,gsn,latitude,ward------------------------------------------------
-                perfacilselect += " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,  IFNULL(GSN,0) as GSN,IFNULL(latitude,0) as latitude,IFNULL(longitude,0) as longitude,IFNULL(ward,0) as ward,";
+                perfacilselect += " IFNULL(all_highvolume,0) AS 'Overall High Volume', IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,  IFNULL(GSN,0) as GSN,IFNULL(latitude,0) as latitude,IFNULL(longitude,0) as longitude,IFNULL(ward,0) as ward,";
 
 //-------------------------------------------------------------------------------------------------
 //     FROM  
@@ -1226,6 +1233,12 @@ if (lastperiod.equalsIgnoreCase(conn.rs.getString("period")) && cumstartpointnot
                             }//end of comparing if
 
                         }//end of for loop
+
+                        //Overall_highvolume
+                        XSSFCell cell0x = rw.createCell(colpos);
+                        cell0x.setCellValue(conn.rs.getInt("Overall High Volume"));
+                        cell0x.setCellStyle(stborder);
+                        colpos++;
 
                         //ART_highvolume
                         XSSFCell cell0 = rw.createCell(colpos);

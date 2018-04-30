@@ -1063,6 +1063,12 @@ public class Dynamic_report_raw_data extends HttpServlet {
                 cell2F.setCellValue("HTC");
                 cell2F.setCellStyle(stylex);
                 headercellpos++;
+                
+                shet.setColumnWidth(headercellpos, 6000);
+                XSSFCell cell2H = rw.createCell(headercellpos);
+                cell2H.setCellValue("Overall High Volume");
+                cell2H.setCellStyle(stylex);
+                headercellpos++;
 
                 shet.setColumnWidth(headercellpos, 6000);
                 XSSFCell cell3 = rw.createCell(headercellpos);
@@ -1115,7 +1121,7 @@ public class Dynamic_report_raw_data extends HttpServlet {
                 }
 
 //---------------------------------add highvolume,gsn,latitude,ward------------------------------------------------
-                perfacilselect += " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,  IFNULL(GSN,0) as GSN, IFNULL(latitude,0) as latitude,IFNULL(longitude,0) as longitude,IFNULL(ward,0) as ward,IFNULL(ART,0) AS ART,IFNULL(PMTCT,0) AS PMTCT, IFNULL(HTC,0) AS HTC,";
+                perfacilselect += " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume,  IFNULL(GSN,0) as GSN, IFNULL(latitude,0) as latitude,IFNULL(longitude,0) as longitude,IFNULL(ward,0) as ward,IFNULL(ART,0) AS ART,IFNULL(PMTCT,0) AS PMTCT, IFNULL(HTC,0) AS HTC,IFNULL(all_highvolume,0) AS 'Overall High Volume',";
 
 //-------------------------------------------------------------------------------------------------
 //     FROM  
