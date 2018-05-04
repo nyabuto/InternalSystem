@@ -817,6 +817,7 @@ public class allStaticReportsdynamic extends HttpServlet {
             Headerorgunits.add("MFL Code");
 //An arralist to store a list of columns that will be selected from the database
             ArrayList dbcolumns = new ArrayList();
+            ArrayList shortlabels = new ArrayList();
 
             ArrayList labels = new ArrayList();
 
@@ -883,6 +884,7 @@ public class allStaticReportsdynamic extends HttpServlet {
 //System.out.println(conn.rs.getString("indicator")+"");
 //add indicator
                     dbcolumns.add(conn.rs.getString("indicator"));
+                    shortlabels.add(conn.rs.getString("shortlabel"));
 //add label
                     if (form.equalsIgnoreCase("MOH731")) {
                         
@@ -1099,14 +1101,14 @@ System.out.println("element size : "+dbcolumns.size());
 
 //if the indicator is a percent, get an avaerage
                     if (ispercent.get(a).equals("1")) {
-                        perfacilselect += "  AVG(" + dbcolumns.get(a) + ") as " + dbcolumns.get(a);
+                        perfacilselect += "  AVG(" + dbcolumns.get(a) + ") as '" + shortlabels.get(a)+"'";
 
                     } else if (iscumulative.get(a).equals("1")) {
-                        perfacilselect += "  SUBSTRING_INDEX(GROUP_CONCAT(CAST(IFNULL(" + dbcolumns.get(a) + ",0) AS CHAR) ORDER BY yearmonth DESC),',',1) as " + dbcolumns.get(a);
+                        perfacilselect += "  SUBSTRING_INDEX(GROUP_CONCAT(CAST(IFNULL(" + dbcolumns.get(a) + ",0) AS CHAR) ORDER BY yearmonth DESC),',',1) as '" + shortlabels.get(a)+"'";
 //SUBSTRING_INDEX(GROUP_CONCAT(CAST(IFNULL(HV0303,0) AS CHAR) ORDER BY yearmonth DESC),',',1)
                         
                     } else {
-                        perfacilselect += "  SUM(" + dbcolumns.get(a) + ") as " + dbcolumns.get(a);
+                        perfacilselect += "  SUM(" + dbcolumns.get(a) + ") as '" + shortlabels.get(a)+"'";
 
                     }
 
@@ -1227,7 +1229,7 @@ if (lastperiod.equalsIgnoreCase(conn.rs.getString("period")) && cumstartpointnot
                             if (worksheets.get(c).equals(distinctsheets.get(g))) {
 
                                 XSSFCell cell0 = rw.createCell(colpos);
-                                cell0.setCellValue(conn.rs.getInt(dbcolumns.get(c).toString()));
+                                cell0.setCellValue(conn.rs.getInt(shortlabels.get(c).toString()));
                                 cell0.setCellStyle(stborder);
                                 colpos++;
                             }//end of comparing if
