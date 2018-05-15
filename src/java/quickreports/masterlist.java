@@ -209,7 +209,7 @@ rw.setHeightInPoints(26);
             if (count == (count1+3)) {
 //header rows
                 HSSFRow rw = shet.createRow(count);
-rw.setHeightInPoints(26);
+                rw.setHeightInPoints(26);
                 for (int i = 1; i <= columnCount; i++) {
 
                     mycolumns.add(metaData.getColumnLabel(i));
@@ -228,12 +228,17 @@ rw.setHeightInPoints(26);
                 //System.out.print(mycolumns.get(a) + ":" + conn.rs.getString("" + mycolumns.get(a)));
 
                 HSSFCell cell0 = rw.createCell(a);
-                if((a >=3 && a<=14) || (a >=18 && a<=22) || (a >=27 && a<=29)){
+                String value = conn.rs.getString("" + mycolumns.get(a));
+                if(isNumeric(value) && value.contains(".")){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns.get(a).toString()));
+                    cell0.setCellValue(Double.parseDouble(value));
+                   }
+                else if(isNumeric(value) && !value.contains(".")){
+                
+                    cell0.setCellValue(Integer.parseInt(value));
                    }
                 else {
-                    cell0.setCellValue(conn.rs.getString("" + mycolumns.get(a)));
+                    cell0.setCellValue(value);
                 }
             
                 cell0.setCellStyle(style2);
@@ -307,5 +312,7 @@ rw.setHeightInPoints(26);
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+public boolean isNumeric(String s) {  
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}
 }

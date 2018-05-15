@@ -55,10 +55,10 @@ public class loadFacilities extends HttpServlet {
             String getfacils="";
             
             if(subcounty!=null){
-             getfacils="select SubPartnerId,SubPartnerNom from subpartnera where active='1' and DistrictID='"+subcounty+"' order by SubPartnerNom ";
+             getfacils="select SubPartnerID,SubPartnerNom from subpartnera where active='1' and DistrictID='"+subcounty+"' order by SubPartnerNom ";
             }
             else {
-              getfacils="select SubPartnerId,SubPartnerNom from subpartnera where active='1'  order by SubPartnerNom ";
+              getfacils="select SubPartnerID,SubPartnerNom from subpartnera where active='1'  order by SubPartnerNom ";
             
             
             }
