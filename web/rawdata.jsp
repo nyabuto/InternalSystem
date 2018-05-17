@@ -864,7 +864,6 @@ success:function (data){
            }
         
                              }
-   
     loadsection();
     loadsubsection();
    </script>

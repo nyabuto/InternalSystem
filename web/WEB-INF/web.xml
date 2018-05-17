@@ -893,6 +893,10 @@
         <servlet-name>load_to_lock_forms</servlet-name>
         <servlet-class>General.load_to_lock_forms</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>validateEidTested</servlet-name>
+        <servlet-class>LoadExcels.validateEidTested</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1784,6 +1788,10 @@
     <servlet-mapping>
         <servlet-name>load_to_lock_forms</servlet-name>
         <url-pattern>/load_to_lock_forms</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validateEidTested</servlet-name>
+        <url-pattern>/validateEidTested</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

@@ -44,6 +44,8 @@ public class masterlist extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    String mergerow="";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -107,7 +109,7 @@ public class masterlist extends HttpServlet {
         stylesum.setFont(fontx);
         stylesum.setWrapText(true);
 
-        HSSFSheet shet = wb.createSheet("Masterlist");
+        HSSFSheet shet = wb.createSheet("Master Facility List");
 
         String year="";
         
@@ -118,10 +120,25 @@ public class masterlist extends HttpServlet {
         }
         dbConn conn = new dbConn();
         //========Query 1=================
+        String mflistname="HSDSA";
+        String detailedprocedurename="rpt_masterlist";
+        String summaryprocedurename="rpt_masterlist_summary";
+         mergerow="14";
+         if(year.equals("")){
+         mflistname=" HSDSA Cluster 2";
+         }
+         else
+        //APHIAPLUS facility Details
+        if(new Integer(year)<2018){
+         mflistname="APHIAPLUS Nuru Ya Bonde";
+         detailedprocedurename="rpt_masterlist_aphia ";
+         summaryprocedurename="rpt_masterlist_summary_aphia";
+         mergerow="12";
         
+        }
         HSSFRow rw0=shet.createRow(1);
         HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue("APHIAPLUS Nuru Ya Bonde Supported Sites Summary "+year);
+                    cell.setCellValue(mflistname+" Supported Sites Summary  and Distribution "+year);
                     cell.setCellStyle(style);
         shet.addMergedRegion(new CellRangeAddress(1, 1, 0,3));
                     
@@ -129,7 +146,7 @@ public class masterlist extends HttpServlet {
         
         
         
-                String qry1 = "call rpt_masterlist_summary('2015-10-01','2016-09-30','"+year+"')";
+                String qry1 = "call "+summaryprocedurename+"('2015-10-01','2016-09-30','"+year+"')";
 
         conn.rs = conn.st.executeQuery(qry1);
 
@@ -186,27 +203,27 @@ rw.setHeightInPoints(26);
         
         HSSFRow rw01=shet.createRow(count1+1);
         HSSFCell cell1 = rw01.createCell(0);
-                    cell1.setCellValue("APHIAPLUS Nuru Ya Bonde supported sites details "+year);
-                    cell1.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(count1+1, count1+1, 0, 3));
+                   // cell1.setCellValue(mflistname+" supported sites details "+year);
+                    //cell1.setCellStyle(style);
+        //shet.addMergedRegion(new CellRangeAddress(count1+1, count1+1, 0, 3));
         
         
         
         
         //========Query two====Facility Details==============
         
-        String qry = "call rpt_masterlist('2015-10-01','2016-09-30','"+year+"')";
+        String qry = "call "+detailedprocedurename+"('2015-10-01','2016-09-30','"+year+"')";
 
         conn.rs = conn.st.executeQuery(qry);
 
          metaData = conn.rs.getMetaData();
          columnCount = metaData.getColumnCount();
-        int count = count1+3;
+        int count = count1+1;
         ArrayList mycolumns = new ArrayList();
 
         while (conn.rs.next()) {
 
-            if (count == (count1+3)) {
+            if (count == (count1+1)) {
 //header rows
                 HSSFRow rw = shet.createRow(count);
                 rw.setHeightInPoints(26);
@@ -253,7 +270,7 @@ rw.setHeightInPoints(26);
         
         //Autofreeze  || Autofilter  || Remove Gridlines ||  
         
-        shet.setAutoFilter(new CellRangeAddress(count1+3, count - 1, 0, columnCount-1));
+        shet.setAutoFilter(new CellRangeAddress(count1+1, count - 1, 0, columnCount-1));
 
         //System.out.println("1,"+rowpos+",0,"+colposcopy);
         for (int i = 0; i <= columnCount; i++) {
@@ -261,7 +278,7 @@ rw.setHeightInPoints(26);
         }
 
         shet.setDisplayGridlines(false);
-        shet.createFreezePane(4, 14);
+        shet.createFreezePane(4, new Integer(mergerow));
 
         
         if(conn.rs!=null){conn.rs.close();}
@@ -273,7 +290,7 @@ rw.setHeightInPoints(26);
         IdGenerator IG = new IdGenerator();
         String createdOn = IG.CreatedOn();
 
-        System.out.println("" + "MasterList_Gen_" + createdOn.trim() + ".xls");
+        System.out.println("" + "MFList_Gen_" + createdOn.trim() + ".xls");
 
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
@@ -281,7 +298,7 @@ rw.setHeightInPoints(26);
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=" + "MasterList_Gen_" + createdOn.trim() + ".xls");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "MFList_Gen_" + createdOn.trim() + ".xls");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
         outStream.flush();

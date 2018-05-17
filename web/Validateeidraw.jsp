@@ -15,7 +15,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Load EID-tes Excel Data.</title>
+   <title>Validate EID-tes Excel Data.</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -128,7 +128,7 @@
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Check gaps in EID tested raw data to IMIS via excel.</a> 
+                        <a href="#" style="margin-left:40%;">Upload EID tested raw data to IMIS via excel.</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -142,12 +142,12 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i> UPLOAD EID TESTED RAW DATA (.XLSX)</h4>
+                        <h4><i class="icon-reorder"></i> EID Data Cleaning Module</h4>
                        
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="Load_eid_tes_raw" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                        <form action="validateEidTested" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        
                             
                           
@@ -158,11 +158,11 @@
 
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Load Excel.</button>
+                              <button type="submit" class="btn blue">Run Duplicate Test.</button>
 
                            </div>
                         <div class="form-actions" style="overflow-x: scroll;">
-                              <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the eid positive raw data has column headers arranged in following order </h4>
+                              <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the eid tested raw data has column headers arranged in following order </h4>
                             
                         <table border="1" class="table responsive"><tr><td>#(1)</td><td>System ID(2)</td><td>Batch No(3)</td><td>Sample Code(4)</td><td>Testing Lab(5)</td><td>County(6)</td><td>Sub-County(7)</td><td>Facility Name(8)</td><td>MFL Code(9)</td><td>Partner(10)</td><td>Sex(11)</td><td>Age(Months)(12)</td><td>Infant Prophylaxis(13)</td><td>Date Collected(14)</td><td>Spots(15)</td><td>Received Status(16)</td><td>PCR Type(17)</td><td>Reason for Repeat / Rejection(18)</td><td>HIV Status of Mother(19)</td><td>PMTCT Intervention(20)</td><td>Breast Feeding(21)</td><td>Entry Point(22)</td><td>Date Received(23)</td><td>Date Tested(24)</td><td>Date Dispatched(25)</td><td>Test Result(26)</td></tr></table>
                            
