@@ -1953,7 +1953,15 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
        {
        String value=dataRETENTION[positionRETENTION];
        HSSFCell c11=rw4shetRETENTION.createCell(positionRETENTION+initial_colpos);
-        if(positionRETENTION<(dataRETENTION.length-4) || positionRETENTION>(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+       
+       if(isNumeric(value)){
+         c11.setCellValue(Double.parseDouble(value));   
+       }
+       else{
+         c11.setCellValue(value);   
+       }
+       
+//       if(positionRETENTION<(dataRETENTION.length-4) || positionRETENTION>(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
 
          c11.setCellStyle(styleError);
        if(positionRETENTION==dataRETENTION.length-4){
@@ -1967,7 +1975,13 @@ int sumedtotalsafter=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_1
        {
        String value=dataRETENTION[positionRETENTION];
        HSSFCell c11=rw4shetRETENTION.createCell(positionRETENTION+initial_colpos);
-        if(positionRETENTION<(dataRETENTION.length-4) || positionRETENTION>(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
+        if(isNumeric(value)){
+         c11.setCellValue(Double.parseDouble(value));   
+       }
+       else{
+         c11.setCellValue(value);   
+       }
+//        if(positionRETENTION<(dataRETENTION.length-4) || positionRETENTION>(dataRETENTION.length-4)){ c11.setCellValue(Double.parseDouble(value));}else{ c11.setCellValue(value);}
          c11.setCellStyle(stborder);
        if(positionRETENTION==dataRETENTION.length-4){
        if(errorRETENTION>0){c11.setCellValue("FAILED");c11.setCellStyle(redstyle);}    

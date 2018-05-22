@@ -39,7 +39,6 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
-
   
 </head>
 <!-- END HEAD -->
@@ -203,8 +202,15 @@
                                  </select>
                               </div>
                            </div>
+                            <div class="control-group" id="reportCounty" >
+                              <label class="control-label">Specify County</label>
+                              <div class="controls">
+                                 <input type="checkbox" style="text-align: left;" onclick="orgunitstatus();"  class="m-wrap" tabindex="-1"  id="showorgunit" name="showorgunit" />
+                                    
+                              </div>
+                           </div>
                             
-                              <div class="control-group" id="reportCounty">
+                              <div class="control-group orgunit" id="reportCounty" style="display:none">
                               <label class="control-label">County </label>
                               <div class="controls">
                                  <select placeholder="All Counties" onchange="loadsubcounty();"  class="span6 m-wrap" tabindex="-1"  id="county" name="county" style="width: 400px;">
@@ -213,7 +219,7 @@
                               </div>
                            </div>
                             
-                            <div class="control-group" id="reportDistrict">
+                            <div class="control-group orgunit" id="reportDistrict" style="display:none">
                               <label class="control-label">Sub-County </label>
                               <div class="controls">
                                  <select data-placeholder="All sub-counties" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty" style="width: 400px;">
@@ -722,6 +728,8 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#county").html(data);
+                $("#county").val("");
+                
                 loadsubcounty();
               //  App.init();   
             }
@@ -741,6 +749,7 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#subcounty").html(data);
+                 $("#subcounty").val("");
                 
               //  App.init();   
             }
@@ -772,6 +781,22 @@ success:function (data){
 });  
       
       
+      }
+      
+      
+      function orgunitstatus(){
+          
+          if($('#showorgunit').is(":checked")){
+              
+              $('.orgunit').show();
+              
+          }
+              else{
+                 $('.orgunit').hide();  
+                  
+              }
+          
+          
       }
       
       //load default facilities
