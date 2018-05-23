@@ -35,7 +35,7 @@ public class DatimReport extends HttpServlet {
 HttpSession session;
 String start_date,end_date;
       String  id,program_area,area,cordinator,district_ids,agency,venue,curriculum_id,s_start_date,s_end_date,training_name,year,month,s_male,s_female,d_male,d_female,yearmonth,duration;
-      String districts,curriculums;
+      String districts,curriculums,cadre;
       int pos=0,row_pos;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -181,9 +181,19 @@ String titles[] = {"Year","Month","Region","District","Program Area","Start Date
       curriculums = getCurriculum(conn, curriculum_id);
       int total = Integer.parseInt(s_male)+Integer.parseInt(s_female);
       //array ooutput
+      cadre="";
+      String getcadre="SELECT COUNT(id) AS cadre_no,profession AS cadre FROM t1_details WHERE summary_id='"+id+"' GROUP BY profession";
+      conn.rs1 = conn.st.executeQuery(getcadre);
+      while(conn.rs1.next()){
+          if(conn.rs1.getString(2).equals("")){
+         cadre+="No Cadre ("+conn.rs1.getString(1)+")\n"; 
+          }
+          else{
+         cadre+=conn.rs1.getString(2)+" ("+conn.rs1.getString(1)+")\n";
+          }
+      }
       
-      
-      String data[] = {year,month,"",districts,program_area,s_start_date,s_end_date,training_name,duration,""+total,s_male,s_female,"","","",curriculums};
+      String data[] = {year,month,"",districts,program_area,s_start_date,s_end_date,training_name,duration,""+total,s_male,s_female,"","",cadre,curriculums};
       
       row = shet.createRow(row_pos);
       col_num=0;
