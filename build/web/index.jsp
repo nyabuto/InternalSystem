@@ -87,27 +87,27 @@
         Login <i class="m-icon-swapright m-icon-white"></i>
         </button>            
       </div>
-      <div class="well">
+<!--      <div class="well">
           
-          <!--<h4><font color='orange'><b>* Note: </b></font><font color='green'><b>New Moh 711 form (July. 2015) is now active  from 8th June 2016.</b></font></h4>-->
-          <!--<h4><font color='orange'>* <b>The old MOH 711 is still active</b></font></h4>-->
+          <h4><font color='orange'><b>* Note: </b></font><font color='green'><b>New Moh 711 form (July. 2015) is now active  from 8th June 2016.</b></font></h4>
+          <h4><font color='orange'>* <b>The old MOH 711 is still active</b></font></h4>
          
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>29/Jun/2016</b> ] </font><font color='orange'>  <b>New 711 static excel report added</b></font></h4>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>01/Jul/2016]</b> </font><font color='orange'>  <b>731 HTC ratios applied in datim HTC report</b></font></h4>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>06/Jul/2016]</b> </font><font color='orange'>  <b>No. of sites in datim HTC excel report is now static for all periods, regardless of whether the site has data or not for the selected period.  </b></font></h4>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>26/Jul/2016]</b> <br></font><font color='orange'>  <b>High Volume Sites labels added on Datim HTC/PMTCT/HTC_SDP , ART/CARE/PMTCT Report, Raw Data Reports   </b></font></h4>-->
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>29/Jun/2016</b> ] </font><font color='orange'>  <b>New 711 static excel report added</b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>01/Jul/2016]</b> </font><font color='orange'>  <b>731 HTC ratios applied in datim HTC report</b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>06/Jul/2016]</b> </font><font color='orange'>  <b>No. of sites in datim HTC excel report is now static for all periods, regardless of whether the site has data or not for the selected period.  </b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>26/Jul/2016]</b> <br></font><font color='orange'>  <b>High Volume Sites labels added on Datim HTC/PMTCT/HTC_SDP , ART/CARE/PMTCT Report, Raw Data Reports   </b></font></h4>
             <hr>
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>7/Sep/2016]</b> <br/></font><font color='orange'>  <b>The Raw data report has the following features added <br/>(1) Autofilter <br/>(2) Autosum at the end of all rows <br/>(3) Ability to select multiple months <br/>(4) Auto column width <br/>(5) Auto freezed pane for easy scrolling and navigation <br/>(6) Generate reports for More than one month/quarter/semi-annual <br/>(7) Generate report for specific form elements  </b></font></h4>-->
-            <!--<hr>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>28/Sep/2016]</b> <br/></font><font color='orange'>  <b>EID uploading modules added </b></font></h4>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>3/Oct/2016]</b> <br/></font><font color='orange'>  <b>EID report added on the datim reports. HTC data in datim excludes VMMC.Under 5 data is from nascop website  </b></font></h4>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>27/Oct/2016]</b> <br/></font><font color='orange'>  <b>*Datim Viral load report shows data for ART sites only <br/>*Tb screen quarterly report picks  data for the last two months of the quarter. </b></font></h4>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>05/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Master List Report now available. </b></font></h4>-->
-          <!--<h4 style="font-family:cambria;"><font color='red'>* [<b>06/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Annual Facilities auto back up. </b></font></h4>-->
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>7/Sep/2016]</b> <br/></font><font color='orange'>  <b>The Raw data report has the following features added <br/>(1) Autofilter <br/>(2) Autosum at the end of all rows <br/>(3) Ability to select multiple months <br/>(4) Auto column width <br/>(5) Auto freezed pane for easy scrolling and navigation <br/>(6) Generate reports for More than one month/quarter/semi-annual <br/>(7) Generate report for specific form elements  </b></font></h4>
+            <hr>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>28/Sep/2016]</b> <br/></font><font color='orange'>  <b>EID uploading modules added </b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>3/Oct/2016]</b> <br/></font><font color='orange'>  <b>EID report added on the datim reports. HTC data in datim excludes VMMC.Under 5 data is from nascop website  </b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>27/Oct/2016]</b> <br/></font><font color='orange'>  <b>*Datim Viral load report shows data for ART sites only <br/>*Tb screen quarterly report picks  data for the last two months of the quarter. </b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>05/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Master List Report now available. </b></font></h4>
+          <h4 style="font-family:cambria;"><font color='red'>* [<b>06/Dec/2016]</b> <br/></font><font color='orange'>  <b>*Annual Facilities auto back up. </b></font></h4>
           <h4 style="font-family:cambria;"><font color='red'>* [<b>19/Jan/2017]</b> <br/></font><font color='orange'>  <b>*New datim output report (HTC_TST). </b><br/> New worksheets added are; <br/>(a) PITC IPD <br>(b)Other PITC (OPD) <br>(c) VCT <br>(d) PMTCT ANC & STAT</font></h4>
           <h4 style="font-family:cambria;"><font color='red'>* [<b>24/Mar/2017]</b> <br/></font><font color='orange'>  <b>*MOH 364(SGBV) added as a module. </b><br/></font></h4>
       
-      </div>
+      </div>-->
     </form>
     
     
@@ -136,7 +136,7 @@
   </div>
                         
                         
-                        <img src="images/aphia_logo.png" style="height:110px;border:1px solid #cbcdcc; padding:1%; width:410px;margin-left: 0%;"  />
+                        <img src="images/aphia_logo.png" style="border:1px solid #cbcdcc; padding:1%; width:410px;margin-left: 0%;"  />
                         
                         
   </div>                 
@@ -150,7 +150,7 @@ int year= cal.get(Calendar.YEAR);
 
 %>
 <br><br>
-               <p align="center" style=" font-size: 18px;"> &copy IMIS - APHIAPLUS | USAID <%=year%></p>
+               <p align="center" style=" font-size: 18px;"> &copy IMIS - HSDSA | USAID <%=year%></p>
             </div>
   </div>
   <!-- END COPYRIGHT -->
@@ -168,22 +168,17 @@ url:'facilityautobackup',
 type:'post',
 dataType:'html',
 success:function (data){
-      
-         // $("#facility").chosen();
-       
-       
+        // $("#facility").chosen();
 }
-
 
 });
  $.ajax({
 url:'validateTotals',
 type:'post',
 dataType:'html',
-success:function (data){  
+success:function (data){
          // $("#facility").chosen();       
 }
-
 
 });
 });

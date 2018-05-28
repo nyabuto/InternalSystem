@@ -544,7 +544,45 @@ success:function (data){
 };
           
           
+          
+          
              function autosave(col,tableid){
+                 
+           
+                 
+             
+            var achieved=document.getElementById(col).value;
+           // alert(achieved);
+            
+          
+            
+              if(document.getElementById("checkblank").value=='1'){
+                  
+               
+            document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
+            
+            document.getElementById("checkblank").value='0';
+            
+    if(col.endsWith("T")||col==='KMMP3c'){
+         $("#"+col).css({'background-color' : 'plum'}); 
+       // alert(col);
+    }
+    else {
+      $("#"+col).css({'background-color' : '#CCFFCC'});
+      //alert(col);
+    }
+            
+            
+           
+             
+            
+             
+             
+            }
+             }
+          
+          
+             function autosave1(col,tableid){
                  
             
                  

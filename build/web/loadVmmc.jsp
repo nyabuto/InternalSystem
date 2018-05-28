@@ -71,8 +71,20 @@ legend.formatter {
     margin-left:50px;
 
 }
+.data-cell{
+    width: 50px;
+}
+table{
+    width: 1100px;
+    border-width: 2px;
+    margin-left: 20px;
+}
+.title{
+    font-weight: bolder;
+    margin-bottom: 130px;
+}
 </style>
-  
+<script type="text/javascript" src="js/sum_newvmmc.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -124,20 +136,27 @@ legend.formatter {
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>County : </b></font>
                               
-                                <select style="width:150px;" placeholder="County" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                                <select placeholder="County" style="width:120px;color:black;" onchange="loadsubcounty();"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                                    
                                     <font color="white" size="3px" margin-left="3px"><b>Sub-County : </b></font>
                               
-                               <select data-placeholder="Sub-County" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                               <select data-placeholder="Sub-County" style="width:120px;color:black;" onchange="loadfacils();"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
                                     <option value="">Select County First</option>
                                  </select>
                                     
                                    
                                    <font color="white" size="3px" margin-left="3px"><b>            Activity Site : </b></font>
                               
-                                 <select onchange="updatefacilsession();" style="width:240px;float:right;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                 <select onchange="updatefacilsession();" style="width:200px;color:black;" data-placeholder="Facility" required class="chosen-with-diselect span6" tabindex="-1"  id="facility" name="facility">
+                                    <option value=""></option>
+                                 </select>
+                             
+                                   
+                                   <font color="white" size="3px" margin-left="3px"><b>      Site Type: </b></font>
+                              
+                                   <select style="width:150px;float:right;color:black;" onchange="setsitetypesession();" data-placeholder="Site Type" required class="chosen-with-diselect span6" tabindex="-1"  id="site_type" name="site_type">
                                     <option value=""></option>
                                  </select>
                              
@@ -233,7 +252,7 @@ legend.formatter {
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="validateVmmc" class="form-horizontal">
+                        <form action="validate_newVmmc" class="form-horizontal">
                    <div id="gendertable">   
              <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
                           
@@ -313,6 +332,18 @@ legend.formatter {
       jQuery(document).ready(function() {       
          // initiate layout and plugins
          
+         $('form').submit(function(){
+          
+          var site_type=$("#site_type").val(); 
+          if(site_type==""){
+          alert("Kindly select site type");
+            return false;
+          }
+          else{
+           return true;   
+          }
+          
+         });
                     $.ajax({
 url:'loadFacilities',
 type:'post',
@@ -328,7 +359,8 @@ success:function (data){
          
          
          $.ajax({
-            url:'loadVmmc',
+//            url:'loadVmmc',
+            url:'load_newVMMC',
             type:'post',
             dataType:'html',
             success:function (data){
@@ -378,7 +410,7 @@ success:function (data){
     
        //document.getElementById("month").innerHTML=data;
       // App.init();  
-        
+ loadsitetype();       
 }
 
 
@@ -413,9 +445,29 @@ success:function (data){
 
 
 });  
-      
-      
-      }
+ }
+ 
+ function loadsitetype(){
+ $.ajax({
+url:'load_sitetype',
+type:'post',
+dataType:'html',
+success:function (data){
+ $("#site_type").html(data);
+ $('#site_type').select2();       
+}
+});  
+ }
+ function setsitetypesession(){
+ var site_type=$("#site_type").val();
+ $.ajax({
+url:'setsettypesession?site_type='+site_type,
+type:'post',
+dataType:'html',
+success:function (){       
+}
+});  
+ }
 	  
 	  
 	  
@@ -435,7 +487,7 @@ success:function (data){
       location.reload();
        //document.getElementById("month").innerHTML=data;
       // App.init();  
-        
+  loadsitetype();      
 }
 
 
@@ -452,33 +504,26 @@ success:function (data){
 };
              
              function autosave(col){
-            var achieved=document.getElementById(col).value;
-            
-      //if(document.getElementById("checkblank").value=='1'){
-            
+//            var achieved=document.getElementById(col).value;
          document.getElementById("newform").innerHTML="<font color='red'><b>Form Not Validated.<img width='20px' height='20px' src='images/notValidated.jpg' style='margin-left:10px;'></b></font>"; 
-                 
+         $("#"+col).css({'background-color' : '#CCFFCC'});         
             
-             $.ajax({
-url:'saveVmmc?col='+col+"&achieved="+achieved,
-type:'post',
-dataType:'html',
-success:function (data){      
-    document.getElementById("checkblank").value='0';
+//             $.ajax({
+//url:'saveVmmc?col='+col+"&achieved="+achieved,
+//type:'post',
+//dataType:'html',
+//success:function (data){      
+//    document.getElementById("checkblank").value='0';
       //if the col being autoseved is a total, show a different color 
-      if(col.endsWith("T")){
-       
-       $("#"+col).css({'background-color' : 'plum'});
-          
-      }
-      else {
-          
-        $("#"+col).css({'background-color' : '#CCFFCC'});  
-      }
-        
-                       }
+//      if(col.endsWith("total")){
+//       $("#"+col).css({'background-color' : 'plum'});
+//      }
+//      else {
+//        $("#"+col).css({'background-color' : '#CCFFCC'});  
+//      }
+//      }
              
-             });
+           //  });
              //}
              
              }
@@ -513,7 +558,7 @@ dataType:'html',
 success:function (data){      
     location.reload();
     //  $("#"+col).css({'background-color' : '#CCFFCC'});
-        
+        loadsitetype();
                        }
              
              });    

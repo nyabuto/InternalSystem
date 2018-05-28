@@ -363,23 +363,9 @@ $("#description").val("");
        });
        
   function autosave(columnName){
-  var totalsVariables =",HV0110,HV0126,HV0135,HV0207,HV0214,HV0220,HV0232,HV0241,HV03011,HV03015,HV03026,HV03038,HV03050,HV03057,HV03065,HV03069,HV03072,HV03075,HV03079,HV03081,HV03084,HV0407,HV0503,HV0506,";          
-//          alert("caled"+columnName);
-            var achieved=document.getElementById(columnName).value;
-//           var achieved =$("#"+columnName).val();
-//            alert("called : "+columnName+"   value : "+achieved);
-//            if(achieved!=""){
-             $.ajax({
-url:'savenew731?columnName='+columnName+"&value="+achieved,
-type:'post',
-dataType:'html',
-success:function (data){
-   if(data.trim()!="success"){$("#error").html(data);
-     $("#"+columnName).css({'background-color' : 'red'});
-        }
-    else{
-    $("#"+columnName).prop('title', '');    
-        $("#error").html("");
+  var totalsVariables =",HV0110,HV0126,HV0135,HV0145,HV0150,HV0207,HV0214,HV0220,HV0233,HV0242,HV0246,HV0250,HV03011,HV03015,HV03026,HV03038,HV03039,HV03050,HV03057,HV03065,HV03069,HV03072,HV03075,HV03079,HV03081,HV03084,HV0407,HV0503,HV0507,";          
+var achieved=document.getElementById(columnName).value;
+
     if(achieved==""){}
   else if(totalsVariables.indexOf(","+columnName+",")>-1) {
    $("#"+columnName).css({'background-color' : 'plum'});    
@@ -390,10 +376,7 @@ success:function (data){
 $("#isValidated").html("<font color=\"red\"><b>Form Not Validated.<img style=\"margin-left:10px;\" src=\"images/notValidated.jpg\" width=\"20px\" height=\"20px\"></b></font>");
 $('[data-toggle="tooltip"]').tooltip();
 }
-}
-             });
-//         }
-             }
+
            
        </script>
        <script type="text/javascript">
