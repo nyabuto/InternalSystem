@@ -897,6 +897,14 @@
         <servlet-name>validateEidTested</servlet-name>
         <servlet-class>LoadExcels.validateEidTested</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>pullHts</servlet-name>
+        <servlet-class>dashboards.pullHts</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pullTb</servlet-name>
+        <servlet-class>dashboards.pullTb</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1792,6 +1800,14 @@
     <servlet-mapping>
         <servlet-name>validateEidTested</servlet-name>
         <url-pattern>/validateEidTested</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pullHts</servlet-name>
+        <url-pattern>/pullHts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pullTb</servlet-name>
+        <url-pattern>/pullTb</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

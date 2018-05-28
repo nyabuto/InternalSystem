@@ -681,11 +681,11 @@ String counselling_T="";
 
         yearmonth=pepfaryear+""+tempmonth;
     String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND sgbv=?";
-    conn.pst = conn.conn.prepareStatement(locked_DATA);
-    conn.pst.setString(1, yearmonth);
-    conn.pst.setInt(2, 1);
-    conn.rs = conn.pst.executeQuery();
-    if(conn.rs.next()){
+    conn.pst2 = conn.conn.prepareStatement(locked_DATA);
+    conn.pst2.setString(1, yearmonth);
+    conn.pst2.setInt(2, 1);
+    conn.rs2 = conn.pst2.executeQuery();
+    if(conn.rs2.next()){
       islocked= "disabled='true'";
     }
     

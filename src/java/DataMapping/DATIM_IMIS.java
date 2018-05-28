@@ -198,6 +198,14 @@ if(cellfacil.getCellType()==0){
 else if(cellfacil.getCellType()==1){
     value =cellfacil.getStringCellValue();
 }
+else if(cellfacil.getCellType()==3){
+    //__blank cells with borders
+    value ="0";
+}
+
+else{
+ value =cellfacil.getRawValue();   
+}
 
 //[6]________________________________________get headers from excel and find which column stores which data______________________________________________
 if(rowcount==0){
@@ -205,7 +213,6 @@ if(rowcount==0){
     //add headers to arralist for future reference
 headers.add(value);
     
-
 
     String getheaders="select * from datim_imis_map where datim_element='"+value+"' and active='1'";
     conn.rs=conn.st.executeQuery(getheaders);
@@ -217,6 +224,7 @@ headers.add(value);
         elementid.add(eleid);
         
         String imisqry="";
+        //System.out.println(eleid+"** was added "+value+" size is "+elementid.size());
     
     if(!conn.rs.getString("technicalarea").equals("Organisational Unit")){
         
@@ -230,15 +238,13 @@ headers.add(value);
         
         imishm.put("col"+i,imisqry);
         
-        
-         
-        
         }
         else {
         
         // mark the columns that are active
         activecolumns.add("2");
         imishm.put("col"+i,"");
+        
         }
         
     }
@@ -302,20 +308,23 @@ else {
          replace("@enddatekey",enddate);
  //replace startdate, enddate, mflcode, lastdate
  
-     System.out.println("  Imisreadyquerry "+extractimisdata);
+   
  
-     
+     if(!extractimisdata.contains("group")){ extractimisdata+=" group by mflcode";}
+      
+        System.out.println("  Imisreadyquerry "+extractimisdata);
+        
      conn.rs2=conn.st2.executeQuery(extractimisdata);
      
      while(conn.rs2.next()){
-     /**
+/**
 County,
 SubCounty,  
 Facility,
 mflcode ,
 SupportType,
 SUM(HV0201+HV0205)
-     **/
+**/
          
          
      String county=conn.rs2.getString(1);
@@ -324,9 +333,12 @@ SUM(HV0201+HV0205)
      String supporttype=conn.rs2.getString(5);
      int imisvalue=conn.rs2.getInt(6);
      int datimvalue=0;
-     String eleid=elementid.get(i).toString();
+     //System.out.println((i-1)+"_Element in position ");
+     System.out.println("_Element in position_"+elementid.get(i-1));
+     String eleid=elementid.get(i-1).toString();
      String id=eleid+"_"+mflcode+"_"+enddate.substring(0,6);
-     if(!value.equals("")){
+     if(!value.equals(""))
+     {
      datimvalue=new Integer(value);
      }
      
@@ -367,7 +379,7 @@ SUM(HV0201+HV0205)
                 }
                 
                 //----------------------------------------------------------------------
-         
+         // System.out.println("Row no"+rowcount+" I is is "+i);
             i++;
             }     //end of row
     rowcount++;

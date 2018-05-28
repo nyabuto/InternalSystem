@@ -874,7 +874,7 @@ public class allStaticReportsdynamic extends HttpServlet {
              qrform=form.replace("_", "");   
             }
             
-            String getattribs = "select indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='" + qrform + "' "+indicatorswhere+" order by order_per_form, section";
+            String getattribs = "select tableid,indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='" + qrform + "' "+indicatorswhere+" order by order_per_form, section";
             conn.rs = conn.st.executeQuery(getattribs);
             System.out.println("get attributes : "+getattribs);
             while (conn.rs.next()) {
@@ -1101,15 +1101,38 @@ System.out.println("element size : "+dbcolumns.size());
 
 //if the indicator is a percent, get an avaerage
                     if (ispercent.get(a).equals("1")) {
-                        perfacilselect += "  AVG(" + dbcolumns.get(a) + ") as '" + shortlabels.get(a)+"'";
+                       
+                        
+                        if (dbcolumns.get(a).toString().contains("as")) 
+                        {
+                     perfacilselect += "  AVG(" + dbcolumns.get(a).toString().substring(0, dbcolumns.get(a).toString().indexOf(" as")) + ") as '" +dbcolumns.get(a).toString().substring(dbcolumns.get(a).toString().indexOf("as "))+"'";
+                        
+                        } 
+                        else {
+                            perfacilselect += "  AVG(" + dbcolumns.get(a) + ") as '" + dbcolumns.get(a)+"'";
+                        }
+                        
 
                     } else if (iscumulative.get(a).equals("1")) {
-                        perfacilselect += "  SUBSTRING_INDEX(GROUP_CONCAT(CAST(IFNULL(" + dbcolumns.get(a) + ",0) AS CHAR) ORDER BY yearmonth DESC),',',1) as '" + shortlabels.get(a)+"'";
 //SUBSTRING_INDEX(GROUP_CONCAT(CAST(IFNULL(HV0303,0) AS CHAR) ORDER BY yearmonth DESC),',',1)
+                    
+                        if (dbcolumns.get(a).toString().contains("as")) {
+                            perfacilselect += "  SUBSTRING_INDEX(GROUP_CONCAT(CAST(IFNULL(" + dbcolumns.get(a).toString().substring(0, dbcolumns.get(a).toString().indexOf(" as")) + ",0) AS CHAR) ORDER BY yearmonth DESC),',',1) as '" + dbcolumns.get(a).toString().substring(dbcolumns.get(a).toString().indexOf("as ")) + "'";
+
+                        } else {
+
+                            perfacilselect += "  SUBSTRING_INDEX(GROUP_CONCAT(CAST(IFNULL(" + dbcolumns.get(a) + ",0) AS CHAR) ORDER BY yearmonth DESC),',',1) as '" + dbcolumns.get(a) + "'";
+                        }
+
                         
                     } else {
-                        perfacilselect += "  SUM(" + dbcolumns.get(a) + ") as '" + shortlabels.get(a)+"'";
-
+                        if(dbcolumns.get(a).toString().contains("as")){
+                        perfacilselect += "  SUM(" + dbcolumns.get(a).toString().substring(0,dbcolumns.get(a).toString().indexOf(" as") ) + ") as '" +  dbcolumns.get(a).toString().substring(dbcolumns.get(a).toString().indexOf("as ") )+"'";
+                        }
+                        else {
+                          perfacilselect += "  SUM("+dbcolumns.get(a)+") as '"+dbcolumns.get(a)+"'";
+                       
+                        }
                     }
 
 //if the item is not the last, append a comma
@@ -1229,7 +1252,16 @@ if (lastperiod.equalsIgnoreCase(conn.rs.getString("period")) && cumstartpointnot
                             if (worksheets.get(c).equals(distinctsheets.get(g))) {
 
                                 XSSFCell cell0 = rw.createCell(colpos);
-                                cell0.setCellValue(conn.rs.getInt(shortlabels.get(c).toString()));
+                                 if(dbcolumns.get(c).toString().contains("as")){
+                        cell0.setCellValue(conn.rs.getInt(dbcolumns.get(c).toString().substring(dbcolumns.get(c).toString().indexOf("as ") )));
+                       
+                                 }
+                        else {
+                      
+                       cell0.setCellValue(conn.rs.getInt(dbcolumns.get(c).toString()));
+                                
+                        }
+                             
                                 cell0.setCellStyle(stborder);
                                 colpos++;
                             }//end of comparing if

@@ -2673,7 +2673,7 @@ else if(z==pmtct_blankrows-4){
                             "LEFT JOIN "+facilitiestable+" ON eid_raw_pos.SubPartnerID="+facilitiestable+".SubPartnerID " +
                             "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
                             "LEFT JOIN county ON district.CountyID=county.CountyID " +
-                            " "+joinedwhwere+" and "+eidposdate+" and "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && (`validation` !='A') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
+                            " "+joinedwhwere+" and "+eidposdate+" and "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && (`validation` !='A') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
                             "   UNION ALL           " +
                             "SELECT "+facilitiestable+".SubPartnerNom AS facility_name,district.DistrictNom AS district_name,county.County AS county," +
                             ""+facilitiestable+".CentreSanteId AS mfl_code,ART_Support,PMTCT_Support," +
@@ -2690,7 +2690,7 @@ else if(z==pmtct_blankrows-4){
                             "LEFT JOIN "+facilitiestable+" ON eid_raw_tested.SubPartnerID="+facilitiestable+".SubPartnerID " +
                             "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
                             "LEFT JOIN county ON district.CountyID=county.CountyID " +
-                            " "+joinedwhwere+" and "+eidtesteddate+" AND  "+facilitiestable+".PMTCT=1 && PCR_Type='Initial PCR' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
+                            " "+joinedwhwere+" and "+eidtesteddate+" AND  "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
                             ") AS eid_data group by mfl_code";  
             
             System.out.println("EID QUERY : "+eid_query);
