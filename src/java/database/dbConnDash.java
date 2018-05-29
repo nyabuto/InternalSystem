@@ -42,46 +42,46 @@ public  Connection conn = null;
     public dbConnDash() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            // Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhc","root", "");
+             conn = DriverManager.getConnection("jdbc:mysql://localhost:3308/dashboards","root", "admin");
            
             //if the saved host name is less than 2 letters long, then thats not a genuine host name
 
-            URL location = dbConn.class.getProtectionDomain().getCodeSource().getLocation();
-
-
-            mydrive = location.getFile().substring(1, 2);
-
-            if (getdbsettings(mydrive) == true) {
-
-                //String myfile=getServletContext().getRealPath("/dbsettings.txt");
-
-                if (dbsetup[0] != null) {
-
-                    if(dbsetup[3]==null){conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],"");
-}
-                    else{
-                    conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
-                    }
-
-
-                } else {
-                    //call the page thats sets up the database
-                    //use if to avoid calling the db.jsp twice.
-                    if (issetdbcalled_wrongpword %2== 0) {
-                 
-                        issetdbcalled_wrongpword ++;
-                    }
-                    else{
-                     issetdbcalled_wrongpword ++;
-                    }
-
-                }
-
-
-                //initialize this three values
-                issetdbcalled_exception = 2;
-                issetdbcalled_file_exists = 2;
-                issetdbcalled_wrongpword = 2;
+//            URL location = dbConn.class.getProtectionDomain().getCodeSource().getLocation();
+//
+//
+//            mydrive = location.getFile().substring(1, 2);
+//
+//            if (getdbsettings(mydrive) == true) {
+//
+//                //String myfile=getServletContext().getRealPath("/dbsettings.txt");
+//
+//                if (dbsetup[0] != null) {
+//
+//                    if(dbsetup[3]==null){conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],"");
+//}
+//                    else{
+//                    conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
+//                    }
+//
+//
+//                } else {
+//                    //call the page thats sets up the database
+//                    //use if to avoid calling the db.jsp twice.
+//                    if (issetdbcalled_wrongpword %2== 0) {
+//                 
+//                        issetdbcalled_wrongpword ++;
+//                    }
+//                    else{
+//                     issetdbcalled_wrongpword ++;
+//                    }
+//
+//                }
+//
+//
+//                //initialize this three values
+//                issetdbcalled_exception = 2;
+//                issetdbcalled_file_exists = 2;
+//                issetdbcalled_wrongpword = 2;
 
                 st0 = conn.createStatement();
                 st = conn.createStatement();
@@ -100,7 +100,7 @@ public  Connection conn = null;
                 anc_scheduling_st = conn.createStatement();
 
 
-            }
+//            }
 
 
         } catch (Exception ex) {
