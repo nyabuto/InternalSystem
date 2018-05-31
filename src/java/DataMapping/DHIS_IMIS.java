@@ -35,7 +35,7 @@ public class DHIS_IMIS{
  int art,htc,pmtct;
     public XSSFWorkbook get_data(String[] yearmonths, XSSFWorkbook wb) throws SQLException{
         // HSSFWorkbook wb = new HSSFWorkbook();
-        
+        String areas[] = {"art","htc","pmtct"};
         //get number of supported indicators
         art=htc=pmtct=0;
         String service_area_counter = "SELECT " +
@@ -262,26 +262,29 @@ public class DHIS_IMIS{
       String yearmonth_name = getperiod(Integer.parseInt(yearmonth));
       
       ymcounter++;
-     String compare_data = "SELECT id,IFNULL(query,'') AS query,IFNULL(dhis_label,'') AS dhis_label,IFNULL(imis_label,'') AS imis_label,IFNULL(explanation,'') AS explanation,IFNULL(service_area,'') AS service_area FROM imis_dhis_mapping WHERE active=1 order by service_area"; 
-     conn.rs = conn.st.executeQuery(compare_data);
-     while(conn.rs.next()){
-         dhis_label = imis_label = explanation = service_area = "";
-        id  = conn.rs.getString("id");
-        query  = conn.rs.getString("query");
-        if(conn.rs.getString("dhis_label")!=null){
-        dhis_label  = conn.rs.getString("dhis_label");
-        }
-        if(conn.rs.getString("imis_label")!=null){
-        imis_label  = conn.rs.getString("imis_label");
-        }
-        explanation  = conn.rs.getString("explanation");
-        service_area  = conn.rs.getString("service_area");
-        
-        //output headers
+      int head_counter_elems=0;
+        elems_counter=0;
+        int prev_area_counter = 0;
+        for(int q=0;q<areas.length;q++){
+        String append="";
+        int area_counter=0;
+        countactiveelems = "SELECT id,IFNULL(dhis_label,'') AS dhis_label,IFNULL(imis_label,'') AS imis_label,imis_element,dhis_element FROM imis_dhis_mapping WHERE active=1 AND service_area='"+areas[q]+"'";
+        conn.rs = conn.st.executeQuery(countactiveelems);
+        while(conn.rs.next()){
+         area_counter++;
+         if(conn.rs.getString("imis_element").contains(".")){
+        append+=""+conn.rs.getString("imis_element")+" AS IMIS,dhis_data."+conn.rs.getString("dhis_element")+" AS DHIS,(IFNULL("+conn.rs.getString("imis_element")+",0)-IFNULL(dhis_data."+conn.rs.getString("dhis_element")+",0)) AS variance,";
+         }
+         else{
+        append+="moh731."+conn.rs.getString("imis_element")+" AS IMIS,dhis_data."+conn.rs.getString("dhis_element")+" AS DHIS,(IFNULL(moh731."+conn.rs.getString("imis_element")+",0)-IFNULL(dhis_data."+conn.rs.getString("dhis_element")+",0)) AS variance,";
+         }
+         dhis_label = conn.rs.getString("dhis_label");
+         imis_label = conn.rs.getString("imis_label");
+         //output headers
         if(ymcounter==1){
-            XSSFCell celldhis = rw.createCell(((elems_counter+1)*4)+2-(elems_counter));
-            XSSFCell cellimis = rw.createCell(((elems_counter+1)*4)+3-(elems_counter));
-            XSSFCell cellvariance = rw.createCell(((elems_counter+1)*4)+4-(elems_counter));
+            XSSFCell celldhis = rw.createCell(((head_counter_elems+1)*4)+2-(head_counter_elems));
+            XSSFCell cellimis = rw.createCell(((head_counter_elems+1)*4)+3-(head_counter_elems));
+            XSSFCell cellvariance = rw.createCell(((head_counter_elems+1)*4)+4-(head_counter_elems));
             
             celldhis.setCellValue(dhis_label);
             cellimis.setCellValue(imis_label);
@@ -291,12 +294,27 @@ public class DHIS_IMIS{
             cellvariance.setCellStyle(STYLE_TITLE);
        
         }
+       head_counter_elems++; 
+        }
+        //remove last
+        append = removeLastChars(append, 1);
         
-         query = query.replace("YM", yearmonth+" AND subpartnera."+service_area+"=1 AND subpartnera.active=1");
-         System.out.println("final query is : "+query);
+        query="SELECT SubPartnerNom,county.County AS county, DistrictNom AS 'Sub County',subpartnera.ward AS ward,CentreSanteID AS mfl_code, "
+        + " "+append+" "
+        + " FROM  moh731 " +
+        " LEFT join ( subpartnera join (district join county on county.CountyID=district.CountyID  ) on subpartnera.DistrictID=district.DistrictID ) "+
+        " on moh731.SubPartnerID=subpartnera.SubPartnerID  "
+       + "LEFT JOIN dhis_data ON moh731.id=dhis_data.id "
+       + "LEFT JOIN new_anc ON new_anc.id=dhis_data.id "
+       + "WHERE moh731.yearmonth=YM;";
+                 
+          
+	 query = query.replace("YM", yearmonth+" AND subpartnera."+areas[q]+"=1 AND subpartnera.active=1");
+//         System.out.println("final query is : "+query);
          
          facil_counter=1;
-        conn.rs1 = conn.st1.executeQuery(query);
+          conn.rs1 = conn.st1.executeQuery(query);	  
+	
         while(conn.rs1.next()){
             XSSFRow rwdata = null;
             facil_counter++;
@@ -306,14 +324,10 @@ public class DHIS_IMIS{
          facility = conn.rs1.getString(1);
          mfl_code = conn.rs1.getInt(5); 
          
-         
-        imis = conn.rs1.getInt(6);
-        dhis = conn.rs1.getInt(7);
-        variance = conn.rs1.getInt(8); 
+        
         if(!mfl_codes.contains(ymcounter+"-"+mfl_code)){ 
         mfl_codes.add(ymcounter+"-"+mfl_code);
         rwdata = shet.createRow(rowcounter);
-       
             XSSFCell cellcountyV = rwdata.createCell(0);
             XSSFCell cellsubcountyV = rwdata.createCell(1);
             XSSFCell cellwardV = rwdata.createCell(2);
@@ -344,11 +358,18 @@ public class DHIS_IMIS{
            
        }
 //       append data here
-        rwdata.setHeightInPoints(26); 
-            
-        XSSFCell celldhisV = rwdata.createCell(((elems_counter+1)*4)+2-(elems_counter));
-        XSSFCell cellimisV = rwdata.createCell(((elems_counter+1)*4)+3-(elems_counter));
-        XSSFCell cellvarianceV = rwdata.createCell(((elems_counter+1)*4)+4-(elems_counter));   
+        rwdata.setHeightInPoints(26);
+            System.out.println("area : "+areas[q]+" counter : "+area_counter);
+        for(int r=0;r<area_counter;r++){
+           imis = conn.rs1.getInt(6+(3*r));
+           dhis = conn.rs1.getInt(7+(3*r));
+           variance = conn.rs1.getInt(8+(3*r)); 
+
+          elems_counter  =  prev_area_counter+r+1;
+            System.out.println("prev : "+prev_area_counter+" current area pos : "+r+"cellpos : "+((elems_counter*4)+2-(r)));
+        XSSFCell celldhisV = rwdata.createCell((elems_counter*4)+2-(elems_counter-1));
+        XSSFCell cellimisV = rwdata.createCell((elems_counter*4)+3-(elems_counter-1));
+        XSSFCell cellvarianceV = rwdata.createCell((elems_counter*4)+4-(elems_counter-1));   
         
         celldhisV.setCellValue(dhis);
         cellimisV.setCellValue(imis);
@@ -362,10 +383,11 @@ public class DHIS_IMIS{
         else{
         cellvarianceV.setCellStyle(stylered);    
         }
-        }
+        }	  
+              }	 
         
-        elems_counter++;
-     }
+        prev_area_counter += area_counter;
+		  }
     }
       
       wb = addborders(rowcounter,((numcolumns*3)+6),wb,stborder,STYLE_TITLE);
@@ -375,7 +397,6 @@ public class DHIS_IMIS{
     public XSSFWorkbook addborders(int rows, int columns, XSSFWorkbook wb,XSSFCellStyle stborder,XSSFCellStyle STYLE_TITLE){
      //adds borders for the indicators not supported by that facility. i.e where the cell was not created.
         for (int i=0;i<rows;i++){
-            System.out.println("row : "+i);
             XSSFSheet shet = wb.getSheet("IMIS-DHIS MAPPING");
             XSSFRow row = shet.getRow(i);
             for (int j=0;j<columns;j++){
@@ -432,5 +453,9 @@ public class DHIS_IMIS{
    
     period = mn_name+"' "+year;
 return period;
+}
+    
+      private static String removeLastChars(String str, int num) {
+    return str.substring(0, str.length() - num);
 }
 }

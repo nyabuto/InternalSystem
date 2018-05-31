@@ -3334,7 +3334,7 @@ else if(z==pmtct_blankrows-4){
        
             
             
-             getexistingdata=" SELECT county as County ,DistrictNom as SubCounty, SubPartnerNom as Facility, CentreSanteId as MFLCode " +
+getexistingdata=" SELECT county as County ,DistrictNom as SubCounty, SubPartnerNom as Facility, CentreSanteId as MFLCode " +
 " ,sum( case when indicator_id=23 then denominator end) as Denominator " +
 " ,sum( case when (indicator_id=21 or indicator_id=22 or indicator_id=23 or  indicator_id=24 or  indicator_id=25  or indicator_id=26 )  then numerator end) as Numerator " +
 " ,sum( case when (indicator_id=23)  then numerator end) as HIV_infected " +
@@ -3348,7 +3348,7 @@ else if(z==pmtct_blankrows-4){
 " group by "+facilitiestable+".SubPartnerID ";
            
            //+ " FROM pmtct_fo join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_fo.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 ) group by "+facilitiestable+".SubPartnerID ";
-           
+     System.out.println("pmtct fo query : "+getexistingdata);         
             
             
 //            System.out.println(getexistingdata);
