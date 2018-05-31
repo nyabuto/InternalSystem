@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
  *
  * @author GNyabuto
  */
-//PUSHES ART,CARE Data for the year month period selected
+//PUSHES ART,CARE,PMTCT,VL Data for the year month period selected
 public class PushDataSet2 {
     dbConn conn = new dbConn();
     dbConnDash conndash = new dbConnDash();
@@ -1970,7 +1970,378 @@ splitData--;
     
     return num;
     }
+    public int pmtct(String startyearmonth, String endyearmonth) throws SQLException{
+        int num=0;
+        String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int total;
+        String year,semi_annual,quarter,month;
+        String id_="";
+        
+             
+        String get731data=""+
+            "SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+            ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+            "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+            "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,moh731.yearmonth AS yearmonth, " +
+            ""+
+            //--------pmtct anc tested -------------------
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN HV0201 end)) as pmtct_anc_tes," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*0) end)) as pmtct_anc_tes_unknown," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_1) end)) as pmtct_anc_tes_1," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*(f_4+f_9)) end)) as pmtct_anc_tes_1_9," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_14) end)) as pmtct_anc_tes_10_14," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_19) end)) as pmtct_anc_tes_15_19," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_24) end)) as pmtct_anc_tes_20_24," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_29) end)) as pmtct_anc_tes_25_29," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_34) end)) as pmtct_anc_tes_30_34," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_39) end)) as pmtct_anc_tes_35_39," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_49) end)) as pmtct_anc_tes_40_49," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_50) end)) as pmtct_anc_tes_50, "+
+            
+            //-------pmtct anc new_positive------------------
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN HV0206 end)) as pmtct_newpositive ," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*0) end)) as pmtct_pos_unknown," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_1) end)) as pmtct_pos_1," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*(f_4+f_9)) end)) as pmtct_pos_1_9," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_14) end)) as pmtct_pos_10_14," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_19) end)) as pmtct_pos_15_19," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_24) end)) as pmtct_pos_20_24," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_29) end)) as pmtct_pos_25_29," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_34) end)) as pmtct_pos_30_34," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_39) end)) as pmtct_pos_35_39," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_49) end)) as pmtct_pos_40_49," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_50) end)) as pmtct_pos_50,"+
+             
+            
+             //-------pmtct anc negative------------------\
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206) end)))  AS pmtct_new_negatives, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*0) end)))   - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*0) end))) AS pmtct_neg_unknown, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_1) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_1) end))) AS pmtct_neg_1, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*(f_4+f_9)) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*(f_4+f_9)) end)))   AS pmtct_neg_1_9, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_14) end))) - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_14) end)))  AS pmtct_neg_10_14, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_19) end))) - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_19) end)))   AS pmtct_neg_15_19, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_24) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_24) end)))  AS pmtct_neg_20_24, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_29) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_29) end)))  AS pmtct_neg_25_29, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_34) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_34) end)))   AS pmtct_neg_30_34, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_39) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_39) end)))   AS pmtct_neg_35_39, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_49) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_49) end)))   AS pmtct_neg_40_49, " +
+            "(ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201*f_50) end)))  - (ROUND(SUM( CASE WHEN indicator='PMTCT_New_Postive' THEN (HV0206*f_50) end)))   AS pmtct_neg_50,"+
+
+            
+                //-------pmtct stat numerator----------------
+        
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (HV0201 + HV0205) end)) as pmtct_tes_numerator," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*0) end)) as pmtct_statnum_tes_unknown," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*(f_1+f_4+f_9)) end)) as pmtct_statnum_tes_10," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_14) end)) as pmtct_statnum_tes_10_14," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_19) end)) as pmtct_statnum_tes_15_19," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_24) end)) as pmtct_statnum_tes_20_24," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_29) end)) as pmtct_statnum_tes_25_29," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_34) end)) as pmtct_statnum_tes_30_34," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_39) end)) as pmtct_statnum_tes_35_39," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_49) end)) as pmtct_statnum_tes_40_49," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN ((HV0201 + HV0205)*f_50) end)) as pmtct_statnum_tes_50,"+
+            
+            //-------pmtct stat denominator----------------
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)) end)) as pmtct_tes_denominator , " +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*0) end)) as pmtct_statden_tes_unknown, " +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*(f_1+f_4+f_9)) end)) as pmtct_statden_tes_10, " +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_14) end)) as pmtct_statden_tes_10_14," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_19) end)) as pmtct_statden_tes_15_19, " +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_24) end)) as pmtct_statden_tes_20_24, " +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_29) end)) as pmtct_statden_tes_25_29," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_34) end)) as pmtct_statden_tes_30_34," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_39) end)) as pmtct_statden_tes_35_39," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_49) end)) as pmtct_statden_tes_40_49," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_ANC' THEN (IFNULL(new_anc,0)*f_50) end)) as pmtct_statden_tes_50,"+
+            
+            //-------pmtct stat numerator----------------
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205) end)) as pmtct_knownpositive ," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*0) end)) as pmtct_kp_unknown, " +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*(f_4+f_9)) end)) as pmtct_kp_1_9," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_14) end)) as pmtct_kp_10_14," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_19) end)) as pmtct_kp_15_19," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_24) end)) as pmtct_kp_20_24, " +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_29) end)) as pmtct_kp_25_29," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_34) end)) as pmtct_kp_30_34," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_39) end)) as pmtct_kp_35_39," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_49) end)) as pmtct_kp_40_49," +
+            "ROUND(SUM( CASE WHEN indicator='PMTCT_Known_Postive' THEN (HV0205*f_50) end)) as pmtct_kp_50,"
+            
+            + " county.County,district.DistrictNom,"
+            + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".PMTCT_Support ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
+            +" ,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT,IFNULL(SUM(new_anc),0) AS new_anc "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
+            + " FROM moh731 JOIN "+facilitiestable+" "
+            + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
+            + " district.CountyID=county.CountyID "
+            + " left JOIN new_anc on moh731.id=new_anc.id "//added on 9th October 2017
+            + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "//added on 4th Jan 2018
+            + " WHERE moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" && ( "+facilitiestable+".PMTCT=1) "
+            + " AND (indicator='PMTCT_Known_Postive' OR indicator='PMTCT_New_Postive' OR indicator='PMTCT_ANC')  AND "+facilitiestable+".active=1  "
+            + " GROUP BY moh731.SubPartnerID,yearmonth " ;
     
+    
+    int rowposit=6;
+    
+     System.out.println("2018q1 PMTCT : "+get731data);
+    conn.rs=conn.st.executeQuery(get731data);
+    while(conn.rs.next()){
+	 county = conn.rs.getString("county");
+        sub_county = conn.rs.getString("sub_county");
+        facilityName = conn.rs.getString("facility");
+        support_type = conn.rs.getString("ART_Support");
+        mfl_code = conn.rs.getString("mfl_code");
+
+        arthv = conn.rs.getString("arthv");
+        pmtcthv = conn.rs.getString("pmtcthv");
+        htchv = conn.rs.getString("htchv");
+        allhv = conn.rs.getString("allhv");
+        burdencategory = conn.rs.getString("burdencategory");
+        constituency = conn.rs.getString("constituency");
+        ward = conn.rs.getString("ward");
+        Owner = conn.rs.getString("Owner");
+        Type = conn.rs.getString("Type");
+        latitude = conn.rs.getString("latitude");
+        longitude = conn.rs.getString("longitude");
+        Male_clinics = conn.rs.getString("Male_clinics");
+        Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+        Viremia_clinics = conn.rs.getString("Viremia_clinics");
+        EMR_Sites = conn.rs.getString("EMR_Sites");
+        Link_desks = conn.rs.getString("Link_desks");
+        yearmonth = conn.rs.getString("yearmonth");
+
+        JSONObject period_data = getperiod(yearmonth);
+
+        year = period_data.get("year").toString();
+        semi_annual = period_data.get("semi_annual").toString();
+        quarter = period_data.get("quarter").toString();
+        month = period_data.get("month").toString();
+
+     
+            double pmtct_anc_tes=conn.rs.getDouble("pmtct_anc_tes");
+            double pmtct_anc_tes_unknown=conn.rs.getDouble("pmtct_anc_tes_unknown");
+            double pmtct_anc_tes_1=conn.rs.getDouble("pmtct_anc_tes_1");
+            double pmtct_anc_tes_1_9=conn.rs.getDouble("pmtct_anc_tes_1_9");
+            double pmtct_anc_tes_10_14=conn.rs.getDouble("pmtct_anc_tes_10_14");
+            double pmtct_anc_tes_15_19=conn.rs.getDouble("pmtct_anc_tes_15_19");
+            double pmtct_anc_tes_20_24=conn.rs.getDouble("pmtct_anc_tes_20_24");
+            double pmtct_anc_tes_25_29=conn.rs.getDouble("pmtct_anc_tes_25_29");
+            double pmtct_anc_tes_30_34=conn.rs.getDouble("pmtct_anc_tes_30_34");
+            double pmtct_anc_tes_35_39=conn.rs.getDouble("pmtct_anc_tes_35_39");
+            double pmtct_anc_tes_40_49=conn.rs.getDouble("pmtct_anc_tes_40_49");
+            double pmtct_anc_tes_50=conn.rs.getDouble("pmtct_anc_tes_50");
+
+
+
+            double pmtct_knownpositive=conn.rs.getDouble("pmtct_knownpositive");
+            double pmtct_kp_unknown=conn.rs.getDouble("pmtct_kp_unknown");
+            double pmtct_kp_1_9=conn.rs.getDouble("pmtct_kp_1_9");
+            double pmtct_kp_10_14=conn.rs.getDouble("pmtct_kp_10_14");
+            double pmtct_kp_15_19=conn.rs.getDouble("pmtct_kp_15_19");
+            double pmtct_kp_20_24=conn.rs.getDouble("pmtct_kp_20_24");
+            double pmtct_kp_25_29=conn.rs.getDouble("pmtct_kp_25_29");
+            double pmtct_kp_30_34=conn.rs.getDouble("pmtct_kp_30_34");
+            double pmtct_kp_35_39=conn.rs.getDouble("pmtct_kp_35_39");
+            double pmtct_kp_40_49=conn.rs.getDouble("pmtct_kp_40_49");
+            double pmtct_kp_50=conn.rs.getDouble("pmtct_kp_50");
+
+
+            double pmtct_newpositive=conn.rs.getDouble("pmtct_newpositive");
+            double pmtct_pos_unknown=conn.rs.getDouble("pmtct_pos_unknown");
+            double pmtct_pos_1=conn.rs.getDouble("pmtct_pos_1");
+            double pmtct_pos_1_9=conn.rs.getDouble("pmtct_pos_1_9");
+            double pmtct_pos_10_14=conn.rs.getDouble("pmtct_pos_10_14");
+            double pmtct_pos_15_19=conn.rs.getDouble("pmtct_pos_15_19");
+            double pmtct_pos_20_24=conn.rs.getDouble("pmtct_pos_20_24");
+            double pmtct_pos_25_29=conn.rs.getDouble("pmtct_pos_25_29");
+            double pmtct_pos_30_34=conn.rs.getDouble("pmtct_pos_30_34");
+            double pmtct_pos_35_39=conn.rs.getDouble("pmtct_pos_35_39");
+            double pmtct_pos_40_49=conn.rs.getDouble("pmtct_pos_40_49");
+            double pmtct_pos_50=conn.rs.getDouble("pmtct_pos_50");
+
+            double pmtct_new_negatives=conn.rs.getDouble("pmtct_new_negatives");
+            double pmtct_neg_unknown=conn.rs.getDouble("pmtct_neg_unknown");
+            double pmtct_neg_1=conn.rs.getDouble("pmtct_neg_1");
+            double pmtct_neg_1_9=conn.rs.getDouble("pmtct_neg_1_9");
+            double pmtct_neg_10_14=conn.rs.getDouble("pmtct_neg_10_14");
+            double pmtct_neg_15_19=conn.rs.getDouble("pmtct_neg_15_19");
+            double pmtct_neg_20_24=conn.rs.getDouble("pmtct_neg_20_24");
+            double pmtct_neg_25_29=conn.rs.getDouble("pmtct_neg_25_29");
+            double pmtct_neg_30_34=conn.rs.getDouble("pmtct_neg_30_34");
+            double pmtct_neg_35_39=conn.rs.getDouble("pmtct_neg_35_39");
+            double pmtct_neg_40_49=conn.rs.getDouble("pmtct_neg_40_49");
+            double pmtct_neg_50=conn.rs.getDouble("pmtct_neg_50");
+
+
+
+            double pmtct_tes_numerator=conn.rs.getDouble("pmtct_tes_numerator");
+            double pmtct_statnum_tes_unknown=conn.rs.getDouble("pmtct_statnum_tes_unknown");
+            double pmtct_statnum_tes_10=conn.rs.getDouble("pmtct_statnum_tes_10");
+            double pmtct_statnum_tes_10_14=conn.rs.getDouble("pmtct_statnum_tes_10_14");
+            double pmtct_statnum_tes_15_19=conn.rs.getDouble("pmtct_statnum_tes_15_19");
+            double pmtct_statnum_tes_20_24=conn.rs.getDouble("pmtct_statnum_tes_20_24");
+            double pmtct_statnum_tes_25_29=conn.rs.getDouble("pmtct_statnum_tes_25_29");
+            double pmtct_statnum_tes_30_34=conn.rs.getDouble("pmtct_statnum_tes_30_34");
+            double pmtct_statnum_tes_35_39=conn.rs.getDouble("pmtct_statnum_tes_35_39");
+            double pmtct_statnum_tes_40_49=conn.rs.getDouble("pmtct_statnum_tes_40_49");
+            double pmtct_statnum_tes_50=conn.rs.getDouble("pmtct_statnum_tes_50");
+
+            double pmtct_tes_denominator=conn.rs.getDouble("pmtct_tes_denominator");
+            double pmtct_statden_tes_unknown=conn.rs.getDouble("pmtct_statden_tes_unknown");
+            double pmtct_statden_tes_10=conn.rs.getDouble("pmtct_statden_tes_10");
+            double pmtct_statden_tes_10_14=conn.rs.getDouble("pmtct_statden_tes_10_14");
+            double pmtct_statden_tes_15_19=conn.rs.getDouble("pmtct_statden_tes_15_19");
+            double pmtct_statden_tes_20_24=conn.rs.getDouble("pmtct_statden_tes_20_24");
+            double pmtct_statden_tes_25_29=conn.rs.getDouble("pmtct_statden_tes_25_29");
+            double pmtct_statden_tes_30_34=conn.rs.getDouble("pmtct_statden_tes_30_34");
+            double pmtct_statden_tes_35_39=conn.rs.getDouble("pmtct_statden_tes_35_39");
+            double pmtct_statden_tes_40_49=conn.rs.getDouble("pmtct_statden_tes_40_49");
+            double pmtct_statden_tes_50=conn.rs.getDouble("pmtct_statden_tes_50");
+            int ancno=conn.rs.getInt("new_anc");
+      
+     double ancdiff=0; 
+     double numeratordiff=0;
+     double denominatordiff=0;
+     double knownpositivediff=0;
+     double newpositivediff=0;
+     double diff15to19=0;
+
+     int negativediff=0;
+     
+    ancdiff=(pmtct_anc_tes-(pmtct_pos_unknown+pmtct_pos_1+pmtct_pos_1_9+pmtct_pos_10_14+pmtct_pos_15_19+pmtct_pos_20_24+pmtct_pos_25_29+pmtct_pos_30_34+pmtct_pos_35_39+pmtct_pos_40_49+pmtct_pos_50+pmtct_neg_unknown+pmtct_neg_1+pmtct_neg_1_9+pmtct_neg_10_14+pmtct_neg_15_19+pmtct_neg_20_24+pmtct_neg_25_29+pmtct_neg_30_34+pmtct_neg_35_39+pmtct_neg_40_49+pmtct_neg_50));
+    numeratordiff=(pmtct_tes_numerator-(pmtct_statnum_tes_unknown+pmtct_statnum_tes_10+pmtct_statnum_tes_10_14+pmtct_statnum_tes_15_19+pmtct_statnum_tes_20_24+pmtct_statnum_tes_25_29+pmtct_statnum_tes_30_34+pmtct_statnum_tes_35_39+pmtct_statnum_tes_40_49+pmtct_statnum_tes_50));
+    denominatordiff=(pmtct_tes_denominator-(pmtct_statden_tes_unknown+pmtct_statden_tes_10+pmtct_statden_tes_10_14+pmtct_statden_tes_15_19+pmtct_statden_tes_20_24+pmtct_statden_tes_25_29+pmtct_statden_tes_30_34+pmtct_statden_tes_35_39+pmtct_statden_tes_40_49+pmtct_statden_tes_50) );
+    knownpositivediff=(pmtct_knownpositive-(pmtct_kp_unknown+pmtct_kp_1_9+pmtct_kp_10_14+pmtct_kp_15_19+pmtct_kp_20_24+pmtct_kp_25_29+pmtct_kp_30_34+pmtct_kp_35_39+pmtct_kp_40_49+pmtct_kp_50));
+    newpositivediff=(pmtct_newpositive-(pmtct_pos_unknown+pmtct_pos_1+pmtct_pos_1_9+pmtct_pos_10_14+pmtct_pos_15_19+pmtct_pos_20_24+pmtct_pos_25_29+pmtct_pos_30_34+pmtct_pos_35_39+pmtct_pos_40_49+pmtct_pos_50));
+    negativediff=((int) Math.round(pmtct_new_negatives)-(int) Math.round((pmtct_neg_unknown+pmtct_neg_1+pmtct_neg_1_9+pmtct_neg_10_14+pmtct_neg_15_19+pmtct_neg_20_24+pmtct_neg_25_29+pmtct_neg_30_34+pmtct_neg_35_39+pmtct_neg_40_49+pmtct_neg_50)));
+     //compare anc_positive, anc_negative, knownpos against stat numerator   
+    
+    diff15to19=(pmtct_statden_tes_15_19-(pmtct_pos_15_19+pmtct_neg_15_19+pmtct_kp_15_19));
+//    diff25to49=(pmtct_statden_tes_25_49-(pmtct_pos_25_49+pmtct_neg_25_49+pmtct_kp_25_49));
+
+        System.out.println(" ");
+     
+      //do normalization
+     if(1==1){
+     while(ancdiff>0){ pmtct_neg_20_24=pmtct_neg_20_24+1; ancdiff--;}
+     while(ancdiff<0){  pmtct_neg_20_24=pmtct_neg_20_24-1; ancdiff++;}
+     //numerator normalization
+      while(numeratordiff>0){ pmtct_statnum_tes_20_24=pmtct_statnum_tes_20_24+1;  numeratordiff--; }
+      
+       while(numeratordiff<0){  pmtct_statnum_tes_20_24=pmtct_statnum_tes_20_24-1;   numeratordiff++;  }
+      
+      //denominator normalization
+      while(denominatordiff>0){ pmtct_statden_tes_20_24=pmtct_statden_tes_20_24+1;  denominatordiff--;}
+       while(denominatordiff<0){  pmtct_statden_tes_20_24=pmtct_statden_tes_20_24-1;   denominatordiff++;  }
+    }  
+     
+    ///**
+     while(newpositivediff>0){ pmtct_pos_20_24=pmtct_pos_20_24+1;   newpositivediff--; }
+     while(newpositivediff<0){   pmtct_pos_20_24=pmtct_pos_20_24-1;    newpositivediff++; }
+ 
+     while(knownpositivediff>0){ pmtct_kp_20_24=pmtct_kp_20_24+1; knownpositivediff--; }
+     while(knownpositivediff<0){   pmtct_kp_20_24=pmtct_kp_20_24-1;  knownpositivediff++;  }
+     
+     //repeat anc normalization again due to the other normalizations that have happened after
+   ancdiff=(pmtct_anc_tes-(pmtct_pos_unknown+pmtct_pos_1+pmtct_pos_1_9+pmtct_pos_10_14+pmtct_pos_15_19+pmtct_pos_20_24+pmtct_pos_25_29+pmtct_pos_30_34+pmtct_pos_35_39+pmtct_pos_40_49+pmtct_pos_50+pmtct_neg_unknown+pmtct_neg_1+pmtct_neg_1_9+pmtct_neg_10_14+pmtct_neg_15_19+pmtct_neg_20_24+pmtct_neg_25_29+pmtct_neg_30_34+pmtct_neg_35_39+pmtct_neg_40_49+pmtct_neg_50));
+ 
+      while(ancdiff>0){ pmtct_neg_20_24=pmtct_neg_20_24+1;  ancdiff--; }
+     while(ancdiff<0){   pmtct_neg_20_24=pmtct_neg_20_24-1;  ancdiff++; }
+     
+     //to get pmtct stat numerator, add neg+pos _+ kps
+
+     
+             String alldatavals[]={county
+             ,""+pmtct_pos_unknown,""+pmtct_pos_1,""+pmtct_pos_1_9,""+pmtct_pos_10_14,""+pmtct_pos_15_19,""+pmtct_pos_20_24,""+pmtct_pos_25_29,""+pmtct_pos_30_34,""+pmtct_pos_35_39,""+pmtct_pos_40_49,""+pmtct_pos_50
+             ,""+pmtct_neg_unknown,""+pmtct_neg_1,""+pmtct_neg_1_9,""+pmtct_neg_10_14,""+pmtct_neg_15_19,""+pmtct_neg_20_24,""+pmtct_neg_25_29,""+pmtct_neg_30_34,""+pmtct_neg_35_39,""+pmtct_neg_40_49,""+pmtct_neg_50
+             ,""+pmtct_anc_tes//total anc tested        
+             ,""+pmtct_tes_numerator//numerator
+             ,""+pmtct_statnum_tes_unknown,""+pmtct_statnum_tes_10,""+pmtct_statnum_tes_10_14,""+pmtct_statnum_tes_15_19,""+pmtct_statnum_tes_20_24,""+pmtct_statnum_tes_25_29,""+pmtct_statnum_tes_30_34,""+pmtct_statnum_tes_35_39,""+pmtct_statnum_tes_40_49,""+pmtct_statnum_tes_50
+             
+             
+             ,""+pmtct_knownpositive//known positive
+             ,""+pmtct_kp_unknown,""+pmtct_kp_1_9,""+pmtct_kp_10_14,""+pmtct_kp_15_19,""+pmtct_kp_20_24,""+pmtct_kp_25_29,""+pmtct_kp_30_34,""+pmtct_kp_35_39,""+pmtct_kp_40_49,""+pmtct_kp_50
+             
+             ,""+pmtct_newpositive//new positives
+             ,""+pmtct_pos_unknown,""+pmtct_pos_1_9,""+pmtct_pos_10_14,""+pmtct_pos_15_19,""+pmtct_pos_20_24,""+pmtct_pos_25_29,""+pmtct_pos_30_34,""+pmtct_pos_35_39,""+pmtct_pos_40_49,""+pmtct_pos_50
+             
+             ,""+pmtct_new_negatives//new negatives
+             ,""+pmtct_neg_unknown,""+pmtct_neg_1_9,""+pmtct_neg_10_14,""+pmtct_neg_15_19,""+pmtct_neg_20_24,""+pmtct_neg_25_29,""+pmtct_neg_30_34,""+pmtct_neg_35_39,""+pmtct_neg_40_49,""+pmtct_neg_50
+                      
+             ,""+pmtct_tes_denominator//denominator
+             ,""+pmtct_statden_tes_unknown,""+pmtct_statden_tes_10,""+pmtct_statden_tes_10_14,""+pmtct_statden_tes_15_19,""+pmtct_statden_tes_20_24,""+pmtct_statden_tes_25_29,""+pmtct_statden_tes_30_34,""+pmtct_statden_tes_35_39,""+pmtct_statden_tes_40_49,""+pmtct_statden_tes_50,""+pmtct_tes_denominator
+             ,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")};
+    
+
+    String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+              id_=mfl_code+"_"+yearmonth+"_26"; //
+    String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "90=Knowing HIV Status,PMTCT,PMTCT STAT Num,"+pmtct_statnum_tes_10+","+pmtct_statnum_tes_10_14+","+pmtct_statnum_tes_15_19+","+pmtct_statnum_tes_20_24+","+pmtct_statnum_tes_25_29+","+pmtct_statnum_tes_30_34+","+pmtct_statnum_tes_35_39+","+pmtct_statnum_tes_40_49+","+pmtct_statnum_tes_50+","+pmtct_tes_numerator+","+pmtct_tes_numerator+","+
+    ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+ 
+             
+    String[] header_KP ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+     id_=mfl_code+"_"+yearmonth+"_24"; //
+    String[] data_KP =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "90=Knowing HIV Status,PMTCT,PMTCT STAT Known Pos,"+pmtct_kp_1_9+","+pmtct_kp_10_14+","+pmtct_kp_15_19+","+pmtct_kp_20_24+","+pmtct_kp_25_29+","+pmtct_kp_30_34+","+pmtct_kp_35_39+","+pmtct_kp_40_49+","+pmtct_kp_50+","+pmtct_knownpositive+","+pmtct_knownpositive+","+
+    ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+ 
+             
+    String[] header_New ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    id_=mfl_code+"_"+yearmonth+"_25"; //
+    String[] data_New =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "90=Knowing HIV Status,PMTCT,PMTCT STAT New Pos,"+pmtct_pos_1_9+","+pmtct_pos_10_14+","+pmtct_pos_15_19+","+pmtct_pos_20_24+","+pmtct_pos_25_29+","+pmtct_pos_30_34+","+pmtct_pos_35_39+","+pmtct_pos_40_49+","+pmtct_pos_50+","+pmtct_newpositive+","+pmtct_newpositive+","+
+    ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+ 
+             
+    String[] header_Den ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    id_=mfl_code+"_"+yearmonth+"_27"; //
+    String[] data_Den =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "90=Knowing HIV Status,PMTCT,PMTCT_STAT Den,"+pmtct_statden_tes_10+","+pmtct_statden_tes_10_14+","+pmtct_statden_tes_15_19+","+pmtct_statden_tes_20_24+","+pmtct_statden_tes_25_29+","+pmtct_statden_tes_30_34+","+pmtct_statden_tes_35_39+","+pmtct_statden_tes_40_49+","+pmtct_statden_tes_50+","+pmtct_tes_denominator+","+pmtct_tes_denominator+","+
+    ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+ 
+    String[][] header = {header_Num,header_KP,header_New,header_Den};        
+    String[][] data = {data_Num,data_KP,data_New,data_Den};  
+    
+    for(int a=0;a<header.length;a++){
+    String query_params = "";
+    for(int i=0;i<header[a].length;i++){
+    query_params+=header[a][i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table3 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+           System.out.println("query : "+query);
+    for(int i=0;i<data[a].length;i++){
+        conndash.pst.setString((i+1), data[a][i]);   
+    }
+    conndash.pst.executeUpdate();
+    
+    }   
+    }
+        return num;
+    }
     
     
     

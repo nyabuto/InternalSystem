@@ -253,13 +253,15 @@ public class DHIS_IMIS{
       rowcounter++;   
       int ymcounter=0;
       
-      
+      String whereym="";
       for(String ym:yearmonths){
       elems_counter = 0;
-      yearmonth = ym;
+      whereym += " moh731.yearmonth="+ym+" OR ";
+      }
+      whereym = removeLastChars(whereym, 3);
+      
 //      mfl_codes.clear();
       
-      String yearmonth_name = getperiod(Integer.parseInt(yearmonth));
       
       ymcounter++;
       int head_counter_elems=0;
@@ -299,21 +301,21 @@ public class DHIS_IMIS{
         //remove last
         append = removeLastChars(append, 1);
         
-        query="SELECT SubPartnerNom,county.County AS county, DistrictNom AS 'Sub County',subpartnera.ward AS ward,CentreSanteID AS mfl_code, "
+        query="SELECT SubPartnerNom,county.County AS county, DistrictNom AS 'Sub County',subpartnera.ward AS ward,CentreSanteID AS mfl_code,moh731.yearmonth AS yearmonth, "
         + " "+append+" "
         + " FROM  moh731 " +
         " LEFT join ( subpartnera join (district join county on county.CountyID=district.CountyID  ) on subpartnera.DistrictID=district.DistrictID ) "+
         " on moh731.SubPartnerID=subpartnera.SubPartnerID  "
        + "LEFT JOIN dhis_data ON moh731.id=dhis_data.id "
        + "LEFT JOIN new_anc ON new_anc.id=dhis_data.id "
-       + "WHERE moh731.yearmonth=YM;";
+       + "WHERE ("+whereym+") AND subpartnera."+areas[q]+"=1 AND subpartnera.active=1 GROUP BY mfl_code,yearmonth ";
                  
           
-	 query = query.replace("YM", yearmonth+" AND subpartnera."+areas[q]+"=1 AND subpartnera.active=1");
-//         System.out.println("final query is : "+query);
+//	 query = query.replace("YM", yearmonth+" AND subpartnera."+areas[q]+"=1 AND subpartnera.active=1");
+         System.out.println("final query is : "+query);
          
          facil_counter=1;
-          conn.rs1 = conn.st1.executeQuery(query);	  
+         conn.rs1 = conn.st1.executeQuery(query);	  
 	
         while(conn.rs1.next()){
             XSSFRow rwdata = null;
@@ -323,10 +325,11 @@ public class DHIS_IMIS{
          ward = conn.rs1.getString(4);
          facility = conn.rs1.getString(1);
          mfl_code = conn.rs1.getInt(5); 
-         
+         yearmonth = conn.rs1.getString(6);
         
-        if(!mfl_codes.contains(ymcounter+"-"+mfl_code)){ 
-        mfl_codes.add(ymcounter+"-"+mfl_code);
+        if(!mfl_codes.contains(yearmonth+"-"+mfl_code)){ 
+        String yearmonth_name = getperiod(Integer.parseInt(yearmonth));
+        mfl_codes.add(yearmonth+"-"+mfl_code);
         rwdata = shet.createRow(rowcounter);
             XSSFCell cellcountyV = rwdata.createCell(0);
             XSSFCell cellsubcountyV = rwdata.createCell(1);
@@ -352,7 +355,7 @@ public class DHIS_IMIS{
         rowcounter++;
        }
        else{
-          facil_counter = mfl_codes.indexOf(ymcounter+"-"+mfl_code)+3;
+          facil_counter = mfl_codes.indexOf(yearmonth+"-"+mfl_code)+3;
             
            rwdata = shet.getRow(facil_counter);
            
@@ -361,9 +364,9 @@ public class DHIS_IMIS{
         rwdata.setHeightInPoints(26);
             System.out.println("area : "+areas[q]+" counter : "+area_counter);
         for(int r=0;r<area_counter;r++){
-           imis = conn.rs1.getInt(6+(3*r));
-           dhis = conn.rs1.getInt(7+(3*r));
-           variance = conn.rs1.getInt(8+(3*r)); 
+           imis = conn.rs1.getInt(7+(3*r));
+           dhis = conn.rs1.getInt(8+(3*r));
+           variance = conn.rs1.getInt(9+(3*r)); 
 
           elems_counter  =  prev_area_counter+r+1;
             System.out.println("prev : "+prev_area_counter+" current area pos : "+r+"cellpos : "+((elems_counter*4)+2-(r)));
@@ -388,7 +391,7 @@ public class DHIS_IMIS{
         
         prev_area_counter += area_counter;
 		  }
-    }
+    
       
       wb = addborders(rowcounter,((numcolumns*3)+6),wb,stborder,STYLE_TITLE);
      return wb; 

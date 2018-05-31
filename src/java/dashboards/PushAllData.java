@@ -36,8 +36,9 @@ HttpSession session;
 //           ds2.current_art_care(201701, 201712);
 //           ds2.new_art_care(201701, 201712);
 //           ds2.viral_load("2017-01-01","2017-12-31");
-//             ds2.pmtct_eid("2017-01-01","2017-12-31");
-             ds2.pmtct_fo("201701","201712");
+//           ds2.pmtct_eid("2017-01-01","2017-12-31");
+//           ds2.pmtct_fo("201701","201712");
+             ds2.pmtct("201701","201712");
 
             System.out.println("end pushed data");
         } finally {
