@@ -2089,7 +2089,7 @@ splitData--;
      System.out.println("2018q1 PMTCT : "+get731data);
     conn.rs=conn.st.executeQuery(get731data);
     while(conn.rs.next()){
-	 county = conn.rs.getString("county");
+	county = conn.rs.getString("county");
         sub_county = conn.rs.getString("sub_county");
         facilityName = conn.rs.getString("facility");
         support_type = conn.rs.getString("ART_Support");
@@ -2318,9 +2318,21 @@ splitData--;
     "90=Knowing HIV Status,PMTCT,PMTCT_STAT Den,"+pmtct_statden_tes_10+","+pmtct_statden_tes_10_14+","+pmtct_statden_tes_15_19+","+pmtct_statden_tes_20_24+","+pmtct_statden_tes_25_29+","+pmtct_statden_tes_30_34+","+pmtct_statden_tes_35_39+","+pmtct_statden_tes_40_49+","+pmtct_statden_tes_50+","+pmtct_tes_denominator+","+pmtct_tes_denominator+","+
     ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
     ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    
+             
+    String[] header_newANC ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    id_=mfl_code+"_"+yearmonth+"_27_48"; //
+    
+    String[] data_newANC =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "90=Knowing HIV Status,PMTCT,PMTCT_STAT Den,New ANC,"+ancno+","+
+    ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
  
-    String[][] header = {header_Num,header_KP,header_New,header_Den};        
-    String[][] data = {data_Num,data_KP,data_New,data_Den};  
+    String[][] header = {header_Num,header_KP,header_New,header_Den,header_newANC};        
+    String[][] data = {data_Num,data_KP,data_New,data_Den,data_newANC};  
     
     for(int a=0;a<header.length;a++){
     String query_params = "";
@@ -2342,10 +2354,779 @@ splitData--;
     }
         return num;
     }
+    public int RetNum(String startyearmonth, String endyearmonth) throws SQLException{
+        int num=0;
+       String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int total;
+        String year,semi_annual,quarter,month;
+        String id_=""; 
+        // numerator
+        String getNumerator="  " +
+        "SELECT facility,sub_county,county,mfl_code,ART_Support,arthv,htchv,pmtcthv,allhv,burdencategory,constituency,ward,Owner,"+
+        "Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth, " +
+        ""+
+        "SUM(retention_12months) AS retention_12months, SUM(retention_24months) AS retention_24months, SUM(retention_36months) AS retention_36months, " +
+        "SUM(pregnant) as pregnant, SUM(breastfeeding) as breastfeeding,SUM(f_1) as f_1, SUM(m_1) as m_1, SUM(f_9) as f_9, SUM(m_9) as m_9, " +
+        "SUM(f_14) as f_14, SUM(m_14) as m_14, SUM(f_19) as f_19, SUM(m_19) as m_19, SUM(f_24) as f_24, SUM(m_24) as m_24, SUM(f_29) as f_29, SUM(m_29) as m_29, "+
+        "SUM(f_34) as f_34, SUM(m_34) as m_34, SUM(f_39) as f_39, SUM(m_39) as m_39, SUM(f_49) as f_49, SUM(m_49) as m_49, SUM(f_50) as f_50, SUM(m_50) as m_50 " +
+
+        "FROM (SELECT 1 as unid, "+
+            ""+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+            ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+            "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+            "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth, " +
+            ""+
+        "ROUND(SUM(HV0349)) AS retention_12months, " +
+        "0 AS retention_24months, " +
+        "0 AS retention_36months, " +
+        "0 as pregnant, " +
+        "0 as breastfeeding, " +
+        "ROUND(SUM(HV0349)*f_1) as 'f_1'," +
+        "ROUND(SUM(HV0349)*m_1) as 'm_1'," +
+        "ROUND(SUM(HV0349)*(f_4+f_9)) as 'f_9'," +
+        "ROUND(SUM(HV0349)*(m_4+m_9)) as 'm_9'," +
+        "ROUND(SUM(HV0349)*f_14) as 'f_14'," +
+        "ROUND(SUM(HV0349)*m_14) as 'm_14'," +
+        "ROUND(SUM(HV0349)*f_19) as 'f_19'," +
+        "ROUND(SUM(HV0349)*m_19) as 'm_19', " +
+        "ROUND(SUM(HV0349)*f_24) as 'f_24'," +
+        "ROUND(SUM(HV0349)*m_24) as 'm_24'," +
+        "ROUND(SUM(HV0349)*f_29) as 'f_29', " +
+        "ROUND(SUM(HV0349)*m_29) as 'm_29', " +
+        "ROUND(SUM(HV0349)*f_34) as 'f_34', " +
+        "ROUND(SUM(HV0349)*m_34) as 'm_34', " +
+        "ROUND(SUM(HV0349)*f_39) as 'f_39', " +
+        "ROUND(SUM(HV0349)*m_39) as 'm_39', " +
+        "ROUND(SUM(HV0349)*f_49) as 'f_49', " +
+        "ROUND(SUM(HV0349)*m_49) as 'm_49', " +
+        "ROUND(SUM(HV0349)*f_50) as 'f_50', " +
+        "ROUND(SUM(HV0349)*m_50) as 'm_50' " +
+        " FROM internal_system.moh731 " +
+        " JOIN internal_system." + facilitiestable + " ON internal_system.moh731.SubPartnerID=internal_system." + facilitiestable + ".SubPartnerID " +
+        "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
+        "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID "+
+        "JOIN ratios ON county.CountyID=ratios.county_id " +
+        "WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM'  AND "+facilitiestable+".active=1  " +
+        "GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth " +
+        " " +
+        "UNION " +
+        "" +
+        "SELECT 2 as unid,"+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+        ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+        "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+        "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth," +
+        ""+
+        "0 AS retention_12months, " +
+        "0 AS retention_24months, " +
+        "0 AS retention_36months, " +
+        "ROUND(f_34*SUM(np_12m)) as pregnant, " +
+        "SUM(np_12m)-ROUND(f_34*SUM(np_12m)) as breastfeeding, " +
+        "0 as f_1, " +
+        "0 as m_1, " +
+        "0 as f_9, " +
+        "0 as m_9, " +
+        "0 as f_14, " +
+        "0 as m_14, " +
+        "0 as f_19, " +
+        "0 as m_19, " +
+        "0 as f_24, " +
+        "0 as m_24, " +
+
+        "0 as f_29, " +
+        "0 as m_29, " +
+        "0 as f_34, " +
+        "0 as m_34, " +
+        "0 as f_39, " +
+        "0 as m_39, " +
+
+        "0 as f_49, " +
+        "0 as m_49, " +
+        "0 as f_50, " +
+        "0 as m_50" +
+        " FROM pmtct_art_cohort.pmtct_cohort " +
+        " JOIN internal_system." + facilitiestable + " ON pmtct_art_cohort.pmtct_cohort.mflcode=internal_system." + facilitiestable + ".CentreSanteId " +
+        "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
+        "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID " +
+        "JOIN ratios ON county.CountyID=ratios.county_id " +
+        "WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM_PREG' " +
+        "AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  AND "+facilitiestable+".active=1   " +
+        "GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth ORDER BY mfl_code,yearmonth" ;
+
+    System.out.println("num : "+getNumerator);
+     conn.rs=conn.st.executeQuery(getNumerator);
+        while(conn.rs.next()){
+        county = conn.rs.getString("county");
+        sub_county = conn.rs.getString("sub_county");
+        facilityName = conn.rs.getString("facility");
+        support_type = conn.rs.getString("ART_Support");
+        mfl_code = conn.rs.getString("mfl_code");
+
+        arthv = conn.rs.getString("arthv");
+        pmtcthv = conn.rs.getString("pmtcthv");
+        htchv = conn.rs.getString("htchv");
+        allhv = conn.rs.getString("allhv");
+        burdencategory = conn.rs.getString("burdencategory");
+        constituency = conn.rs.getString("constituency");
+        ward = conn.rs.getString("ward");
+        Owner = conn.rs.getString("Owner");
+        Type = conn.rs.getString("Type");
+        latitude = conn.rs.getString("latitude");
+        longitude = conn.rs.getString("longitude");
+        Male_clinics = conn.rs.getString("Male_clinics");
+        Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+        Viremia_clinics = conn.rs.getString("Viremia_clinics");
+        EMR_Sites = conn.rs.getString("EMR_Sites");
+        Link_desks = conn.rs.getString("Link_desks");
+        yearmonth = conn.rs.getString("yearmonth");
+         
+        JSONObject period_data = getperiod(yearmonth);
+
+        year = period_data.get("year").toString();
+        semi_annual = period_data.get("semi_annual").toString();
+        quarter = period_data.get("quarter").toString();
+        month = period_data.get("month").toString();
+        
+        int numerator=conn.rs.getInt("retention_12months");
+        int num_24 = conn.rs.getInt("retention_24months");
+        int num_36 = conn.rs.getInt("retention_36months");
+        int pregnant= conn.rs.getInt("pregnant");
+        int breastfeeding = conn.rs.getInt("breastfeeding");
+
+        int f_1,m_1,f_9,m_9,f_14,f_19,f_24,f_29,f_34,f_39,f_49,f_50,m_14,m_19,m_24,m_29,m_34,m_39,m_49,m_50;
+            f_1 = conn.rs.getInt("f_1");
+            m_1 = conn.rs.getInt("m_1");
+            f_9 = conn.rs.getInt("f_9");
+            m_9 = conn.rs.getInt("m_9");
+            f_14 = conn.rs.getInt("f_14");
+            f_19 = conn.rs.getInt("f_19");
+            f_24 = conn.rs.getInt("f_24");
+            f_29 = conn.rs.getInt("f_29");
+            f_34 = conn.rs.getInt("f_34");
+            f_39 = conn.rs.getInt("f_39");
+            f_49 = conn.rs.getInt("f_49");
+            f_50 = conn.rs.getInt("f_50");
+            m_14 = conn.rs.getInt("m_14");
+            m_19 = conn.rs.getInt("m_19");
+            m_24 = conn.rs.getInt("m_24");
+            m_29 = conn.rs.getInt("m_29");
+            m_34 = conn.rs.getInt("m_34");
+            m_39 = conn.rs.getInt("m_39");
+            m_49 = conn.rs.getInt("m_49");
+            m_50 = conn.rs.getInt("m_50");
+
+            int newsummed = f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_14+m_19+m_24+m_29+m_34+m_39+m_49+m_50;
+
+            if(newsummed>numerator){
+                int rounds=newsummed-numerator;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                  if(counter==1){
+                  m_34--;    
+                  }
+                  if(counter==2){
+                  f_24--;    
+                  }
+                  if(counter==3){
+                  m_24--;    
+                  }
+                  if(counter==4){
+                  f_34--;    
+                  }
+                  else if(counter==5){
+                  m_34--;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+          else  if(newsummed<numerator){
+                int rounds=numerator-newsummed;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                  if(counter==1){
+                  m_34++;    
+                  }
+                  if(counter==2){
+                  f_24++;    
+                  }
+                  if(counter==3){
+                  m_24++;    
+                  }
+                  if(counter==4){
+                  f_34++;    
+                  }
+                  else if(counter==5){
+                  m_34++;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+
+          else{
+    //          They are equal hence no normalization
+          }
+      int  total_1_9 = m_1+m_9+f_1+f_9; 
+      int total_f = f_1+f_9+f_14+f_19+f_24+f_34+f_50;
+      int total_m = m_1+m_9+m_14+m_19+m_24+m_34+m_50;
+    //     completed normalization
+    total=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_14+m_19+m_24+m_29+m_34+m_39+m_49+m_50;
+           // create row and add data
+
+       id_=mfl_code+"_"+yearmonth+"_44"; //
+        String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+        "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19",
+        "m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
+        "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+
+        String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+        "90:90:90= Viral Suppression,TX,TX Ret Num,"+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+
+        ""+m_19+","+f_24+","+m_24+","+f_34+","+m_34+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
+        ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        
+               id_=mfl_code+"_"+yearmonth+"_44_2"; //
+        String[] header_Breast ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+        "level1","level2","level3","level4","total","year",
+        "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+
+        String[] data_Breast =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+        "90:90:90= Viral Suppression,TX,TX Ret Num,Breastfeeding,"+breastfeeding+","+year+","+
+        ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+ 
+               id_=mfl_code+"_"+yearmonth+"_44_1"; //
+        String[] header_Preg ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+        "level1","level2","level3","level4","total","year",
+        "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+
+        String[] data_Preg =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+        "90:90:90= Viral Suppression,TX,TX Ret Num,Pregnant,"+pregnant+","+year+","+
+        ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+
+    String[][] header = {header_Num,header_Breast,header_Preg};        
+    String[][] data = {data_Num,data_Breast,data_Preg};  
+    
+    for(int a=0;a<header.length;a++){
+    String query_params = "";
+    for(int i=0;i<header[a].length;i++){
+    query_params+=header[a][i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table3 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+           System.out.println("query : "+query);
+    for(int i=0;i<data[a].length;i++){
+        conndash.pst.setString((i+1), data[a][i]);   
+    }
+    conndash.pst.executeUpdate();
+    
+    }
+     }
+        
+        
+        
+        return num;
+    }
+    public int RetDen(String startyearmonth, String endyearmonth) throws SQLException{
+        int num=0;
+        String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int total;
+        String year,semi_annual,quarter,month;
+        String id_=""; 
+         String getDenominator=" "+
+                "SELECT facility,sub_county,county,mfl_code,ART_Support,arthv,htchv,pmtcthv,allhv,burdencategory,constituency,ward,Owner,"+
+        "Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth, " +
+        ""+
+        "SUM(retention_12months) AS retention_12months, SUM(retention_24months) AS retention_24months, SUM(retention_36months) AS retention_36months,  " +
+        "SUM(pregnant) as pregnant, SUM(breastfeeding) as breastfeeding,SUM(f_1) as f_1, SUM(m_1) as m_1, SUM(f_9) as f_9, SUM(m_9) as m_9,  " +
+        "SUM(f_14) as f_14, SUM(m_14) as m_14, SUM(f_19) as f_19, SUM(m_19) as m_19, SUM(f_24) as f_24, SUM(m_24) as m_24, SUM(f_29) as f_29, SUM(m_29) as m_29,"
+        + " SUM(f_34) as f_34, SUM(m_34) as m_34, SUM(f_39) as f_39, SUM(m_39) as m_39, SUM(f_49) as f_49, SUM(m_49) as m_49, SUM(f_50) as f_50, SUM(m_50) as m_50  " +
+
+        "FROM (SELECT 1 AS unid, "+
+        ""+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+        ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+        "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+        "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth, " +
+        ""+
+        "ROUND(SUM(HV0345)) AS retention_12months,  " +
+        "0 AS retention_24months,  " +
+        "0 AS retention_36months,     " +
+        "0 as pregnant,  " +
+        "0 as breastfeeding,  " +
+        "ROUND(SUM(HV0345)*f_1) as 'f_1'," +
+        "ROUND(SUM(HV0345)*m_1) as 'm_1'," +
+        "ROUND(SUM(HV0345)*(f_4+f_9)) as 'f_9'," +
+        "ROUND(SUM(HV0345)*(m_4+m_9)) as 'm_9'," +
+        "ROUND(SUM(HV0345)*f_14) as 'f_14'," +
+        "ROUND(SUM(HV0345)*m_14) as 'm_14'," +
+        "ROUND(SUM(HV0345)*f_19) as 'f_19'," +
+        "ROUND(SUM(HV0345)*m_19) as 'm_19', " +
+        "ROUND(SUM(HV0345)*f_24) as 'f_24'," +
+        "ROUND(SUM(HV0345)*m_24) as 'm_24'," +
+        "ROUND(SUM(HV0345)*f_29) as 'f_29', " +
+        "ROUND(SUM(HV0345)*m_29) as 'm_29', " +
+        "ROUND(SUM(HV0345)*f_34) as 'f_34', " +
+        "ROUND(SUM(HV0345)*m_34) as 'm_34', " +
+        "ROUND(SUM(HV0345)*f_39) as 'f_39', " +
+        "ROUND(SUM(HV0345)*m_39) as 'm_39', " +
+        "ROUND(SUM(HV0345)*f_49) as 'f_49', " +
+        "ROUND(SUM(HV0345)*m_49) as 'm_49', " +
+        "ROUND(SUM(HV0345)*f_50) as 'f_50', " +
+        "ROUND(SUM(HV0345)*m_50) as 'm_50' " +
+        "FROM internal_system.moh731  " +
+        "JOIN internal_system." + facilitiestable + " ON internal_system.moh731.SubPartnerID=internal_system." + facilitiestable + ".SubPartnerID  " +
+        "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
+        "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
+        "JOIN ratios ON county.CountyID=ratios.county_id " +
+        " WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_DEN'  AND "+facilitiestable+".active=1  " +
+        " GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth  " +
+        "  " +
+        " UNION  " +
+        "" +
+        "SELECT 2 as unid,"+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+        ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+        "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+        "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth," +
+        ""+
+        "0 AS retention_12months,  " +
+        "0 AS retention_24months,  " +
+        "0 AS retention_36months,     " +
+        "ROUND(f_34*SUM(np_12m)) as pregnant, " +
+        "SUM(np_12m)-ROUND(f_34*SUM(np_12m)) as breastfeeding, " +
+        "0 as f_1,  " +
+        "0 as m_1,  " +
+        "0 as f_9,  " +
+        "0 as m_9,  " +
+        "0 as f_14,  " +
+        "0 as m_14, " +
+        "0 as f_19,    " +
+        "0 as m_19, " +
+        "0 as f_24,  " +
+        "0 as m_24,  " +
+        "0 as f_29,  " +
+        "0 as m_29,  " +
+        "0 as f_34,  " +
+        "0 as m_34,  " +
+        "0 as f_39,  " +
+        "0 as m_39,  " +
+        "0 as f_49,  " +
+        "0 as m_49,  " +
+        "0 as f_50,  " +
+        "0 as m_50  " +
+        " FROM pmtct_art_cohort.pmtct_cohort  " +
+        " JOIN internal_system." + facilitiestable + " ON pmtct_art_cohort.pmtct_cohort.mflcode=internal_system." + facilitiestable + ".CentreSanteId  " +
+        "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
+        "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
+        "JOIN ratios ON county.CountyID=ratios.county_id " +
+        " WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1 AND ratios.indicator='TX_RETENTION_DEN_PREG' " +
+        " AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  AND "+facilitiestable+".active=1   " +
+        " GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth  ORDER BY mfl_code,yearmonth";
+
+    System.out.println("denominator : "+getDenominator);
+     conn.rs=conn.st.executeQuery(getDenominator);
+        while(conn.rs.next()){
+        county = conn.rs.getString("county");
+        sub_county = conn.rs.getString("sub_county");
+        facilityName = conn.rs.getString("facility");
+        support_type = conn.rs.getString("ART_Support");
+        mfl_code = conn.rs.getString("mfl_code");
+
+        arthv = conn.rs.getString("arthv");
+        pmtcthv = conn.rs.getString("pmtcthv");
+        htchv = conn.rs.getString("htchv");
+        allhv = conn.rs.getString("allhv");
+        burdencategory = conn.rs.getString("burdencategory");
+        constituency = conn.rs.getString("constituency");
+        ward = conn.rs.getString("ward");
+        Owner = conn.rs.getString("Owner");
+        Type = conn.rs.getString("Type");
+        latitude = conn.rs.getString("latitude");
+        longitude = conn.rs.getString("longitude");
+        Male_clinics = conn.rs.getString("Male_clinics");
+        Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+        Viremia_clinics = conn.rs.getString("Viremia_clinics");
+        EMR_Sites = conn.rs.getString("EMR_Sites");
+        Link_desks = conn.rs.getString("Link_desks");
+        yearmonth = conn.rs.getString("yearmonth");
+
+        JSONObject period_data = getperiod(yearmonth);
+
+        year = period_data.get("year").toString();
+        semi_annual = period_data.get("semi_annual").toString();
+        quarter = period_data.get("quarter").toString();
+        month = period_data.get("month").toString();
+        int denominator=conn.rs.getInt("retention_12months");
+        int den_24 = conn.rs.getInt("retention_24months");
+        int den_36 = conn.rs.getInt("retention_36months");
+        int pregnant= conn.rs.getInt("pregnant");
+        int breastfeeding = conn.rs.getInt("breastfeeding");
+
+        int f_1,m_1,f_9,m_9,f_14,f_19,f_24,f_29,f_34,f_39,f_49,f_50,m_14,m_19,m_24,m_29,m_34,m_39,m_49,m_50;
+            f_1 = conn.rs.getInt("f_1");
+            m_1 = conn.rs.getInt("m_1");
+            f_9 = conn.rs.getInt("f_9");
+            m_9 = conn.rs.getInt("m_9");
+            f_14 = conn.rs.getInt("f_14");
+            f_19 = conn.rs.getInt("f_19");
+            f_24 = conn.rs.getInt("f_24");
+            f_29 = conn.rs.getInt("f_29");
+            f_34 = conn.rs.getInt("f_34");
+            f_39 = conn.rs.getInt("f_39");
+            f_49 = conn.rs.getInt("f_49");
+            f_50 = conn.rs.getInt("f_50");
+            m_14 = conn.rs.getInt("m_14");
+            m_19 = conn.rs.getInt("m_19");
+            m_24 = conn.rs.getInt("m_24");
+            m_29 = conn.rs.getInt("m_29");
+            m_34 = conn.rs.getInt("m_34");
+            m_39 = conn.rs.getInt("m_39");
+            m_49 = conn.rs.getInt("m_49");
+            m_50 = conn.rs.getInt("m_50");
+
+            int newsummed = f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_14+m_19+m_24+m_29+m_34+m_39+m_49+m_50;
+
+            if(newsummed>denominator){
+                int rounds=newsummed-denominator;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                   if(counter==1){
+                  m_34--;    
+                  }
+                  if(counter==2){
+                  f_24--;    
+                  }
+                  if(counter==3){
+                  m_24--;    
+                  }
+                  if(counter==4){
+                  f_34--;    
+                  }
+                  else if(counter==5){
+                  m_34--;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+          else  if(newsummed<denominator){
+                int rounds=denominator-newsummed;
+                int counter=0;
+                while(rounds>0){
+                  counter++;
+                  if(counter==1){
+                  m_34++;    
+                  }
+                  if(counter==2){
+                  f_24++;    
+                  }
+                  if(counter==3){
+                  m_24++;    
+                  }
+                  if(counter==4){
+                  f_34++;    
+                  }
+                  else if(counter==5){
+                  m_34++;
+                  counter=0;
+                  }
+
+                    rounds--;
+                }
+            }
+
+          else{
+    //  They are equal hence no normalization
+          }
+      int  total_1_9 = m_1+m_9+f_1+f_9; 
+      int total_f = f_1+f_9+f_14+f_19+f_24+f_34+f_50;
+      int total_m = m_1+m_9+m_14+m_19+m_24+m_34+m_50;
+    //     completed normalization
+    total=f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50+m_1+m_9+m_14+m_19+m_24+m_29+m_34+m_39+m_49+m_50;
+
+       id_=mfl_code+"_"+yearmonth+"_45"; //
+        String[] header_Den ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+        "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19",
+        "m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
+        "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+
+        String[] data_Den =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+        "90:90:90= Viral Suppression,TX,TX Ret Den,"+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+
+        ""+m_19+","+f_24+","+m_24+","+f_34+","+m_34+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
+        ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        
+               id_=mfl_code+"_"+yearmonth+"_45_2"; //
+        String[] header_Breast ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+        "level1","level2","level3","level4","total","year",
+        "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+
+        String[] data_Breast =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+        "90:90:90= Viral Suppression,TX,TX Ret Den,Breastfeeding,"+breastfeeding+","+year+","+
+        ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+ 
+               id_=mfl_code+"_"+yearmonth+"_45_1"; //
+        String[] header_Preg ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+        "level1","level2","level3","level4","total","year",
+        "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+
+        String[] data_Preg =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+        "90:90:90= Viral Suppression,TX,TX Ret Den,Pregnant,"+pregnant+","+year+","+
+        ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+
+    String[][] header = {header_Den,header_Breast,header_Preg};        
+    String[][] data = {data_Den,data_Breast,data_Preg};  
+    
+    for(int a=0;a<header.length;a++){
+    String query_params = "";
+    for(int i=0;i<header[a].length;i++){
+    query_params+=header[a][i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table3 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+           System.out.println("query : "+query);
+    for(int i=0;i<data[a].length;i++){
+        conndash.pst.setString((i+1), data[a][i]);   
+    }
+    conndash.pst.executeUpdate();
+    
+    }
+     }
+        
+        
+        
+        return num;
+    }
+    public int TBPrev(String startyearmonth, String endyearmonth) throws SQLException{
+        int num=0;
+        String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int total;
+        String year,semi_annual,quarter,month;
+        String id_=""; 
+        
+        String query_ = "SELECT " +
+        ""+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+        ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+        "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+        "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth, " +
+        ""+
+        "SUM(IFNULL(tm_B_New_ART,0)+IFNULL(tm_B_Prev_ART,0)+IFNULL(tf_B_New_ART,0)+IFNULL(tf_B_Prev_ART,0)) AS 'IPT Numerator'," +
+        "SUM(IFNULL(tm_B_New_ART,0)+IFNULL(tf_B_New_ART,0)) AS 'IPT Numerator New enroled on ART'," +
+        "SUM(IFNULL(tm_B_Prev_ART,0)+IFNULL(tf_B_Prev_ART,0)) AS 'IPT Numerator Previously enrolled on ART'," +
+        "" +
+        "'0' AS 'Numerator Alternative TPT Regimen New enroled on ART'," +
+        "'0' AS 'Numerator Alternative TPT Regimen Previously enrolled on ART'," +
+        "" +
+        "" +
+        "SUM(IFNULL(f1_B_New_ART,0)+IFNULL(f4_B_New_ART,0)+IFNULL(f9_B_New_ART,0)+IFNULL(f14_B_New_ART,0)+IFNULL(f1_B_Prev_ART,0)+IFNULL(f4_B_Prev_ART,0)+IFNULL(f9_B_Prev_ART,0)+IFNULL(f14_B_Prev_ART,0)) AS 'Numerator <15 Female', " +
+        "SUM(IFNULL(f19_B_New_ART,0)+IFNULL(f24_B_New_ART,0)+IFNULL(f29_B_New_ART,0)+IFNULL(f34_B_New_ART,0)+IFNULL(f39_B_New_ART,0)+IFNULL(f49_B_New_ART,0)+IFNULL(f50_B_New_ART,0)+IFNULL(f19_B_Prev_ART,0)+IFNULL(f24_B_Prev_ART,0)+IFNULL(f29_B_Prev_ART,0)+IFNULL(f34_B_Prev_ART,0)+IFNULL(f39_B_Prev_ART,0)+IFNULL(f49_B_Prev_ART,0)+IFNULL(f50_B_Prev_ART,0)) AS 'Numerator 15+ Female'," +
+        "SUM(IFNULL(m1_B_New_ART,0)+IFNULL(m4_B_New_ART,0)+IFNULL(m9_B_New_ART,0)+IFNULL(m14_B_New_ART,0)+IFNULL(m1_B_Prev_ART,0)+IFNULL(m4_B_Prev_ART,0)+IFNULL(m9_B_Prev_ART,0)+IFNULL(m14_B_Prev_ART,0)) AS 'Numerator <15 Male', " +
+        "SUM(IFNULL(m19_B_New_ART,0)+IFNULL(m24_B_New_ART,0)+IFNULL(m29_B_New_ART,0)+IFNULL(m34_B_New_ART,0)+IFNULL(m39_B_New_ART,0)+IFNULL(m49_B_New_ART,0)+IFNULL(m50_B_New_ART,0)+IFNULL(m19_B_Prev_ART,0)+IFNULL(m24_B_Prev_ART,0)+IFNULL(m29_B_Prev_ART,0)+IFNULL(m34_B_Prev_ART,0)+IFNULL(m39_B_Prev_ART,0)+IFNULL(m49_B_Prev_ART,0)+IFNULL(m50_B_Prev_ART,0)) AS 'Numerator 15+ Male'" +
+        "" +
+        ",SUM(IFNULL(tm_A_New_ART,0)+IFNULL(tm_A_Prev_ART,0)+IFNULL(tf_A_New_ART,0)+IFNULL(tf_A_Prev_ART,0)) AS 'IPT Denominator'," +
+        "SUM(IFNULL(tm_A_New_ART,0)+IFNULL(tf_A_New_ART,0)) AS 'IPT Denominator New enroled on ART'," +
+        "SUM(IFNULL(tm_A_Prev_ART,0)+IFNULL(tf_A_Prev_ART,0)) AS 'IPT Denominator Previously enrolled on ART'," +
+        "" +
+        "'0' AS 'Denominator Alternative TPT Regimen New enroled on ART'," +
+        "'0' AS 'Denominator Alternative TPT Regimen Previously enrolled on ART'," +
+        "" +
+        "" +
+        "SUM(IFNULL(f1_A_New_ART,0)+IFNULL(f4_A_New_ART,0)+IFNULL(f9_A_New_ART,0)+IFNULL(f14_A_New_ART,0)+IFNULL(f1_A_Prev_ART,0)+IFNULL(f4_A_Prev_ART,0)+IFNULL(f9_A_Prev_ART,0)+IFNULL(f14_A_Prev_ART,0)) AS 'Denominator <15 Female', " +
+        "SUM(IFNULL(f19_A_New_ART,0)+IFNULL(f24_A_New_ART,0)+IFNULL(f29_A_New_ART,0)+IFNULL(f34_A_New_ART,0)+IFNULL(f39_A_New_ART,0)+IFNULL(f49_A_New_ART,0)+IFNULL(f50_A_New_ART,0)+IFNULL(f19_A_Prev_ART,0)+IFNULL(f24_A_Prev_ART,0)+IFNULL(f29_A_Prev_ART,0)+IFNULL(f34_A_Prev_ART,0)+IFNULL(f39_A_Prev_ART,0)+IFNULL(f49_A_Prev_ART,0)+IFNULL(f50_A_Prev_ART,0)) AS 'Denominator 15+ Female'," +
+        "SUM(IFNULL(m1_A_New_ART,0)+IFNULL(m4_A_New_ART,0)+IFNULL(m9_A_New_ART,0)+IFNULL(m14_A_New_ART,0)+IFNULL(m1_A_Prev_ART,0)+IFNULL(m4_A_Prev_ART,0)+IFNULL(m9_A_Prev_ART,0)+IFNULL(m14_A_Prev_ART,0)) AS 'Denominator <15 Male', " +
+        "SUM(IFNULL(m19_A_New_ART,0)+IFNULL(m24_A_New_ART,0)+IFNULL(m29_A_New_ART,0)+IFNULL(m34_A_New_ART,0)+IFNULL(m39_A_New_ART,0)+IFNULL(m49_A_New_ART,0)+IFNULL(m50_A_New_ART,0)+IFNULL(m19_A_Prev_ART,0)+IFNULL(m24_A_Prev_ART,0)+IFNULL(m29_A_Prev_ART,0)+IFNULL(m34_A_Prev_ART,0)+IFNULL(m39_A_Prev_ART,0)+IFNULL(m49_A_Prev_ART,0)+IFNULL(m50_A_Prev_ART,0)) AS 'Denominator 15+ Male' " +
+        "" +
+        "FROM ipt  " +
+        "LEFT JOIN subpartnera ON ipt.SubPartnerID=subpartnera.SubPartnerID  " +
+        "LEFT JOIN district ON subpartnera.DistrictID=district.DistrictID  " +
+        "LEFT JOIN county ON district.CountyID=county.CountyID  " +
+        "WHERE (yearmonth between "+startyearmonth+" and "+endyearmonth+" ) and subpartnera.ART=1 and subpartnera.active=1  GROUP BY ipt.SubPartnerID,yearmonth  order by county,sub_county,mfl_code,yearmonth";
+
+        conn.rs = conn.st.executeQuery(query_);
+        while(conn.rs.next()){
+        county = conn.rs.getString("county");
+        sub_county = conn.rs.getString("sub_county");
+        facilityName = conn.rs.getString("facility");
+        support_type = conn.rs.getString("ART_Support");
+        mfl_code = conn.rs.getString("mfl_code");
+
+        arthv = conn.rs.getString("arthv");
+        pmtcthv = conn.rs.getString("pmtcthv");
+        htchv = conn.rs.getString("htchv");
+        allhv = conn.rs.getString("allhv");
+        burdencategory = conn.rs.getString("burdencategory");
+        constituency = conn.rs.getString("constituency");
+        ward = conn.rs.getString("ward");
+        Owner = conn.rs.getString("Owner");
+        Type = conn.rs.getString("Type");
+        latitude = conn.rs.getString("latitude");
+        longitude = conn.rs.getString("longitude");
+        Male_clinics = conn.rs.getString("Male_clinics");
+        Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+        Viremia_clinics = conn.rs.getString("Viremia_clinics");
+        EMR_Sites = conn.rs.getString("EMR_Sites");
+        Link_desks = conn.rs.getString("Link_desks");
+        yearmonth = conn.rs.getString("yearmonth");
+
+        JSONObject period_data = getperiod(yearmonth);
+
+        year = period_data.get("year").toString();
+        semi_annual = period_data.get("semi_annual").toString();
+        quarter = period_data.get("quarter").toString();
+        month = period_data.get("month").toString();
+        
+    int IPT_Numerator = conn.rs.getInt("IPT Numerator");
+    int IPT_Numerator_New_enroled_on_ART = conn.rs.getInt("IPT Numerator New enroled on ART");
+    int IPT_Numerator_Previously_enrolled_on_ART = conn.rs.getInt("IPT Numerator Previously enrolled on ART");
+    int Numerator_Alternative_TPT_Regimen_New_enroled_on_ART = conn.rs.getInt("Numerator Alternative TPT Regimen New enroled on ART");
+    int Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART = conn.rs.getInt("Numerator Alternative TPT Regimen Previously enrolled on ART");
+    int Numerator_15l_Female = conn.rs.getInt("Numerator <15 Female");
+    int Numerator_15p_Female = conn.rs.getInt("Numerator 15+ Female");
+    int Numerator_15l_Male = conn.rs.getInt("Numerator <15 Male");
+    int Numerator_15p_Male = conn.rs.getInt("Numerator 15+ Male");
+
+    int IPT_Denominator = conn.rs.getInt("IPT Denominator");
+    int IPT_Denominator_New_enroled_on_ART = conn.rs.getInt("IPT Denominator New enroled on ART");
+    int IPT_Denominator_Previously_enrolled_on_ART = conn.rs.getInt("IPT Denominator Previously enrolled on ART");
+    int Denominator_Alternative_TPT_Regimen_New_enroled_on_ART = conn.rs.getInt("Denominator Alternative TPT Regimen New enroled on ART");
+    int Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART = conn.rs.getInt("Denominator Alternative TPT Regimen Previously enrolled on ART");
+    int Denominator_15l_Female = conn.rs.getInt("Denominator <15 Female");
+    int Denominator_15p_Female = conn.rs.getInt("Denominator 15+ Female");
+    int Denominator_15l_Male = conn.rs.getInt("Denominator <15 Male");
+    int Denominator_15p_Male = conn.rs.getInt("Denominator 15+ Male");
+
+    id_=mfl_code+"_"+yearmonth+"_5"; //
+    String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","total","paeds_f","paeds_m","adult_f","adult_m","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Num,"+IPT_Numerator+","+Numerator_15l_Female+","+Numerator_15l_Male+","+Numerator_15p_Female+","+Numerator_15p_Male+","+year+","+
+    semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    
+    id_=mfl_code+"_"+yearmonth+"_6"; //
+    String[] header_Den ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","total","paeds_f","paeds_m","adult_f","adult_m","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Den =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Den,"+IPT_Denominator+","+Denominator_15l_Female+","+Denominator_15l_Male+","+Denominator_15p_Female+","+Denominator_15p_Male+","+year+","+
+    semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+
+    
+        id_=mfl_code+"_"+yearmonth+"_5_14"; //
+    String[] header_Numerator_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Numerator_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Num,IPT New enroled on ART,"+IPT_Numerator_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    
+        id_=mfl_code+"_"+yearmonth+"_5_15"; //
+    String[] header_Numerator_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Numerator_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Num,IPT Previously enrolled on ART,"+IPT_Numerator_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    
+        id_=mfl_code+"_"+yearmonth+"_5_16"; //
+    String[] header_Numerator_Alternative_TPT_Regimen_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Numerator_Alternative_TPT_Regimen_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Num,Alternative TPT Regimen New enroled on ART,"+Numerator_Alternative_TPT_Regimen_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    
+        id_=mfl_code+"_"+yearmonth+"_5_17"; //
+    String[] header_Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Num,Alternative TPT Regimen Previously enrolled on ART,"+Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
     
     
+//    other den
+        id_=mfl_code+"_"+yearmonth+"_6_14"; //
+    String[] header_Denominator_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Denominator_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Den,IPT New enroled on ART,"+IPT_Denominator_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
     
+        id_=mfl_code+"_"+yearmonth+"_6_15"; //
+    String[] header_Denominator_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Denominator_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Den,IPT Previously enrolled on ART,"+IPT_Denominator_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
     
+        id_=mfl_code+"_"+yearmonth+"_6_16"; //
+    String[] header_Denominator_Alternative_TPT_Regimen_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Denominator_Alternative_TPT_Regimen_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Den,Alternative TPT Regimen New enroled on ART,"+Denominator_Alternative_TPT_Regimen_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    
+        id_=mfl_code+"_"+yearmonth+"_6_17"; //
+    String[] header_Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    String[] data_Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,TB,TB Prev Den,Alternative TPT Regimen Previously enrolled on ART,"+Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    
+
+ String[][] header = {header_Num,header_Den,header_Denominator_New_enroled_on_ART, header_Denominator_Previously_enrolled_on_ART,header_Denominator_Alternative_TPT_Regimen_New_enroled_on_ART,header_Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART,header_Numerator_New_enroled_on_ART, header_Numerator_Previously_enrolled_on_ART,header_Numerator_Alternative_TPT_Regimen_New_enroled_on_ART,header_Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART};        
+ String[][] data = {data_Num,data_Den,data_Denominator_New_enroled_on_ART, data_Denominator_Previously_enrolled_on_ART,data_Denominator_Alternative_TPT_Regimen_New_enroled_on_ART,data_Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART,data_Numerator_New_enroled_on_ART, data_Numerator_Previously_enrolled_on_ART,data_Numerator_Alternative_TPT_Regimen_New_enroled_on_ART,data_Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART};  
+    
+    for(int a=0;a<header.length;a++){
+    String query_params = "";
+    for(int i=0;i<header[a].length;i++){
+    query_params+=header[a][i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table3 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+           System.out.println("query : "+query);
+    for(int i=0;i<data[a].length;i++){
+        conndash.pst.setString((i+1), data[a][i]);   
+    }
+    conndash.pst.executeUpdate();
+    
+    }
+    
+     }
+        
+        
+       return num;
+    }
     public JSONObject getperiod(String yearmonth){
         JSONObject obj = new JSONObject();
         String[] arraydata = yearmonth.split("");
