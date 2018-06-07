@@ -541,7 +541,7 @@ String header4[]={"County","Sub-County","Health Facility","MFL Code","Type of Su
         
         
         
-  String qry1 = "call rpt_tb_stat(\""+startdate+"\",\""+enddate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
+  String qry1 = "call rpt_tb_stat1(\""+startdate+"\",\""+enddate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
     System.out.println(""+qry1);
                 
         conn.rs = conn.st.executeQuery(qry1);
