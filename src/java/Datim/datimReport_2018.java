@@ -3835,7 +3835,88 @@ supporttype="DSD";
                 
             }
             
-            String joinedwhwere = " where 1=1 " + yearwhere + " && " + eidduration + " " + countywhere + " " + subcountywhere;
+            yearmonth = "" + year;
+            prevYear = yearcopy - 1;
+            maxYearMonth = 0;
+            monthcopy = 0;
+            form = "moh731";
+//        GET REPORT DURATION============================================
+            //annually
+            if (reportDuration.equals("1")) {
+                yearmonth = "Annual Report For " + year;
+                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
+                eidduration="year='"+year+"'";
+            } else if (reportDuration.equals("2")) {
+                semi_annual = request.getParameter("semi_annual");
+//        semi_annual="2";
+                if (semi_annual.equals("1")) {
+                    yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
+                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
+                     eidduration="year='"+year+"' and (quarter='1' || quarter='2') ";
+                } else {
+                    yearmonth = "Semi Annual Report for Apr to  Sep " + year;
+                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
+                     eidduration="year='"+year+"' and (quarter='2' || quarter='3') ";
+                }
+            } else if (reportDuration.equals("3")) {
+                try {
+                    
+                    //quarterly
+                    String startMonth, endMonth;
+                    quarter = request.getParameter("quarter");
+                    //       quarter="3";
+                    
+                     eidduration="year='"+year+"' and quarter='"+quarter+"'  ";
+                     
+                    String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
+                    conn.rs = conn.st.executeQuery(getMonths);
+                    if (conn.rs.next() == true) {
+                        
+                        try {
+                            String months[] = conn.rs.getString(1).split(",");
+                            startMonth = months[0];
+                            endMonth = months[2];
+                            if (quarter.equals("1")) {
+                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
+                                yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
+                            } else {
+                                yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
+                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (reportDuration.equals("4")) {
+                //on monthly reports, i dont expect any output since viral load is entered quarterly
+                monthcopy = Integer.parseInt(request.getParameter("month"));
+                
+                //since we dont want data to appear for monthly reports, we set an impossible 
+                eidduration=" 1=2 "; 
+//     month=5;
+                if (monthcopy >= 10) {
+                   duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + monthcopy + " AND " + prevYear + "" + monthcopy; 
+                    yearmonth = "Monthly Report For " + prevYear + "_(" + month + ")";
+//                    duration = "1=2";// this will make the report not output any data which is what i wanted
+                } 
+                else {
+                    duration = " " + form + ".yearmonth BETWEEN " + year + "0" + monthcopy + " AND " + year + "0" + monthcopy;
+//                    duration = " 1=2"; // this will make the report not output any data which is what i wanted
+                    yearmonth = "Monthly Report For " + year + "_(" + month + ")";
+                }
+            }
+            else {
+                duration = "";
+                
+            }
+            
+            
+            
+            
+            String joinedwhwere = " where 1=1 " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
            //old eid format 
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
 //            getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode "
@@ -3866,16 +3947,15 @@ supporttype="DSD";
        
             
             
-             getexistingdata="select pmtct_art.county,pmtct_art.subcounty,  facility,  mflcode,support_type ,"
-                   + " SUM(new_on_art) as New_on_art, "//__Denominator
-                   + " SUM(already_on_art) as Already_On_Art ,  "//__Numerator
-                   + " SUM(total_started_art_at_anc)as Total_Started_ART_at_ANC, " //__HIV_infected
+             getexistingdata="select county.County AS county,district.DistrictNom AS subcounty, "+facilitiestable+".SubPartnerNom AS facility, "+facilitiestable+".CentreSanteID AS  mflcode, PMTCT_Support as support_type ,"
+                    + " SUM(HV0221) as New_on_art, "//__Denominator
+                    + " SUM(HV0241-HV0221) as Already_On_Art ,  "//__Numerator
+                    + " SUM(HV0241) as Total_Started_ART_at_ANC, " //__HIV_infected
                    + " IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume "
-           
-           + " FROM pmtct_art join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on pmtct_art.mflcode = "+facilitiestable+".CentreSanteId   "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID ";
-           
+           + " FROM moh731 join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on moh731.SubPartnerID = "+facilitiestable+".SubPartnerID   "
+           + " "+joinedwhwere+" and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID ";
             
-            
+           System.out.println("pmtct_artq : "+getexistingdata);
 //            System.out.println(getexistingdata);
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;

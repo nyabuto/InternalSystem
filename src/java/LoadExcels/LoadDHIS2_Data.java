@@ -53,6 +53,25 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         year = request.getParameter("year");
         String mn = request.getParameter("month");
         
+            
+        month = getMonth(mn);
+        int mois=Integer.parseInt(month);
+        if(mois>=10){
+            pepfaryear=Integer.parseInt(year)-1;
+        }
+        else{
+            pepfaryear = Integer.parseInt(year);
+        }
+
+        yearmonth=pepfaryear+""+month;
+        //drop yearmonth data
+        
+        String dropper = "DELETE FROM dhis_data WHERE yearmonth=?";
+        conn.pst = conn.conn.prepareStatement(dropper);
+        conn.pst.setString(1, yearmonth);
+        conn.pst.executeUpdate();
+        
+        //end of dropping yearmonth data
          String applicationPath = request.getServletContext().getRealPath("");
          String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
          session=request.getSession();
@@ -131,17 +150,6 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             colmnscounter++;
        } 
 
-            
-            month = getMonth(mn);
-            int mois=Integer.parseInt(month);
-            if(mois>=10){
-                pepfaryear=Integer.parseInt(year)-1;
-            }
-            else{
-                pepfaryear = Integer.parseInt(year);
-            }
-            
-            yearmonth=pepfaryear+""+month;
         SubPartnerID=getSubPartnerID(conn,mfl_code);    
          id=year+"_"+mois+"_"+SubPartnerID; 
         if(!SubPartnerID.equals("")){

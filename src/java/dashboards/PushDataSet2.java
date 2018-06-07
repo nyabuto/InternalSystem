@@ -8,6 +8,7 @@ package dashboards;
 import database.dbConn;
 import database.dbConnDash;
 import java.sql.SQLException;
+import java.util.Map;
 import org.json.simple.JSONObject;
 
 /**
@@ -19,8 +20,14 @@ public class PushDataSet2 {
     dbConn conn = new dbConn();
     dbConnDash conndash = new dbConnDash();
     
-    public int current_art_care(int startyearmonth,int endyearmonth) throws SQLException{
-      int num=0;  
+    public int current_art_care(Map m1) throws SQLException{
+      String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+        int num=0;  
       String id_art,id_care;
       String facilitiestable="subpartnera";
       int HV0314,HV0315,HV0316,HV0317,HV0318,HV0319,HV0334,HV0335,HV0336,HV0337,HV0338;
@@ -37,7 +44,12 @@ public class PushDataSet2 {
         String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
         int errorCARE=0,errorART=0;
         String year,semi_annual,quarter,month;
-               
+           
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+        
      String getCurrent="SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
     ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
     "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
@@ -52,7 +64,7 @@ public class PushDataSet2 {
     + " LEFT JOIN county ON district.CountyID=county.CountyID "
     + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
     + " WHERE ART_Support IS NOT null AND yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+""
-    + " AND  indicator='TX_CURR'  AND ART=1 AND "+facilitiestable+".active=1 "
+    + " AND  indicator='TX_CURR' "+facil_where+"  AND ART=1 AND "+facilitiestable+".active=1 "
     + " GROUP BY yearmonth,mfl_code";
 
      conn.rs1=conn.st1.executeQuery(getCurrent);
@@ -494,7 +506,7 @@ splitData--;
     "m_4","f_5_9","m_5_9","f_14","m_14","f_19","m_19","f_24","m_24","f_29","m_29","f_34",
     "m_34","f_39","m_39","f_49","m_49","f_50","m_50","total","total_f","total_m","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     
     id_art = mfl_code+"_"+yearmonth+"_10_36";
     
@@ -504,7 +516,7 @@ splitData--;
     currentART20_24M+","+currentART25_29f+","+currentART25_29m+","+currentART30_34f+","+currentART30_34m+","+currentART35_39f+","+currentART35_39m+","
     + ""+currentART40_49f+","+currentART40_49m+","+currentART50F+","+currentART50M+","+totalCurrentART+","+total_ART_f+","+total_ART_m+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,36").split(",");
     
     String query_params = "";
     for(int i=0;i<headers_currART.length;i++){
@@ -530,7 +542,7 @@ splitData--;
     "level1","level2","level3","f_1","m_1","f_4",
     "m_4","f_5_9","m_5_9","f_14","m_14","f_19","m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     
     id_care = mfl_code+"_"+yearmonth+"_1_38";
     
@@ -539,7 +551,7 @@ splitData--;
     + ""+currentCARE5_9F+","+currentCARE5_9M+","+currentCARE10_14F+","+currentCARE10_14M+","+currentCARE15_19F+","+currentCARE15_19M+","+currentCARE20_24F+","+
     currentCARE20_24M+","+currentCARE25_49F+","+currentCARE25_49M+","+currentCARE50F+","+currentCARE50M+","+totalCurrentCARE+","+total_CARE_f+","+total_CARE_m+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,38").split(",");
     
     query_params = "";
     for(int i=0;i<headers_currCARE.length;i++){
@@ -560,8 +572,14 @@ splitData--;
     }
       return num;
     } 
-    public int new_art_care(int startyearmonth,int endyearmonth) throws SQLException{
-      int num=0;  
+    public int new_art_care(Map m1) throws SQLException{
+      String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+        int num=0;  
       String id_art,id_care;
       String facilitiestable="subpartnera";
       int HV0308,HV0309,HV0310,HV0311,HV0312,HV0320,HV0321,HV0322,HV0323,HV0324;
@@ -585,6 +603,11 @@ splitData--;
     double under1_newcaref=0,under1_newtxf=0;
     double Pregnant,breastfeeding,ontbtreatment;
     
+    String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+         
      String getnew="SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
     ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
     "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
@@ -607,7 +630,7 @@ splitData--;
     + " LEFT JOIN county ON district.CountyID=county.CountyID "
     + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "
     + " WHERE ART_Support IS NOT null AND yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+""
-    + " AND  indicator='TX_NEW' AND ART=1  AND "+facilitiestable+".active=1 "
+    + " AND  indicator='TX_NEW' "+facil_where+" AND ART=1  AND "+facilitiestable+".active=1 "
     + " GROUP BY yearmonth,mfl_code";
 
      conn.rs=conn.st.executeQuery(getnew);
@@ -1157,7 +1180,7 @@ splitData--;
     "m_4","f_5_9","m_5_9","f_14","m_14","f_19","m_19","f_24","m_24","f_29","m_29","f_34",
     "m_34","f_39","m_39","f_49","m_49","f_50","m_50","total","total_f","total_m","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     
     id_art = mfl_code+"_"+yearmonth+"_10_35";
     
@@ -1167,7 +1190,7 @@ splitData--;
     newART20_24M+","+newART25_29f+","+newART25_29m+","+newART30_34f+","+newART30_34m+","+newART35_39f+","+newART35_39m+","
     + ""+newART40_49f+","+newART40_49m+","+newART50F+","+newART50M+","+totalNewART+","+total_ART_f+","+total_ART_m+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,35").split(",");
     
     String query_params = "";
     for(int i=0;i<headers_newART.length;i++){
@@ -1193,7 +1216,7 @@ splitData--;
     "level1","level2","level3","f_1","m_1","f_4",
     "m_4","f_5_9","m_5_9","f_14","m_14","f_19","m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     
     id_care = mfl_code+"_"+yearmonth+"_1_37";
     
@@ -1202,7 +1225,7 @@ splitData--;
     + ""+newCARE5_9F+","+newCARE5_9M+","+newCARE10_14F+","+newCARE10_14M+","+newCARE15_19F+","+newCARE15_19M+","+newCARE20_24F+","+
     newCARE20_24M+","+newCARE25_49F+","+newCARE25_49M+","+newCARE50F+","+newCARE50M+","+totalNewCARE+","+total_CARE_f+","+total_CARE_m+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,37").split(",");
     
     query_params = "";
     for(int i=0;i<headers_newCARE.length;i++){
@@ -1224,14 +1247,14 @@ splitData--;
     String[] headers_Preg={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","level4","total","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     
     id_ = mfl_code+"_"+yearmonth+"_1_35_1";
     
     String[] data_Preg =(id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","
     + ""+mfl_code+","+support_type+",90:90=ON ART,TX,TX NEW,Pregnant,"+Pregnant+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,35").split(",");
     
     query_params = "";
     for(int i=0;i<headers_Preg.length;i++){
@@ -1253,14 +1276,14 @@ splitData--;
     String[] headers_Breastf={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","level4","total","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     
     id_ = mfl_code+"_"+yearmonth+"_1_35_2";
     
     String[] data_Breastf =(id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","
     + ""+mfl_code+","+support_type+",90:90=ON ART,TX,TX NEW,Breastfeeding,"+breastfeeding+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,35").split(",");
     
     query_params = "";
     for(int i=0;i<headers_Breastf.length;i++){
@@ -1285,14 +1308,14 @@ splitData--;
   String[] headers_onTB={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","level4","total","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     
     id_ = mfl_code+"_"+yearmonth+"_1_35_3";
     
     String[] data_onTB =(id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","
     + ""+mfl_code+","+support_type+",90:90=ON ART,TX,TX NEW,Breastfeeding,"+breastfeeding+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,35").split(",");
     
     query_params = "";
     for(int i=0;i<headers_onTB.length;i++){
@@ -1315,14 +1338,20 @@ splitData--;
 
       return num;
     } 
-    public int viral_load(String startdate,String enddate) throws SQLException{
-     int num=0;
+    public int viral_load(Map m1) throws SQLException{
+     String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+        int num=0;
      String facilitiestable="subpartnera";
                String sets[] = {"n","d"};
                String fem_special[] = {"Preg_r","Breastfeeding_r","Preg_t","Breastfeeding_t","Preg_nd","Breastfeeding_nd"};
                String sections[] = {"r","t","nd"};
                
-               String sets_ids[] = {"46:TX_PVLS Num","47:TX_PVLS Den"};
+               String sets_ids[] = {"46:TX_PVLS Num:47","47:TX_PVLS Den:46"};
                String sections_ids[] = {"21:Routine","22:Targeted","23:Not Documented"};
                String fem_special_ids[] = {"21_1: Routine Pregnant","21_2: Routine Breastfeeding","22_1:Targeted Pregnant","22_2:Targeted Breastfeeding","23_1:Not Documented Pregnant","23_2:Not Documented Breastfeeding"};
                
@@ -1333,10 +1362,13 @@ splitData--;
      String year,semi_annual,quarter,month;
      String id_="";
      
-     
+     String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
      
      String joinedwhere = " where 1=1 &&  Date_Tested BETWEEN '"+startdate+"' AND '"+enddate+"'  and ("+facilitiestable+".ART=1 OR "+facilitiestable+".PMTCT=1) "
-             + "and "+facilitiestable+".active=1  and Sex !=''  AND "+facilitiestable+".active=1   and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
+             + "and "+facilitiestable+".active=1  and Sex !='' "+facil_where+"  AND "+facilitiestable+".active=1   and (AgeYrs!='' and AgeYrs>=0) AND Valid_Result='Y' ";
      
      String getVLData = "/*DSD TX_PVLS (Numerator Denominator) */ " +
         "SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
@@ -1588,7 +1620,7 @@ splitData--;
                
                for(String set:sets){
                   int sections_c=0;
-                  
+                 
                for(String section:sections){
                 total = conn.rs.getInt(set+"_"+section);
                 f_1=conn.rs.getInt(set+"_"+section+"_f_1");
@@ -1615,11 +1647,14 @@ splitData--;
      total_f = f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50;
      total_m = m_1+m_9+m_14+m_19+m_24+m_29+m_34+m_39+m_49+m_50;
      
-     String id_lv3,id_lv4,lb_lv3,lb_lv4;
+     String id_lv3,id_lv4,lb_lv3,lb_lv4,order_id;
             id_lv3 = sets_ids[sets_c].split(":")[0];
             lb_lv3 = sets_ids[sets_c].split(":")[1];
+            order_id = sets_ids[sets_c].split(":")[2];
+             
             id_lv4 = sections_ids[sections_c].split(":")[0];
             lb_lv4 = sections_ids[sections_c].split(":")[1];
+            
             
           id_=mfl_code+"_"+yearmonth+"_"+id_lv3+"_"+id_lv4; //numerator 
 
@@ -1627,14 +1662,14 @@ splitData--;
     "level1","level2","level3","level4","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19","m_19","f_24","m_24","f_29","m_29","f_34",
     "m_34","f_39","m_39","f_49","m_49","f_50","m_50","total","total_f","total_m","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
    
    String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90:90:90= Viral Suppression,VL,"+lb_lv3+","+lb_lv4+","+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+m_19+","+
     ""+f_24+","+m_24+","+f_29+","+m_29+","+f_34+","+
     ""+m_34+","+f_39+","+m_39+","+f_49+","+m_49+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
     ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,"+order_id).split(",");
     
    
    String query_params = "";
@@ -1644,7 +1679,7 @@ splitData--;
     //remove last comma
     query_params = removeLastChars(query_params, 1);
     
-   String query = "REPLACE INTO table3 SET "+query_params;
+   String query = "REPLACE INTO table1 SET "+query_params;
    conndash.pst = conndash.conn.prepareStatement(query);
    
     for(int i=0;i<data.length;i++){
@@ -1695,7 +1730,7 @@ splitData--;
     //remove last comma
     query_params = removeLastChars(query_params, 1);
     
-   String query = "REPLACE INTO table3 SET "+query_params;
+   String query = "REPLACE INTO table1 SET "+query_params;
    conndash.pst = conndash.conn.prepareStatement(query);
    
     for(int i=0;i<data.length;i++){
@@ -1718,7 +1753,13 @@ splitData--;
      
      return num;
     }
-    public int pmtct_eid(String startdate,String enddate) throws SQLException{
+    public int pmtct_eid(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
         int num=0;
         String facilitiestable="subpartnera";
         String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
@@ -1728,11 +1769,15 @@ splitData--;
         String id_="";
         
         String elems[] = {"eid_tested","eid_pos","eid_pos_ART"};
-        String elem_ids[]={"28:PMTCT EID","29:PMTCT_HEI_POS","30:PMTCT_HEI_POS ART"};
+        String elem_ids[]={"28:PMTCT EID:28","29:PMTCT_HEI_POS:29","30:PMTCT_HEI_POS ART:30"};
      
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
      
         String eid_query=""+
-                "SELECT facility,sub_county,county,mfl_code,ART_Support,arthv,htchv,pmtcthv,allhv,burdencategory,constituency,ward,"+
+                "SELECT facility,sub_county,county,mfl_code,PMTCT_Support,arthv,htchv,pmtcthv,allhv,burdencategory,constituency,ward,"+
                 "Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks," +
                         
                 "SUM(eid_tested_0_2months) AS eid_tested_0_2months,SUM(eid_tested_2_12months) AS eid_tested_2_12months," +
@@ -1740,7 +1785,7 @@ splitData--;
                 "yearmonth " +
                 "FROM(" +
                 "SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
-                ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+                ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(PMTCT_Support,0) AS PMTCT_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
                 "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
                 "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks," +
                 "0  AS eid_tested_0_2months," +
@@ -1757,7 +1802,7 @@ splitData--;
                 " WHERE  testingdate BETWEEN '"+startdate+"' AND '"+enddate+"' and "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && (`validation` !='A') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID " +
                 "   UNION ALL           " +
                 "SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
-                ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+                ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(PMTCT_Support,0) AS PMTCT_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
                 "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
                 "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks," +
                 "COUNT( CASE WHEN eid_raw_tested.age_months<=2 THEN '<2 TST'  END)  AS eid_tested_0_2months," +
@@ -1771,7 +1816,7 @@ splitData--;
                 "LEFT JOIN "+facilitiestable+" ON eid_raw_tested.SubPartnerID="+facilitiestable+".SubPartnerID " +
                 "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
                 "LEFT JOIN county ON district.CountyID=county.CountyID " +
-                " WHERE  datetested BETWEEN '"+startdate+"' AND '"+enddate+"' AND  "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
+                " WHERE  datetested BETWEEN '"+startdate+"' AND '"+enddate+"' "+facil_where+" AND  "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
                 ") AS eid_data group by mfl_code,yearmonth"; 
                     System.out.println("eid query : "+eid_query);
 
@@ -1781,7 +1826,7 @@ splitData--;
                 county = conn.rs.getString("county");
                 sub_county = conn.rs.getString("sub_county");
                 facilityName = conn.rs.getString("facility");
-                support_type = conn.rs.getString("ART_Support");
+                support_type = conn.rs.getString("PMTCT_Support");
                 mfl_code = conn.rs.getString("mfl_code");
 
                 arthv = conn.rs.getString("arthv");
@@ -1818,20 +1863,21 @@ splitData--;
                 m_2_12=conn.rs.getInt(section+"_2_12months");
                 
      
-     String id_lv3,lb_lv3;
+     String id_lv3,lb_lv3,orderid;
             id_lv3 = elem_ids[sections_c].split(":")[0];
             lb_lv3 = elem_ids[sections_c].split(":")[1];
+            orderid = elem_ids[sections_c].split(":")[2];
             
           id_=mfl_code+"_"+yearmonth+"_"+id_lv3; //numerator 
 
    String[] hearder ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","mn_0_2","mn_2_12","year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
    
    String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90=Knowing HIV Status,PMTCT,"+lb_lv3+","+m_0_2+","+m_2_12+","+year+","+
     ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,"+orderid).split(",");
     
    
    String query_params = "";
@@ -1841,7 +1887,7 @@ splitData--;
     //remove last comma
     query_params = removeLastChars(query_params, 1);
     
-   String query = "REPLACE INTO table3 SET "+query_params;
+   String query = "REPLACE INTO table1 SET "+query_params;
    conndash.pst = conndash.conn.prepareStatement(query);
    
     for(int i=0;i<data.length;i++){
@@ -1857,8 +1903,14 @@ splitData--;
     }
         return num;
     }
-    public int pmtct_fo(String startyearmonth,String endyearmonth) throws SQLException{
-         int num=0;
+    public int pmtct_fo(Map m1) throws SQLException{
+         String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+        int num=0;
         String facilitiestable="subpartnera";
         String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
         String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
@@ -1867,12 +1919,16 @@ splitData--;
         String id_="";
         
         String elems[] = {"Numerator","Denominator","HIV_infected","HIV_uninfected","HIV_final_status_unknown","Died_without_status_known"};
-        String elem_ids[]={"33:PMTCT FO Num: : ","34:PMTCT FO Den: : ","33:PMTCT FO Num:4:HIV-infected EID","33:PMTCT FO Num:5:HIV-uninfected","33:PMTCT FO Num:6:HIV-final status unknown","33:PMTCT FO Num:7:Died without status known"};
+        String elem_ids[]={"33:PMTCT FO Num: : :34","34:PMTCT FO Den: : :33","33:PMTCT FO Num:4:HIV-infected EID:34","33:PMTCT FO Num:5:HIV-uninfected:34","33:PMTCT FO Num:6:HIV-final status unknown:34","33:PMTCT FO Num:7:Died without status known:34"};
      
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
      
       String pmtct_fo=""+
              "SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
-                ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+                ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(PMTCT_Support,0) AS PMTCT_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
                 "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
                 "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,hei.results.reportingyearmonth AS yearmonth" +
                 " ,sum( case when indicator_id=23 then denominator end) as Denominator " +
@@ -1883,7 +1939,7 @@ splitData--;
                 " ,sum( case when indicator_id=26   then numerator end) as Died_without_status_known " +
                 " FROM hei.results join "+facilitiestable+" on hei.results.facility_id="+facilitiestable+".SubPartnerID join (internal_system.district "
                 + "join internal_system.county on internal_system.county.CountyID=internal_system.district.CountyID ) on internal_system.district.DistrictID="+facilitiestable+".DistrictID " +
-                " WHERE hei.results.reportingyearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"   and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  " +
+                " WHERE hei.results.reportingyearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+"  and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  " +
                 " group by "+facilitiestable+".SubPartnerID,yearmonth ";
                System.out.println("PMTCT FO Query: "+pmtct_fo);
               conn.rs=conn.st.executeQuery(pmtct_fo);
@@ -1892,7 +1948,7 @@ splitData--;
         county = conn.rs.getString("county");
         sub_county = conn.rs.getString("sub_county");
         facilityName = conn.rs.getString("facility");
-        support_type = conn.rs.getString("ART_Support");
+        support_type = conn.rs.getString("PMTCT_Support");
         mfl_code = conn.rs.getString("mfl_code");
 
         arthv = conn.rs.getString("arthv");
@@ -1928,23 +1984,24 @@ splitData--;
         total=conn.rs.getInt(section);
                 
      
-     String id_lv3,lb_lv3,id_lv4,lb_lv4;
+     String id_lv3,lb_lv3,id_lv4,lb_lv4,order_id;
             id_lv3 = elem_ids[sections_c].split(":")[0];
             lb_lv3 = elem_ids[sections_c].split(":")[1];
             id_lv4 = elem_ids[sections_c].split(":")[2];
             lb_lv4 = elem_ids[sections_c].split(":")[3];
+            order_id = elem_ids[sections_c].split(":")[4];
             
 //            if(lb_lv4.equals(" ")){lb_lv4=null;}
           id_=mfl_code+"_"+yearmonth+"_"+id_lv3+"_"+id_lv4; //numerator 
 
    String[] hearder ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","level4","total","year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
    
    String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90=Knowing HIV Status,PMTCT FO,"+lb_lv3+","+lb_lv4+","+total+","+year+","+
     ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,"+order_id).split(",");
     
    
    String query_params = "";
@@ -1954,7 +2011,7 @@ splitData--;
     //remove last comma
     query_params = removeLastChars(query_params, 1);
     
-   String query = "REPLACE INTO table3 SET "+query_params;
+   String query = "REPLACE INTO table1 SET "+query_params;
    conndash.pst = conndash.conn.prepareStatement(query);
            System.out.println("query : "+query);
     for(int i=0;i<data.length;i++){
@@ -1970,7 +2027,13 @@ splitData--;
     
     return num;
     }
-    public int pmtct(String startyearmonth, String endyearmonth) throws SQLException{
+    public int pmtct(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
         int num=0;
         String facilitiestable="subpartnera";
         String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
@@ -1979,10 +2042,14 @@ splitData--;
         String year,semi_annual,quarter,month;
         String id_="";
         
-             
+            String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+         
         String get731data=""+
             "SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
-            ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+            ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(PMTCT_Support,0) AS PMTCT_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
             "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
             "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,moh731.yearmonth AS yearmonth, " +
             ""+
@@ -2079,7 +2146,7 @@ splitData--;
             + " district.CountyID=county.CountyID "
             + " left JOIN new_anc on moh731.id=new_anc.id "//added on 9th October 2017
             + " LEFT JOIN ratios ON county.CountyID=ratios.county_id "//added on 4th Jan 2018
-            + " WHERE moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" && ( "+facilitiestable+".PMTCT=1) "
+            + " WHERE moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" && ( "+facilitiestable+".PMTCT=1) "
             + " AND (indicator='PMTCT_Known_Postive' OR indicator='PMTCT_New_Postive' OR indicator='PMTCT_ANC')  AND "+facilitiestable+".active=1  "
             + " GROUP BY moh731.SubPartnerID,yearmonth " ;
     
@@ -2092,7 +2159,7 @@ splitData--;
 	county = conn.rs.getString("county");
         sub_county = conn.rs.getString("sub_county");
         facilityName = conn.rs.getString("facility");
-        support_type = conn.rs.getString("ART_Support");
+        support_type = conn.rs.getString("PMTCT_Support");
         mfl_code = conn.rs.getString("mfl_code");
 
         arthv = conn.rs.getString("arthv");
@@ -2253,83 +2320,61 @@ splitData--;
      
      //to get pmtct stat numerator, add neg+pos _+ kps
 
-     
-             String alldatavals[]={county
-             ,""+pmtct_pos_unknown,""+pmtct_pos_1,""+pmtct_pos_1_9,""+pmtct_pos_10_14,""+pmtct_pos_15_19,""+pmtct_pos_20_24,""+pmtct_pos_25_29,""+pmtct_pos_30_34,""+pmtct_pos_35_39,""+pmtct_pos_40_49,""+pmtct_pos_50
-             ,""+pmtct_neg_unknown,""+pmtct_neg_1,""+pmtct_neg_1_9,""+pmtct_neg_10_14,""+pmtct_neg_15_19,""+pmtct_neg_20_24,""+pmtct_neg_25_29,""+pmtct_neg_30_34,""+pmtct_neg_35_39,""+pmtct_neg_40_49,""+pmtct_neg_50
-             ,""+pmtct_anc_tes//total anc tested        
-             ,""+pmtct_tes_numerator//numerator
-             ,""+pmtct_statnum_tes_unknown,""+pmtct_statnum_tes_10,""+pmtct_statnum_tes_10_14,""+pmtct_statnum_tes_15_19,""+pmtct_statnum_tes_20_24,""+pmtct_statnum_tes_25_29,""+pmtct_statnum_tes_30_34,""+pmtct_statnum_tes_35_39,""+pmtct_statnum_tes_40_49,""+pmtct_statnum_tes_50
-             
-             
-             ,""+pmtct_knownpositive//known positive
-             ,""+pmtct_kp_unknown,""+pmtct_kp_1_9,""+pmtct_kp_10_14,""+pmtct_kp_15_19,""+pmtct_kp_20_24,""+pmtct_kp_25_29,""+pmtct_kp_30_34,""+pmtct_kp_35_39,""+pmtct_kp_40_49,""+pmtct_kp_50
-             
-             ,""+pmtct_newpositive//new positives
-             ,""+pmtct_pos_unknown,""+pmtct_pos_1_9,""+pmtct_pos_10_14,""+pmtct_pos_15_19,""+pmtct_pos_20_24,""+pmtct_pos_25_29,""+pmtct_pos_30_34,""+pmtct_pos_35_39,""+pmtct_pos_40_49,""+pmtct_pos_50
-             
-             ,""+pmtct_new_negatives//new negatives
-             ,""+pmtct_neg_unknown,""+pmtct_neg_1_9,""+pmtct_neg_10_14,""+pmtct_neg_15_19,""+pmtct_neg_20_24,""+pmtct_neg_25_29,""+pmtct_neg_30_34,""+pmtct_neg_35_39,""+pmtct_neg_40_49,""+pmtct_neg_50
-                      
-             ,""+pmtct_tes_denominator//denominator
-             ,""+pmtct_statden_tes_unknown,""+pmtct_statden_tes_10,""+pmtct_statden_tes_10_14,""+pmtct_statden_tes_15_19,""+pmtct_statden_tes_20_24,""+pmtct_statden_tes_25_29,""+pmtct_statden_tes_30_34,""+pmtct_statden_tes_35_39,""+pmtct_statden_tes_40_49,""+pmtct_statden_tes_50,""+pmtct_tes_denominator
-             ,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")};
     
-
     String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
               id_=mfl_code+"_"+yearmonth+"_26"; //
     String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90=Knowing HIV Status,PMTCT,PMTCT STAT Num,"+pmtct_statnum_tes_10+","+pmtct_statnum_tes_10_14+","+pmtct_statnum_tes_15_19+","+pmtct_statnum_tes_20_24+","+pmtct_statnum_tes_25_29+","+pmtct_statnum_tes_30_34+","+pmtct_statnum_tes_35_39+","+pmtct_statnum_tes_40_49+","+pmtct_statnum_tes_50+","+pmtct_tes_numerator+","+pmtct_tes_numerator+","+
     ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,27").split(",");
  
              
     String[] header_KP ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
      id_=mfl_code+"_"+yearmonth+"_24"; //
     String[] data_KP =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90=Knowing HIV Status,PMTCT,PMTCT STAT Known Pos,"+pmtct_kp_1_9+","+pmtct_kp_10_14+","+pmtct_kp_15_19+","+pmtct_kp_20_24+","+pmtct_kp_25_29+","+pmtct_kp_30_34+","+pmtct_kp_35_39+","+pmtct_kp_40_49+","+pmtct_kp_50+","+pmtct_knownpositive+","+pmtct_knownpositive+","+
     ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,24").split(",");
  
              
     String[] header_New ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     id_=mfl_code+"_"+yearmonth+"_25"; //
     String[] data_New =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90=Knowing HIV Status,PMTCT,PMTCT STAT New Pos,"+pmtct_pos_1_9+","+pmtct_pos_10_14+","+pmtct_pos_15_19+","+pmtct_pos_20_24+","+pmtct_pos_25_29+","+pmtct_pos_30_34+","+pmtct_pos_35_39+","+pmtct_pos_40_49+","+pmtct_pos_50+","+pmtct_newpositive+","+pmtct_newpositive+","+
     ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,25").split(",");
  
              
     String[] header_Den ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","f_1_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","total","total_f","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     id_=mfl_code+"_"+yearmonth+"_27"; //
     String[] data_Den =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90=Knowing HIV Status,PMTCT,PMTCT_STAT Den,"+pmtct_statden_tes_10+","+pmtct_statden_tes_10_14+","+pmtct_statden_tes_15_19+","+pmtct_statden_tes_20_24+","+pmtct_statden_tes_25_29+","+pmtct_statden_tes_30_34+","+pmtct_statden_tes_35_39+","+pmtct_statden_tes_40_49+","+pmtct_statden_tes_50+","+pmtct_tes_denominator+","+pmtct_tes_denominator+","+
     ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,26").split(",");
     
              
     String[] header_newANC ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","level4","total","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     id_=mfl_code+"_"+yearmonth+"_27_48"; //
     
     String[] data_newANC =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "90=Knowing HIV Status,PMTCT,PMTCT_STAT Den,New ANC,"+ancno+","+
     ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,26").split(",");
  
     String[][] header = {header_Num,header_KP,header_New,header_Den,header_newANC};        
     String[][] data = {data_Num,data_KP,data_New,data_Den,data_newANC};  
@@ -2342,7 +2387,7 @@ splitData--;
     //remove last comma
     query_params = removeLastChars(query_params, 1);
     
-   String query = "REPLACE INTO table3 SET "+query_params;
+   String query = "REPLACE INTO table1 SET "+query_params;
    conndash.pst = conndash.conn.prepareStatement(query);
            System.out.println("query : "+query);
     for(int i=0;i<data[a].length;i++){
@@ -2354,7 +2399,13 @@ splitData--;
     }
         return num;
     }
-    public int RetNum(String startyearmonth, String endyearmonth) throws SQLException{
+    public int RetNum(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
         int num=0;
        String facilitiestable="subpartnera";
         String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
@@ -2362,6 +2413,12 @@ splitData--;
         int total;
         String year,semi_annual,quarter,month;
         String id_=""; 
+        
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+        
         // numerator
         String getNumerator="  " +
         "SELECT facility,sub_county,county,mfl_code,ART_Support,arthv,htchv,pmtcthv,allhv,burdencategory,constituency,ward,Owner,"+
@@ -2408,7 +2465,7 @@ splitData--;
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID "+
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        "WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM'  AND "+facilitiestable+".active=1  " +
+        "WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM'  AND "+facilitiestable+".active=1  " +
         "GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth " +
         " " +
         "UNION " +
@@ -2450,7 +2507,7 @@ splitData--;
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID " +
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        "WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM_PREG' " +
+        "WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM_PREG' " +
         "AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  AND "+facilitiestable+".active=1   " +
         "GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth ORDER BY mfl_code,yearmonth" ;
 
@@ -2584,35 +2641,35 @@ splitData--;
         "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19",
         "m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Num,"+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+
         ""+m_19+","+f_24+","+m_24+","+f_34+","+m_34+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,45").split(",");
         
                id_=mfl_code+"_"+yearmonth+"_44_2"; //
         String[] header_Breast ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
         "level1","level2","level3","level4","total","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Breast =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Num,Breastfeeding,"+breastfeeding+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,45").split(",");
  
                id_=mfl_code+"_"+yearmonth+"_44_1"; //
         String[] header_Preg ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
         "level1","level2","level3","level4","total","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Preg =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Num,Pregnant,"+pregnant+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,45").split(",");
 
     String[][] header = {header_Num,header_Breast,header_Preg};        
     String[][] data = {data_Num,data_Breast,data_Preg};  
@@ -2640,14 +2697,26 @@ splitData--;
         
         return num;
     }
-    public int RetDen(String startyearmonth, String endyearmonth) throws SQLException{
+    public int RetDen(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
         int num=0;
         String facilitiestable="subpartnera";
         String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
         String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
         int total;
         String year,semi_annual,quarter,month;
-        String id_=""; 
+        String id_="";
+        
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+        
          String getDenominator=" "+
                 "SELECT facility,sub_county,county,mfl_code,ART_Support,arthv,htchv,pmtcthv,allhv,burdencategory,constituency,ward,Owner,"+
         "Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth, " +
@@ -2693,7 +2762,7 @@ splitData--;
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        " WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_DEN'  AND "+facilitiestable+".active=1  " +
+        " WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_DEN'  AND "+facilitiestable+".active=1  " +
         " GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth  " +
         "  " +
         " UNION  " +
@@ -2733,7 +2802,7 @@ splitData--;
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        " WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".ART=1 AND ratios.indicator='TX_RETENTION_DEN_PREG' " +
+        " WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1 AND ratios.indicator='TX_RETENTION_DEN_PREG' " +
         " AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  AND "+facilitiestable+".active=1   " +
         " GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth  ORDER BY mfl_code,yearmonth";
 
@@ -2865,35 +2934,35 @@ splitData--;
         "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19",
         "m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Den =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Den,"+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+
         ""+m_19+","+f_24+","+m_24+","+f_34+","+m_34+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,44").split(",");
         
                id_=mfl_code+"_"+yearmonth+"_45_2"; //
         String[] header_Breast ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
         "level1","level2","level3","level4","total","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Breast =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Den,Breastfeeding,"+breastfeeding+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,44").split(",");
  
                id_=mfl_code+"_"+yearmonth+"_45_1"; //
         String[] header_Preg ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
         "level1","level2","level3","level4","total","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Preg =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Den,Pregnant,"+pregnant+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,44").split(",");
 
     String[][] header = {header_Den,header_Breast,header_Preg};        
     String[][] data = {data_Den,data_Breast,data_Preg};  
@@ -2921,7 +2990,13 @@ splitData--;
         
         return num;
     }
-    public int TBPrev(String startyearmonth, String endyearmonth) throws SQLException{
+    public int TBPrev(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
         int num=0;
         String facilitiestable="subpartnera";
         String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
@@ -2930,6 +3005,11 @@ splitData--;
         String year,semi_annual,quarter,month;
         String id_=""; 
         
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+         
         String query_ = "SELECT " +
         ""+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
         ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,0) AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
@@ -2966,7 +3046,7 @@ splitData--;
         "LEFT JOIN subpartnera ON ipt.SubPartnerID=subpartnera.SubPartnerID  " +
         "LEFT JOIN district ON subpartnera.DistrictID=district.DistrictID  " +
         "LEFT JOIN county ON district.CountyID=county.CountyID  " +
-        "WHERE (yearmonth between "+startyearmonth+" and "+endyearmonth+" ) and subpartnera.ART=1 and subpartnera.active=1  GROUP BY ipt.SubPartnerID,yearmonth  order by county,sub_county,mfl_code,yearmonth";
+        "WHERE (yearmonth between "+startyearmonth+" and "+endyearmonth+" )  "+facil_where+" and subpartnera.ART=1 and subpartnera.active=1  GROUP BY ipt.SubPartnerID,yearmonth  order by county,sub_county,mfl_code,yearmonth";
 
         conn.rs = conn.st.executeQuery(query_);
         while(conn.rs.next()){
@@ -3025,80 +3105,80 @@ splitData--;
     String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","total","paeds_f","paeds_m","adult_f","adult_m","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Num,"+IPT_Numerator+","+Numerator_15l_Female+","+Numerator_15l_Male+","+Numerator_15p_Female+","+Numerator_15p_Male+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,6").split(",");
     
     id_=mfl_code+"_"+yearmonth+"_6"; //
     String[] header_Den ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","total","paeds_f","paeds_m","adult_f","adult_m","year",
     "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
-    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Den =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Den,"+IPT_Denominator+","+Denominator_15l_Female+","+Denominator_15l_Male+","+Denominator_15p_Female+","+Denominator_15p_Male+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,5").split(",");
 
     
         id_=mfl_code+"_"+yearmonth+"_5_14"; //
     String[] header_Numerator_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Numerator_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Num,IPT New enroled on ART,"+IPT_Numerator_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,6").split(",");
     
         id_=mfl_code+"_"+yearmonth+"_5_15"; //
     String[] header_Numerator_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Numerator_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Num,IPT Previously enrolled on ART,"+IPT_Numerator_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,6").split(",");
     
         id_=mfl_code+"_"+yearmonth+"_5_16"; //
     String[] header_Numerator_Alternative_TPT_Regimen_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Numerator_Alternative_TPT_Regimen_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Num,Alternative TPT Regimen New enroled on ART,"+Numerator_Alternative_TPT_Regimen_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,6").split(",");
     
         id_=mfl_code+"_"+yearmonth+"_5_17"; //
     String[] header_Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Num,Alternative TPT Regimen Previously enrolled on ART,"+Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,6").split(",");
     
     
 //    other den
         id_=mfl_code+"_"+yearmonth+"_6_14"; //
     String[] header_Denominator_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Denominator_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Den,IPT New enroled on ART,"+IPT_Denominator_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,5").split(",");
     
         id_=mfl_code+"_"+yearmonth+"_6_15"; //
     String[] header_Denominator_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Denominator_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Den,IPT Previously enrolled on ART,"+IPT_Denominator_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,5").split(",");
     
         id_=mfl_code+"_"+yearmonth+"_6_16"; //
     String[] header_Denominator_Alternative_TPT_Regimen_New_enroled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Denominator_Alternative_TPT_Regimen_New_enroled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Den,Alternative TPT Regimen New enroled on ART,"+Denominator_Alternative_TPT_Regimen_New_enroled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,5").split(",");
     
         id_=mfl_code+"_"+yearmonth+"_6_17"; //
     String[] header_Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype","level1","level2","level3","level4","total","year",
-    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv","activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
     String[] data_Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
     "Prevention,TB,TB Prev Den,Alternative TPT Regimen Previously enrolled on ART,"+Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
-    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0").split(",");
+    allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,5").split(",");
     
 
  String[][] header = {header_Num,header_Den,header_Denominator_New_enroled_on_ART, header_Denominator_Previously_enrolled_on_ART,header_Denominator_Alternative_TPT_Regimen_New_enroled_on_ART,header_Denominator_Alternative_TPT_Regimen_Previously_enrolled_on_ART,header_Numerator_New_enroled_on_ART, header_Numerator_Previously_enrolled_on_ART,header_Numerator_Alternative_TPT_Regimen_New_enroled_on_ART,header_Numerator_Alternative_TPT_Regimen_Previously_enrolled_on_ART};        
@@ -3127,6 +3207,457 @@ splitData--;
         
        return num;
     }
+    public int VMMC_Circ(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+        int num=0;
+        String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int total;
+        String year,semi_annual,quarter,month;
+        String id_=""; 
+                        
+        String[] vmmc_others = {
+            "27,Number of HIV-positive clients (tested HIV positive at VMMC site),v3_tp_total",
+            "28,Number of HIV-negative clients (tested HIV negative at VMMC site),v3_tn_total",
+            "29,Number of clients with indeterminate HIV status or  not tested for HIV at site (regardless of previous documentation),v3_nt_total",
+            "30,Surgical VMMC,v4_s_vmmc_total",
+            "31,Device-Based VMMC,v4_db_vmmc_total",
+            "32,Returned for postoperative follow-up care within 14 days of surgery,v5_followup_total",
+            "33,Did not return for postoperative follow-up care within 14 days of surgery,v6_nofollowup_total",
+            "34,Within 14 days of device placement. May include device removal,db_followup",
+            "35,NOT within 14 days or did not follow-up within reporting period,db_no_followup"
+            };
+        
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+         
+        String qr=""+
+             "SELECT " +
+        ""+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+        ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(HTC_Support1,'') AS HTC_Support1,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+        "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+        "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth, " +
+        " "
+        + " sum(v1_total) as v1_total, sum(v1_60d) as v1_60d,  sum(v1_4y) as v1_4y,   sum(v1_9y) as v1_9y,   sum(v1_14y) as v1_14y,   sum(v1_19y) as v1_19y,sum(v1_24y) as v1_24y, sum(v1_29y) as v1_29y, sum(v1_34y) as v1_34y, sum(v1_39y) as v1_39y,  sum(v1_49y) as  v1_49y,   sum(v1_50y) as v1_50y,"
+        + " sum(v2_dc_m_total) AS v2_dc_m_total,sum(v2_dc_s_total) as v2_dc_s_total, sum(v2_pc_m_total) AS v2_pc_m_total, sum(v2_pc_s_total) AS v2_pc_s_total,  "
+        + " sum(v3_tp_total) AS v3_tp_total, sum(v3_srp_total) as v3_srp_total , sum(v3_tn_total) as v3_tn_total, sum(v3_nt_total) as v3_nt_total ,   sum(v3_us_total) as v3_us_total ,   sum(v3_srn_total) as v3_srn_total ,   sum(v4_s_vmmc_total) as v4_s_vmmc_total , sum(v4_db_vmmc_total) AS v4_db_vmmc_total, sum(v5_followup_total) as v5_followup_total , sum(v6_nofollowup_total) as v6_nofollowup_total,"
+        + "SUM(0) AS db_followup,SUM(0) AS db_no_followup "
+                + "from vmmc_new join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on vmmc_new.SubPartnerID = subpartnera.SubPartnerID   WHERE yearmonth BETWEEN "+startyearmonth+"  AND "+endyearmonth+"  "+facil_where+" group by subpartnera.SubPartnerID,yearmonth  ";
+        System.out.println("query vmmc_circ: "+qr);
+        conn.rs = conn.st.executeQuery(qr);
+        while(conn.rs.next()){
+          county = conn.rs.getString("county");
+        sub_county = conn.rs.getString("sub_county");
+        facilityName = conn.rs.getString("facility");
+        support_type = conn.rs.getString("HTC_Support1");
+        mfl_code = conn.rs.getString("mfl_code");
+
+        arthv = conn.rs.getString("arthv");
+        pmtcthv = conn.rs.getString("pmtcthv");
+        htchv = conn.rs.getString("htchv");
+        allhv = conn.rs.getString("allhv");
+        burdencategory = conn.rs.getString("burdencategory");
+        constituency = conn.rs.getString("constituency");
+        ward = conn.rs.getString("ward");
+        Owner = conn.rs.getString("Owner");
+        Type = conn.rs.getString("Type");
+        latitude = conn.rs.getString("latitude");
+        longitude = conn.rs.getString("longitude");
+        Male_clinics = conn.rs.getString("Male_clinics");
+        Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+        Viremia_clinics = conn.rs.getString("Viremia_clinics");
+        EMR_Sites = conn.rs.getString("EMR_Sites");
+        Link_desks = conn.rs.getString("Link_desks");
+        yearmonth = conn.rs.getString("yearmonth");
+
+        JSONObject period_data = getperiod(yearmonth);
+
+        year = period_data.get("year").toString();
+        semi_annual = period_data.get("semi_annual").toString();
+        quarter = period_data.get("quarter").toString();
+        month = period_data.get("month").toString();
+          
+        int v1_total=conn.rs.getInt("v1_total");
+        int d60=conn.rs.getInt("v1_60d");
+        int mn_2_4y=conn.rs.getInt("v1_4y");
+        int m_5_9=conn.rs.getInt("v1_9y");
+        int m_14=conn.rs.getInt("v1_14y");
+        int m_19=conn.rs.getInt("v1_19y");
+        int m_24=conn.rs.getInt("v1_24y");
+        int m_29=conn.rs.getInt("v1_29y");
+        int m_34=conn.rs.getInt("v1_34y");
+        int m_39=conn.rs.getInt("v1_39y");
+        int m_49=conn.rs.getInt("v1_49y");
+        int m_50=conn.rs.getInt("v1_50y");
+
+//        int v2_dc_m_total=conn.rs.getInt("v2_dc_m_total");
+//        int v2_dc_s_total=conn.rs.getInt("v2_dc_s_total");
+//        int v2_pc_m_total=conn.rs.getInt("v2_pc_m_total");
+//        int v2_pc_s_total=conn.rs.getInt("v2_pc_s_total");
+//        int v3_tp_total=conn.rs.getInt("v3_tp_total");
+//        int v3_srp_total=conn.rs.getInt("v3_srp_total");
+//        int v3_tn_total=conn.rs.getInt("v3_tn_total");
+//        int v3_nt_total=conn.rs.getInt("v3_nt_total");
+//        int v3_us_total=conn.rs.getInt("v3_us_total");
+//        int v3_srn_total=conn.rs.getInt("v3_srn_total");
+//        int v4_s_vmmc_total=conn.rs.getInt("v4_s_vmmc_total");
+//        int v4_db_vmmc_total=conn.rs.getInt("v4_db_vmmc_total");
+//        int v5_followup_total=conn.rs.getInt("v5_followup_total");
+//        int v6_nofollowup_total=conn.rs.getInt("v6_nofollowup_total");
+//        int db_followup=conn.rs.getInt("db_followup");
+//        int db_no_followup=conn.rs.getInt("db_no_followup");
+
+        id_=mfl_code+"_"+yearmonth+"_2"; //
+        String[] header ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","d60","mn_2_4y","m_1","m_4","m_5_9","m_14","m_19","m_24","m_29","m_34","m_39","m_49","m_50","total","total_m",
+    "year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
+        
+        String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,VMMC,VMMC Circ,"+d60+","+mn_2_4y+","+d60+","+mn_2_4y+","+m_5_9+","+m_14+","+m_19+","+m_24+","+m_29+","+m_34+","+m_39+","+m_49+","+m_50+","+v1_total+","+v1_total+","+
+    ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,2").split(",");
+    String query_params="";
+        for(int i=0;i<header.length;i++){
+        query_params+=header[i]+"=?,";    
+        }
+        //remove last comma
+        query_params = removeLastChars(query_params, 1);
+
+       String curr_care = "REPLACE INTO table1 SET "+query_params;
+       conndash.pst = conndash.conn.prepareStatement(curr_care);
+
+        for(int i=0;i<data.length;i++){
+            conndash.pst.setString((i+1), data[i]);   
+        }
+        conndash.pst.executeUpdate();
+
+        //query to addothers
+     
+          int sections_c=0;
+        System.out.println("entered here");
+       for(String section:vmmc_others){
+                
+     
+     String id,label,value;
+     String[] array_d = vmmc_others[sections_c].split(",");
+            id = array_d[0];
+            label = array_d[1];
+            value = conn.rs.getString(array_d[2]);
+            
+
+          id_=mfl_code+"_"+yearmonth+"_2_"+id; //id generator 
+
+          
+   String[] header_other ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","level4","total","year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
+   
+   String[] data_other =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,VMMC,VMMC Circ,"+label+","+value+","+year+","+
+    ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,2").split(",");
+    
+   
+   query_params = "";
+    for(int i=0;i<header_other.length;i++){
+    query_params+=header_other[i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table1 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+           System.out.println("query : "+query);
+    for(int i=0;i<data_other.length;i++){
+        conndash.pst.setString((i+1), data_other[i]);   
+    }
+    conndash.pst.executeUpdate();
+    
+    sections_c++;
+        }
+
+       
+        
+        }
+        
+        
+        
+        
+        
+        
+        
+        return num;
+    }
+    public int PMTCT_ART(Map m1) throws SQLException{
+         String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+         
+        int num=0;
+        String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int total;
+        String year,semi_annual,quarter,month;
+        String id_=""; 
+                        
+        String[] elements = {
+            "8,New on ART,New_on_art",
+            "9,Already on ART,Already_On_Art",
+            "10,Total Started ART at ANC,Total_Started_ART_at_ANC"
+            };
+        
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+         
+         String qr_=""+
+            "SELECT " +
+            ""+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+            ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(HTC_Support1,'') AS HTC_Support1,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+            "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+            "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth, " +
+            " "
+            + " SUM(HV0221) as New_on_art, "//__Denominator
+            + " SUM(HV0241-HV0221) as Already_On_Art ,  "//__Numerator
+            + " SUM(HV0241) as Total_Started_ART_at_ANC " //__HIV_infected
+           + " FROM moh731 join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on moh731.SubPartnerID = "+facilitiestable+".SubPartnerID   "
+           + " WHERE yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID,yearmonth ";
+           
+        System.out.println("pmtct_art query : "+qr_);
+        conn.rs = conn.st.executeQuery(qr_);
+         while(conn.rs.next()){
+        county = conn.rs.getString("county");
+        sub_county = conn.rs.getString("sub_county");
+        facilityName = conn.rs.getString("facility");
+        support_type = conn.rs.getString("HTC_Support1");
+        mfl_code = conn.rs.getString("mfl_code");
+
+        arthv = conn.rs.getString("arthv");
+        pmtcthv = conn.rs.getString("pmtcthv");
+        htchv = conn.rs.getString("htchv");
+        allhv = conn.rs.getString("allhv");
+        burdencategory = conn.rs.getString("burdencategory");
+        constituency = conn.rs.getString("constituency");
+        ward = conn.rs.getString("ward");
+        Owner = conn.rs.getString("Owner");
+        Type = conn.rs.getString("Type");
+        latitude = conn.rs.getString("latitude");
+        longitude = conn.rs.getString("longitude");
+        Male_clinics = conn.rs.getString("Male_clinics");
+        Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+        Viremia_clinics = conn.rs.getString("Viremia_clinics");
+        EMR_Sites = conn.rs.getString("EMR_Sites");
+        Link_desks = conn.rs.getString("Link_desks");
+        yearmonth = conn.rs.getString("yearmonth");
+
+        JSONObject period_data = getperiod(yearmonth);
+
+        year = period_data.get("year").toString();
+        semi_annual = period_data.get("semi_annual").toString();
+        quarter = period_data.get("quarter").toString();
+        month = period_data.get("month").toString();
+
+
+          int sections_c=0;
+       for(String section:elements){
+                
+     
+     String id,label,value;
+     String[] array_d = elements[sections_c].split(",");
+            id = array_d[0];
+            label = array_d[1];
+            value = conn.rs.getString(array_d[2]);
+            
+
+          id_=mfl_code+"_"+yearmonth+"_39_"+id; //id generator 
+
+          
+   String[] header_other ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","level4","total","total_f","year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
+   
+   String[] data_other =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "90:90=ON ART,PMTCT,PMTCT ART,"+label+","+value+","+value+","+year+","+
+    ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,39").split(",");
+    
+   
+   String query_params = "";
+    for(int i=0;i<header_other.length;i++){
+    query_params+=header_other[i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table1 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+    for(int i=0;i<data_other.length;i++){
+        conndash.pst.setString((i+1), data_other[i]);   
+    }
+    conndash.pst.executeUpdate();
+    
+    sections_c++;
+        }
+ }
+        
+        
+        
+        return num;
+    }
+    public int SGBV(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+         
+        int num=0;
+        String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int total;
+        String year,semi_annual,quarter,month;
+        String id_; 
+        
+        
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+         
+
+         String [] ages_sets = {"f_1","f_4","f_5_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","m_1","m_4","m_5_9","m_14","m_19","m_24","m_29","m_34","m_39","m_49","m_50","total_f","total_m","total",};
+         String [] ages = {"_1_F","_4_F","_9_F","_14_F","_19_F","_24_F","_29_F","_34_F","_39_F","_49_F","_50_F","_1_M","_4_M","_9_M","_14_M","_19_M","_24_M","_29_M","_34_M","_39_M","_49_M","_50_M","_F","_M","_T"};
+         String[] indicators = {"rapesurvivor","presenting_72hr","initiatedpep","sti","ecp","pill","tested","positive","disability","perpetrators","visit1","visit2","visit3","visit4","visit5","completedpep","seroconverted","Pregnant","counsellling"};
+         String[] db_indicators = {"49:Number of rape survivors","50:Number presenting within 72 hours","51:Number initiated PEP","52:Number given STI treatment","53:Number eligible for Emergency Contraceptive Pill","54:Number given Emergency Contraceptive Pill","55:Number tested for HIV","56:Number HIV positive at 1st visit","57:Total survivors with disability","58:Number of perpetrators","59:1st visit","60:2nd visit","61:3rd visit","62:4th visit","63:5th visit","64:Number completed PEP","65:Number seroconverted","1:Pregnant","66:Number completed trauma counselling"};
+         
+         String qr_=" "+
+                  "SELECT " +
+            ""+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
+            ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(ART_Support,'') AS ART_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
+            "IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics,"+
+            "IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks,yearmonth, " +
+            " rapesurvivor_1_M,rapesurvivor_1_F,rapesurvivor_4_M,rapesurvivor_4_F,rapesurvivor_9_M,rapesurvivor_9_F,rapesurvivor_14_M,rapesurvivor_14_F,rapesurvivor_19_M,rapesurvivor_19_F,rapesurvivor_24_M,rapesurvivor_24_F,rapesurvivor_29_M,rapesurvivor_29_F,rapesurvivor_34_M,rapesurvivor_34_F,rapesurvivor_39_M,rapesurvivor_39_F,rapesurvivor_49_M,rapesurvivor_49_F,rapesurvivor_50_M,rapesurvivor_50_F,rapesurvivor_M,rapesurvivor_F,rapesurvivor_T," +
+            "presenting_72hr_1_M,presenting_72hr_1_F,presenting_72hr_4_M,presenting_72hr_4_F,presenting_72hr_9_M,presenting_72hr_9_F,presenting_72hr_14_M,presenting_72hr_14_F,presenting_72hr_19_M,presenting_72hr_19_F,presenting_72hr_24_M,presenting_72hr_24_F,presenting_72hr_29_M,presenting_72hr_29_F,presenting_72hr_34_M,presenting_72hr_34_F,presenting_72hr_39_M,presenting_72hr_39_F,presenting_72hr_49_M,presenting_72hr_49_F,presenting_72hr_50_M,presenting_72hr_50_F,presenting_72hr_M,presenting_72hr_F,presenting_72hr_T," +
+            "initiatedpep_1_M,initiatedpep_1_F,initiatedpep_4_M,initiatedpep_4_F,initiatedpep_9_M,initiatedpep_9_F,initiatedpep_14_M,initiatedpep_14_F,initiatedpep_19_M,initiatedpep_19_F,initiatedpep_24_M,initiatedpep_24_F,initiatedpep_29_M,initiatedpep_29_F,initiatedpep_34_M,initiatedpep_34_F,initiatedpep_39_M,initiatedpep_39_F,initiatedpep_49_M,initiatedpep_49_F,initiatedpep_50_M,initiatedpep_50_F,initiatedpep_M,initiatedpep_F,initiatedpep_T," +
+            "sti_1_M,sti_1_F,sti_4_M,sti_4_F,sti_9_M,sti_9_F,sti_14_M,sti_14_F,sti_19_M,sti_19_F,sti_24_M,sti_24_F,sti_29_M,sti_29_F,sti_34_M,sti_34_F,sti_39_M,sti_39_F,sti_49_M,sti_49_F,sti_50_M,sti_50_F,sti_M,sti_F,sti_T," +
+            "ecp_14_F,ecp_19_F,ecp_24_F,ecp_29_F,ecp_34_F,ecp_39_F,ecp_49_F,ecp_50_F,ecp_F,ecp_T," +
+            "pill_14_F,pill_19_F,pill_24_F,pill_29_F,pill_34_F,pill_39_F,pill_49_F,pill_50_F,pill_F,pill_T," +
+            "tested_1_M,tested_1_F,tested_4_M,tested_4_F,tested_9_M,tested_9_F,tested_14_M,tested_14_F,tested_19_M,tested_19_F,tested_24_M,tested_24_F,tested_29_M,tested_29_F,tested_34_M,tested_34_F,tested_39_M,tested_39_F,tested_49_M,tested_49_F,tested_50_M,tested_50_F,tested_M,tested_F,tested_T," +
+            "positive_1_M,positive_1_F,positive_4_M,positive_4_F,positive_9_M,positive_9_F,positive_14_M,positive_14_F,positive_19_M,positive_19_F,positive_24_M,positive_24_F,positive_29_M,positive_29_F,positive_34_M,positive_34_F,positive_39_M,positive_39_F,positive_49_M,positive_49_F,positive_50_M,positive_50_F,positive_M,positive_F,positive_T," +
+            "disability_1_M,disability_1_F,disability_4_M,disability_4_F,disability_9_M,disability_9_F,disability_14_M,disability_14_F,disability_19_M,disability_19_F,disability_24_M,disability_24_F,disability_29_M,disability_29_F,disability_34_M,disability_34_F,disability_39_M,disability_39_F,disability_49_M,disability_49_F,disability_50_M,disability_50_F,disability_M,disability_F,disability_T," +
+            "perpetrators_1_M,perpetrators_1_F,perpetrators_4_M,perpetrators_4_F,perpetrators_9_M,perpetrators_9_F,perpetrators_14_M,perpetrators_14_F,perpetrators_19_M,perpetrators_19_F,perpetrators_24_M,perpetrators_24_F,perpetrators_29_M,perpetrators_29_F,perpetrators_34_M,perpetrators_34_F,perpetrators_39_M,perpetrators_39_F,perpetrators_49_M,perpetrators_49_F,perpetrators_50_M,perpetrators_50_F,perpetrators_M,perpetrators_F,perpetrators_T," +
+            "visit1_1_M,visit1_1_F,visit1_4_M,visit1_4_F,visit1_9_M,visit1_9_F,visit1_14_M,visit1_14_F,visit1_19_M,visit1_19_F,visit1_24_M,visit1_24_F,visit1_29_M,visit1_29_F,visit1_34_M,visit1_34_F,visit1_39_M,visit1_39_F,visit1_49_M,visit1_49_F,visit1_50_M,visit1_50_F,visit1_M,visit1_F,visit1_T," +
+            "visit2_1_M,visit2_1_F,visit2_4_M,visit2_4_F,visit2_9_M,visit2_9_F,visit2_14_M,visit2_14_F,visit2_19_M,visit2_19_F,visit2_24_M,visit2_24_F,visit2_29_M,visit2_29_F,visit2_34_M,visit2_34_F,visit2_39_M,visit2_39_F,visit2_49_M,visit2_49_F,visit2_50_M,visit2_50_F,visit2_M,visit2_F,visit2_T," +
+            "visit3_1_M,visit3_1_F,visit3_4_M,visit3_4_F,visit3_9_M,visit3_9_F,visit3_14_M,visit3_14_F,visit3_19_M,visit3_19_F,visit3_24_M,visit3_24_F,visit3_29_M,visit3_29_F,visit3_34_M,visit3_34_F,visit3_39_M,visit3_39_F,visit3_49_M,visit3_49_F,visit3_50_M,visit3_50_F,visit3_M,visit3_F,visit3_T," +
+            "visit4_1_M,visit4_1_F,visit4_4_M,visit4_4_F,visit4_9_M,visit4_9_F,visit4_14_M,visit4_14_F,visit4_19_M,visit4_19_F,visit4_24_M,visit4_24_F,visit4_29_M,visit4_29_F,visit4_34_M,visit4_34_F,visit4_39_M,visit4_39_F,visit4_49_M,visit4_49_F,visit4_50_M,visit4_50_F,visit4_M,visit4_F,visit4_T," +
+            "visit5_1_M,visit5_1_F,visit5_4_M,visit5_4_F,visit5_9_M,visit5_9_F,visit5_14_M,visit5_14_F,visit5_19_M,visit5_19_F,visit5_24_M,visit5_24_F,visit5_29_M,visit5_29_F,visit5_34_M,visit5_34_F,visit5_39_M,visit5_39_F,visit5_49_M,visit5_49_F,visit5_50_M,visit5_50_F,visit5_M,visit5_F,visit5_T," +
+            "completedpep_1_M,completedpep_1_F,completedpep_4_M,completedpep_4_F,completedpep_9_M,completedpep_9_F,completedpep_14_M,completedpep_14_F,completedpep_19_M,completedpep_19_F,completedpep_24_M,completedpep_24_F,completedpep_29_M,completedpep_29_F,completedpep_34_M,completedpep_34_F,completedpep_39_M,completedpep_39_F,completedpep_49_M,completedpep_49_F,completedpep_50_M,completedpep_50_F,completedpep_M,completedpep_F,completedpep_T," +
+            "seroconverted_1_M,seroconverted_1_F,seroconverted_4_M,seroconverted_4_F,seroconverted_9_M,seroconverted_9_F,seroconverted_14_M,seroconverted_14_F,seroconverted_19_M,seroconverted_19_F,seroconverted_24_M,seroconverted_24_F,seroconverted_29_M,seroconverted_29_F,seroconverted_34_M,seroconverted_34_F,seroconverted_39_M,seroconverted_39_F,seroconverted_49_M,seroconverted_49_F,seroconverted_50_M,seroconverted_50_F,seroconverted_M,seroconverted_F,seroconverted_T," +
+            "Pregnant_14_F,Pregnant_19_F,Pregnant_24_F,Pregnant_29_F,Pregnant_34_F,Pregnant_39_F,Pregnant_49_F,Pregnant_50_F,Pregnant_F,Pregnant_T," +
+            "counselling_1_M,counselling_1_F,counselling_4_M,counselling_4_F,counselling_9_M,counselling_9_F,counselling_14_M,counselling_14_F,counselling_19_M,counselling_19_F,counselling_24_M,counselling_24_F,counselling_29_M,counselling_29_F,counselling_34_M,counselling_34_F,counselling_39_M,counselling_39_F,counselling_49_M,counselling_49_F,counselling_50_M,counselling_50_F,counselling_M,counselling_F,counselling_T"+
+            " FROM sgbv_new join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) "+
+            " ON district.DistrictID = "+facilitiestable+".DistrictID )  ON sgbv_new.SubPartnerID = "+facilitiestable+".SubPartnerID  "+
+            " WHERE yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" group by "+facilitiestable+".SubPartnerID,yearmonth ";
+         System.out.println("query: "+qr_);
+          conn.rs = conn.st.executeQuery(qr_);
+          while(conn.rs.next()){
+            county = conn.rs.getString("county");
+            sub_county = conn.rs.getString("sub_county");
+            facilityName = conn.rs.getString("facility");
+            support_type = conn.rs.getString("ART_Support");
+            mfl_code = conn.rs.getString("mfl_code");
+
+            arthv = conn.rs.getString("arthv");
+            pmtcthv = conn.rs.getString("pmtcthv");
+            htchv = conn.rs.getString("htchv");
+            allhv = conn.rs.getString("allhv");
+            burdencategory = conn.rs.getString("burdencategory");
+            constituency = conn.rs.getString("constituency");
+            ward = conn.rs.getString("ward");
+            Owner = conn.rs.getString("Owner");
+            Type = conn.rs.getString("Type");
+            latitude = conn.rs.getString("latitude");
+            longitude = conn.rs.getString("longitude");
+            Male_clinics = conn.rs.getString("Male_clinics");
+            Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+            Viremia_clinics = conn.rs.getString("Viremia_clinics");
+            EMR_Sites = conn.rs.getString("EMR_Sites");
+            Link_desks = conn.rs.getString("Link_desks");
+            yearmonth = conn.rs.getString("yearmonth");
+
+            JSONObject period_data = getperiod(yearmonth);
+
+            year = period_data.get("year").toString();
+            semi_annual = period_data.get("semi_annual").toString();
+            quarter = period_data.get("quarter").toString();
+            month = period_data.get("month").toString();
+        
+              for(int i=0;i<indicators.length;i++){
+                  String query_params = "",titles="";
+                  int has_data=0;
+              for(int j=0;j<ages.length;j++){
+                  try{
+                      if(conn.rs.getString(indicators[i]+""+ages[j])!=null){
+                  query_params+=""+conn.rs.getString(indicators[i]+""+ages[j])+",";
+                  titles+=ages_sets[j]+",";
+                  has_data++;
+                      }
+                  }
+                  catch (java.sql.SQLException e){
+                  }
+                  
+              }
+              if(has_data>0){
+    id_=mfl_code+"_"+yearmonth+"_7_"+db_indicators[i].split(":")[0];       
+    String[] header =("id,county,burdencategory,constituency,subcounty,ward,facility,mflcode,supporttype,level1,level2,level3,level4,"
+            + ""+titles+""
+            + "year,semiannual,quarter,month,yearmonth,ownedby,facilitytype,art_hv,htc_hv,pmtct_hv,activity_hv,latitude,longitude,maleclinic,"
+            + "adoleclinic,viremiaclinic,emrsite,linkdesk,islocked,ordernumber").split(",");
+    
+    String[] data =(id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+",Prevention,GEND GBV,Gend GBV,"+db_indicators[i].split(":")[1]+","
+            + ""+query_params+""
+            + ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+allhv+","+latitude+","+longitude+","+Male_clinics+","
+            + ""+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,7").split(",");
+    
+              System.out.println("params:"+titles+" values : "+query_params);
+              
+        query_params = "";
+        for(int k=0;k<header.length;k++){
+        query_params+=header[k]+"=?,";    
+        }
+        //remove last comma
+        query_params = removeLastChars(query_params, 1);
+
+       String curr_care = "REPLACE INTO table1 SET "+query_params;
+       conndash.pst = conndash.conn.prepareStatement(curr_care);
+
+        for(int k=0;k<data.length;k++){
+            conndash.pst.setString((k+1), data[k]);   
+        }
+        conndash.pst.executeUpdate();
+              }
+              }
+         }
+         
+         return num;
+    }
+    
     public JSONObject getperiod(String yearmonth){
         JSONObject obj = new JSONObject();
         String[] arraydata = yearmonth.split("");
@@ -3172,4 +3703,4 @@ splitData--;
 //    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
 //    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked"};
     
-   
+//       id_=mfl_code+"_"+yearmonth+"_5"; //

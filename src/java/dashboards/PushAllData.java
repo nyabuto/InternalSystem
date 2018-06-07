@@ -8,6 +8,8 @@ package dashboards;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -29,19 +31,27 @@ HttpSession session;
         try {
            PushDataSet2 ds2 = new PushDataSet2();
            
+      Map m1 = new HashMap(); 
+      m1.put("startyearmonth", "201710");
+      m1.put("endyearmonth", "201712");
+      m1.put("startdate", "2017-10-01");
+      m1.put("enddate", "2017-12-31");
+//      m1.put("mfl_code", "15288");
            
            
-           
-            System.out.println("called push");
-//           ds2.current_art_care(201701, 201712);
-//           ds2.new_art_care(201701, 201712);
-//           ds2.viral_load("2017-01-01","2017-12-31");
-//           ds2.pmtct_eid("2017-01-01","2017-12-31");
-//           ds2.pmtct_fo("201701","201712");
-//           ds2.pmtct("201701","201712");
-//           ds2.RetNum("201701","201712");
-//           ds2.RetDen("201701","201712");
-             ds2.TBPrev("201801","201812");
+        System.out.println("called push");
+            ds2.current_art_care(m1);
+            ds2.new_art_care(m1);
+            ds2.viral_load(m1);
+            ds2.pmtct_eid(m1);
+            ds2.pmtct_fo(m1);
+            ds2.pmtct(m1);
+            ds2.RetNum(m1);
+            ds2.RetDen(m1);
+            ds2.TBPrev(m1);
+            ds2.VMMC_Circ(m1);
+            ds2.PMTCT_ART(m1);
+            ds2.SGBV(m1);
              
             System.out.println("end pushed data");
         } finally {
