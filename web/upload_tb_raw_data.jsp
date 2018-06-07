@@ -150,13 +150,11 @@
                         <form action="Load_tb_raw" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        
                             
-                          <table >
+                          <table class='table-striped' border='0'>
                          <tr> <td><b>(1) Select File :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>
-<!--                         <tr> <td><b>(2) Data category to upload :</b> </td><td><select style="width:100%;" name="datacategory">
-                                     <option title="" value="incompleteoutcome">Quarterly data(incomplete treatment outcome) </option>
-                                     <option title="" value="completeoutcome">Annual data( complete treatment outcome)</option>
-                                 
-                                 </select></td> </tr>-->
+                         <tr> <td colspan='2'><b>(2) Specify the date range for updating dashboards Tb data:</b> </td></tr>
+                              <tr><td>Startdate </td><td> <input required type="text" title="" class="form-control input-lg tarehe" name="startdate" id="startdate"></td> </tr>
+                              <tr><td>Enddate </td><td> <input required type="text" title="" class="form-control input-lg tarehe" name="enddate" id="enddate"></td> </tr>
                           </table>
                         <br><br><br><br>
 
@@ -307,6 +305,22 @@
 //     }  
 //   }
    
+   </script>
+   
+   
+    <script>
+      
+   
+  
+      
+      $(".tarehe").datepicker({
+    clearBtn: true
+}).on('changeDate', function(ev)
+{
+    $(this).datepicker('hide');
+});
+      
+      
    </script>
    
    <!-- END JAVASCRIPTS -->   

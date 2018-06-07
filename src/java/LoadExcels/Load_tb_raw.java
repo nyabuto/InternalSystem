@@ -7,6 +7,7 @@
 package LoadExcels;
 
 import General.IdGenerator;
+import dashboards.pullTb;
 import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,6 +60,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+     String startdate="";
+     String enddate="";
+  
+      startdate=request.getParameter("startdate");
+           enddate=request.getParameter("enddate");
      String serialnumber="";
      String distregno="";   
      String agebracket="";
@@ -124,11 +130,17 @@ String genexpert="";
         }
         System.out.println("Upload File Directory="+fileSaveDir.getAbsolutePath());
         
-        for (Part part : request.getParts()) {
+         for (Part part : request.getParts()) {
+            if(!getFileName(part).equals("")){
            fileName = getFileName(part);
             part.write(uploadFilePath + File.separator + fileName);
-            System.out.println("file name is  :  "+fileName);
+            }
         }
+        
+        
+          
+        
+        
         if(!fileName.endsWith(".xls")){
          nextpage="upload_tb_raw_data.jsp";
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose the correct File.</font>");   
@@ -757,6 +769,10 @@ String genexpert="";
      }
     String sessionText="<br/><b> "+added+ "</b> New data added <br/> <b> "+updated+"</b> updated facilities<br> <br> <b>"+missing+"</b> sites not in Imis Facilities List ";    
     session.setAttribute("upload_success", sessionText);
+    pullTb updatedashboards= new pullTb();
+    updatedashboards.tbDashboard(startdate.replace("-",""),enddate.replace("-",""));
+    
+  
     response.sendRedirect(nextpage);  
  
 
@@ -810,17 +826,21 @@ String genexpert="";
         return "Short description";
     }// </editor-fold>
 
-    private String getFileName(Part part) {
+      private String getFileName(Part part) {
+            String file_name="";
         String contentDisp = part.getHeader("content-disposition");
         System.out.println("content-disposition header= "+contentDisp);
         String[] tokens = contentDisp.split(";");
       
         for (String token : tokens) {
             if (token.trim().startsWith("filename")) {
-                return token.substring(token.indexOf("=") + 2, token.length()-1);
+                file_name = token.substring(token.indexOf("=") + 2, token.length()-1);
+              break;  
             }
+            
         }
-        return contentDisp;
+         System.out.println("content-disposition final : "+file_name);
+        return file_name;
     }
     
     public String getageBracket(int age){
@@ -857,5 +877,13 @@ finalbracket="no age";
 }
   return finalbracket;  
     }
+    
+    
+  public String maximumdate(String currentmaximum,String newdate){
+  String newmaxdate="";
+  
+  
+  return newmaxdate;
+  }  
     
 }
