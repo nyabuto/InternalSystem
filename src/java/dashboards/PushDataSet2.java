@@ -1337,17 +1337,20 @@ splitData--;
         int num=0;
      String facilitiestable="subpartnera";
                String sets[] = {"n","d"};
-               String fem_special[] = {"Preg_r","Breastfeeding_r","Preg_t","Breastfeeding_t","Preg_nd","Breastfeeding_nd"};
+               String fem_special[] = {"Preg","Breastfeeding"};
                String sections[] = {"r","t","nd"};
                
                String sets_ids[] = {"46:TX_PVLS Num:47","47:TX_PVLS Den:46"};
-               String sections_ids[] = {"21:Routine","22:Targeted","23:Not Documented"};
-               String fem_special_ids[] = {"21_1: Routine Pregnant:1","21_2: Routine Breastfeeding:2","22_1:Targeted Pregnant:3","22_2:Targeted Breastfeeding:4","23_1:Not Documented Pregnant:5","23_2:Not Documented Breastfeeding:6"};
+               String sections_ids[] = {"21:Routine:1","22:Targeted:2","23:Not Documented:3"};
+               String fem_special_ids[] = {"1:Pregnant:1","2:Breastfeeding:2"};
                
      String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
      String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
      int f_1,f_9,m_1,m_9,f_14,f_19,f_24,f_29,f_34,f_39,f_49,f_50,m_14,m_19,m_24,m_29,m_34,m_39,m_49,m_50;
      int total,total_f,total_m;
+     //for totals
+     int t_f_1,t_f_9,t_m_1,t_m_9,t_f_14,t_f_19,t_f_24,t_f_29,t_f_34,t_f_39,t_f_49,t_f_50,t_m_14,t_m_19,t_m_24,t_m_29,t_m_34,t_m_39,t_m_49,t_m_50;
+     int t_total,t_total_f,t_total_m;
      String year,semi_annual,quarter,month;
      String id_="";
      
@@ -1570,7 +1573,8 @@ splitData--;
      
         conn.rs = conn.st.executeQuery(getVLData);
         while(conn.rs.next()){
-            
+     t_f_1=t_f_9=t_m_1=t_m_9=t_f_14=t_f_19=t_f_24=t_f_29=t_f_34=t_f_39=t_f_49=t_f_50=t_m_14=t_m_19=t_m_24=t_m_29=t_m_34=t_m_39=t_m_49=t_m_50=0;
+     t_total=t_total_f=t_total_m=0;
                 //basic information
                 county = conn.rs.getString("county");
                 sub_county = conn.rs.getString("sub_county");
@@ -1636,15 +1640,37 @@ splitData--;
      total_f = f_1+f_9+f_14+f_19+f_24+f_29+f_34+f_39+f_49+f_50;
      total_m = m_1+m_9+m_14+m_19+m_24+m_29+m_34+m_39+m_49+m_50;
      
+       t_f_1+=f_1;
+       t_f_9+=f_9;
+       t_m_1+=m_1;
+       t_m_9+=m_9;
+       t_f_14+=f_14;
+       t_f_19+=f_19;
+       t_f_24+=f_24;
+       t_f_29+=f_29;
+       t_f_34+=f_34;
+       t_f_39+=f_39;
+       t_f_49+=f_49;
+       t_f_50+=f_50;
+       t_m_14+=m_14;
+       t_m_19+=m_19;
+       t_m_24+=m_24;
+       t_m_29+=m_29;
+       t_m_34+=m_34;
+       t_m_39+=m_39;
+       t_m_49+=m_49;
+       t_m_50+=m_50;
+       t_total+=total;
+       t_total_f+=total_f;
+       t_total_m+=total_m;
+     
      String id_lv3,id_lv4,lb_lv3,lb_lv4,order_id;
             id_lv3 = sets_ids[sets_c].split(":")[0];
             lb_lv3 = sets_ids[sets_c].split(":")[1];
-            order_id = sets_ids[sets_c].split(":")[2];
             
-             
             id_lv4 = sections_ids[sections_c].split(":")[0];
             lb_lv4 = sections_ids[sections_c].split(":")[1];
-            
+            order_id = sets_ids[sets_c].split(":")[2]+"."+sections_ids[sections_c].split(":")[2];
             
           id_=mfl_code+"_"+yearmonth+"_"+id_lv3+"_"+id_lv4; //numerator 
 
@@ -1680,30 +1706,88 @@ splitData--;
     
      sections_c++;
         }
-     sets_c++;   
-      }
-//      end         
-               
-     //breastfeeding, preg
-     
-                sets_c=0;
-               
-               for(String set:sets){
-                  int fem_c=0;
-                  
-               for(String fem:fem_special){
-                total = conn.rs.getInt(set+"_"+fem);
-                
-     
-            String id_lv3,id_lv4,lb_lv3,lb_lv4,order_id,sub_order_id;
+//      num, den
+
+       String id_lv3,lb_lv3,order_id;
             id_lv3 = sets_ids[sets_c].split(":")[0];
             lb_lv3 = sets_ids[sets_c].split(":")[1];
             order_id = sets_ids[sets_c].split(":")[2];
-            id_lv4 = fem_special_ids[fem_c].split(":")[0];
-            lb_lv4 = fem_special_ids[fem_c].split(":")[1];
-            sub_order_id = fem_special_ids[fem_c].split(":")[2];
+               
+   id_=mfl_code+"_"+yearmonth+"_"+id_lv3; //numerator 
+
+   String[] hearder ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19","m_19","f_24","m_24","f_29","m_29","f_34",
+    "m_34","f_39","m_39","f_49","m_49","f_50","m_50","total","total_f","total_m","year",
+    "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
+   
+   String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "90:90:90= Viral Suppression,VL,"+lb_lv3+","+t_f_1+","+t_m_1+","+t_f_9+","+t_m_9+","+t_f_14+","+t_m_14+","+t_f_19+","+t_m_19+","+
+    ""+t_f_24+","+t_m_24+","+t_f_29+","+t_m_29+","+t_f_34+","+
+    ""+t_m_34+","+t_f_39+","+t_m_39+","+t_f_49+","+t_m_49+","+t_f_50+","+t_m_50+","+t_total+","+t_total_f+","+t_total_m+","+year+","+
+    ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,"+order_id).split(",");
+    
+   
+   String query_params = "";
+    for(int i=0;i<hearder.length;i++){
+    query_params+=hearder[i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table1 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+   
+    for(int i=0;i<data.length;i++){
+        conndash.pst.setString((i+1), data[i]);   
+    }
+    conndash.pst.executeUpdate();
+             
+               
+               
+     sets_c++;   
+      }
+//      end         
             
-          id_=mfl_code+"_"+yearmonth+"_"+id_lv3+"_"+id_lv4; //numerator 
+//               String sets[] = {"n","d"};
+//               String fem_special[] = {"Preg","Breastfeeding"};
+//               String sections[] = {"r","t","nd"};
+//               
+//               String sets_ids[] = {"46:TX_PVLS Num:47","47:TX_PVLS Den:46"};
+//               String sections_ids[] = {"21:Routine:1","22:Targeted:2","23:Not Documented:3"};
+//               String fem_special_ids[] = {"1:Pregnant:1","2:Breastfeeding:2"};
+//               d_nd_f_1
+     //breastfeeding, preg
+//     n_Breastfeeding_t
+                sets_c=0;
+               
+               for(String set:sets){
+                int sec_c=0; 
+                  
+               for(String sec:sections){
+                int fem_c=0;
+                
+               for(String fem:fem_special){
+                   
+                total = conn.rs.getInt(set+"_"+fem+"_"+sec);
+                
+     
+            String id_lv3,id_lv4,id_lv5,lb_lv3,lb_lv4,lb_lv5,order_id,sub_order_id,sub_sub_order_id;
+            id_lv3 = sets_ids[sets_c].split(":")[0];
+            lb_lv3 = sets_ids[sets_c].split(":")[1];
+
+            id_lv4 = sections_ids[sec_c].split(":")[0];
+            lb_lv4 = sections_ids[sec_c].split(":")[1];
+            id_lv5 = fem_special_ids[fem_c].split(":")[0];
+            lb_lv5 = fem_special_ids[fem_c].split(":")[1];
+            
+            order_id = sets_ids[sets_c].split(":")[2];
+            sub_order_id = sections_ids[sec_c].split(":")[2];
+            sub_sub_order_id = fem_special_ids[fem_c].split(":")[2];
+            
+        order_id= order_id+"."+sub_order_id+"."+sub_sub_order_id; 
+          id_=mfl_code+"_"+yearmonth+"_"+id_lv3+"_"+id_lv4+"_"+id_lv5; //numerator 
 
    String[] hearder ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
     "level1","level2","level3","level4","total","year",
@@ -1711,8 +1795,8 @@ splitData--;
     "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
    
    String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
-    "90:90:90= Viral Suppression,VL,"+lb_lv3+","+lb_lv4+","+total+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","
-    + ""+Type+","+arthv+","+htchv+","+pmtcthv+","+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,"+order_id+"."+sub_order_id).split(",");
+    "90:90:90= Viral Suppression,VL,"+lb_lv3+","+lb_lv4+" "+lb_lv5+","+total+","+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","
+    + ""+Type+","+arthv+","+htchv+","+pmtcthv+","+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,"+order_id).split(",");
     
    
    String query_params = "";
@@ -1733,6 +1817,9 @@ splitData--;
     
     fem_c++;
         }
+               
+     sec_c++;   
+      }
      sets_c++;   
       }
            
@@ -3648,6 +3735,20 @@ splitData--;
               quarter = "2. Jan - Mar";
           }
         }
+        
+        if(month.equals("01")){month=month+". Jan";}
+        else if(month.equals("02")){month=month+". Feb";}
+        else if(month.equals("03")){month=month+". Mar";}
+        else if(month.equals("04")){month=month+". Apr";}
+        else if(month.equals("05")){month=month+". May";}
+        else if(month.equals("06")){month=month+". Jun";}
+        else if(month.equals("07")){month=month+". Jul";}
+        else if(month.equals("08")){month=month+". Aug";}
+        else if(month.equals("09")){month=month+". Sep";}
+        else if(month.equals("10")){month=month+". Oct";}
+        else if(month.equals("11")){month=month+". Nov";}
+        else if(month.equals("12")){month=month+". Dec";}
+        else{}
         
         obj.put("year", year);
         obj.put("semi_annual", semi_annual);
