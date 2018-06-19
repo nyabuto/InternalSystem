@@ -1569,7 +1569,7 @@ splitData--;
         +"join district on "+facilitiestable+".DistrictID=district.DistrictID join county on county.CountyID=district.CountyID " +
         ""+joinedwhere+" GROUP BY mfl_code,yearmonth ";
      
-        System.out.println("query : "+getVLData);  
+//        System.out.println("query : "+getVLData);  
      
         conn.rs = conn.st.executeQuery(getVLData);
         while(conn.rs.next()){
@@ -1936,7 +1936,7 @@ splitData--;
                for(String section:elems){
                 m_0_2=conn.rs.getInt(section+"_0_2months");
                 m_2_12=conn.rs.getInt(section+"_2_12months");
-                
+                int total = m_0_2+m_2_12;
      
      String id_lv3,lb_lv3,orderid;
             id_lv3 = elem_ids[sections_c].split(":")[0];
@@ -1946,11 +1946,11 @@ splitData--;
           id_=mfl_code+"_"+yearmonth+"_"+id_lv3; //numerator 
 
    String[] hearder ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
-    "level1","level2","level3","mn_0_2","mn_2_12","year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "level1","level2","level3","mn_0_2","mn_2_12","total","year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
     "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
    
    String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
-    "90=Knowing HIV Status,PMTCT,"+lb_lv3+","+m_0_2+","+m_2_12+","+year+","+
+    "90=Knowing HIV Status,PMTCT,"+lb_lv3+","+m_0_2+","+m_2_12+","+total+","+year+","+
     ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
     ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,"+orderid).split(",");
     
@@ -2226,7 +2226,7 @@ splitData--;
     
     int rowposit=6;
     
-     System.out.println("2018q1 PMTCT : "+get731data);
+//     System.out.println("2018q1 PMTCT : "+get731data);
     conn.rs=conn.st.executeQuery(get731data);
     while(conn.rs.next()){
 	county = conn.rs.getString("county");
@@ -2362,7 +2362,7 @@ splitData--;
     diff15to19=(pmtct_statden_tes_15_19-(pmtct_pos_15_19+pmtct_neg_15_19+pmtct_kp_15_19));
 //    diff25to49=(pmtct_statden_tes_25_49-(pmtct_pos_25_49+pmtct_neg_25_49+pmtct_kp_25_49));
 
-        System.out.println(" ");
+//        System.out.println(" ");
      
       //do normalization
      if(1==1){
@@ -2462,7 +2462,7 @@ splitData--;
     
    String query = "REPLACE INTO table1 SET "+query_params;
    conndash.pst = conndash.conn.prepareStatement(query);
-           System.out.println("query : "+query);
+//           System.out.println("query : "+query);
     for(int i=0;i<data[a].length;i++){
         conndash.pst.setString((i+1), data[a][i]);   
     }
@@ -2584,7 +2584,7 @@ splitData--;
         "AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  AND "+facilitiestable+".active=1   " +
         "GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth ORDER BY mfl_code,yearmonth" ;
 
-    System.out.println(" TX RET NUM : "+getNumerator);
+//    System.out.println(" TX RET NUM : "+getNumerator);
      conn.rs=conn.st.executeQuery(getNumerator);
         while(conn.rs.next()){
         county = conn.rs.getString("county");
@@ -2878,7 +2878,7 @@ splitData--;
         " AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  AND "+facilitiestable+".active=1   " +
         " GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth  ORDER BY mfl_code,yearmonth";
 
-    System.out.println("TX RET DEN : "+getDenominator);
+//    System.out.println("TX RET DEN : "+getDenominator);
      conn.rs=conn.st.executeQuery(getDenominator);
         while(conn.rs.next()){
         county = conn.rs.getString("county");
@@ -3265,7 +3265,7 @@ splitData--;
     
    String query = "REPLACE INTO table3 SET "+query_params;
    conndash.pst = conndash.conn.prepareStatement(query);
-           System.out.println("query : "+query);
+//           System.out.println("query : "+query);
     for(int i=0;i<data[a].length;i++){
         conndash.pst.setString((i+1), data[a][i]);   
     }
@@ -3322,7 +3322,7 @@ splitData--;
         + " sum(v3_tp_total) AS v3_tp_total, sum(v3_srp_total) as v3_srp_total , sum(v3_tn_total) as v3_tn_total, sum(v3_nt_total) as v3_nt_total ,   sum(v3_us_total) as v3_us_total ,   sum(v3_srn_total) as v3_srn_total ,   sum(v4_s_vmmc_total) as v4_s_vmmc_total , sum(v4_db_vmmc_total) AS v4_db_vmmc_total, sum(v5_followup_total) as v5_followup_total , sum(v6_nofollowup_total) as v6_nofollowup_total,"
         + "SUM(0) AS db_followup,SUM(0) AS db_no_followup "
                 + "from vmmc_new join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on vmmc_new.SubPartnerID = subpartnera.SubPartnerID   WHERE yearmonth BETWEEN "+startyearmonth+"  AND "+endyearmonth+"  "+facil_where+" group by subpartnera.SubPartnerID,yearmonth  ";
-        System.out.println("query vmmc_circ: "+qr);
+//        System.out.println("query vmmc_circ: "+qr);
         conn.rs = conn.st.executeQuery(qr);
         while(conn.rs.next()){
           county = conn.rs.getString("county");
@@ -3490,7 +3490,7 @@ splitData--;
            + " FROM moh731 join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on moh731.SubPartnerID = "+facilitiestable+".SubPartnerID   "
            + " WHERE yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID,yearmonth ";
            
-        System.out.println("pmtct_art query : "+qr_);
+//        System.out.println("pmtct_art query : "+qr_);
         conn.rs = conn.st.executeQuery(qr_);
          while(conn.rs.next()){
         county = conn.rs.getString("county");
@@ -3597,7 +3597,7 @@ splitData--;
          String [] ages_sets = {"f_1","f_4","f_5_9","f_14","f_19","f_24","f_29","f_34","f_39","f_49","f_50","m_1","m_4","m_5_9","m_14","m_19","m_24","m_29","m_34","m_39","m_49","m_50","total_f","total_m","total",};
          String [] ages = {"_1_F","_4_F","_9_F","_14_F","_19_F","_24_F","_29_F","_34_F","_39_F","_49_F","_50_F","_1_M","_4_M","_9_M","_14_M","_19_M","_24_M","_29_M","_34_M","_39_M","_49_M","_50_M","_F","_M","_T"};
          String[] indicators = {"rapesurvivor","presenting_72hr","initiatedpep","sti","ecp","pill","tested","positive","disability","perpetrators","visit1","visit2","visit3","visit4","visit5","completedpep","seroconverted","Pregnant","counsellling"};
-         String[] db_indicators = {"49:Number of rape survivors,1","50:Number presenting within 72 hours,2","51:Number initiated PEP,3","52:Number given STI treatment,4","53:Number eligible for Emergency Contraceptive Pill,5","54:Number given Emergency Contraceptive Pill,6","55:Number tested for HIV,7","56:Number HIV positive at 1st visit,8","57:Total survivors with disability,9","58:Number of perpetrators,10","59:1st visit,11","60:2nd visit,12","61:3rd visit,13","62:4th visit,14","63:5th visit,15","64:Number completed PEP,16","65:Number seroconverted,17","1:Pregnant,18","66:Number completed trauma counselling,19"};
+         String[] db_indicators = {"49:Number of rape survivors:1","50:Number presenting within 72 hours:2","51:Number initiated PEP:3","52:Number given STI treatment:4","53:Number eligible for Emergency Contraceptive Pill:5","54:Number given Emergency Contraceptive Pill:6","55:Number tested for HIV:7","56:Number HIV positive at 1st visit:8","57:Total survivors with disability:9","58:Number of perpetrators:10","59:1st visit:11","60:2nd visit:12","61:3rd visit:13","62:4th visit:14","63:5th visit:15","64:Number completed PEP:16","65:Number seroconverted:17","1:Pregnant:18","66:Number completed trauma counselling:19"};
          
          String qr_=" "+
                   "SELECT " +
@@ -3627,7 +3627,7 @@ splitData--;
             " FROM sgbv_new join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) "+
             " ON district.DistrictID = "+facilitiestable+".DistrictID )  ON sgbv_new.SubPartnerID = "+facilitiestable+".SubPartnerID  "+
             " WHERE yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" group by "+facilitiestable+".SubPartnerID,yearmonth ";
-         System.out.println("query: "+qr_);
+//         System.out.println("query: "+qr_);
           conn.rs = conn.st.executeQuery(qr_);
           while(conn.rs.next()){
             county = conn.rs.getString("county");
@@ -3688,7 +3688,7 @@ splitData--;
             + ""+year+","+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+allhv+","+latitude+","+longitude+","+Male_clinics+","
             + ""+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,7."+db_indicators[i].split(":")[2]).split(",");
     
-              System.out.println("params:"+titles+" values : "+query_params);
+//              System.out.println("params:"+titles+" values : "+query_params);
               
         query_params = "";
         for(int k=0;k<header.length;k++){
