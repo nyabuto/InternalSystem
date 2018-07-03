@@ -5,10 +5,13 @@
  */
 package InternalSystem;
 
+import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -94,6 +97,26 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
        query  = removeLast(values_query);
        System.out.println("query: "+query); 
        conn.st.executeUpdate(query);
+       
+       //add to dashboards
+        String mfl_code="";
+        String getmfl = "SELECT CentreSanteId AS mfl_code FROM subpartnera WHERE SubPartnerID='"+facil+"'";
+        conn.rs = conn.st.executeQuery(getmfl);
+        if(conn.rs.next()){
+          mfl_code = conn.rs.getString(1);
+        }
+       PushDataSet2 ds2 = new PushDataSet2();
+           
+        Map m1 = new HashMap(); 
+        m1.put("startyearmonth", yearmonth);
+        m1.put("endyearmonth", yearmonth);
+        m1.put("mfl_code", mfl_code);
+        
+        ds2.VMMC_Circ(m1);//vmmc module
+       
+       
+       //end of adding to dashboards
+       
        
      response.sendRedirect("loadVmmc.jsp");
         } finally {

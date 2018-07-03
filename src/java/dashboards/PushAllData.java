@@ -40,18 +40,19 @@ HttpSession session;
            
            
         System.out.println("called push");
-            ds2.current_art_care(m1);
-            ds2.new_art_care(m1);
-            ds2.viral_load(m1);
-            ds2.pmtct_eid(m1);
-            ds2.pmtct_fo(m1);
-            ds2.pmtct(m1);
-            ds2.RetNum(m1);
-            ds2.RetDen(m1);
-            ds2.TBPrev(m1);
-            ds2.VMMC_Circ(m1);
-            ds2.PMTCT_ART(m1);
-            ds2.SGBV(m1);
+            ds2.current_art_care(m1);//moh731
+            ds2.new_art_care(m1);//moh731
+            ds2.pmtct(m1);//moh731
+            ds2.RetNum(m1);//moh731
+            ds2.RetDen(m1);//moh731
+            ds2.PMTCT_ART(m1);//moh731
+            
+            ds2.viral_load(m1);//viral load data upload
+            ds2.pmtct_eid(m1);//eid tested and pos
+            ds2.TBPrev(m1);//IPT Module
+            ds2.VMMC_Circ(m1);//vmmc module
+            ds2.SGBV(m1);//SGBV Module
+            ds2.pmtct_fo(m1);//HEI Cohort
              
             System.out.println("end pushed data");
         } finally {

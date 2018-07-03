@@ -1,13 +1,13 @@
 <%-- 
-    Document   : db
-    Created on : Apr 14, 2015, 10:18:21 AM
-    Author     : Geofrey Nyabuto
+    Document   : db_dash
+    Created on : Jul 3, 2018, 11:25:43 AM
+    Author     : GNyabuto
 --%>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Internal System Database Set Up</title>
+  <title>Dashboard Database Set Up</title>
   <link rel="stylesheet" href="modal/jquery-ui.css">
   <script src="assets/js/jquery-1.8.3.min.js"></script>
   <script src="assets/jquery-ui/jquery-ui-1.10.1.custom.min.js"></script>
@@ -54,16 +54,16 @@
               else{
                   $(".validateTips1").show();
               $.ajax({
-        url:"updatedbpword?hostname="+hostname+"&&database="+database+"&&user="+user+"&&password="+password,
+        url:"updateconn_dash?hostname="+hostname+"&&database="+database+"&&user="+user+"&&password="+password,
         type:"post",
         dataType:"html",
         success:function(data){
             data=$.trim(data);
 if(data=="success"){
      var timer=5;
-    var interv= setInterval(function(){ $(".validateTips1").html("<font color=\"green\"><b>Correct Connection Credentials. You will be redirected within "+timer+" seconds to set up dashboards connection credentials.</b></font>"); timer--; }, 1000);
+    var interv= setInterval(function(){ $(".validateTips1").html("<font color=\"green\"><b>Correct Connection Credentials. You will be redirected within "+timer+" seconds</b></font>"); timer--; }, 1000);
     $(".validateTips1").fadeOut(8000);
-    setTimeout(function(){ clearInterval(interv); $(".validateTips1").val("");timer=5; window.location.href="db_dash.jsp";}, 5000);
+    setTimeout(function(){ clearInterval(interv); $(".validateTips1").val("");timer=5; window.location.href="index.jsp";}, 5000);
 
 }
 else{
@@ -106,16 +106,17 @@ setInterval(function(){ $(".validateTips2").html("<font color=\"red\"><b>Please 
 }
   </style>
 </head>
-<body>
- 
-    <div id="dialog-form" title="Enter Database Connection Credentials...." hidden="true" >
+<body style="background-color: green;">
+
+    <div id="dialog-form" title="Enter Dashboard Database Connection Credentials...." hidden="true"   style="background-color: plum;"  >
  <!--<div contenteditable=true>-->
  <p class="validateTips1" style="text-align: center;"></p>
  <p class="validateTips2" style="text-align: center;"></p>
  <p class="validateTips3" style="text-align: center;"></p>
  <p class="validateTips" style="text-align: center;"></p>
-  <form action="" method="post" >
-                    <h4 align="center">Database Configuration</h4>
+  <form action="" method="post">
+                    <h4 align="center">Dashboard Connection Configuration</h4>
+                    <h7 align="center"><font color="red">Note: Set up connection credentials for dashboards system.</font></h7>
                     <table  cellpadding="8px" cellspacing="6px">
                         <tr>
                             <td style="text-align: right;">Host name:   <img src="images/blguide.png" title="enter the hostname followed by a ':' then port number e.g. localhost:3306. If there is no port number, just enter the host name alone e.g. localhost"/></td>
@@ -126,7 +127,7 @@ setInterval(function(){ $(".validateTips2").html("<font color=\"red\"><b>Please 
 
                         </tr>
                         <tr> <td style="text-align: right;">Database : <img src="images/blguide.png" title="enter the database name e.g internal_system"/></td>
-                            <td style="text-align: right;"><input id="database"  type=text required name="database" value="internal_system" placeholder="e.g internal_system"  class="textbox"/></td>
+                            <td style="text-align: right;"><input id="database"  type=text required name="database" value="dashboards" placeholder="e.g internal_system"  class="textbox"/></td>
                         </tr>
 
                         <tr> <td style="text-align: right;">User:   <img src="images/blguide.png" title="enter a database user name name e.g root"/></td>

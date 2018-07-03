@@ -7,6 +7,7 @@ Age and sex should be gotten from the eid tested raw data during the importing o
 package LoadExcels;
 
 import General.IdGenerator;
+import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +16,9 @@ import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -59,6 +62,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
           String mflcode;
   int year,quarter,checker,missing,added,updated;
 String age,pcr_type,system_id;
+  String min_date="",max_date="",date_tested="";
  @Override
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -548,9 +552,27 @@ serialnumber = mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecoll
                      missingFacility+="facility name : "+facilityName+" mfl code : "+mflcode+" excel row num : "+i+"<br>"; 
                         System.out.println(facilityName+ "_missing");
                     }
+                    
+                        
+        compare_date(datetested_8);
+            System.out.println("Current date : "+datetested_8+" Min date : "+min_date+" max date : "+max_date);    
+                    
                     i++;
                         }
+    //add dashboard data
+         PushDataSet2 ds2 = new PushDataSet2();
+           
+            Map m1 = new HashMap(); 
+            m1.put("startdate", min_date);
+            m1.put("enddate", max_date);
+            
+            ds2.pmtct_eid(m1);//eid tested and pos
 
+    //end of adding t odashboards
+                        
+                        
+                        
+                        
         }
         
          if(conn.rs!=null){conn.rs.close();}
@@ -655,5 +677,39 @@ finalbracket="no age";
 }
   return finalbracket;  
     }
+   
+    
+    
+         public void compare_date(String date){
+            String c_date_key="",in_date_key="";
+            if(min_date.equals("")){
+                min_date=date;
+            }
+            else
+            {
+             c_date_key = min_date.replace("-", "");
+             in_date_key = date.replace("-", "");
+             
+             if(Integer.parseInt(c_date_key)>=Integer.parseInt(in_date_key)){
+              min_date=date;   
+             }
+             
+            }
+            
+            if(max_date.equals("")){
+                max_date=date;
+            }
+            else
+            {
+             c_date_key = max_date.replace("-", "");
+             in_date_key = date.replace("-", "");
+             
+             if(Integer.parseInt(c_date_key)<=Integer.parseInt(in_date_key)){
+              max_date=date;   
+             }
+             
+            }
+        }   
+    
     
 }

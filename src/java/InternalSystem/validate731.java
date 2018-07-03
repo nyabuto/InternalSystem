@@ -6,6 +6,7 @@
 
 package InternalSystem;
 
+import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -521,6 +524,26 @@ conn.pst=conn.conn.prepareStatement(copyToTemp);
     conn.pst.setString(7, yearmonth);
     
     conn.pst.executeUpdate();
+    
+    
+    //call the dashboard system
+    PushDataSet2 ds2 = new PushDataSet2();
+           
+      Map m1 = new HashMap(); 
+      m1.put("startyearmonth", yearmonth);
+      m1.put("endyearmonth", yearmonth);
+      m1.put("mfl_code", mfl_code);
+           
+            ds2.current_art_care(m1);//moh731
+            ds2.new_art_care(m1);//moh731
+            ds2.pmtct(m1);//moh731
+            ds2.RetNum(m1);//moh731
+            ds2.RetDen(m1);//moh731
+            ds2.PMTCT_ART(m1);//moh731
+    
+    
+    //end of calling dashboard system
+    
     
    //drop temp db
    

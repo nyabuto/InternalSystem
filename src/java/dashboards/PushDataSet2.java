@@ -1302,7 +1302,7 @@ splitData--;
     id_ = mfl_code+"_"+yearmonth+"_1_35_3";
     
     String[] data_onTB =(id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","
-    + ""+mfl_code+","+support_type+",90:90=ON ART,TX,TX NEW,Breastfeeding,"+breastfeeding+","+year+","+
+    + ""+mfl_code+","+support_type+",90:90=ON ART,TX,TX NEW,On TB treatment,"+ontbtreatment+","+year+","+
     semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
     allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,35.3").split(",");
     
@@ -1569,7 +1569,7 @@ splitData--;
         +"join district on "+facilitiestable+".DistrictID=district.DistrictID join county on county.CountyID=district.CountyID " +
         ""+joinedwhere+" GROUP BY mfl_code,yearmonth ";
      
-//        System.out.println("query : "+getVLData);  
+        System.out.println("query viral load : "+getVLData);  
      
         conn.rs = conn.st.executeQuery(getVLData);
         while(conn.rs.next()){
@@ -1613,7 +1613,8 @@ splitData--;
                
                for(String set:sets){
                   int sections_c=0;
-                 
+     t_f_1=t_f_9=t_m_1=t_m_9=t_f_14=t_f_19=t_f_24=t_f_29=t_f_34=t_f_39=t_f_49=t_f_50=t_m_14=t_m_19=t_m_24=t_m_29=t_m_34=t_m_39=t_m_49=t_m_50=0;
+     t_total=t_total_f=t_total_m=0;
                for(String section:sections){
                 total = conn.rs.getInt(set+"_"+section);
                 f_1=conn.rs.getInt(set+"_"+section+"_f_1");
@@ -1893,7 +1894,8 @@ splitData--;
                 "LEFT JOIN county ON district.CountyID=county.CountyID " +
                 " WHERE  datetested BETWEEN '"+startdate+"' AND '"+enddate+"' "+facil_where+" AND  "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && "+facilitiestable+".active=1 GROUP BY eid_raw_tested.SubPartnerID " +
                 ") AS eid_data group by mfl_code,yearmonth"; 
-                    System.out.println("eid query : "+eid_query);
+        
+                    System.out.println("pmtct eid query : "+eid_query);
 
                     conn.rs = conn.st.executeQuery(eid_query);
                     while(conn.rs.next()){
@@ -2016,7 +2018,9 @@ splitData--;
                 + "join internal_system.county on internal_system.county.CountyID=internal_system.district.CountyID ) on internal_system.district.DistrictID="+facilitiestable+".DistrictID " +
                 " WHERE hei.results.reportingyearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+"  and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  " +
                 " group by "+facilitiestable+".SubPartnerID,yearmonth ";
+      
                System.out.println("PMTCT FO Query: "+pmtct_fo);
+               
               conn.rs=conn.st.executeQuery(pmtct_fo);
              while(conn.rs.next()){
 
@@ -2226,7 +2230,7 @@ splitData--;
     
     int rowposit=6;
     
-//     System.out.println("2018q1 PMTCT : "+get731data);
+     System.out.println(" PMTCT Query : "+get731data);
     conn.rs=conn.st.executeQuery(get731data);
     while(conn.rs.next()){
 	county = conn.rs.getString("county");
@@ -3490,7 +3494,7 @@ splitData--;
            + " FROM moh731 join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on moh731.SubPartnerID = "+facilitiestable+".SubPartnerID   "
            + " WHERE yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" and ( "+facilitiestable+".PMTCT=1 )  AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID,yearmonth ";
            
-//        System.out.println("pmtct_art query : "+qr_);
+        System.out.println("pmtct ART Query : "+qr_);
         conn.rs = conn.st.executeQuery(qr_);
          while(conn.rs.next()){
         county = conn.rs.getString("county");

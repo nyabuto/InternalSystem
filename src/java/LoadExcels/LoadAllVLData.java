@@ -5,12 +5,15 @@
  */
 package LoadExcels;
 
+import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -39,6 +42,7 @@ public class LoadAllVLData extends HttpServlet {
   String SubPartnerID,mfl_code,year,month,yearmonth,id;
   String[] columns =  {"`#`","System_ID","Batch_No","Patient_CCC_No","Testing_Lab","Partner","County","Sub_County","Facility_Name","MFL_Code","Sex","AgeYrs","Sample_Type","Date_Collected","Received_Status","`Reason for Repeat / Rejection`","Regimen","Other_Regimen","Justification","PMTCT","ART_Initiation_Date","Date_Received","Date_Tested","Date_Dispatched","Valid_Result","Value","Suppressed"};
   int skipped,added;
+  String min_date="",max_date="",date_tested="";
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,6 +50,7 @@ public class LoadAllVLData extends HttpServlet {
         dbConn  conn = new dbConn();
         session = request.getSession();
         
+        min_date=max_date="";
         String applicationPath = request.getServletContext().getRealPath("");
          String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
          session=request.getSession();
@@ -127,6 +132,12 @@ public class LoadAllVLData extends HttpServlet {
             if(colmnscounter==9){
                 mfl_code = value;
             }
+            if(label.equalsIgnoreCase("Date_Tested")){
+              date_tested =  value; 
+            }
+            
+            
+            
             colmnscounter++;
        } 
         SubPartnerID=getSubPartnerID(conn,mfl_code); 
@@ -141,18 +152,21 @@ public class LoadAllVLData extends HttpServlet {
 //            check existence
         conn.rs1 = conn.st1.executeQuery(checker_query);
         if(conn.rs1.next()){
-            System.out.println("record not added : "+mfl_code);
+//            System.out.println("record not added : "+mfl_code);
             skipped++;
         }
         else{
          conn.st.executeUpdate(query);
-            System.out.println("success : "+query);
+//            System.out.println("success : "+query);
             added++;
         }
         }
         else{
-          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
+//          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
         }
+        
+        compare_date(date_tested);
+            System.out.println("Current date : "+date_tested+" Min date : "+min_date+" max date : "+max_date);
             i++;
         }
         
@@ -160,6 +174,16 @@ public class LoadAllVLData extends HttpServlet {
         }
           
         }
+        //add data to dashboards
+         PushDataSet2 ds2 = new PushDataSet2();
+           
+            Map m1 = new HashMap(); 
+            m1.put("startdate", min_date);
+            m1.put("enddate", max_date);
+            
+            ds2.viral_load(m1);//viral load data upload
+        //end of adding data to dashboards.
+        
         
         session.setAttribute("vl_loaded", "Upload complete. <b style=\"color:green\">"+added+"</b> records were added/updated and <b style=\"color:red\">"+skipped+"</b> records were skipped.");
         response.sendRedirect("UploadVL.jsp");
@@ -249,4 +273,35 @@ public class LoadAllVLData extends HttpServlet {
     }
     return str;
     }
+        
+        public void compare_date(String date){
+            String c_date_key="",in_date_key="";
+            if(min_date.equals("")){
+                min_date=date;
+            }
+            else
+            {
+             c_date_key = min_date.replace("-", "");
+             in_date_key = date.replace("-", "");
+             
+             if(Integer.parseInt(c_date_key)>=Integer.parseInt(in_date_key)){
+              min_date=date;   
+             }
+             
+            }
+            
+            if(max_date.equals("")){
+                max_date=date;
+            }
+            else
+            {
+             c_date_key = max_date.replace("-", "");
+             in_date_key = date.replace("-", "");
+             
+             if(Integer.parseInt(c_date_key)<=Integer.parseInt(in_date_key)){
+              max_date=date;   
+             }
+             
+            }
+        }
 }

@@ -6,12 +6,15 @@ Age and sex should be gotten from the eid tested raw data during the importing o
 
 package LoadExcels;
 
+import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -51,7 +54,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   String quarterName,facilityName,facilityID,id,missingFacility;
           String mflcode;
   int year,quarter,checker,missing,added,updated;
-
+  String min_date="",max_date="",date_tested="";
  @Override
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -653,8 +656,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         System.out.println(facilityName+ "_missing");
                     }
                     i++;
+                    
+                                            
+        compare_date(datetested_22);
+            System.out.println("Current date : "+datetested_22+" Min date : "+min_date+" max date : "+max_date);  
                         }
 
+                        
+                        //add dashboard data
+         PushDataSet2 ds2 = new PushDataSet2();
+           
+            Map m1 = new HashMap(); 
+            m1.put("startdate", min_date);
+            m1.put("enddate", max_date);
+            
+            ds2.pmtct_eid(m1);//eid tested and pos
+
+    //end of adding t odashboards
+                        
+                        
         }
         
          if(conn.rs!=null){conn.rs.close();}
@@ -760,5 +780,38 @@ finalbracket="no age";
 }
   return finalbracket;  
     }
+    
+  
+       public void compare_date(String date){
+            String c_date_key="",in_date_key="";
+            if(min_date.equals("")){
+                min_date=date;
+            }
+            else
+            {
+             c_date_key = min_date.replace("-", "");
+             in_date_key = date.replace("-", "");
+             
+             if(Integer.parseInt(c_date_key)>=Integer.parseInt(in_date_key)){
+              min_date=date;   
+             }
+             
+            }
+            
+            if(max_date.equals("")){
+                max_date=date;
+            }
+            else
+            {
+             c_date_key = max_date.replace("-", "");
+             in_date_key = date.replace("-", "");
+             
+             if(Integer.parseInt(c_date_key)<=Integer.parseInt(in_date_key)){
+              max_date=date;   
+             }
+             
+            }
+        }   
+    
     
 }
