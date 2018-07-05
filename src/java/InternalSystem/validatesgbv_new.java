@@ -6,11 +6,14 @@
 
 package InternalSystem;
 
+import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -64,7 +67,12 @@ month=session.getAttribute("monthid").toString();
     if(session.getAttribute("facilityid")!=null){        
 facil=session.getAttribute("facilityid").toString();
 }
-    
+  
+    String tempmonth=month;
+        int pepfaryear=Integer.parseInt(year);
+        if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
+        else {pepfaryear--;}
+       String yearmonth=pepfaryear+""+tempmonth;
 
   
 String rapesurvivor_1_M="0";
@@ -1391,7 +1399,25 @@ Timestamp lastUpdatedOn =new Timestamp(date.getTime());
      String updateLast="UPDATE sgbv_new SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE id='"+tableid+"'" ;   
        conn.st2.executeUpdate(updateLast);
      }
-     
+    
+    //dashboard system
+    String mfl_code="";
+    String getmfl = "SELECT CentreSanteId AS mfl_code FROM subpartnera WHERE SubPartnerID='"+facil+"'";
+    conn.rs = conn.st.executeQuery(getmfl);
+    if(conn.rs.next()){
+      mfl_code = conn.rs.getString(1);
+    }
+    
+     PushDataSet2 ds2 = new PushDataSet2();
+           
+      Map m1 = new HashMap(); 
+      m1.put("startyearmonth", yearmonth);
+      m1.put("endyearmonth", yearmonth);
+      m1.put("mfl_code", mfl_code);
+      
+       ds2.TBPrev(m1);//IPT Module
+       
+    //dashboards 
      
      
      
