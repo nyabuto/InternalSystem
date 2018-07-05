@@ -51,7 +51,7 @@ public class allStaticReportsdynamic extends HttpServlet {
             String year = "2015";
             String month = "";
             String county = "";
-            String form = "moh731";
+            String form = "vw_moh731";
 
             if (request.getParameter("year") != null) {
                 year = request.getParameter("year");
@@ -79,7 +79,7 @@ public class allStaticReportsdynamic extends HttpServlet {
             
             String pivotform = form;
             if (form.equalsIgnoreCase("MOH 731")) {
-                form = "MOH731";
+                form = "vw_moh731";
             }
             if (form.equalsIgnoreCase("MOH 711A")) {
                 form = "MOH711";
@@ -766,7 +766,7 @@ public class allStaticReportsdynamic extends HttpServlet {
         if(period.equalsIgnoreCase("Year"))
         {
         
-        myperiodcase=" case when Annee !='' then Annee else 'no year' end as period ";
+        myperiodcase=" case when SUBSTRING(Yearmonth,1,4) !='' then SUBSTRING(Yearmonth,1,4) else 'no year' end as period ";
         
         }
         else if(period.equalsIgnoreCase("Semi-Annual")){
@@ -824,6 +824,7 @@ public class allStaticReportsdynamic extends HttpServlet {
             ArrayList tablename = new ArrayList();
 
             ArrayList iscumulative = new ArrayList();
+            ArrayList sourcetable = new ArrayList();
 
             ArrayList ispercent = new ArrayList();
 
@@ -838,7 +839,7 @@ public class allStaticReportsdynamic extends HttpServlet {
 //This will help in retrieving the number of rows for each month since we are wring data for different months with increasing rows.
 //the size of that array will be determined by the number of excel worksheets
             String qrform = form;
-            if(!form.equalsIgnoreCase("vmmc_new")){
+             if(!form.equalsIgnoreCase("vmmc_new") && !form.equalsIgnoreCase("vw_moh731")){
              qrform=form.replace("_", "");   
             }
             
@@ -852,7 +853,7 @@ public class allStaticReportsdynamic extends HttpServlet {
 
                 String servicearea = "  2=2 ";
                 if (conn.rs.getString(2) != null) {
-                    servicearea = "  " + conn.rs.getString(2) + "=1";
+                    servicearea = " (  " + conn.rs.getString(2) + "=1 )";
                 }
                 distinctservicearea.add(servicearea);
 
@@ -870,11 +871,11 @@ public class allStaticReportsdynamic extends HttpServlet {
             }
             
             qrform = form;
-            if(!form.equalsIgnoreCase("vmmc_new")){
+            if(!form.equalsIgnoreCase("vmmc_new") && !form.equalsIgnoreCase("vw_moh731")){
              qrform=form.replace("_", "");   
             }
             
-            String getattribs = "select tableid,indicator,label,section,cumulative,percentage,active ,shortlabel from pivottable where form='" + qrform + "' "+indicatorswhere+" order by order_per_form, section";
+            String getattribs = "select tableid,indicator,label,section,cumulative,percentage,active ,shortlabel,sourcetable from pivottable where form='" + qrform + "' "+indicatorswhere+" order by order_per_form, section";
             conn.rs = conn.st.executeQuery(getattribs);
             System.out.println("get attributes : "+getattribs);
             while (conn.rs.next()) {
@@ -885,8 +886,10 @@ public class allStaticReportsdynamic extends HttpServlet {
 //add indicator
                     dbcolumns.add(conn.rs.getString("indicator"));
                     shortlabels.add(conn.rs.getString("shortlabel"));
+                    sourcetable.add(conn.rs.getString("sourcetable"));
+                    
 //add label
-                    if (form.equalsIgnoreCase("MOH731")) {
+                    if (form.equalsIgnoreCase("vw_moh731")) {
                         
                         labels.add(conn.rs.getString("shortlabel") + " \n" + conn.rs.getString("label"));
 
@@ -1105,7 +1108,7 @@ System.out.println("element size : "+dbcolumns.size());
                         
                         if (dbcolumns.get(a).toString().contains("as")) 
                         {
-                     perfacilselect += "  AVG(" + dbcolumns.get(a).toString().substring(0, dbcolumns.get(a).toString().indexOf(" as")) + ") as '" +dbcolumns.get(a).toString().substring(dbcolumns.get(a).toString().indexOf("as "))+"'";
+                     perfacilselect += "  AVG(" + dbcolumns.get(a).toString().substring(0, dbcolumns.get(a).toString().indexOf(" as")) + ") as '" +dbcolumns.get(a).toString().substring(dbcolumns.get(a).toString().indexOf("as ")). replace("as ","")+"'";
                         
                         } 
                         else {
@@ -1179,7 +1182,7 @@ System.out.println("enntered loop");
                 System.out.println("getdistinctperiod: "+getdistinctperiod);
                 while (conn.rs.next() == true) 
                 {                    
-                 lastperiod = conn.rs.getString(1);    //here am asumming the last period will appear last and so will be mantained in the                
+                lastperiod = conn.rs.getString(1);    //here am asumming the last period will appear last and so will be mantained in the                
                 alldistinctperiods.add(lastperiod);
                 }
                 
@@ -1429,7 +1432,7 @@ if (lastperiod.equalsIgnoreCase(conn.rs.getString("period")) && cumstartpointnot
             IdGenerator IG = new IdGenerator();
             String createdOn = IG.CreatedOn();
 
-            System.out.println("" + form.toUpperCase().trim() + "_RPT_FOR_" + year.trim() + "(" + periodlabel + ")_GEN_" + createdOn.trim() + ".xlsx");
+            System.out.println("" + form.toUpperCase().trim().replace("VW_","") + "_RPT_FOR_" + year.trim() + "(" + periodlabel + ")_GEN_" + createdOn.trim() + ".xlsx");
 
             ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
             wb.write(outByteStream);
@@ -1437,7 +1440,7 @@ if (lastperiod.equalsIgnoreCase(conn.rs.getString("period")) && cumstartpointnot
             response.setContentType("application/ms-excel");
             response.setContentLength(outArray.length);
             response.setHeader("Expires:", "0"); // eliminates browser caching
-            response.setHeader("Content-Disposition", "attachment; filename=" + form.toUpperCase().trim() + "_REPORT_FOR_" + year.trim() + "(" + periodlabel.replace(" ","") + ")_CREATED_" + createdOn.trim() + ".xlsx");
+            response.setHeader("Content-Disposition", "attachment; filename=" + form.toUpperCase().trim().replace("VW_","") + "_REPORT_FOR_" + year.trim() + "(" + periodlabel.replace(" ","") + ")_CREATED_" + createdOn.trim() + ".xlsx");
             OutputStream outStream = response.getOutputStream();
             outStream.write(outArray);
             outStream.flush();

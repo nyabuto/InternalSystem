@@ -30,6 +30,8 @@ public class loadSections extends HttpServlet {
             
             String form=request.getParameter("form");
             
+            System.out.println("  FFFForm ni_"+ form+"_");
+            
             if(form.equalsIgnoreCase("MOH 711 (New)"))
             {
             
@@ -42,14 +44,20 @@ public class loadSections extends HttpServlet {
             form="moh711";
             
             }
+            else if(form.equals("MOH 731")){
+              form="vw_moh731";
+               System.out.println(" imediteeeect");
+          }
+            else  if(form.equalsIgnoreCase("vmmc")){
+              form="vmmc_new";
+          }
             else {            
             
             form=form.replace(" ", "").toLowerCase();
             }
             
-           if(form.equalsIgnoreCase("vmmc")){
-              form="vmmc_new";
-          }
+          
+           
             
             String selectforms="select sectionid as sectionid, section as section from pivottable where active='1' and form='"+form+"' group by sectionid";
             

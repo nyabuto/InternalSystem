@@ -910,8 +910,8 @@
         <servlet-class>dashboards.PushAllData</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>updateconn_dash</servlet-name>
-        <servlet-class>database.updateconn_dash</servlet-class>
+        <servlet-name>htsdataset</servlet-name>
+        <servlet-class>dashboards.htsdataset</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -1820,10 +1820,10 @@
     <servlet-mapping>
         <servlet-name>PushAllData</servlet-name>
         <url-pattern>/PushAllData</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>        
     <servlet-mapping>
-        <servlet-name>updateconn_dash</servlet-name>
-        <url-pattern>/updateconn_dash</url-pattern>
+        <servlet-name>htsdataset</servlet-name>
+        <url-pattern>/htsdataset</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

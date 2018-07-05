@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Datim;
+package dashboards;
 
 import General.IdGenerator;
 import database.dbConn;
@@ -15,13 +15,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -31,13 +31,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
 
 /**
  *
  * @author Emmanuel E
  */
-public class newdatimHTCResults_2018Q1 extends HttpServlet {
+public class htsdataset extends HttpServlet {
     
     
      String subcounty_countywhere=" (1=1) and ";
@@ -46,17 +45,26 @@ public class newdatimHTCResults_2018Q1 extends HttpServlet {
             private boolean isOPD=false;
             private boolean isVCT=false;
             private  int totalopdglobal=0;
+              HttpSession session=null;
     
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
        
             response.setContentType("text/html;charset=UTF-8");
             
-            dbConn conn = new dbConn();
+             session = request.getSession();
+             
+                  dbConn conn = new dbConn();
+            
                   HSSFWorkbook wb=new HSSFWorkbook();  
               
                //call the main method which calls other totals
-                HtsTst(conn, request, wb);
+               
+               String startyearmonth="201803";
+               String endyearmonth="201803";
+               String facil="";
+               
+                HtsTst(conn, startyearmonth,endyearmonth,facil);
                
                  
             
@@ -71,62 +79,43 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             IdGenerator IG = new IdGenerator();
             String createdOn = IG.CreatedOn();
             
-            ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
-            wb.write(outByteStream);
-            byte[] outArray = outByteStream.toByteArray();
-            response.setContentType("application/ms-excel");
-            response.setContentLength(outArray.length);
-            response.setHeader("Expires:", "0"); // eliminates browser caching
-            response.setHeader("Content-Disposition", "attachment; filename=datim_HTC_TST_2018_Gen_On_" + createdOn + ".xls");
-            OutputStream outStream = response.getOutputStream();
-            outStream.write(outArray);
-            outStream.flush();
-            outStream.close();
+//            ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
+//            wb.write(outByteStream);
+//            byte[] outArray = outByteStream.toByteArray();
+//            response.setContentType("application/ms-excel");
+//            response.setContentLength(outArray.length);
+//            response.setHeader("Expires:", "0"); // eliminates browser caching
+//            response.setHeader("Content-Disposition", "attachment; filename=datim_HTC_TST_2018_Gen_On_" + createdOn + ".xls");
+//            OutputStream outStream = response.getOutputStream();
+//            outStream.write(outArray);
+//            outStream.flush();
+//            outStream.close();
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(newdatimHTCResults_2018Q1.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(htsdataset.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(newdatimHTCResults_2018Q1.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(htsdataset.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
     @Override
     public String getServletInfo() {
         return "Short description";
@@ -134,135 +123,32 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 
     
  
- public void HtsTst(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+ public HashMap HtsTst(dbConn conn,String sdate,String edate,String facil) throws SQLException {
  
  
  
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-               
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
                  //VMMC
                  HashMap<String,String> ipdhm;
                  HashMap<String,String> opdhm;
                  HashMap<String,String> vcthm;
                  HashMap<String,String> pmtcthm;
+                 HashMap<String,String> htshm;
                  
-                 
+                 htshm= new HashMap<String, String>();
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                 
-  if(1==1){VMMC(conn,request,wb);}
-   if(15==15){
-    VMMC_services(conn, request,wb);
-                         }
+ // if(1==1){VMMC(conn,sdate,edate,facil);}
+  
+   if(15==16){
+    VMMC_services(conn,sdate,edate,facil);
+             }
   
  //==================================================================================================
  //HTC RESULTS BY SDP           
  //==================================================================================================
            
-            if(1==1){
+            if(1==2){
             
-                HtsSdp(conn, request, wb);
+                HtsSdp(conn,sdate,edate,facil);
             }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                 
@@ -279,7 +165,7 @@ stylemainHeader.setWrapText(true);
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
                  
                  if(5==5){
-                     ipdhm=Ipd(conn,request,wb);
+                     ipdhm=Ipd(conn,sdate,edate,facil);
                  }//end of IPD 5==5
             
                
@@ -288,7 +174,7 @@ stylemainHeader.setWrapText(true);
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
                 
                  if(6==6){
-                    opdhm= Opd(conn,request,wb);
+                    opdhm= Opd(conn,sdate,edate,facil);
                  }//end of 6==6 OPD
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -297,7 +183,7 @@ stylemainHeader.setWrapText(true);
                  
                  if(8==8){
                  
-                vcthm= Vct(conn,request,wb);
+                vcthm= Vct(conn,sdate,edate,facil);
                  }//end of 8==8
          
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -305,25 +191,25 @@ stylemainHeader.setWrapText(true);
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
                  
                 if(9==9){
-                   pmtcthm = Pmtct(conn, request,wb);
+                   pmtcthm = Pmtct(conn,sdate,edate,facil);
                         }//end of 9==9
          
-               if(10==10){
-    TbClinics(conn, request,wb);
+               if(10==11){
+    TbClinics(conn,sdate,edate,facil);
                          }
                //malnutrition
-               if(11==11){
-    Malnutrition(conn, request,wb);
+               if(11==12){
+    Malnutrition(conn,sdate,edate,facil);
                          }
                //malnutrition
-               if(12==12){
-    Sti(conn, request,wb);
+               if(12==13){
+    Sti(conn,sdate,edate,facil);
                          }
-               if(13==13){
-    Emergency(conn, request,wb);
+               if(13==14){
+    Emergency(conn,sdate,edate,facil);
                          }
-                if(14==14){
-    IndexTesting(conn, request,wb);
+                if(14==15){
+    IndexTesting(conn,sdate,edate,facil);
                          }
                
                if(12==12){
@@ -353,8 +239,9 @@ String enddate="";
 
 //_________________enddate__________________________
 
-year=Integer.parseInt(request.getParameter("year"));
-  
+year=Integer.parseInt(edate.substring(0,4));
+
+
   
 Calendar ca= Calendar.getInstance();
   
@@ -384,81 +271,19 @@ if(selectedyear<currentyear){
  
 String facilityIds1="";
 
-facilityIds1="(";
 
-if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-
-String subcounty=request.getParameter("subcounty");
-
-String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+ if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+")"; }
 
 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
 
-+ "WHERE district.DistrictID='"+subcounty+"'  AND "+facilitiestable+".active=1  " ;
 
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"') and ";//20160711
-    
-
-conn.rs=conn.st.executeQuery(getDist);
-
-while(conn.rs.next()){
-
-allFacilities.add(conn.rs.getString(1));
  
+  reportDuration="4";
 
- facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
- 
-    }
-     
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     
 
-	 facilityIds1+=") && ";   
-
-	 } 
-	 
-     else{
-		 
-
-if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
-
-		 
-String county=request.getParameter("county");
-		 
-String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-		 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-	
-+ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1 and  ";//20160711
-         
-conn.rs=conn.st.executeQuery(getCounty);
-
-while(conn.rs.next()){
-		
-		
-allFacilities.add(conn.rs.getString(1));
-    
-
-facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
-   
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-	
-     facilityIds1+=") && "; 
-	 
-     }
-       
-        else{
-  
-       facilityIds1=""; 
-	   
-        }   
         
-     }      
-        reportDuration=request.getParameter("reportDuration");
+        
+      
         
 
         String period1="";
@@ -468,96 +293,15 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         
 //    GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-			
+    
+        
          
-        period1="DATIM HTS_TST for October "+prevYear+" to September "+year;
         
-        
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
     
-       
-     period1="DATIM HTS_TST PITC-TB for October "+prevYear+" to March "+year;
-   
-     
-       }
-       else {
-     
-      period1="DATIM HTS_TST for April "+year+" to September "+year; 
-       
-            
-       }
-       }
-        
-        else if(reportDuration.equals("3")){
-            
-            String startMonth,endMonth;
-            
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
-       
-       conn.rs=conn.st.executeQuery(getMonths);
-       
-       if(conn.rs.next()==true){
-           
-      String months []=conn.rs.getString(1).split(",");
-      
-       startMonth=months[0];
-       
-       endMonth=months[2];
-       
-      if(quarter.equals("1")){
           
-  
+     month=new Integer(edate.substring(4,6));
+     
       
-      period1="DATIM HTS_TST  for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      
-    
-      }
-      else{
-          
-           //___start and end date____
-     startdate=year+startMonth+"01";
-     
-     enddate=year+endMonth+""+conn.rs.getString("enddate");
-     
-     period1="DATIM HTS_TST for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-     
-      }
-        }
-       
-        }//end of quarrtely if  
-        
-      else if(reportDuration.equals("4")){
-          
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-     String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
-     
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-   
-     period1="DATIM HTS_TST  for : "+conn.rs.getString(1)+"("+prevYear+")";
-     
-     }
-     else{
-
-    period1="DATIM HTS_TST for : "+conn.rs.getString(1)+"("+year+")";
-   
-   
-    
-     }
-      }
-      }
-      else{
-        period1="";
-      }
 
  //__________________________________________________________________________________________ 
     
@@ -566,39 +310,15 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 //______________________________________________________________________________________  
        // HSSFWorkbook wb = new HSSFWorkbook();
 
-       
-
-        HSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        
-
-        stylesum.setFont(fontx);
-        stylesum.setWrapText(true);
-
-        HSSFSheet shet = wb.createSheet("HTS (HTC + PMTCT + serology)");
+      
 
         String mwaka="";
         
-        if(request.getParameter("year")!=null){
+       
         
-            mwaka=request.getParameter("year");
+        mwaka=""+year;
         
-        }
-       // dbConn conn = new dbConn();
-        //========Query 1=================
-        
-        HSSFRow rw0=shet.createRow(0);
-        HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(""+period1);
-                    cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
+   
                     
                 int count1  = 1;
         
@@ -609,69 +329,9 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Total tested","Total positive","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total Tested","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
                     
 					
-					
-					//create header1
-   HSSFRow rw1=shet.createRow( count1);  count1++;
-           rw1.setHeightInPoints(30);
-           
-           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
-         c1=rw1.createCell(0);
-         
-      //_____________________________________________________________report heading row 0   
-      c1.setCellValue(period1);
-      c1.setCellStyle(stylemainHeader);
-      for(int j=1;j<=pitc_ipd_header1.length-1;j++){
-      c1=rw1.createCell(j);
-       c1.setCellStyle(stylemainHeader);
-      }
-      
-      //-----------------------------------row 1 header 
-       rw0=shet.createRow( count1);  count1++; 
-       rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header1.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header1[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
- //-----------------------------------row 2 header 
-       rw0=shet.createRow( count1);  count1++; 
-       rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header2.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header2[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
-   
-    //-----------------------------------row 3 header 
-   rw0=shet.createRow( count1);   count1++; 
-   rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header3.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header3[i]);
-      clx.setCellStyle(stylemainHeader);
-       }
+
     String mergeinfor[]={"0,0,0,"+pitc_ipd_header1.length+"","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,4,6,6","2,2,7,30","2,2,31,54","2,4,55,55","2,4,56,56","2,4,57,57","2,4,41,41","3,3,7,8","3,3,31,32","2,4,58,58","2,4,59,59","2,4,60,60"};  
-   
-    for(int d=0;d<mergeinfor.length;d++){
-    if(!mergeinfor[d].equals("")){
-        String pos[]=mergeinfor[d].split(",");
-     shet.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
-    }
-                                         }
-    
-                
-                
-               // count1++;
-              
+             
                 int totalcolumns=0;
    
   String getsites="SELECT  county.County as county,district.DistrictNom as district," //
@@ -694,72 +354,176 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
      String htchv=conn.rs.getString("htchv");
      
      
-String cty=conn.rs.getString("county");
-String sty=conn.rs.getString("district");
-String fac=conn.rs.getString("facility");
-mfl=conn.rs.getString("mflcode");
-String st=conn.rs.getString("htcsupport");
-  double gtt=new Double(ipdhm.getOrDefault("gtt_"+mfl,"0"));
-  double gtp=new Double(ipdhm.getOrDefault("gtp_"+mfl,"0"));
- double ukpf=(new Double(ipdhm.getOrDefault("ukpf_"+mfl,"0")) + new Double(opdhm.getOrDefault("ukpf_"+mfl,"0")) + new Double(vcthm.getOrDefault("ukpf_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("ukpf_"+mfl,"0")));
- double ukpm=(new Double(ipdhm.getOrDefault("ukpm_"+mfl,"0")) + new Double(opdhm.getOrDefault("ukpm_"+mfl,"0")) + new Double(vcthm.getOrDefault("ukpm_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("ukpm_"+mfl,"0")));
- double pf1=(new Double(ipdhm.getOrDefault("pf1_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf1_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf1_"+mfl,"0")));
- double pm1=(new Double(ipdhm.getOrDefault("pm1_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm1_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm1_"+mfl,"0")));
- double pf4=(new Double(ipdhm.getOrDefault("pf4_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf4_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf4_"+mfl,"0")));
- double pm4=(new Double(ipdhm.getOrDefault("pm4_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm4_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm4_"+mfl,"0")));
- double pf9=(new Double(ipdhm.getOrDefault("pf9_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf9_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf9_"+mfl,"0")));
- double pm9=(new Double(ipdhm.getOrDefault("pm9_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm9_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm9_"+mfl,"0")));
- double pf14=(new Double(ipdhm.getOrDefault("pf14_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf14_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf14_"+mfl,"0")));
- double pm14=(new Double(ipdhm.getOrDefault("pm14_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm14_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm14_"+mfl,"0")));
- double pf19=(new Double(ipdhm.getOrDefault("pf19_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf19_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf19_"+mfl,"0")));
- double pm19=(new Double(ipdhm.getOrDefault("pm19_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm19_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm19_"+mfl,"0")));
- double pf24=(new Double(ipdhm.getOrDefault("pf24_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf24_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf24_"+mfl,"0")));
- double pm24=(new Double(ipdhm.getOrDefault("pm24_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm24_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm24_"+mfl,"0")));
- double pf29=(new Double(ipdhm.getOrDefault("pf29_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf29_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf29_"+mfl,"0")));
- double pm29=(new Double(ipdhm.getOrDefault("pm29_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm29_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm29_"+mfl,"0")));
- double pf34=(new Double(ipdhm.getOrDefault("pf34_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf34_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf34_"+mfl,"0")));
- double pm34=(new Double(ipdhm.getOrDefault("pm34_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm34_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm34_"+mfl,"0")));
- double pf39=(new Double(ipdhm.getOrDefault("pf39_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf39_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf39_"+mfl,"0")));
- double pm39=(new Double(ipdhm.getOrDefault("pm39_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm39_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm39_"+mfl,"0")));
- double pf49=(new Double(ipdhm.getOrDefault("pf49_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf49_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf49_"+mfl,"0")));
- double pm49=(new Double(ipdhm.getOrDefault("pm49_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm49_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm49_"+mfl,"0")));
- double pf50=(new Double(ipdhm.getOrDefault("pf50_"+mfl,"0")) + new Double(opdhm.getOrDefault("pf50_"+mfl,"0")) + new Double(vcthm.getOrDefault("pf50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pf50_"+mfl,"0")));
- double pm50=(new Double(ipdhm.getOrDefault("pm50_"+mfl,"0")) + new Double(opdhm.getOrDefault("pm50_"+mfl,"0")) + new Double(vcthm.getOrDefault("pm50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("pm50_"+mfl,"0")));
+ String cty=conn.rs.getString("county");
+ String sty=conn.rs.getString("district");
+ String fac=conn.rs.getString("facility");
+ mfl=conn.rs.getString("mflcode");
+ String st=conn.rs.getString("htcsupport");
+ for(int ymn=new Integer(sdate);ymn<=new Integer(edate);ymn++){
+ 
+ double gtt=new Double(ipdhm.getOrDefault("gtt_"+mfl+ymn,"0"));
+ double gtp=new Double(ipdhm.getOrDefault("gtp_"+mfl+ymn,"0"));
+ double ukpf=(new Double(ipdhm.getOrDefault("ukpf_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("ukpf_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("ukpf_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("ukpf_"+mfl+ymn,"0")));
+ double ukpm=(new Double(ipdhm.getOrDefault("ukpm_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("ukpm_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("ukpm_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("ukpm_"+mfl+ymn,"0")));
+ double pf1=(new Double(ipdhm.getOrDefault("pf1_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf1_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf1_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf1_"+mfl+ymn,"0")));
+ double pm1=(new Double(ipdhm.getOrDefault("pm1_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm1_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm1_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm1_"+mfl+ymn,"0")));
+ double pf4=(new Double(ipdhm.getOrDefault("pf4_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf4_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf4_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf4_"+mfl+ymn,"0")));
+ double pm4=(new Double(ipdhm.getOrDefault("pm4_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm4_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm4_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm4_"+mfl+ymn,"0")));
+ double pf9=(new Double(ipdhm.getOrDefault("pf9_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf9_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf9_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf9_"+mfl+ymn,"0")));
+ double pm9=(new Double(ipdhm.getOrDefault("pm9_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm9_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm9_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm9_"+mfl+ymn,"0")));
+ double pf14=(new Double(ipdhm.getOrDefault("pf14_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf14_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf14_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf14_"+mfl+ymn,"0")));
+ double pm14=(new Double(ipdhm.getOrDefault("pm14_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm14_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm14_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm14_"+mfl+ymn,"0")));
+ double pf19=(new Double(ipdhm.getOrDefault("pf19_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf19_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf19_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf19_"+mfl+ymn,"0")));
+ double pm19=(new Double(ipdhm.getOrDefault("pm19_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm19_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm19_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm19_"+mfl+ymn,"0")));
+ double pf24=(new Double(ipdhm.getOrDefault("pf24_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf24_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf24_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf24_"+mfl+ymn,"0")));
+ double pm24=(new Double(ipdhm.getOrDefault("pm24_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm24_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm24_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm24_"+mfl+ymn,"0")));
+ double pf29=(new Double(ipdhm.getOrDefault("pf29_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf29_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf29_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf29_"+mfl+ymn,"0")));
+ double pm29=(new Double(ipdhm.getOrDefault("pm29_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm29_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm29_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm29_"+mfl+ymn,"0")));
+ double pf34=(new Double(ipdhm.getOrDefault("pf34_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf34_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf34_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf34_"+mfl+ymn,"0")));
+ double pm34=(new Double(ipdhm.getOrDefault("pm34_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm34_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm34_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm34_"+mfl+ymn,"0")));
+ double pf39=(new Double(ipdhm.getOrDefault("pf39_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf39_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf39_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf39_"+mfl+ymn,"0")));
+ double pm39=(new Double(ipdhm.getOrDefault("pm39_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm39_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm39_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm39_"+mfl+ymn,"0")));
+ double pf49=(new Double(ipdhm.getOrDefault("pf49_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf49_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf49_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf49_"+mfl+ymn,"0")));
+ double pm49=(new Double(ipdhm.getOrDefault("pm49_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm49_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm49_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm49_"+mfl+ymn,"0")));
+ double pf50=(new Double(ipdhm.getOrDefault("pf50_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pf50_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pf50_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pf50_"+mfl+ymn,"0")));
+ double pm50=(new Double(ipdhm.getOrDefault("pm50_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("pm50_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("pm50_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("pm50_"+mfl+ymn,"0")));
  
  
  
- double uknf=(new Double(ipdhm.getOrDefault("uknf_"+mfl,"0")) + new Double(opdhm.getOrDefault("uknf_"+mfl,"0")) + new Double(vcthm.getOrDefault("uknf_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("uknf_"+mfl,"0")));
- double uknm=(new Double(ipdhm.getOrDefault("uknm_"+mfl,"0")) + new Double(opdhm.getOrDefault("uknm_"+mfl,"0")) + new Double(vcthm.getOrDefault("uknm_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("uknm_"+mfl,"0")));
- double nf1=(new Double(ipdhm.getOrDefault("nf1_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf1_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf1_"+mfl,"0")));
- double nm1=(new Double(ipdhm.getOrDefault("nm1_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm1_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm1_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm1_"+mfl,"0")));
- double nf4=(new Double(ipdhm.getOrDefault("nf4_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf4_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf4_"+mfl,"0")));
- double nm4=(new Double(ipdhm.getOrDefault("nm4_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm4_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm4_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm4_"+mfl,"0")));
- double nf9=(new Double(ipdhm.getOrDefault("nf9_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf9_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf9_"+mfl,"0")));
- double nm9=(new Double(ipdhm.getOrDefault("nm9_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm9_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm9_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm9_"+mfl,"0")));
- double nf14=(new Double(ipdhm.getOrDefault("nf14_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf14_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf14_"+mfl,"0")));
- double nm14=(new Double(ipdhm.getOrDefault("nm14_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm14_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm14_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm14_"+mfl,"0")));
- double nf19=(new Double(ipdhm.getOrDefault("nf19_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf19_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf19_"+mfl,"0")));
- double nm19=(new Double(ipdhm.getOrDefault("nm19_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm19_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm19_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm19_"+mfl,"0")));
- double nf24=(new Double(ipdhm.getOrDefault("nf24_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf24_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf24_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf24_"+mfl,"0")));
- double nm24=(new Double(ipdhm.getOrDefault("nm24_"+mfl,"0")) 
-         + new Double(opdhm.getOrDefault("nm24_"+mfl,"0")) 
-         + new Double(vcthm.getOrDefault("nm24_"+mfl,"0"))
-         + new Double(pmtcthm.getOrDefault("nm24_"+mfl,"0")));
- double nf29=(new Double(ipdhm.getOrDefault("nf29_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf29_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf29_"+mfl,"0")));
- double nm29=(new Double(ipdhm.getOrDefault("nm29_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm29_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm29_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm29_"+mfl,"0")));
- double nf34=(new Double(ipdhm.getOrDefault("nf34_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf34_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf34_"+mfl,"0")));
- double nm34=(new Double(ipdhm.getOrDefault("nm34_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm34_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm34_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm34_"+mfl,"0")));
- double nf39=(new Double(ipdhm.getOrDefault("nf39_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf39_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf39_"+mfl,"0")));
- double nm39=(new Double(ipdhm.getOrDefault("nm39_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm39_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm39_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm39_"+mfl,"0")));
- double nf49=(new Double(ipdhm.getOrDefault("nf49_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf49_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf49_"+mfl,"0")));
- double nm49=(new Double(ipdhm.getOrDefault("nm49_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm49_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm49_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm49_"+mfl,"0")));
- double nf50=(new Double(ipdhm.getOrDefault("nf50_"+mfl,"0")) + new Double(opdhm.getOrDefault("nf50_"+mfl,"0")) + new Double(vcthm.getOrDefault("nf50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nf50_"+mfl,"0")));
- double nm50=(new Double(ipdhm.getOrDefault("nm50_"+mfl,"0")) + new Double(opdhm.getOrDefault("nm50_"+mfl,"0")) + new Double(vcthm.getOrDefault("nm50_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("nm50_"+mfl,"0")));
- double tt  =(new Double(ipdhm.getOrDefault("tt_"+mfl,"0")) + new Double(opdhm.getOrDefault("tt_"+mfl,"0")) + new Double(vcthm.getOrDefault("tt_"+mfl,"0"))+ new Double(pmtcthm.getOrDefault("tt_"+mfl,"0")));
-            
-           
+ double uknf=(new Double(ipdhm.getOrDefault("uknf_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("uknf_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("uknf_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("uknf_"+mfl+ymn,"0")));
+ double uknm=(new Double(ipdhm.getOrDefault("uknm_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("uknm_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("uknm_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("uknm_"+mfl+ymn,"0")));
+ double nf1=(new Double(ipdhm.getOrDefault("nf1_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf1_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf1_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf1_"+mfl+ymn,"0")));
+ double nm1=(new Double(ipdhm.getOrDefault("nm1_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm1_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm1_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm1_"+mfl+ymn,"0")));
+ double nf4=(new Double(ipdhm.getOrDefault("nf4_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf4_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf4_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf4_"+mfl+ymn,"0")));
+ double nm4=(new Double(ipdhm.getOrDefault("nm4_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm4_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm4_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm4_"+mfl+ymn,"0")));
+ double nf9=(new Double(ipdhm.getOrDefault("nf9_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf9_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf9_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf9_"+mfl+ymn,"0")));
+ double nm9=(new Double(ipdhm.getOrDefault("nm9_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm9_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm9_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm9_"+mfl+ymn,"0")));
+ double nf14=(new Double(ipdhm.getOrDefault("nf14_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf14_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf14_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf14_"+mfl+ymn,"0")));
+ double nm14=(new Double(ipdhm.getOrDefault("nm14_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm14_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm14_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm14_"+mfl+ymn,"0")));
+ double nf19=(new Double(ipdhm.getOrDefault("nf19_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf19_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf19_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf19_"+mfl+ymn,"0")));
+ double nm19=(new Double(ipdhm.getOrDefault("nm19_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm19_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm19_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm19_"+mfl+ymn,"0")));
+ double nf24=(new Double(ipdhm.getOrDefault("nf24_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf24_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf24_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf24_"+mfl+ymn,"0")));
+ double nm24=(new Double(ipdhm.getOrDefault("nm24_"+mfl+ymn,"0")) 
+         + new Double(opdhm.getOrDefault("nm24_"+mfl+ymn,"0")) 
+         + new Double(vcthm.getOrDefault("nm24_"+mfl+ymn,"0"))
+         + new Double(pmtcthm.getOrDefault("nm24_"+mfl+ymn,"0")));
+ double nf29=(new Double(ipdhm.getOrDefault("nf29_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf29_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf29_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf29_"+mfl+ymn,"0")));
+ double nm29=(new Double(ipdhm.getOrDefault("nm29_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm29_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm29_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm29_"+mfl+ymn,"0")));
+ double nf34=(new Double(ipdhm.getOrDefault("nf34_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf34_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf34_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf34_"+mfl+ymn,"0")));
+ double nm34=(new Double(ipdhm.getOrDefault("nm34_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm34_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm34_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm34_"+mfl+ymn,"0")));
+ double nf39=(new Double(ipdhm.getOrDefault("nf39_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf39_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf39_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf39_"+mfl+ymn,"0")));
+ double nm39=(new Double(ipdhm.getOrDefault("nm39_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm39_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm39_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm39_"+mfl+ymn,"0")));
+ double nf49=(new Double(ipdhm.getOrDefault("nf49_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf49_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf49_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf49_"+mfl+ymn,"0")));
+ double nm49=(new Double(ipdhm.getOrDefault("nm49_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm49_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm49_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm49_"+mfl+ymn,"0")));
+ double nf50=(new Double(ipdhm.getOrDefault("nf50_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nf50_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nf50_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nf50_"+mfl+ymn,"0")));
+ double nm50=(new Double(ipdhm.getOrDefault("nm50_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("nm50_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("nm50_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("nm50_"+mfl+ymn,"0")));
+ double tt  =(new Double(ipdhm.getOrDefault("tt_"+mfl+ymn,"0")) + new Double(opdhm.getOrDefault("tt_"+mfl+ymn,"0")) + new Double(vcthm.getOrDefault("tt_"+mfl+ymn,"0"))+ new Double(pmtcthm.getOrDefault("tt_"+mfl+ymn,"0")));
+ String burdencategory = opdhm.getOrDefault("burdencategory_"+mfl+ymn,"");
+ String constituency = opdhm.getOrDefault("constituency_"+mfl+ymn,"");
+ String ward = opdhm.getOrDefault("ward_"+mfl+ymn,"");
+ String yr = opdhm.getOrDefault("year_"+mfl+ymn,"");
+ String semiannual = opdhm.getOrDefault("semiannual_"+mfl+ymn,"");
+ String qtr = opdhm.getOrDefault("quarter_"+mfl+ymn,"");
+ String mn = opdhm.getOrDefault("month_"+mfl+ymn,"");
+ String ym = opdhm.getOrDefault("yearmonth_"+mfl+ymn,"");
+ String ownedby = opdhm.getOrDefault("ownedby_"+mfl+ymn,"");
+ String facilitytype = opdhm.getOrDefault("facilitytype_"+mfl+ymn,"");
+ String art_hv = opdhm.getOrDefault("art_hv_"+mfl+ymn,"0");
+ String htc_hv = opdhm.getOrDefault("htc_hv_"+mfl+ymn,"0");
+ String pmtct_hv = opdhm.getOrDefault("pmtct_hv_"+mfl+ymn,"0");
+ String activity_hv = opdhm.getOrDefault("activity_hv_"+mfl+ymn,"0");
+ String latitude = opdhm.getOrDefault("latitude_"+mfl+ymn,"");
+ String longitude = opdhm.getOrDefault("longitude_"+mfl+ymn,"");
+ String maleclinic = opdhm.getOrDefault("maleclinic_"+mfl+ymn,"0");
+ String adoleclinic = opdhm.getOrDefault("adoleclinic_"+mfl+ymn,"0");
+ String viremiaclinic = ipdhm.getOrDefault("viremiaclinic_"+mfl+ymn,"0");
+ String emrsite = opdhm.getOrDefault("emrsite_"+mfl+ymn,"0");
+ String linkdesk = opdhm.getOrDefault("linkdesk_"+mfl+ymn,"0");
+ String islocked = opdhm.getOrDefault("islocked_"+mfl+ymn,"0");
 
-
+ //now put the values in an output
+ 
+ 
+  htshm.put("cty"+"_"+mfl+ymn, cty);
+  htshm.put("sty"+"_"+mfl+ymn, sty);
+  htshm.put("fac"+"_"+mfl+ymn, fac);
+  htshm.put("mfl"+"_"+mfl+ymn, ""+mfl);
+  htshm.put("st"+"_"+mfl+ymn, st);
+  htshm.put("gtt"+"_"+mfl+ymn,""+gtt);
+  htshm.put("gtp"+"_"+mfl+ymn,""+gtp);
+  htshm.put("ukpf"+"_"+mfl+ymn,""+ukpf);
+  htshm.put("ukpm"+"_"+mfl+ymn,""+ukpm);
+  htshm.put("pf1"+"_"+mfl+ymn,""+pf1);
+  htshm.put("pm1"+"_"+mfl+ymn,""+pm1);
+  htshm.put("pf4"+"_"+mfl+ymn,""+pf4);
+  htshm.put("pm4"+"_"+mfl+ymn,""+pm4);
+  htshm.put("pf9"+"_"+mfl+ymn,""+pf9);
+  htshm.put("pm9"+"_"+mfl+ymn,""+pm9);
+  htshm.put("pf14"+"_"+mfl+ymn,""+pf14);
+  htshm.put("pm14"+"_"+mfl+ymn,""+pm14);
+  htshm.put("pf19"+"_"+mfl+ymn,""+pf19);
+  htshm.put("pm19"+"_"+mfl+ymn,""+pm19);
+  htshm.put("pf24"+"_"+mfl+ymn,""+pf24);
+  htshm.put("pm24"+"_"+mfl+ymn,""+pm24);
+  htshm.put("pf29"+"_"+mfl+ymn,""+pf29);
+  htshm.put("pm29"+"_"+mfl+ymn,""+pm29);
+  htshm.put("pf34"+"_"+mfl+ymn,""+pf34);
+  htshm.put("pm34"+"_"+mfl+ymn,""+pm34);
+  htshm.put("pf39"+"_"+mfl+ymn,""+pf39);
+  htshm.put("pm39"+"_"+mfl+ymn,""+pm39);
+  htshm.put("pf49"+"_"+mfl+ymn,""+pf49);
+  htshm.put("pm49"+"_"+mfl+ymn,""+pm49);
+  htshm.put("pf50"+"_"+mfl+ymn,""+pf50);
+  htshm.put("pm50"+"_"+mfl+ymn,""+pm50);
+  //_____negative
+  htshm.put("uknf"+"_"+mfl+ymn,""+uknf);
+  htshm.put("uknm"+"_"+mfl+ymn,""+uknm);
+  htshm.put("nf1"+"_"+mfl+ymn,""+nf1);
+  htshm.put("nm1"+"_"+mfl+ymn,""+nm1);
+  htshm.put("nf4"+"_"+mfl+ymn,""+nf4);
+  htshm.put("nm4"+"_"+mfl+ymn,""+nm4);
+  htshm.put("nf9"+"_"+mfl+ymn,""+nf9);
+  htshm.put("nm9"+"_"+mfl+ymn,""+nm9);
+  htshm.put("nf14"+"_"+mfl+ymn,""+nf14);
+  htshm.put("nm14"+"_"+mfl+ymn,""+nm14);
+  htshm.put("nf19"+"_"+mfl+ymn,""+nf19);
+  htshm.put("nm19"+"_"+mfl+ymn,""+nm19);
+  htshm.put("nf24"+"_"+mfl+ymn,""+nf24);
+  htshm.put("nm24"+"_"+mfl+ymn,""+nm24);
+  htshm.put("nf29"+"_"+mfl+ymn,""+nf29);
+  htshm.put("nm29"+"_"+mfl+ymn,""+nm29);
+  htshm.put("nf34"+"_"+mfl+ymn,""+nf34);
+  htshm.put("nm34"+"_"+mfl+ymn,""+nm34);
+  htshm.put("nf39"+"_"+mfl+ymn,""+nf39);
+  htshm.put("nm39"+"_"+mfl+ymn,""+nm39);
+  htshm.put("nf49"+"_"+mfl+ymn,""+nf49);
+  htshm.put("nm49"+"_"+mfl+ymn,""+nm49);
+  htshm.put("nf50"+"_"+mfl+ymn,""+nf50);
+  htshm.put("nm50"+"_"+mfl+ymn,""+nm50);
+  htshm.put("tt"+"_"+mfl+ymn,""+tt);
+  htshm.put("burdencategory"+"_"+mfl+ymn, burdencategory);
+  htshm.put("constituency"+"_"+mfl+ymn, constituency);
+  htshm.put("ward"+"_"+mfl+ymn, ward);
+  htshm.put("year"+"_"+mfl+ymn, yr);
+  htshm.put("semiannual"+"_"+mfl+ymn, semiannual);
+  htshm.put("quarter"+"_"+mfl+ymn, qtr);
+  htshm.put("month"+"_"+mfl+ymn, mn);
+  htshm.put("yearmonth"+"_"+mfl+ymn, ym);
+  htshm.put("ownedby"+"_"+mfl+ymn, ownedby);
+  htshm.put("facilitytype"+"_"+mfl+ymn, facilitytype);
+  htshm.put("art_hv"+"_"+mfl+ymn, art_hv);
+  htshm.put("htc_hv"+"_"+mfl+ymn, htc_hv);
+  htshm.put("pmtct_hv"+"_"+mfl+ymn, pmtct_hv);
+  htshm.put("activity_hv"+"_"+mfl+ymn, activity_hv);
+  htshm.put("latitude"+"_"+mfl+ymn, latitude);
+  htshm.put("longitude"+"_"+mfl+ymn, longitude);
+  htshm.put("maleclinic"+"_"+mfl+ymn, maleclinic);
+  htshm.put("adoleclinic"+"_"+mfl+ymn, adoleclinic);
+  htshm.put("viremiaclinic"+"_"+mfl+ymn, viremiaclinic);
+  htshm.put("emrsite"+"_"+mfl+ymn, emrsite);
+  htshm.put("linkdesk"+"_"+mfl+ymn, linkdesk);
+  htshm.put("islocked"+"_"+mfl+ymn, islocked);
+ 
 
 
 
@@ -792,171 +556,44 @@ String st=conn.rs.getString("htcsupport");
         ,""+nf39,""+nm39
         ,""+nf49,""+nm49
         ,""+nf50,""+nm50
-        ,""+tt,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
+        ,""+tt
+        ,""+arthv
+        ,""+htchv
+        ,""+pmtcthv
+        ,""+conn.rs.getString("HTC")
+        ,""+conn.rs.getString("PMTCT")
           
         };
 
  totalcolumns=alldatavals.length;
             //data rows     
-            HSSFRow rw = shet.createRow(count1);
+           
 int mypos=0;
-HSSFCell cxy = null;
-for(int a=0;a<alldatavals.length;a++){
-      
-       cxy=rw.createCell(mypos);mypos++;
-       if(a==4||a<3)
-       {
-           //non numeric characters
-        cxy.setCellValue(alldatavals[a]);
-       }
-       else {
-        cxy.setCellValue(new Double(alldatavals[a]).intValue());
-       
-       }
-      
-       cxy.setCellStyle(stborder);
-  
-  }
 
-            // System.out.println("");
-            count1++;
+//for(int a=0;a<alldatavals.length;a++)
+//{
+//      
+//       mypos++;
+//     
+//  }
+ count1++;
+        }
         }
         
         
-        
-        
-        
-        
-        
-  
-        
-        //Autofreeze  || Autofilter  || Remove Gridlines ||  
-        
-        shet.setAutoFilter(new CellRangeAddress(4, count1 - 1, 0, totalcolumns-1));
-
-        //System.out.println("1,"+rowpos+",0,"+colposcopy);
-        for (int i = 0; i <= 5; i++) 
-        {
-            shet.autoSizeColumn(i);
-        }
-
-        shet.setDisplayGridlines(false);
-        shet.createFreezePane(5, 5); 
-
+}
  
-               }
- 
- 
+ return htshm;
  }
- public void HtsSdp(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+ public void HtsSdp(dbConn conn,String sdate,String edate,String facil) throws SQLException {
    //new htc for PITC 
  String facilitiestable="subpartnera";
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
-            
+ 
+         
             
             String month = "";
             String year = "";
-            String facil = "361";
+          
             String form = "moh731";
             
 //=====================================================================================================
@@ -969,74 +606,17 @@ stylemainHeader.setWrapText(true);
             String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","ART High Volume","HTC High Volume","PMTCT High Volume","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","Tuberculosis","","","Outpatient Department","","","Inpatient","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Serology","",""};
            
             String reportType = "";
-            if (request.getParameter("reportType") != null) {
-                reportType = request.getParameter("reportType");
-            }
+           
             String reportDuration = "";
-            if (request.getParameter("reportDuration") != null) {
-                reportDuration = request.getParameter("reportDuration");
-            }
+           
             
-            if (request.getParameter("year") != null) {
-                year = request.getParameter("year");
-            }
+                reportDuration = "4";
             
-            if (request.getParameter("facility") != null && reportType.equals("2")) {
-                try {
-                    facil = request.getParameter("facility");
-                    
-                    String getfacil = "select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='" + facil + "'  AND "+facilitiestable+".active=1 ";
-                    conn.rs = conn.st.executeQuery(getfacil);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " FACILITY : " + conn.rs.getString(1).toUpperCase() + "     MFL CODE  :  " + conn.rs.getString(2) + "  ";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            if (request.getParameter("county") != null && reportType.equals("2")) {
-                try {
-                    county = request.getParameter("county");
-                   subcounty_countywhere=" (county.CountyID='"+county+"') and ";//20160711   
-                    String getcounty = "select County from county where CountyID='" + county + "'";
-                    conn.rs = conn.st.executeQuery(getcounty);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " COUNTY : " + conn.rs.getString(1).toUpperCase() + " ";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            if (request.getParameter("month") != null && reportDuration.equals("4")) {
-                try {
-                    month = request.getParameter("month");
-                    
-                    String getmonth = "select name as monthname from month where id='" + month + "'";
-                    conn.rs = conn.st.executeQuery(getmonth);
-                    
-                    while (conn.rs.next()) {
-                        
-                        header += " MONTH : " + conn.rs.getString(1).toUpperCase() + "";
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            
-            header += " YEAR : " + year + "";
-            
+           
+              year = edate.substring(0,4);
+           
+          
+      
             String facilitywhere = "";
             String yearwhere = "";
             String monthwhere = "";
@@ -1056,71 +636,30 @@ stylemainHeader.setWrapText(true);
             int prevYear = yearcopy - 1;
             int maxYearMonth = 0;
             int monthcopy = 0;
+            
 //        GET REPORT DURATION============================================
-            //annually
-            if (reportDuration.equals("1")) {
-                yearmonth = "Annual Report For " + year;
-                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "09";
-                tbstatduration="year='"+year+"'";
-            } else if (reportDuration.equals("2")) {
-                semi_annual = request.getParameter("semi_annual");
-//        semi_annual="2";
-                if (semi_annual.equals("1")) {
-                    yearmonth = "Semi Annual Report For " + prevYear + " Oct to " + year + " Mar";
-                    duration = " " + form + ".yearmonth BETWEEN " + prevYear + "10 AND " + year + "03";
-                     tbstatduration="year='"+year+"' and (quarter='1' || quarter='2') ";
-                } else {
-                    yearmonth = "Semi Annual Report for Apr to  Sep " + year;
-                    duration = " " + form + ".yearmonth BETWEEN " + year + "04 AND " + year + "09";
-                     tbstatduration="year='"+year+"' and (quarter='2' || quarter='3') ";
-                }
-            } else if (reportDuration.equals("3")) {
-                try {
-                    
-                    //quarterly
-                    String startMonth, endMonth;
-                    quarter = request.getParameter("quarter");
-                    //       quarter="3";
-                    
-                     tbstatduration="year='"+year+"' and quarter='"+quarter+"'  ";
-                     
-                    String getMonths = "SELECT months,name FROM quarter WHERE id='" + quarter + "'";
-                    conn.rs = conn.st.executeQuery(getMonths);
-                    if (conn.rs.next() == true) {
-                        
-                        try {
-                            String months[] = conn.rs.getString(1).split(",");
-                            startMonth = months[0];
-                            endMonth = months[2];
-                            if (quarter.equals("1")) {
-                                duration = " " + form + ".yearmonth BETWEEN " + prevYear + "" + startMonth + " AND " + prevYear + "" + endMonth;
-                                yearmonth = "Quarterly Report For " + prevYear + " " + conn.rs.getString(2);
-                            } else {
-                                yearmonth = "Quarterly Report For " + year + " (" + conn.rs.getString(2) + ")";
-                                duration = " " + form + ".yearmonth BETWEEN " + year + "" + startMonth + " AND " + year + "" + endMonth;
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(datimHTCResults.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if (reportDuration.equals("4")) {
-                monthcopy = Integer.parseInt(request.getParameter("month"));
+            if (reportDuration.equals("4")) {
+                
+                monthcopy =new Integer(edate.substring(4,6));
+                
                 
                 //since we dont want data to appear for monthly reports, we set an impossible 
                 tbstatduration=" 1=2 "; 
 //     month=5;
                 if (monthcopy >= 10) {
                     
-                    yearmonth = "Monthly Report For " + prevYear + "_(" + month + ")";
-                    duration = " " + form + ".yearmonth=" + prevYear + "" + month;
+                  
+                    duration = " (" + form + ".yearmonth between " + sdate + " and " + edate+" )";
+                    
                 } else {
-                    duration = " " + form + ".yearmonth=" + year + "0" + month;
-                    yearmonth = "Monthly Report For " + year + "_(" + month + ")";
+                    
+                    duration = " (" + form + ".yearmonth between " + sdate + " and " + edate+" )";
+                    
+                    
                 }
+                
             } else {
+                
                 duration = "";
             }
             
@@ -1131,36 +670,25 @@ stylemainHeader.setWrapText(true);
             
             String subcounty = "";
             
-            if (!request.getParameter("subcounty").equals("")) {
-                
-                subcounty = request.getParameter("subcounty");
-                  subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and "; 
-            }
+        
             
-            if (!request.getParameter("county").equals("")) {
-                county=request.getParameter("county");
-                   subcounty_countywhere=" (district.countyid='"+request.getParameter("county")+"') and ";//20160711 
-            }
+            
+           
+            
+            
             
             String getexistingdata = "";
             
-            if (!county.equals("")) {
-                
-                countywhere = " and district.countyid = '" + county + "'";
-           
-            }
+        
             
-            if (!subcounty.equals("")) {
-                
-                subcountywhere = " and subpartnera.DistrictID = '" + subcounty + "'";
-              
-            }
-            
-            if (!facil.equals("")&& reportType.equalsIgnoreCase("2")) {
+            if (!facil.equals("")) {
                 
                 facilitywhere = " and " + form + ".SubPartnerID = '" + facil + "'";
                 
             }
+            
+         
+            
             
             String joinedwhwere = " where 1=1 " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
            
@@ -1240,64 +768,21 @@ stylemainHeader.setWrapText(true);
             //                       NOW CREATE THE WORKSHEETS
             //______________________________________________________________________________________
          
-            HSSFSheet shet = wb.createSheet("HTC RESULTS BY SDP");
+           
             
             
             int rowpos=0;
-            //create headers for that worksheet
-            HSSFRow rw = shet.createRow(rowpos);
-            rw.setHeightInPoints(25);
-            HSSFCell cl0 = rw.createCell(0);
-            cl0.setCellValue("HTC Results BY Service Delivery Point and Test Result(Required) " + yearmonth);
-            cl0.setCellStyle(style);
+          
             rowpos++;
-            for (int a = 1; a < sectionheaders.length; a++) {
-                HSSFCell clx = rw.createCell(a);
-                clx.setCellValue("");
-                clx.setCellStyle(style);
-                shet.setColumnWidth(a, 5000);
-            }
-           
-            HSSFRow rw1 = shet.createRow(rowpos);
-            rw1.setHeightInPoints(38);
+        
+         
             rowpos++;
             
-            for (int a = 0; a <sectionheaders.length; a++) {
-                HSSFCell clx = rw1.createCell(a);
-                clx.setCellValue(sectionheaders[a]);
-                clx.setCellStyle(stylex);
-              
-                if(a>7&&a<sectionheaders.length){
-                    if(sectionheaders[a].equals("")){}
-                    else {
-                        shet.addMergedRegion(new CellRangeAddress(1,1,a,a+2));
-                    }
-                }
-            }
-            shet.addMergedRegion(new CellRangeAddress(0,0,0,sectionheaders.length-1));
-            
-            shet.setColumnWidth(0, 5000);
-            
-            //add section 2
-            HSSFRow rw2 = shet.createRow(rowpos);
-            rw2.setHeightInPoints(25);
-            
-            for (int a = 0; a <8; a++) {
-                HSSFCell clx = rw2.createCell(a);
-                clx.setCellValue("");
-                clx.setCellStyle(stylex);
-                shet.addMergedRegion(new CellRangeAddress(rowpos-1,rowpos,a,a));
-                                       }
+          
+       
             
             int b=0;
-            for (int a = 8; a <sectionheaders.length; a++) {
-                HSSFCell clx = rw2.createCell(a);
-                clx.setCellValue(subheaders[b]);
-                b++;
-                if(b==3){b=0;}
-                clx.setCellStyle(stylex);
-                
-                                                            }
+          
             rowpos++;
           
             conn.rs= conn.st.executeQuery(getexistingdata);
@@ -1329,8 +814,7 @@ staticpmtct_hv.remove(mflindex);
                 
                 int colpos=0; 
            int conpos=1; 
-               HSSFRow rwx = shet.createRow(rowpos); 
-               rwx.setHeightInPoints(25);
+            
                
                 int arthv=0;
                 int htchv=0;
@@ -1346,9 +830,7 @@ staticpmtct_hv.remove(mflindex);
                //county
                if(1==1){
                        
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase()+conn.rs.getString(conpos).substring(1).toLowerCase());
-                clx.setCellStyle(style2);
+               
                
             colpos++;
             conpos++;
@@ -1357,9 +839,7 @@ staticpmtct_hv.remove(mflindex);
                 //subcounty
                  if(1==1){
                         
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getString(conpos));
-                clx.setCellStyle(style2);
+              
                
             colpos++;
             conpos++;
@@ -1368,9 +848,7 @@ staticpmtct_hv.remove(mflindex);
                  //facility name
                    if(1==1){
                       
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getString(conpos));
-                clx.setCellStyle(style2);
+              
                
             colpos++;
             conpos++;
@@ -1379,9 +857,7 @@ staticpmtct_hv.remove(mflindex);
                    //mfl
                    if(1==1){
                          
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+                
                
             colpos++;
             conpos++;
@@ -1402,9 +878,7 @@ staticpmtct_hv.remove(mflindex);
  }
    System.out.println("______:"+conn.rs.getString("HTC_Support1")+":__"+support);                
                   
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(support/*"DSD" *//**/);
-                clx.setCellStyle(style2);
+              
                
             colpos++;
             //skip both pmtct support s
@@ -1415,9 +889,7 @@ staticpmtct_hv.remove(mflindex);
             //arthv
                    if(1==1){
                          
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(arthv);
-                clx.setCellStyle(style2);               
+                              
             colpos++;           
                            
                }          
@@ -1425,18 +897,14 @@ staticpmtct_hv.remove(mflindex);
             //htchv
                    if(1==1){
                          
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(htchv);
-                clx.setCellStyle(style2);               
+                              
             colpos++;           
                            
                }
                    //pmtcthv
                    if(1==1){
                          
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(pmtcthv);
-                clx.setCellStyle(style2);               
+                            
             colpos++;           
                            
                           } 
@@ -1456,20 +924,16 @@ staticpmtct_hv.remove(mflindex);
                 negative=tested-positive;
                 
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                               
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+           
+                             
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+             
+                              
                 colpos++;
                 
                }                 
@@ -1489,20 +953,14 @@ staticpmtct_hv.remove(mflindex);
                 
               
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                             
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                            
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+                              
                 colpos++;
                 
                }       
@@ -1520,7 +978,7 @@ staticpmtct_hv.remove(mflindex);
                 int negative=0;
                 
                 
-          String getstat="select sum(positive) as positive ,sum(negative) as negative from   eid_datim join subpartnera on eid_datim.SubPartnerID=subpartnera.SubPartnerID   WHERE "+tbstatduration+" and  eid_datim.SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and (subpartnera.HTC=1 || subpartnera.PMTCT=1 )   AND "+facilitiestable+".active=1 ";
+          String getstat="select sum(positive) as positive ,sum(negative) as negative from   eid_datim join subpartnera on eid_datim.SubPartnerID=subpartnera.SubPartnerID   WHERE "+tbstatduration+" and  eid_datim.SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ("+facilitiestable+".HTC=1 || subpartnera.PMTCT=1 )   AND "+facilitiestable+".active=1 ";
           conn.rs1=conn.st1.executeQuery(getstat);
            
           if(conn.rs1.next()){ //uncomment if to get data from tbstat
@@ -1540,38 +998,38 @@ staticpmtct_hv.remove(mflindex);
                    }
           
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
+             
                if(!reportDuration.equals("4")){         //if generating a monthly report, dont show data since tb stat data is quarterly                  
                //if(1==1){                          
-                clx.setCellValue(tested);
+              
                        }
                 else {
-                clx.setCellValue("");
+             
                      }
-                clx.setCellStyle(style2);               
+              
                 colpos++;
                 //positive
-                   HSSFCell clx1 = rwx.createCell(colpos);   
+                    
                 if(!reportDuration.equals("4")){        //if generating a monthly report, dont show data since tb stat data is quarterly                      
                 //if(1==1){                          
-                clx1.setCellValue(positive);
+                
                                                 }
                 else {
-                clx1.setCellValue("");
+               
                      }
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
+            
                 if(!reportDuration.equals("4")){    //if generating a monthly report, dont show data since tb stat data is quarterly                          
                 //if(1==1){                          
-                clx2.setCellValue(negative);
+              
                         }
                 else {
-                clx2.setCellValue("");
+                
                      }
-                clx2.setCellStyle(style2);               
+                            
                 colpos++;
                 
                }                     
@@ -1596,20 +1054,15 @@ staticpmtct_hv.remove(mflindex);
                 negative=tested-positive;
                 
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+              
+                          
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+                              
                 colpos++;
                 
                }       
@@ -1626,20 +1079,14 @@ staticpmtct_hv.remove(mflindex);
                 negative=tested-positive;
                 
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                              
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+                             
                 colpos++;
                 
                }       
@@ -1808,24 +1255,26 @@ staticpmtct_hv.remove(mflindex);
                    }
               
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-               if(!reportDuration.equals("4")){  clx.setCellValue(tested);}
-                else { clx.setCellValue(""); }
-                clx.setCellStyle(style2);               
+            
+               if(!reportDuration.equals("4")){
+                  
+               }
+                else {}
+                             
                 colpos++;
                 //positive
-                   HSSFCell clx1 = rwx.createCell(colpos);   
-                if(!reportDuration.equals("4")){ clx1.setCellValue(positive);  }
-                else {  clx1.setCellValue("");  }
-                clx1.setCellStyle(style2);               
+                 
+                if(!reportDuration.equals("4")){   }
+                else {   }
+                            
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
+            
                 if(!reportDuration.equals("4")){    //if generating a monthly report, dont show data since tb stat data is quarterly                          
-                clx2.setCellValue(negative);}
-                else { clx2.setCellValue("");}
-                clx2.setCellStyle(style2);    colpos++;}                     
+                }
+                else { }
+               colpos++;}                     
                    
                    
 //-------------------------------------------------------------------------------------------------------------------                   
@@ -1838,20 +1287,14 @@ staticpmtct_hv.remove(mflindex);
                 int negative=0;
                 
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                              
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                               
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+                               
                 colpos++;
                 
                } 
@@ -1861,20 +1304,14 @@ staticpmtct_hv.remove(mflindex);
        
        if(1==1){
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(outpatienttested);
-                clx.setCellStyle(style2);               
+                              
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(outpatientpos);
-                clx1.setCellStyle(style2);               
+                               
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(outpatientneg);
-                clx2.setCellStyle(style2);               
+                              
                 colpos++;
                 
                }             
@@ -1885,21 +1322,15 @@ staticpmtct_hv.remove(mflindex);
 
                 
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(inpatienttested);
-                clx.setCellStyle(style2);               
+                               
                 colpos++;
                 
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(inpatientpos);
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(inpatientneg);
-                clx2.setCellStyle(style2);               
+                              
                 colpos++;
                }             
             
@@ -1916,19 +1347,13 @@ staticpmtct_hv.remove(mflindex);
                // negative=tested-positive;
                 
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                               
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+                              
                 colpos++;
                }        
                
@@ -1946,20 +1371,14 @@ staticpmtct_hv.remove(mflindex);
                 tested=negative+positive;
                 
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                               
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                               
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+                               
                 colpos++;
                }        
               
@@ -1967,37 +1386,25 @@ staticpmtct_hv.remove(mflindex);
               
                  //VCT  (Co-located)
               if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(vcttested);
-                clx.setCellStyle(style2);               
+                               
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(vctpos);
-                clx1.setCellStyle(style2);               
+                               
                 colpos++;
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(vctneg);
-                clx2.setCellStyle(style2);               
+                             
                 colpos++;
                }        
                
              //serology
               if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt("serology_tes"));
-                clx.setCellStyle(style2);               
+                               
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(conn.rs.getInt("serology_pos"));
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(conn.rs.getInt("serology_neg"));
-                clx2.setCellStyle(style2);               
+                              
                 colpos++;
                } 
            
@@ -2009,20 +1416,14 @@ staticpmtct_hv.remove(mflindex);
                 int positive=0;
                 int negative=0;
               
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                               
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2);               
+                              
                 colpos++;
                }  
               
@@ -2034,12 +1435,12 @@ staticpmtct_hv.remove(mflindex);
                 int positive=0;
                 int negative=0;
                 //tested
-                HSSFCell clx = rwx.createCell(colpos); clx.setCellValue(tested); clx.setCellStyle(style2);  colpos++;
+                colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);  clx1.setCellValue(positive);  clx1.setCellStyle(style2);  colpos++;
+                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos); clx2.setCellValue(negative); clx2.setCellStyle(style2);  colpos++;}  
+                 colpos++;}  
               
                 //Home Based  
   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX COMMENTED FOR NOW XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -2050,17 +1451,13 @@ staticpmtct_hv.remove(mflindex);
                 int negative=0;
               
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                              
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                             
                 colpos++;
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos); clx2.setCellValue(negative); clx2.setCellStyle(style2);    colpos++; }  
+                 colpos++; }  
              
               //Other
               
@@ -2071,20 +1468,15 @@ staticpmtct_hv.remove(mflindex);
                 int positive=0;
                 int negative=0;
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(tested);
-                clx.setCellStyle(style2);               
+                             
                 colpos++;
                 //positive
-                HSSFCell clx1 = rwx.createCell(colpos);
-                clx1.setCellValue(positive);
-                clx1.setCellStyle(style2);               
+                            
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                clx2.setCellValue(negative);
-                clx2.setCellStyle(style2); colpos++; }  
+              colpos++; 
+              }  
               
                rowpos++;    
             }
@@ -2099,12 +1491,10 @@ staticpmtct_hv.remove(mflindex);
                 
                int colpos=0; 
                int conpos=1; 
-               HSSFRow rwx = shet.createRow(rowpos); 
-               rwx.setHeightInPoints(25); 
-          
-           String getstat=  "select  county,DistrictNom,   SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1 as supporttype , IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume, sum(eid_datim.positive) as positive ,sum(eid_datim.negative) as negative,sum(tb_stat_art.positive) as tbpositive ,sum(tb_stat_art.negative) as tbnegative, eid_datim.SubPartnerID as SubPartnerID, IFNULL(subpartnera.HTC,0) as HTC, IFNULL(subpartnera.PMTCT=1,0) as PMTCT  from eid_datim  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on eid_datim.SubPartnerID = subpartnera.SubPartnerID left join tb_stat_art on eid_datim.SubPartnerID=tb_stat_art.SubPartnerID WHERE "+tbstatduration.replace("year", "eid_datim.year").replace("quarter", "eid_datim.quarter")+" and  eid_datim.SubPartnerID='"+eidal.get(a)+"'  AND "+facilitiestable+".active=1   ";
+              
+           String getstat=  "select  county,DistrictNom,   SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1 as supporttype , IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume, sum(eid_datim.positive) as positive ,sum(eid_datim.negative) as negative,sum(tb_stat_art.positive) as tbpositive ,sum(tb_stat_art.negative) as tbnegative, eid_datim.SubPartnerID as SubPartnerID, IFNULL("+facilitiestable+".HTC,0) as HTC, IFNULL("+facilitiestable+".PMTCT=1,0) as PMTCT  from eid_datim  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on eid_datim.SubPartnerID = subpartnera.SubPartnerID left join tb_stat_art on eid_datim.SubPartnerID=tb_stat_art.SubPartnerID WHERE "+tbstatduration.replace("year", "eid_datim.year").replace("quarter", "eid_datim.quarter")+" and  eid_datim.SubPartnerID='"+eidal.get(a)+"'  AND "+facilitiestable+".active=1   ";
                     System.out.println("~~~"+getstat);
-            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   eid_datim join subpartnera on eid_datim.SubPartnerID=subpartnera.SubPartnerID   WHERE "+tbstatduration+" and  eid_datim.SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and (subpartnera.HTC=1 || subpartnera.PMTCT=1 )";
+            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   eid_datim join subpartnera on eid_datim.SubPartnerID=subpartnera.SubPartnerID   WHERE "+tbstatduration+" and  eid_datim.SubPartnerID='"+conn.rs.getString("SubPartnerID")+"' and ("+facilitiestable+".HTC=1 || subpartnera.PMTCT=1 )";
         
            conn.rs=conn.st.executeQuery(getstat);
            
@@ -2131,29 +1521,21 @@ staticpmtct_hv.remove(mflindex);
                
             //county
                if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase()+conn.rs.getString(conpos).substring(1).toLowerCase());
-                clx.setCellStyle(style2);
+                
                colpos++; conpos++;} 
                 //subcounty
                  if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getString(conpos));
-                clx.setCellStyle(style2);
+               
              colpos++; conpos++;} 
                  
                  //facility name
                    if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-               clx.setCellValue(conn.rs.getString(conpos));
-                clx.setCellStyle(style2);
+                
             colpos++;
             conpos++;} 
                    //mfl
                    if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+                
             colpos++; conpos++; } 
 //support type//######################################################################################
                     if(1==1){
@@ -2164,9 +1546,7 @@ staticpmtct_hv.remove(mflindex);
   support=conn.rs.getString("supporttype");
                                               }
                
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(/*"DSD" **/support);
-                clx.setCellStyle(style2);
+                
             colpos++;
             //skip both pmtct support s
             conpos++;
@@ -2175,27 +1555,21 @@ staticpmtct_hv.remove(mflindex);
               
                     //ART HIGH VOLUME
                 if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+                
             colpos++;
             conpos++;    
                }     
                 
                     //HTC HIGH VOLUME
                 if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+                
             colpos++;
             conpos++;     
                } 
                     //PMTCT HIGH VOLUME
                 if(1==1){
                          
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+                
                
             colpos++;
             conpos++;
@@ -2205,9 +1579,7 @@ staticpmtct_hv.remove(mflindex);
                     
                 if(1==1){
                  for(int c=0;c<6;c++){     
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(0);
-                clx.setCellStyle(style2);               
+                               
             colpos++;
                                       }     
                               } 
@@ -2229,35 +1601,35 @@ staticpmtct_hv.remove(mflindex);
           }
            
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
+              
                if(!reportDuration.equals("4")){                          
-                clx.setCellValue(tested);
+               
                                                 }
                 else {
-                clx.setCellValue(0);
+              
                      }
-                clx.setCellStyle(style2);               
+                         
                 colpos++;
                 //positive
-                   HSSFCell clx1 = rwx.createCell(colpos);   
+                     
                 if(!reportDuration.equals("4")){                          
-                clx1.setCellValue(positive);
+               
                                                 }
                 else {
-                clx1.setCellValue(0);
+               
                      }
-                clx1.setCellStyle(style2);               
+                            
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
+             
                 if(!reportDuration.equals("4")){                          
-                clx2.setCellValue(negative);
+          
                                                 }
                 else {
-                clx2.setCellValue(0);
+                
                      }
-                clx2.setCellStyle(style2);               
+                           
                 colpos++; 
                 
                 }//end of eid if query
@@ -2266,9 +1638,8 @@ staticpmtct_hv.remove(mflindex);
                
                     if(1==1){
                  for(int c=0;c<3;c++){     
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(0);
-                clx.setCellStyle(style2);               
+                
+                             
             colpos++;
            // conpos++;
                            }     
@@ -2297,34 +1668,34 @@ staticpmtct_hv.remove(mflindex);
            }
               
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
+               
                if(!reportDuration.equals("4")){                          
-                clx.setCellValue(tested);
+                
                                                 }
                 else {
-                clx.setCellValue(0);
+               
                      }
-                clx.setCellStyle(style2);               
+                              
                 colpos++;
                 //positive
-                   HSSFCell clx1 = rwx.createCell(colpos);   
+                  
                 if(!reportDuration.equals("4")){                          
-                clx1.setCellValue(positive);
+               
                                                 }
                 else {
-                clx1.setCellValue(0);
+                
                      }
-                clx1.setCellStyle(style2);               
+                              
                 colpos++;
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
+                
                 if(!reportDuration.equals("4")){                          
-                clx2.setCellValue(negative);
+               
                                                 }
                 else {
-                clx2.setCellValue(0);
+              
                      }
-                clx2.setCellStyle(style2);               
+                             
                 colpos++; 
                
                 }//end of tbstat if query
@@ -2333,9 +1704,8 @@ staticpmtct_hv.remove(mflindex);
                
                     if(1==1){
                  for(int c=23;c<sectionheaders.length;c++){     
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(0);
-                clx.setCellStyle(style2);               
+              
+                       
             colpos++;
            // conpos++;
                  }     
@@ -2364,10 +1734,9 @@ staticpmtct_hv.remove(mflindex);
                 if(1==1){
                int colpos=0; 
                int conpos=1; 
-               HSSFRow rwx = shet.createRow(rowpos); 
-               rwx.setHeightInPoints(25);
-           String getstat=    "select  county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume, sum(positive) as positive ,sum(negative) as negative, tb_stat_art.SubPartnerID as SubPartnerID , IFNULL(subpartnera.HTC,0) as HTC, IFNULL(subpartnera.PMTCT=1,0) as PMTCT from tb_stat_art  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on tb_stat_art.SubPartnerID = subpartnera.SubPartnerID  WHERE "+tbstatduration+" and  tb_stat_art.SubPartnerID='"+tbstat.get(a)+"'   AND "+facilitiestable+".active=1  ";
-           //and (subpartnera.HTC=1 || subpartnera.PMTCT=1 )
+         
+           String getstat=    "select  county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,supporttype,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume, sum(positive) as positive ,sum(negative) as negative, tb_stat_art.SubPartnerID as SubPartnerID , IFNULL("+facilitiestable+".HTC,0) as HTC, IFNULL("+facilitiestable+".PMTCT=1,0) as PMTCT from tb_stat_art  join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on tb_stat_art.SubPartnerID = subpartnera.SubPartnerID  WHERE "+tbstatduration+" and  tb_stat_art.SubPartnerID='"+tbstat.get(a)+"'   AND "+facilitiestable+".active=1  ";
+           //and ("+facilitiestable+".HTC=1 || subpartnera.PMTCT=1 )
            conn.rs=conn.st.executeQuery(getstat);
            
            if(conn.rs.next()){ 
@@ -2392,37 +1761,27 @@ staticpmtct_hv.remove(mflindex);
               
             //county
                if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getString(conpos));
-                clx.setCellStyle(style2);
+                
             colpos++;
             conpos++;     
                } 
                 //subcounty
                  if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getString(conpos));
-                clx.setCellStyle(style2);
+               
             colpos++; conpos++;} 
                  
                  //facility name
                    if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-               clx.setCellValue(conn.rs.getString(conpos));
-                clx.setCellStyle(style2);
+              
               colpos++; conpos++;} 
                    //mfl
-       if(1==1){ HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+       if(1==1){ 
            colpos++; conpos++; } 
 //support type//######################################################################################
                     if(1==1){
  String support="NA";
   support=conn.rs.getString("supporttype");
-  HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue("DSD" /** support */);
-                clx.setCellStyle(style2);
+ 
             colpos++;
             //skip both pmtct support s
             conpos++;
@@ -2431,9 +1790,7 @@ staticpmtct_hv.remove(mflindex);
                     
                     //ART HIGH VOLUME
                 if(1==1){
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+                
             colpos++; conpos++;
                            
                }     
@@ -2441,18 +1798,14 @@ staticpmtct_hv.remove(mflindex);
                     //HTC HIGH VOLUME
                 if(1==1){
                          
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+              
               colpos++;conpos++;
              } 
                
                     //PMTCT HIGH VOLUME
                 if(1==1){
                          
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(conn.rs.getInt(conpos));
-                clx.setCellStyle(style2);
+              
                
             colpos++;
             conpos++;
@@ -2463,9 +1816,7 @@ staticpmtct_hv.remove(mflindex);
                     
                       if(1==1){
                  for(int c=8;c<20;c++){     
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(0);
-                clx.setCellStyle(style2);               
+                              
             colpos++;
             
                  }     
@@ -2490,31 +1841,30 @@ staticpmtct_hv.remove(mflindex);
                 }
            
                 //tested
-                HSSFCell clx = rwx.createCell(colpos);
-               if(!reportDuration.equals("4")){  clx.setCellValue(tested);}
-                else { clx.setCellValue(0); }
-                clx.setCellStyle(style2);               
+               
+               if(!reportDuration.equals("4")){ }
+                else {  }
+                              
                 colpos++;
                 //positive
-                   HSSFCell clx1 = rwx.createCell(colpos);   
-                if(!reportDuration.equals("4")){  clx1.setCellValue(positive); }
-                else { clx1.setCellValue(0); }
-                clx1.setCellStyle(style2);               
+                     
+                if(!reportDuration.equals("4")){   }
+                else { }
+                              
                 colpos++;
                 
                 //negative
-                HSSFCell clx2 = rwx.createCell(colpos);
-                if(!reportDuration.equals("4")){   clx2.setCellValue(negative); }
-                else {clx2.setCellValue(0); }
-                clx2.setCellStyle(style2);  colpos++; }//end of tbstat if query
+               
+                if(!reportDuration.equals("4")){    }
+                else { }
+               colpos++; }//end of tbstat if query
 
                //finish posting blanks to the remaining columns
                
                     if(1==1){
                  for(int c=23;c<sectionheaders.length;c++){     
-                HSSFCell clx = rwx.createCell(colpos);
-                clx.setCellValue(0);
-                clx.setCellStyle(style2);               
+                
+                            
             colpos++;
            // conpos++;
                  }     
@@ -2536,78 +1886,57 @@ staticpmtct_hv.remove(mflindex);
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	HSSFRow rwx=null;                     
  for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
-     
-  rwx=shet.createRow(rowpos);  
- rwx.setHeightInPoints(23);  
+ 
  rowpos++;
  for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
  //create a row
   if(z==0){
     //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(style2);
+
+   
   }
   else if(z==1){
     //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(style2);
+ 
   }
   else if(z==2){
    //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(style2);
+  
   }
   else if(z==3){
    //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(new Integer(staticmfl.get(a).toString()));
-   cellmfl.setCellStyle(style2);
+  
   }
    
   else if(z==4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(style2);
+  
    
         }
    
 else if(z==5){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(5); 
-   celldsd.setCellValue(new Integer(staticart_hv.get(a).toString()));
-   celldsd.setCellStyle(style2);
+  
    
         }   
     else if(z==6){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(6); 
-   celldsd.setCellValue(new Integer(statichtc_hv.get(a).toString()));
-   celldsd.setCellStyle(style2);
+  
    
         }
     else if(z==7){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(7); 
-   celldsd.setCellValue(new Integer(staticpmtct_hv.get(a).toString()));
-   celldsd.setCellStyle(style2);
+  
    
         }
   
 		 else if(z==blankrows-1){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(blankrows-1); 
-   celldsd.setCellValue(0);
-   celldsd.setCellStyle(style2); 
+   
         }
   else {
                      
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(style2);
+   
    
   
   }//end of else
@@ -2616,20 +1945,7 @@ else if(z==5){
  } //end of outer loop                    
                      
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
-  //____autofilter______       
-    shet.setAutoFilter(new CellRangeAddress(2, rowpos - 1, 0, sectionheaders.length));
 
-    //System.out.println("1,"+rowpos+",0,"+colposcopy);
-                   for (int e = 0; e < 5; e++) {
-                            shet.autoSizeColumn(e);
-                        }
-                   for (int e = 8; e < sectionheaders.length; e++) {
-                            shet.autoSizeColumn(e);
-                        }
-             //Made my life veery simple...
-                shet.setDisplayGridlines(false);
-                shet.createFreezePane(5,3);
             
             
             
@@ -2638,1362 +1954,14 @@ else if(z==5){
             
  }
             
- public void VMMC(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
-   //new htc for PITC 
-  String facilitiestable="subpartnera";
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
-            
   
-            
-            
-            
-            
-    //get the existing data for the month, year and facility that is already on session
-    
-    String month="";      
-    String year="";      
-    String facil="361";
-  
-    String form="vmmc_new";
-      
-   
-
-//=====================================================================================================
-    
-    year="2015";
-     month="5";
-    String county="";
-   
-    String header="";
-    
-  String  reportType="";
-    if(request.getParameter("reportType")!=null){
-      reportType=request.getParameter("reportType");
-    }
-    String  reportDuration="";
-    if(request.getParameter("reportDuration")!=null){
-    reportDuration=request.getParameter("reportDuration");
-    }
-    
-    if(request.getParameter("year")!=null){
-    year=request.getParameter("year");
-    }
-    
-     if(request.getParameter("facility")!=null && reportType.equals("2")){
-    facil=request.getParameter("facility");
-    
-    String getfacil="select SubPartnerNom,CentreSanteId as mflcode from subpartnera where SubPartnerID='"+facil+"'   AND "+facilitiestable+".active=1  ";
-    conn.rs=conn.st.executeQuery(getfacil);
-    
-    while(conn.rs.next()){
-    
-    header+=" FACILITY : "+conn.rs.getString(1).toUpperCase()+"     MFL CODE  :  "+conn.rs.getString(2)+"  ";
-    
-    }
-    
-    
-    
-    }
-    
-    if(request.getParameter("county")!=null && reportType.equals("2")){
-    county=request.getParameter("county");
-    
-    
-    String getcounty="select County from county where CountyID='"+county+"'";
-    conn.rs=conn.st.executeQuery(getcounty);
-    
-    while(conn.rs.next()){
-    
-    header+=" COUNTY : "+conn.rs.getString(1).toUpperCase()+" ";
-    
-    }
-    
-    }
-    
-    if(request.getParameter("month")!=null && reportDuration.equals("4")){
-    month=request.getParameter("month");
-    
-    
-      String getmonth="select name as monthname from month where id='"+month+"'";
-    conn.rs=conn.st.executeQuery(getmonth);
-    
-    while(conn.rs.next()){
-    
-    header+=" MONTH : "+conn.rs.getString(1).toUpperCase()+"";
-    
-    }
-    
-    
-    }
-    
-     
-    header+=" YEAR : "+year+"";
-     
-     
-     
-     
-     
-   String facilitywhere="";
-   String yearwhere="";
-   String monthwhere="";
-   String countywhere="";
-   String duration="";
-   String semi_annual="";
-   String quarter="";
- 
-   //==================================================================================================
-   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-  
-  
-       int  yearcopy=Integer.parseInt(year);
-      
-        
-//        reportType="2";
-//        year=2015;
-//        reportDuration="3";
-        String yearmonth=""+year;
-       int prevYear=yearcopy-1; 
-       int maxYearMonth=0;
-       int monthcopy=0; 
-//        GET REPORT DURATION============================================
-
-        if(reportDuration.equals("1")){
-            yearmonth="Annual Report For "+year;
-         duration=" "+form+".yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-            yearmonth="Semi Annual Report For "+prevYear+" Oct to "+year+" Mar";
-       duration=" "+form+".yearmonth BETWEEN "+prevYear+"10 AND "+year+"03";      
-       }
-           else{
-            yearmonth="Semi Annual Report for Apr to  Sep "+year;
-       duration=" "+form+".yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-           }
-       }
-        
-        else if(reportDuration.equals("3")){
-            String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
-       conn.rs=conn.st.executeQuery(getMonths);
-       if(conn.rs.next()==true){
-           
-          
-      String months []=conn.rs.getString(1).split(",");
-       startMonth=months[0];
-       endMonth=months[2];
-      if(quarter.equals("1")){
-      duration=" "+form+".yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
- yearmonth="Quarterly Report For "+prevYear+" "+conn.rs.getString(2);
-      }
-      else{
-           yearmonth="Quarterly Report For "+year+" ("+conn.rs.getString(2)+")";
-     duration=" "+form+".yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
-      }
-                              }
-        }  
-        
-      else if(reportDuration.equals("4")){
-     monthcopy=Integer.parseInt(request.getParameter("month"));
-   
-     
-//     month=5;
-     if(monthcopy>=10){
-        
-           yearmonth="Monthly Report For "+prevYear+"_("+month+")";
-     duration=" "+form+".yearmonth="+prevYear+""+month;    
-     }
-     else{
-  duration=" "+form+".yearmonth="+year+"0"+month;  
-    yearmonth="Monthly Report For "+year+"_("+month+")";
-     }
-      }
-      else {
-     duration="";     
-           }
-        
-	//======================================================================
-
-//==================================================================================================
-   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-   
-   
-   
-   String subcountywhere=" 1=1 ";
-   
-   String subcounty="";
-   
-   if(!request.getParameter("subcounty").equals("")){
-   
-       subcounty=request.getParameter("subcounty");
-        
-                                                    }
-   
-   
-   
-   
-   
-   
-   String getexistingdata="";
-   
-   
-    if(!county.equals("")){
-   
-   countywhere=" and district.countyid = '"+county+"'";    
-   subcounty_countywhere=" (district.countyid='"+county+"') and ";//20160711
-                          }
-    
-     if(!subcounty.equals("")){
-   
-   subcountywhere+=" and subpartnera.DistrictID = '"+subcounty+"'";    
-   subcounty_countywhere=" (district.DistrictID='"+subcounty+"') and ";//20160711
-                              }
-   
-   if(!facil.equals("")){
-   
-   facilitywhere=" and "+form+".SubPartnerID = '"+facil+"'   AND "+facilitiestable+".active=1 ";    
-   
-                        } 
-   
-    
-    
- String joinedwhwere=" where 1=1 "+yearwhere+" && "+duration+" "+countywhere+" AND "+subcountywhere;  
-    
-    
-    
-//=====================================================================================================    
-//FINDFACILITIES 
- 
-   
-        
-//=====================================================================================================    
-    
-//______________________________________________________________________________________
-  //                       NOW CREATE THE WORKSHEETS          
-  //______________________________________________________________________________________  
-
-   HSSFSheet shet=wb.createSheet(form.toUpperCase());   
-     
-    //create headers for that worksheet
-      
-      HSSFRow rw=shet.createRow(0);
-      rw.setHeightInPoints(25);
- HSSFCell cl0= rw.createCell(0);
- cl0.setCellValue("DATIM "+yearmonth);
- cl0.setCellStyle(stylex);
-    
- for(int a=1;a<=13;a++){ 
- HSSFCell clx= rw.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                     }
- 
- HSSFRow rw1=shet.createRow(1);
- rw1.setHeightInPoints(23);
- HSSFCell cl= rw1.createCell(0);
- cl.setCellValue("");
- cl.setCellStyle(style2);
- 
-  for(int a=1;a<=13;a++){ 
- HSSFCell clx= rw1.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(style2);
-                       }
-  
-HSSFRow rw2=shet.createRow(2);
-rw2.setHeightInPoints(23);
-HSSFCell cl3= rw2.createCell(0);
-cl3.setCellValue("VMMC CIRC ");
-cl3.setCellStyle(stylex);
-     
-  HSSFCell cl31= rw2.createCell(1);
- cl31.setCellValue("");
- cl31.setCellStyle(stylex);
- 
-
-  for(int a=2;a<=5;a++){ 
- HSSFCell clx= rw2.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                       }
-  
-  HSSFCell cl3b= rw2.createCell(6);
-cl3b.setCellValue("Disaggregated by Age ");
-cl3b.setCellStyle(stylex); 
-
-   for(int a=6;a<=15;a++){ 
- HSSFCell clx= rw2.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                         }
-
-     HSSFCell cl3c= rw2.createCell(16);
-cl3c.setCellValue("Disaggregated by HIV Status");
-cl3c.setCellStyle(stylex); 
-
-   for(int a=17;a<=18;a++){ 
- HSSFCell clx= rw2.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                          }
-   
-
-    HSSFCell cl3d= rw2.createCell(19);
-cl3d.setCellValue("Disaggregated by Circumcission Technique ");
-cl3d.setCellStyle(stylex); 
- 
-  HSSFCell cl3e= rw2.createCell(21);
-cl3e.setCellValue("Disaggregated by Followup (For surgical only) ");
-cl3e.setCellStyle(stylex); 
-
-   for(int a=22;a<23;a++){ 
- HSSFCell clx= rw2.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                          }
-   
-  HSSFCell cl3e1= rw2.createCell(23);
-cl3e1.setCellValue("Disaggregated by Followup (For Device Based only) ");
-cl3e1.setCellStyle(stylex); 
-
-   for(int a=24;a<25;a++){ 
- HSSFCell clx= rw2.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                          }
-   
-HSSFCell cl3f= rw2.createCell(25);
-cl3f.setCellValue("VMMC_AE Disaggregated by AE Type");
-cl3f.setCellStyle(stylex); 
-   
- for(int a=26;a<42;a++){ 
- HSSFCell clx= rw2.createCell(a);
- clx.setCellValue("");
- clx.setCellStyle(stylex);
-                          }
- 
-   HSSFCell cl3f1= rw2.createCell(30);
-cl3f1.setCellValue("VMMC_Services");
-cl3f1.setCellStyle(stylex);
-     //
- //String VMMCheaders[]={"County","Sub-County","Facility Name","Mfl Code","Type Of Support","Numerator","< 1","1-9","10-14","15-19","20-24","25-29","30-49","50+","Number of HIV-positive clients (tested HIV positive at VMMC site)","Number of HIV-negative clients (tested HIV negative at VMMC site)","Number of clients with indeterminate HIV status or  not tested for HIV at site (regardless of previous documentation) ","Device-Based","Follow-up Status within 14 days of surgery","Surgical VMMC","Numerator","Surgical Intra- operative: Moderate","Surgical Intra- operative: Severe","Surgical Post- operative: Moderate","Surgical Post- operative: Severe","Medical Device-related: Moderate","Medical Device-related: Severe","Numerator","<60 days","2Mo-9Yr","10-14","15-19","20-24","25-29","30-49","50+"};
- String VMMCheaders[]={"County","Sub-County","Facility Name","Mfl Code","Type Of Support","Numerator","< 1","1-9","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Number of HIV-positive clients (tested HIV positive at VMMC site)","Number of HIV-negative clients (tested HIV negative at VMMC site)","Number of clients with indeterminate HIV status or  not tested for HIV at site (regardless of previous documentation) ","Surgical VMMC","Device-Based VMMC","Returned for postoperative follow-up care within 14 days of surgery","Did not return for postoperative follow-up care within 14 days of surgery","Within 14 days of device placement. May include device removal","NOT within 14 days, or did not follow-up within reporting period","Numerator","During Circumcision Moderate","During Circumcision Severe","Post Circumcision Moderate","Post Circumcision Severe","Numerator","<60 days","2Mo-4Yr","5-9Yr","10-14Yr","15-19Yr","20-24Yr","25-29Yr","30-34Yr","35-39Yr","40-49Yr","50+Yr"};
- 
- HSSFRow rw3=shet.createRow(3);
- rw3.setHeightInPoints(63);
- for(int a=0;a<VMMCheaders.length;a++){ 
- HSSFCell clx= rw3.createCell(a);
- clx.setCellValue(VMMCheaders[a]);
- clx.setCellStyle(stylex);
-                                      }
-
-  
-    //shet.addMergedRegion(new CellRangeAddress(2,10,0,0));  
-    shet.addMergedRegion(new CellRangeAddress(0,0,0,15));  
-    shet.addMergedRegion(new CellRangeAddress(1,1,0,41));  
-  //shet.addMergedRegion(new CellRangeAddress(1,1,0,4));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,1,5));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,6,15));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,16,18));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,19,20));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,21,22));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,23,24));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,25,29));  
-    shet.addMergedRegion(new CellRangeAddress(2,2,30,41));  
-    shet.setColumnWidth(0, 5000);  
-    shet.setColumnWidth(1, 5000);  
-    shet.setColumnWidth(2, 6000);  
-    shet.setColumnWidth(3, 6000);  
-    shet.setColumnWidth(4, 6000);  
-    shet.setColumnWidth(5, 2500); 
-    shet.setColumnWidth(16, 6500);  
-    shet.setColumnWidth(17, 6500);  
-    shet.setColumnWidth(18, 6500);  
-    shet.setColumnWidth(19, 6500);  
-    shet.setColumnWidth(20, 6500);  
-    shet.setColumnWidth(21, 6500);  
-    shet.setColumnWidth(22, 6500);    
-    shet.setColumnWidth(23, 6000);  
-    shet.setColumnWidth(24, 6000);  
-    shet.setColumnWidth(25, 6000);  
-    shet.setColumnWidth(26, 6000);
-    shet.setColumnWidth(27, 6000);  
-    shet.setColumnWidth(28, 6000);
-    shet.setColumnWidth(29, 6000);  
-    shet.setColumnWidth(30, 6000);
-    
-     
-
-          //BEFORE WHILE LOOP
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    ArrayList staticfacility= new ArrayList();
-    ArrayList staticcounty= new ArrayList();
-    ArrayList staticdistrict= new ArrayList();
-    ArrayList staticmfl= new ArrayList();
-    ArrayList staticdsd_ta= new ArrayList();
-    int blankrows=42;
-    
-   String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
-            + " subpartnera.SubPartnerNom as facility, subpartnera.CentreSanteId as mflcode, subpartnera.HTC_Support1 as htcsupport "
-           + " FROM    subpartnera join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = subpartnera.DistrictID    where "+subcountywhere+" AND ( VMMC='1')  AND "+facilitiestable+".active=1  group by subpartnera.SubPartnerID   "; 
-   
-   System.out.println("query::::"+getstaticfacilities);
-   conn.rs=conn.st.executeQuery(getstaticfacilities);
-    while(conn.rs.next()){
-    
-     staticcounty.add(conn.rs.getString("county"));
-     String district=conn.rs.getString("district");
-     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
-     staticfacility.add(conn.rs.getString("facility"));
-     staticmfl.add(conn.rs.getString("mflcode"));   
-     //dsdta=conn.rs.getString("htcsupport");   
-     String dsdta="DSD"; //static as of 201606 
-     staticdsd_ta.add(dsdta);   
-    }
-   
-     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-    
-        
-//getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(P51DT) as P51DT, sum(P51D1) as P51D1,   sum(P51D9) as P51D9,   sum(P51D10) as P51D10,   sum(P51D19) as P51D19,sum(P51D24) as P51D24, sum(P51D29) as P51D29,  sum(P51D49) as  P51D49,   sum(P51D50) as P51D50,    sum(P51DT) as P51DT,   sum(P521DM) as  P521DM,    sum(P521DS) as P521DS,   sum(P521DT) as P521DT,   sum(P522DM) as P522DM,    sum(P522DS) as P522DS,    sum(P522DT) as P522DT,   sum(P52DM) as  P52DM,   sum(P52DS) as P52DS,    sum(P52DT) as P52DT,   sum(P511KP) as P511KP,   sum(P511KN) as P511KN,   sum(P511KU) as P511KU,   sum(P511Surg) as P511Surg,   sum(P511Dev) as P511Dev,   sum(P53DF) as P53DF,    sum(P53DO) as P53DO,   sum(P53DM) as P53DM,    sum(P53D) as P53D,   sum(P54D) as P54D  from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
-getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode , sum(v1_total) as v1_total, sum(v1_60d) as v1_60d,  sum(v1_4y) as v1_4y,   sum(v1_9y) as v1_9y,   sum(v1_14y) as v1_14y,   sum(v1_19y) as v1_19y,sum(v1_24y) as v1_24y, sum(v1_29y) as v1_29y, sum(v1_34y) as v1_34y, sum(v1_39y) as v1_39y,  sum(v1_49y) as  v1_49y,   sum(v1_50y) as v1_50y,"
-        + " sum(v2_dc_m_total) AS v2_dc_m_total,sum(v2_dc_s_total) as v2_dc_s_total, sum(v2_pc_m_total) AS v2_pc_m_total, sum(v2_pc_s_total) AS v2_pc_s_total,  "
-        + " sum(v3_tp_total) AS v3_tp_total, sum(v3_srp_total) as v3_srp_total , sum(v3_tn_total) as v3_tn_total, sum(v3_nt_total) as v3_nt_total ,   sum(v3_us_total) as v3_us_total ,   sum(v3_srn_total) as v3_srn_total ,   sum(v4_s_vmmc_total) as v4_s_vmmc_total , sum(v4_db_vmmc_total) AS v4_db_vmmc_total, sum(v5_followup_total) as v5_followup_total , sum(v6_nofollowup_total) as v6_nofollowup_total,"
-        + "SUM(0) AS db_followup,SUM(0) AS db_no_followup from "+form+" join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID  ";
-
-            System.out.println("VMMV_____"+getexistingdata);
-            String v1_60d = "";
-            String v1_4y = "";
-            String v1_9y = "";
-            String v1_14y = "";
-            String v1_19y = "";
-            String v1_24y = "";
-            String v1_29y = "";
-            String v1_34y = "";
-            String v1_39y = "";
-            String v1_49y = "";
-            String v1_50y = "";
-            String v1_total = "";
-            
-            String v2_dc_m_total="";
-            String v2_dc_s_total="";
-            String v2_pc_m_total="";
-            String v2_pc_s_total="";
-            String tp = "";
-            String srp = "";
-            String tn = "";
-            String not_tested = "";
-            String unknown_status = "";
-            String srn = "";
-            String surgical_vmmc="";
-            String device_based_vmmc="";
-            String surgical_follow_up="";
-            String surgical_no_follow_up="";
-            String db_follow_up="";
-            String db_no_follow_up="";
-
-            String distid="";
-
-
-
-
-int counter=0;
- 
- 
- 
- 
- 
-    
-    conn.rs=conn.st.executeQuery(getexistingdata);
-    
-    int r=4;
-    while(conn.rs.next()){
-   //now check if form was updated and if its one month after data entry
-//now load the column values here
-        
-      //INSIDE WHILE LOOP
-	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	 
-        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
-        
-        //get the index of the current facility
-        int mflindex=staticmfl.indexOf(conn.rs.getString("mflcode"));
-        
-        if(mflindex!=-1){        
-           //remove the element from the arraylist 
-             staticfacility.remove(mflindex);
-             staticcounty.remove(mflindex);
-             staticdistrict.remove(mflindex);
-             staticmfl.remove(mflindex);
-             staticdsd_ta.remove(mflindex);
-        
-                         }
-        
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
-        
-        
-                v1_60d = conn.rs.getString("v1_60d");
-                if (v1_60d == null) {
-                    v1_60d = "0";
-                }
-                
-                v1_4y = conn.rs.getString("v1_4y");
-                if (v1_4y == null) {
-                    v1_4y = "0";
-                }
-
-                v1_9y = conn.rs.getString("v1_9y");
-                if (v1_9y == null) {
-                    v1_9y = "0";
-                }
-
-                v1_14y = conn.rs.getString("v1_14y");
-                if (v1_14y == null) {
-                    v1_14y = "0";
-                }
-
-                v1_19y = conn.rs.getString("v1_19y");
-                if (v1_19y == null) {
-                    v1_19y = "0";
-                }
-
-                v1_24y = conn.rs.getString("v1_24y");
-                if (v1_24y == null) {
-                    v1_24y = "0";
-                }
-
-                 v1_29y = conn.rs.getString("v1_29y");
-                if (v1_29y == null) {
-                    v1_29y = "0";
-                }
-
-                 v1_34y = conn.rs.getString("v1_34y");
-                if (v1_34y == null) {
-                    v1_34y = "0";
-                }
-
-                 v1_39y = conn.rs.getString("v1_39y");
-                if (v1_39y == null) {
-                    v1_39y = "0";
-                }
-                
-                v1_49y = conn.rs.getString("v1_49y");
-                if (v1_49y == null) {
-                    v1_49y = "0";
-                }
-
-                v1_50y = conn.rs.getString("v1_50y");
-                if (v1_50y == null) {
-                    v1_50y = "0";
-                }
-
-                v1_total = conn.rs.getString("v1_total");
-                if (v1_total == null) {
-                    v1_total = "0";
-                }
-                
-                v2_dc_m_total = conn.rs.getString("v2_dc_m_total");
-                if (v2_dc_m_total == null) {
-                    v2_dc_m_total = "0";
-                }
-                v2_dc_s_total = conn.rs.getString("v2_dc_s_total");
-                if (v2_dc_s_total == null) {
-                    v2_dc_s_total = "0";
-                }
-                v2_pc_m_total = conn.rs.getString("v2_pc_m_total");
-                if (v2_pc_m_total == null) {
-                    v2_pc_m_total = "0";
-                }
-                v2_pc_s_total = conn.rs.getString("v2_pc_s_total");
-                if (v2_pc_s_total == null) {
-                    v2_pc_s_total = "0";
-                }
-
-                
-                
-                tp = conn.rs.getString("v3_tp_total");
-                if (tp == null) {
-                    tp = "0";
-                }
-//
-                srp = conn.rs.getString("v3_srp_total");
-                if (srp == null) {
-                    srp = "0";
-                }
-//
-                tn = conn.rs.getString("v3_tn_total");
-                if (tn == null) {
-                    tn = "0";
-                }
-
-                not_tested = conn.rs.getString("v3_nt_total");
-                if (not_tested == null) {
-                    not_tested = "0";
-                }
-//
-                unknown_status = conn.rs.getString("v3_us_total");
-                if (unknown_status == null) {
-                    unknown_status = "0";
-                }
-//
-                srn = conn.rs.getString("v3_srn_total");
-                if (srn == null) {
-                    srn = "0";
-                }
-
-                surgical_vmmc = conn.rs.getString("v4_s_vmmc_total");
-                if (surgical_vmmc == null) {
-                    surgical_vmmc = "0";
-                }
-//
-//
-                device_based_vmmc = conn.rs.getString("v4_db_vmmc_total");
-                if (device_based_vmmc == null) {
-                    device_based_vmmc = "0";
-                }
-
-                surgical_follow_up = conn.rs.getString("v5_followup_total");
-                if (surgical_follow_up == null) {
-                    surgical_follow_up = "0";
-                }
-//
-                surgical_no_follow_up = conn.rs.getString("v6_nofollowup_total");
-                if (surgical_no_follow_up == null) {
-                    surgical_no_follow_up = "0";
-                }
-                
-                db_follow_up = conn.rs.getString("db_followup");
-                if (db_follow_up == null) {
-                    db_follow_up = "0";
-                }
-//
-                db_no_follow_up = conn.rs.getString("db_no_followup");
-                if (db_no_follow_up == null) {
-                    db_no_follow_up = "0";
-                }
-
-        
-       
-    
-   
-    
-    
-if(1==1){ 
-    
- 
-    
-    
-  if(1==1){
-      
-      int celpos=0;
-      int celpos1=1;
-      
-      
-   HSSFRow rwx=shet.createRow(r);
-     rwx.setHeightInPoints(23);
-
-     //County
- HSSFCell clx0= rwx.createCell(celpos);
- clx0.setCellValue(conn.rs.getString(celpos1));
- clx0.setCellStyle(style2);
- celpos++;
- celpos1++;
- 
-  //SubCounty   
-  HSSFCell clx= rwx.createCell(celpos);
-  clx.setCellValue(conn.rs.getString(celpos1).substring(0,1).toUpperCase()+conn.rs.getString(celpos1).substring(1).toLowerCase());
-  clx.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  //Facility Name   
-  if(1==1){
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(conn.rs.getString(celpos1));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-          }
-  
-  //Mfl Code
-  if(1==1)
-  {  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(conn.rs.getInt(celpos1));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
- 
-  //DSD/TA
-  
-  //im assuming that VMMC is made of DSDs as indicated in the Datim PDF screen shared by Supervisor
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue("DSD");
-  clx1.setCellStyle(style2);
-  celpos++;
-
-  } 
-  
-  
-  //Numerator
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_total));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  
-  
-   //<1
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_60d));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  
-   //1-9
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_4y)+new Integer(v1_9y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  
-  
-   //10-14
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_14y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  //15-19
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_19y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  
-   //20-24
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_24y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  //25-29
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_29y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  //30-34
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_34y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  //35-39
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_39y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-   
-  
-   //40-49
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_49y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-        }
-  
-  
-   //50+
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_50y));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  //tested positive clients  P511KP
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(tp));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-  
-  //tested negative clients P511KN
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(tn));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-  }
-  
-  
-  //unknown untested  
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(not_tested));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-  
-  //=============================================================
-  //surgical based  
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(surgical_vmmc));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-  //=============================================================
-  //device based  
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(device_based_vmmc));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-  //=============================================================
-  //Returned Surgical
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(surgical_follow_up));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-  if(1==1){ 
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(surgical_no_follow_up));
-  clx1.setCellStyle(style2);
-  //increment to get past P511Surg
-  celpos++;
- celpos1++;
-         }
-  //Returned Device Based
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(db_follow_up));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-  if(1==1){ 
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(db_no_follow_up));
-  clx1.setCellStyle(style2);
-  //increment to get past P511Surg
-  celpos++;
- celpos1++;
-         }
-
-          int vmmc_ae=  new Integer(v2_dc_m_total)+new Integer(v2_dc_s_total)+new Integer(v2_pc_m_total)+new Integer(v2_pc_s_total);
-  //=============================================================
-  //VMMC_AE Numerator
-  if(1==1){ 
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(vmmc_ae);
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-  //intra-operative moderate
-    if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v2_dc_m_total));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-    //intra-operative severe
-    if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v2_dc_s_total));
-  clx1.setCellStyle(style2);
-  celpos++;
- celpos1++;
-         }
-    
-    
-      // surgicalpost-operative moderate
-    if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v2_pc_m_total));
-  clx1.setCellStyle(style2);
-  celpos++;
-  celpos1++;
-         }
-    
-     // surgicalpost-operative severe
-    if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v2_pc_s_total));
-  clx1.setCellStyle(style2);
-  celpos++;
-  celpos1++;
-         }
-
-    
-  
-  //____________________________________________________________________________________new worksheet added 2017_____________________________
- //_____numerator
-   //celpos++;
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_total));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  
-  
-  //<60 days
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_60d));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  
-  //2Mo-4yr
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_4y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  //5y-9yr
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_9y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  
-  
-   //10-14
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_14y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  
-   //15-19
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_19y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  
-  
-   //20-24
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_24y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  //25-29
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_29y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  
-   //30-34
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_34y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-   //34-39
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_39y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-   //40-49
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_49y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-  }
-  
-  //50
-  if(1==1){  
-  HSSFCell clx1= rwx.createCell(celpos);
-  clx1.setCellValue(new Integer(v1_50y));
-  clx1.setCellStyle(style2);
-  celpos++;
- //celpos1++;
-          }
-
-  r++;
-  }
-  
-  
-  //=====================================================================================
- 
-    }
-    
-    }
-    
-    
-     
-
-  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	HSSFRow rwx=null;                     
- for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
-     
-  rwx=shet.createRow(r);  
- rwx.setHeightInPoints(23);  
- r++;
- for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
- //create a row
-  if(z==0){
-    //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(style2);
-  }
-  else if(z==1){
-    //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(style2);
-  }
-  else if(z==2){
-   //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(style2);
-  }
-  else if(z==3){
-   //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(new Integer(staticmfl.get(a).toString()));
-   cellmfl.setCellStyle(style2);
-  }
-   
-  else if(z==4){
-  //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(style2);
-   
-        }
-		 else if(z==blankrows-1){
-  //dsdta
-   HSSFCell celldsd=rwx.createCell(blankrows-1); 
-   celldsd.setCellValue(0);
-   celldsd.setCellStyle(style2);
-   
-        }
-  else {
-                     
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(style2);
-   
-  
-  }//end of else
-  
- }//end of inner loop                    
- } //end of outer loop                    
-                     
-  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	 
-	       
-            
-            //____autofilter______       
-    //shet3.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length+3));
-
-    //System.out.println("1,"+rowpos+",0,"+colposcopy);
-                        for (int e = 0; e < 4; e++) {
-                            shet.autoSizeColumn(e);
-                        }
-             //Made my life veery simple...
-                shet.setDisplayGridlines(false);
-                shet.createFreezePane(5,5); 
-            
-            
-                    
-            
- }   
-			public HashMap Ipd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+public HashMap Ipd(dbConn conn,String sdate,String edate,String facil) throws SQLException {
    //new htc for PITC 
  
    
     HashMap<String, String> ipdhm = new HashMap<String, String>();
    
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
-            
-            
-            
-            
             
             
              //new htc for PITC 
@@ -4017,7 +1985,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
  facilityName=countyName=districtName=facilityIds=facilityId="";
 
  
-  year=Integer.parseInt(request.getParameter("year"));
+ year = new Integer(edate.substring(0,4));
   
   Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
@@ -4043,55 +2011,15 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
   }
   
    String facilityIds1="";
-        facilityIds1="(";
-           if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-         String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "WHERE district.DistrictID='"+subcounty+"'" ;
-           subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
-    
-    conn.rs=conn.st.executeQuery(getDist);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
- 
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-    }
-     
-      facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";   
-     } 
-     else{
-        if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
-         String county=request.getParameter("county");
-         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-         subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1  and  ";//20160711
-         
-    conn.rs=conn.st.executeQuery(getCounty);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
-    
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
    
-    facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";     
-     }
-       
-        else{
-  
-       facilityIds1="";    
-        }   
-        
-     }
+       if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
+          
+    
             
-        reportDuration=request.getParameter("reportDuration");
+        //reportDuration=request.getParameter("reportDuration");
         
 //        year=2015;
-//        reportDuration="4";
+        reportDuration="4";
         String period1="";
         String duration1="";
         prevYear=year-1; 
@@ -4099,136 +2027,32 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
         
 //        GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-         duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
-        period1="DATIM ANNUAL DATA REPORT FOR PEPFAR YEAR : "+year;
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : OCT "+prevYear+" to MARCH "+year;
-       }
-           else{
-       duration1=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : APRIL "+year+" to SEPT "+year; 
-       }
-       }
         
-        else if (reportDuration.equals("3")) 
-        {
-            String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
-       conn.rs=conn.st.executeQuery(getMonths);
-       if(conn.rs.next()==true){
-      String months []=conn.rs.getString(1).split(",");
-       startMonth=months[0];
-       endMonth=months[2];
-      if(quarter.equals("1")){
-      duration1=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
-      period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      }
-      else{
-     duration1=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
-     period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-                                           }  
         
-      else if(reportDuration.equals("4")){
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" moh731.yearmonth="+prevYear+""+month;    
-     period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+prevYear+")"; 
-     }
-     else{
-  duration1=" moh731.yearmonth="+year+"0"+month;  
-    period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+year+")";
-     }
-      }
+        
+          
+        
+       if(reportDuration.equals("4")){
+      
+          month =new Integer(edate.substring(4,6));
+          
+           duration1=" ( moh731.yearmonth between "+sdate+" and "+edate+" )";
+          
+
       }
       else{
      duration1="";     
       }
         
-      HSSFSheet shet3=wb.createSheet("PITC IPD");   
-            HSSFCell  c11;
+     
             
             
    String county="";
    String  district="";
     String facilityname="";
 
-  shet3.setColumnWidth(0, 4000);  
-  shet3.setColumnWidth(1, 5000);  
-  shet3.setColumnWidth(2,5000);  
-  //shet3.setColumnWidth(6,5000);
-
-  //create header1
-   HSSFRow rw0=shet3.createRow(0);
-           rw0.setHeightInPoints(30);
-           
-           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
-         c1=rw0.createCell(0);
-         
-      //_____________________________________________________________report heading row 0   
-      c1.setCellValue(period1);
-      c1.setCellStyle(stylemainHeader);
-      for(int j=1;j<=pitc_ipd_header1.length-1;j++){
-      c1=rw0.createCell(j);
-       c1.setCellStyle(stylemainHeader);
-      }
-      
-      //-----------------------------------row 1 header 
-       rw0=shet3.createRow(2); 
-       rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header1.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header1[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
- //-----------------------------------row 2 header 
-       rw0=shet3.createRow(3); 
-       rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header2.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header2[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
-   
-    //-----------------------------------row 3 header 
-   rw0=shet3.createRow(4); 
-   rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header3.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header3[i]);
-      clx.setCellStyle(stylemainHeader);
-       }
-    String mergeinfor[]={"0,0,0,"+pitc_ipd_header1.length+"","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,4,5,5","2,4,6,6","2,2,7,30","2,2,31,54","2,4,55,55","2,4,56,56","2,4,57,57","2,4,41,41","3,3,7,8","3,3,31,32","2,4,58,58","2,4,59,59","2,4,60,60"};  
-   
-    for(int d=0;d<mergeinfor.length;d++){
-    if(!mergeinfor[d].equals("")){
-        String pos[]=mergeinfor[d].split(",");
-     shet3.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
-    }
-                                         }
+  
+    
     
 
     double checkdiff=0;
@@ -4318,6 +2142,76 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
            +" ,sum( IFNULL(HV0103,0) + IFNULL(HV0201,0) + IFNULL(HV0226,0) + IFNULL(HV0202,0) + IFNULL(HV0203,0) ) as NUM,  "+facilitiestable+".SubPartnerID ,  IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 Q1 is serology + anc only + htc 
             + " ,county.CountyID as CountyID,sum(IFNULL(HV0110,0)+IFNULL(HV0111,0)+IFNULL(HV0112,0)+IFNULL(HV0113,0)+IFNULL(HV0114,0)+IFNULL(HV0115,0)+IFNULL(HV0206,0)+IFNULL(HV0207,0)+IFNULL(HV0208,0)) as grandtotalpositive "
             +",sum(IFNULL(HV0202,0)) as ld_tes , sum(IFNULL(HV0207,0)) as ld_pos "
+            + " ,county.burden_cartegory as burdencategory,"+facilitiestable+".constituency as constituency,"+facilitiestable+".ward as ward, "
+           
+            + " substring(moh731.yearmonth,1,4) as year " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+"or substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+"or substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '2. Apr-Sep' end  as semiannual " +
+"            " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+")  then '1. Oct-Dec'  " +
+"           when (  " +
+" " +
+"substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03' " +
+"           )  then '2. Jan-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+")  then '3. Apr-Jun'  " +
+"           when (  " +
+"substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '4. Jul-Sep' end  as quarter " +
+" " +
+",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Dec' then '12. dec' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jan' then '01. Jan' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Feb' then '02. Feb' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Mar' then '03. Mar' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Apr' then '04. Apr' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'May' then '05. May' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jun' then '06. Jun' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jul' then '07. Jul' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Aug' then '08. Aug' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Sep' then '09. Sep' " +
+" end  as month " +
+" " +
+",  moh731.yearmonth " +
+" ,IFNULL("+facilitiestable+".Owner,\"\") as ownedby " +
+" ,IFNULL("+facilitiestable+".Type,\"\") as facilitytype " +
+" ,IFNULL("+facilitiestable+".ART_highvolume,\"0\") as art_hv " +
+" ,IFNULL("+facilitiestable+".HTC_highvolume,\"0\") as htc_hv " +
+" ,IFNULL("+facilitiestable+".PMTCT_highvolume,\"0\") as pmtct_hv " +
+" ,IFNULL("+facilitiestable+".all_highvolume,\"0\") as activity_hv " +
+" ,IFNULL("+facilitiestable+".latitude,\"\") as latitude " +
+" ,IFNULL("+facilitiestable+".longitude,\"\") as longitude " +
+" ,IFNULL("+facilitiestable+".Male_clinics,\"0\") as maleclinic " +
+" ,IFNULL("+facilitiestable+".Adolescent_clinics,\"0\") as adoleclinic " +
+" ,IFNULL("+facilitiestable+".Viremia_clinics,\"0\") as viremiaclinic " +
+" ,IFNULL("+facilitiestable+".EMR_Sites,\"0\") as emrsite " +
+" ,IFNULL("+facilitiestable+".Link_desks,\"0\") as linkdesk " +
+" ,'0'as islocked "
            
             + " FROM moh731 JOIN "+facilitiestable+" "
             + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
@@ -4325,7 +2219,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
           + "district.CountyID=county.CountyID"
             + " WHERE "
     + " "+facilityIds1+" "+duration1+" && ("+facilitiestable+".HTC=1 || PMTCT=1  )  AND "+facilitiestable+".active=1  "
-            + "GROUP BY moh731.SubPartnerID order by county.County" ;
+           + " GROUP BY moh731.SubPartnerID,moh731.yearmonth order by county.County ,moh731.yearmonth " ;
  
      System.out.println("2017q1IPD : "+get731data);
     conn.rs=conn.st.executeQuery(get731data);
@@ -4885,17 +2779,13 @@ String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+dsdta;
 String arrayDetails []=basicDetails.split("@");
 
   count++;
-  rw0=shet3.createRow(count);
+ 
  int facilno=0;
   
    for(int j=0;j<arrayDetails.length;j++)
    {
     
-  HSSFCell  S3cell=rw0.createCell(facilno);
-    S3cell.setCellValue(arrayDetails[j]);
-//    System.out.println(arrayDetails[j]);
-    S3cell.setCellStyle(stborder);  
-    System.out.println("facildet pos : "+facilno+"     det : "+arrayDetails[j]);
+  
      facilno++;  
    }
   
@@ -5647,87 +3537,156 @@ double TotalNegativeFemale1=0;
           
         };
   
+
+   String ym = conn.rs.getString("yearmonth");
  
-  ipdhm.put("cty"+"_"+mflcode, county);
-  ipdhm.put("sty"+"_"+mflcode, district);
-  ipdhm.put("fac"+"_"+mflcode, facilityname);
-  ipdhm.put("mfl"+"_"+mflcode, ""+mflcode);
-  ipdhm.put("st"+"_"+mflcode, dsdta);
-  ipdhm.put("gtt"+"_"+mflcode,""+conn.rs.getInt("NUM"));
-  ipdhm.put("gtp"+"_"+mflcode,""+conn.rs.getInt("grandtotalpositive"));
-  ipdhm.put("ukpf"+"_"+mflcode,"0");
-  ipdhm.put("ukpm"+"_"+mflcode,"0");
-  ipdhm.put("pf1"+"_"+mflcode,""+ChildFemaleHIV1);
-  ipdhm.put("pm1"+"_"+mflcode,""+ChildMaleHIV1);
-  ipdhm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);
-  ipdhm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);
-  ipdhm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);
-  ipdhm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);
-  ipdhm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14+pmtct_p_14));
-  ipdhm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);
-  ipdhm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19+pmtct_p_19));
-  ipdhm.put("pm19"+"_"+mflcode,""+AdultMaleHIV19);
-  ipdhm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24+pmtct_p_24));
-  ipdhm.put("pm24"+"_"+mflcode,""+AdultMaleHIV24);
-  ipdhm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29+pmtct_p_29));
-  ipdhm.put("pm29"+"_"+mflcode,""+AdultMaleHIV29);
-  ipdhm.put("pf34"+"_"+mflcode,""+(AdultFemaleHIV34+pmtct_p_34));
-  ipdhm.put("pm34"+"_"+mflcode,""+AdultMaleHIV34);
-  ipdhm.put("pf39"+"_"+mflcode,""+(AdultFemaleHIV39+pmtct_p_39));
-  ipdhm.put("pm39"+"_"+mflcode,""+AdultMaleHIV39);
-  ipdhm.put("pf49"+"_"+mflcode,""+(AdultFemaleHIV49+pmtct_p_49));
-  ipdhm.put("pm49"+"_"+mflcode,""+AdultMaleHIV49);
-  ipdhm.put("pf50"+"_"+mflcode,""+(AdultFemaleHIV50+pmtct_p_50));
-  ipdhm.put("pm50"+"_"+mflcode,""+AdultMaleHIV50);
+  ipdhm.put("cty"+"_"+mflcode+ym, county);
+  ipdhm.put("sty"+"_"+mflcode+ym, district);
+  ipdhm.put("fac"+"_"+mflcode+ym, facilityname);
+  ipdhm.put("mfl"+"_"+mflcode+ym, ""+mflcode);
+  ipdhm.put("st"+"_"+mflcode+ym, dsdta);
+  ipdhm.put("gtt"+"_"+mflcode+ym,""+conn.rs.getInt("NUM"));
+  ipdhm.put("gtp"+"_"+mflcode+ym,""+conn.rs.getInt("grandtotalpositive"));
+  ipdhm.put("ukpf"+"_"+mflcode+ym,"0");
+  ipdhm.put("ukpm"+"_"+mflcode+ym,"0");
+  ipdhm.put("pf1"+"_"+mflcode+ym,""+ChildFemaleHIV1);
+  ipdhm.put("pm1"+"_"+mflcode+ym,""+ChildMaleHIV1);
+  ipdhm.put("pf4"+"_"+mflcode+ym,""+ChildFemaleHIV4);
+  ipdhm.put("pm4"+"_"+mflcode+ym,""+ChildMaleHIV4);
+  ipdhm.put("pf9"+"_"+mflcode+ym,""+ChildFemaleHIV9);
+  ipdhm.put("pm9"+"_"+mflcode+ym,""+ChildMaleHIV9);
+  ipdhm.put("pf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14+pmtct_p_14));
+  ipdhm.put("pm14"+"_"+mflcode+ym,""+ChildMaleHIV14);
+  ipdhm.put("pf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19+pmtct_p_19));
+  ipdhm.put("pm19"+"_"+mflcode+ym,""+AdultMaleHIV19);
+  ipdhm.put("pf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24+pmtct_p_24));
+  ipdhm.put("pm24"+"_"+mflcode+ym,""+AdultMaleHIV24);
+  ipdhm.put("pf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29+pmtct_p_29));
+  ipdhm.put("pm29"+"_"+mflcode+ym,""+AdultMaleHIV29);
+  ipdhm.put("pf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34+pmtct_p_34));
+  ipdhm.put("pm34"+"_"+mflcode+ym,""+AdultMaleHIV34);
+  ipdhm.put("pf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39+pmtct_p_39));
+  ipdhm.put("pm39"+"_"+mflcode+ym,""+AdultMaleHIV39);
+  ipdhm.put("pf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49+pmtct_p_49));
+  ipdhm.put("pm49"+"_"+mflcode+ym,""+AdultMaleHIV49);
+  ipdhm.put("pf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50+pmtct_p_50));
+  ipdhm.put("pm50"+"_"+mflcode+ym,""+AdultMaleHIV50);
   //_____negative
-  ipdhm.put("uknf"+"_"+mflcode,"0");
-  ipdhm.put("uknm"+"_"+mflcode,"0");
-  ipdhm.put("nf1"+"_"+mflcode,""+ChildFemaleHIV1Neg);
-  ipdhm.put("nm1"+"_"+mflcode,""+ChildMaleHIV1Neg);
-  ipdhm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);
-  ipdhm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);
-  ipdhm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);
-  ipdhm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);
-  ipdhm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg+pmtct_n_14));
-  ipdhm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);
-  ipdhm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg+pmtct_n_19));
-  ipdhm.put("nm19"+"_"+mflcode,""+AdultMaleHIV19Neg);
-  ipdhm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg+pmtct_n_24));
-  ipdhm.put("nm24"+"_"+mflcode,""+AdultMaleHIV24Neg);
-  ipdhm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg+pmtct_n_29));
-  ipdhm.put("nm29"+"_"+mflcode,""+AdultMaleHIV29Neg);
-  ipdhm.put("nf34"+"_"+mflcode,""+(AdultFemaleHIV34Neg+pmtct_n_34));
-  ipdhm.put("nm34"+"_"+mflcode,""+AdultMaleHIV34Neg);
-  ipdhm.put("nf39"+"_"+mflcode,""+(AdultFemaleHIV39Neg+pmtct_n_39));
-  ipdhm.put("nm39"+"_"+mflcode,""+AdultMaleHIV39Neg);
-  ipdhm.put("nf49"+"_"+mflcode,""+(AdultFemaleHIV49Neg+pmtct_n_49));
-  ipdhm.put("nm49"+"_"+mflcode,""+AdultMaleHIV49Neg);
-  ipdhm.put("nf50"+"_"+mflcode,""+(AdultFemaleHIV50Neg+pmtct_n_50));
-  ipdhm.put("nm50"+"_"+mflcode,""+AdultMaleHIV50Neg);
-  ipdhm.put("tt"+"_"+mflcode,""+((tested_new711)+(pmtct_t)));
+  ipdhm.put("uknf"+"_"+mflcode+ym,"0");
+  ipdhm.put("uknm"+"_"+mflcode+ym,"0");
+  ipdhm.put("nf1"+"_"+mflcode+ym,""+ChildFemaleHIV1Neg);
+  ipdhm.put("nm1"+"_"+mflcode+ym,""+ChildMaleHIV1Neg);
+  ipdhm.put("nf4"+"_"+mflcode+ym,""+ChildFemaleHIV4Neg);
+  ipdhm.put("nm4"+"_"+mflcode+ym,""+ChildMaleHIV4Neg);
+  ipdhm.put("nf9"+"_"+mflcode+ym,""+ChildFemaleHIV9Neg);
+  ipdhm.put("nm9"+"_"+mflcode+ym,""+ChildMaleHIV9Neg);
+  ipdhm.put("nf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14Neg+pmtct_n_14));
+  ipdhm.put("nm14"+"_"+mflcode+ym,""+ChildMaleHIV14Neg);
+  ipdhm.put("nf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19Neg+pmtct_n_19));
+  ipdhm.put("nm19"+"_"+mflcode+ym,""+AdultMaleHIV19Neg);
+  ipdhm.put("nf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24Neg+pmtct_n_24));
+  ipdhm.put("nm24"+"_"+mflcode+ym,""+AdultMaleHIV24Neg);
+  ipdhm.put("nf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29Neg+pmtct_n_29));
+  ipdhm.put("nm29"+"_"+mflcode+ym,""+AdultMaleHIV29Neg);
+  ipdhm.put("nf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34Neg+pmtct_n_34));
+  ipdhm.put("nm34"+"_"+mflcode+ym,""+AdultMaleHIV34Neg);
+  ipdhm.put("nf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39Neg+pmtct_n_39));
+  ipdhm.put("nm39"+"_"+mflcode+ym,""+AdultMaleHIV39Neg);
+  ipdhm.put("nf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49Neg+pmtct_n_49));
+  ipdhm.put("nm49"+"_"+mflcode+ym,""+AdultMaleHIV49Neg);
+  ipdhm.put("nf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50Neg+pmtct_n_50));
+  ipdhm.put("nm50"+"_"+mflcode+ym,""+AdultMaleHIV50Neg);
+  ipdhm.put("tt"+"_"+mflcode+ym,""+((tested_new711)+(pmtct_t)));
   
+ String burdencategory = conn.rs.getString("burdencategory");
+ String constituency = conn.rs.getString("constituency");
+ String ward = conn.rs.getString("ward");
+ String yr = conn.rs.getString("year");
+ String semiannual = conn.rs.getString("semiannual");
+ String qtr = conn.rs.getString("quarter");
+ String mn = conn.rs.getString("month");
+
+ String ownedby = conn.rs.getString("ownedby");
+ String facilitytype = conn.rs.getString("facilitytype");
+ String art_hv = conn.rs.getString("art_hv");
+ String htc_hv = conn.rs.getString("htc_hv");
+ String pmtct_hv = conn.rs.getString("pmtct_hv");
+ String activity_hv = conn.rs.getString("activity_hv");
+ String latitude = conn.rs.getString("latitude");
+ String longitude = conn.rs.getString("longitude");
+ String maleclinic = conn.rs.getString("maleclinic");
+ String adoleclinic = conn.rs.getString("adoleclinic");
+ String viremiaclinic = conn.rs.getString("viremiaclinic");
+ String emrsite = conn.rs.getString("emrsite");
+ String linkdesk = conn.rs.getString("linkdesk");
+ String islocked = conn.rs.getString("islocked");
+  
+  ipdhm.put("burdencategory"+"_"+mflcode+ym, burdencategory);
+  ipdhm.put("constituency"+"_"+mflcode+ym, constituency);
+  ipdhm.put("ward"+"_"+mflcode+ym, ward);
+  ipdhm.put("year"+"_"+mflcode+ym, yr);
+  ipdhm.put("semiannual"+"_"+mflcode+ym, semiannual);
+  ipdhm.put("quarter"+"_"+mflcode+ym, qtr);
+  ipdhm.put("month"+"_"+mflcode+ym, mn);
+  ipdhm.put("yearmonth"+"_"+mflcode+ym, ym);
+  ipdhm.put("ownedby"+"_"+mflcode+ym, ownedby);
+  ipdhm.put("facilitytype"+"_"+mflcode+ym, facilitytype);
+  ipdhm.put("art_hv"+"_"+mflcode+ym, art_hv);
+  ipdhm.put("htc_hv"+"_"+mflcode+ym, htc_hv);
+  ipdhm.put("pmtct_hv"+"_"+mflcode+ym, pmtct_hv);
+  ipdhm.put("activity_hv"+"_"+mflcode+ym, activity_hv);
+  ipdhm.put("latitude"+"_"+mflcode+ym, latitude);
+  ipdhm.put("longitude"+"_"+mflcode+ym, longitude);
+  ipdhm.put("maleclinic"+"_"+mflcode+ym, maleclinic);
+  ipdhm.put("adoleclinic"+"_"+mflcode+ym, adoleclinic);
+  ipdhm.put("viremiaclinic"+"_"+mflcode+ym, viremiaclinic);
+  ipdhm.put("emrsite"+"_"+mflcode+ym, emrsite);
+  ipdhm.put("linkdesk"+"_"+mflcode+ym, linkdesk);
+  ipdhm.put("islocked"+"_"+mflcode+ym, islocked);
+  
+//String burdencategory
+//String constituency
+//String ward
+//String year
+//String semiannual
+//String quarter
+//String month
+//String yearmonth
+//String ownedby
+//String facilitytype
+//String art_hv
+//String htc_hv
+//String pmtct_hv
+//String activity_hv
+//String latitude
+//String longitude
+//String maleclinic
+//String adoleclinic
+//String viremiaclinic
+//String emrsite
+//String linkdesk
+//String islocked
 
 
-HSSFCell  cxy;
  
 
-         rw0.setHeightInPoints(25);
+    
          int mypos=0;
      
          
   for(int a=0;a<alldatavals.length;a++){
       
-       cxy=rw0.createCell(mypos);mypos++;
+     mypos++;
        if(a==4||a<3){
            //non numeric characters
-        cxy.setCellValue(alldatavals[a]);
+       
        }
        else {
-        cxy.setCellValue(new Double(alldatavals[a]).intValue());
+        
        
        }
       
-       cxy.setCellStyle(stborder);
+      
   
   }
 //      shet3.addMergedRegion(new CellRangeAddress(2,5,20,20));
@@ -5737,76 +3696,55 @@ HSSFCell  cxy;
     
     
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	HSSFRow rwx=null;                     
+	                    
  for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
   count++;   
-  rwx=shet3.createRow(count);  
- rwx.setHeightInPoints(23);  
+  
  
  for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
  //create a row
   if(z==0){
     //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(stborder);
+   
   }
   else if(z==1){
     //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(stborder);
+  
   }
   else if(z==2){
    //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(stborder);
+   
   }
   else if(z==3){
    //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(new Integer(staticmfl.get(a).toString()));
-   cellmfl.setCellStyle(stborder);
+  
   }
    
   else if(z==4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(stborder);
+   
    
         }
    else if(z==pitc_ipd_header1.length-5){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticart_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+  
    }
    
     else if(z==pitc_ipd_header1.length-4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(statichtc_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+  
         }
     else if(z==pitc_ipd_header1.length-3){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticpmtct_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
     else if(z==pitc_ipd_header1.length-2){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticishtc.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+  
         }
     else if(z==pitc_ipd_header1.length-1){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticispmtct.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+  
         }
   
   
@@ -5820,9 +3758,7 @@ HSSFCell  cxy;
                  
   else {
                      
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(stborder);
+   
   
   }//end of else
   
@@ -5835,12 +3771,7 @@ HSSFCell  cxy;
     //shet3.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length+3));
 
                 //System.out.println("1,"+rowpos+",0,"+colposcopy);
-                for (int e = 0; e < 4; e++) {
-                shet3.autoSizeColumn(e);
-                }
-                //Made my life veery simple...
-                shet3.setDisplayGridlines(false);
-                shet3.createFreezePane(5,5);                 
+                               
               
                  
             
@@ -5849,112 +3780,12 @@ HSSFCell  cxy;
     
 }
 
- public HashMap Opd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+public HashMap Opd(dbConn conn,String sdate,String edate,String facil) throws SQLException {
    //new htc for PITC 
    
    HashMap<String, String> opdhm = new HashMap<String, String>(); 
    
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
                   
                      isOPD=true;
@@ -5977,8 +3808,10 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
  reportDuration=duration=semi_annual=quarter="";
  facilityName=countyName=districtName=facilityIds=facilityId="";
 
- 
-  year=Integer.parseInt(request.getParameter("year"));
+year = new Integer(edate.substring(0,4));
+  
+  
+
   
   Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
@@ -6006,54 +3839,13 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
   
  
    String facilityIds1="";
-        facilityIds1="(";
-           if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-         String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "WHERE district.DistrictID='"+subcounty+"'" ;
-           subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
-    
-    conn.rs=conn.st.executeQuery(getDist);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
- 
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-    }
-     
-      facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";   
-     } 
-     else{
-        if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
-         String county=request.getParameter("county");
-         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+         if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
          
-         subcounty_countywhere=" (county.CountyID='"+county+"')   AND "+facilitiestable+".active=1 and  ";//20160711
-         
-    conn.rs=conn.st.executeQuery(getCounty);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
-    
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
-   
-    facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";     
-     }
-       
-        else{
-  
-       facilityIds1="";    
-        }   
-        
-     }      
-        reportDuration=request.getParameter("reportDuration");
+          
+       // reportDuration=request.getParameter("reportDuration");
         
 //        year=2015;
-//        reportDuration="4";
+        reportDuration="4";
         String period1="";
         String duration1="";
         prevYear=year-1; 
@@ -6061,67 +3853,21 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
         
 //        GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-         duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
-        period1="DATIM ANNUAL DATA REPORT FOR PEPFAR YEAR : "+year;
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
+        
        
-     period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : OCT "+prevYear+" to MARCH "+year;
-       }
-           else{
-       duration1=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : APRIL "+year+" to SEPT "+year; 
-       }
-       }
         
-        else if(reportDuration.equals("3")){
-            String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
-       conn.rs=conn.st.executeQuery(getMonths);
-       if(conn.rs.next()==true){
-      String months []=conn.rs.getString(1).split(",");
-       startMonth=months[0];
-       endMonth=months[2];
-      if(quarter.equals("1")){
-      duration1=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
-      period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      }
-      else{
-     duration1=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
-     period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-        }  
+         
         
-      else if(reportDuration.equals("4")){
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" moh731.yearmonth="+prevYear+""+month;    
-     period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+prevYear+")"; 
-     }
-     else{
-  duration1=" moh731.yearmonth="+year+"0"+month;  
-    period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+year+")";
-     }
-      }
+       if(reportDuration.equals("4")){
+       
+          month =new Integer(edate.substring(4,6));
+         duration1=" ( moh731.yearmonth between "+sdate+" and "+edate+" )";
       }
       else{
      duration1="";     
       }
         
-      HSSFSheet shet3=wb.createSheet("Other PITC (OPD)");   
-            HSSFCell  c11;
+      
             
             
    String county="";
@@ -6129,83 +3875,8 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
     String facilityname="";
      
 
-  shet3.setColumnWidth(0, 4000);  
-  shet3.setColumnWidth(1, 5000);  
-  shet3.setColumnWidth(2,5000);  
-  //shet3.setColumnWidth(6,5000);
-  
-  //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXnew 20160725
-  //String newheader0="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,FEMALE(POSITIVE),,,,,,,,,MALE (POSITIVE),,,,,,,,NEGATIVE,FEMALE (NEGATIVE),,,,,,,,,MALE (NEGATIVE),,,,,,,, ,,,,,,,,";
-  //String newheader1="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,Paeds <15Yr,,,,Adults 15+Yr,,,,TOTAL +VE MALE,Paeds < 15Yr,,,,Adults 15+Yr,,,,TOTAL -VE(F),Paeds <15Yr,,,,Adults 15+Yr,,,,TOTAL -VE(M),Paeds <15Yr,,,,Adults 15+Yr,,,,Female,,Male,,Sub-total,Positive,Negative,Sub-total,Verification Status";
-  //String newheader2="COUNTY,SUB-COUNTY,FACILITY,MFL-CODE,TYPE OF SUPPORT,ART High Volume,HTC High Volume,PMTCT High Volume,TOTAL HIV+,TOTAL +VE(F),NUM,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL +VE MALE,<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL -VE(F),<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,TOTAL -VE(M),<1,1-4Y,5-9Y,10-14Y,15-19Y,20-24Y,25-49Y,50+Y,< 15,15 +,< 15,15 +,Sub-total,Positive,Negative,Sub-total,Verification Status";
 
-  //String header0array[]=newheader0.split(",");
-  //String header1array[]=newheader1.split(",");
-  //String header2array[]=newheader2.split(",");
   
-  //create header1
-   HSSFRow rw0=shet3.createRow(0);
-           rw0.setHeightInPoints(30);
-           
-           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
-         c1=rw0.createCell(0);
-         
-      //_____________________________________________________________report heading row 0   
-      c1.setCellValue(period1);
-      c1.setCellStyle(stylemainHeader);
-      for(int j=1;j<=pitc_ipd_header1.length-1;j++){
-      c1=rw0.createCell(j);
-       c1.setCellStyle(stylemainHeader);
-      }
-      
-      //-----------------------------------row 1 header 
-       rw0=shet3.createRow(2); 
-       rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header1.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header1[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
- //-----------------------------------row 2 header 
-       rw0=shet3.createRow(3); 
-       rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header2.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header2[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
-      
-    //-----------------------------------row 3 header 
-   rw0=shet3.createRow(4); 
-   rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header3.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header3[i]);
-      clx.setCellStyle(stylemainHeader);
-       }
-    String mergeinfor[]={"0,0,0,61","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,2,5,28","2,2,29,52","2,4,53,53","2,4,54,54","2,4,55,55","3,3,5,6","3,3,29,30","2,4,56,56","2,4,57,57","2,4,58,58","2,4,59,59","2,4,60,60","2,4,61,61"};  
-   
-    //do the merging
-    
-    for(int d=0;d<mergeinfor.length;d++){
-    if(!mergeinfor[d].equals("")){
-        String pos[]=mergeinfor[d].split(",");
-     shet3.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
-    }
-                                         }
-    
-  //20151009
-      
-       
    
     double checkdiff=0;
     int count=4;
@@ -6303,6 +3974,76 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
             +" ,sum( HV0103 + HV0201 ) as NUM,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT, SUM(IFNULL(HV0226,0)) as serology "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
             + " ,county.CountyID as CountyID "
             +", sum(IFNULL(HV0203,0)) as pnc_tes ,sum(IFNULL(HV0208,0)) as pnc_pos "
+             + " ,county.burden_cartegory as burdencategory,"+facilitiestable+".constituency as constituency,"+facilitiestable+".ward as ward, "
+           
+            + " substring(moh731.yearmonth,1,4) as year " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+"or substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+"or substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '2. Apr-Sep' end  as semiannual " +
+"            " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+")  then '1. Oct-Dec'  " +
+"           when (  " +
+" " +
+"substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03' " +
+"           )  then '2. Jan-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+")  then '3. Apr-Jun'  " +
+"           when (  " +
+"substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '4. Jul-Sep' end  as quarter " +
+" " +
+",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Dec' then '12. dec' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jan' then '01. Jan' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Feb' then '02. Feb' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Mar' then '03. Mar' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Apr' then '04. Apr' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'May' then '05. May' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jun' then '06. Jun' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jul' then '07. Jul' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Aug' then '08. Aug' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Sep' then '09. Sep' " +
+" end  as month " +
+" " +
+",  moh731.yearmonth " +
+" ,IFNULL("+facilitiestable+".Owner,\"\") as ownedby " +
+" ,IFNULL("+facilitiestable+".Type,\"\") as facilitytype " +
+" ,IFNULL("+facilitiestable+".ART_highvolume,\"0\") as art_hv " +
+" ,IFNULL("+facilitiestable+".HTC_highvolume,\"0\") as htc_hv " +
+" ,IFNULL("+facilitiestable+".PMTCT_highvolume,\"0\") as pmtct_hv " +
+" ,IFNULL("+facilitiestable+".all_highvolume,\"0\") as activity_hv " +
+" ,IFNULL("+facilitiestable+".latitude,\"\") as latitude " +
+" ,IFNULL("+facilitiestable+".longitude,\"\") as longitude " +
+" ,IFNULL("+facilitiestable+".Male_clinics,\"0\") as maleclinic " +
+" ,IFNULL("+facilitiestable+".Adolescent_clinics,\"0\") as adoleclinic " +
+" ,IFNULL("+facilitiestable+".Viremia_clinics,\"0\") as viremiaclinic " +
+" ,IFNULL("+facilitiestable+".EMR_Sites,\"0\") as emrsite " +
+" ,IFNULL("+facilitiestable+".Link_desks,\"0\") as linkdesk " +
+" ,'0'as islocked "
             + " FROM moh731  JOIN "+facilitiestable+" "
             + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
@@ -6880,17 +4621,13 @@ String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+dsdta;
 String arrayDetails []=basicDetails.split("@");
 
   count++;
-  rw0=shet3.createRow(count);
+ 
  int facilno=0;
   
    for(int j=0;j<arrayDetails.length;j++)
    {
     
-  HSSFCell  S3cell=rw0.createCell(facilno);
-    S3cell.setCellValue(arrayDetails[j]);
-//    System.out.println(arrayDetails[j]);
-    S3cell.setCellStyle(stborder);  
-    System.out.println("facildet pos : "+facilno+"     det : "+arrayDetails[j]);
+ 
      facilno++;  
    }
         
@@ -7171,7 +4908,7 @@ TotalTested=TestedChildFemale+TestedChildMale+TestedAdultMale+TestedAdultFemale;
 //   // adult female hiv+
 splitData=AdultFemaleHIV19+AdultFemaleHIV24 ;
 //
-System.out.println(facilityname+" lllll added "+splitData+" from db  "+HIV_AdultFemale);
+//System.out.println(facilityname+" lllll added "+splitData+" from db  "+HIV_AdultFemale);
  adderPos=0;
  
  while(splitData<hivpos_711_15_24f){ AdultFemaleHIV24+=1; splitData++;}
@@ -7875,10 +5612,7 @@ while(balancegeneralglobal>0){
  double pmtct_n_49=(float)Math.round(pmtct_t_49)-(pmtct_p_49);
  double pmtct_n_50= (float)Math.round(pmtct_t_50)-(pmtct_p_50);
 
-        System.out.println(facilityname+" pmtct data accuracy" +pmtct_t+" = "+pmtct_n_14+" | "+pmtct_n_19+" | "+pmtct_n_24+" | "+pmtct_n_29+" | "+pmtct_n_34+" | "+pmtct_n_39+" | "+pmtct_n_49+" | "+pmtct_n_50);
-        System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_p_14+" | "+pmtct_p_19+" | "+pmtct_p_24+" | "+pmtct_p_29+" | "+pmtct_p_34+" | "+pmtct_p_39+" | "+pmtct_p_49+" | "+pmtct_p_50);
-        System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_t_14+" | "+pmtct_t_19+" | "+pmtct_t_24+" | "+pmtct_t_29+" | "+pmtct_t_34+" | "+pmtct_t_39+" | "+pmtct_t_49+" | "+pmtct_t_50);
-       
+     
   String alldatavals[]={county,district,facilityname,""+mflcode,dsdta
         ,"0","0"
         ,""+ChildFemaleHIV1,""+ChildMaleHIV1
@@ -7910,84 +5644,129 @@ while(balancegeneralglobal>0){
         }; 
 //the above numbers appearing in serology are for 1-4
 
+ String ym = conn.rs.getString("yearmonth");
 
-
-  opdhm.put("cty"+"_"+mflcode, county);
-  opdhm.put("sty"+"_"+mflcode, district);
-  opdhm.put("fac"+"_"+mflcode, facilityname);
-  opdhm.put("mfl"+"_"+mflcode, ""+mflcode);
-  opdhm.put("st"+"_"+mflcode, dsdta);
-  opdhm.put("ukpf"+"_"+mflcode,"0");
-  opdhm.put("ukpm"+"_"+mflcode,"0");
-  opdhm.put("pf1"+"_"+mflcode,""+(ChildFemaleHIV1 ));//serology added to female
-  opdhm.put("pm1"+"_"+mflcode,""+ChildMaleHIV1);
-  opdhm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);
-  opdhm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);
-  opdhm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);
-  opdhm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);
-  opdhm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14+pmtct_p_14));
-  opdhm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);
-  opdhm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19+pmtct_p_19));
-  opdhm.put("pm19"+"_"+mflcode,""+AdultMaleHIV19);
-  opdhm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24+pmtct_p_24));
-  opdhm.put("pm24"+"_"+mflcode,""+AdultMaleHIV24);
-  opdhm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29+pmtct_p_29));
-  opdhm.put("pm29"+"_"+mflcode,""+AdultMaleHIV29);
-  opdhm.put("pf34"+"_"+mflcode,""+(AdultFemaleHIV34+pmtct_p_34));
-  opdhm.put("pm34"+"_"+mflcode,""+AdultMaleHIV34);
-  opdhm.put("pf39"+"_"+mflcode,""+(AdultFemaleHIV39+pmtct_p_39));
-  opdhm.put("pm39"+"_"+mflcode,""+AdultMaleHIV39);
-  opdhm.put("pf49"+"_"+mflcode,""+(AdultFemaleHIV49+pmtct_p_49));
-  opdhm.put("pm49"+"_"+mflcode,""+AdultMaleHIV49);
-  opdhm.put("pf50"+"_"+mflcode,""+(AdultFemaleHIV50+pmtct_p_50));
-  opdhm.put("pm50"+"_"+mflcode,""+AdultMaleHIV50);
+  opdhm.put("cty"+"_"+mflcode+ym, county);
+  opdhm.put("sty"+"_"+mflcode+ym, district);
+  opdhm.put("fac"+"_"+mflcode+ym, facilityname);
+  opdhm.put("mfl"+"_"+mflcode+ym, ""+mflcode);
+  opdhm.put("st"+"_"+mflcode+ym, dsdta);
+  opdhm.put("ukpf"+"_"+mflcode+ym,"0");
+  opdhm.put("ukpm"+"_"+mflcode+ym,"0");
+  opdhm.put("pf1"+"_"+mflcode+ym,""+(ChildFemaleHIV1 ));//serology added to female
+  opdhm.put("pm1"+"_"+mflcode+ym,""+ChildMaleHIV1);
+  opdhm.put("pf4"+"_"+mflcode+ym,""+ChildFemaleHIV4);
+  opdhm.put("pm4"+"_"+mflcode+ym,""+ChildMaleHIV4);
+  opdhm.put("pf9"+"_"+mflcode+ym,""+ChildFemaleHIV9);
+  opdhm.put("pm9"+"_"+mflcode+ym,""+ChildMaleHIV9);
+  opdhm.put("pf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14+pmtct_p_14));
+  opdhm.put("pm14"+"_"+mflcode+ym,""+ChildMaleHIV14);
+  opdhm.put("pf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19+pmtct_p_19));
+  opdhm.put("pm19"+"_"+mflcode+ym,""+AdultMaleHIV19);
+  opdhm.put("pf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24+pmtct_p_24));
+  opdhm.put("pm24"+"_"+mflcode+ym,""+AdultMaleHIV24);
+  opdhm.put("pf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29+pmtct_p_29));
+  opdhm.put("pm29"+"_"+mflcode+ym,""+AdultMaleHIV29);
+  opdhm.put("pf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34+pmtct_p_34));
+  opdhm.put("pm34"+"_"+mflcode+ym,""+AdultMaleHIV34);
+  opdhm.put("pf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39+pmtct_p_39));
+  opdhm.put("pm39"+"_"+mflcode+ym,""+AdultMaleHIV39);
+  opdhm.put("pf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49+pmtct_p_49));
+  opdhm.put("pm49"+"_"+mflcode+ym,""+AdultMaleHIV49);
+  opdhm.put("pf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50+pmtct_p_50));
+  opdhm.put("pm50"+"_"+mflcode+ym,""+AdultMaleHIV50);
   //_____negative
-  opdhm.put("uknf"+"_"+mflcode,"0");
-  opdhm.put("uknm"+"_"+mflcode,"0");
-  opdhm.put("nf1"+"_"+mflcode,""+ChildFemaleHIV1Neg);
-  opdhm.put("nm1"+"_"+mflcode,""+(ChildMaleHIV1Neg+ conn.rs.getInt("serology")));
-  opdhm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);
-  opdhm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);
-  opdhm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);
-  opdhm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);
-  opdhm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg+pmtct_n_14));
-  opdhm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);
-  opdhm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg+pmtct_n_19));
-  opdhm.put("nm19"+"_"+mflcode,""+AdultMaleHIV19Neg);
-  opdhm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg+pmtct_n_24));
-  opdhm.put("nm24"+"_"+mflcode,""+AdultMaleHIV24Neg);
-  opdhm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg+pmtct_n_29));
-  opdhm.put("nm29"+"_"+mflcode,""+AdultMaleHIV29Neg);
-  opdhm.put("nf34"+"_"+mflcode,""+(AdultFemaleHIV34Neg+pmtct_n_34));
-  opdhm.put("nm34"+"_"+mflcode,""+AdultMaleHIV34Neg);
-  opdhm.put("nf39"+"_"+mflcode,""+(AdultFemaleHIV39Neg+pmtct_n_39));
-  opdhm.put("nm39"+"_"+mflcode,""+AdultMaleHIV39Neg);
-  opdhm.put("nf49"+"_"+mflcode,""+(AdultFemaleHIV49Neg+pmtct_n_49));
-  opdhm.put("nm49"+"_"+mflcode,""+AdultMaleHIV49Neg);
-  opdhm.put("nf50"+"_"+mflcode,""+(AdultFemaleHIV50Neg+pmtct_n_50));
-  opdhm.put("nm50"+"_"+mflcode,""+AdultMaleHIV50Neg);
-  opdhm.put("tt"+"_"+mflcode,""+((tested_new711)+(pmtct_t)+(conn.rs.getInt("serology"))));
+  opdhm.put("uknf"+"_"+mflcode+ym,"0");
+  opdhm.put("uknm"+"_"+mflcode+ym,"0");
+  opdhm.put("nf1"+"_"+mflcode+ym,""+ChildFemaleHIV1Neg);
+  opdhm.put("nm1"+"_"+mflcode+ym,""+(ChildMaleHIV1Neg+ conn.rs.getInt("serology")));
+  opdhm.put("nf4"+"_"+mflcode+ym,""+ChildFemaleHIV4Neg);
+  opdhm.put("nm4"+"_"+mflcode+ym,""+ChildMaleHIV4Neg);
+  opdhm.put("nf9"+"_"+mflcode+ym,""+ChildFemaleHIV9Neg);
+  opdhm.put("nm9"+"_"+mflcode+ym,""+ChildMaleHIV9Neg);
+  opdhm.put("nf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14Neg+pmtct_n_14));
+  opdhm.put("nm14"+"_"+mflcode+ym,""+ChildMaleHIV14Neg);
+  opdhm.put("nf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19Neg+pmtct_n_19));
+  opdhm.put("nm19"+"_"+mflcode+ym,""+AdultMaleHIV19Neg);
+  opdhm.put("nf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24Neg+pmtct_n_24));
+  opdhm.put("nm24"+"_"+mflcode+ym,""+AdultMaleHIV24Neg);
+  opdhm.put("nf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29Neg+pmtct_n_29));
+  opdhm.put("nm29"+"_"+mflcode+ym,""+AdultMaleHIV29Neg);
+  opdhm.put("nf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34Neg+pmtct_n_34));
+  opdhm.put("nm34"+"_"+mflcode+ym,""+AdultMaleHIV34Neg);
+  opdhm.put("nf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39Neg+pmtct_n_39));
+  opdhm.put("nm39"+"_"+mflcode+ym,""+AdultMaleHIV39Neg);
+  opdhm.put("nf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49Neg+pmtct_n_49));
+  opdhm.put("nm49"+"_"+mflcode+ym,""+AdultMaleHIV49Neg);
+  opdhm.put("nf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50Neg+pmtct_n_50));
+  opdhm.put("nm50"+"_"+mflcode+ym,""+AdultMaleHIV50Neg);
+  opdhm.put("tt"+"_"+mflcode+ym,""+((tested_new711)+(pmtct_t)+(conn.rs.getInt("serology"))));
+
+String burdencategory = conn.rs.getString("burdencategory");
+ String constituency = conn.rs.getString("constituency");
+ String ward = conn.rs.getString("ward");
+ String yr = conn.rs.getString("year");
+ String semiannual = conn.rs.getString("semiannual");
+ String qtr = conn.rs.getString("quarter");
+ String mn = conn.rs.getString("month");
+
+ String ownedby = conn.rs.getString("ownedby");
+ String facilitytype = conn.rs.getString("facilitytype");
+ String art_hv = conn.rs.getString("art_hv");
+ String htc_hv = conn.rs.getString("htc_hv");
+ String pmtct_hv = conn.rs.getString("pmtct_hv");
+ String activity_hv = conn.rs.getString("activity_hv");
+ String latitude = conn.rs.getString("latitude");
+ String longitude = conn.rs.getString("longitude");
+ String maleclinic = conn.rs.getString("maleclinic");
+ String adoleclinic = conn.rs.getString("adoleclinic");
+ String viremiaclinic = conn.rs.getString("viremiaclinic");
+ String emrsite = conn.rs.getString("emrsite");
+ String linkdesk = conn.rs.getString("linkdesk");
+ String islocked = conn.rs.getString("islocked");
+  
+  opdhm.put("burdencategory"+"_"+mflcode+ym, burdencategory);
+  opdhm.put("constituency"+"_"+mflcode+ym, constituency);
+  opdhm.put("ward"+"_"+mflcode+ym, ward);
+  opdhm.put("year"+"_"+mflcode+ym, yr);
+  opdhm.put("semiannual"+"_"+mflcode+ym, semiannual);
+  opdhm.put("quarter"+"_"+mflcode+ym, qtr);
+  opdhm.put("month"+"_"+mflcode+ym, mn);
+  opdhm.put("yearmonth"+"_"+mflcode+ym, ym);
+  opdhm.put("ownedby"+"_"+mflcode+ym, ownedby);
+  opdhm.put("facilitytype"+"_"+mflcode+ym, facilitytype);
+  opdhm.put("art_hv"+"_"+mflcode+ym, art_hv);
+  opdhm.put("htc_hv"+"_"+mflcode+ym, htc_hv);
+  opdhm.put("pmtct_hv"+"_"+mflcode+ym, pmtct_hv);
+  opdhm.put("activity_hv"+"_"+mflcode+ym, activity_hv);
+  opdhm.put("latitude"+"_"+mflcode+ym, latitude);
+  opdhm.put("longitude"+"_"+mflcode+ym, longitude);
+  opdhm.put("maleclinic"+"_"+mflcode+ym, maleclinic);
+  opdhm.put("adoleclinic"+"_"+mflcode+ym, adoleclinic);
+  opdhm.put("viremiaclinic"+"_"+mflcode+ym, viremiaclinic);
+  opdhm.put("emrsite"+"_"+mflcode+ym, emrsite);
+  opdhm.put("linkdesk"+"_"+mflcode+ym, linkdesk);
+  opdhm.put("islocked"+"_"+mflcode+ym, islocked);
 
 
+  if(facilityname.equalsIgnoreCase("Kapua Dispensary")){ System.out.println(" Facility is "+facilityname+" and yearmonth is:"+ym);}
+  
+  
 
 
-
-HSSFCell  cxy;
- 
-         rw0.setHeightInPoints(25);
          int mypos=0;
          
   for(int a=0;a<alldatavals.length;a++){
       
-       cxy=rw0.createCell(mypos);mypos++;
+    
        if(a==4||a<3){
            //non numeric characters
-        cxy.setCellValue(alldatavals[a]);
+       
        }
        else {
-        cxy.setCellValue(new Double(alldatavals[a]).intValue());
+    
        }
-       cxy.setCellStyle(stborder);
+      
   
   }
 //      shet3.addMergedRegion(new CellRangeAddress(2,5,20,20));
@@ -7998,81 +5777,59 @@ HSSFCell  cxy;
 	HSSFRow rwx=null;                     
  for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
   count++;   
-  rwx=shet3.createRow(count);  
- rwx.setHeightInPoints(23);  
+ 
  
  for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
  //create a row
   if(z==0){
     //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(stborder);
+  
   }
   else if(z==1){
     //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(stborder); }
+   
+  }
   else if(z==2){
    //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(stborder);
+   
   }
   else if(z==3){
    //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(new Integer(staticmfl.get(a).toString()));
-   cellmfl.setCellStyle(stborder);
+  
   }
    
   else if(z==4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(stborder);
+ 
         }
    //last section of blank rows
   else if(z==pitc_ipd_header1.length-5){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticart_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
    
     else if(z==pitc_ipd_header1.length-4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(statichtc_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+  
    
         }
     else if(z==pitc_ipd_header1.length-3){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticpmtct_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
     else if(z==pitc_ipd_header1.length-2){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticishtc.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
     else if(z==pitc_ipd_header1.length-1){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticispmtct.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+  
    
         }
             
   else {
                      
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(stborder);
+  
    
   
   }//end of else
@@ -8087,12 +5844,7 @@ HSSFCell  cxy;
     //shet3.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length+3));
 
                 //System.out.println("1,"+rowpos+",0,"+colposcopy);
-                for (int e = 0; e < 4; e++) {
-                shet3.autoSizeColumn(e);
-                }
-                //Made my life veery simple...
-                shet3.setDisplayGridlines(false);
-                shet3.createFreezePane(5,5);                 
+                                
 
          return opdhm;          
      
@@ -8101,114 +5853,11 @@ HSSFCell  cxy;
     
     
     
-    public HashMap Vct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+public HashMap Vct(dbConn conn,String sdate,String edate,String facil) throws SQLException {
         
         
       HashMap<String , String> vcthm = new HashMap<String,String>();  
                     
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-        
     
      //new htc for PITC 
                   
@@ -8237,7 +5886,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
  facilityName=countyName=districtName=facilityIds=facilityId="";
 
  
-  year=Integer.parseInt(request.getParameter("year"));
+year = new Integer(edate.substring(0,4));
   
   Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
@@ -8264,50 +5913,10 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
   }
   
    String facilityIds1="";
-        facilityIds1="(";
-           if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-         String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "WHERE district.DistrictID='"+subcounty+"'" ;
-           subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
-    
-    conn.rs=conn.st.executeQuery(getDist);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
- 
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-    }
-     
-      facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";   
-     } 
-     else{
-        if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
-         String county=request.getParameter("county");
-         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-         subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1  and  ";//20160711
-         
-    conn.rs=conn.st.executeQuery(getCounty);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
-    
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
    
-    facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";     
-     }
-       
-        else{
-  
-       facilityIds1="";    
-        }   
-        
-     }      
+         if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
+          
+          
  int TestedAdultMale=0,TestedAdultFemale=0;
  int TestedChildMale=0,TestedChildFemale=0;
  int HIV_AdultMale=0,HIV_AdultFemale=0;
@@ -8411,10 +6020,10 @@ double  ChildMaleHIV9=0;
            
            int redalert=0;
       
-        reportDuration=request.getParameter("reportDuration");
+        //reportDuration=request.getParameter("reportDuration");
         
 //        year=2015;
-//        reportDuration="4";
+       reportDuration="4";
         String period1="";
         String duration1="";
         prevYear=year-1; 
@@ -8422,67 +6031,19 @@ double  ChildMaleHIV9=0;
         
 //        GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-         duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
-        period1="DATIM ANNUAL DATA REPORT FOR PEPFAR YEAR : "+year;
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
        
-     period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : OCT "+prevYear+" to MARCH "+year;
-       }
-           else{
-       duration1=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : APRIL "+year+" to SEPT "+year; 
-       }
-       }
         
-        else if(reportDuration.equals("3")){
-            String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
-       conn.rs=conn.st.executeQuery(getMonths);
-       if(conn.rs.next()==true){
-      String months []=conn.rs.getString(1).split(",");
-       startMonth=months[0];
-       endMonth=months[2];
-      if(quarter.equals("1")){
-      duration1=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
-      period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      }
-      else{
-     duration1=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
-     period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-        }  
-        
-      else if(reportDuration.equals("4")){
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" moh731.yearmonth="+prevYear+""+month;    
-     period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+prevYear+")"; 
-     }
-     else{
-  duration1=" moh731.yearmonth="+year+"0"+month;  
-    period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+year+")";
-     }
-      }
+       if(reportDuration.equals("4")){
+          
+    month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( moh731.yearmonth between "+sdate+" and "+edate+" )";
       }
       else{
      duration1="";     
       }
         
-      HSSFSheet shet3=wb.createSheet("VCT");   
-            HSSFCell  c11;
+   
          FemaleAdultTested=0;
  FemaleTestedChild=0;
  AdultFemaleHIV=0;
@@ -8505,69 +6066,13 @@ double  ChildMaleHIV9=0;
    String  district="";
     String facilityname="";
 
-  shet3.setColumnWidth(0, 4000);  
-  shet3.setColumnWidth(1, 5000);  
-  shet3.setColumnWidth(2,5000);  
+
   //shet3.setColumnWidth(6,5000);
   
-  
-  //create header1
-   HSSFRow rw0=shet3.createRow(0);
-           rw0.setHeightInPoints(30);
-           
-           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
-         c1=rw0.createCell(0);
+
          
       //_____________________________________________________________report heading row 0   
-      c1.setCellValue(period1);
-      c1.setCellStyle(stylemainHeader);
-      for(int j=1;j<=pitc_ipd_header1.length-1;j++){
-      c1=rw0.createCell(j);
-       c1.setCellStyle(stylemainHeader);
-      }
-      
-      //-----------------------------------row 1 header 
-       rw0=shet3.createRow(2); 
-       rw0.setHeightInPoints(30);
- 
-    for (int i=0;i<pitc_ipd_header1.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header1[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
- //-----------------------------------row 2 header 
-       rw0=shet3.createRow(3); 
-       rw0.setHeightInPoints(30);
-  
-    for (int i=0;i<pitc_ipd_header2.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header2[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
-   
-    //-----------------------------------row 3 header 
-   rw0=shet3.createRow(4); 
-   rw0.setHeightInPoints(30);
- 
-      
-    for (int i=0;i<pitc_ipd_header3.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_ipd_header3[i]);
-      clx.setCellStyle(stylemainHeader);
-       }
-    String mergeinfor[]={"0,0,0,58","2,4,0,0","2,4,1,1","2,4,2,2","2,4,3,3","2,4,4,4","2,2,5,28","2,2,29,52","2,4,53,53","2,4,54,54","2,4,55,55","2,4,56,56","3,3,5,6","3,3,29,30","2,4,57,57","2,4,58,58"};  
-   
-    //do the merging
-    
-    for(int d=0;d<mergeinfor.length;d++){
-    if(!mergeinfor[d].equals("")){
-        String pos[]=mergeinfor[d].split(",");
-     shet3.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
-    }
-                                         }
+     
     
   //20151009
 
@@ -8662,13 +6167,84 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
             + " county.County,district.DistrictNom,"
             + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".HTC_Support1 ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
            +" ,sum( HV0103 + HV0201 ) as NUM,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
-            + " ,county.CountyID as CountyID FROM moh731 JOIN "+facilitiestable+" "
+            + " ,county.CountyID as CountyID "
+             + " ,county.burden_cartegory as burdencategory,"+facilitiestable+".constituency as constituency,"+facilitiestable+".ward as ward, "
+           
+            + " substring(moh731.yearmonth,1,4) as year " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+"or substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+"or substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '2. Apr-Sep' end  as semiannual " +
+"            " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+")  then '1. Oct-Dec'  " +
+"           when (  " +
+" " +
+"substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03' " +
+"           )  then '2. Jan-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+")  then '3. Apr-Jun'  " +
+"           when (  " +
+"substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '4. Jul-Sep' end  as quarter " +
+" " +
+",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Dec' then '12. dec' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jan' then '01. Jan' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Feb' then '02. Feb' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Mar' then '03. Mar' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Apr' then '04. Apr' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'May' then '05. May' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jun' then '06. Jun' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jul' then '07. Jul' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Aug' then '08. Aug' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Sep' then '09. Sep' " +
+" end  as month " +
+" " +
+",  moh731.yearmonth " +
+" ,IFNULL("+facilitiestable+".Owner,\"\") as ownedby " +
+" ,IFNULL("+facilitiestable+".Type,\"\") as facilitytype " +
+" ,IFNULL("+facilitiestable+".ART_highvolume,\"0\") as art_hv " +
+" ,IFNULL("+facilitiestable+".HTC_highvolume,\"0\") as htc_hv " +
+" ,IFNULL("+facilitiestable+".PMTCT_highvolume,\"0\") as pmtct_hv " +
+" ,IFNULL("+facilitiestable+".all_highvolume,\"0\") as activity_hv " +
+" ,IFNULL("+facilitiestable+".latitude,\"\") as latitude " +
+" ,IFNULL("+facilitiestable+".longitude,\"\") as longitude " +
+" ,IFNULL("+facilitiestable+".Male_clinics,\"0\") as maleclinic " +
+" ,IFNULL("+facilitiestable+".Adolescent_clinics,\"0\") as adoleclinic " +
+" ,IFNULL("+facilitiestable+".Viremia_clinics,\"0\") as viremiaclinic " +
+" ,IFNULL("+facilitiestable+".EMR_Sites,\"0\") as emrsite " +
+" ,IFNULL("+facilitiestable+".Link_desks,\"0\") as linkdesk " +
+" ,'0'as islocked "
+            + " FROM moh731 JOIN "+facilitiestable+" "
             + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
           + "district.CountyID=county.CountyID"
             + " WHERE "
     + " "+facilityIds1+" "+duration1+" && ("+facilitiestable+".HTC=1 or PMTCT=1)  AND "+facilitiestable+".active=1   "
-            + "GROUP BY moh731.SubPartnerID order by county.County";
+              + " GROUP BY moh731.SubPartnerID,moh731.yearmonth order by county.County ,moh731.yearmonth " ;
     
     
      System.out.println("2017q1 IPD : "+get731data);
@@ -8996,17 +6572,13 @@ String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+dsdta;
 String arrayDetails []=basicDetails.split("@");
 
   count++;
-  rw0=shet3.createRow(count);
+  
  int facilno=0;
   
    for(int j=0;j<arrayDetails.length;j++)
    {
     
-  HSSFCell  S3cell=rw0.createCell(facilno);
-    S3cell.setCellValue(arrayDetails[j]);
-//    System.out.println(arrayDetails[j]);
-    S3cell.setCellStyle(stborder);  
-    System.out.println("facildet pos : "+facilno+"     det : "+arrayDetails[j]);
+ 
      facilno++;  
    }
   
@@ -9161,7 +6733,7 @@ if(totalcheckdiff>5 || totalcheckdiff<-5){finalalert=1;}
 //   // adult female hiv+
 splitData=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV29+AdultFemaleHIV34+AdultFemaleHIV39+AdultFemaleHIV49+AdultFemaleHIV50 ;
 //
-System.out.println(facilityname+" lllll added "+splitData+" from db  "+HIV_AdultFemale);
+//System.out.println(facilityname+" lllll added "+splitData+" from db  "+HIV_AdultFemale);
  adderPos=0;
  
  while(splitData<HIV_AdultFemale){ AdultFemaleHIV34+=1; splitData++;}
@@ -9224,7 +6796,7 @@ adderPos++  ;if(adderPos>2){adderPos=0;}if(childSplitData==TestedChildFemale){} 
 
  // for child female +ve
   childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
-  System.out.println(facilityname+"  mmmm  "+childSplitData+"    "+HIV_ChildFemale);
+ // System.out.println(facilityname+"  mmmm  "+childSplitData+"    "+HIV_ChildFemale);
    adderPos=0;
    double diff=0;
 while(childSplitData<HIV_ChildFemale){ 
@@ -9387,7 +6959,7 @@ while(balancegeneral<0){
     else if(AdultFemaleHIV29>0){AdultFemaleHIV29-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
     else if(AdultFemaleHIV39>0){AdultFemaleHIV39-=1; balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
    else if(AdultFemaleHIV50>0){AdultFemaleHIV50-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname); }
-   else { System.out.println("Not solved at last bad stage VCT"+facilityname);   }
+   else { System.out.println("Not solved at last bad stage VCT"+facilityname); break;  }
     
 
     
@@ -9791,97 +7363,138 @@ TotalNegativeMale1=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMa
           
         }; 
 
+   String ym = conn.rs.getString("yearmonth");
   
   
-  
-  vcthm.put("cty"+"_"+mflcode, county);
-  vcthm.put("sty"+"_"+mflcode, district);
-  vcthm.put("fac"+"_"+mflcode, facilityname);
-  vcthm.put("mfl"+"_"+mflcode, ""+mflcode);
-  vcthm.put("st"+"_"+mflcode, dsdta);
-  vcthm.put("ukpf"+"_"+mflcode,"0");
-  vcthm.put("ukpm"+"_"+mflcode,"0");
-  vcthm.put("pf1"+"_"+mflcode,""+(ChildFemaleHIV1 ));
-  vcthm.put("pm1"+"_"+mflcode,""+ChildMaleHIV1);
-//  vcthm.put("pf4"+"_"+mflcode,""+ChildFemaleHIV4);//
-//  vcthm.put("pm4"+"_"+mflcode,""+ChildMaleHIV4);//
-//  vcthm.put("pf9"+"_"+mflcode,""+ChildFemaleHIV9);//
-//  vcthm.put("pm9"+"_"+mflcode,""+ChildMaleHIV9);//
-//  vcthm.put("pf14"+"_"+mflcode,""+(ChildFemaleHIV14));//
-//  vcthm.put("pm14"+"_"+mflcode,""+ChildMaleHIV14);//
-  vcthm.put("pf4"+"_"+mflcode,"0");//
-  vcthm.put("pm4"+"_"+mflcode,"0");//
-  vcthm.put("pf9"+"_"+mflcode,"0");//
-  vcthm.put("pm9"+"_"+mflcode,"0");//
-  vcthm.put("pf14"+"_"+mflcode,"0");//
-  vcthm.put("pm14"+"_"+mflcode,"0");//
-  vcthm.put("pf19"+"_"+mflcode,""+(AdultFemaleHIV19+ChildFemaleHIV4));
-  vcthm.put("pm19"+"_"+mflcode,""+(AdultMaleHIV19+ChildMaleHIV4));
-  vcthm.put("pf24"+"_"+mflcode,""+(AdultFemaleHIV24+ChildFemaleHIV9));
-  vcthm.put("pm24"+"_"+mflcode,""+(AdultMaleHIV24+ChildMaleHIV9));
-  vcthm.put("pf29"+"_"+mflcode,""+(AdultFemaleHIV29+ChildFemaleHIV14));
-  vcthm.put("pm29"+"_"+mflcode,""+(AdultMaleHIV29+ChildMaleHIV14));
-  vcthm.put("pf34"+"_"+mflcode,""+(AdultFemaleHIV34));
-  vcthm.put("pm34"+"_"+mflcode,""+AdultMaleHIV34);
-  vcthm.put("pf39"+"_"+mflcode,""+(AdultFemaleHIV39));
-  vcthm.put("pm39"+"_"+mflcode,""+AdultMaleHIV39);
-  vcthm.put("pf49"+"_"+mflcode,""+(AdultFemaleHIV49));
-  vcthm.put("pm49"+"_"+mflcode,""+AdultMaleHIV49);
-  vcthm.put("pf50"+"_"+mflcode,""+(AdultFemaleHIV50));
-  vcthm.put("pm50"+"_"+mflcode,""+AdultMaleHIV50);
+  vcthm.put("cty"+"_"+mflcode+ym, county);
+  vcthm.put("sty"+"_"+mflcode+ym, district);
+  vcthm.put("fac"+"_"+mflcode+ym, facilityname);
+  vcthm.put("mfl"+"_"+mflcode+ym, ""+mflcode);
+  vcthm.put("st"+"_"+mflcode+ym, dsdta);
+  vcthm.put("ukpf"+"_"+mflcode+ym,"0");
+  vcthm.put("ukpm"+"_"+mflcode+ym,"0");
+  vcthm.put("pf1"+"_"+mflcode+ym,""+(ChildFemaleHIV1 ));
+  vcthm.put("pm1"+"_"+mflcode+ym,""+ChildMaleHIV1);
+//  vcthm.put("pf4"+"_"+mflcode+ym,""+ChildFemaleHIV4);//
+//  vcthm.put("pm4"+"_"+mflcode+ym,""+ChildMaleHIV4);//
+//  vcthm.put("pf9"+"_"+mflcode+ym,""+ChildFemaleHIV9);//
+//  vcthm.put("pm9"+"_"+mflcode+ym,""+ChildMaleHIV9);//
+//  vcthm.put("pf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14));//
+//  vcthm.put("pm14"+"_"+mflcode+ym,""+ChildMaleHIV14);//
+  vcthm.put("pf4"+"_"+mflcode+ym,"0");//
+  vcthm.put("pm4"+"_"+mflcode+ym,"0");//
+  vcthm.put("pf9"+"_"+mflcode+ym,"0");//
+  vcthm.put("pm9"+"_"+mflcode+ym,"0");//
+  vcthm.put("pf14"+"_"+mflcode+ym,"0");//
+  vcthm.put("pm14"+"_"+mflcode+ym,"0");//
+  vcthm.put("pf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19+ChildFemaleHIV4));
+  vcthm.put("pm19"+"_"+mflcode+ym,""+(AdultMaleHIV19+ChildMaleHIV4));
+  vcthm.put("pf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24+ChildFemaleHIV9));
+  vcthm.put("pm24"+"_"+mflcode+ym,""+(AdultMaleHIV24+ChildMaleHIV9));
+  vcthm.put("pf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29+ChildFemaleHIV14));
+  vcthm.put("pm29"+"_"+mflcode+ym,""+(AdultMaleHIV29+ChildMaleHIV14));
+  vcthm.put("pf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34));
+  vcthm.put("pm34"+"_"+mflcode+ym,""+AdultMaleHIV34);
+  vcthm.put("pf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39));
+  vcthm.put("pm39"+"_"+mflcode+ym,""+AdultMaleHIV39);
+  vcthm.put("pf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49));
+  vcthm.put("pm49"+"_"+mflcode+ym,""+AdultMaleHIV49);
+  vcthm.put("pf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50));
+  vcthm.put("pm50"+"_"+mflcode+ym,""+AdultMaleHIV50);
   //_____negative
-  vcthm.put("uknf"+"_"+mflcode,"0");
-  vcthm.put("uknm"+"_"+mflcode,"0");
-  vcthm.put("nf1"+"_"+mflcode,""+ChildFemaleHIV1Neg);
-  vcthm.put("nm1"+"_"+mflcode,""+ChildMaleHIV1Neg);
-//  vcthm.put("nf4"+"_"+mflcode,""+ChildFemaleHIV4Neg);//
-//  vcthm.put("nm4"+"_"+mflcode,""+ChildMaleHIV4Neg);//
-//  vcthm.put("nf9"+"_"+mflcode,""+ChildFemaleHIV9Neg);//
-//  vcthm.put("nm9"+"_"+mflcode,""+ChildMaleHIV9Neg);//
-//  vcthm.put("nf14"+"_"+mflcode,""+(ChildFemaleHIV14Neg));//
-//  vcthm.put("nm14"+"_"+mflcode,""+ChildMaleHIV14Neg);//
-  vcthm.put("nf4"+"_"+mflcode,"0");//
-  vcthm.put("nm4"+"_"+mflcode,"0");//
-  vcthm.put("nf9"+"_"+mflcode,"0");//
-  vcthm.put("nm9"+"_"+mflcode,"0");//
-  vcthm.put("nf14"+"_"+mflcode,"0");//
-  vcthm.put("nm14"+"_"+mflcode,"0");//
-  vcthm.put("nf19"+"_"+mflcode,""+(AdultFemaleHIV19Neg+ChildFemaleHIV4Neg));
-  vcthm.put("nm19"+"_"+mflcode,""+(AdultMaleHIV19Neg+ChildMaleHIV4Neg));
-  vcthm.put("nf24"+"_"+mflcode,""+(AdultFemaleHIV24Neg+ChildFemaleHIV9Neg));
-  vcthm.put("nm24"+"_"+mflcode,""+(AdultMaleHIV24Neg+ChildMaleHIV9Neg));
-  vcthm.put("nf29"+"_"+mflcode,""+(AdultFemaleHIV29Neg+(ChildFemaleHIV14Neg)));
-  vcthm.put("nm29"+"_"+mflcode,""+(AdultMaleHIV29Neg+ChildMaleHIV14Neg));
-  vcthm.put("nf34"+"_"+mflcode,""+(AdultFemaleHIV34Neg));
-  vcthm.put("nm34"+"_"+mflcode,""+AdultMaleHIV34Neg);
-  vcthm.put("nf39"+"_"+mflcode,""+(AdultFemaleHIV39Neg));
-  vcthm.put("nm39"+"_"+mflcode,""+AdultMaleHIV39Neg);
-  vcthm.put("nf49"+"_"+mflcode,""+(AdultFemaleHIV49Neg));
-  vcthm.put("nm49"+"_"+mflcode,""+AdultMaleHIV49Neg);
-  vcthm.put("nf50"+"_"+mflcode,""+(AdultFemaleHIV50Neg));
-  vcthm.put("nm50"+"_"+mflcode,""+AdultMaleHIV50Neg);
-  vcthm.put("tt"+"_"+mflcode,""+((tested_new711)));
+  vcthm.put("uknf"+"_"+mflcode+ym,"0");
+  vcthm.put("uknm"+"_"+mflcode+ym,"0");
+  vcthm.put("nf1"+"_"+mflcode+ym,""+ChildFemaleHIV1Neg);
+  vcthm.put("nm1"+"_"+mflcode+ym,""+ChildMaleHIV1Neg);
+//  vcthm.put("nf4"+"_"+mflcode+ym,""+ChildFemaleHIV4Neg);//
+//  vcthm.put("nm4"+"_"+mflcode+ym,""+ChildMaleHIV4Neg);//
+//  vcthm.put("nf9"+"_"+mflcode+ym,""+ChildFemaleHIV9Neg);//
+//  vcthm.put("nm9"+"_"+mflcode+ym,""+ChildMaleHIV9Neg);//
+//  vcthm.put("nf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14Neg));//
+//  vcthm.put("nm14"+"_"+mflcode+ym,""+ChildMaleHIV14Neg);//
+  vcthm.put("nf4"+"_"+mflcode+ym,"0");//
+  vcthm.put("nm4"+"_"+mflcode+ym,"0");//
+  vcthm.put("nf9"+"_"+mflcode+ym,"0");//
+  vcthm.put("nm9"+"_"+mflcode+ym,"0");//
+  vcthm.put("nf14"+"_"+mflcode+ym,"0");//
+  vcthm.put("nm14"+"_"+mflcode+ym,"0");//
+  vcthm.put("nf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19Neg+ChildFemaleHIV4Neg));
+  vcthm.put("nm19"+"_"+mflcode+ym,""+(AdultMaleHIV19Neg+ChildMaleHIV4Neg));
+  vcthm.put("nf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24Neg+ChildFemaleHIV9Neg));
+  vcthm.put("nm24"+"_"+mflcode+ym,""+(AdultMaleHIV24Neg+ChildMaleHIV9Neg));
+  vcthm.put("nf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29Neg+(ChildFemaleHIV14Neg)));
+  vcthm.put("nm29"+"_"+mflcode+ym,""+(AdultMaleHIV29Neg+ChildMaleHIV14Neg));
+  vcthm.put("nf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34Neg));
+  vcthm.put("nm34"+"_"+mflcode+ym,""+AdultMaleHIV34Neg);
+  vcthm.put("nf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39Neg));
+  vcthm.put("nm39"+"_"+mflcode+ym,""+AdultMaleHIV39Neg);
+  vcthm.put("nf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49Neg));
+  vcthm.put("nm49"+"_"+mflcode+ym,""+AdultMaleHIV49Neg);
+  vcthm.put("nf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50Neg));
+  vcthm.put("nm50"+"_"+mflcode+ym,""+AdultMaleHIV50Neg);
+  vcthm.put("tt"+"_"+mflcode+ym,""+((tested_new711)));
 
+String burdencategory = conn.rs.getString("burdencategory");
+ String constituency = conn.rs.getString("constituency");
+ String ward = conn.rs.getString("ward");
+ String yr = conn.rs.getString("year");
+ String semiannual = conn.rs.getString("semiannual");
+ String qtr = conn.rs.getString("quarter");
+ String mn = conn.rs.getString("month");
 
+ String ownedby = conn.rs.getString("ownedby");
+ String facilitytype = conn.rs.getString("facilitytype");
+ String art_hv = conn.rs.getString("art_hv");
+ String htc_hv = conn.rs.getString("htc_hv");
+ String pmtct_hv = conn.rs.getString("pmtct_hv");
+ String activity_hv = conn.rs.getString("activity_hv");
+ String latitude = conn.rs.getString("latitude");
+ String longitude = conn.rs.getString("longitude");
+ String maleclinic = conn.rs.getString("maleclinic");
+ String adoleclinic = conn.rs.getString("adoleclinic");
+ String viremiaclinic = conn.rs.getString("viremiaclinic");
+ String emrsite = conn.rs.getString("emrsite");
+ String linkdesk = conn.rs.getString("linkdesk");
+ String islocked = conn.rs.getString("islocked");
+  
+  vcthm.put("burdencategory"+"_"+mflcode+ym, burdencategory);
+  vcthm.put("constituency"+"_"+mflcode+ym, constituency);
+  vcthm.put("ward"+"_"+mflcode+ym, ward);
+  vcthm.put("year"+"_"+mflcode+ym, yr);
+  vcthm.put("semiannual"+"_"+mflcode+ym, semiannual);
+  vcthm.put("quarter"+"_"+mflcode+ym, qtr);
+  vcthm.put("month"+"_"+mflcode+ym, mn);
+  vcthm.put("yearmonth"+"_"+mflcode+ym, ym);
+  vcthm.put("ownedby"+"_"+mflcode+ym, ownedby);
+  vcthm.put("facilitytype"+"_"+mflcode+ym, facilitytype);
+  vcthm.put("art_hv"+"_"+mflcode+ym, art_hv);
+  vcthm.put("htc_hv"+"_"+mflcode+ym, htc_hv);
+  vcthm.put("pmtct_hv"+"_"+mflcode+ym, pmtct_hv);
+  vcthm.put("activity_hv"+"_"+mflcode+ym, activity_hv);
+  vcthm.put("latitude"+"_"+mflcode+ym, latitude);
+  vcthm.put("longitude"+"_"+mflcode+ym, longitude);
+  vcthm.put("maleclinic"+"_"+mflcode+ym, maleclinic);
+  vcthm.put("adoleclinic"+"_"+mflcode+ym, adoleclinic);
+  vcthm.put("viremiaclinic"+"_"+mflcode+ym, viremiaclinic);
+  vcthm.put("emrsite"+"_"+mflcode+ym, emrsite);
+  vcthm.put("linkdesk"+"_"+mflcode+ym, linkdesk);
+  vcthm.put("islocked"+"_"+mflcode+ym, islocked);
   
 
-HSSFCell  cxy;
- 
-
-         rw0.setHeightInPoints(25);
          int mypos=0;
      
          
   for(int a=0;a<alldatavals.length;a++){
       
-       cxy=rw0.createCell(mypos);mypos++;
+       mypos++;
        if(a==4||a<3){
            //non numeric characters
-        cxy.setCellValue(alldatavals[a]);
+       
        }
-       else {cxy.setCellValue(new Double(alldatavals[a]).intValue()); }
+       else {
+       }
       
-       cxy.setCellStyle(stborder);
+      
   
   }
 //      shet3.addMergedRegion(new CellRangeAddress(2,5,20,20));
@@ -9891,79 +7504,56 @@ HSSFCell  cxy;
 	HSSFRow rwx=null;                     
  for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
   count++;   
-  rwx=shet3.createRow(count);  
- rwx.setHeightInPoints(23);
+  
  for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
  //create a row
   if(z==0){
     //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(stborder);
+  
   }
   else if(z==1){
     //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(stborder);
+  
   }
   else if(z==2){
    //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(stborder);
+   
   }
   else if(z==3){
    //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(new Integer(staticmfl.get(a).toString()));
-   cellmfl.setCellStyle(stborder);
+   
   }
    
   else if(z==4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(stborder);
+   
     }
   //last section of blank rows
   else if(z==pitc_ipd_header1.length-5){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticart_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
     }
    
     else if(z==pitc_ipd_header1.length-4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(statichtc_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
    }
     else if(z==pitc_ipd_header1.length-3){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticpmtct_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
    }
     else if(z==pitc_ipd_header1.length-2){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticishtc.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
     }
     else if(z==pitc_ipd_header1.length-1){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticispmtct.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
          
   else {
                      
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(stborder);
+   
 
   }//end of else
   
@@ -9975,126 +7565,18 @@ HSSFCell  cxy;
      //____autofilter______       
     //shet3.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length+3));
 
-                for (int e = 0; e < 4; e++) {
-                shet3.autoSizeColumn(e);
-                }
-                //Made my life veery simple...
-                shet3.setDisplayGridlines(false);
-                shet3.createFreezePane(5,5); 
+               
            return vcthm;      
     
     }
     
     
-    public HashMap Pmtct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+public HashMap Pmtct(dbConn conn,String sdate,String edate,String facil) throws SQLException{
         
               HashMap<String , String> Pmtcthm = new HashMap<String,String>(); 
      
                    
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-        
-    
+   
      //new PMTCT_ANC 
                  
                      //2017
@@ -10111,7 +7593,9 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
    year=month=prevYear=maxYearMonth=mflcode=0;
  reportDuration=duration=semi_annual=quarter="";
  facilityName=countyName=districtName=facilityIds=facilityId="";
-  year=Integer.parseInt(request.getParameter("year"));
+ 
+year = new Integer(edate.substring(0,4));
+  
   Calendar ca= Calendar.getInstance();
   int currentyear=ca.get(Calendar.YEAR);
   String facilitiestable="subpartnera";
@@ -10121,47 +7605,13 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
       else  {facilitiestable="subpartnera"+selectedyear;}
   }
    String facilityIds1="";
-        facilityIds1="(";
-           if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-         String subcounty=request.getParameter("subcounty");
-    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "WHERE district.DistrictID='"+subcounty+"'" ;
-           subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
-    
-    conn.rs=conn.st.executeQuery(getDist);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
- 
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-    }
-     
-      facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";   
-     } 
-     else{
-        if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
-         String county=request.getParameter("county");
-         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-     + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+      if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
          
-         subcounty_countywhere=" (county.CountyID='"+county+"')   AND "+facilitiestable+".active=1 and  ";//20160711
-         
-    conn.rs=conn.st.executeQuery(getCounty);
-    while(conn.rs.next()){
-     allFacilities.add(conn.rs.getString(1));
-     facilityIds1+=" moh731.SubPartnerID='"+conn.rs.getString(1)+"' || "; }
-   
-    facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     facilityIds1+=") && ";  } 
-        else{ facilityIds1=""; }   
-        
-     }      
-        reportDuration=request.getParameter("reportDuration");
+          
+       // reportDuration=request.getParameter("reportDuration");
         
 //        year=2015;
-//        reportDuration="4";
+        reportDuration="4";
         String period1="";
         String duration1="";
         prevYear=year-1; 
@@ -10169,138 +7619,23 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
         
 //        GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-         duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
-        period1="DATIM ANNUAL DATA REPORT FOR PEPFAR YEAR : "+year;
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" moh731.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : OCT "+prevYear+" to MARCH "+year;
-       }
-           else{
-       duration1=" moh731.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : APRIL "+year+" to SEPT "+year; 
-       }
-       }
         
-        else if(reportDuration.equals("3")){
-            String startMonth,endMonth;
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
-       conn.rs=conn.st.executeQuery(getMonths);
-       if(conn.rs.next()==true){
-      String months []=conn.rs.getString(1).split(",");
-       startMonth=months[0];
-       endMonth=months[2];
-      if(quarter.equals("1")){
-      duration1=" moh731.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
-      period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      }
-      else{
-     duration1=" moh731.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
-     period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-        }  
         
-      else if(reportDuration.equals("4")){
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" moh731.yearmonth="+prevYear+""+month;    
-     period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+prevYear+")"; 
-     }
-     else{
-  duration1=" moh731.yearmonth="+year+"0"+month;  
-    period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+year+")";
-     }
-      }
+       if(reportDuration.equals("4")){
+    month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( moh731.yearmonth between "+sdate+" and "+edate+" )";
       }
       else{
      duration1="";     
       }
         
-      HSSFSheet shet3=wb.createSheet("PMTCT ANC & STAT"); 
+
    String county="";
    String  district="";
     String facilityname="";
 
-  shet3.setColumnWidth(0, 4000);  
-  shet3.setColumnWidth(1, 5000);  
-  shet3.setColumnWidth(2,5000);  
-  //shet3.setColumnWidth(6,5000);
-   HSSFRow rw0=shet3.createRow(0);
-           rw0.setHeightInPoints(25);
-           
-           HSSFCell  c1,c2,c3,c4,c5,c6,c7,c8;
-         c1=rw0.createCell(0);
-      //_____________________________________________________________report heading row 0   
-      c1.setCellValue(period1);
-      c1.setCellStyle(stylemainHeader);
-      for(int j=1;j<=pitc_pmtct_header0.length-1;j++){
-      c1=rw0.createCell(j);
-       c1.setCellStyle(stylemainHeader);
-      }
-      
-      //-----------------------------------row 1 header 
-       rw0=shet3.createRow(2); 
-       rw0.setHeightInPoints(25);
-    for (int i=0;i<pitc_pmtct_header0.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_pmtct_header0[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
-      //-----------------------------------row 1 header b 
-       rw0=shet3.createRow(3); 
-       rw0.setHeightInPoints(25);
-    for (int i=0;i<pitc_pmtct_header1.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_pmtct_header1[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
- //-----------------------------------row 2 header 
-       rw0=shet3.createRow(4); 
-       rw0.setHeightInPoints(25);
-    for (int i=0;i<pitc_pmtct_header2.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_pmtct_header2[i]);
-      clx.setCellStyle(stylemainHeader);
-        }
-      
-    //-----------------------------------row 3 header 
-   rw0=shet3.createRow(5); 
-   rw0.setHeightInPoints(25);
- 
-      
-    for (int i=0;i<pitc_pmtct_header3.length;i++)
-       {
-      HSSFCell clx=rw0.createCell(i);
-      clx.setCellValue(pitc_pmtct_header3[i]);
-      clx.setCellStyle(stylemainHeader);
-       }
-    String mergeinfor[]={"0,0,0,"+(pitc_pmtct_header0.length-1)+"","2,5,0,0","2,5,1,1","2,5,2,2","2,5,3,3","2,5,4,4","3,5,27,27","4,5,28,28","4,5,39,39","4,5,50,50","4,5,61,61","4,5,72,72","2,2,5,27","2,2,28,49","3,3,5,15","3,3,16,26","3,3,28,49","2,5,83,83","2,5,84,84","2,5,85,85","2,5,86,86","2,5,87,87","2,5,88,88","2,2,50,82","3,3,50,82"};  
-   
-    //do the merging
-    
-    for(int d=0;d<mergeinfor.length;d++){
-    if(!mergeinfor[d].equals("")){
-        String pos[]=mergeinfor[d].split(",");
-     shet3.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
-    }
-                                         }
-    
-  //20151009
+  
       
       
     double checkdiff=0;
@@ -10445,7 +7780,79 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             
             + " county.County,district.DistrictNom,"
             + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".PMTCT_Support ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
-            +" ,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT,IFNULL(SUM(new_anc),0) AS new_anc "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
+            +" ,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT,IFNULL(SUM(new_anc),0) AS new_anc "
+             + " ,county.burden_cartegory as burdencategory,"+facilitiestable+".constituency as constituency,"+facilitiestable+".ward as ward, "
+           
+            + " substring(moh731.yearmonth,1,4) as year " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+"or substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+"or substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '2. Apr-Sep' end  as semiannual " +
+"            " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+")  then '1. Oct-Dec'  " +
+"           when (  " +
+" " +
+"substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03' " +
+"           )  then '2. Jan-Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+")  then '3. Apr-Jun'  " +
+"           when (  " +
+"substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '4. Jul-Sep' end  as quarter " +
+" " +
+",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Dec' then '12. dec' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jan' then '01. Jan' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Feb' then '02. Feb' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Mar' then '03. Mar' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Apr' then '04. Apr' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'May' then '05. May' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jun' then '06. Jun' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jul' then '07. Jul' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Aug' then '08. Aug' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Sep' then '09. Sep' " +
+" end  as month " +
+" " +
+",  moh731.yearmonth " +
+" ,IFNULL("+facilitiestable+".Owner,\"\") as ownedby " +
+" ,IFNULL("+facilitiestable+".Type,\"\") as facilitytype " +
+" ,IFNULL("+facilitiestable+".ART_highvolume,\"0\") as art_hv " +
+" ,IFNULL("+facilitiestable+".HTC_highvolume,\"0\") as htc_hv " +
+" ,IFNULL("+facilitiestable+".PMTCT_highvolume,\"0\") as pmtct_hv " +
+" ,IFNULL("+facilitiestable+".all_highvolume,\"0\") as activity_hv " +
+" ,IFNULL("+facilitiestable+".latitude,\"\") as latitude " +
+" ,IFNULL("+facilitiestable+".longitude,\"\") as longitude " +
+" ,IFNULL("+facilitiestable+".Male_clinics,\"0\") as maleclinic " +
+" ,IFNULL("+facilitiestable+".Adolescent_clinics,\"0\") as adoleclinic " +
+" ,IFNULL("+facilitiestable+".Viremia_clinics,\"0\") as viremiaclinic " +
+" ,IFNULL("+facilitiestable+".EMR_Sites,\"0\") as emrsite " +
+" ,IFNULL("+facilitiestable+".Link_desks,\"0\") as linkdesk " +
+" ,'0'as islocked "
+            + ""//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
+           
             + " FROM moh731 JOIN "+facilitiestable+" "
             + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
             + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
@@ -10455,7 +7862,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
             + " WHERE "
             + " "+facilityIds1+" "+duration1+" && ( "+facilitiestable+".PMTCT=1) "
             + " AND (indicator='PMTCT_Known_Postive' OR indicator='PMTCT_New_Postive' OR indicator='PMTCT_ANC')  AND "+facilitiestable+".active=1  "
-            + " GROUP BY moh731.SubPartnerID " ;
+              + " GROUP BY moh731.SubPartnerID,moh731.yearmonth order by county.County ,moh731.yearmonth " ;
     
     
     int rowposit=6;
@@ -10612,10 +8019,10 @@ int ancno=conn.rs.getInt("new_anc");
     diff15to19=(pmtct_statden_tes_15_19-(pmtct_pos_15_19+pmtct_neg_15_19+pmtct_kp_15_19));
 //    diff25to49=(pmtct_statden_tes_25_49-(pmtct_pos_25_49+pmtct_neg_25_49+pmtct_kp_25_49));
     
-        System.out.print("PMTCT_Facility_"+facilityname);
-        System.out.print(" ANC DIFF_"+ancdiff);
+        //System.out.print("PMTCT_Facility_"+facilityname);
+        //System.out.print(" ANC DIFF_"+ancdiff);
         
-        System.out.println(" ");
+       // System.out.println(" ");
      
       //do normalization
      if(1==1){
@@ -10678,166 +8085,188 @@ int ancno=conn.rs.getInt("new_anc");
              ,""+pmtct_statden_tes_unknown,""+pmtct_statden_tes_10,""+pmtct_statden_tes_10_14,""+pmtct_statden_tes_15_19,""+pmtct_statden_tes_20_24,""+pmtct_statden_tes_25_29,""+pmtct_statden_tes_30_34,""+pmtct_statden_tes_35_39,""+pmtct_statden_tes_40_49,""+pmtct_statden_tes_50,""+pmtct_tes_denominator
              ,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")};
              
+            
              
-  Pmtcthm.put("cty"+"_"+mflcode, county);
-  Pmtcthm.put("sty"+"_"+mflcode, district);
-  Pmtcthm.put("fac"+"_"+mflcode, facilityname);
-  Pmtcthm.put("mfl"+"_"+mflcode, ""+mflcode);
-  Pmtcthm.put("st"+"_"+mflcode, dsdta);
-  Pmtcthm.put("ukpf"+"_"+mflcode,"0");
-  Pmtcthm.put("ukpm"+"_"+mflcode,"0");
-  Pmtcthm.put("pf1"+"_"+mflcode,"0");
-  Pmtcthm.put("pm1"+"_"+mflcode,"0");
-  Pmtcthm.put("pf4"+"_"+mflcode,"0");
-  Pmtcthm.put("pm4"+"_"+mflcode,"0");
-  Pmtcthm.put("pf9"+"_"+mflcode,"0");
-  Pmtcthm.put("pm9"+"_"+mflcode,"0");
-  Pmtcthm.put("pf14"+"_"+mflcode,""+pmtct_pos_10_14);
-  Pmtcthm.put("pm14"+"_"+mflcode,"0");
-  Pmtcthm.put("pf19"+"_"+mflcode,""+(pmtct_pos_15_19));
-  Pmtcthm.put("pm19"+"_"+mflcode,"0");
-  Pmtcthm.put("pf24"+"_"+mflcode,""+(pmtct_pos_20_24));
-  Pmtcthm.put("pm24"+"_"+mflcode,"0");
-  Pmtcthm.put("pf29"+"_"+mflcode,""+(pmtct_pos_25_29));
-  Pmtcthm.put("pm29"+"_"+mflcode,"0");
-  Pmtcthm.put("pf34"+"_"+mflcode,""+(pmtct_pos_30_34));
-  Pmtcthm.put("pm34"+"_"+mflcode,"0");
-  Pmtcthm.put("pf39"+"_"+mflcode,""+(pmtct_pos_35_39));
-  Pmtcthm.put("pm39"+"_"+mflcode,"0");
-  Pmtcthm.put("pf49"+"_"+mflcode,""+(pmtct_pos_40_49));
-  Pmtcthm.put("pm49"+"_"+mflcode,"0");
-  Pmtcthm.put("pf50"+"_"+mflcode,""+(pmtct_pos_50));
-  Pmtcthm.put("pm50"+"_"+mflcode,"0");
+    String ym = conn.rs.getString("yearmonth");          
+             
+  Pmtcthm.put("cty"+"_"+mflcode+ym, county);
+  Pmtcthm.put("sty"+"_"+mflcode+ym, district);
+  Pmtcthm.put("fac"+"_"+mflcode+ym, facilityname);
+  Pmtcthm.put("mfl"+"_"+mflcode+ym, ""+mflcode);
+  Pmtcthm.put("st"+"_"+mflcode+ym, dsdta);
+  Pmtcthm.put("ukpf"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("ukpm"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf1"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pm1"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf4"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pm4"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf9"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pm9"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf14"+"_"+mflcode+ym,""+pmtct_pos_10_14);
+  Pmtcthm.put("pm14"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf19"+"_"+mflcode+ym,""+(pmtct_pos_15_19));
+  Pmtcthm.put("pm19"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf24"+"_"+mflcode+ym,""+(pmtct_pos_20_24));
+  Pmtcthm.put("pm24"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf29"+"_"+mflcode+ym,""+(pmtct_pos_25_29));
+  Pmtcthm.put("pm29"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf34"+"_"+mflcode+ym,""+(pmtct_pos_30_34));
+  Pmtcthm.put("pm34"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf39"+"_"+mflcode+ym,""+(pmtct_pos_35_39));
+  Pmtcthm.put("pm39"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf49"+"_"+mflcode+ym,""+(pmtct_pos_40_49));
+  Pmtcthm.put("pm49"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("pf50"+"_"+mflcode+ym,""+(pmtct_pos_50));
+  Pmtcthm.put("pm50"+"_"+mflcode+ym,"0");
   //_____negative
-  Pmtcthm.put("uknf"+"_"+mflcode,"0");
-  Pmtcthm.put("uknm"+"_"+mflcode,"0");
-  Pmtcthm.put("nf1"+"_"+mflcode,"0");
-  Pmtcthm.put("nm1"+"_"+mflcode,"0");
-  Pmtcthm.put("nf4"+"_"+mflcode,"0");
-  Pmtcthm.put("nm4"+"_"+mflcode,"0");
-  Pmtcthm.put("nf9"+"_"+mflcode,"0");
-  Pmtcthm.put("nm9"+"_"+mflcode,"0");
-  Pmtcthm.put("nf14"+"_"+mflcode,""+(pmtct_neg_10_14));
-  Pmtcthm.put("nm14"+"_"+mflcode,"0");
-  Pmtcthm.put("nf19"+"_"+mflcode,""+(pmtct_neg_15_19));
-  Pmtcthm.put("nm19"+"_"+mflcode,"0");
-  Pmtcthm.put("nf24"+"_"+mflcode,""+(pmtct_neg_20_24));
-  Pmtcthm.put("nm24"+"_"+mflcode,"0");
-  Pmtcthm.put("nf29"+"_"+mflcode,""+(pmtct_neg_25_29));
-  Pmtcthm.put("nm29"+"_"+mflcode,"0");
-  Pmtcthm.put("nf34"+"_"+mflcode,""+(pmtct_neg_30_34));
-  Pmtcthm.put("nm34"+"_"+mflcode,"0");
-  Pmtcthm.put("nf39"+"_"+mflcode,""+(pmtct_neg_35_39));
-  Pmtcthm.put("nm39"+"_"+mflcode,"0");
-  Pmtcthm.put("nf49"+"_"+mflcode,""+(pmtct_neg_40_49));
-  Pmtcthm.put("nm49"+"_"+mflcode,"0");
-  Pmtcthm.put("nf50"+"_"+mflcode,""+(pmtct_neg_50));
-  Pmtcthm.put("nm50"+"_"+mflcode,"0");
-  Pmtcthm.put("tt"+"_"+mflcode,""+((pmtct_anc_tes)));
+  Pmtcthm.put("uknf"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("uknm"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf1"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nm1"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf4"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nm4"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf9"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nm9"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf14"+"_"+mflcode+ym,""+(pmtct_neg_10_14));
+  Pmtcthm.put("nm14"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf19"+"_"+mflcode+ym,""+(pmtct_neg_15_19));
+  Pmtcthm.put("nm19"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf24"+"_"+mflcode+ym,""+(pmtct_neg_20_24));
+  Pmtcthm.put("nm24"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf29"+"_"+mflcode+ym,""+(pmtct_neg_25_29));
+  Pmtcthm.put("nm29"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf34"+"_"+mflcode+ym,""+(pmtct_neg_30_34));
+  Pmtcthm.put("nm34"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf39"+"_"+mflcode+ym,""+(pmtct_neg_35_39));
+  Pmtcthm.put("nm39"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf49"+"_"+mflcode+ym,""+(pmtct_neg_40_49));
+  Pmtcthm.put("nm49"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("nf50"+"_"+mflcode+ym,""+(pmtct_neg_50));
+  Pmtcthm.put("nm50"+"_"+mflcode+ym,"0");
+  Pmtcthm.put("tt"+"_"+mflcode+ym,""+((pmtct_anc_tes)));
 
-             
+    String burdencategory = conn.rs.getString("burdencategory");
+ String constituency = conn.rs.getString("constituency");
+ String ward = conn.rs.getString("ward");
+ String yr = conn.rs.getString("year");
+ String semiannual = conn.rs.getString("semiannual");
+ String qtr = conn.rs.getString("quarter");
+ String mn = conn.rs.getString("month");
+
+ String ownedby = conn.rs.getString("ownedby");
+ String facilitytype = conn.rs.getString("facilitytype");
+ String art_hv = conn.rs.getString("art_hv");
+ String htc_hv = conn.rs.getString("htc_hv");
+ String pmtct_hv = conn.rs.getString("pmtct_hv");
+ String activity_hv = conn.rs.getString("activity_hv");
+ String latitude = conn.rs.getString("latitude");
+ String longitude = conn.rs.getString("longitude");
+ String maleclinic = conn.rs.getString("maleclinic");
+ String adoleclinic = conn.rs.getString("adoleclinic");
+ String viremiaclinic = conn.rs.getString("viremiaclinic");
+ String emrsite = conn.rs.getString("emrsite");
+ String linkdesk = conn.rs.getString("linkdesk");
+ String islocked = conn.rs.getString("islocked");
+  
+  Pmtcthm.put("burdencategory"+"_"+mflcode+ym, burdencategory);
+  Pmtcthm.put("constituency"+"_"+mflcode+ym, constituency);
+  Pmtcthm.put("ward"+"_"+mflcode+ym, ward);
+  Pmtcthm.put("year"+"_"+mflcode+ym, yr);
+  Pmtcthm.put("semiannual"+"_"+mflcode+ym, semiannual);
+  Pmtcthm.put("quarter"+"_"+mflcode+ym, qtr);
+  Pmtcthm.put("month"+"_"+mflcode+ym, mn);
+  Pmtcthm.put("yearmonth"+"_"+mflcode+ym, ym);
+  Pmtcthm.put("ownedby"+"_"+mflcode+ym, ownedby);
+  Pmtcthm.put("facilitytype"+"_"+mflcode+ym, facilitytype);
+  Pmtcthm.put("art_hv"+"_"+mflcode+ym, art_hv);
+  Pmtcthm.put("htc_hv"+"_"+mflcode+ym, htc_hv);
+  Pmtcthm.put("pmtct_hv"+"_"+mflcode+ym, pmtct_hv);
+  Pmtcthm.put("activity_hv"+"_"+mflcode+ym, activity_hv);
+  Pmtcthm.put("latitude"+"_"+mflcode+ym, latitude);
+  Pmtcthm.put("longitude"+"_"+mflcode+ym, longitude);
+  Pmtcthm.put("maleclinic"+"_"+mflcode+ym, maleclinic);
+  Pmtcthm.put("adoleclinic"+"_"+mflcode+ym, adoleclinic);
+  Pmtcthm.put("viremiaclinic"+"_"+mflcode+ym, viremiaclinic);
+  Pmtcthm.put("emrsite"+"_"+mflcode+ym, emrsite);
+  Pmtcthm.put("linkdesk"+"_"+mflcode+ym, linkdesk);
+  Pmtcthm.put("islocked"+"_"+mflcode+ym, islocked);          
              
 
-HSSFCell  cxy;
- rw0=shet3.createRow(rowposit);
  rowposit++;
  
-         rw0.setHeightInPoints(22);
+      
          int mypos=0;
   for(int a=0;a<alldatavals.length;a++){
-       cxy=rw0.createCell(mypos);mypos++;
+       mypos++;
        if(a==4||a<3){
-           //non numeric characters
-           //System.out.println(rowposit+"_______SIPITALI"+alldatavals[2]);
-        cxy.setCellValue(alldatavals[a]);
+    
        }
        else {
-        cxy.setCellValue(new Double(alldatavals[a]).intValue());
-       }  cxy.setCellStyle(stborder);  }
+       
+       }
+      
+  }
 //      shet3.addMergedRegion(new CellRangeAddress(2,5,20,20));
 }//end of while loop
 
     count=rowposit-1;
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	HSSFRow rwx=null;                     
+	                    
  for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
   count++;   
-  rwx=shet3.createRow(count);  
- rwx.setHeightInPoints(23);  
+  
  
  for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
  //create a row
   if(z==0){
     //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(stborder);
+   
   }
   else if(z==1){
     //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(stborder);
+   
   }
   else if(z==2){
    //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(stborder);
+   
   }
   else if(z==3){
    //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(new Integer(staticmfl.get(a).toString()));
-   cellmfl.setCellStyle(stborder);
+  
                }
    
   else if(z==4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(stborder);
+   
                 }
   
   //last section of blank rows
   else if(z==pitc_pmtct_header1.length-5){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticart_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
    
     else if(z==pitc_pmtct_header1.length-4){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(statichtc_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+  
     }
     
     else if(z==pitc_pmtct_header1.length-3){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticpmtct_hv.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
     else if(z==pitc_pmtct_header1.length-2){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticishtc.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
         }
     else if(z==pitc_pmtct_header1.length-1){
   //dsdta
-   HSSFCell celldsd=rwx.createCell(z); 
-   celldsd.setCellValue(new Integer(staticispmtct.get(a).toString()));
-   celldsd.setCellStyle(stborder);
+   
    
         }
            
   else {            
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(stborder);
+   
   }//end of else
   
  }//end of inner loop                    
@@ -10848,12 +8277,7 @@ HSSFCell  cxy;
     //shet3.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length+3));
 
                 //System.out.println("1,"+rowpos+",0,"+colposcopy);
-                for (int e = 0; e < 3; e++) {
-                shet3.autoSizeColumn(e);
-                }
-                //Made my life veery simple...
-                shet3.setDisplayGridlines(false);
-                shet3.createFreezePane(5,6);                 
+                               
                
       return Pmtcthm;           
     
@@ -10861,116 +8285,13 @@ HSSFCell  cxy;
     
     
     
-public void TbClinics(dbConn conn, HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+public void TbClinics(dbConn conn,String sdate,String edate,String facil) throws SQLException{
 
     
     
     
                 
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
+   
  //__________________________________________________________________________________________
 
 ArrayList allFacilities = new ArrayList();
@@ -10995,8 +8316,7 @@ String enddate="";
 
 //_________________enddate__________________________
 
-year=Integer.parseInt(request.getParameter("year"));
-  
+  year = new Integer(edate.substring(0,4));
   
 Calendar ca= Calendar.getInstance();
   
@@ -11026,81 +8346,11 @@ if(selectedyear<currentyear){
  
 String facilityIds1="";
 
-facilityIds1="(";
+ if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
 
-if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-
-String subcounty=request.getParameter("subcounty");
-
-String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-
-
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-
-+ "WHERE district.DistrictID='"+subcounty+"'" ;
-
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
     
-
-conn.rs=conn.st.executeQuery(getDist);
-
-while(conn.rs.next()){
-
-allFacilities.add(conn.rs.getString(1));
- 
-
- facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
- 
-    }
-     
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     
-
-	 facilityIds1+=") && ";   
-
-	 } 
-	 
-     else{
-		 
-
-if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
-
-		 
-String county=request.getParameter("county");
-		 
-String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-		 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-	
-+ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1  and  ";//20160711
-         
-conn.rs=conn.st.executeQuery(getCounty);
-
-while(conn.rs.next()){
-		
-		
-allFacilities.add(conn.rs.getString(1));
-    
-
-facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
-   
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-	
-     facilityIds1+=") && "; 
-	 
-     }
-       
-        else{
-  
-       facilityIds1=""; 
-	   
-        }   
-        
-     }      
-        reportDuration=request.getParameter("reportDuration");
+       // reportDuration=request.getParameter("reportDuration");
+        reportDuration="4";
         
 
         String period1="";
@@ -11110,109 +8360,12 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         
 //    GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-			
-         duration1=" tibu_tb_raw.yearmonth Between "+prevYear+"10 and "+year+"09";   
-        period1="DATIM HTS_TST PITC-TB Clinics for October "+prevYear+" to September "+year;
-        
-        startdate=prevYear+"1001";
-        enddate=year+"0930";
-        
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" tibu_tb_raw.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM HTS_TST PITC-TB Clinics for October "+prevYear+" to March "+year;
-    //______start and end date_________ 
-     startdate=prevYear+"1001";
-        enddate=year+"0331";
-     
-       }
-           else{
-       duration1=" tibu_tb_raw.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM HTS_TST PITC-TB Clinics for April "+year+" to September "+year; 
-       
-      //______start and end date_________ 
-     startdate=year+"0401";
-        enddate=year+"0930";
-       
-       
-       }
-       }
-        
-        else if(reportDuration.equals("3")){
-            
-            String startMonth,endMonth;
-            
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
-       
-       conn.rs=conn.st.executeQuery(getMonths);
-       
-       if(conn.rs.next()==true){
-           
-      String months []=conn.rs.getString(1).split(",");
-      
-       startMonth=months[0];
-       
-       endMonth=months[2];
-       
-      if(quarter.equals("1")){
-          
-      duration1=" tibu_tb_raw.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-      
-      period1="DATIM HTS_TST PITC-TB Clinics for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      
-     //___start and end date____
-     startdate=prevYear+"1001";
-     enddate=prevYear+"1231";
-      
-      }
-      else{
-          
-           //___start and end date____
-     startdate=year+startMonth+"01";
-     enddate=year+endMonth+""+conn.rs.getString("enddate");
-      
-          
-     duration1=" tibu_tb_raw.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
-     
-     period1="DATIM HTS_TST PITC-TB Clinics for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-       
-        }//end of quarrtely if  
-        
-      else if(reportDuration.equals("4")){
-          
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" tibu_tb_raw.yearmonth="+prevYear+""+month;    
-     period1="DATIM HTS_TST PITC-TB Clinics for : "+conn.rs.getString(1)+"("+prevYear+")";
-                 
-     //___start and end date____
-     startdate=prevYear+month+"01";
-     enddate=prevYear+month+conn.rs.getString("days");
-     
-     }
-     else{
-  duration1=" tibu_tb_raw.yearmonth="+year+"0"+month;  
-    period1="DATIM HTS_TST PITC-TB Clinics for : "+conn.rs.getString(1)+"("+year+")";
-    
-    //___start and end date____
-     startdate=year+"0"+month+"01";
-     enddate=year+"0"+month+conn.rs.getString("days");
-    
-     }
-      }
+       if(reportDuration.equals("4")){
+
+ month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( yearmonth between "+sdate+" and "+edate+" )";
+   
       }
       else{
      duration1="";     
@@ -11225,45 +8378,16 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 //______________________________________________________________________________________  
        // HSSFWorkbook wb = new HSSFWorkbook();
 
-       
-
-        HSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        
-
-        stylesum.setFont(fontx);
-        stylesum.setWrapText(true);
-
-        HSSFSheet shet = wb.createSheet("TB Clinics");
 
         String mwaka="";
         
-        if(request.getParameter("year")!=null){
-        
-            mwaka=request.getParameter("year");
-        
-        }
+        mwaka=""+year;
        // dbConn conn = new dbConn();
         //========Query 1=================
-        
-        HSSFRow rw0=shet.createRow(1);
-        HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(""+period1);
-                    cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
-                    
+         
                 int count1  = 3;
-        
-        
-        
-                String qry1 = "call rpt_tbclinics_2018(\""+startdate+"\",\""+enddate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
+    
+                String qry1 = "call rpt_tbclinics_2018(\""+sdate+"\",\""+edate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
     System.out.println(""+qry1);
                 
         conn.rs = conn.st.executeQuery(qry1);
@@ -11277,43 +8401,43 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
             if (count1 == 3) {
 //header rows
-                HSSFRow rw = shet.createRow(count1);
-rw.setHeightInPoints(26);
+                
+
                 for (int i = 1; i <= columnCount; i++) 
                 {
 
                     mycolumns1.add(metaData.getColumnLabel(i));
-                    HSSFCell cell0 = rw.createCell(i - 1);
-                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
-                    cell0.setCellStyle(stylex);
+                    
+                    //metaData.getColumnLabel(i).replace("_"," ")
+                    
 
                     //create row header
                 }//end of for loop
                 count1++;
             }//end of if
             //data rows     
-            HSSFRow rw = shet.createRow(count1);
+          
 
             for (int a = 0; a < columnCount; a++) {
                // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
 
-                HSSFCell cell0 = rw.createCell(a);
+               
                  if(a==3){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                   // conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                  else if(a > 4){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    //conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                 else {
                     
-                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
+                   // conn.rs.getString("" + mycolumns1.get(a));
                 }
             
-                cell0.setCellStyle(style2);
+           
 
             }
 
@@ -11327,12 +8451,7 @@ rw.setHeightInPoints(26);
         //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
 
         //System.out.println("1,"+rowpos+",0,"+colposcopy);
-        for (int i = 0; i <= columnCount; i++) {
-            shet.autoSizeColumn(i);
-        }
-
-        shet.setDisplayGridlines(false);
-        shet.createFreezePane(5, 4); 
+       
 
 
 
@@ -11341,115 +8460,12 @@ rw.setHeightInPoints(26);
 
 
 
-public void Sti(dbConn conn, HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+public void Sti(dbConn conn,String sdate,String edate,String facil) throws SQLException{
 
     
     
     
                 
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
  //__________________________________________________________________________________________
 
@@ -11475,8 +8491,7 @@ String enddate="";
 
 //_________________enddate__________________________
 
-year=Integer.parseInt(request.getParameter("year"));
-  
+year = new Integer(edate.substring(0,4));
   
 Calendar ca= Calendar.getInstance();
   
@@ -11506,81 +8521,11 @@ if(selectedyear<currentyear){
  
 String facilityIds1="";
 
-facilityIds1="(";
 
-if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-
-String subcounty=request.getParameter("subcounty");
-
-String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-
-
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-
-+ "WHERE district.DistrictID='"+subcounty+"'" ;
-
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
-    
-
-conn.rs=conn.st.executeQuery(getDist);
-
-while(conn.rs.next()){
-
-allFacilities.add(conn.rs.getString(1));
- 
-
- facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
- 
-    }
-     
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     
-
-	 facilityIds1+=") && ";   
-
-	 } 
-	 
-     else{
-		 
-
-if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
-
-		 
-String county=request.getParameter("county");
-		 
-String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-		 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-	
-+ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1  and  ";//20160711
-         
-conn.rs=conn.st.executeQuery(getCounty);
-
-while(conn.rs.next()){
-		
-		
-allFacilities.add(conn.rs.getString(1));
-    
-
-facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
-   
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-	
-     facilityIds1+=") && "; 
-	 
-     }
-       
-        else{
+if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+")"; }
   
-       facilityIds1=""; 
-	   
-        }   
-        
-     }      
-        reportDuration=request.getParameter("reportDuration");
+       // reportDuration=request.getParameter("reportDuration");
+        reportDuration="4";
         
 
         String period1="";
@@ -11590,109 +8535,13 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         
 //    GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-			
-         duration1=" yearmonth Between "+prevYear+"10 and "+year+"09";   
-        period1="DATIM HTS_TST (Facility) PITC Modality STI Clinic for October "+prevYear+" to September "+year;
-        
-        startdate=prevYear+"1001";
-        enddate=year+"0930";
-        
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM HTS_TST (Facility) PITC Modality STI Clinic for October "+prevYear+" to March "+year;
-    //______start and end date_________ 
-     startdate=prevYear+"1001";
-        enddate=year+"0331";
-     
-       }
-           else{
-       duration1=" yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM HTS_TST (Facility) PITC Modality STI Clinic for April "+year+" to September "+year; 
-       
-      //______start and end date_________ 
-     startdate=year+"0401";
-        enddate=year+"0930";
-       
-       
-       }
-       }
-        
-        else if(reportDuration.equals("3")){
-            
-            String startMonth,endMonth;
-            
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
-       
-       conn.rs=conn.st.executeQuery(getMonths);
-       
-       if(conn.rs.next()==true){
-           
-      String months []=conn.rs.getString(1).split(",");
       
-       startMonth=months[0];
-       
-       endMonth=months[2];
-       
-      if(quarter.equals("1")){
+
+     if(reportDuration.equals("4")){
           
-      duration1=" yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-      
-      period1="DATIM HTS_TST (Facility) PITC Modality STI Clinic for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      
-     //___start and end date____
-     startdate=prevYear+"1001";
-     enddate=prevYear+"1231";
-      
-      }
-      else{
-          
-           //___start and end date____
-     startdate=year+startMonth+"01";
-     enddate=year+endMonth+""+conn.rs.getString("enddate");
-      
-          
-     duration1=" yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
-     
-     period1="DATIM HTS_TST (Facility) PITC Modality STI Clinic for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-       
-        }//end of quarrtely if  
-        
-      else if(reportDuration.equals("4")){
-          
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" yearmonth="+prevYear+""+month;    
-     period1="DATIM HTS_TST (Facility) PITC Modality STI Clinic for : "+conn.rs.getString(1)+"("+prevYear+")";
-                 
-     //___start and end date____
-     startdate=prevYear+month+"01";
-     enddate=prevYear+month+conn.rs.getString("days");
-     
-     }
-     else{
-  duration1=" yearmonth="+year+"0"+month;  
-    period1="DATIM HTS_TST (Facility) PITC Modality STI Clinic for : "+conn.rs.getString(1)+"("+year+")";
-    
-    //___start and end date____
-     startdate=year+"0"+month+"01";
-     enddate=year+"0"+month+conn.rs.getString("days");
-    
-     }
-      }
+    month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( yearmonth between "+sdate+" and "+edate+" )";
       }
       else{
      duration1="";     
@@ -11707,43 +8556,15 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
        
 
-        HSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
         
-
-        stylesum.setFont(fontx);
-        stylesum.setWrapText(true);
-
-        HSSFSheet shet = wb.createSheet("STI");
-
-        String mwaka="";
+        String mwaka=""+year;
         
-        if(request.getParameter("year")!=null){
-        
-            mwaka=request.getParameter("year");
-        
-        }
-       // dbConn conn = new dbConn();
-        //========Query 1=================
-        
-        HSSFRow rw0=shet.createRow(1);
-        HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(""+period1);
-                    cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
-                    
-                int count1  = 3;
+       
+            int count1  = 3;
         
         
         
-                String qry1 = "call rpt_sti(\""+startdate.substring(0, 6)+"\",\""+enddate.substring(0, 6)+"\",\""+facilitiestable+"\",\""+facilityIds1+"\",\"sti\")";
+                String qry1 = "call rpt_sti(\""+sdate+"\",\""+edate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\",\"sti\")";
                 //call internal_system.rpt_sti(201710, 201803, 'subpartnera', '', 'sti');
     System.out.println(""+qry1);
                 
@@ -11758,43 +8579,42 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
             if (count1 == 3) {
 //header rows
-                HSSFRow rw = shet.createRow(count1);
-rw.setHeightInPoints(26);
+               
                 for (int i = 1; i <= columnCount; i++) 
                 {
 
                     mycolumns1.add(metaData.getColumnLabel(i));
-                    HSSFCell cell0 = rw.createCell(i - 1);
-                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
-                    cell0.setCellStyle(stylex);
+                   
+                   //metaData.getColumnLabel(i).replace("_"," ");
+                    
 
                     //create row header
                 }//end of for loop
                 count1++;
             }//end of if
             //data rows     
-            HSSFRow rw = shet.createRow(count1);
+           
 
             for (int a = 0; a < columnCount; a++) {
                // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
 
-                HSSFCell cell0 = rw.createCell(a);
+               
                  if(a==3){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                  else if(a > 4){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                 else {
                     
-                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
+                   conn.rs.getString("" + mycolumns1.get(a));
                 }
             
-                cell0.setCellStyle(style2);
+             
 
             }
 
@@ -11803,133 +8623,19 @@ rw.setHeightInPoints(26);
         }
   
         
-        //Autofreeze  || Autofilter  || Remove Gridlines ||  
-        
-        //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
-
-        //System.out.println("1,"+rowpos+",0,"+colposcopy);
-        for (int i = 0; i <= columnCount; i++) {
-            shet.autoSizeColumn(i);
-        }
-
-        shet.setDisplayGridlines(false);
-        shet.createFreezePane(5, 4); 
+       
 
 
 
 }
 
-public void Emergency(dbConn conn, HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+public void Emergency(dbConn conn,String sdate,String edate,String facil) throws SQLException{
 
     
     
     
                 
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
- //__________________________________________________________________________________________
 
 ArrayList allFacilities = new ArrayList();
                      
@@ -11953,8 +8659,7 @@ String enddate="";
 
 //_________________enddate__________________________
 
-year=Integer.parseInt(request.getParameter("year"));
-  
+year = new Integer(edate.substring(0,4));
   
 Calendar ca= Calendar.getInstance();
   
@@ -11984,81 +8689,11 @@ if(selectedyear<currentyear){
  
 String facilityIds1="";
 
-facilityIds1="(";
+ if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+")"; }
 
-if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-
-String subcounty=request.getParameter("subcounty");
-
-String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-
-
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-
-+ "WHERE district.DistrictID='"+subcounty+"'" ;
-
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
-    
-
-conn.rs=conn.st.executeQuery(getDist);
-
-while(conn.rs.next()){
-
-allFacilities.add(conn.rs.getString(1));
- 
-
- facilityIds1+=" SubPartnerID='"+conn.rs.getString(1)+"' || ";
- 
-    }
-     
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     
-
-	 facilityIds1+=") && ";   
-
-	 } 
-	 
-     else{
-		 
-
-if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
-
-		 
-String county=request.getParameter("county");
-		 
-String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-		 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-	
-+ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-subcounty_countywhere=" (county.CountyID='"+county+"')   AND "+facilitiestable+".active=1  and  ";//20160711
-         
-conn.rs=conn.st.executeQuery(getCounty);
-
-while(conn.rs.next()){
-		
-		
-allFacilities.add(conn.rs.getString(1));
-    
-
-facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
    
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-	
-     facilityIds1+=") && "; 
-	 
-     }
-       
-        else{
-  
-       facilityIds1=""; 
-	   
-        }   
-        
-     }      
-        reportDuration=request.getParameter("reportDuration");
+        //reportDuration=request.getParameter("reportDuration");
+        reportDuration="4";
         
 
         String period1="";
@@ -12068,110 +8703,16 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         
 //    GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-			
-         duration1=" yearmonth Between "+prevYear+"10 and "+year+"09";   
-        period1="DATIM HTS_TST (Facility) PITC Modality Emergency Ward for October "+prevYear+" to September "+year;
-        
-        startdate=prevYear+"1001";
-        enddate=year+"0930";
-        
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM HTS_TST (Facility) PITC Modality Emergency Ward for October "+prevYear+" to March "+year;
-    //______start and end date_________ 
-     startdate=prevYear+"1001";
-        enddate=year+"0331";
-     
-       }
-           else{
-       duration1=" yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM HTS_TST (Facility) PITC Modality Emergency Ward for April "+year+" to September "+year; 
-       
-      //______start and end date_________ 
-     startdate=year+"0401";
-        enddate=year+"0930";
-       
-       
-       }
-       }
-        
-        else if(reportDuration.equals("3")){
-            
-            String startMonth,endMonth;
-            
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
-       
-       conn.rs=conn.st.executeQuery(getMonths);
-       
-       if(conn.rs.next()==true){
-           
-      String months []=conn.rs.getString(1).split(",");
-      
-       startMonth=months[0];
-       
-       endMonth=months[2];
-       
-      if(quarter.equals("1")){
-          
-      duration1=" yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-      
-      period1="DATIM HTS_TST (Facility) PITC Modality Emergency Ward for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      
-     //___start and end date____
-     startdate=prevYear+"1001";
-     enddate=prevYear+"1231";
-      
-      }
-      else{
-          
-           //___start and end date____
-     startdate=year+startMonth+"01";
-     enddate=year+endMonth+""+conn.rs.getString("enddate");
-      
-          
-     duration1=" yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
-     
-     period1="DATIM HTS_TST (Facility) PITC Modality Emergency Ward for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-       
-        }//end of quarrtely if  
-        
-      else if(reportDuration.equals("4")){
-          
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" yearmonth="+prevYear+""+month;    
-     period1="DATIM HTS_TST (Facility) PITC Modality Emergency Ward for : "+conn.rs.getString(1)+"("+prevYear+")";
-                 
-     //___start and end date____
-     startdate=prevYear+month+"01";
-     enddate=prevYear+month+conn.rs.getString("days");
-     
-     }
-     else{
-  duration1=" yearmonth="+year+"0"+month;  
-    period1="DATIM HTS_TST (Facility) PITC Modality Emergency Ward for : "+conn.rs.getString(1)+"("+year+")";
     
-    //___start and end date____
-     startdate=year+"0"+month+"01";
-     enddate=year+"0"+month+conn.rs.getString("days");
-    
-     }
+        
+      
+      if(reportDuration.equals("4")){
+          
+   month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( yearmonth between "+sdate+" and "+edate+" )";
       }
-      }
+      
       else{
      duration1="";     
       }
@@ -12185,43 +8726,19 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
        
 
-        HSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        
-
-        stylesum.setFont(fontx);
-        stylesum.setWrapText(true);
-
-        HSSFSheet shet = wb.createSheet("Emergency");
-
         String mwaka="";
         
-        if(request.getParameter("year")!=null){
         
-            mwaka=request.getParameter("year");
-        
-        }
        // dbConn conn = new dbConn();
         //========Query 1=================
         
-        HSSFRow rw0=shet.createRow(1);
-        HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(""+period1);
-                    cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
+       
                     
                 int count1  = 3;
         
         
         
-                String qry1 = "call rpt_sti(\""+startdate.substring(0, 6)+"\",\""+enddate.substring(0, 6)+"\",\""+facilitiestable+"\",\""+facilityIds1+"\",\"emergency\")";
+                String qry1 = "call rpt_sti(\""+sdate+"\",\""+edate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\",\"emergency\")";
                 //call internal_system.rpt_sti(201710, 201803, 'subpartnera', '', 'sti');
     System.out.println(""+qry1);
                 
@@ -12236,43 +8753,43 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
             if (count1 == 3) {
 //header rows
-                HSSFRow rw = shet.createRow(count1);
-rw.setHeightInPoints(26);
+             
+
                 for (int i = 1; i <= columnCount; i++) 
                 {
 
                     mycolumns1.add(metaData.getColumnLabel(i));
-                    HSSFCell cell0 = rw.createCell(i - 1);
-                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
-                    cell0.setCellStyle(stylex);
+                  
+                 metaData.getColumnLabel(i).replace("_"," ");
+                   
 
                     //create row header
                 }//end of for loop
                 count1++;
             }//end of if
             //data rows     
-            HSSFRow rw = shet.createRow(count1);
+            
 
             for (int a = 0; a < columnCount; a++) {
                // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
 
-                HSSFCell cell0 = rw.createCell(a);
+               
                  if(a==3){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                  else if(a > 4){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                 else {
                     
-                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
+                    conn.rs.getString("" + mycolumns1.get(a));
                 }
             
-                cell0.setCellStyle(style2);
+             
 
             }
 
@@ -12286,128 +8803,18 @@ rw.setHeightInPoints(26);
         //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
 
         //System.out.println("1,"+rowpos+",0,"+colposcopy);
-        for (int i = 0; i <= columnCount; i++) {
-            shet.autoSizeColumn(i);
-        }
-
-        shet.setDisplayGridlines(false);
-        shet.createFreezePane(5, 4); 
+    
 
 
 
 }
 
-public void Malnutrition(dbConn conn, HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+public void Malnutrition(dbConn conn,String sdate,String edate,String facil) throws SQLException{
 
     
     
     
-                
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
 
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
- //__________________________________________________________________________________________
 
 ArrayList allFacilities = new ArrayList();
                      
@@ -12431,8 +8838,8 @@ String enddate="";
 
 //_________________enddate__________________________
 
-year=Integer.parseInt(request.getParameter("year"));
-  
+year = new Integer(edate.substring(0,4));
+
   
 Calendar ca= Calendar.getInstance();
   
@@ -12462,81 +8869,13 @@ if(selectedyear<currentyear){
  
 String facilityIds1="";
 
-facilityIds1="(";
+  if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
 
-if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-
-String subcounty=request.getParameter("subcounty");
-
-String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-
-
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-
-+ "WHERE district.DistrictID='"+subcounty+"'" ;
-
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')   AND "+facilitiestable+".active=1  and ";//20160711
-    
-
-conn.rs=conn.st.executeQuery(getDist);
-
-while(conn.rs.next()){
-
-allFacilities.add(conn.rs.getString(1));
  
-
- facilityIds1+=" SubPartnerID='"+conn.rs.getString(1)+"' || ";
- 
-    }
-     
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     
-
-	 facilityIds1+=") && ";   
-
-	 } 
 	 
-     else{
-		 
-
-if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
-
-		 
-String county=request.getParameter("county");
-		 
-String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-		 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-	
-+ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-subcounty_countywhere=" (county.CountyID='"+county+"')   AND "+facilitiestable+".active=1  and  ";//20160711
-         
-conn.rs=conn.st.executeQuery(getCounty);
-
-while(conn.rs.next()){
-		
-		
-allFacilities.add(conn.rs.getString(1));
-    
-
-facilityIds1+=" tibu_tb_raw.SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
-   
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-	
-     facilityIds1+=") && "; 
-	 
-     }
-       
-        else{
-  
-       facilityIds1=""; 
-	   
-        }   
         
-     }      
-        reportDuration=request.getParameter("reportDuration");
+       // reportDuration=request.getParameter("reportDuration");
+        reportDuration="4";
         
 
         String period1="";
@@ -12546,109 +8885,15 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         
 //    GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-			
-         duration1=" yearmonth Between "+prevYear+"10 and "+year+"09";   
-        period1="DATIM HTS_TST (Facility) PITC Modality Malnutrition Clinics for October "+prevYear+" to September "+year;
+       
+      
         
-        startdate=prevYear+"1001";
-        enddate=year+"0930";
-        
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM HTS_TST (Facility) PITC Modality Malnutrition Clinics for October "+prevYear+" to March "+year;
-    //______start and end date_________ 
-     startdate=prevYear+"1001";
-        enddate=year+"0331";
-     
-       }
-           else{
-       duration1=" yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM HTS_TST (Facility) PITC Modality Malnutrition Clinics for April "+year+" to September "+year; 
-       
-      //______start and end date_________ 
-     startdate=year+"0401";
-        enddate=year+"0930";
-       
-       
-       }
-       }
-        
-        else if(reportDuration.equals("3")){
-            
-            String startMonth,endMonth;
-            
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
-       
-       conn.rs=conn.st.executeQuery(getMonths);
-       
-       if(conn.rs.next()==true){
-           
-      String months []=conn.rs.getString(1).split(",");
       
-       startMonth=months[0];
-       
-       endMonth=months[2];
-       
-      if(quarter.equals("1")){
+       if(reportDuration.equals("4")){
           
-      duration1=" yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-      
-      period1="DATIM HTS_TST (Facility) PITC Modality Malnutrition Clinics for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      
-     //___start and end date____
-     startdate=prevYear+"1001";
-     enddate=prevYear+"1231";
-      
-      }
-      else{
-          
-           //___start and end date____
-     startdate=year+startMonth+"01";
-     enddate=year+endMonth+""+conn.rs.getString("enddate");
-      
-          
-     duration1=" yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
-     
-     period1="DATIM HTS_TST (Facility) PITC Modality Malnutrition Clinics for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-       
-        }//end of quarrtely if  
-        
-      else if(reportDuration.equals("4")){
-          
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" yearmonth="+prevYear+""+month;    
-     period1="DATIM HTS_TST (Facility) PITC Modality Malnutrition Clinics for : "+conn.rs.getString(1)+"("+prevYear+")";
-                 
-     //___start and end date____
-     startdate=prevYear+month+"01";
-     enddate=prevYear+month+conn.rs.getString("days");
-     
-     }
-     else{
-  duration1=" yearmonth="+year+"0"+month;  
-    period1="DATIM HTS_TST (Facility) PITC Modality Malnutrition Clinics for : "+conn.rs.getString(1)+"("+year+")";
-    
-    //___start and end date____
-     startdate=year+"0"+month+"01";
-     enddate=year+"0"+month+conn.rs.getString("days");
-    
-     }
-      }
+      month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( yearmonth between "+sdate+" and "+edate+" )";
       }
       else{
      duration1="";     
@@ -12663,43 +8908,21 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
        
 
-        HSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+       
 
+        String mwaka=""+year;
         
-
-        stylesum.setFont(fontx);
-        stylesum.setWrapText(true);
-
-        HSSFSheet shet = wb.createSheet("Malnutrition");
-
-        String mwaka="";
         
-        if(request.getParameter("year")!=null){
-        
-            mwaka=request.getParameter("year");
-        
-        }
        // dbConn conn = new dbConn();
         //========Query 1=================
         
-        HSSFRow rw0=shet.createRow(1);
-        HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(""+period1);
-                    cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
+       
                     
                 int count1  = 3;
         
         
         
-                String qry1 = "call rpt_malnutrition(\""+startdate.substring(0, 6)+"\",\""+enddate.substring(0, 6)+"\",\""+facilitiestable+"\",\""+facilityIds1+"\",\"malnutrition\")";
+                String qry1 = "call rpt_malnutrition(\""+sdate+"\",\""+edate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\",\"malnutrition\")";
                 //call internal_system.rpt_sti(201710, 201803, 'subpartnera', '', 'sti');
     System.out.println(""+qry1);
                 
@@ -12714,43 +8937,41 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
             if (count1 == 3) {
 //header rows
-                HSSFRow rw = shet.createRow(count1);
-rw.setHeightInPoints(26);
+             
+
                 for (int i = 1; i <= columnCount; i++) 
                 {
 
                     mycolumns1.add(metaData.getColumnLabel(i));
-                    HSSFCell cell0 = rw.createCell(i - 1);
-                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
-                    cell0.setCellStyle(stylex);
+                    
 
                     //create row header
                 }//end of for loop
                 count1++;
             }//end of if
             //data rows     
-            HSSFRow rw = shet.createRow(count1);
+         
 
             for (int a = 0; a < columnCount; a++) {
                // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
 
-                HSSFCell cell0 = rw.createCell(a);
+               
                  if(a==3){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                  else if(a > 4){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                    conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                 else {
                     
-                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
+                    conn.rs.getString("" + mycolumns1.get(a));
                 }
             
-                cell0.setCellStyle(style2);
+               
 
             }
 
@@ -12764,125 +8985,192 @@ rw.setHeightInPoints(26);
         //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
 
         //System.out.println("1,"+rowpos+",0,"+colposcopy);
-        for (int i = 0; i <= columnCount; i++) {
-            shet.autoSizeColumn(i);
-        }
-
-        shet.setDisplayGridlines(false);
-        shet.createFreezePane(5, 4); 
+       
 
 
 
 }
-public void IndexTesting(dbConn conn, HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+public void IndexTesting(dbConn conn,String sdate,String edate,String facil) throws SQLException{
 
     
     
     
                 
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
+ArrayList allFacilities = new ArrayList();
+                     
+int year,month,prevYear,maxYearMonth,mflcode;
+			  
+String reportDuration,duration,semi_annual,quarter;
 
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
+String facilityName,countyName,districtName,facilityIds,facilityId;
 
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
+year=month=prevYear=maxYearMonth=mflcode=0;
+   
+reportDuration=duration=semi_annual=quarter="";
+ 
+facilityName=countyName=districtName=facilityIds=facilityId="";
+
+//_________________startdate________________________
+
+
+String startdate="";
+String enddate="";
+
+//_________________enddate__________________________
+
+year = new Integer(edate.substring(0,4));
+  
+
+Calendar ca= Calendar.getInstance();
+  
+int currentyear=ca.get(Calendar.YEAR);
+  
+String facilitiestable="subpartnera";
+  
+int selectedyear=year;
+  
+if(selectedyear<currentyear){
+      
+      if(year<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+  
+ 
+String facilityIds1="";
+
+if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
+
+
+	 
+          
+        //reportDuration=request.getParameter("reportDuration");
+        reportDuration="4";
+        
+
+        String period1="";
+        String duration1="";
+        prevYear=year-1; 
+        maxYearMonth=0;
+        
+//    GET REPORT DURATION============================================
+
+        
+
+       if(reportDuration.equals("4")){
+    month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( yearmonth between "+sdate+" and "+edate+" )";
+      }
+      else{
+     duration1="";     
+      }
+
+ //__________________________________________________________________________________________ 
     
-    
+//______________________________________________________________________________________
+//                       CREATE THE WORKSHEETS          
+//______________________________________________________________________________________  
+
+
+        String mwaka=""+year;
+        
+        
+       // dbConn conn = new dbConn();
+        //========Query 1=================
+        
+      
+                    
+                int count1  = 3;
+        
+        
+        
+                String qry1 = "call rpt_indextesting(\""+sdate+"\",\""+edate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
+                //call internal_system.rpt_sti(201710, 201803, 'subpartnera', '', 'sti');
+    System.out.println(""+qry1);
+                
+        conn.rs = conn.st.executeQuery(qry1);
+
+        ResultSetMetaData metaData = conn.rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
        
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
+        ArrayList mycolumns1 = new ArrayList();
+
+        while (conn.rs.next()) {
+
+            if (count1 == 3) {
+//header rows
+                
+                for (int i = 1; i <= columnCount; i++) 
+                {
+
+                    mycolumns1.add(metaData.getColumnLabel(i));
+                    metaData.getColumnLabel(i).replace("_"," ");
+                    
+
+                    //create row header
+                }//end of for loop
+                count1++;
+            }//end of if
+            //data rows     
+           
+
+            for (int a = 0; a < columnCount; a++) {
+               // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
+
+               
+                 if(a==3){
+                
+                   conn.rs.getInt(mycolumns1.get(a).toString());
+                    
+                   }
+                 else if(a > 4){
+                
+                    conn.rs.getInt(mycolumns1.get(a).toString());
+                    
+                   }
+                else {
+                    
+                   conn.rs.getString("" + mycolumns1.get(a));
+                }
+            
+              
+
+            }
+
+            // System.out.println("");
+            count1++;
+        }
+  
+        
+        //Autofreeze  || Autofilter  || Remove Gridlines ||  
+        
+        //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
+
+        //System.out.println("1,"+rowpos+",0,"+colposcopy);
+       
+
+
+
+}
+
+public void VMMC_services(dbConn conn,String sdate,String edate,String facil) throws SQLException{
 
     
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
     
     
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                
     
  //__________________________________________________________________________________________
 
@@ -12908,8 +9196,7 @@ String enddate="";
 
 //_________________enddate__________________________
 
-year=Integer.parseInt(request.getParameter("year"));
-  
+year = new Integer(edate.substring(0,4));
   
 Calendar ca= Calendar.getInstance();
   
@@ -12939,81 +9226,11 @@ if(selectedyear<currentyear){
  
 String facilityIds1="";
 
-facilityIds1="(";
-
-if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-
-String subcounty=request.getParameter("subcounty");
-
-String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-
-
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-
-+ "WHERE district.DistrictID='"+subcounty+"'" ;
-
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
-    
-
-conn.rs=conn.st.executeQuery(getDist);
-
-while(conn.rs.next()){
-
-allFacilities.add(conn.rs.getString(1));
- 
-
- facilityIds1+=" SubPartnerID='"+conn.rs.getString(1)+"' || ";
- 
-    }
-     
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     
-
-	 facilityIds1+=") && ";   
-
-	 } 
+ if(!facil.equals("")){ facilityIds1=" SubPartnerID in '("+facil+")'"; }
 	 
-     else{
-		 
-
-if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
-
-		 
-String county=request.getParameter("county");
-		 
-String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-		 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-	
-+ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-subcounty_countywhere=" (county.CountyID='"+county+"')   AND "+facilitiestable+".active=1  and  ";//20160711
-         
-conn.rs=conn.st.executeQuery(getCounty);
-
-while(conn.rs.next()){
-		
-		
-allFacilities.add(conn.rs.getString(1));
-    
-
-facilityIds1+=" SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
-   
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-	
-     facilityIds1+=") && "; 
-	 
-     }
-       
-        else{
-  
-       facilityIds1=""; 
-	   
-        }   
-        
-     }      
-        reportDuration=request.getParameter("reportDuration");
+      
+        //reportDuration=request.getParameter("reportDuration");
+        reportDuration="4";
         
 
         String period1="";
@@ -13023,109 +9240,12 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         
 //    GET REPORT DURATION============================================
 
-        if(reportDuration.equals("1")){
-			
-         duration1=" yearmonth Between "+prevYear+"10 and "+year+"09";   
-        period1="DATIM HTS_TST (Facility) PITC Modality Index Testing for October "+prevYear+" to September "+year;
-        
-        startdate=prevYear+"1001";
-        enddate=year+"0930";
-        
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM HTS_TST (Facility) PITC Modality Index Testing for October "+prevYear+" to March "+year;
-    //______start and end date_________ 
-     startdate=prevYear+"1001";
-        enddate=year+"0331";
-     
-       }
-           else{
-       duration1=" yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM HTS_TST (Facility) PITC Modality Index Testing for April "+year+" to September "+year; 
-       
-      //______start and end date_________ 
-     startdate=year+"0401";
-        enddate=year+"0930";
-       
-       
-       }
-       }
-        
-        else if(reportDuration.equals("3")){
-            
-            String startMonth,endMonth;
-            
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
-       
-       conn.rs=conn.st.executeQuery(getMonths);
-       
-       if(conn.rs.next()==true){
-           
-      String months []=conn.rs.getString(1).split(",");
-      
-       startMonth=months[0];
-       
-       endMonth=months[2];
-       
-      if(quarter.equals("1")){
+   
+       if(reportDuration.equals("4")){
           
-      duration1=" yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-      
-      period1="DATIM HTS_TST (Facility) PITC Modality Index Testing for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      
-     //___start and end date____
-     startdate=prevYear+"1001";
-     enddate=prevYear+"1231";
-      
-      }
-      else{
-          
-           //___start and end date____
-     startdate=year+startMonth+"01";
-     enddate=year+endMonth+""+conn.rs.getString("enddate");
-      
-          
-     duration1=" yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
-     
-     period1="DATIM HTS_TST (Facility) PITC Modality Index Testing for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-       
-        }//end of quarrtely if  
-        
-      else if(reportDuration.equals("4")){
-          
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" yearmonth="+prevYear+""+month;    
-     period1="DATIM HTS_TST (Facility) PITC Modality Index Testing for : "+conn.rs.getString(1)+"("+prevYear+")";
-                 
-     //___start and end date____
-     startdate=prevYear+month+"01";
-     enddate=prevYear+month+conn.rs.getString("days");
-     
-     }
-     else{
-  duration1=" yearmonth="+year+"0"+month;  
-    period1="DATIM HTS_TST (Facility) PITC Modality Index Testing for : "+conn.rs.getString(1)+"("+year+")";
-    
-    //___start and end date____
-     startdate=year+"0"+month+"01";
-     enddate=year+"0"+month+conn.rs.getString("days");
-    
-     }
-      }
+    month =new Integer(edate.substring(4,6));
+ 
+  duration1=" ( yearmonth between "+sdate+" and "+edate+" )";
       }
       else{
      duration1="";     
@@ -13139,44 +9259,18 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
        // HSSFWorkbook wb = new HSSFWorkbook();
 
        
-
-        HSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
+        String mwaka=""+year;
         
-
-        stylesum.setFont(fontx);
-        stylesum.setWrapText(true);
-
-        HSSFSheet shet = wb.createSheet("Index Testing");
-
-        String mwaka="";
-        
-        if(request.getParameter("year")!=null){
-        
-            mwaka=request.getParameter("year");
-        
-        }
+       
        // dbConn conn = new dbConn();
         //========Query 1=================
-        
-        HSSFRow rw0=shet.createRow(1);
-        HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(""+period1);
-                    cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
+ 
                     
                 int count1  = 3;
         
         
         
-                String qry1 = "call rpt_indextesting(\""+startdate.substring(0, 6)+"\",\""+enddate.substring(0, 6)+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
+                String qry1 = "call rpt_vmmcserv(\""+sdate+"\",\""+edate+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
                 //call internal_system.rpt_sti(201710, 201803, 'subpartnera', '', 'sti');
     System.out.println(""+qry1);
                 
@@ -13191,43 +9285,42 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
 
             if (count1 == 3) {
 //header rows
-                HSSFRow rw = shet.createRow(count1);
-rw.setHeightInPoints(26);
+               
                 for (int i = 1; i <= columnCount; i++) 
                 {
 
                     mycolumns1.add(metaData.getColumnLabel(i));
-                    HSSFCell cell0 = rw.createCell(i - 1);
-                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
-                    cell0.setCellStyle(stylex);
+                  
+                    metaData.getColumnLabel(i).replace("_"," ");
+                    
 
                     //create row header
                 }//end of for loop
                 count1++;
             }//end of if
             //data rows     
-            HSSFRow rw = shet.createRow(count1);
+           
 
             for (int a = 0; a < columnCount; a++) {
                // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
 
-                HSSFCell cell0 = rw.createCell(a);
+             
                  if(a==3){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+               conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                  else if(a > 4){
                 
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
+                conn.rs.getInt(mycolumns1.get(a).toString());
                     
                    }
                 else {
                     
-                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
+                conn.rs.getString("" + mycolumns1.get(a));
                 }
             
-                cell0.setCellStyle(style2);
+             
 
             }
 
@@ -13241,490 +9334,7 @@ rw.setHeightInPoints(26);
         //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
 
         //System.out.println("1,"+rowpos+",0,"+colposcopy);
-        for (int i = 0; i <= columnCount; i++) {
-            shet.autoSizeColumn(i);
-        }
-
-        shet.setDisplayGridlines(false);
-        shet.createFreezePane(5, 4); 
-
-
-
-}
-
-public void VMMC_services(dbConn conn, HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
-
-    
-    
-    
-                
-    HSSFCellStyle stylex = wb.createCellStyle();
-stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
-HSSFFont fontx = wb.createFont();
-fontx.setColor(HSSFColor.DARK_BLUE.index);
-stylex.setFont(fontx);
-stylex.setWrapText(true);
-
-HSSFCellStyle stylemainHeader = wb.createCellStyle();
-stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-stylemainHeader.setWrapText(true);
-
-    HSSFCellStyle styleHeader = wb.createCellStyle();
-    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    styleHeader.setWrapText(true);  
-    
-    
-       
-   HSSFCellStyle stborder = wb.createCellStyle();
-    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-    stborder.setWrapText(true);
-
-    
-      HSSFFont font1 = wb.createFont();
-            font1.setFontName("Cambria");
-            font1.setColor((short) 0000);
-           stborder.setFont(font1);
-            
-    
-    
-    
-    // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
-    redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    redstyle.setWrapText(true);
-    
-    
-    
-    
-      HSSFFont font = wb.createFont();
-            font.setFontHeightInPoints((short) 12);
-            font.setFontName("Cambria");
-            font.setColor((short) 0000);
-            CellStyle style = wb.createCellStyle();
-            style.setFont(font);
-            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            HSSFFont font2 = wb.createFont();
-            font2.setFontName("Cambria");
-            font2.setColor((short) 0000);
-            CellStyle style2 = wb.createCellStyle();
-            style2.setFont(font2);
-            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-           
-            //this font will be used to show errors on negatives
-            HSSFCellStyle errorstyle = wb.createCellStyle();
-            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
-            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-    
- //__________________________________________________________________________________________
-
-ArrayList allFacilities = new ArrayList();
-                     
-int year,month,prevYear,maxYearMonth,mflcode;
-			  
-String reportDuration,duration,semi_annual,quarter;
-
-String facilityName,countyName,districtName,facilityIds,facilityId;
-
-year=month=prevYear=maxYearMonth=mflcode=0;
-   
-reportDuration=duration=semi_annual=quarter="";
- 
-facilityName=countyName=districtName=facilityIds=facilityId="";
-
-//_________________startdate________________________
-
-
-String startdate="";
-String enddate="";
-
-//_________________enddate__________________________
-
-year=Integer.parseInt(request.getParameter("year"));
-  
-  
-Calendar ca= Calendar.getInstance();
-  
-int currentyear=ca.get(Calendar.YEAR);
-  
-String facilitiestable="subpartnera";
-  
-int selectedyear=year;
-  
-if(selectedyear<currentyear){
       
-      if(year<2014){
-          
-      //db for 2014 is the smallest
-          
-       facilitiestable="subpartnera2014";
-  
-      }
-      else 
-      {
-      
-  facilitiestable="subpartnera"+selectedyear;
-  
-      }
-  }
-  
- 
-String facilityIds1="";
-
-facilityIds1="(";
-
-if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
-
-String subcounty=request.getParameter("subcounty");
-
-String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-
-
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-
-+ "WHERE district.DistrictID='"+subcounty+"'" ;
-
-subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')   AND "+facilitiestable+".active=1 and ";//20160711
-    
-
-conn.rs=conn.st.executeQuery(getDist);
-
-while(conn.rs.next()){
-
-allFacilities.add(conn.rs.getString(1));
- 
-
- facilityIds1+=" SubPartnerID='"+conn.rs.getString(1)+"' || ";
- 
-    }
-     
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-     
-
-	 facilityIds1+=") && ";   
-
-	 } 
-	 
-     else{
-		 
-
-if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {
-
-		 
-String county=request.getParameter("county");
-		 
-String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
-		 
-+ "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
-	
-+ "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
-         
-subcounty_countywhere=" (county.CountyID='"+county+"')  AND "+facilitiestable+".active=1  and  ";//20160711
-         
-conn.rs=conn.st.executeQuery(getCounty);
-
-while(conn.rs.next()){
-		
-		
-allFacilities.add(conn.rs.getString(1));
-    
-
-facilityIds1+=" SubPartnerID='"+conn.rs.getString(1)+"' || ";
-                         }
-   
-facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
-	
-     facilityIds1+=") && "; 
-	 
-     }
-       
-        else{
-  
-       facilityIds1=""; 
-	   
-        }   
-        
-     }      
-        reportDuration=request.getParameter("reportDuration");
-        
-
-        String period1="";
-        String duration1="";
-        prevYear=year-1; 
-        maxYearMonth=0;
-        
-//    GET REPORT DURATION============================================
-
-        if(reportDuration.equals("1")){
-			
-         duration1=" yearmonth Between "+prevYear+"10 and "+year+"09";   
-        period1="DATIM HTS_TST (Facility) PITC Modality VMMC Services for October "+prevYear+" to September "+year;
-        
-        startdate=prevYear+"1001";
-        enddate=year+"0930";
-        
-        }
-        else if(reportDuration.equals("2")){
-        semi_annual=request.getParameter("semi_annual");
-//        semi_annual="2";
-       if(semi_annual.equals("1")){
-     duration1=" yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
-       
-     period1="DATIM HTS_TST (Facility) PITC Modality VMMC Services for October "+prevYear+" to March "+year;
-    //______start and end date_________ 
-     startdate=prevYear+"1001";
-        enddate=year+"0331";
-     
-       }
-           else{
-       duration1=" yearmonth BETWEEN "+year+"04 AND "+year+"09";      
-      period1="DATIM HTS_TST (Facility) PITC Modality VMMC Services for April "+year+" to September "+year; 
-       
-      //______start and end date_________ 
-     startdate=year+"0401";
-        enddate=year+"0930";
-       
-       
-       }
-       }
-        
-        else if(reportDuration.equals("3")){
-            
-            String startMonth,endMonth;
-            
-       quarter=request.getParameter("quarter");
-//       quarter="3";
-       String getMonths="SELECT months,name,enddate FROM quarter WHERE id='"+quarter+"'";
-       
-       conn.rs=conn.st.executeQuery(getMonths);
-       
-       if(conn.rs.next()==true){
-           
-      String months []=conn.rs.getString(1).split(",");
-      
-       startMonth=months[0];
-       
-       endMonth=months[2];
-       
-      if(quarter.equals("1")){
-          
-      duration1=" yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth; 
-      
-      period1="DATIM HTS_TST (Facility) PITC Modality VMMC Services for  : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
-      
-     //___start and end date____
-     startdate=prevYear+"1001";
-     enddate=prevYear+"1231";
-      
-      }
-      else{
-          
-           //___start and end date____
-     startdate=year+startMonth+"01";
-     enddate=year+endMonth+""+conn.rs.getString("enddate");
-      
-          
-     duration1=" yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth; 
-     
-     period1="DATIM HTS_TST (Facility) PITC Modality VMMC Services for  : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
-      }
-        }
-       
-        }//end of quarrtely if  
-        
-      else if(reportDuration.equals("4")){
-          
-     month=Integer.parseInt(request.getParameter("month"));
-//            month=5;
-           String getMonthName="SELECT name,days FROM month WHERE id='"+month+"'" ;
-    conn.rs=conn.st.executeQuery(getMonthName);
-    if(conn.rs.next()==true){
-   if(month>=10){
-     duration1=" yearmonth="+prevYear+""+month;    
-     period1="DATIM HTS_TST (Facility) PITC Modality VMMC Services for : "+conn.rs.getString(1)+"("+prevYear+")";
-                 
-     //___start and end date____
-     startdate=prevYear+month+"01";
-     enddate=prevYear+month+conn.rs.getString("days");
-     
-     }
-     else{
-  duration1=" yearmonth="+year+"0"+month;  
-    period1="DATIM HTS_TST (Facility) PITC Modality VMMC Services for : "+conn.rs.getString(1)+"("+year+")";
-    
-    //___start and end date____
-     startdate=year+"0"+month+"01";
-     enddate=year+"0"+month+conn.rs.getString("days");
-    
-     }
-      }
-      }
-      else{
-     duration1="";     
-      }
-
- //__________________________________________________________________________________________ 
-    
-//______________________________________________________________________________________
-//                       CREATE THE WORKSHEETS          
-//______________________________________________________________________________________  
-       // HSSFWorkbook wb = new HSSFWorkbook();
-
-       
-
-        HSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        
-
-        stylesum.setFont(fontx);
-        stylesum.setWrapText(true);
-
-        HSSFSheet shet = wb.createSheet("VMMC_Services");
-
-        String mwaka="";
-        
-        if(request.getParameter("year")!=null){
-        
-            mwaka=request.getParameter("year");
-        
-        }
-       // dbConn conn = new dbConn();
-        //========Query 1=================
-        
-        HSSFRow rw0=shet.createRow(1);
-        HSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(""+period1);
-                    cell.setCellStyle(style);
-        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
-                    
-                int count1  = 3;
-        
-        
-        
-                String qry1 = "call rpt_vmmcserv(\""+startdate.substring(0, 6)+"\",\""+enddate.substring(0, 6)+"\",\""+facilitiestable+"\",\""+facilityIds1+"\")";
-                //call internal_system.rpt_sti(201710, 201803, 'subpartnera', '', 'sti');
-    System.out.println(""+qry1);
-                
-        conn.rs = conn.st.executeQuery(qry1);
-
-        ResultSetMetaData metaData = conn.rs.getMetaData();
-        int columnCount = metaData.getColumnCount();
-       
-        ArrayList mycolumns1 = new ArrayList();
-
-        while (conn.rs.next()) {
-
-            if (count1 == 3) {
-//header rows
-                HSSFRow rw = shet.createRow(count1);
-rw.setHeightInPoints(26);
-                for (int i = 1; i <= columnCount; i++) 
-                {
-
-                    mycolumns1.add(metaData.getColumnLabel(i));
-                    HSSFCell cell0 = rw.createCell(i - 1);
-                    cell0.setCellValue(metaData.getColumnLabel(i).replace("_"," "));
-                    cell0.setCellStyle(stylex);
-
-                    //create row header
-                }//end of for loop
-                count1++;
-            }//end of if
-            //data rows     
-            HSSFRow rw = shet.createRow(count1);
-
-            for (int a = 0; a < columnCount; a++) {
-               // System.out.print(mycolumns1.get(a) + ":" + conn.rs.getString("" + mycolumns1.get(a)));
-
-                HSSFCell cell0 = rw.createCell(a);
-                 if(a==3){
-                
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
-                    
-                   }
-                 else if(a > 4){
-                
-                    cell0.setCellValue(conn.rs.getInt(mycolumns1.get(a).toString()));
-                    
-                   }
-                else {
-                    
-                    cell0.setCellValue(conn.rs.getString("" + mycolumns1.get(a)));
-                }
-            
-                cell0.setCellStyle(style2);
-
-            }
-
-            // System.out.println("");
-            count1++;
-        }
-  
-        
-        //Autofreeze  || Autofilter  || Remove Gridlines ||  
-        
-        //shet.setAutoFilter(new CellRangeAddress(3, count1 - 1, 0, columnCount-1));
-
-        //System.out.println("1,"+rowpos+",0,"+colposcopy);
-        for (int i = 0; i <= columnCount; i++) {
-            shet.autoSizeColumn(i);
-        }
-
-        shet.setDisplayGridlines(false);
-        shet.createFreezePane(5, 4); 
 
 
 
