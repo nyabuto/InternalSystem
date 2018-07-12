@@ -127,7 +127,7 @@ tr>td {
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">UPLOAD DHIS Data.</a> 
+                        <a href="#" style="margin-left:40%;">Excel Data Error checking module</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -141,16 +141,16 @@ tr>td {
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4 style="text-align:center;"><i class="icon-reorder"></i> Uploading DHIS data from excel</h4>
+                        <h4 style="text-align:center;"><i class="icon-reorder"></i>Upload Excel Data for checking</h4>
                        
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="LoadDHIS2_Data" method="post" enctype="multipart/form-data" class="form-horizontal" style="margin: 0px 300px 0 300px">
+                        <form action="DataCleaner" method="post" enctype="multipart/form-data" class="form-horizontal" style="margin: 0px 300px 0 300px">
                        
                            <br>  
                           <table>
-                              <tr> <td><b>Report Type</b> </td><td><select name="year" id="year" value="" onchange="loadmonths()" class="textbox" required>
+                              <tr> <td><b>Report Type</b> </td><td><select name="report_type" id="report_type" value="" class="textbox" required>
                                                       <option value="">Report Type</option>
                                                       <option value="tb">TB</option>
                                                       <option value="vl">Viral Load</option>

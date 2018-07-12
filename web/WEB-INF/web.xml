@@ -918,7 +918,7 @@
         <servlet-class>DataMapping.DHIS_IMIS_Variance_Output</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TB</servlet-name>
+        <servlet-name>DataCleaner</servlet-name>
         <servlet-class>DataCleaning.DataCleaner</servlet-class>
     </servlet>
     <servlet-mapping>
@@ -1838,8 +1838,8 @@
         <url-pattern>/DHIS_IMIS_Variance_Output</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TB</servlet-name>
-        <url-pattern>/TB</url-pattern>
+        <servlet-name>DataCleaner</servlet-name>
+        <url-pattern>/DataCleaner</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

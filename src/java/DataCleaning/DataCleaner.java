@@ -12,13 +12,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Iterator;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -27,7 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class DataCleaner extends HttpServlet {
 HttpSession session;
-String report_type;
+String report_type,start_date,end_date;
 String full_path="";
 String fileName="";
 File file_source;
@@ -35,9 +42,10 @@ private static final long serialVersionUID = 205242440643911308L;
 private static final String UPLOAD_DIR = "uploads";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ParseException, SQLException {
         session = request.getSession();
         dbConn conn = new dbConn();
+        XSSFWorkbook wb=null;
         DataCleanerClass dcleaner = new DataCleanerClass();
 
         //end of dropping yearmonth data
@@ -63,20 +71,39 @@ private static final String UPLOAD_DIR = "uploads";
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
       FileInputStream fileInputStream = new FileInputStream(full_path);
-        XSSFWorkbook wb = new XSSFWorkbook(fileInputStream);
+      wb = new XSSFWorkbook(fileInputStream);
       
+          // for the red color
+   XSSFCellStyle redstyle = wb.createCellStyle();
+    redstyle.setFillForegroundColor(HSSFColor.RED.index);
+    redstyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    redstyle.setBorderTop(BorderStyle.THIN);
+    redstyle.setBorderTop(BorderStyle.THIN);
+    redstyle.setBorderTop(BorderStyle.THIN);
+    redstyle.setBorderTop(BorderStyle.THIN);
+    redstyle.setBorderTop(BorderStyle.THIN);
+    redstyle.setWrapText(true);
+    
+    
+    
         report_type = request.getParameter("report_type");
+//        start_date = request.getParameter("start_date");
+//        end_date = request.getParameter("end_date");
+        
+        start_date = "2018-01-05";
+        end_date = "2018-01-31";
+        
         if(report_type.equals("tb")){
-          wb =   dcleaner.TB(wb);
+          wb =   dcleaner.TB(wb,redstyle,start_date,end_date);
         }
-        else if(report_type.equals("viralload")){
-          wb =   dcleaner.ViralLoad(wb);
+        else if(report_type.equals("vl")){
+          wb =   dcleaner.ViralLoad(wb,redstyle,start_date,end_date);
         }
-        else if(report_type.equals("tb")){
-          wb =   dcleaner.EIDTST(wb);
+        else if(report_type.equals("eidtst")){
+          wb =   dcleaner.EIDTST(wb,redstyle,start_date,end_date);
         }
-        else if(report_type.equals("tb")){
-          wb =   dcleaner.EIDPOS(wb);
+        else if(report_type.equals("eidpos")){
+          wb =   dcleaner.EIDPOS(wb,redstyle,start_date,end_date);
         }
         else{}
         
@@ -87,12 +114,12 @@ private static final String UPLOAD_DIR = "uploads";
         String createdOn = IG.CreatedOn();
 
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
-       // wb.write(outByteStream);
+        wb.write(outByteStream);
         byte[] outArray = outByteStream.toByteArray();
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=IMIS_DHIS_Comparison_" + createdOn + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename="+fileName.replace(" ", "_")+"");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
         outStream.flush();
@@ -112,7 +139,13 @@ private static final String UPLOAD_DIR = "uploads";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (ParseException ex) {
+        Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**
@@ -126,7 +159,13 @@ private static final String UPLOAD_DIR = "uploads";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (ParseException ex) {
+        Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**
