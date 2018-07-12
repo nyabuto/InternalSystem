@@ -126,7 +126,7 @@ public class LoadGaps extends HttpServlet {
           arr_values.add(value);
                }
                else{
-                   
+                  value =  value.replace("'", "");
                query+=label+"=?,";   
                arr_values.add(value);
                

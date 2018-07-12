@@ -6,6 +6,7 @@
 package LoadExcels;
 
 import DataMapping.DHIS_IMIS;
+import DataMapping.IMIS_DHIS_Variances;
 import General.IdGenerator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
@@ -195,9 +196,12 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         
         
 //   END OF EXCEL OUTPUT     
-        
-        
-        
+
+    if(request.getParameter("archive")!=null){ //will help archieve the variances between DHIS and IMIS 
+        IMIS_DHIS_Variances vr = new IMIS_DHIS_Variances();
+            vr.get_data(yearmonth); // pass yearmonth
+    }
+  
         response.sendRedirect("UploadDHISData.jsp");
     }
 

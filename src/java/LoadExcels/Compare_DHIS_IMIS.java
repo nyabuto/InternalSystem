@@ -5,9 +5,13 @@
  */
 package LoadExcels;
 
+import DataMapping.IMIS_DHIS_Variances;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +28,15 @@ public class Compare_DHIS_IMIS extends HttpServlet {
 HttpSession session;
 String year,month;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             dbConn conn = new dbConn();
             session = request.getSession();
             
+            IMIS_DHIS_Variances vr = new IMIS_DHIS_Variances();
+            vr.get_data("201801"); // pass yearmonth
             
         } 
         finally {
@@ -50,7 +56,11 @@ String year,month;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (SQLException ex) {
+        Logger.getLogger(Compare_DHIS_IMIS.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**
@@ -64,7 +74,11 @@ String year,month;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    try {
         processRequest(request, response);
+    } catch (SQLException ex) {
+        Logger.getLogger(Compare_DHIS_IMIS.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**

@@ -913,6 +913,14 @@
         <servlet-name>htsdataset</servlet-name>
         <servlet-class>dashboards.htsdataset</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DHIS_IMIS_Variance_Output</servlet-name>
+        <servlet-class>DataMapping.DHIS_IMIS_Variance_Output</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TB</servlet-name>
+        <servlet-class>DataCleaning.DataCleaner</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1820,10 +1828,18 @@
     <servlet-mapping>
         <servlet-name>PushAllData</servlet-name>
         <url-pattern>/PushAllData</url-pattern>
-    </servlet-mapping>        
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>htsdataset</servlet-name>
         <url-pattern>/htsdataset</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DHIS_IMIS_Variance_Output</servlet-name>
+        <url-pattern>/DHIS_IMIS_Variance_Output</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TB</servlet-name>
+        <url-pattern>/TB</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

@@ -253,7 +253,8 @@ pathtodelete=filepth;
             
             
     Sheet shet= wb.getSheet("Sheet1");
-    Sheet shetGap= wb.createSheet("Justified Gaps");
+    Sheet shetGap= wb.createSheet("Approved Gaps");
+    Sheet shetGapNoJustfied= wb.createSheet("Not Approved Gaps");
           
         shet.setColumnWidth(0, 8000);  
         shet.setColumnWidth(1, 8000);  
@@ -281,6 +282,20 @@ pathtodelete=filepth;
         shetGap.setColumnWidth(10, 4000); 
         shetGap.setColumnWidth(11, 4000); 
         shetGap.setColumnWidth(12, 8000); 
+        
+        shetGapNoJustfied.setColumnWidth(0, 8000);  
+        shetGapNoJustfied.setColumnWidth(1, 8000);  
+        shetGapNoJustfied.setColumnWidth(2, 4000);  
+        shetGapNoJustfied.setColumnWidth(3, 4000);  
+        shetGapNoJustfied.setColumnWidth(4, 6000); 
+        shetGapNoJustfied.setColumnWidth(5, 7000); 
+        shetGapNoJustfied.setColumnWidth(6, 2000); 
+        shetGapNoJustfied.setColumnWidth(7, 2000); 
+        shetGapNoJustfied.setColumnWidth(8, 4000); 
+        shetGapNoJustfied.setColumnWidth(9, 4000); 
+        shetGapNoJustfied.setColumnWidth(10, 4000); 
+        shetGapNoJustfied.setColumnWidth(11, 4000); 
+        shetGapNoJustfied.setColumnWidth(12, 8000); 
     
         int row=0;
 
@@ -290,17 +305,25 @@ pathtodelete=filepth;
 
 String[] headers_just =  {"Rule","Gap","Program Area","County","Sub County","Facility","Year","Month","Ward","Latitude","Longitude","Explanation"};
 //header for justified gaps
-int ct=0,gaprow=0;
-Row rw_gp=shetGap.createRow(gaprow);            
+int ct=0,nojustgap=0, gaprow=0;
+Row rw_gp=shetGap.createRow(gaprow); 
+Row rw_gp2=shetGapNoJustfied.createRow(gaprow); 
+
  rw_gp.setHeightInPoints(24);
+ rw_gp2.setHeightInPoints(24);
 for(String header_elem:headers_just){
     
       Cell c1x= rw_gp.createCell(ct);
       c1x.setCellValue(header_elem);
-      c1x.setCellStyle(stylex); 
+      c1x.setCellStyle(stylex);
+      
+      Cell c1x1= rw_gp2.createCell(ct);
+      c1x1.setCellValue(header_elem);
+      c1x1.setCellStyle(stylex); 
       ct++;
 }
 gaprow++;
+nojustgap++;
 //end
 
      Row rwh=shet.createRow(row);            
@@ -561,6 +584,38 @@ if(!periods.contains(current_year)){
      }
       gaprow++;
   }
+  
+  //unjustfied gaps
+  String getnotjustified = "SELECT * FROM gaps WHERE year=? AND month=? AND status=? && explanation IS NOT NULL ";
+  conn.pst3 = conn.conn.prepareStatement(getnotjustified);
+  conn.pst3.setString(1, yr);
+  conn.pst3.setString(2, mn_name);
+  conn.pst3.setInt(3, 0);
+//  conn.pst3.setString(4, "IS NOT NULL");
+  conn.rs3 = conn.pst3.executeQuery();
+  
+    System.out.println("---------get non justified gaps : "+conn.pst3);
+  while(conn.rs3.next()){
+     Row rwx=shetGapNoJustfied.createRow(nojustgap);
+    int gp=0;
+     for(String label:columns){
+         
+      Cell c1= rwx.createCell(gp);
+      if(isNumeric(conn.rs3.getString(label))){
+      c1.setCellValue(conn.rs3.getDouble(label));
+      }
+      else{
+        c1.setCellValue(conn.rs3.getString(label));   
+      }
+      c1.setCellStyle(style2);
+      
+      gp++;
+     }
+      nojustgap++;
+  }
+  
+  
+  
  }
 // end of month looping
 i++;
