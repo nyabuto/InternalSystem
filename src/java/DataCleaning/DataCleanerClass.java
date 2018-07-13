@@ -24,32 +24,307 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class DataCleanerClass {
     dbConn conn = new dbConn();
     
-    public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,String end_date){
-        int col_count = 20;
+public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
+    String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility;
         XSSFSheet worksheet;
-        
+        int col_error = 59;
+        int date_format=0;
+        //*Blank Sex (M)(12) --12
+        //*Age (N)(13) above 100 ysrs and below 0--13 
+        //*HIV Status (AT)(45) is Neg or POs and  HIV Test Date is Blank (AS)(44)
+        //*ART Status (BA)(52) is Yes and ART start Date (BB)(53) is Blank
+        //*ART Start date (BB)(53) is greater than HIV Test Date (AS)(44)
+        //*ART Start Date (BB)(53), HIV Test Date(AS)(44) , Date of treatment started (AO)(40) Not in dd mmm YYYY (eg 04 Jan 2018) format.
+
+    
         worksheet = tb.getSheetAt(0);
         Iterator rowIterator = worksheet.iterator();
 
         int i=1,y=0;
+        
+        XSSFRow rowhead = worksheet.getRow(0);
+        XSSFCell cellh = rowhead.createCell(col_error);
+        cellh.setCellValue("Errors");
+        
+        
+        
         while(rowIterator.hasNext()){
+          errors=where=sex=age=hiv_status=hiv_test_date=art_status=art_start_date=treatment_date=area=health_facility=""; 
+          date_format = 0;
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
-         break;}
+         break;
+        }
+       
+        //sex
+         XSSFCell cellSex = rowi.getCell((short) 12);
+            if(cellSex==null){
+                break;
+            }
+            else{
+               switch (cellSex.getCellType()) {
+                   case 0:
+                       //numeric
+                       sex =""+(int)cellSex.getNumericCellValue();
+                       break;
+                   case 1:
+                       sex =cellSex.getStringCellValue();
+                       break;
+                   default:
+                       sex = cellSex.getRawValue();
+                       break;
+               }
+            }
+           
+        //age
+         XSSFCell cellAge = rowi.getCell((short) 13);
+            if(cellAge==null){
+                break;
+            }
+            else{
+               switch (cellAge.getCellType()) {
+                   case 0:
+                       //numeric
+                       age =""+(int)cellAge.getNumericCellValue();
+                       break;
+                   case 1:
+                       age =cellAge.getStringCellValue();
+                       break;
+                   default:
+                       age = cellAge.getRawValue();
+                       break;
+               }
+            }
+           
+        //HIVStatus
+         XSSFCell cellHIVStatus = rowi.getCell((short) 45);
+            if(cellHIVStatus==null){
+                break;
+            }
+            else{
+               switch (cellHIVStatus.getCellType()) {
+                   case 0:
+                       //numeric
+                       hiv_status =""+(int)cellHIVStatus.getNumericCellValue();
+                       break;
+                   case 1:
+                       hiv_status =cellHIVStatus.getStringCellValue();
+                       break;
+                   default:
+                       hiv_status = cellHIVStatus.getRawValue();
+                       break;
+               }
+            }
+           
+            
+        //HIVTestDate
+         XSSFCell cellHIVTestDate = rowi.getCell((short) 44);
+            if(cellHIVTestDate==null){
+                break;
+            }
+            else{
+               switch (cellHIVTestDate.getCellType()) {
+                   case 0:
+                       //numeric
+                       hiv_test_date =""+(int)cellHIVTestDate.getNumericCellValue();
+                       break;
+                   case 1:
+                       hiv_test_date =cellHIVTestDate.getStringCellValue();
+                       break;
+                   default:
+                       hiv_test_date = cellHIVTestDate.getRawValue();
+                       break;
+               }
+            } 
+           
+            
+        //ARTStatus
+         XSSFCell cellARTStatus = rowi.getCell((short) 52);
+            if(cellARTStatus==null){
+                break;
+            }
+            else{
+               switch (cellARTStatus.getCellType()) {
+                   case 0:
+                       //numeric
+                       art_status =""+(int)cellARTStatus.getNumericCellValue();
+                       break;
+                   case 1:
+                       art_status =cellARTStatus.getStringCellValue();
+                       break;
+                   default:
+                       art_status = cellARTStatus.getRawValue();
+                       break;
+               }
+            }
+           
+           
+            
+        //ARTStartDate
+         XSSFCell cellARTStartDate = rowi.getCell((short) 53);
+            if(cellARTStartDate==null){
+                break;
+            }
+            else{
+               switch (cellARTStartDate.getCellType()) {
+                   case 0:
+                       //numeric
+                       art_start_date =""+(int)cellARTStartDate.getNumericCellValue();
+                       break;
+                   case 1:
+                       art_start_date =cellARTStartDate.getStringCellValue();
+                       break;
+                   default:
+                       art_start_date = cellARTStartDate.getRawValue();
+                       break;
+               }
+            }
+           
+           
+            
+        //TreatmentDate
+         XSSFCell cellTreatmentDate = rowi.getCell((short) 40);
+            if(cellTreatmentDate==null){
+                break;
+            }
+            else{
+               switch (cellTreatmentDate.getCellType()) {
+                   case 0:
+                       //numeric
+                       treatment_date =""+(int)cellTreatmentDate.getNumericCellValue();
+                       break;
+                   case 1:
+                       treatment_date =cellTreatmentDate.getStringCellValue();
+                       break;
+                   default:
+                       treatment_date = cellTreatmentDate.getRawValue();
+                       break;
+               }
+            }
+            
+            
+        //HealthFacility
+          XSSFCell cellHealthFacility = rowi.getCell((short) 7);
+            if(cellHealthFacility==null){
+                break;
+            }
+            else{
+               switch (cellHealthFacility.getCellType()) {
+                   case 0:
+                       //numeric
+                       health_facility =""+(int)cellHealthFacility.getNumericCellValue();
+                       break;
+                   case 1:
+                       health_facility =cellHealthFacility.getStringCellValue();
+                       break;
+                   default:
+                       health_facility = cellHealthFacility.getRawValue();
+                       break;
+               }
+            }
+           
+            if(age==null){age="";}
+            if(health_facility==null){health_facility="";}
+            if(sex==null){sex="";}
+            if(art_start_date==null){art_start_date="";}
+            if(art_status==null){art_status="";}
+            if(hiv_test_date==null){hiv_test_date="";}
+            if(hiv_status==null){hiv_status="";}
+            if(treatment_date==null){treatment_date="";}
+            
+          
+        where = " (tibu_name=? OR SubPartnerNom=?) AND  ART=1 ";
+        String [] where_params = {"1##"+health_facility+"","2##"+health_facility+""};
+        if(!issupported(where,where_params)){
+          cellHealthFacility.setCellStyle(redstyle);
+          errors+=" This facility is not a HSDSA TB supported site.\n";  
+        }
         
         
-       for (int j=0;j<col_count;j++){
-     
-       } 
-
+        if(sex==null || sex.equals("")){
+          cellSex.setCellStyle(redstyle);
+          errors+=" Missing sex.\n";  
+        }
+        
+         age = age.replace("Y", ".");
+         age = age.split("\\.", 2)[0];
+        if(Integer.parseInt(age)>100){
+          cellAge.setCellStyle(redstyle);
+          errors+="Age is more than 100 yrs i.e "+age+".\n";  
+        }
+        
+        hiv_status = hiv_status.trim();
+        hiv_test_date = hiv_test_date.trim();
+        if((hiv_status.equalsIgnoreCase("Neg") || hiv_status.equalsIgnoreCase("Pos")) && (hiv_test_date==null || hiv_test_date.equals(""))){
+         cellHIVTestDate.setCellStyle(redstyle);
+          errors+="Missing HIV Test Date.\n";     
+        }
+        
+        art_status = art_status.trim();
+        art_start_date = art_start_date.trim();
+        if(art_status.equalsIgnoreCase("Yes") && (art_start_date==null || art_start_date.equals(""))){
+         cellARTStartDate.setCellStyle(redstyle);
+          errors+="Missing ART Start Date.\n";     
+        }
+        
+        if(!art_start_date.equals("")){
+        try{
+    new SimpleDateFormat("dd MMM yyyy").parse(art_start_date);     
+        }
+        catch(Exception e){
+            date_format++;
+         cellARTStartDate.setCellStyle(redstyle);
+         errors+="Wrong ART start date format.\n";     
+        }
+        }
+        
+        if(!hiv_test_date.equals("")){
+        try{
+    new SimpleDateFormat("dd MMM yyyy").parse(hiv_test_date);     
+        }
+        catch(Exception e){
+            date_format++;
+         cellHIVTestDate.setCellStyle(redstyle);
+         errors+="Wrong HIV test date format.\n";     
+        }
+        }
+        
+        if(!treatment_date.equals("")){
+        try{
+    new SimpleDateFormat("dd MMM yyyy").parse(treatment_date);     
+        }
+        catch(Exception e){
+         cellTreatmentDate.setCellStyle(redstyle);
+         errors+="Wrong treatment date format.\n";     
+        }
+        }
+        
+     if(date_format==0 && !art_start_date.equals("") && !hiv_test_date.equals("")){
+     Date art = new SimpleDateFormat("dd MMM yyyy").parse(art_start_date);  
+     Date hiv = new SimpleDateFormat("dd MMM yyyy").parse(hiv_test_date);     
+        
+        if(art.before(hiv)){
+         cellARTStartDate.setCellStyle(redstyle);
+         cellHIVTestDate.setCellStyle(redstyle);
+         errors+="ART start date is less than HIV Test date.\n";     
+        }
+        }
+        
+        
+         XSSFCell cellerror = rowi.createCell(col_error);
+         cellerror.setCellValue(errors);
+           
+            
             i++;
         }
         
-         
+            
+        
         
         return tb;
     }
-    public XSSFWorkbook ViralLoad(XSSFWorkbook viralload,XSSFCellStyle redstyle,String start_date,String end_date){
+ 
+  public XSSFWorkbook ViralLoad(XSSFWorkbook viralload,XSSFCellStyle redstyle,String start_date,String end_date){
            int col_count = 20;
         XSSFSheet worksheet;
         
@@ -74,39 +349,164 @@ public class DataCleanerClass {
         
         return viralload;
     }
-    public XSSFWorkbook EIDTST(XSSFWorkbook eid,XSSFCellStyle redstyle,String start_date,String end_date){
-         int col_count = 20;
+  
+  public XSSFWorkbook EIDTST(XSSFWorkbook eid,XSSFCellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
+    String errors,age,where,mfl_code,pcr_type,date_tested;
         XSSFSheet worksheet;
-        
+    // Column to check age<=12 col-no11
+    // site not pmtct and not on our list of supported sites - mflcode col-no8
+    // PCR Type is not initial PCR col-no16
+    // Date Between use date tested-23
+    
         worksheet = eid.getSheetAt(0);
         Iterator rowIterator = worksheet.iterator();
 
         int i=1,y=0;
+        
+        XSSFRow rowhead = worksheet.getRow(0);
+        XSSFCell cellh = rowhead.createCell(26);
+        cellh.setCellValue("Errors");
+        
+        
+        
         while(rowIterator.hasNext()){
+          errors=age=mfl_code=where=pcr_type=date_tested="" ; 
+        
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
-         break;}
-        
-        
-       for (int j=0;j<col_count;j++){
-     
-       } 
+         break;
+        }
+       
+        //age
+         XSSFCell cellAge = rowi.getCell((short) 11);
+            if(cellAge==null){
+                break;
+            }
+            else{
+               switch (cellAge.getCellType()) {
+                   case 0:
+                       //numeric
+                       age =""+(int)cellAge.getNumericCellValue();
+                       break;
+                   case 1:
+                       age =cellAge.getStringCellValue();
+                       break;
+                   default:
+                       age = cellAge.getRawValue();
+                       break;
+               }
+            }
+            age = age.replace(" ", "").trim();
+           if(age.equals("")){
+            cellAge.setCellStyle(redstyle);
+            errors+=" No age \n";
+           }
+           else{
+               double eid_age = Double.parseDouble(age);
+               if(eid_age<0 || eid_age>12){ // age out of brackets.
+              cellAge.setCellStyle(redstyle);
+              errors+=" Age given is outside accepted range \n";    
+               }
+           }
+            
+        //mflcode
+          XSSFCell cellMFLCode = rowi.getCell((short) 8);
+            if(cellMFLCode==null){
+                break;
+            }
+            else{
+               switch (cellMFLCode.getCellType()) {
+                   case 0:
+                       //numeric
+                       mfl_code =""+(int)cellMFLCode.getNumericCellValue();
+                       break;
+                   case 1:
+                       mfl_code =cellMFLCode.getStringCellValue();
+                       break;
+                   default:
+                       mfl_code = cellMFLCode.getRawValue();
+                       break;
+               }
+            }
+        where = "CentreSanteId='"+mfl_code+"' AND  PMTCT=1 ";
+        String [] where_params = {};
+        if(!issupported(where,where_params)){
+          cellMFLCode.setCellStyle(redstyle);
+          errors+=" This facility is not a HSDSA PMTCT supported site \n";  
+        }
+            
+        //pcr type
+          XSSFCell cellPCR = rowi.getCell((short) 16);
+            if(cellPCR==null){
+                break;
+            }
+            else{
+               switch (cellPCR.getCellType()) {
+                   case 0:
+                       //numeric
+                       pcr_type =""+(int)cellPCR.getNumericCellValue();
+                       break;
+                   case 1:
+                       pcr_type =cellPCR.getStringCellValue();
+                       break;
+                   default:
+                       pcr_type = cellPCR.getRawValue();
+                       break;
+               }
+            }
+                        
+          if(pcr_type.contains("initial PCR")) {
+           cellPCR.setCellStyle(redstyle);
+            errors+="PCR type is not initial PCR \n";   
+          } 
 
+        //date tested
+  XSSFCell cellDate = rowi.getCell((short) 23);
+            if(cellDate==null){
+                break;
+            }
+            else{
+               switch (cellDate.getCellType()) {
+                   case 0:
+                       //numeric
+                       date_tested =""+(int)cellDate.getNumericCellValue();
+                       break;
+                   case 1:
+                       date_tested =cellDate.getStringCellValue();
+                       break;
+                   default:
+                       date_tested = cellDate.getRawValue();
+                       break;
+               }
+            }
+            
+           if(!isbetween(date_tested,start_date,end_date)){
+          cellDate.setCellStyle(redstyle);
+            errors+=" Date tested is not within the accepted range i.e "+date_tested+"  not within "+start_date+" and "+end_date+" \n";  
+        }
+            
+            
+         XSSFCell cellerror = rowi.createCell(26);
+         cellerror.setCellValue(errors);
+           
+            
             i++;
         }
- 
+        
+            
+        
+        
         return eid;
     }
-    
-    
-    public XSSFWorkbook EIDPOS(XSSFWorkbook eid,XSSFCellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
-    String errors,age,area,mfl_code,pcr_type,validation,date_tested;
+ 
+  public XSSFWorkbook EIDPOS(XSSFWorkbook eid,XSSFCellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
+    String errors,age,where,mfl_code,pcr_type,validation,date_tested;
         XSSFSheet worksheet;
     // Column to check age<=12 col-no8
     // site not pmtct and not on our list of supported sites - mflcode col-no5
     // PCR Type is not initial PCR col-no9
     // validation` IS NOT A col-no12
-    // Date Between use date tested
+    // Date Between use date tested 11
     
         worksheet = eid.getSheetAt(0);
         Iterator rowIterator = worksheet.iterator();
@@ -120,7 +520,7 @@ public class DataCleanerClass {
         
         
         while(rowIterator.hasNext()){
-          errors=age=mfl_code=area=pcr_type=validation=date_tested="" ; 
+          errors=age=mfl_code=where=pcr_type=validation=date_tested="" ; 
         
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
@@ -178,8 +578,9 @@ public class DataCleanerClass {
                        break;
                }
             }
-            area = " PMTCT=1 ";
-        if(!issupported(mfl_code,area)){
+           where = "CentreSanteId='"+mfl_code+"' AND  PMTCT=1 ";
+        String [] where_params = {};
+        if(!issupported(where,where_params)){
           cellMFLCode.setCellStyle(redstyle);
           errors+=" This facility is not a HSDSA PMTCT supported site \n";  
         }
@@ -290,15 +691,22 @@ public class DataCleanerClass {
     return is_d;
    }
   
-  public boolean issupported(String mfl_code,String area) throws SQLException{
+  public boolean issupported(String where,String[] where_params) throws SQLException{
    boolean is_mfl= true; 
    
-   String checkifsupported="SELECT SubPartnerID FROM subpartnera WHERE active=1 AND CentreSanteId='"+mfl_code+"' AND ("+area+")";
-   conn.rs = conn.st.executeQuery(checkifsupported);
+   String checkifsupported="SELECT SubPartnerID FROM subpartnera WHERE active=1 AND ("+where+")";
+   conn.pst = conn.conn.prepareStatement(checkifsupported);
+   for(String s:where_params){
+       int pos = Integer.parseInt(s.split("##")[0]);
+       String value = s.split("##")[1];
+       conn.pst.setString(pos, value);
+   }
+   conn.rs = conn.pst.executeQuery();
    if(!conn.rs.next()){
    is_mfl=false;    
    }
    
    return is_mfl;
   }     
+ 
 }
