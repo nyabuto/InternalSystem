@@ -97,13 +97,17 @@ public class pullTb extends HttpServlet {
             dbConn conn = new dbConn();
 
             String facilitiestable = "subpartnera";
-
+            String [] procs={"tb_dashboard","tbclinics_dashboard"};
+            String [] desttable={"table3","table2"};
+            
+for(int c=0;c<procs.length;c++){
+            
             int count1 = 1;
 
-            String insertqry = " REPLACE INTO dashboards.table3 SET ";
+            String insertqry = " REPLACE INTO dashboards."+desttable[c]+" SET ";
 
             // String qry1 = "call tb_dashboard('2015-10-01','2016-09-30','')";
-            String qry1 = "call tb_dashboard(\"" + startdate + "\",\"" + enddate + "\",\"" + facilitiestable + "\")";
+            String qry1 = "call "+procs[c]+"(\"" + startdate + "\",\"" + enddate + "\",\"" + facilitiestable + "\")";
             conn.rs = conn.st.executeQuery(qry1);
 
             ResultSetMetaData metaData = conn.rs.getMetaData();
@@ -122,7 +126,7 @@ public class pullTb extends HttpServlet {
 
                             mycolumns1.add(metaData.getColumnLabel(i));
                             //build column
-                            insertqry += " `dashboards`.`table3`.`" + metaData.getColumnLabel(i) + "`=?, ";
+                            insertqry += " `dashboards`.`"+desttable[c]+"`.`" + metaData.getColumnLabel(i) + "`=?, ";
 
                         } else {
                             
@@ -131,7 +135,7 @@ public class pullTb extends HttpServlet {
                  
                             mycolumns1.add(metaData.getColumnLabel(i));
                           
-                            insertqry += " `dashboards`.`table3`.`" + metaData.getColumnLabel(i) + "`=? ";
+                            insertqry += " `dashboards`.`"+desttable[c]+"`.`" + metaData.getColumnLabel(i) + "`=? ";
                             // valuesqry+=" ? )";
                             conndb.pst = conn.conn.prepareStatement(insertqry);
 
@@ -155,6 +159,7 @@ public class pullTb extends HttpServlet {
                 count1++;
             }
 
+        }// end of for loop
         } catch (SQLException ex) {
             Logger.getLogger(pullTb.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -6,6 +6,7 @@
 package InternalSystem;
 
 import dashboards.PushDataSet2;
+import dashboards.pullHts;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -113,7 +114,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         m1.put("mfl_code", mfl_code);
         
         ds2.VMMC_Circ(m1);//vmmc module
-       
+        pullHts hts= new pullHts();
+    hts.hts_non731(yearmonth,yearmonth,facil); //stored procedure code 
+   // hts.hts731( yearmonth, yearmonth, facilityId);
        
        //end of adding to dashboards
        

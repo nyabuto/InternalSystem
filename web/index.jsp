@@ -139,7 +139,8 @@
                         <img src="images/aphia_logo.png" style="border:1px solid #cbcdcc; padding:1%; width:410px;margin-left: 0%;"  />
                         
                         
-  </div>                 
+  </div>
+                        
   <!-- END LOGIN -->
     <div class="copyright" style="width:auto;">
    <div id="footer">

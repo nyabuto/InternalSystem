@@ -4317,12 +4317,12 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
             + ""+facilitiestable+".SubPartnerNom,"+facilitiestable+".CentreSanteId,"+facilitiestable+".HTC_Support1 ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
            +" ,sum( IFNULL(HV0103,0) + IFNULL(HV0201,0) + IFNULL(HV0226,0) + IFNULL(HV0202,0) + IFNULL(HV0203,0) ) as NUM,  "+facilitiestable+".SubPartnerID ,  IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT "//new numerator for 2017 Q1 is serology + anc only + htc 
             + " ,county.CountyID as CountyID,sum(IFNULL(HV0110,0)+IFNULL(HV0111,0)+IFNULL(HV0112,0)+IFNULL(HV0113,0)+IFNULL(HV0114,0)+IFNULL(HV0115,0)+IFNULL(HV0206,0)+IFNULL(HV0207,0)+IFNULL(HV0208,0)) as grandtotalpositive "
-            +",sum(IFNULL(HV0202,0)) as ld_tes , sum(IFNULL(HV0207,0)) as ld_pos "
+            +" ,sum(IFNULL(HV0202,0)) as ld_tes , sum(IFNULL(HV0207,0)) as ld_pos "
            
             + " FROM moh731 JOIN "+facilitiestable+" "
-            + "ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
-            + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
-          + "district.CountyID=county.CountyID"
+            + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
+          + " district.CountyID=county.CountyID "
             + " WHERE "
     + " "+facilityIds1+" "+duration1+" && ("+facilitiestable+".HTC=1 || PMTCT=1  )  AND "+facilitiestable+".active=1  "
             + "GROUP BY moh731.SubPartnerID order by county.County" ;

@@ -7,6 +7,7 @@
 package InternalSystem;
 
 import dashboards.PushDataSet2;
+import dashboards.pullHts;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -540,7 +541,9 @@ conn.pst=conn.conn.prepareStatement(copyToTemp);
             ds2.RetNum(m1);//moh731
             ds2.RetDen(m1);//moh731
             ds2.PMTCT_ART(m1);//moh731
-    
+    pullHts hts= new pullHts();
+   // hts.hts_non731(yearmonth,yearmonth,facilityId); //stored procedure code 
+    hts.hts731( yearmonth, yearmonth, facilityId);
     
     //end of calling dashboard system
     

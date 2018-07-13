@@ -6,6 +6,7 @@
 
 package InternalSystem;
 
+import dashboards.pullHts;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,6 +50,8 @@ String facil="";
 String userid="unknown";
  String error="";
  String sdp="";
+ String mwezi="";
+ String mwakamwezi="";
 
 //        if(achieved.equals("")){achieved="0";}
     if(session.getAttribute("userid")!=null){        
@@ -60,6 +63,7 @@ year=session.getAttribute("year").toString();
 }
   if(session.getAttribute("monthid")!=null){        
 month=session.getAttribute("monthid").toString();
+if(month.length()==1){mwezi="0"+month;}
 }
 
     if(session.getAttribute("facilityid")!=null){        
@@ -71,6 +75,8 @@ facil=session.getAttribute("facilityid").toString();
 sdp=session.getAttribute("activesdp").toString();
        }
     
+    
+    mwakamwezi=year+""+mwezi;
 String couns_1_M="0";
 String couns_1_F="0";
 String couns_4_M="0";
@@ -1092,7 +1098,9 @@ Timestamp lastUpdatedOn =new Timestamp(date.getTime());
        conn.st2.executeUpdate(updateLast);
      }
      
-     
+      pullHts hts= new pullHts();
+    hts.hts_non731(mwakamwezi,mwakamwezi,facil); //stored procedure code 
+   // hts.hts731( yearmonth, yearmonth, facilityId);
      
      
      if(conn.st!=null){conn.st.close();}
