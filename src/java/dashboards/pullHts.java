@@ -43,8 +43,8 @@ public class pullHts extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
           
           
-             HttpSession session=null;
-            session=request.getSession();
+//             HttpSession session=null;
+//            session=request.getSession();
             
 //            session.setAttribute("semi_annual", "");
 //            session.setAttribute("quarter", "");
@@ -53,13 +53,12 @@ public class pullHts extends HttpServlet {
 //            session.setAttribute("reportDuration", "4");//quarterly, monthly,yearly
             
 
-            String sdate="201806";
-            String edate="201806";
-            String facil="";
-            htsdataset ds= new htsdataset();
-            dbConn conn1 = new dbConn();
-            htsDashboard(sdate,edate); //stored procedure code 
-            totalHts( sdate, edate, facil);
+            // String sdate="201806";
+            //String edate="201806";
+            //String facil="";
+            //htsdataset ds= new htsdataset();
+            //dbConn conn1 = new dbConn();
+            
             //totalHts
 
         } finally {
@@ -96,7 +95,7 @@ public class pullHts extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public String htsDashboard(String startyearmonth, String endyearmonth) {
+    public String hts_non731(String startyearmonth, String endyearmonth,String facil) {
 
         try {
            
@@ -118,7 +117,7 @@ public class pullHts extends HttpServlet {
             String insertqry = " REPLACE INTO dashboards.table2 SET ";
 
             // String qry1 = "call tb_dashboard('2015-10-01','2016-09-30','')";
-            String qry1 = "call hts_dashboard(\"" + startyearmonth + "\",\"" + endyearmonth + "\",\"" + facilitiestable + "\",\"\")";
+            String qry1 = "call hts_dashboard(\"" + startyearmonth + "\",\"" + endyearmonth + "\",\"" + facilitiestable + "\",\"" + facil + "\")";
             
             conn.rs = conn.st.executeQuery(qry1);
 
@@ -178,7 +177,7 @@ public class pullHts extends HttpServlet {
     }
 
 
-public String totalHts( String sdate, String edate, String facil){
+public String hts731( String sdate, String edate, String facil){
     
     
     dbConn conn = new dbConn();

@@ -5,6 +5,7 @@
  */
 package InternalSystem;
 
+import dashboards.pullHts;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -113,6 +114,11 @@ userid=session.getAttribute("userid").toString();
      String updateLast="UPDATE index_testing SET updatedBy='"+userid+"', updatedOn='"+lastUpdatedOn+"' WHERE tableid='"+tableid+"'" ;   
        conn.st2.executeUpdate(updateLast);
      }
+     
+     
+    pullHts hts= new pullHts();
+    hts.hts_non731(yearmonth,yearmonth,facilityID); //stored procedure code 
+   // hts.hts731( yearmonth, yearmonth, facilityId);
      
      if(conn.st!=null){conn.st.close();}
      if(conn.st1!=null){conn.st1.close();}

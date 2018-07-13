@@ -921,6 +921,10 @@
         <servlet-name>DataCleaner</servlet-name>
         <servlet-class>DataCleaning.DataCleaner</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>mergePNSIndex</servlet-name>
+        <servlet-class>scripts.mergePNSIndex</servlet-class>
+    </servlet> 
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1840,6 +1844,10 @@
     <servlet-mapping>
         <servlet-name>DataCleaner</servlet-name>
         <url-pattern>/DataCleaner</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mergePNSIndex</servlet-name>
+        <url-pattern>/mergePNSIndex</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
