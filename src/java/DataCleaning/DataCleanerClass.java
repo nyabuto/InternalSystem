@@ -11,8 +11,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -24,11 +26,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class DataCleanerClass {
     dbConn conn = new dbConn();
     
-public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
+  public XSSFWorkbook TB(XSSFWorkbook tb,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
     String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility;
         XSSFSheet worksheet;
         int col_error = 59;
-        int date_format=0;
+        int date_format=0,unsupported_site=0;
         //*Blank Sex (M)(12) --12
         //*Age (N)(13) above 100 ysrs and below 0--13 
         //*HIV Status (AT)(45) is Neg or POs and  HIV Test Date is Blank (AS)(44)
@@ -39,18 +41,21 @@ public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,
     
         worksheet = tb.getSheetAt(0);
         Iterator rowIterator = worksheet.iterator();
-
-        int i=1,y=0;
+        XSSFSheet errorSheet = tb.createSheet("Clean Data");
+        XSSFSheet cleanSheet = tb.createSheet("TB Errors");
+        
+        int i=1,j=0,y=0;
         
         XSSFRow rowhead = worksheet.getRow(0);
         XSSFCell cellh = rowhead.createCell(col_error);
         cellh.setCellValue("Errors");
         
-        
-        
+       copyRow(tb,rowhead,cleanSheet,0);
+       copyRow(tb,rowhead,errorSheet,0);
+
         while(rowIterator.hasNext()){
           errors=where=sex=age=hiv_status=hiv_test_date=art_status=art_start_date=treatment_date=area=health_facility=""; 
-          date_format = 0;
+          date_format = unsupported_site = 0;
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
          break;
@@ -237,7 +242,8 @@ public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,
         String [] where_params = {"1##"+health_facility+"","2##"+health_facility+""};
         if(!issupported(where,where_params)){
           cellHealthFacility.setCellStyle(redstyle);
-          errors+=" This facility is not a HSDSA TB supported site.\n";  
+          errors+=" This facility is not a HSDSA TB supported site.\n"; 
+          unsupported_site++;
         }
         
         
@@ -245,7 +251,7 @@ public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,
           cellSex.setCellStyle(redstyle);
           errors+=" Missing sex.\n";  
         }
-        
+            System.out.println("Age : "+age);
          age = age.replace("Y", ".");
          age = age.split("\\.", 2)[0];
         if(Integer.parseInt(age)>100){
@@ -313,44 +319,277 @@ public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,
         
          XSSFCell cellerror = rowi.createCell(col_error);
          cellerror.setCellValue(errors);
-           
-            
+
+         if(!errors.equals("")){
+             j++;
+//           copyRow(tb,rowi,errorSheet,j);
+        if(unsupported_site>0){
+                    worksheet.removeRow(rowi);   
+        }
+
+         }
+         else{
+             y++;
+//           copyRow(tb,rowi,cleanSheet,y);
+           //worksheet.removeRow(rowi);
+         }
+//         if(errors.equals("")){
+//           worksheet.removeRow(rowi);
+//         }
+System.out.println("at position : "+i);
             i++;
+         
         }
         
             
-        
+        worksheet = removeRow(worksheet);
         
         return tb;
     }
  
-  public XSSFWorkbook ViralLoad(XSSFWorkbook viralload,XSSFCellStyle redstyle,String start_date,String end_date){
-           int col_count = 20;
+  public XSSFWorkbook ViralLoad(XSSFWorkbook vl,CellStyle redstyle,CellStyle styleborder,String start_date,String end_date) throws ParseException, SQLException{
+    String where,errors,mfl_code,sex,age,date_tested,valid_result;
         XSSFSheet worksheet;
+        int col_error = 27;
+        int unsupported_site=0;
         
-        worksheet = viralload.getSheetAt(0);
-        Iterator rowIterator = worksheet.iterator();
+        //MFL Code active=1,(ART=1 OR PMTCT=1) 9
+        //Sex Sex !='' --------------------------10
+        //Age and (AgeYrs!='' and AgeYrs>=0) ----11
+        //Date Tested Date_Tested BETWEEN '"+startdate+"' AND '"+enddate+"' --22
+        //Valid results Valid_Result='Y' --------24
+        
+        
 
-        int i=1,y=0;
+        worksheet = vl.getSheetAt(0);
+        Iterator rowIterator = worksheet.iterator();
+        XSSFSheet errorSheet = vl.createSheet("Clean Data");
+        XSSFSheet cleanSheet = vl.createSheet("Viral Load Errors");
+        
+        int i=1,j=0,y=0;
+        
+        XSSFRow rowhead = worksheet.getRow(0);
+        XSSFCell cellh = rowhead.createCell(col_error);
+        cellh.setCellValue("Errors");
+        cellh.setCellStyle(styleborder);
+        
+        
+        XSSFCell firstCell = rowhead.getCell(0);
+        XSSFCell lastCell = rowhead.getCell(col_error);
+        
+        worksheet.setAutoFilter(new CellRangeAddress( firstCell.getRowIndex(), lastCell.getRowIndex(), firstCell.getColumnIndex(), lastCell.getColumnIndex() ));
+        
+        
+       copyRow(vl,rowhead,cleanSheet,0);
+       copyRow(vl,rowhead,errorSheet,0);
+
         while(rowIterator.hasNext()){
+          errors=where=sex=age=mfl_code=date_tested=valid_result=""; 
+          unsupported_site = 0;
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
-         break;}
+         break;
+        }
+       
         
+                    
+        //MFL Code
+          XSSFCell cellMFLCode = rowi.getCell((short) 9);
+            if(cellMFLCode==null){
+                break;
+            }
+            else{
+               switch (cellMFLCode.getCellType()) {
+                   case 0:
+                       //numeric
+                       mfl_code =""+(int)cellMFLCode.getNumericCellValue();
+                       break;
+                   case 1:
+                       mfl_code = cellMFLCode.getStringCellValue();
+                       break;
+                   default:
+                       mfl_code = cellMFLCode.getRawValue();
+                       break;
+               }
+            }
+           
+        //sex
+         XSSFCell cellSex = rowi.getCell((short) 10);
+            if(cellSex==null){
+                break;
+            }
+            else{
+               switch (cellSex.getCellType()) {
+                   case 0:
+                       //numeric
+                       sex =""+(int)cellSex.getNumericCellValue();
+                       break;
+                   case 1:
+                       sex =cellSex.getStringCellValue();
+                       break;
+                   default:
+                       sex = cellSex.getRawValue();
+                       break;
+               }
+            }
+           
+        //age
+         XSSFCell cellAge = rowi.getCell((short) 11);
+            if(cellAge==null){
+                break;
+            }
+            else{
+               switch (cellAge.getCellType()) {
+                   case 0:
+                       //numeric
+                       age =""+(int)cellAge.getNumericCellValue();
+                       break;
+                   case 1:
+                       age =cellAge.getStringCellValue();
+                       break;
+                   default:
+                       age = cellAge.getRawValue();
+                       break;
+               }
+            }
         
-       for (int j=0;j<col_count;j++){
-     
-       } 
-
-            i++;
+            
+        //Date Tested
+         XSSFCell cellTestDate = rowi.getCell((short) 22);
+            if(cellTestDate==null){
+                break;
+            }
+            else{
+               switch (cellTestDate.getCellType()) {
+                   case 0:
+                       //numeric
+                       date_tested =""+(int)cellTestDate.getNumericCellValue();
+                       break;
+                   case 1:
+                       date_tested =cellTestDate.getStringCellValue();
+                       break;
+                   default:
+                       date_tested = cellTestDate.getRawValue();
+                       break;
+               }
+            } 
+           
+          
+            
+        //ValidResults 
+         XSSFCell cellValidResults = rowi.getCell((short) 24);
+            if(cellValidResults==null){
+                break;
+            }
+            else{
+               switch (cellValidResults.getCellType()) {
+                   case 0:
+                       //numeric
+                       valid_result =""+(int)cellValidResults.getNumericCellValue();
+                       break;
+                   case 1:
+                       valid_result =cellValidResults.getStringCellValue();
+                       break;
+                   default:
+                       valid_result = cellValidResults.getRawValue();
+                       break;
+               }
+            } 
+           
+          
+            if(mfl_code==null){mfl_code="";}            
+            if(age==null){age="";}
+            if(sex==null){sex="";}
+            if(date_tested==null){date_tested="";}
+            if(valid_result==null){valid_result="";}
+            
+          
+        where = " CentreSanteID=? AND  (ART=1 OR PMTCT=1) ";
+        String [] where_params = {"1##"+mfl_code+""};
+        if(!issupported(where,where_params)){
+          cellMFLCode.setCellStyle(redstyle);
+          errors+=" This facility is not a HSDSA ART OR PMTCT supported site.\n"; 
+          unsupported_site++;
         }
         
         
+        if(sex.equals("")){
+          cellSex.setCellStyle(redstyle);
+          errors+=" Missing sex.\n";  
+        }
+        if(age.equals("")){
+        cellAge.setCellStyle(redstyle);
+          errors+="Missing Age \n";      
+        }
+        else{
+            age = age.replace(" ", "").trim();
+        if(Double.parseDouble(age)>100 || Double.parseDouble(age)<0){
+          cellAge.setCellStyle(redstyle);
+          errors+="Age is less than 0 or more than 100 yrs\n";  
+        }
+        }
         
-        return viralload;
+         if(valid_result.equals("")){
+          cellSex.setCellStyle(redstyle);
+          errors+=" Missing valid results.\n";  
+        }
+         else{
+        if(valid_result.equals("N")){
+          cellValidResults.setCellStyle(redstyle);
+          errors+="Results not valid.\n";  
+        }   
+         }
+       
+     if(!date_tested.equals("")){
+         try{
+     Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
+     Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);     
+     Date DateTested = new SimpleDateFormat("yyyy-MM-dd").parse(date_tested);     
+         
+        if(DateTested.before(startDate) || DateTested.after(endDate)){
+         cellTestDate.setCellStyle(redstyle);
+         errors+="Date tested is out of range.\n";     
+        }
+         }
+         catch(Exception e){
+         cellTestDate.setCellStyle(redstyle);
+         errors+="Wrong Date tested format.\n";     
+        }
+        }
+        
+        
+         XSSFCell cellerror = rowi.createCell(col_error);
+         cellerror.setCellValue(errors);
+         cellerror.setCellStyle(styleborder);
+
+         if(!errors.equals("")){
+             j++;
+//           copyRow(tb,rowi,errorSheet,j);
+        if(unsupported_site>0){
+                   // worksheet.removeRow(rowi);   
+        }
+
+         }
+         else{
+             y++;
+//           copyRow(tb,rowi,cleanSheet,y);
+           //worksheet.removeRow(rowi);
+         }
+//         if(errors.equals("")){
+//           worksheet.removeRow(rowi);
+//         }
+System.out.println(" viral load at position : "+i);
+            i++;
+         
+        }
+        
+            
+//        worksheet = removeRow(worksheet);
+        
+        return vl;
     }
-  
-  public XSSFWorkbook EIDTST(XSSFWorkbook eid,XSSFCellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
+ 
+  public XSSFWorkbook EIDTST(XSSFWorkbook eid,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
     String errors,age,where,mfl_code,pcr_type,date_tested;
         XSSFSheet worksheet;
     // Column to check age<=12 col-no11
@@ -499,7 +738,7 @@ public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,
         return eid;
     }
  
-  public XSSFWorkbook EIDPOS(XSSFWorkbook eid,XSSFCellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
+  public XSSFWorkbook EIDPOS(XSSFWorkbook eid,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
     String errors,age,where,mfl_code,pcr_type,validation,date_tested;
         XSSFSheet worksheet;
     // Column to check age<=12 col-no8
@@ -709,4 +948,89 @@ public XSSFWorkbook TB(XSSFWorkbook tb,XSSFCellStyle redstyle,String start_date,
    return is_mfl;
   }     
  
+  //remove a row
+  public XSSFSheet removeRow(XSSFSheet sheet) {
+for(int i = 0; i < sheet.getLastRowNum(); i++){
+    System.out.println("remove blank at point : "+i);
+    if(isEmpty(sheet.getRow(i))){
+        sheet.shiftRows(i + 1, sheet.getLastRowNum(), -1);
+        i--;//Adjusts the sweep in accordance to a row removal
+    }
+}
+    return sheet;
+}
+  
+ boolean isEmpty(XSSFRow row){
+boolean no_data=false;
+//Code to determine if a row is empty
+  if (row == null) {
+        no_data = true;
+    }
+   else if (row.getLastCellNum() <= 0) {
+         no_data = true;
+    }
+
+    return  no_data;
+} 
+ 
+public XSSFSheet copyRow(XSSFWorkbook wb, XSSFRow rowold,XSSFSheet toSheet, int num) {
+     // Loop through source columns to add to new row
+     
+     XSSFRow newRow = toSheet.createRow(num);
+    for (int i = 0; i < rowold.getLastCellNum(); i++) {
+        // Grab a copy of the old/new cell
+        XSSFCell oldCell = rowold.getCell(i);
+        XSSFCell newCell = newRow.createCell(i);
+
+        // If the old cell is null jump to next cell
+        if (oldCell == null) {
+            newCell = null;
+            continue;
+        }
+
+        // Copy style from old cell and apply to new cell
+        CellStyle newCellStyle = wb.createCellStyle();
+        newCellStyle.cloneStyleFrom(oldCell.getCellStyle());
+        
+        newCell.setCellStyle(newCellStyle);
+
+        // If there is a cell comment, copy
+        if (oldCell.getCellComment() != null) {
+            newCell.setCellComment(oldCell.getCellComment());
+        }
+
+        // If there is a cell hyperlink, copy
+        if (oldCell.getHyperlink() != null) {
+            newCell.setHyperlink(oldCell.getHyperlink());
+        }
+
+        // Set the cell data type
+        newCell.setCellType(oldCell.getCellType());
+
+        // Set the cell data value
+        switch (oldCell.getCellType()) {
+            case Cell.CELL_TYPE_BLANK:
+                newCell.setCellValue(oldCell.getStringCellValue());
+                break;
+            case Cell.CELL_TYPE_BOOLEAN:
+                newCell.setCellValue(oldCell.getBooleanCellValue());
+                break;
+            case Cell.CELL_TYPE_ERROR:
+                newCell.setCellErrorValue(oldCell.getErrorCellValue());
+                break;
+            case Cell.CELL_TYPE_FORMULA:
+                newCell.setCellFormula(oldCell.getCellFormula());
+                break;
+            case Cell.CELL_TYPE_NUMERIC:
+                newCell.setCellValue(oldCell.getNumericCellValue());
+                break;
+            case Cell.CELL_TYPE_STRING:
+                newCell.setCellValue(oldCell.getRichStringCellValue());
+                break;
+        }
+    
+  }
+    return toSheet;
+}
+
 }

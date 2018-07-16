@@ -22,9 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -42,10 +47,12 @@ private static final long serialVersionUID = 205242440643911308L;
 private static final String UPLOAD_DIR = "uploads";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException, SQLException {
+            throws ServletException, IOException, ParseException, SQLException, InvalidFormatException {
         session = request.getSession();
         dbConn conn = new dbConn();
-        XSSFWorkbook wb=null;
+      OPCPackage pkg  = null;
+//      SXSSFWorkbook wb = null;
+      XSSFWorkbook wb = null;
         DataCleanerClass dcleaner = new DataCleanerClass();
 
         //end of dropping yearmonth data
@@ -71,39 +78,50 @@ private static final String UPLOAD_DIR = "uploads";
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
       FileInputStream fileInputStream = new FileInputStream(full_path);
-      wb = new XSSFWorkbook(fileInputStream);
+//       File allpathfile= new File(full_path);
+//  pkg = OPCPackage.open(allpathfile);
+//  XSSFWorkbook wb1 = new XSSFWorkbook(pkg);
+//  wb = new SXSSFWorkbook(wb1, 100); 
+  wb = new XSSFWorkbook(fileInputStream);
       
           // for the red color
-   XSSFCellStyle redstyle = wb.createCellStyle();
+    CellStyle redstyle = wb.createCellStyle();
     redstyle.setFillForegroundColor(HSSFColor.RED.index);
-    redstyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-    redstyle.setBorderTop(BorderStyle.THIN);
-    redstyle.setBorderTop(BorderStyle.THIN);
-    redstyle.setBorderTop(BorderStyle.THIN);
-    redstyle.setBorderTop(BorderStyle.THIN);
-    redstyle.setBorderTop(BorderStyle.THIN);
+    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+    redstyle.setBorderTop(CellStyle.BORDER_THIN);
+    redstyle.setBorderTop(CellStyle.BORDER_THIN);
+    redstyle.setBorderTop(CellStyle.BORDER_THIN);
+    redstyle.setBorderTop(CellStyle.BORDER_THIN);
+    redstyle.setBorderTop(CellStyle.BORDER_THIN);
     redstyle.setWrapText(true);
     
+    CellStyle styleborder = wb.createCellStyle();
+    styleborder.setBorderTop(CellStyle.BORDER_THIN);
+    styleborder.setBorderTop(CellStyle.BORDER_THIN);
+    styleborder.setBorderTop(CellStyle.BORDER_THIN);
+    styleborder.setBorderTop(CellStyle.BORDER_THIN);
+    styleborder.setBorderTop(CellStyle.BORDER_THIN);
+    styleborder.setWrapText(true);
     
     
         report_type = request.getParameter("report_type");
 //        start_date = request.getParameter("start_date");
 //        end_date = request.getParameter("end_date");
         
-        start_date = "2018-01-05";
-        end_date = "2018-01-31";
+        start_date = "2018-01-01";
+        end_date = "2018-06-31";
         
         if(report_type.equals("tb")){
-          wb =   dcleaner.TB(wb,redstyle,start_date,end_date);
+          wb =  dcleaner.TB(wb,redstyle,start_date,end_date);
         }
         else if(report_type.equals("vl")){
-          wb =   dcleaner.ViralLoad(wb,redstyle,start_date,end_date);
+          wb =  dcleaner.ViralLoad(wb,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidtst")){
-          wb =   dcleaner.EIDTST(wb,redstyle,start_date,end_date);
+          wb = dcleaner.EIDTST(wb,redstyle,start_date,end_date);
         }
         else if(report_type.equals("eidpos")){
-          wb =   dcleaner.EIDPOS(wb,redstyle,start_date,end_date);
+          wb =  dcleaner.EIDPOS(wb,redstyle,start_date,end_date);
         }
         else{}
         
@@ -113,17 +131,19 @@ private static final String UPLOAD_DIR = "uploads";
         IdGenerator IG = new IdGenerator();
         String createdOn = IG.CreatedOn();
 
+      
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
         byte[] outArray = outByteStream.toByteArray();
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename="+fileName.replace(" ", "_")+"");
+        response.setHeader("Content-Disposition", "attachment; filename="+createdOn+"_"+fileName.replace(" ", "_")+"");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
         outStream.flush();
-        outStream.close();  
+        outStream.close(); 
+
         
     }
 
@@ -145,6 +165,8 @@ private static final String UPLOAD_DIR = "uploads";
         Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {
         Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (InvalidFormatException ex) {
+        Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -164,6 +186,8 @@ private static final String UPLOAD_DIR = "uploads";
     } catch (ParseException ex) {
         Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {
+        Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (InvalidFormatException ex) {
         Logger.getLogger(DataCleaner.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
