@@ -116,6 +116,18 @@
             </li>
              <%}}}else{}}%>
             
+             <li class="has-sub ">
+               <a href="#">
+               <i class="icon-edit"></i>
+               <span class="title">Data Cleaning Module</span>
+               <span class="arrow "></span>
+               </a>
+                <ul class="sub">
+                    
+                  <li ><a href="DataCleaner.jsp" Title="TB/VL/EID Clean data module"><i class="icon-plus"></i>TB/VL/EID Data(.xlsx/xls)</a></li>
+               </ul>
+            </li>
+            
             
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
             <li class="has-sub ">
