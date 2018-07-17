@@ -2868,20 +2868,20 @@ String arrayDetails []=basicDetails.split("@");
          while(tofautini<0){
      if(pmtct_p_24>=pmtct_p_29 && pmtct_p_24>0 ){
          pmtct_p_24-=1;
-         tofautini--;  
+         tofautini++;  
              }
     else  if(pmtct_p_29>=pmtct_p_24 && pmtct_p_29>0){
          pmtct_p_29-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else  if(pmtct_p_34>0){
          pmtct_p_34-=1;
-         tofautini--;  
+         tofautini++;  
                           }
      
     else  if(pmtct_p_39>0){
          pmtct_p_39-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else {
          System.out.println(" PMTCT positive balancing refused");
@@ -4707,20 +4707,20 @@ String arrayDetails []=basicDetails.split("@");
          while(tofautini<0){
      if(pmtct_p_24>=pmtct_p_29 && pmtct_p_24>0 ){
          pmtct_p_24-=1;
-         tofautini--;  
+         tofautini++;  
              }
     else  if(pmtct_p_29>=pmtct_p_24 && pmtct_p_29>0){
          pmtct_p_29-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else  if(pmtct_p_34>0){
          pmtct_p_34-=1;
-         tofautini--;  
+         tofautini++;  
                           }
      
     else  if(pmtct_p_39>0){
          pmtct_p_39-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else {
          System.out.println(" PMTCT positive balancing refused");
@@ -5579,6 +5579,17 @@ while(balancegeneralglobal<0){
      else if(AdultFemaleHIV19>0) {AdultFemaleHIV19-=1; AdultFemaleHIV19Neg+=1;balancegeneralglobal++;}    
      else if(ChildFemaleHIV14>0) {ChildFemaleHIV14-=1;ChildFemaleHIV14Neg+=1;balancegeneralglobal++;}    
     else if(ChildFemaleHIV9>0) {ChildFemaleHIV9-=1;ChildFemaleHIV9Neg+=1; balancegeneralglobal++;}
+    
+     else if(AdultMaleHIV49>0){AdultMaleHIV49-=1;AdultMaleHIV49Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV39>0){AdultMaleHIV39-=1; AdultMaleHIV39Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV34>0){AdultMaleHIV34-=1; AdultMaleHIV34Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV29>0){AdultMaleHIV29-=1;AdultMaleHIV29Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV24>0) {AdultMaleHIV24-=1;AdultMaleHIV24Neg+=1;balancegeneralglobal++;}    
+    else if(AdultMaleHIV19>0) {AdultMaleHIV19-=1; AdultMaleHIV19Neg+=1;balancegeneralglobal++;}    
+    else if(ChildMaleHIV14>0) {ChildMaleHIV14-=1;ChildMaleHIV14Neg+=1;balancegeneralglobal++;}    
+    else if(ChildMaleHIV9>0) {ChildMaleHIV9-=1;ChildMaleHIV9Neg+=1; balancegeneralglobal++;}
+    
+    
     else { break;}
   
                  }

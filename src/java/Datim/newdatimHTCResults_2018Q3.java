@@ -761,8 +761,6 @@ String st=conn.rs.getString("htcsupport");
 
 
 
-
-
   String alldatavals[]={
         cty,sty,fac,""+mfl,st
         ,""+gtt,""+gtp
@@ -3925,7 +3923,7 @@ stylemainHeader.setWrapText(true);
     
     
        
-   HSSFCellStyle stborder = wb.createCellStyle();
+    HSSFCellStyle stborder = wb.createCellStyle();
     stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
     stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
@@ -3942,7 +3940,7 @@ stylemainHeader.setWrapText(true);
             
     
     // for the red color
-   HSSFCellStyle redstyle = wb.createCellStyle();
+    HSSFCellStyle redstyle = wb.createCellStyle();
     redstyle.setFillForegroundColor(HSSFColor.RED.index);
     redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -3955,7 +3953,7 @@ stylemainHeader.setWrapText(true);
     
     
     
-      HSSFFont font = wb.createFont();
+            HSSFFont font = wb.createFont();
             font.setFontHeightInPoints((short) 12);
             font.setFontName("Cambria");
             font.setColor((short) 0000);
@@ -4327,7 +4325,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
     + " "+facilityIds1+" "+duration1+" && ("+facilitiestable+".HTC=1 || PMTCT=1  )  AND "+facilitiestable+".active=1  "
             + "GROUP BY moh731.SubPartnerID order by county.County" ;
  
-     System.out.println("2017q1IPD : "+get731data);
+     System.out.println("IPD QRY : "+get731data);
     conn.rs=conn.st.executeQuery(get731data);
     int tala=0;
     while(conn.rs.next())  {
@@ -4871,6 +4869,10 @@ double  ChildMaleHIV9=0;
     HIV_ChildMale=(int) Math.round((conn.rs.getInt("711_less15m")*htcpositiveratio));   //|__|
     double hivpos_711_less15m=(int) Math.round((conn.rs.getInt("711_less15m")*htcpositiveratio));   //|__|
     
+        System.out.println(" HTC Positive Ratio ni "+htcpositiveratio+" isIPS ="+isIPD+" isOPD="+isOPD+" isVCT="+isVCT);
+    
+    
+    
 //        System.out.println("POSITIVE VALIDATION _IPD: "+facilityname+": percentage "+htcpositiveratio +" Males below 15 yrs: "+conn.rs.getInt("711_less15m")+" x "+htcpositiveratio+"="+HIV_ChildMale);
 //        System.out.println("POSITIVE VALIDATION _IPD: "+facilityname+": percentage "+htcpositiveratio +" females below 15 yrs: "+conn.rs.getInt("711_less15f")+" x "+htcpositiveratio+"="+HIV_ChildFemale);
 //    
@@ -4880,7 +4882,8 @@ double  ChildMaleHIV9=0;
 
 //============================================================================================================================END NEW RATIOS====================
   
-     
+       
+
 String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+dsdta;
 String arrayDetails []=basicDetails.split("@");
 
@@ -4929,8 +4932,11 @@ String arrayDetails []=basicDetails.split("@");
          pmtct_p_49=(float)Math.round((PPf49*pmtct_p));
          pmtct_p_50=(float)Math.round((PPf50*pmtct_p));
          
+ 
          
          double pmtcttestedyote=pmtct_t_14+pmtct_t_19+pmtct_t_24+pmtct_t_29+pmtct_t_34+pmtct_t_39+pmtct_t_49+pmtct_t_50;
+         
+        
          double tofautini=pmtct_t-pmtcttestedyote;
          while(tofautini>0){
          pmtct_t_24+=1;
@@ -4969,6 +4975,10 @@ String arrayDetails []=basicDetails.split("@");
    double pmtctposyote=pmtct_p_14+pmtct_p_19+pmtct_p_24+pmtct_p_29+pmtct_p_34+pmtct_p_39+pmtct_p_49+pmtct_p_50;
          tofautini=pmtct_p-pmtctposyote;
          
+           System.out.println(""+facilityname+" Positive yote sasa  ni "+pmtct_p+" ya kuongeza ni "+(pmtct_p_14+pmtct_p_19+pmtct_p_24+pmtct_p_29+pmtct_p_34+pmtct_p_39+pmtct_p_49+pmtct_p_50)+" tofauti ni "+tofautini);
+          //System.out.println(" Facility ni hii @"+mflcode+" ("+hivpos_711_15_24f+"+"+hivpos_711_15_24m+"+"+hivpos_711_25m+"+"+hivpos_711_25f+"+"+hivpos_711_less15m+"+"+hivpos_711_less15f+") = "+(hivpos_711_15_24f+hivpos_711_15_24m+hivpos_711_25m+hivpos_711_25f+hivpos_711_less15m+hivpos_711_less15f));   
+       
+         
          while(tofautini>0){
          pmtct_p_24+=1;
          tofautini--;    
@@ -4978,20 +4988,20 @@ String arrayDetails []=basicDetails.split("@");
          while(tofautini<0){
      if(pmtct_p_24>=pmtct_p_29 && pmtct_p_24>0 ){
          pmtct_p_24-=1;
-         tofautini--;  
+         tofautini++;  
              }
     else  if(pmtct_p_29>=pmtct_p_24 && pmtct_p_29>0){
          pmtct_p_29-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else  if(pmtct_p_34>0){
          pmtct_p_34-=1;
-         tofautini--;  
+         tofautini++;  
                           }
      
     else  if(pmtct_p_39>0){
          pmtct_p_39-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else {
          System.out.println(" PMTCT positive balancing refused");
@@ -4999,7 +5009,8 @@ String arrayDetails []=basicDetails.split("@");
     }
          }
    
-   
+       System.out.println(""+facilityname+" Positive yote sasa  ni "+pmtct_p+" ya kuongeza ni "+(pmtct_p_14+pmtct_p_19+pmtct_p_24+pmtct_p_29+pmtct_p_34+pmtct_p_39+pmtct_p_49+pmtct_p_50)+" tofauti ni "+tofautini);
+          
    
 //      FEMALES
 //adult
@@ -5960,6 +5971,10 @@ stylemainHeader.setWrapText(true);
                      isOPD=true;
                      isIPD=false;
                      isVCT=false;
+                     
+                     
+                     
+                     
                      
                      //2017
                      String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total OPD + Postnatal Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
@@ -6970,20 +6985,20 @@ String arrayDetails []=basicDetails.split("@");
          while(tofautini<0){
      if(pmtct_p_24>=pmtct_p_29 && pmtct_p_24>0 ){
          pmtct_p_24-=1;
-         tofautini--;  
+         tofautini++;  
              }
     else  if(pmtct_p_29>=pmtct_p_24 && pmtct_p_29>0){
          pmtct_p_29-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else  if(pmtct_p_34>0){
          pmtct_p_34-=1;
-         tofautini--;  
+         tofautini++;  
                           }
      
     else  if(pmtct_p_39>0){
          pmtct_p_39-=1;
-         tofautini--;  
+         tofautini++;  
                           }
     else {
          System.out.println(" PMTCT positive balancing refused");
@@ -7831,10 +7846,14 @@ while(balancegeneral>0){
 if(balancegeneral!=0){  System.out.println("This facility has refused to balance "+facilityname);}
 double posotiveyoteglobal= (int) Math.round((conn.rs.getInt("711_totalpositive")*ipdpositiveratio))+(int) Math.round((conn.rs.getInt("711_totalpositive")*opdpositiveratio))+(int) Math.round((conn.rs.getInt("711_totalpositive")*vctpositiveratio));
 double balancegeneralglobal=(int) Math.round((conn.rs.getInt("711_totalpositive")))-(posotiveyoteglobal);
+
+ System.out.println(facilityname+" Before global positive accuracy = " +balancegeneralglobal+" = "+(int) Math.round((conn.rs.getInt("711_totalpositive")))+" - "+posotiveyoteglobal);
+  
+
    //711_totalpositive 
 while(balancegeneralglobal<0){
     
-    if(AdultFemaleHIV49>0){AdultFemaleHIV49-=1;AdultFemaleHIV49Neg+=1; balancegeneralglobal++;}
+         if(AdultFemaleHIV49>0){AdultFemaleHIV49-=1;AdultFemaleHIV49Neg+=1; balancegeneralglobal++;}
     else if(AdultFemaleHIV39>0){AdultFemaleHIV39-=1; AdultFemaleHIV39Neg+=1; balancegeneralglobal++;}
     else if(AdultFemaleHIV34>0){AdultFemaleHIV34-=1; AdultFemaleHIV34Neg+=1; balancegeneralglobal++;}
      else if(AdultFemaleHIV29>0){AdultFemaleHIV29-=1;AdultFemaleHIV29Neg+=1; balancegeneralglobal++;}
@@ -7842,7 +7861,19 @@ while(balancegeneralglobal<0){
      else if(AdultFemaleHIV19>0) {AdultFemaleHIV19-=1; AdultFemaleHIV19Neg+=1;balancegeneralglobal++;}    
      else if(ChildFemaleHIV14>0) {ChildFemaleHIV14-=1;ChildFemaleHIV14Neg+=1;balancegeneralglobal++;}    
     else if(ChildFemaleHIV9>0) {ChildFemaleHIV9-=1;ChildFemaleHIV9Neg+=1; balancegeneralglobal++;}
-    else { break;}
+    
+    //male
+       else if(AdultMaleHIV49>0){AdultMaleHIV49-=1;AdultMaleHIV49Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV39>0){AdultMaleHIV39-=1; AdultMaleHIV39Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV34>0){AdultMaleHIV34-=1; AdultMaleHIV34Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV29>0){AdultMaleHIV29-=1;AdultMaleHIV29Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV24>0) {AdultMaleHIV24-=1;AdultMaleHIV24Neg+=1;balancegeneralglobal++;}    
+    else if(AdultMaleHIV19>0) {AdultMaleHIV19-=1; AdultMaleHIV19Neg+=1;balancegeneralglobal++;}    
+    else if(ChildMaleHIV14>0) {ChildMaleHIV14-=1;ChildMaleHIV14Neg+=1;balancegeneralglobal++;}    
+    else if(ChildMaleHIV9>0) {ChildMaleHIV9-=1;ChildMaleHIV9Neg+=1; balancegeneralglobal++;}
+    
+    
+    else { System.out.println(" Negative global Positive unsolvable ");  break;}
   
                  }
 
@@ -7862,9 +7893,11 @@ while(balancegeneralglobal>0){
   }
 
 
+ System.out.println(facilityname+" After global positive accuracy = " +balancegeneralglobal+" = "+(int) Math.round((conn.rs.getInt("711_totalpositive")))+" - "+posotiveyoteglobal);
+ 
 //============================================================================
         
-
+     
 
  double pmtct_n_14=(float)Math.round(pmtct_t_14)-(pmtct_p_14);
  double pmtct_n_19= (float)Math.round(pmtct_t_19)-(pmtct_p_19);
@@ -7875,9 +7908,9 @@ while(balancegeneralglobal>0){
  double pmtct_n_49=(float)Math.round(pmtct_t_49)-(pmtct_p_49);
  double pmtct_n_50= (float)Math.round(pmtct_t_50)-(pmtct_p_50);
 
-        System.out.println(facilityname+" pmtct data accuracy" +pmtct_t+" = "+pmtct_n_14+" | "+pmtct_n_19+" | "+pmtct_n_24+" | "+pmtct_n_29+" | "+pmtct_n_34+" | "+pmtct_n_39+" | "+pmtct_n_49+" | "+pmtct_n_50);
-        System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_p_14+" | "+pmtct_p_19+" | "+pmtct_p_24+" | "+pmtct_p_29+" | "+pmtct_p_34+" | "+pmtct_p_39+" | "+pmtct_p_49+" | "+pmtct_p_50);
-        System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_t_14+" | "+pmtct_t_19+" | "+pmtct_t_24+" | "+pmtct_t_29+" | "+pmtct_t_34+" | "+pmtct_t_39+" | "+pmtct_t_49+" | "+pmtct_t_50);
+       // System.out.println(facilityname+" pmtct data accuracy" +pmtct_t+" = "+pmtct_n_14+" | "+pmtct_n_19+" | "+pmtct_n_24+" | "+pmtct_n_29+" | "+pmtct_n_34+" | "+pmtct_n_39+" | "+pmtct_n_49+" | "+pmtct_n_50);
+       // System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_p_14+" | "+pmtct_p_19+" | "+pmtct_p_24+" | "+pmtct_p_29+" | "+pmtct_p_34+" | "+pmtct_p_39+" | "+pmtct_p_49+" | "+pmtct_p_50);
+       // System.out.println(facilityname+" pmtct data accuracy" +pmtct_p+" = "+pmtct_t_14+" | "+pmtct_t_19+" | "+pmtct_t_24+" | "+pmtct_t_29+" | "+pmtct_t_34+" | "+pmtct_t_39+" | "+pmtct_t_49+" | "+pmtct_t_50);
        
   String alldatavals[]={county,district,facilityname,""+mflcode,dsdta
         ,"0","0"
