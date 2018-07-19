@@ -582,7 +582,7 @@ facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
         stylesum.setFont(fontx);
         stylesum.setWrapText(true);
 
-        HSSFSheet shet = wb.createSheet("HTS (HTC + PMTCT + serology)");
+        HSSFSheet shet = wb.createSheet("HTS (HTC + PMTCT )");
 
         String mwaka="";
         
@@ -4000,9 +4000,9 @@ stylemainHeader.setWrapText(true);
                       isVCT=false;
                      
                      
-                     String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
-                     String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + ANC + Serology)","Total positive","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + PMTCT ANC, L&D,PNC)","Total positive","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + PMTCT ANC, L&D,PNC)","Total positive","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Numerator (HTC + PMTCT ANC, L&D,PNC)","Total positive","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total IPD Tested(IPD + L&D)","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
                     
                      ArrayList allFacilities = new ArrayList();
                      allFacilities.clear();
@@ -9218,7 +9218,20 @@ splitData=FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested29+FemaleAdul
  
  splitData=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV29+AdultMaleHIV34+AdultMaleHIV39+AdultMaleHIV49+AdultMaleHIV50;
  adderPos=0;
- while(splitData>HIV_AdultMale){  AdultMaleHIV34-=1; splitData--;}
+ while(splitData>HIV_AdultMale){ 
+     
+           if(AdultMaleHIV34>0){ AdultMaleHIV34-=1; splitData--;}
+     else  if(AdultMaleHIV24>0){ AdultMaleHIV24-=1; splitData--;}
+     else  if(AdultMaleHIV29>0){ AdultMaleHIV29-=1; splitData--;}
+     else  if(AdultMaleHIV39>0){ AdultMaleHIV39-=1; splitData--;}
+     else  if(AdultMaleHIV49>0){ AdultMaleHIV49-=1; splitData--;}
+     else  if(AdultMaleHIV50>0){ AdultMaleHIV50-=1; splitData--;}
+     else  if(AdultMaleHIV19>0){ AdultMaleHIV19-=1; splitData--;}
+     else{
+               System.out.println(" VCT haikusolviwa "+facilityname);
+     } 
+     
+     }
  
  //tested male adults
  splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested29+MaleAdultTested34+MaleAdultTested39+MaleAdultTested49+MaleAdultTested50 ;
@@ -9257,7 +9270,7 @@ adderPos++  ;if(adderPos>2){adderPos=0;}if(childSplitData==TestedChildFemale){} 
 
  // for child female +ve
   childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
-  System.out.println(facilityname+"  mmmm  "+childSplitData+"    "+HIV_ChildFemale);
+ // System.out.println(facilityname+"  mmmm  "+childSplitData+"    "+HIV_ChildFemale);
    adderPos=0;
    double diff=0;
 while(childSplitData<HIV_ChildFemale){ 
@@ -9414,15 +9427,20 @@ double totaltestedmale1=0;
    if(3==3){
        
 while(balancegeneral<0){
-    if(AdultFemaleHIV49>0){AdultFemaleHIV49-=1;  balancegeneral++; }
-    else if(AdultFemaleHIV24>0) { AdultFemaleHIV24-=1;  balancegeneral++; }
-   else if(AdultFemaleHIV34>0){ AdultFemaleHIV34-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
-    else if(AdultFemaleHIV29>0){AdultFemaleHIV29-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
-    else if(AdultFemaleHIV39>0){AdultFemaleHIV39-=1; balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
-   else if(AdultFemaleHIV50>0){AdultFemaleHIV50-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname); }
-   else { System.out.println("Not solved at last bad stage VCT"+facilityname);   }
+if(AdultFemaleHIV49>0){AdultFemaleHIV49-=1;  balancegeneral++; }
+else if(AdultFemaleHIV24>0) { AdultFemaleHIV24-=1;  balancegeneral++; }
+else if(AdultFemaleHIV34>0){ AdultFemaleHIV34-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
+else if(AdultFemaleHIV29>0){AdultFemaleHIV29-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
+else if(AdultFemaleHIV39>0){AdultFemaleHIV39-=1; balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
+else if(AdultFemaleHIV50>0){AdultFemaleHIV50-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname); }
+else if(AdultMaleHIV49>0){AdultMaleHIV49-=1;  balancegeneral++; }
+else if(AdultMaleHIV24>0) { AdultMaleHIV24-=1;  balancegeneral++; }
+else if(AdultMaleHIV34>0){ AdultMaleHIV34-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
+else if(AdultMaleHIV29>0){AdultMaleHIV29-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
+else if(AdultMaleHIV39>0){AdultMaleHIV39-=1; balancegeneral++;System.out.println(" solved at last bad stage "+facilityname);}
+else if(AdultMaleHIV50>0){AdultMaleHIV50-=1;  balancegeneral++;System.out.println(" solved at last bad stage "+facilityname); }
+else { System.out.println("Not solved at last bad stage VCT"+facilityname);   }
     
-
     
                  }
 
