@@ -116,10 +116,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         
         
        for (String label : columns){
-          
            XSSFCell cell = rowi.getCell((short) colmnscounter);
             if(cell==null){
-                break;
+                    value=null;
             }
             else{
                switch (cell.getCellType()) {
@@ -134,6 +133,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                        value = cell.getRawValue();
                        break;
                }
+//                System.out.println("values : "+value);
                if(value==null){
           query+=label+"="+value+",";
                }
@@ -150,7 +150,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }
             colmnscounter++;
        } 
-
+//            System.out.println("query : "+query);
         SubPartnerID=getSubPartnerID(conn,mfl_code);    
          id=year+"_"+mois+"_"+SubPartnerID; 
         if(!SubPartnerID.equals("")){
@@ -160,7 +160,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         
         }
         else{
-          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
+//          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
         }
             i++;
         }

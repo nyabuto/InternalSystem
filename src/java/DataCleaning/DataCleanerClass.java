@@ -330,9 +330,33 @@ public class DataCleanerClass {
          cellHIVTestDate.setCellStyle(redstyle);
          errors+="ART start date is less than HIV Test date.\n";     
         }
+        
+        
         }
-        
-        
+     
+     // reporting date within range
+     
+     if(!hiv_test_date.equals("")){
+         System.out.println("HIV Test date exist");
+        try{
+     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
+    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
+    Date hiv = new SimpleDateFormat("dd MMM yyyy").parse(hiv_test_date); 
+            System.out.println("HIV Test date is a date");
+    if(hiv.before(start) || hiv.after(end)){
+     cellHIVTestDate.setCellStyle(redstyle);
+     errors+="HIV Test Date is not within reporting Range.\n";  
+        System.out.println("Is not within range");     
+    }
+    }
+        catch(Exception e){
+       }
+        }
+     
+     
+     
+     
+     
          XSSFCell cellerror = rowi.createCell(col_error);
          cellerror.setCellValue(errors);
 
@@ -1248,6 +1272,30 @@ System.out.println(" viral load at position : "+i);
         }
         }
         
+     
+      // reporting date within range
+     
+     if(!hiv_test_date.equals("")){
+         System.out.println("HIV Test date exist");
+        try{
+     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
+    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
+    Date hiv = new SimpleDateFormat("dd MMM yyyy").parse(hiv_test_date); 
+            System.out.println("HIV Test date is a date");
+    if(hiv.before(start) || hiv.after(end)){
+     cellHIVTestDate.setCellStyle(redstyle);
+     errors+="HIV Test Date is not within reporting Range.\n";  
+        System.out.println("Is not within range");     
+    }
+    else{
+        System.out.println("hiv test date : "+hiv_test_date+" hvi : "+hiv+" start date : "+start+" end date "+end);
+    }
+    }
+        catch(Exception e){
+       }
+        }
+     
+   
         
          HSSFCell cellerror = rowi.createCell(col_error);
          cellerror.setCellValue(errors);

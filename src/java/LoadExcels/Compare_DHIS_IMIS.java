@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  *
@@ -36,7 +34,7 @@ String year,month;
             session = request.getSession();
             
             IMIS_DHIS_Variances vr = new IMIS_DHIS_Variances();
-            vr.get_data("201801"); // pass yearmonth
+            vr.get_data("201806"); // pass yearmonth
             
         } 
         finally {

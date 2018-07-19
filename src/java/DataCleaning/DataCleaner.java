@@ -103,8 +103,8 @@ private static final String UPLOAD_DIR = "uploads";
 //        start_date = request.getParameter("start_date");
 //        end_date = request.getParameter("end_date");
         
-        start_date = "2018-01-01";
-        end_date = "2018-06-31";
+        start_date = "2018-04-01";
+        end_date = "2018-06-30";
         
         if(report_type.equals("tb")){
           wb2 =  dcleaner.TB(wb2,redstyle,start_date,end_date);
@@ -174,7 +174,7 @@ private static final String UPLOAD_DIR = "uploads";
 //        start_date = request.getParameter("start_date");
 //        end_date = request.getParameter("end_date");
         
-        start_date = "2018-01-01";
+        start_date = "2018-04-00";
         end_date = "2018-06-31";
         
         if(report_type.equals("tb")){

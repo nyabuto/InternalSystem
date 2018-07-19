@@ -295,7 +295,7 @@
                   <li ><a href="masterlist.jsp">Master List</a></li>
                   <li ><a href="T1SummaryReports.jsp">Training Report</a></li>
                   <li ><a href="IMIS_DHIS_Validation.jsp">IMIS DHIS Report</a></li>
-                  <li ><a href="analysisreports.jsp">Analysis Report</a></li>
+                  <li ><a href="IMIS_DHIS_Variances.jsp">DHIS IMIS Variances</a></li>
                </ul>
             </li>
             <%}}%>
