@@ -6,7 +6,6 @@
 package DataCleaning;
 
 import General.IdGenerator;
-import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,7 +45,15 @@ private static final String UPLOAD_DIR = "uploads";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException, SQLException, InvalidFormatException {
         session = request.getSession();
-        dbConn conn = new dbConn();
+        
+        report_type = request.getParameter("report_type");
+//        start_date = request.getParameter("start_date");
+//        end_date = request.getParameter("end_date");
+      
+        start_date = "2018-04-01";
+        end_date = "2018-06-30";
+        
+        
       OPCPackage pkg  = null;
 //      SXSSFWorkbook wb = null;
       XSSFWorkbook wb = null;
@@ -98,13 +105,6 @@ private static final String UPLOAD_DIR = "uploads";
     styleborder.setBorderTop(CellStyle.BORDER_THIN);
     styleborder.setWrapText(true);
     
-    
-        report_type = request.getParameter("report_type");
-//        start_date = request.getParameter("start_date");
-//        end_date = request.getParameter("end_date");
-        
-        start_date = "2018-04-01";
-        end_date = "2018-06-30";
         
         if(report_type.equals("tb")){
           wb2 =  dcleaner.TB(wb2,redstyle,start_date,end_date);
@@ -168,14 +168,6 @@ private static final String UPLOAD_DIR = "uploads";
     styleborder.setBorderTop(CellStyle.BORDER_THIN);
     styleborder.setBorderTop(CellStyle.BORDER_THIN);
     styleborder.setWrapText(true);
-    
-    
-        report_type = request.getParameter("report_type");
-//        start_date = request.getParameter("start_date");
-//        end_date = request.getParameter("end_date");
-        
-        start_date = "2018-04-00";
-        end_date = "2018-06-31";
         
         if(report_type.equals("tb")){
           wb =  dcleaner.TB(wb,redstyle,start_date,end_date);

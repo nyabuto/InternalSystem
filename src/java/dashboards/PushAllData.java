@@ -32,10 +32,10 @@ HttpSession session;
            PushDataSet2 ds2 = new PushDataSet2();
            
       Map m1 = new HashMap(); 
-      m1.put("startyearmonth", "201710");
-      m1.put("endyearmonth", "201807");
-      m1.put("startdate", "2017-10-01");
-      m1.put("enddate", "2018-07-31");
+      m1.put("startyearmonth", "201804");
+      m1.put("endyearmonth", "201806");
+      m1.put("startdate", "2018-04-01");
+      m1.put("enddate", "2018-06-31");
 //      m1.put("mfl_code", "15288");
            
            

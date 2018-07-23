@@ -31,7 +31,7 @@ public class DataCleanerClass {
     dbConn conn = new dbConn();
     
   public XSSFWorkbook TB(XSSFWorkbook tb,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
-    String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility;
+    String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility,date_started_treatment,date_of_registration;
         XSSFSheet worksheet;
         int col_error = 59;
         int date_format=0,unsupported_site=0;
@@ -43,6 +43,8 @@ public class DataCleanerClass {
         //*ART Status (BA)(52) is Yes and ART start Date (BB)(53) is Blank
         //*ART Start date (BB)(53) is greater than HIV Test Date (AS)(44)
         //*ART Start Date (BB)(53), HIV Test Date(AS)(44) , Date of treatment started (AO)(40) Not in dd mmm YYYY (eg 04 Jan 2018) format.
+        //Date of Registration within period
+        //date of treatment within period
 
     
         worksheet = tb.getSheetAt(0);
@@ -70,7 +72,7 @@ public class DataCleanerClass {
        copyRow(tb,rowhead,errorSheet,0);
 
         while(rowIterator.hasNext()){
-          errors=where=sex=age=hiv_status=hiv_test_date=art_status=art_start_date=treatment_date=area=health_facility=""; 
+          errors=where=sex=age=hiv_status=hiv_test_date=art_status=art_start_date=treatment_date=area=health_facility=date_started_treatment=date_of_registration=""; 
           date_format = unsupported_site = 0;
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
@@ -243,7 +245,30 @@ public class DataCleanerClass {
                        break;
                }
             }
-           
+         
+        //Date of Registration
+          XSSFCell cellRegistrationDate = rowi.getCell((short) 1);
+            if(cellRegistrationDate==null){
+                break;
+            }
+            else{
+               switch (cellRegistrationDate.getCellType()) {
+                   case 0:
+                       //numeric
+                       date_of_registration =""+(int)cellRegistrationDate.getNumericCellValue();
+                       break;
+                   case 1:
+                       date_of_registration =cellRegistrationDate.getStringCellValue();
+                       break;
+                   default:
+                       date_of_registration = cellRegistrationDate.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+            
             if(age==null){age="";}
             if(health_facility==null){health_facility="";}
             if(sex==null){sex="";}
@@ -252,6 +277,7 @@ public class DataCleanerClass {
             if(hiv_test_date==null){hiv_test_date="";}
             if(hiv_status==null){hiv_status="";}
             if(treatment_date==null){treatment_date="";}
+            if(date_of_registration==null){date_of_registration="";}
             
           
         where = " (tibu_name=? OR SubPartnerNom=?) AND  ART=1 ";
@@ -319,6 +345,23 @@ public class DataCleanerClass {
          cellTreatmentDate.setCellStyle(redstyle);
          errors+="Wrong treatment date format.\n";     
         }
+       //check for rage here 
+          System.out.println("Treatment date exist");
+        try{
+     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
+    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
+    Date treat = new SimpleDateFormat("dd MMM yyyy").parse(treatment_date); 
+    if(treat.before(start) || treat.after(end)){
+     cellTreatmentDate.setCellStyle(redstyle);
+     errors+="Date started treatment is not within reporting Range.\n";    
+    }
+    }
+        catch(Exception e){
+       } 
+        }
+        else{
+        cellTreatmentDate.setCellStyle(redstyle);
+         errors+="Missing treatment start date.\n";     
         }
         
      if(date_format==0 && !art_start_date.equals("") && !hiv_test_date.equals("")){
@@ -330,28 +373,44 @@ public class DataCleanerClass {
          cellHIVTestDate.setCellStyle(redstyle);
          errors+="ART start date is less than HIV Test date.\n";     
         }
-        
-        
-        }
+    }
+     
+//     if(!date_of_registration.equals("") && !treatment_date.equals("")){
+//     Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration);  
+//     Date treat = new SimpleDateFormat("dd MMM yyyy").parse(treatment_date);     
+//        
+//        if(treat.before(reg)){
+//         cellTreatmentDate.setCellStyle(redstyle);
+//         cellRegistrationDate.setCellStyle(redstyle);
+//         errors+="Date of treatment is less than date of registration.\n";     
+//        }
+//    }
+    
+     
+     
      
      // reporting date within range
+   
      
-     if(!hiv_test_date.equals("")){
-         System.out.println("HIV Test date exist");
+     if(!date_of_registration.equals("")){
         try{
      Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
     Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
-    Date hiv = new SimpleDateFormat("dd MMM yyyy").parse(hiv_test_date); 
-            System.out.println("HIV Test date is a date");
-    if(hiv.before(start) || hiv.after(end)){
-     cellHIVTestDate.setCellStyle(redstyle);
-     errors+="HIV Test Date is not within reporting Range.\n";  
-        System.out.println("Is not within range");     
+    Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration); 
+    if(reg.before(start) || reg.after(end)){
+     cellRegistrationDate.setCellStyle(redstyle);
+     errors+="Date of registration is not within reporting Range.\n";    
     }
     }
         catch(Exception e){
+        cellRegistrationDate.setCellStyle(redstyle);
+         errors+="Wrong date of registration format.\n";      
        }
         }
+     else{
+      cellRegistrationDate.setCellStyle(redstyle);
+     errors+="Missing date of registration.\n";       
+     }
      
      
      
@@ -970,7 +1029,7 @@ System.out.println(" viral load at position : "+i);
   
     
   public HSSFWorkbook TB(HSSFWorkbook tb,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
-    String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility;
+        String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility,date_of_registration;
         HSSFSheet worksheet;
         int col_error = 59;
         int date_format=0,unsupported_site=0;
@@ -982,6 +1041,8 @@ System.out.println(" viral load at position : "+i);
         //*ART Status (BA)(52) is Yes and ART start Date (BB)(53) is Blank
         //*ART Start date (BB)(53) is greater than HIV Test Date (AS)(44)
         //*ART Start Date (BB)(53), HIV Test Date(AS)(44) , Date of treatment started (AO)(40) Not in dd mmm YYYY (eg 04 Jan 2018) format.
+        //Date of Registration within period
+        //date of treatment within period
 
     
         worksheet = tb.getSheetAt(0);
@@ -999,7 +1060,6 @@ System.out.println(" viral load at position : "+i);
         cleanSheet = tb.createSheet("TB Errors");    
         }
         
-        
         int i=1,j=0,y=0;
         
         HSSFRow rowhead = worksheet.getRow(0);
@@ -1010,7 +1070,7 @@ System.out.println(" viral load at position : "+i);
        copyRow(tb,rowhead,errorSheet,0);
 
         while(rowIterator.hasNext()){
-          errors=where=sex=age=hiv_status=hiv_test_date=art_status=art_start_date=treatment_date=area=health_facility=""; 
+          errors=where=sex=age=hiv_status=hiv_test_date=art_status=art_start_date=treatment_date=area=health_facility=date_of_registration=""; 
           date_format = unsupported_site = 0;
         HSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
@@ -1183,7 +1243,30 @@ System.out.println(" viral load at position : "+i);
                        break;
                }
             }
-           
+         
+        //Date of Registration
+          HSSFCell cellRegistrationDate = rowi.getCell((short) 1);
+            if(cellRegistrationDate==null){
+                break;
+            }
+            else{
+               switch (cellRegistrationDate.getCellType()) {
+                   case 0:
+                       //numeric
+                       date_of_registration =""+(int)cellRegistrationDate.getNumericCellValue();
+                       break;
+                   case 1:
+                       date_of_registration =cellRegistrationDate.getStringCellValue();
+                       break;
+                   default:
+                       date_of_registration = cellRegistrationDate.getStringCellValue();
+                       break;
+               }
+            }
+            
+            
+            
+            
             if(age==null){age="";}
             if(health_facility==null){health_facility="";}
             if(sex==null){sex="";}
@@ -1192,6 +1275,7 @@ System.out.println(" viral load at position : "+i);
             if(hiv_test_date==null){hiv_test_date="";}
             if(hiv_status==null){hiv_status="";}
             if(treatment_date==null){treatment_date="";}
+            if(date_of_registration==null){date_of_registration="";}
             
           
         where = " (tibu_name=? OR SubPartnerNom=?) AND  ART=1 ";
@@ -1259,6 +1343,23 @@ System.out.println(" viral load at position : "+i);
          cellTreatmentDate.setCellStyle(redstyle);
          errors+="Wrong treatment date format.\n";     
         }
+       //check for rage here 
+          System.out.println("Treatment date exist");
+        try{
+     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
+    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
+    Date treat = new SimpleDateFormat("dd MMM yyyy").parse(treatment_date); 
+    if(treat.before(start) || treat.after(end)){
+     cellTreatmentDate.setCellStyle(redstyle);
+     errors+="Date started treatment is not within reporting Range.\n";    
+    }
+    }
+        catch(Exception e){
+       } 
+        }
+        else{
+        cellTreatmentDate.setCellStyle(redstyle);
+         errors+="Missing treatment start date.\n";     
         }
         
      if(date_format==0 && !art_start_date.equals("") && !hiv_test_date.equals("")){
@@ -1270,33 +1371,49 @@ System.out.println(" viral load at position : "+i);
          cellHIVTestDate.setCellStyle(redstyle);
          errors+="ART start date is less than HIV Test date.\n";     
         }
-        }
-        
+    }
      
-      // reporting date within range
+//     if(!date_of_registration.equals("") && !treatment_date.equals("")){
+//     Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration);  
+//     Date treat = new SimpleDateFormat("dd MMM yyyy").parse(treatment_date);     
+//        
+//        if(treat.before(reg)){
+//         cellTreatmentDate.setCellStyle(redstyle);
+//         cellRegistrationDate.setCellStyle(redstyle);
+//         errors+="Date of treatment is less than date of registration.\n";     
+//        }
+//    }
+    
      
-     if(!hiv_test_date.equals("")){
-         System.out.println("HIV Test date exist");
+     
+     
+     // reporting date within range
+   
+     
+     if(!date_of_registration.equals("")){
         try{
      Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
     Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
-    Date hiv = new SimpleDateFormat("dd MMM yyyy").parse(hiv_test_date); 
-            System.out.println("HIV Test date is a date");
-    if(hiv.before(start) || hiv.after(end)){
-     cellHIVTestDate.setCellStyle(redstyle);
-     errors+="HIV Test Date is not within reporting Range.\n";  
-        System.out.println("Is not within range");     
-    }
-    else{
-        System.out.println("hiv test date : "+hiv_test_date+" hvi : "+hiv+" start date : "+start+" end date "+end);
+    Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration); 
+    if(reg.before(start) || reg.after(end)){
+     cellRegistrationDate.setCellStyle(redstyle);
+     errors+="Date of registration is not within reporting Range.\n";    
     }
     }
         catch(Exception e){
+        cellRegistrationDate.setCellStyle(redstyle);
+         errors+="Wrong date of registration format.\n";      
        }
         }
+     else{
+      cellRegistrationDate.setCellStyle(redstyle);
+     errors+="Missing date of registration.\n";       
+     }
      
-   
-        
+     
+     
+     
+     
          HSSFCell cellerror = rowi.createCell(col_error);
          cellerror.setCellValue(errors);
 
@@ -1322,7 +1439,7 @@ System.out.println("at position : "+i);
         }
         
             
-//        worksheet = removeRowxls(worksheet);
+//        worksheet = removeRow(worksheet);
         
         return tb;
     }
