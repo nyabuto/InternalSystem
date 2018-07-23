@@ -929,6 +929,10 @@
         <servlet-name>newdatimHTCResults_2018Q3</servlet-name>
         <servlet-class>Datim.newdatimHTCResults_2018Q3</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updateconn_dash</servlet-name>
+        <servlet-class>database.updateconn_dash</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1856,6 +1860,10 @@
     <servlet-mapping>
         <servlet-name>newdatimHTCResults_2018Q3</servlet-name>
         <url-pattern>/newdatimHTCResults_2018Q3</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateconn_dash</servlet-name>
+        <url-pattern>/updateconn_dash</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
