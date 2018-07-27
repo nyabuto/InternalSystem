@@ -2151,7 +2151,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
 "or substring(moh731.yearmonth,5,2)  like '12' " +
 "or substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
-"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
@@ -2159,29 +2159,29 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
 "or substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '2. Apr-Sep' end  as semiannual " +
+"           )  then '2. Apr - Sep' end  as semiannual " +
 "            " +
 ", case when (  " +
 "   substring(moh731.yearmonth,5,2)  like '10' " +
 "or substring(moh731.yearmonth,5,2)  like '11' " +
 "or substring(moh731.yearmonth,5,2)  like '12' " +
-")  then '1. Oct-Dec'  " +
+")  then '1. Oct - Dec'  " +
 "           when (  " +
 " " +
 "substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
 "or substring(moh731.yearmonth,5,2)  like '03' " +
-"           )  then '2. Jan-Mar'  " +
+"           )  then '2. Jan - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
 "or substring(moh731.yearmonth,5,2)  like '06' " +
-")  then '3. Apr-Jun'  " +
+")  then '3. Apr - Jun'  " +
 "           when (  " +
 "substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '4. Jul-Sep' end  as quarter " +
+"           )  then '4. Jul - Sep' end  as quarter " +
 " " +
 ",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
 " when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
@@ -3983,7 +3983,7 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
 "or substring(moh731.yearmonth,5,2)  like '12' " +
 "or substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
-"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
@@ -3991,19 +3991,19 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
 "or substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '2. Apr-Sep' end  as semiannual " +
+"           )  then '2. Apr - Sep' end  as semiannual " +
 "            " +
 ", case when (  " +
 "   substring(moh731.yearmonth,5,2)  like '10' " +
 "or substring(moh731.yearmonth,5,2)  like '11' " +
 "or substring(moh731.yearmonth,5,2)  like '12' " +
-")  then '1. Oct-Dec'  " +
+")  then '1. Oct - Dec'  " +
 "           when (  " +
 " " +
 "substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
 "or substring(moh731.yearmonth,5,2)  like '03' " +
-"           )  then '2. Jan-Mar'  " +
+"           )  then '2. Jan - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
@@ -4013,7 +4013,7 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
 "substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '4. Jul-Sep' end  as quarter " +
+"           )  then '4. Jul - Sep' end  as quarter " +
 " " +
 ",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
 " when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
@@ -5712,6 +5712,8 @@ double p_u_f=0;
  double p_1_m=0;
  double p_9_f=0;
  double p_9_m=0;
+ double p_4_f=0;
+ double p_4_m=0;
  double p_14_f=0;
  double p_14_m=0;
  double p_19_f=0;
@@ -5734,6 +5736,8 @@ double p_u_f=0;
  double n_1_m=0;
  double n_9_f=0;
  double n_9_m=0;
+ double n_4_f=0;
+ double n_4_m=0;
  double n_14_f=0;
  double n_14_m=0;
  double n_19_f=0;
@@ -5751,6 +5755,59 @@ double p_u_f=0;
  double n_50_f=0;
  double n_50_m=0;
  double subtotal=0;
+ 
+ 
+ 
+ double valid_p_u_f=0;
+ double valid_p_u_m=0;
+ double valid_p_1_f=0;
+ double valid_p_1_m=0;
+ double valid_p_9_f=0;
+ double valid_p_9_m=0;
+ double valid_p_4_f=0;
+ double valid_p_4_m=0;
+ double valid_p_14_f=0;
+ double valid_p_14_m=0;
+ double valid_p_19_f=0;
+ double valid_p_19_m=0;
+ double valid_p_24_f=0;
+ double valid_p_24_m=0;
+ double valid_p_29_f=0;
+ double valid_p_29_m=0;
+ double valid_p_34_f=0;
+ double valid_p_34_m=0;
+ double valid_p_39_f=0;
+ double valid_p_39_m=0;
+ double valid_p_49_f=0;
+ double valid_p_49_m=0;
+ double valid_p_50_f=0;
+ double valid_p_50_m=0;
+ double valid_n_u_f=0;
+ double valid_n_u_m=0;
+ double valid_n_1_f=0;
+ double valid_n_1_m=0;
+ double valid_n_4_f=0;
+ double valid_n_4_m=0;
+ double valid_n_9_f=0;
+ double valid_n_9_m=0;
+ double valid_n_14_f=0;
+ double valid_n_14_m=0;
+ double valid_n_19_f=0;
+ double valid_n_19_m=0;
+ double valid_n_24_f=0;
+ double valid_n_24_m=0;
+ double valid_n_29_f=0;
+ double valid_n_29_m=0;
+ double valid_n_34_f=0;
+ double valid_n_34_m=0;
+ double valid_n_39_f=0;
+ double valid_n_39_m=0;
+ double valid_n_49_f=0;
+ double valid_n_49_m=0;
+ double valid_n_50_f=0;
+ double valid_n_50_m=0;
+ double valid_subtotal=0;
+ 
 
 if(1==2){
 //__________________________________________________________________________________________________________________________________
@@ -5767,6 +5824,8 @@ p_u_f =opdp_u_f- conn.rs3.getDouble("p_u_f");
 p_u_m =opdp_u_m- conn.rs3.getDouble("p_u_m");
 p_1_f =opdp_1_f- conn.rs3.getDouble("p_1_f");
 p_1_m =opdp_1_m- conn.rs3.getDouble("p_1_m");
+p_4_f =opdp_4_f- conn.rs3.getDouble("p_4_f");
+p_4_m =opdp_4_m- conn.rs3.getDouble("p_4_m");
 p_9_f =opdp_9_f- conn.rs3.getDouble("p_9_f");
 p_9_m =opdp_9_m- conn.rs3.getDouble("p_9_m");
 p_14_f =opdp_14_f- conn.rs3.getDouble("p_14_f");
@@ -5789,6 +5848,8 @@ n_u_f =opdn_u_f- conn.rs3.getDouble("n_u_f");
 n_u_m =opdn_u_m- conn.rs3.getDouble("n_u_m");
 n_1_f =opdn_1_f- conn.rs3.getDouble("n_1_f");
 n_1_m =opdn_1_m- conn.rs3.getDouble("n_1_m");
+n_4_f =opdn_4_f- conn.rs3.getDouble("n_4_f");
+n_4_m =opdn_4_m- conn.rs3.getDouble("n_4_m");
 n_9_f =opdn_9_f- conn.rs3.getDouble("n_9_f");
 n_9_m =opdn_9_m- conn.rs3.getDouble("n_9_m");
 n_14_f =opdn_14_f- conn.rs3.getDouble("n_14_f");
@@ -5813,7 +5874,379 @@ subtotal =opdsubtotal- conn.rs3.getDouble("subtotal");
     }
 
         //balancing process
+        int wasbalanced=0;
         
+        
+        while(p_1_f<0){
+            
+            if(p_4_f>0){p_4_f--; valid_p_4_f++; wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_19_f--; valid_p_19_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+              
+                  }
+        
+        while(p_1_m<0){
+            
+            if(p_4_m>0){p_4_m--; valid_p_4_m++; wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  }
+        
+        
+        
+          while(p_4_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_19_f--; valid_p_19_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_4_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  }
+          
+          
+          
+          
+              while(p_9_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_19_f--; valid_p_19_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_9_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  }
+          
+          
+            while(p_14_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_19_f--; valid_p_19_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_14_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  } 
+          
+        
+    while(p_19_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_19_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  } 
+        
+        
+           
+    while(p_24_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_24_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  } 
+          
+          
+          
+               
+    while(p_29_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_29_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  }
+          
+         
+          
+               
+    while(p_34_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_39_f>0){p_39_f--; valid_p_39_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_34_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_39_m>0){p_39_m--; valid_p_39_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  }
+          
+      
+          
+               
+    while(p_39_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_39_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  }
+          
+         
+          
+    while(p_39_f<0){
+            
+            if(p_1_f>0){p_1_f--; valid_p_1_f++; wasbalanced++;}  
+       else if(p_4_f>0){p_4_f--; valid_p_4_f++;wasbalanced++;}  
+       else if(p_9_f>0){p_9_f--; valid_p_9_f++;wasbalanced++;}  
+       else if(p_14_f>0){p_14_f--; valid_p_14_f++;wasbalanced++;}  
+       else if(p_19_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_24_f>0){p_24_f--; valid_p_24_f++;wasbalanced++;}  
+       else if(p_29_f>0){p_29_f--; valid_p_29_f++;wasbalanced++;}  
+       else if(p_34_f>0){p_34_f--; valid_p_34_f++;wasbalanced++;}  
+       else if(p_49_f>0){p_49_f--; valid_p_49_f++;wasbalanced++;}  
+       else if(p_50_f>0){p_50_f--; valid_p_50_f++;wasbalanced++;}  
+       else {
+                System.out.println(" Balancing dint work for p_1_f "+facilityname);
+                break;
+       }
+          }
+        
+          
+          while(p_39_m<0){
+            
+            if(p_1_m>0){p_1_m--; valid_p_1_m++; wasbalanced++;}  
+       else if(p_4_m>0){p_4_m--; valid_p_4_m++;wasbalanced++;}  
+       else if(p_9_m>0){p_9_m--; valid_p_9_m++;wasbalanced++;}  
+       else if(p_14_m>0){p_14_m--; valid_p_14_m++;wasbalanced++;}  
+       else if(p_19_m>0){p_19_m--; valid_p_19_m++;wasbalanced++;}  
+       else if(p_24_m>0){p_24_m--; valid_p_24_m++;wasbalanced++;}  
+       else if(p_29_m>0){p_29_m--; valid_p_29_m++;wasbalanced++;}  
+       else if(p_34_m>0){p_34_m--; valid_p_34_m++;wasbalanced++;}  
+       else if(p_49_m>0){p_49_m--; valid_p_49_m++;wasbalanced++;}  
+       else if(p_50_m>0){p_50_m--; valid_p_50_m++;wasbalanced++;}  
+       else { System.out.println(" Balancing dint work for p_1_m " + facilityname); break;}
+            
+                  }
+          
 //__________________________________________________________________________________________________________________________________
 
 
@@ -6351,7 +6784,7 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
 "or substring(moh731.yearmonth,5,2)  like '12' " +
 "or substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
-"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
@@ -6359,19 +6792,19 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
 "or substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '2. Apr-Sep' end  as semiannual " +
+"           )  then '2. Apr - Sep' end  as semiannual " +
 "            " +
 ", case when (  " +
 "   substring(moh731.yearmonth,5,2)  like '10' " +
 "or substring(moh731.yearmonth,5,2)  like '11' " +
 "or substring(moh731.yearmonth,5,2)  like '12' " +
-")  then '1. Oct-Dec'  " +
+")  then '1. Oct - Dec'  " +
 "           when (  " +
 " " +
 "substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
 "or substring(moh731.yearmonth,5,2)  like '03' " +
-"           )  then '2. Jan-Mar'  " +
+"           )  then '2. Jan - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
@@ -6381,7 +6814,7 @@ double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, teste
 "substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '4. Jul-Sep' end  as quarter " +
+"           )  then '4. Jul - Sep' end  as quarter " +
 " " +
 ",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
 " when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
@@ -7977,7 +8410,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
 "or substring(moh731.yearmonth,5,2)  like '12' " +
 "or substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
-"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct-Mar'  " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
@@ -7985,19 +8418,19 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
 "or substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '2. Apr-Sep' end  as semiannual " +
+"           )  then '2. Apr - Sep' end  as semiannual " +
 "            " +
 ", case when (  " +
 "   substring(moh731.yearmonth,5,2)  like '10' " +
 "or substring(moh731.yearmonth,5,2)  like '11' " +
 "or substring(moh731.yearmonth,5,2)  like '12' " +
-")  then '1. Oct-Dec'  " +
+")  then '1. Oct - Dec'  " +
 "           when (  " +
 " " +
 "substring(moh731.yearmonth,5,2)  like '01' " +
 "or substring(moh731.yearmonth,5,2)  like '02' " +
 "or substring(moh731.yearmonth,5,2)  like '03' " +
-"           )  then '2. Jan-Mar'  " +
+"           )  then '2. Jan - Mar'  " +
 "           when (  " +
 "   substring(moh731.yearmonth,5,2)  like '04' " +
 "or substring(moh731.yearmonth,5,2)  like '05' " +
@@ -8007,7 +8440,7 @@ if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"
 "substring(moh731.yearmonth,5,2)  like '07' " +
 "or substring(moh731.yearmonth,5,2)  like '08' " +
 "or substring(moh731.yearmonth,5,2)  like '09' " +
-"           )  then '4. Jul-Sep' end  as quarter " +
+"           )  then '4. Jul - Sep' end  as quarter " +
 " " +
 ",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
 " when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
