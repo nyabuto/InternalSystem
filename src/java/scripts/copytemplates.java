@@ -4,6 +4,7 @@
  */
 package scripts;
 
+import database.OSValidator;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -41,8 +42,12 @@ public class copytemplates extends HttpServlet {
    // String sourcepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
         String mydrive = sourcepath.substring(0, 1);
         //dbconnpath=mydrive+":\\MNHC_SYSTEM_APHIA_PLUS\\"; 
-      dbconnpath=mydrive+":\\APHIAPLUS\\InternalSystem\\"; 
-       
+        if(OSValidator.isWindows()){
+      dbconnpath=mydrive+":\\HSDSA\\InternalSystem\\"; 
+        }
+        else if(OSValidator.isUnix()){
+        dbconnpath="/HSDSA/InternalSystem/";     
+        }
       //create a directory
       
       // new File(dbconnpath).mkdir();
@@ -145,8 +150,12 @@ public void transfermacros(String src1,String desteepath ){
             
                   String mydrive = desteepath.substring(0, 1);
                   //dbconnpath=mydrive+":\\MNHC_SYSTEM_APHIA_PLUS\\"; 
-                dbconnpath=mydrive+":\\APHIAPLUS\\InternalSystem\\"; 
-                 
+                  if(OSValidator.isWindows()){
+                dbconnpath=mydrive+":\\HSDSA\\InternalSystem\\";
+                 }
+                 else if(OSValidator.isUnix()){
+                dbconnpath="/HSDSA/InternalSystem/"; 
+                         }
                 //create a directory
                 // new File(dbconnpath).mkdir();
                new File(dbconnpath).mkdirs();

@@ -6,6 +6,7 @@
 package GapAnalysis;
 
 import General.IdGenerator;
+import database.OSValidator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -76,9 +77,14 @@ String allpath = getServletContext().getRealPath("/GapAnalysis-R2.xlsm");
  Date da= new Date();
 String dat2 = da.toString().replace(" ", "_");
  dat2 = dat2.toString().replace(":", "_");
-
-      
-       String np=mydrive+":\\APHIAPLUS\\InternalSystem\\Gapanalysis"+dat2+".xlsm";
+        
+        String np = "";
+      if(OSValidator.isWindows()){
+       np=mydrive+":\\HSDSA\\InternalSystem\\Gapanalysis"+dat2+".xlsm";
+        }
+        else if(OSValidator.isUnix()){
+           np="/HSDSA/InternalSystem/Gapanalysis"+dat2+".xlsm";     
+                }
             System.out.println("path:: "+np);
              // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
               String sr = getServletContext().getRealPath("/GapAnalysis-R2.xlsm");

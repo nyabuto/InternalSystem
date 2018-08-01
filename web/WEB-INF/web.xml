@@ -933,6 +933,10 @@
         <servlet-name>updateconn_dash</servlet-name>
         <servlet-class>database.updateconn_dash</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DHISGapAnalysisReport</servlet-name>
+        <servlet-class>GapAnalysis.DHISGapAnalysisReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1864,6 +1868,10 @@
     <servlet-mapping>
         <servlet-name>updateconn_dash</servlet-name>
         <url-pattern>/updateconn_dash</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DHISGapAnalysisReport</servlet-name>
+        <url-pattern>/DHISGapAnalysisReport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

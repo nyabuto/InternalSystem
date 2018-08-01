@@ -79,8 +79,12 @@ public class updatedbpwordweb extends HttpServlet {
     String allpath = getServletContext().getRealPath("/dbase.txt");
         String mydrive = allpath.substring(0, 1);
         //dbconnpath=mydrive+":\\MNHC_SYSTEM_APHIA_PLUS\\"; 
-      dbconnpath=mydrive+":\\APHIAPLUS\\InternalSystem\\DO_NOT_DELETE\\_\\_\\."; 
-       
+      if(OSValidator.isWindows()){
+      dbconnpath=mydrive+":\\HSDSA\\InternalSystem\\DO_NOT_DELETE\\_\\_\\."; 
+        }
+        else if(OSValidator.isUnix()){
+        dbconnpath="/HSDSA/InternalSystem/DO_NOT_DELETE/_/_/.";     
+        }
       //create a directory
       
       // new File(dbconnpath).mkdir();
@@ -88,8 +92,13 @@ public class updatedbpwordweb extends HttpServlet {
         
         
         
-
-    dbsetup =dbconnpath+"\\dbconnectionweb.txt";
+       
+if(OSValidator.isWindows()){
+       dbsetup =dbconnpath+"\\dbconnectionweb.txt";
+        }
+        else if(OSValidator.isUnix()){
+         dbsetup =dbconnpath+"/dbconnectionweb.txt";  
+        }
         
     //dbsetup=ctx.getRealPath("/dbase.txt");
         

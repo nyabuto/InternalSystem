@@ -6,6 +6,7 @@
 package DataMapping;
 
 import General.IdGenerator;
+import database.OSValidator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,7 +55,6 @@ ArrayList yms = new ArrayList();
         try {
         session = request.getSession();
        dbConn conn = new dbConn();
-       
          
     yms.clear();
             
@@ -90,7 +90,14 @@ ArrayList yms = new ArrayList();
               Date da= new Date();
             String dat2 = da.toString().replace(" ", "_");
             dat2 = dat2.toString().replace(":", "_");
-            String np=mydrive+":\\APHIAPLUS\\InternalSystem\\IMISDHISVariances"+dat2+".xlsm";
+            
+            String np="";
+            if(OSValidator.isWindows()){
+            np=mydrive+":\\HSDSA\\InternalSystem\\IMISDHISVariances"+dat2+".xlsm";
+            }
+            else if(OSValidator.isUnix()){
+             np="/HSDSA/InternalSystem/IMISDHISVariances"+dat2+".xlsm";    
+            }
             String sr = getServletContext().getRealPath("/IMIS_DHIS_Variances_Template2.xlsm"); 
                 
             File f = new File(np);
