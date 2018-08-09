@@ -237,9 +237,7 @@
                   <%}}}else{}}%>
                   
                   <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
-                  
-                 
-                 
+
                </ul>
             </li>
             
@@ -321,7 +319,6 @@
                </ul>
             </li>            
           
-            
             <li class="has-sub">
                 <a href="T1FORM.jsp">
                 <i class="icon-trophy"></i>

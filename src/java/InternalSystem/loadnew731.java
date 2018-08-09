@@ -154,7 +154,7 @@ session.removeAttribute("table_id");
      markActive=0;
      if(session.getAttribute("forms_holder").toString().contains(",HTC,")){
         if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. HTS.</b></a></li>";
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_1\" data-toggle=\"tab\"><b>1. HTS</b></a></li>";
     markActive++; 
     }
     
@@ -166,22 +166,22 @@ session.removeAttribute("table_id");
          }
     if(session.getAttribute("forms_holder").toString().contains(",ART,")){
         if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li style=\"min-width:15%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. HIV and TB treatment.</b></a></li>";
+         tabs+="<li style=\"min-width:15%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_3\" data-toggle=\"tab\"><b>3. HIV and TB treatment</b></a></li>";
     markActive++; 
     }
-    if(1==1){
+    if(1==2){
          if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. VMMC.</b></a></li>";
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_4\" data-toggle=\"tab\"><b>4. VMMC</b></a></li>";
      markActive++;
     }
     if(session.getAttribute("forms_holder").toString().contains(",PEP,")){
          if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\"><b>5. PEP.</b></a></li>";
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_5\" data-toggle=\"tab\"><b>5. PEP</b></a></li>";
      markActive++;
     }
-    if(1==1){
-         if(markActive==0){classType="class=\"active\"";}else{classType="";}
-         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_6\" data-toggle=\"tab\"><b>6. Methadone Assisted Therapy.</b></a></li>";
+    if(1==2){
+         if(markActive==0){classType=" class=\"active\"";}else{classType="";}
+         tabs+="<li style=\"min-width:10%\" "+classType+"><a class=\"advance_form_with_chosen_element\" href=\"#tab_6\" data-toggle=\"tab\"><b>6. Methadone Assisted Therapy</b></a></li>";
      markActive++;
     }
 
@@ -1686,8 +1686,8 @@ s2_infant_feeding_for_HIVP_mothers="<fieldset class=\"formatter\"><legend class=
         if(session.getAttribute("forms_holder").toString().contains(",PMTCT,")){data+=PMTCT;}
         if(session.getAttribute("forms_holder").toString().contains(",ART,")){data+=HIV_TB;}
         if(session.getAttribute("forms_holder").toString().contains(",PEP,")){data+=PEP;}
-        if(1==1){data+=VMMC;}//update this field with the right sessions
-        if(1==1){data+=MAT;}//update this field with the right sessions
+        if(1==2){data+=VMMC;}//update this field with the right sessions
+        if(1==2){data+=MAT;}//update this field with the right sessions
 //        if(session.getAttribute("forms_holder").toString().contains(",Blood_Safety,")){data+=Blood;}
      
         
