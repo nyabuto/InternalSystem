@@ -147,9 +147,14 @@ int status,pos,approvesgaps;
              }
              
              else{
-                status_label="Not Approved";
+                 if(!explanation.equals("")){
+                   status_label="Saved. Pending Approval";      
+                 }
+                 else{
+                  status_label="No Explanation Given";    
+                 }
                 if(approvesgaps==1 && !explanation.equals("")){
-                Update_btn="<input type='submit' class='btn green'   style='height:30px;' value='Approve Gap' onclick=\"approve_gap("+pos+");\" name='approve_gap' id='approve_gap'/>";    
+                Update_btn="<input type='submit' class='btn green'   style='height:30px;' value='Approve Gap' onclick=\"approve_gap("+pos+");\" name='approve_gap' id='approve_gap"+pos+"'/>";    
                 lock="disabled";
                 }
                 else if(approvesgaps==1 && explanation.equals("")){
@@ -158,7 +163,13 @@ int status,pos,approvesgaps;
                 }
                 
                 else if(approvesgaps==0){
-                 Update_btn="<input type='submit' class='btn blue '  style='height:30px;' value='Update Gap' onclick=\"update_gap("+pos+");\" name='update_gap' id='update_gap'/>";   
+                    if(!explanation.equals("")){
+                     Update_btn="<input type='submit' class='btn blue '  style='height:30px;' value='Update Gap' onclick=\"update_gap("+pos+");\" name='update_gap' id='update_gap"+pos+"'/>";     
+                    }
+                    else{
+                        Update_btn="<input type='submit' class='btn blue '  style='height:30px;' value='Save Gap' onclick=\"update_gap("+pos+");\" name='update_gap' id='update_gap"+pos+"'/>";  
+                    }
+                  
                 lock="";
                 }
                 else{

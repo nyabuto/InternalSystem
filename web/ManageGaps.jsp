@@ -482,15 +482,17 @@ function LoadData(){
          
          }
          
-         function update_gap(pos){
+      function update_gap(pos){
         var id = $("#gapid_"+pos).val();    
         var explanation = $("#explanation_"+pos).val();  
-        
+        $("#update_gap"+pos).prop('value', 'Saved');
+        $("#update_gap"+pos).css("background-color","green");
         var form_data = {"id":id,"explanation":explanation};
         var url = "updategap";
         $.post(url,form_data , function(data) {
        //notify user on the status
-        LoadData();
+//        LoadData();
+        $("#update_gap"+pos).css("background-color","green");
         $.notify(
         {icon: "images/checked.png", 
         message:data},
