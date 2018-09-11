@@ -937,6 +937,58 @@
         <servlet-name>DHISGapAnalysisReport</servlet-name>
         <servlet-class>GapAnalysis.DHISGapAnalysisReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getpopulation</servlet-name>
+        <servlet-class>ppprev.getpopulation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getPopulation</servlet-name>
+        <servlet-class>ppprev.getPopulation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getCounty</servlet-name>
+        <servlet-class>ppprev.getCounty</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getSubcounty</servlet-name>
+        <servlet-class>ppprev.getSubcounty</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getGroup</servlet-name>
+        <servlet-class>ppprev.getGroup</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getCurriculum</servlet-name>
+        <servlet-class>ppprev.getCurriculum</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getFacilitator</servlet-name>
+        <servlet-class>ppprev.getFacilitator</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getTopics</servlet-name>
+        <servlet-class>ppprev.getTopics</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getMethods</servlet-name>
+        <servlet-class>ppprev.getMethods</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loaddata</servlet-name>
+        <servlet-class>ppprev.loaddata</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadwizard</servlet-name>
+        <servlet-class>ppprev.loadwizard</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getAgegroup</servlet-name>
+        <servlet-class>ppprev.getAgegroup</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getPartner</servlet-name>
+        <servlet-class>ppprev.getPartner</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1872,6 +1924,58 @@
     <servlet-mapping>
         <servlet-name>DHISGapAnalysisReport</servlet-name>
         <url-pattern>/DHISGapAnalysisReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getpopulation</servlet-name>
+        <url-pattern>/getpopulation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getPopulation</servlet-name>
+        <url-pattern>/getPopulation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getCounty</servlet-name>
+        <url-pattern>/getCounty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getSubcounty</servlet-name>
+        <url-pattern>/getSubcounty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getGroup</servlet-name>
+        <url-pattern>/getGroup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getCurriculum</servlet-name>
+        <url-pattern>/getCurriculum</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getFacilitator</servlet-name>
+        <url-pattern>/getFacilitator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getTopics</servlet-name>
+        <url-pattern>/getTopics</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getMethods</servlet-name>
+        <url-pattern>/getMethods</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loaddata</servlet-name>
+        <url-pattern>/loaddata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadwizard</servlet-name>
+        <url-pattern>/loadwizard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAgegroup</servlet-name>
+        <url-pattern>/getAgegroup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getPartner</servlet-name>
+        <url-pattern>/getPartner</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
