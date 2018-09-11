@@ -113,7 +113,7 @@ private static final String UPLOAD_DIR = "uploads";
           wb2 =  dcleaner.ViralLoad(wb2,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidtst")){
-          wb2 = dcleaner.EIDTST(wb2,redstyle,start_date,end_date);
+          wb2 = dcleaner.EIDTST(wb2,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidpos")){
           wb2 =  dcleaner.EIDPOS(wb2,redstyle,start_date,end_date);
@@ -176,7 +176,7 @@ private static final String UPLOAD_DIR = "uploads";
           wb =  dcleaner.ViralLoad(wb,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidtst")){
-          wb = dcleaner.EIDTST(wb,redstyle,start_date,end_date);
+          wb = dcleaner.EIDTST(wb,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidpos")){
           wb =  dcleaner.EIDPOS(wb,redstyle,start_date,end_date);

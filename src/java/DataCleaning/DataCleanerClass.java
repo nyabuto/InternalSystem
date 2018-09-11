@@ -9,8 +9,10 @@ import database.dbConn;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -702,150 +704,1031 @@ System.out.println(" viral load at position : "+i);
         return vl;
     }
  
-  public XSSFWorkbook EIDTST(XSSFWorkbook eid,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
-    String errors,age,where,mfl_code,pcr_type,date_tested;
+  public XSSFWorkbook EIDTST(XSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
+    String errors;
         XSSFSheet worksheet;
+String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty,Facility_Code,Gender,DOB,Age_Months,PCR_Type,Enrollment_CCC_No,Date_Collected,Date_Received,Date_Tested,Date_Dispatched,Infant_Prophylaxis,Received_Status,Lab_Comment,Reason_for_Repeat,Spots,Feeding,Entry_Point,Result,PMTCT_Intervention,Mother_Result,Mother_Age,Mother_CCC_No,Mother_Last_VL;
     // Column to check age<=12 col-no11
     // site not pmtct and not on our list of supported sites - mflcode col-no8
     // PCR Type is not initial PCR col-no16
     // Date Between use date tested-23
     
+// Possible errors
+        // Flag:
+//    1. Duplicates,
+        //    Missing: 
+//    1. age 
+//    2. gender 
+//    3. mother HIV status
+//    4. unknown HIV status
+//     5. infant prophylaxis
+//     6. PMTCT intervention (no data, none, other, SdNVP only, SdNVP/AZT/3TC & interrupted HAART)
+//    7. inappropriate breastfeeding options by age 
+//    8. entry point
+    
+
+           conn.st.executeUpdate("TRUNCATE eid_cleaning");
+
+
         worksheet = eid.getSheetAt(0);
         Iterator rowIterator = worksheet.iterator();
 
         int i=1,y=0;
         
         XSSFRow rowhead = worksheet.getRow(0);
-        XSSFCell cellh = rowhead.createCell(26);
-        cellh.setCellValue("Errors");
+        XSSFCell cellErrors = rowhead.createCell(31);
+        cellErrors.setCellValue("Possible Errors");
+        cellErrors.setCellStyle(redstyle);
         
-        
+        XSSFCell CellSystemID,CellSample_ID,CellBatch,CellLab_Tested_In,CellCounty,CellSub_County,CellPartner,CellFacilty,CellFacility_Code,CellGender,CellDOB,CellAge_Months,CellPCR_Type,CellEnrollment_CCC_No,CellDate_Collected,CellDate_Received,CellDate_Tested,CellDate_Dispatched,CellInfant_Prophylaxis,CellReceived_Status,CellLab_Comment,CellReason_for_Repeat,CellSpots,CellFeeding,CellEntry_Point,CellResult,CellPMTCT_Intervention,CellMother_Result,CellMother_Age,CellMother_CCC_No,CellMother_Last_VL;
+
         
         while(rowIterator.hasNext()){
-          errors=age=mfl_code=where=pcr_type=date_tested="" ; 
+            errors="";
+            SystemID=Sample_ID=Batch=Lab_Tested_In=County=Sub_County=Partner=Facilty=Facility_Code=Gender=DOB=Age_Months=PCR_Type=Enrollment_CCC_No=Date_Collected=Date_Received=Date_Tested=Date_Dispatched=Infant_Prophylaxis=Received_Status=Lab_Comment=Reason_for_Repeat=Spots=Feeding=Entry_Point=Result=PMTCT_Intervention=Mother_Result=Mother_Age=Mother_CCC_No=Mother_Last_VL="";
+            
+          
         
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
          break;
         }
-       
-        //age
-         XSSFCell cellAge = rowi.getCell((short) 11);
-            if(cellAge==null){
-                break;
+        
+              // rowi.setHeightInPoints(25);
+               
+        //SystemID
+         CellSystemID = rowi.getCell((short) 0);
+            if(CellSystemID==null){
+              SystemID="";
             }
             else{
-               switch (cellAge.getCellType()) {
+               switch (CellSystemID.getCellType()) {
                    case 0:
                        //numeric
-                       age =""+(int)cellAge.getNumericCellValue();
+                       SystemID =""+(int)CellSystemID.getNumericCellValue();
                        break;
                    case 1:
-                       age =cellAge.getStringCellValue();
+                       SystemID =CellSystemID.getStringCellValue();
                        break;
                    default:
-                       age = cellAge.getRawValue();
+                       SystemID = CellSystemID.getRawValue();
                        break;
                }
             }
-            age = age.replace(" ", "").trim();
-           if(age.equals("")){
-            cellAge.setCellStyle(redstyle);
-            errors+=" No age \n";
-           }
-           else{
-               double eid_age = Double.parseDouble(age);
-               if(eid_age<0 || eid_age>12){ // age out of brackets.
-              cellAge.setCellStyle(redstyle);
-              errors+=" Age given is outside accepted range \n";    
-               }
-           }
             
-        //mflcode
-          XSSFCell cellMFLCode = rowi.getCell((short) 8);
-            if(cellMFLCode==null){
-                break;
+            
+        //Sample_ID
+         CellSample_ID = rowi.getCell((short) 1);
+            if(CellSample_ID==null){
+              Sample_ID="";
             }
             else{
-               switch (cellMFLCode.getCellType()) {
+               switch (CellSample_ID.getCellType()) {
                    case 0:
                        //numeric
-                       mfl_code =""+(int)cellMFLCode.getNumericCellValue();
+                       Sample_ID =""+(int)CellSample_ID.getNumericCellValue();
                        break;
                    case 1:
-                       mfl_code =cellMFLCode.getStringCellValue();
+                       Sample_ID =CellSample_ID.getStringCellValue();
                        break;
                    default:
-                       mfl_code = cellMFLCode.getRawValue();
+                       Sample_ID = CellSample_ID.getRawValue();
                        break;
                }
             }
-        where = "CentreSanteId='"+mfl_code+"' AND  PMTCT=1 ";
-        String [] where_params = {};
-        if(!issupported(where,where_params)){
-          cellMFLCode.setCellStyle(redstyle);
-          errors+=" This facility is not a HSDSA PMTCT supported site \n";  
-        }
             
-        //pcr type
-          XSSFCell cellPCR = rowi.getCell((short) 16);
-            if(cellPCR==null){
-                break;
+            
+            
+        //Batch
+         CellBatch = rowi.getCell((short) 2);
+            if(CellBatch==null){
+              Batch="";
             }
             else{
-               switch (cellPCR.getCellType()) {
+               switch (CellBatch.getCellType()) {
                    case 0:
                        //numeric
-                       pcr_type =""+(int)cellPCR.getNumericCellValue();
+                       Batch =""+(int)CellBatch.getNumericCellValue();
                        break;
                    case 1:
-                       pcr_type =cellPCR.getStringCellValue();
+                       Batch =CellBatch.getStringCellValue();
                        break;
                    default:
-                       pcr_type = cellPCR.getRawValue();
-                       break;
-               }
-            }
-                        
-          if(pcr_type.contains("initial PCR")) {
-           cellPCR.setCellStyle(redstyle);
-            errors+="PCR type is not initial PCR \n";   
-          } 
-
-        //date tested
-  XSSFCell cellDate = rowi.getCell((short) 23);
-            if(cellDate==null){
-                break;
-            }
-            else{
-               switch (cellDate.getCellType()) {
-                   case 0:
-                       //numeric
-                       date_tested =""+(int)cellDate.getNumericCellValue();
-                       break;
-                   case 1:
-                       date_tested =cellDate.getStringCellValue();
-                       break;
-                   default:
-                       date_tested = cellDate.getRawValue();
+                       Batch = CellBatch.getRawValue();
                        break;
                }
             }
             
-           if(!isbetween(date_tested,start_date,end_date)){
-          cellDate.setCellStyle(redstyle);
-            errors+=" Date tested is not within the accepted range i.e "+date_tested+"  not within "+start_date+" and "+end_date+" \n";  
-        }
-            
-            
-         XSSFCell cellerror = rowi.createCell(26);
-         cellerror.setCellValue(errors);
            
+        //Lab tested
+         CellLab_Tested_In = rowi.getCell((short) 3);
+            if(CellLab_Tested_In==null){
+              Lab_Tested_In="";
+            }
+            else{
+               switch (CellLab_Tested_In.getCellType()) {
+                   case 0:
+                       //numeric
+                       Lab_Tested_In =""+(int)CellLab_Tested_In.getNumericCellValue();
+                       break;
+                   case 1:
+                       Lab_Tested_In =CellLab_Tested_In.getStringCellValue();
+                       break;
+                   default:
+                       Lab_Tested_In = CellLab_Tested_In.getRawValue();
+                       break;
+               }
+            }
             
-            i++;
+            
+            
+        //County
+         CellCounty = rowi.getCell((short) 4);
+            if(CellCounty==null){
+              County="";
+            }
+            else{
+               switch (CellCounty.getCellType()) {
+                   case 0:
+                       //numeric
+                       County =""+(int)CellCounty.getNumericCellValue();
+                       break;
+                   case 1:
+                       County =CellCounty.getStringCellValue();
+                       break;
+                   default:
+                       County = CellCounty.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellSub_County = rowi.getCell((short) 5);
+            if(CellSub_County==null){
+              Sub_County="";
+            }
+            else{
+               switch (CellSub_County.getCellType()) {
+                   case 0:
+                       //numeric
+                       Sub_County =""+(int)CellSub_County.getNumericCellValue();
+                       break;
+                   case 1:
+                       Sub_County =CellSub_County.getStringCellValue();
+                       break;
+                   default:
+                       Sub_County = CellSub_County.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Partner
+         CellPartner = rowi.getCell((short) 6);
+            if(CellPartner==null){
+              Partner="";
+            }
+            else{
+               switch (CellPartner.getCellType()) {
+                   case 0:
+                       //numeric
+                       Partner =""+(int)CellPartner.getNumericCellValue();
+                       break;
+                   case 1:
+                       Partner =CellPartner.getStringCellValue();
+                       break;
+                   default:
+                       Partner = CellPartner.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellFacilty = rowi.getCell((short) 7);
+            if(CellFacilty==null){
+              Facilty="";
+            }
+            else{
+               switch (CellFacilty.getCellType()) {
+                   case 0:
+                       //numeric
+                       Facilty =""+(int)CellFacilty.getNumericCellValue();
+                       break;
+                   case 1:
+                       Facilty =CellFacilty.getStringCellValue();
+                       break;
+                   default:
+                       Facilty = CellFacilty.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellFacility_Code = rowi.getCell((short) 8);
+            if(CellFacility_Code==null){
+              Facility_Code="";
+            }
+            else{
+               switch (CellFacility_Code.getCellType()) {
+                   case 0:
+                       //numeric
+                       Facility_Code =""+(int)CellFacility_Code.getNumericCellValue();
+                       break;
+                   case 1:
+                       Facility_Code =CellFacility_Code.getStringCellValue();
+                       break;
+                   default:
+                       Facility_Code = CellFacility_Code.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //CellGender
+         CellGender = rowi.getCell((short) 9);
+            if(CellGender==null){
+              Gender="";
+            }
+            else{
+               switch (CellGender.getCellType()) {
+                   case 0:
+                       //numeric
+                       Gender =""+(int)CellGender.getNumericCellValue();
+                       break;
+                   case 1:
+                       Gender =CellGender.getStringCellValue();
+                       break;
+                   default:
+                       Gender = CellGender.getRawValue();
+                       break;
+               }
+            }
+            
+            
+        //Age in Months
+         CellDOB = rowi.getCell((short) 10);
+            if(CellDOB==null){
+              DOB="";
+            }
+            else{
+               switch (CellDOB.getCellType()) {
+                   case 0:
+                       //numeric
+                       DOB =""+(int)CellDOB.getNumericCellValue();
+                       break;
+                   case 1:
+                       DOB =CellDOB.getStringCellValue();
+                       break;
+                   default:
+                       DOB = CellDOB.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellAge_Months = rowi.getCell((short) 11);
+            if(CellAge_Months==null){
+              Age_Months="";
+            }
+            else{
+               switch (CellAge_Months.getCellType()) {
+                   case 0:
+                       //numeric
+                       Age_Months =""+(int)CellAge_Months.getNumericCellValue();
+                       break;
+                   case 1:
+                       Age_Months =CellAge_Months.getStringCellValue();
+                       break;
+                   default:
+                       Age_Months = CellAge_Months.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellPCR_Type = rowi.getCell((short) 12);
+            if(CellPCR_Type==null){
+              PCR_Type="";
+            }
+            else{
+               switch (CellPCR_Type.getCellType()) {
+                   case 0:
+                       //numeric
+                       PCR_Type =""+(int)CellPCR_Type.getNumericCellValue();
+                       break;
+                   case 1:
+                       PCR_Type =CellPCR_Type.getStringCellValue();
+                       break;
+                   default:
+                       PCR_Type = CellPCR_Type.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellEnrollment_CCC_No = rowi.getCell((short) 13);
+            if(CellEnrollment_CCC_No==null){
+              Enrollment_CCC_No="";
+            }
+            else{
+               switch (CellEnrollment_CCC_No.getCellType()) {
+                   case 0:
+                       //numeric
+                       Enrollment_CCC_No =""+(int)CellEnrollment_CCC_No.getNumericCellValue();
+                       break;
+                   case 1:
+                       Enrollment_CCC_No =CellEnrollment_CCC_No.getStringCellValue();
+                       break;
+                   default:
+                       Enrollment_CCC_No = CellEnrollment_CCC_No.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellDate_Collected = rowi.getCell((short) 14);
+            if(CellDate_Collected==null){
+              Date_Collected="";
+            }
+            else{
+               switch (CellDate_Collected.getCellType()) {
+                   case 0:
+                       //numeric
+                       Date_Collected =""+(int)CellDate_Collected.getNumericCellValue();
+                       break;
+                   case 1:
+                       Date_Collected =CellDate_Collected.getStringCellValue();
+                       break;
+                   default:
+                       Date_Collected = CellDate_Collected.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellDate_Received = rowi.getCell((short) 15);
+            if(CellDate_Received==null){
+              Date_Received="";
+            }
+            else{
+               switch (CellDate_Received.getCellType()) {
+                   case 0:
+                       //numeric
+                       Date_Received =""+(int)CellDate_Received.getNumericCellValue();
+                       break;
+                   case 1:
+                       Date_Received =CellDate_Received.getStringCellValue();
+                       break;
+                   default:
+                       Date_Received = CellDate_Received.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellDate_Tested = rowi.getCell((short) 16);
+            if(CellDate_Tested==null){
+              Date_Tested="";
+            }
+            else{
+               switch (CellDate_Tested.getCellType()) {
+                   case 0:
+                       //numeric
+                       Date_Tested =""+(int)CellDate_Tested.getNumericCellValue();
+                       break;
+                   case 1:
+                       Date_Tested =CellDate_Tested.getStringCellValue();
+                       break;
+                   default:
+                       Date_Tested = CellDate_Tested.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellDate_Dispatched = rowi.getCell((short) 17);
+            if(CellDate_Dispatched==null){
+              Date_Dispatched="";
+            }
+            else{
+               switch (CellDate_Dispatched.getCellType()) {
+                   case 0:
+                       //numeric
+                       Date_Dispatched =""+(int)CellDate_Dispatched.getNumericCellValue();
+                       break;
+                   case 1:
+                       Date_Dispatched =CellDate_Dispatched.getStringCellValue();
+                       break;
+                   default:
+                       Date_Dispatched = CellDate_Dispatched.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellInfant_Prophylaxis = rowi.getCell((short) 18);
+            if(CellInfant_Prophylaxis==null){
+              Infant_Prophylaxis="";
+            }
+            else{
+               switch (CellInfant_Prophylaxis.getCellType()) {
+                   case 0:
+                       //numeric
+                       Infant_Prophylaxis =""+(int)CellInfant_Prophylaxis.getNumericCellValue();
+                       break;
+                   case 1:
+                       Infant_Prophylaxis =CellInfant_Prophylaxis.getStringCellValue();
+                       break;
+                   default:
+                       Infant_Prophylaxis = CellInfant_Prophylaxis.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellReceived_Status = rowi.getCell((short) 19);
+            if(CellReceived_Status==null){
+              Received_Status="";
+            }
+            else{
+               switch (CellReceived_Status.getCellType()) {
+                   case 0:
+                       //numeric
+                       Received_Status =""+(int)CellReceived_Status.getNumericCellValue();
+                       break;
+                   case 1:
+                       Received_Status =CellReceived_Status.getStringCellValue();
+                       break;
+                   default:
+                       Received_Status = CellReceived_Status.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellLab_Comment = rowi.getCell((short) 20);
+            if(CellLab_Comment==null){
+              Lab_Comment="";
+            }
+            else{
+               switch (CellLab_Comment.getCellType()) {
+                   case 0:
+                       //numeric
+                       Lab_Comment =""+(int)CellLab_Comment.getNumericCellValue();
+                       break;
+                   case 1:
+                       Lab_Comment =CellLab_Comment.getStringCellValue();
+                       break;
+                   default:
+                       Lab_Comment = CellLab_Comment.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellReason_for_Repeat = rowi.getCell((short) 21);
+            if(CellReason_for_Repeat==null){
+              Reason_for_Repeat="";
+            }
+            else{
+               switch (CellReason_for_Repeat.getCellType()) {
+                   case 0:
+                       //numeric
+                       Reason_for_Repeat =""+(int)CellReason_for_Repeat.getNumericCellValue();
+                       break;
+                   case 1:
+                       Reason_for_Repeat =CellReason_for_Repeat.getStringCellValue();
+                       break;
+                   default:
+                       Reason_for_Repeat = CellReason_for_Repeat.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellSpots = rowi.getCell((short) 22);
+            if(CellSpots==null){
+              Spots="";
+            }
+            else{
+               switch (CellSpots.getCellType()) {
+                   case 0:
+                       //numeric
+                       Spots =""+(int)CellSpots.getNumericCellValue();
+                       break;
+                   case 1:
+                       Spots =CellSpots.getStringCellValue();
+                       break;
+                   default:
+                       Spots = CellSpots.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellFeeding = rowi.getCell((short) 23);
+            if(CellFeeding==null){
+              Feeding="";
+            }
+            else{
+               switch (CellFeeding.getCellType()) {
+                   case 0:
+                       //numeric
+                       Feeding =""+(int)CellFeeding.getNumericCellValue();
+                       break;
+                   case 1:
+                       Feeding =CellFeeding.getStringCellValue();
+                       break;
+                   default:
+                       Feeding = CellFeeding.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellEntry_Point = rowi.getCell((short) 24);
+            if(CellEntry_Point==null){
+              Entry_Point="";
+            }
+            else{
+               switch (CellEntry_Point.getCellType()) {
+                   case 0:
+                       //numeric
+                       Entry_Point =""+(int)CellEntry_Point.getNumericCellValue();
+                       break;
+                   case 1:
+                       Entry_Point =CellEntry_Point.getStringCellValue();
+                       break;
+                   default:
+                       Entry_Point = CellEntry_Point.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellResult = rowi.getCell((short) 25);
+            if(CellResult==null){
+              Result="";
+            }
+            else{
+               switch (CellResult.getCellType()) {
+                   case 0:
+                       //numeric
+                       Result =""+(int)CellResult.getNumericCellValue();
+                       break;
+                   case 1:
+                       Result =CellResult.getStringCellValue();
+                       break;
+                   default:
+                       Result = CellResult.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellPMTCT_Intervention = rowi.getCell((short) 26);
+            if(CellPMTCT_Intervention==null){
+              PMTCT_Intervention="";
+            }
+            else{
+               switch (CellPMTCT_Intervention.getCellType()) {
+                   case 0:
+                       //numeric
+                       PMTCT_Intervention =""+(int)CellPMTCT_Intervention.getNumericCellValue();
+                       break;
+                   case 1:
+                       PMTCT_Intervention =CellPMTCT_Intervention.getStringCellValue();
+                       break;
+                   default:
+                       PMTCT_Intervention = CellPMTCT_Intervention.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellMother_Result = rowi.getCell((short) 27);
+            if(CellMother_Result==null){
+              Mother_Result="";
+            }
+            else{
+               switch (CellMother_Result.getCellType()) {
+                   case 0:
+                       //numeric
+                       Mother_Result =""+(int)CellMother_Result.getNumericCellValue();
+                       break;
+                   case 1:
+                       Mother_Result =CellMother_Result.getStringCellValue();
+                       break;
+                   default:
+                       Mother_Result = CellMother_Result.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellMother_Age = rowi.getCell((short) 28);
+            if(CellMother_Age==null){
+              Mother_Age="";
+            }
+            else{
+               switch (CellMother_Age.getCellType()) {
+                   case 0:
+                       //numeric
+                       Mother_Age =""+(int)CellMother_Age.getNumericCellValue();
+                       break;
+                   case 1:
+                       Mother_Age =CellMother_Age.getStringCellValue();
+                       break;
+                   default:
+                       Mother_Age = CellMother_Age.getRawValue();
+                       break;
+               }
+            }
+            
+            
+            
+        //Age in Months
+         CellMother_CCC_No = rowi.getCell((short) 29);
+            if(CellMother_CCC_No==null){
+              Mother_CCC_No="";
+            }
+            else{
+               switch (CellMother_CCC_No.getCellType()) {
+                   case 0:
+                       //numeric
+                       Mother_CCC_No =""+(int)CellMother_CCC_No.getNumericCellValue();
+                       break;
+                   case 1:
+                       Mother_CCC_No =CellMother_CCC_No.getStringCellValue();
+                       break;
+                   default:
+                       Mother_CCC_No = CellMother_CCC_No.getRawValue();
+                       break;
+               }
+            }
+            
+        //Age in Months
+         CellMother_Last_VL = rowi.getCell((short) 30);
+            if(CellMother_Last_VL==null){
+              Mother_Last_VL="";
+            }
+            else{
+               switch (CellMother_Last_VL.getCellType()) {
+                   case 0:
+                       //numeric
+                       Mother_Last_VL =""+(int)CellMother_Last_VL.getNumericCellValue();
+                       break;
+                   case 1:
+                       Mother_Last_VL =CellMother_Last_VL.getStringCellValue();
+                       break;
+                   default:
+                       Mother_Last_VL = CellMother_Last_VL.getRawValue();
+                       break;
+               }
+            }
+            
+//            System.out.println("EID tested data is : "+SystemID+" - "+Sample_ID+" - "+Batch+" - "+Lab_Tested_In+" - "+County+" - "+Sub_County+" - "+Partner+" - "+Facilty+" - "+Facility_Code+" - "+Gender+" - "+DOB+" - "+Age_Months+" - "+PCR_Type+" - "+Enrollment_CCC_No+" - "+Date_Collected+" - "+Date_Received+" - "+Date_Tested+" - "+Date_Dispatched+" - "+Infant_Prophylaxis+" - "+Received_Status+" - "+Lab_Comment+" - "+Reason_for_Repeat+" - "+Spots+" - "+Feeding+" - "+Entry_Point+" - "+Result+" - "+PMTCT_Intervention+" - "+Mother_Result+" - "+Mother_Age+" - "+Mother_CCC_No+" - "+Mother_Last_VL);   
+            
+            
+            
+            //START OF LEVEL1 ERROR CHECKING##################################
+            //check for age
+            if(Age_Months==null){Age_Months="";}
+            if(!Age_Months.equals("")){
+             if(isNumeric(Age_Months)) {
+             if(!Facility_Code.equals("15288") && (Integer.parseInt(Age_Months)>=13 || Integer.parseInt(Age_Months)<=0))   
+              errors+="Wrong age in months. Age should not be less than 0 or more than 13 months \n";   
+             }  
+             else{
+                 errors+="Age entered is non-numeric \n";
+             }
+                
+            }
+            else{
+                errors+=" Missing age \n";
+            }
+           //end of checking age
+           
+           
+        //check gender
+        if(Gender==null){Gender="";}
+          if(Gender.equals("")) {
+              errors+=" Missing gender of HEI \n";
+          } 
+          else if(!(Gender.equalsIgnoreCase("Male") || Gender.equalsIgnoreCase("Female"))){
+              errors+="Wrong gender entered. \n";
+          }
+        //end of checking for gender
+        
+        
+        //check mother HIV Status
+        if(Mother_Result==null){Mother_Result="";}
+        if(Mother_Result.equals("")){
+            errors+="Missing mother's HIV Status \n";
+        }
+        else{
+            if(!(Mother_Result.equalsIgnoreCase("Positive") || Mother_Result.equalsIgnoreCase("Negative"))){
+            errors+=" Wrong mother's HIV Status\n";    
+            }
+            else if(Mother_Result.equalsIgnoreCase("Negative")){
+                errors+="Mother's HIV status should not be Negative";
+            }
+        }
+         //end of checking for mother HIV status
+         
+//         HEI's HIV status
+    if(Result==null){Result="";}
+       if(Result.equals("")){
+            errors+="Missing HIV Status \n";
+        }
+        else{
+            if(!(Result.equalsIgnoreCase("Positive") || Result.equalsIgnoreCase("Negative"))){
+            errors+=" Wrong HIV Status\n";    
+            }
+        }
+         
+//       end of HEI's HIV STATUS  
+         //check for infant prophylaxis
+         if(Infant_Prophylaxis==null){Infant_Prophylaxis="";}
+        if(Infant_Prophylaxis.equalsIgnoreCase("No Data") || Infant_Prophylaxis.equalsIgnoreCase("None") || Infant_Prophylaxis.equalsIgnoreCase("Others") || Infant_Prophylaxis.equals("")){
+            errors+="Missing infant Prophylaxis \n";
+        }
+        else if(!((Infant_Prophylaxis.contains("AZT") && Infant_Prophylaxis.contains("NVP")) && !Infant_Prophylaxis.contains("SdNVP"))){
+         // Wrong infant prophylaxis  
+            errors+="Wrong infant prophylaxis\n";
+        }
+//        end of infant prophylaxis
+        //pmtct intervention
+        if(PMTCT_Intervention==null){PMTCT_Intervention="";}
+        if(PMTCT_Intervention.equals("")){
+         errors+="Missing PMTCT Intervention\n";   
         }
         
+        else if(PMTCT_Intervention.contains("No Data") || PMTCT_Intervention.contains("None") || PMTCT_Intervention.contains("Other") || 
+                PMTCT_Intervention.equalsIgnoreCase("SdNVP only") || PMTCT_Intervention.equalsIgnoreCase("SdNVP/AZT/3TC") || PMTCT_Intervention.equalsIgnoreCase("HAART")){
+            errors+=" Wrong PMTCT Intervention";
+        }
+        
+//         if(PMTCT_Intervention.equalsIgnoreCase("No Data") || PMTCT_Intervention.contains("None") || PMTCT_Intervention.contains("Other") || 
+//                PMTCT_Intervention.equalsIgnoreCase("NVP") || PMTCT_Intervention.contains("AZT+3TC+NVP") || PMTCT_Intervention.equalsIgnoreCase("interrupted HAART")){
+//            errors+=" Wrong PMTCT Intervention";
+//        }
+        
+    //Breastfeeding options per age
+    if(Feeding==null){Feeding="";}
+    if(Feeding.equals("")){
+        errors+="Missing Breastfeeding option\n";
+    }
+    else{
+        if(Feeding.equalsIgnoreCase("None") || Feeding.equalsIgnoreCase("No Data")|| Feeding.equalsIgnoreCase("Empty")){
+            errors+="Wrong breastfeeding option";
+        }
+//        else if(Feeding.equalsIgnoreCase("MBF")){
+//           errors+="Wrong breastfeeding option";  
+//           //mixed breastfeeding option
+//           
+//        }
+        else if(isNumeric(Age_Months)) {
+            if((Feeding.equalsIgnoreCase("EBF") || Feeding.equalsIgnoreCase("ERF") || Feeding.equalsIgnoreCase("MF")) && Integer.parseInt(Age_Months)>=7){
+                errors+="Updated feeding option to BF\n";
+                //change to BF 
+                CellFeeding.setCellValue("BF");
+            }
+            else if((Feeding.equalsIgnoreCase("NBF") || Feeding.equalsIgnoreCase("BF")) && Integer.parseInt(Age_Months)<7){
+              errors+="Wrong breastfeeding option for kids aged  less than 6 months\n";    
+        }
+            else{}
+    }
+     
+    }
+        //end of pmtct intervention
+      
+      if(Entry_Point.equals("")){
+          errors+="Missing Entry point\n";
+      } 
+      else if(Entry_Point.equalsIgnoreCase("Other")){
+        errors+="Wrong Entry point\n";        
+            }
+      
+      
+      //check for PCR Type
+      
+      if(isNumeric(Age_Months)) {
+        if(Integer.parseInt(Age_Months)<6 && (PCR_Type.contains("2nd PCR") || PCR_Type.contains("3rd PCR"))){
+         errors+="The selected PCR does not match the age of child\n";   
+        }
+    }
+      if(DOB==null){DOB="";}
+      if(Date_Collected==null){Date_Collected="";}
+      if(!DOB.equals("") && !Date_Collected.equals("") && isNumeric(Age_Months)){
+          
+           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Calendar cal_DOB = Calendar.getInstance();
+            cal_DOB.setTime(sdf.parse(DOB));// all done
             
+            Calendar cal_DateTested = Calendar.getInstance();
+            cal_DateTested.setTime(sdf.parse(Date_Collected));// all done
+
+          int yearsInBetween = cal_DateTested.get(Calendar.YEAR) - cal_DOB.get(Calendar.YEAR); 
+          int monthsDiff = cal_DateTested.get(Calendar.MONTH) - cal_DOB.get(Calendar.MONTH); 
+          long ageInMonths = yearsInBetween*12 + monthsDiff; 
+          long age = yearsInBetween; 
+//          System.out.println("Months : " + ageInMonths); 
+//          System.out.println("Years : " + age);
+          
+          
+          if((ageInMonths - Integer.parseInt(Age_Months))>1){
+           errors+="There is a problem in age calculation for this child DOB and Age in Months are different\n";
+           }
+       }
+      
+         //END OF ERROR CHECKING LEVEL1#####################################
+         
+        
+         
+         //START OF ERROR CHECKING LEVEL2####################################
+         //check for duplicates within uploaded data
+        String checker1="SELECT * from eid_cleaning WHERE Sample_ID=? AND Facility_Code=?";
+        conn.pst = conn.conn.prepareStatement(checker1);
+        conn.pst.setString(1, Sample_ID);
+        conn.pst.setString(2, Facility_Code);
+        conn.rs = conn.pst.executeQuery();
+         if(conn.rs.next()){
+          //similar records already in the system
+//             System.out.println("row num : "+(i+1)+" sc:"+Sample_ID+" row :"+(conn.rs.getInt("num")+1)+" sc:"+conn.rs.getString("Sample_ID"));
+             
+             //if gender is different for the same number flag out
+             if(!Gender.equals(conn.rs.getString("Gender")) || !DOB.equals(conn.rs.getString("DOB"))){
+             //flag out as wrong entry
+             errors+="Duplicated Sample ID. There is a posibility of wrong entry\n";
+             XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
+             XSSFCell anotherCell = anotherRow.getCell(31);
+             String errrs = anotherCell.getStringCellValue();
+             
+             errrs+="Duplicated Sample ID. There is a posibility of wrong entry\n";
+             anotherCell.setCellValue(errrs);
+             anotherCell.setCellStyle(redstyle);
+             }
+             
+             
+             else if(Gender.equals(conn.rs.getString("Gender")) && DOB.equals(conn.rs.getString("DOB")) && PCR_Type.equals(conn.rs.getString("PCR_Type"))){
+             //flag out as wrong entry
+             
+                System.out.println("row num : "+(i+1)+" sc:"+Sample_ID+" row :"+(conn.rs.getInt("num")+1)+" sc:"+conn.rs.getString("Sample_ID"));
+                
+             errors+="Duplicated Record\n";
+             XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
+             XSSFCell anotherCell = anotherRow.getCell(31);
+             String errrs = anotherCell.getStringCellValue();
+             
+             errrs+="Duplicated Record\n";
+             anotherCell.setCellValue(errrs);
+             anotherCell.setCellStyle(redstyle);
+             }
+         
+         }
+         
+//            System.out.println(Gender+":"+conn.rs.getString("Gender")+"--"+ DOB+":"+conn.rs.getString("DOB")+":"+PCR_Type.equals("PCR_Type"));
+         
+         //END OF ERROR CHECKING LEVEL2######################################
+      
+         //LEVEL3 CHECKING 
+//         Check data against previosly reported data
+
+        
+
+      if(PCR_Type.contains("Initial PCR")){
+         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
+            conn.pst = conn.conn.prepareStatement(checker);
+            conn.pst.setString(1, Sample_ID);
+            conn.pst.setString(2, Facility_Code);
+
+            conn.rs1 = conn.pst.executeQuery();
+            if(conn.rs.next()){
+                if(isNumeric(Age_Months)){
+                    errors+="The record previously exist.\n";
+                   if(Integer.parseInt(Age_Months)<5) {
+//                           CellPCR_Type.setCellValue("Initial PCR (6 week or first contact)");
+                   }
+                   if(Integer.parseInt(Age_Months)>=5 && Integer.parseInt(Age_Months)<=10) {
+                           CellPCR_Type.setCellValue("2nd PCR (6 months)");      
+                   }
+                   else if(Integer.parseInt(Age_Months)>10) {
+                           CellPCR_Type.setCellValue("3rd PCR (12 months)");      
+                   }
+
+                }
+                else{
+                 CellPCR_Type.setCellValue("2nd PCR (6 months)");        
+                }
+
+              CellPCR_Type.setCellStyle(redstyle);
+        }
+      }
+      
+        //END OF LEVEL 3 Checking
+      
+      
+       //ADD DATA TO THE DATABASE FOR COMPARISON
+         
+         String query_to_add="REPLACE INTO eid_cleaning SET num=?,SystemID=?,Sample_ID=?,Batch=?,Lab_Tested_In=?,County=?,Sub_County=?,Partner=?,Facilty=?,Facility_Code=?,Gender=?,DOB=?,Age_Months=?,PCR_Type=?,Enrollment_CCC_No=?,Date_Collected=?,Date_Received=?,Date_Tested=?,Date_Dispatched=?,Infant_Prophylaxis=?,Received_Status=?,Lab_Comment=?,Reason_for_Repeat=?,Spots=?,Feeding=?,Entry_Point=?,Result=?,PMTCT_Intervention=?,Mother_Result=?,Mother_Age=?,Mother_CCC_No=?,Mother_Last_VL=?";
+         conn.pst = conn.conn.prepareStatement(query_to_add);
+         conn.pst.setInt(1, i);
+         conn.pst.setString(2, SystemID);
+         conn.pst.setString(3, Sample_ID);
+         conn.pst.setString(4, Batch);
+         conn.pst.setString(5, Lab_Tested_In);
+         conn.pst.setString(6, County);
+         conn.pst.setString(7, Sub_County);
+         conn.pst.setString(8, Partner);
+         conn.pst.setString(9, Facilty);
+         conn.pst.setString(10, Facility_Code);
+         conn.pst.setString(11, Gender);
+         conn.pst.setString(12, DOB);
+         conn.pst.setString(13, Age_Months);
+         conn.pst.setString(14, PCR_Type);
+         conn.pst.setString(15, Enrollment_CCC_No);
+         conn.pst.setString(16, Date_Collected);
+         conn.pst.setString(17, Date_Received);
+         conn.pst.setString(18, Date_Tested);
+         conn.pst.setString(19, Date_Dispatched);
+         conn.pst.setString(20, Infant_Prophylaxis);
+         conn.pst.setString(21, Received_Status);
+         conn.pst.setString(22, Lab_Comment);
+         conn.pst.setString(23, Reason_for_Repeat);
+         conn.pst.setString(24, Spots);
+         conn.pst.setString(25, Feeding);
+         conn.pst.setString(26, Entry_Point);
+         conn.pst.setString(27, Result);
+         conn.pst.setString(28, PMTCT_Intervention);
+         conn.pst.setString(29, Mother_Result);
+         conn.pst.setString(30, Mother_Age);
+         conn.pst.setString(31, Mother_CCC_No);
+         conn.pst.setString(32, Mother_Last_VL);   
+         conn.pst.executeUpdate();
+      //Create Errors Column
+      
+      XSSFCell error_value = rowi.createCell(31);
+       
+      if(!errors.equals("")){ // seterrors and color background
+         error_value.setCellValue(errors);
+         error_value.setCellStyle(redstyle);  
+      }
+      else{
+         error_value.setCellValue("");
+         error_value.setCellStyle(borderstyle);   
+      }
+            
+          i++;
+        }
+        
+        
+        //Truncate data from db
+       worksheet.autoSizeColumn(31);     
         
         
         return eid;
@@ -1698,7 +2581,7 @@ System.out.println(" viral load at position : "+i);
         return vl;
     }
  
-  public HSSFWorkbook EIDTST(HSSFWorkbook eid,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
+  public HSSFWorkbook EIDTST(HSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
     String errors,age,where,mfl_code,pcr_type,date_tested;
         HSSFSheet worksheet;
     // Column to check age<=12 col-no11
@@ -2227,4 +3110,8 @@ public HSSFSheet copyRow(HSSFWorkbook wb, HSSFRow rowold,HSSFSheet toSheet, int 
     return toSheet;
 }
 
+
+  public boolean isNumeric(String s) {  
+    return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}
 }
