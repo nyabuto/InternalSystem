@@ -989,6 +989,10 @@
         <servlet-name>getPartner</servlet-name>
         <servlet-class>ppprev.getPartner</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>check_status</servlet-name>
+        <servlet-class>LoadExcels.check_status</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -1976,6 +1980,10 @@
     <servlet-mapping>
         <servlet-name>getPartner</servlet-name>
         <url-pattern>/getPartner</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>check_status</servlet-name>
+        <url-pattern>/check_status</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

@@ -38,11 +38,13 @@ public class LoadAllVLData extends HttpServlet {
   HttpSession session;
   private static final long serialVersionUID = 205242440643911308L;
   private static final String UPLOAD_DIR = "uploads";
-  String query="",value,checker_query;
+  String query="",query_update="",value,checker_query;
   String SubPartnerID,mfl_code,year,month,yearmonth,id;
-  String[] columns =  {"`#`","System_ID","Batch_No","Patient_CCC_No","Testing_Lab","Partner","County","Sub_County","Facility_Name","MFL_Code","Sex","AgeYrs","Sample_Type","Date_Collected","Received_Status","`Reason for Repeat / Rejection`","Regimen","Other_Regimen","Justification","PMTCT","ART_Initiation_Date","Date_Received","Date_Tested","Date_Dispatched","Valid_Result","Value","Suppressed"};
-  int skipped,added;
+  String[] columns =  {"System_ID","Batch_No","Patient_CCC_No","Testing_Lab","County","Sub_County","Partner","Facility_Name","MFL_Code","Sex","DOB","AgeYrs","Sample_Type","Date_Collected","Justification","Date_Received","Date_Tested","Date_Dispatched","ART_Initiation_Date","Received_Status","Reason_for_Repeat","Rejected_Reason","Regimen","Regimen_Line","PMTCT","Value"};
+  int updated,added;
   String min_date="",max_date="",date_tested="";
+  String value_vl="";
+  String upload_message="";
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -72,8 +74,8 @@ public class LoadAllVLData extends HttpServlet {
           full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
-        query=value="";
-        skipped=added=0;
+        query=query_update=value="";
+        updated=added=0;
   FileInputStream fileInputStream = new FileInputStream(full_path);
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
         int j=0;
@@ -83,17 +85,19 @@ public class LoadAllVLData extends HttpServlet {
         
         worksheet = workbook.getSheetAt(j);
         Iterator rowIterator = worksheet.iterator();
-
+        int rowCount = worksheet.getLastRowNum();
         int i=1,y=0;
         while(rowIterator.hasNext()){
+//            session.removeAttribute("viral_load");
             query = "INSERT INTO vl_validation SET ";
-            checker_query="SELECT System_ID FROM vl_validation WHERE ";
+            query_update = "UPDATE vl_validation SET ";
+            checker_query="SELECT autokey FROM vl_validation WHERE ";
              int colmnscounter=0;
         SubPartnerID=mfl_code="";
         XSSFRow rowi = worksheet.getRow(i);
         if( rowi==null){
          break;}
-        
+        value_vl="";
         
        for (String label : columns){
           
@@ -114,36 +118,84 @@ public class LoadAllVLData extends HttpServlet {
                        value = cell.getRawValue();
                        break;
                }
+               
+              if(colmnscounter==9){
+                  if(value.trim().equalsIgnoreCase("Male")){
+                      value="M";
+                  }
+                  else if(value.trim().equalsIgnoreCase("Female")){
+                      value="F";
+                  }
+            } 
+               
+               
                if(value==null){
           query+=label+"="+value+",";
+          query_update+=label+"="+value+",";
 //          checker_query+=label+"="+value+" AND ";
                }
                else{
+                   
                    if(value.contains("'")){
                        value=value.replace("'", "");
                    }
                query+=label+"='"+value+"',";
+               query_update+=label+"='"+value+"',";
                if(colmnscounter<=3){
                checker_query+=label+"='"+value+"' AND "; 
                }
                }
             
             }
-            if(colmnscounter==9){
+            if(colmnscounter==8){
                 mfl_code = value;
             }
             if(label.equalsIgnoreCase("Date_Tested")){
               date_tested =  value; 
             }
             
-            
+            if(label.equalsIgnoreCase("Value")){
+                value_vl = value;
+            }
             
             colmnscounter++;
-       } 
+       }
+       
+       //Change gender
+       
+       
+       
+       //end of changing gender
+       
+       
+       //update suppressed column
+       if(value_vl.contains("<")){
+         query+="Suppressed='Y',Valid_Result='Y'";  
+         query_update+="Suppressed='Y',Valid_Result='Y'";  
+       }
+       else{
+         if(isNumeric(value_vl)){
+            
+             if(Integer.parseInt(value_vl)>1000){
+                  query+="Suppressed='N',Valid_Result='Y'"; 
+                  query_update+="Suppressed='N',Valid_Result='Y'"; 
+             }
+             else{
+               query+="Suppressed='Y',Valid_Result='Y'"; 
+               query_update+="Suppressed='Y',Valid_Result='Y'";    
+             }
+         } 
+         else{
+               query+="Valid_Result='N'"; 
+               query_update+="Valid_Result='N'";   
+         }
+       }
+       
+       
+       
         SubPartnerID=getSubPartnerID(conn,mfl_code); 
         if(!SubPartnerID.equals("")){
-            //REMOVE LAST ELEMENT
-               query=removeLast(query,1);    
+            //REMOVE LAST ELEMENT 
                checker_query=removeLast(checker_query,5); 
             //END OF REMOVING LAST ELEMENT
             System.out.println("CHECKER : "+checker_query);
@@ -152,8 +204,11 @@ public class LoadAllVLData extends HttpServlet {
 //            check existence
         conn.rs1 = conn.st1.executeQuery(checker_query);
         if(conn.rs1.next()){
+            
 //            System.out.println("record not added : "+mfl_code);
-            skipped++;
+        query_update+=" WHERE autokey='"+conn.rs1.getString(1)+"'";
+        conn.st.executeUpdate(query_update);
+            updated++;
         }
         else{
          conn.st.executeUpdate(query);
@@ -165,15 +220,19 @@ public class LoadAllVLData extends HttpServlet {
 //          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
         }
         
+        session.setAttribute("viral_load", "<b>"+i+"/"+rowCount+"</b>");
+        session.setAttribute("viral_load_count", (i*100)/rowCount);
         compare_date(date_tested);
             System.out.println("Current date : "+date_tested+" Min date : "+min_date+" max date : "+max_date);
             i++;
         }
         
         j++;
+        } 
         }
-          
-        }
+        
+         session.setAttribute("viral_load", "<b>Upload complete. Syncing Data to Dashboards system</b>");
+        session.setAttribute("viral_load_count", 100);
         //add data to dashboards
          PushDataSet2 ds2 = new PushDataSet2();
            
@@ -184,8 +243,17 @@ public class LoadAllVLData extends HttpServlet {
             ds2.viral_load(m1);//viral load data upload
         //end of adding data to dashboards.
         
+        //remove counter attributes
         
-        session.setAttribute("vl_loaded", "Upload complete. <b style=\"color:green\">"+added+"</b> records were added/updated and <b style=\"color:red\">"+skipped+"</b> records were skipped.");
+        session.removeAttribute("viral_load");
+        session.removeAttribute("viral_load_count");
+        
+        // end of removing county attributes
+        
+        conn.rs.close();
+        conn.rs1.close();
+        
+        session.setAttribute("vl_loaded", "Upload complete. <b style=\"color:green\">"+added+"</b> records were added and <b style=\"color:red\">"+updated+"</b> records were updated.");
         response.sendRedirect("UploadVL.jsp");
         
       
@@ -304,4 +372,8 @@ public class LoadAllVLData extends HttpServlet {
              
             }
         }
+        
+  public boolean isNumeric(String s) {  
+    return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}
 }

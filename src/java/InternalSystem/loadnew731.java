@@ -1007,7 +1007,7 @@ s2_HIV_postive_results="<fieldset class=\"formatter\"><legend class=\"formatter\
                + "<tr>"
               + "<td style=\"padding:0 55px 0 70px;\">Total Postive (Sum HV02-10 to 13)</td><td style=\"padding:0 55px 0 70px;\" >HV02-14</td><td style=\"padding:0 70px 0 70px;\"><input type=\"text\" tabindex=\"-1\" name=\"HV0214\" id=\"HV0214\" value=\""+HV0214+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" maxLength=\"4\" onkeypress=\"return numbers(event)\" style=\"width: 80px;background-color:#DDDDDD;\"  readonly=\"true\"></td>"
               + "</tr>"
-               + "<tr>"
+               + "<tr  hidden=\"true\">"
               + "<td style=\"padding:0 55px 0 70px;\">Postive PNC >6wks to 6 months</td><td style=\"padding:0 55px 0 70px;\" >HV02-15</td><td style=\"padding:0 70px 0 70px;\"><input type=\"text\" name=\"HV0215\" id=\"HV0215\" value=\""+HV0215+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV0215');\" maxLength=\"4\" onkeypress=\"return numbers(event)\"  style=\"width: 80px;\"></td>"
               + "</tr>"
               + "</table>"

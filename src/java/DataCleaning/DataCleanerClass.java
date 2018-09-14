@@ -705,7 +705,10 @@ System.out.println(" viral load at position : "+i);
     }
  
   public XSSFWorkbook EIDTST(XSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
+              
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     String errors;
+    int has_initial=0;
         XSSFSheet worksheet;
 String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty,Facility_Code,Gender,DOB,Age_Months,PCR_Type,Enrollment_CCC_No,Date_Collected,Date_Received,Date_Tested,Date_Dispatched,Infant_Prophylaxis,Received_Status,Lab_Comment,Reason_for_Repeat,Spots,Feeding,Entry_Point,Result,PMTCT_Intervention,Mother_Result,Mother_Age,Mother_CCC_No,Mother_Last_VL;
     // Column to check age<=12 col-no11
@@ -746,7 +749,8 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
         while(rowIterator.hasNext()){
             errors="";
             SystemID=Sample_ID=Batch=Lab_Tested_In=County=Sub_County=Partner=Facilty=Facility_Code=Gender=DOB=Age_Months=PCR_Type=Enrollment_CCC_No=Date_Collected=Date_Received=Date_Tested=Date_Dispatched=Infant_Prophylaxis=Received_Status=Lab_Comment=Reason_for_Repeat=Spots=Feeding=Entry_Point=Result=PMTCT_Intervention=Mother_Result=Mother_Age=Mother_CCC_No=Mother_Last_VL="";
-            
+            has_initial=0;
+            long ageInMonths=0;
           
         
         XSSFRow rowi = worksheet.getRow(i);
@@ -765,7 +769,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellSystemID.getCellType()) {
                    case 0:
                        //numeric
-                       SystemID =""+(int)CellSystemID.getNumericCellValue();
+                       SystemID =""+(double)CellSystemID.getNumericCellValue();
                        break;
                    case 1:
                        SystemID =CellSystemID.getStringCellValue();
@@ -786,7 +790,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellSample_ID.getCellType()) {
                    case 0:
                        //numeric
-                       Sample_ID =""+(int)CellSample_ID.getNumericCellValue();
+                       Sample_ID =""+(double)CellSample_ID.getNumericCellValue();
                        break;
                    case 1:
                        Sample_ID =CellSample_ID.getStringCellValue();
@@ -808,7 +812,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellBatch.getCellType()) {
                    case 0:
                        //numeric
-                       Batch =""+(int)CellBatch.getNumericCellValue();
+                       Batch =""+(double)CellBatch.getNumericCellValue();
                        break;
                    case 1:
                        Batch =CellBatch.getStringCellValue();
@@ -829,7 +833,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellLab_Tested_In.getCellType()) {
                    case 0:
                        //numeric
-                       Lab_Tested_In =""+(int)CellLab_Tested_In.getNumericCellValue();
+                       Lab_Tested_In =""+(double)CellLab_Tested_In.getNumericCellValue();
                        break;
                    case 1:
                        Lab_Tested_In =CellLab_Tested_In.getStringCellValue();
@@ -851,7 +855,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellCounty.getCellType()) {
                    case 0:
                        //numeric
-                       County =""+(int)CellCounty.getNumericCellValue();
+                       County =""+(double)CellCounty.getNumericCellValue();
                        break;
                    case 1:
                        County =CellCounty.getStringCellValue();
@@ -873,7 +877,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellSub_County.getCellType()) {
                    case 0:
                        //numeric
-                       Sub_County =""+(int)CellSub_County.getNumericCellValue();
+                       Sub_County =""+(double)CellSub_County.getNumericCellValue();
                        break;
                    case 1:
                        Sub_County =CellSub_County.getStringCellValue();
@@ -895,7 +899,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellPartner.getCellType()) {
                    case 0:
                        //numeric
-                       Partner =""+(int)CellPartner.getNumericCellValue();
+                       Partner =""+(double)CellPartner.getNumericCellValue();
                        break;
                    case 1:
                        Partner =CellPartner.getStringCellValue();
@@ -917,7 +921,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellFacilty.getCellType()) {
                    case 0:
                        //numeric
-                       Facilty =""+(int)CellFacilty.getNumericCellValue();
+                       Facilty =""+(double)CellFacilty.getNumericCellValue();
                        break;
                    case 1:
                        Facilty =CellFacilty.getStringCellValue();
@@ -939,7 +943,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellFacility_Code.getCellType()) {
                    case 0:
                        //numeric
-                       Facility_Code =""+(int)CellFacility_Code.getNumericCellValue();
+                       Facility_Code =""+(double)CellFacility_Code.getNumericCellValue();
                        break;
                    case 1:
                        Facility_Code =CellFacility_Code.getStringCellValue();
@@ -961,7 +965,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellGender.getCellType()) {
                    case 0:
                        //numeric
-                       Gender =""+(int)CellGender.getNumericCellValue();
+                       Gender =""+(double)CellGender.getNumericCellValue();
                        break;
                    case 1:
                        Gender =CellGender.getStringCellValue();
@@ -982,7 +986,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellDOB.getCellType()) {
                    case 0:
                        //numeric
-                       DOB =""+(int)CellDOB.getNumericCellValue();
+                       DOB =""+(double)CellDOB.getNumericCellValue();
                        break;
                    case 1:
                        DOB =CellDOB.getStringCellValue();
@@ -1004,7 +1008,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellAge_Months.getCellType()) {
                    case 0:
                        //numeric
-                       Age_Months =""+(int)CellAge_Months.getNumericCellValue();
+                       Age_Months =""+(double)CellAge_Months.getNumericCellValue();
                        break;
                    case 1:
                        Age_Months =CellAge_Months.getStringCellValue();
@@ -1026,7 +1030,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellPCR_Type.getCellType()) {
                    case 0:
                        //numeric
-                       PCR_Type =""+(int)CellPCR_Type.getNumericCellValue();
+                       PCR_Type =""+(double)CellPCR_Type.getNumericCellValue();
                        break;
                    case 1:
                        PCR_Type =CellPCR_Type.getStringCellValue();
@@ -1048,7 +1052,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellEnrollment_CCC_No.getCellType()) {
                    case 0:
                        //numeric
-                       Enrollment_CCC_No =""+(int)CellEnrollment_CCC_No.getNumericCellValue();
+                       Enrollment_CCC_No =""+(double)CellEnrollment_CCC_No.getNumericCellValue();
                        break;
                    case 1:
                        Enrollment_CCC_No =CellEnrollment_CCC_No.getStringCellValue();
@@ -1070,7 +1074,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellDate_Collected.getCellType()) {
                    case 0:
                        //numeric
-                       Date_Collected =""+(int)CellDate_Collected.getNumericCellValue();
+                       Date_Collected =""+(double)CellDate_Collected.getNumericCellValue();
                        break;
                    case 1:
                        Date_Collected =CellDate_Collected.getStringCellValue();
@@ -1092,7 +1096,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellDate_Received.getCellType()) {
                    case 0:
                        //numeric
-                       Date_Received =""+(int)CellDate_Received.getNumericCellValue();
+                       Date_Received =""+(double)CellDate_Received.getNumericCellValue();
                        break;
                    case 1:
                        Date_Received =CellDate_Received.getStringCellValue();
@@ -1114,7 +1118,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellDate_Tested.getCellType()) {
                    case 0:
                        //numeric
-                       Date_Tested =""+(int)CellDate_Tested.getNumericCellValue();
+                       Date_Tested =""+(double)CellDate_Tested.getNumericCellValue();
                        break;
                    case 1:
                        Date_Tested =CellDate_Tested.getStringCellValue();
@@ -1136,7 +1140,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellDate_Dispatched.getCellType()) {
                    case 0:
                        //numeric
-                       Date_Dispatched =""+(int)CellDate_Dispatched.getNumericCellValue();
+                       Date_Dispatched =""+(double)CellDate_Dispatched.getNumericCellValue();
                        break;
                    case 1:
                        Date_Dispatched =CellDate_Dispatched.getStringCellValue();
@@ -1158,7 +1162,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellInfant_Prophylaxis.getCellType()) {
                    case 0:
                        //numeric
-                       Infant_Prophylaxis =""+(int)CellInfant_Prophylaxis.getNumericCellValue();
+                       Infant_Prophylaxis =""+(double)CellInfant_Prophylaxis.getNumericCellValue();
                        break;
                    case 1:
                        Infant_Prophylaxis =CellInfant_Prophylaxis.getStringCellValue();
@@ -1180,7 +1184,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellReceived_Status.getCellType()) {
                    case 0:
                        //numeric
-                       Received_Status =""+(int)CellReceived_Status.getNumericCellValue();
+                       Received_Status =""+(double)CellReceived_Status.getNumericCellValue();
                        break;
                    case 1:
                        Received_Status =CellReceived_Status.getStringCellValue();
@@ -1202,7 +1206,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellLab_Comment.getCellType()) {
                    case 0:
                        //numeric
-                       Lab_Comment =""+(int)CellLab_Comment.getNumericCellValue();
+                       Lab_Comment =""+(double)CellLab_Comment.getNumericCellValue();
                        break;
                    case 1:
                        Lab_Comment =CellLab_Comment.getStringCellValue();
@@ -1224,7 +1228,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellReason_for_Repeat.getCellType()) {
                    case 0:
                        //numeric
-                       Reason_for_Repeat =""+(int)CellReason_for_Repeat.getNumericCellValue();
+                       Reason_for_Repeat =""+(double)CellReason_for_Repeat.getNumericCellValue();
                        break;
                    case 1:
                        Reason_for_Repeat =CellReason_for_Repeat.getStringCellValue();
@@ -1246,7 +1250,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellSpots.getCellType()) {
                    case 0:
                        //numeric
-                       Spots =""+(int)CellSpots.getNumericCellValue();
+                       Spots =""+(double)CellSpots.getNumericCellValue();
                        break;
                    case 1:
                        Spots =CellSpots.getStringCellValue();
@@ -1268,7 +1272,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellFeeding.getCellType()) {
                    case 0:
                        //numeric
-                       Feeding =""+(int)CellFeeding.getNumericCellValue();
+                       Feeding =""+(double)CellFeeding.getNumericCellValue();
                        break;
                    case 1:
                        Feeding =CellFeeding.getStringCellValue();
@@ -1290,7 +1294,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellEntry_Point.getCellType()) {
                    case 0:
                        //numeric
-                       Entry_Point =""+(int)CellEntry_Point.getNumericCellValue();
+                       Entry_Point =""+(double)CellEntry_Point.getNumericCellValue();
                        break;
                    case 1:
                        Entry_Point =CellEntry_Point.getStringCellValue();
@@ -1312,7 +1316,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellResult.getCellType()) {
                    case 0:
                        //numeric
-                       Result =""+(int)CellResult.getNumericCellValue();
+                       Result =""+(double)CellResult.getNumericCellValue();
                        break;
                    case 1:
                        Result =CellResult.getStringCellValue();
@@ -1334,7 +1338,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellPMTCT_Intervention.getCellType()) {
                    case 0:
                        //numeric
-                       PMTCT_Intervention =""+(int)CellPMTCT_Intervention.getNumericCellValue();
+                       PMTCT_Intervention =""+(double)CellPMTCT_Intervention.getNumericCellValue();
                        break;
                    case 1:
                        PMTCT_Intervention =CellPMTCT_Intervention.getStringCellValue();
@@ -1356,7 +1360,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellMother_Result.getCellType()) {
                    case 0:
                        //numeric
-                       Mother_Result =""+(int)CellMother_Result.getNumericCellValue();
+                       Mother_Result =""+(double)CellMother_Result.getNumericCellValue();
                        break;
                    case 1:
                        Mother_Result =CellMother_Result.getStringCellValue();
@@ -1378,7 +1382,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellMother_Age.getCellType()) {
                    case 0:
                        //numeric
-                       Mother_Age =""+(int)CellMother_Age.getNumericCellValue();
+                       Mother_Age =""+(double)CellMother_Age.getNumericCellValue();
                        break;
                    case 1:
                        Mother_Age =CellMother_Age.getStringCellValue();
@@ -1400,7 +1404,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellMother_CCC_No.getCellType()) {
                    case 0:
                        //numeric
-                       Mother_CCC_No =""+(int)CellMother_CCC_No.getNumericCellValue();
+                       Mother_CCC_No =""+(double)CellMother_CCC_No.getNumericCellValue();
                        break;
                    case 1:
                        Mother_CCC_No =CellMother_CCC_No.getStringCellValue();
@@ -1420,7 +1424,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                switch (CellMother_Last_VL.getCellType()) {
                    case 0:
                        //numeric
-                       Mother_Last_VL =""+(int)CellMother_Last_VL.getNumericCellValue();
+                       Mother_Last_VL =""+(double)CellMother_Last_VL.getNumericCellValue();
                        break;
                    case 1:
                        Mother_Last_VL =CellMother_Last_VL.getStringCellValue();
@@ -1440,8 +1444,10 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
             if(Age_Months==null){Age_Months="";}
             if(!Age_Months.equals("")){
              if(isNumeric(Age_Months)) {
-             if(!Facility_Code.equals("15288") && (Integer.parseInt(Age_Months)>=13 || Integer.parseInt(Age_Months)<=0))   
+             if((!Facility_Code.equals("15288") && (Double.parseDouble(Age_Months)<=0)) || Double.parseDouble(Age_Months)>=13){   
+                 System.out.println("row :"+i+"Age is : "+Age_Months);
               errors+="Wrong age in months. Age should not be less than 0 or more than 13 months \n";   
+             }
              }  
              else{
                  errors+="Age entered is non-numeric \n";
@@ -1475,7 +1481,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
             errors+=" Wrong mother's HIV Status\n";    
             }
             else if(Mother_Result.equalsIgnoreCase("Negative")){
-                errors+="Mother's HIV status should not be Negative";
+                errors+="Mother's HIV status should not be Negative\n";
             }
         }
          //end of checking for mother HIV status
@@ -1497,20 +1503,22 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
         if(Infant_Prophylaxis.equalsIgnoreCase("No Data") || Infant_Prophylaxis.equalsIgnoreCase("None") || Infant_Prophylaxis.equalsIgnoreCase("Others") || Infant_Prophylaxis.equals("")){
             errors+="Missing infant Prophylaxis \n";
         }
-        else if(!((Infant_Prophylaxis.contains("AZT") && Infant_Prophylaxis.contains("NVP")) && !Infant_Prophylaxis.contains("SdNVP"))){
-         // Wrong infant prophylaxis  
-            errors+="Wrong infant prophylaxis\n";
-        }
+//        else if(!((Infant_Prophylaxis.contains("AZT") && Infant_Prophylaxis.contains("NVP")) && !Infant_Prophylaxis.contains("SdNVP"))){
+//         // Wrong infant prophylaxis  
+//            errors+="Wrong infant prophylaxis\n";
+//        }
 //        end of infant prophylaxis
+
+
         //pmtct intervention
         if(PMTCT_Intervention==null){PMTCT_Intervention="";}
-        if(PMTCT_Intervention.equals("")){
+        if(PMTCT_Intervention.contains("No Data") || PMTCT_Intervention.contains("None") || PMTCT_Intervention.equals("")){
          errors+="Missing PMTCT Intervention\n";   
         }
         
-        else if(PMTCT_Intervention.contains("No Data") || PMTCT_Intervention.contains("None") || PMTCT_Intervention.contains("Other") || 
-                PMTCT_Intervention.equalsIgnoreCase("SdNVP only") || PMTCT_Intervention.equalsIgnoreCase("SdNVP/AZT/3TC") || PMTCT_Intervention.equalsIgnoreCase("HAART")){
-            errors+=" Wrong PMTCT Intervention";
+        else if(PMTCT_Intervention.contains("Other") || PMTCT_Intervention.equalsIgnoreCase("SdNVP only") || 
+                PMTCT_Intervention.equalsIgnoreCase("SdNVP/AZT/3TC") || PMTCT_Intervention.equalsIgnoreCase("HAART")){
+            errors+=" Wrong PMTCT Intervention\n";
         }
         
 //         if(PMTCT_Intervention.equalsIgnoreCase("No Data") || PMTCT_Intervention.contains("None") || PMTCT_Intervention.contains("Other") || 
@@ -1521,11 +1529,11 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
     //Breastfeeding options per age
     if(Feeding==null){Feeding="";}
     if(Feeding.equals("")){
-        errors+="Missing Breastfeeding option\n";
+        errors+="Missing feeding option\n";
     }
     else{
         if(Feeding.equalsIgnoreCase("None") || Feeding.equalsIgnoreCase("No Data")|| Feeding.equalsIgnoreCase("Empty")){
-            errors+="Wrong breastfeeding option";
+            errors+="Wrong feeding option\n";
         }
 //        else if(Feeding.equalsIgnoreCase("MBF")){
 //           errors+="Wrong breastfeeding option";  
@@ -1533,19 +1541,19 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 //           
 //        }
         else if(isNumeric(Age_Months)) {
-            if((Feeding.equalsIgnoreCase("EBF") || Feeding.equalsIgnoreCase("ERF") || Feeding.equalsIgnoreCase("MF")) && Integer.parseInt(Age_Months)>=7){
+            if((Feeding.equalsIgnoreCase("EBF") || Feeding.equalsIgnoreCase("ERF") || Feeding.equalsIgnoreCase("MF")) && Double.parseDouble(Age_Months)>=7){
                 errors+="Updated feeding option to BF\n";
                 //change to BF 
                 CellFeeding.setCellValue("BF");
             }
-            else if((Feeding.equalsIgnoreCase("NBF") || Feeding.equalsIgnoreCase("BF")) && Integer.parseInt(Age_Months)<7){
+            else if((Feeding.equalsIgnoreCase("NBF") || Feeding.equalsIgnoreCase("BF")) && Double.parseDouble(Age_Months)<7){
               errors+="Wrong breastfeeding option for kids aged  less than 6 months\n";    
         }
             else{}
     }
      
     }
-        //end of pmtct intervention
+        //end of feeding
       
       if(Entry_Point.equals("")){
           errors+="Missing Entry point\n";
@@ -1557,32 +1565,31 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
       
       //check for PCR Type
       
-      if(isNumeric(Age_Months)) {
-        if(Integer.parseInt(Age_Months)<6 && (PCR_Type.contains("2nd PCR") || PCR_Type.contains("3rd PCR"))){
-         errors+="The selected PCR does not match the age of child\n";   
-        }
-    }
+//      if(isNumeric(Age_Months)) {
+//        if(Double.parseDouble(Age_Months)<6 && (PCR_Type.contains("2nd PCR") || PCR_Type.contains("3rd PCR"))){
+//         errors+="The selected PCR does not match the age of child\n";   
+//        }
+//    }
       if(DOB==null){DOB="";}
-      if(Date_Collected==null){Date_Collected="";}
-      if(!DOB.equals("") && !Date_Collected.equals("") && isNumeric(Age_Months)){
-          
-           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+      if(Date_Tested==null){Date_Tested="";}
+      if(!DOB.equals("") && !Date_Tested.equals("") && isNumeric(Age_Months)){
+
             Calendar cal_DOB = Calendar.getInstance();
             cal_DOB.setTime(sdf.parse(DOB));// all done
             
             Calendar cal_DateTested = Calendar.getInstance();
-            cal_DateTested.setTime(sdf.parse(Date_Collected));// all done
+            cal_DateTested.setTime(sdf.parse(Date_Tested));// all done
 
           int yearsInBetween = cal_DateTested.get(Calendar.YEAR) - cal_DOB.get(Calendar.YEAR); 
           int monthsDiff = cal_DateTested.get(Calendar.MONTH) - cal_DOB.get(Calendar.MONTH); 
-          long ageInMonths = yearsInBetween*12 + monthsDiff; 
+          ageInMonths = yearsInBetween*12 + monthsDiff; 
           long age = yearsInBetween; 
 //          System.out.println("Months : " + ageInMonths); 
 //          System.out.println("Years : " + age);
           
           
-          if((ageInMonths - Integer.parseInt(Age_Months))>1){
-           errors+="There is a problem in age calculation for this child DOB and Age in Months are different\n";
+          if((ageInMonths - Double.parseDouble(Age_Months))>1 || (ageInMonths - Double.parseDouble(Age_Months))<-1){
+           errors+="There is a problem in age calculation for this child is not correct, (DOB-Date_Tested) is not equal to Age_Months\n";
            }
        }
       
@@ -1598,6 +1605,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
         conn.pst.setString(2, Facility_Code);
         conn.rs = conn.pst.executeQuery();
          if(conn.rs.next()){
+             has_initial++;
           //similar records already in the system
 //             System.out.println("row num : "+(i+1)+" sc:"+Sample_ID+" row :"+(conn.rs.getInt("num")+1)+" sc:"+conn.rs.getString("Sample_ID"));
              
@@ -1620,12 +1628,12 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              
                 System.out.println("row num : "+(i+1)+" sc:"+Sample_ID+" row :"+(conn.rs.getInt("num")+1)+" sc:"+conn.rs.getString("Sample_ID"));
                 
-             errors+="Duplicated Record\n";
+             errors+="Duplicated Record [Check Record Row Number "+(conn.rs.getInt("num")+1)+"]\n";
              XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
              XSSFCell anotherCell = anotherRow.getCell(31);
              String errrs = anotherCell.getStringCellValue();
              
-             errrs+="Duplicated Record\n";
+             errrs+="Duplicated Record [Check Record Row Number "+(i+1)+"]\n";
              anotherCell.setCellValue(errrs);
              anotherCell.setCellStyle(redstyle);
              }
@@ -1651,13 +1659,13 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
             if(conn.rs.next()){
                 if(isNumeric(Age_Months)){
                     errors+="The record previously exist.\n";
-                   if(Integer.parseInt(Age_Months)<5) {
+                   if(Double.parseDouble(Age_Months)<5) {
 //                           CellPCR_Type.setCellValue("Initial PCR (6 week or first contact)");
                    }
-                   if(Integer.parseInt(Age_Months)>=5 && Integer.parseInt(Age_Months)<=10) {
+                   if(Double.parseDouble(Age_Months)>=5 && Double.parseDouble(Age_Months)<=11) {
                            CellPCR_Type.setCellValue("2nd PCR (6 months)");      
                    }
-                   else if(Integer.parseInt(Age_Months)>10) {
+                   else if(Double.parseDouble(Age_Months)>11) {
                            CellPCR_Type.setCellValue("3rd PCR (12 months)");      
                    }
 
@@ -1668,6 +1676,35 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 
               CellPCR_Type.setCellStyle(redstyle);
         }
+      }
+        
+
+      if(PCR_Type.contains("2nd PCR") || PCR_Type.contains("3rd PCR")){
+         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
+            conn.pst = conn.conn.prepareStatement(checker);
+            conn.pst.setString(1, Sample_ID);
+            conn.pst.setString(2, Facility_Code);
+
+            conn.rs1 = conn.pst.executeQuery();
+            if(conn.rs.next()){
+             // has initial in the previous data set   
+            }
+            else if(has_initial==0){ // has no initial records in the current dataset
+                if(isNumeric(Age_Months)){
+                   if(Double.parseDouble(Age_Months)<5 && ageInMonths<6) {
+                       errors+="This should be an initial PCR. No Initial records found in dataset\n";
+                   }
+                   else{
+                       // it is a repeat PCR
+                   }
+                }
+                else{
+                // Age is not numeric     
+                }
+        }
+            else{
+                
+            }
       }
       
         //END OF LEVEL 3 Checking

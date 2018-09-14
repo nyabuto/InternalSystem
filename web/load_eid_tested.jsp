@@ -21,6 +21,7 @@
    <meta content="" name="description" />
    <meta content="" name="author" />
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/progress_bar.css">
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
    <link href="assets/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
@@ -128,7 +129,7 @@
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Check gaps in EID tested raw data to IMIS via excel.</a> 
+                        <a href="DataCleaner.jsp" style="margin-left:40%;">Check gaps in EID tested raw data to IMIS via excel.</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -141,30 +142,32 @@
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
-                     <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i> UPLOAD EID TESTED RAW DATA (.XLSX)</h4>
-                       
+                     <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
+                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload EID Tested Raw Data</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated: 2018-09-13 10:09am </div>
                      </div>
-                     <div class="portlet-body form">
+                      
+                      
+                   <div  class="portlet-body form" id="progress_area" hidden="true">
+                     <div class="progress"  style="height: 35px;">
+                         <div class="progress-bar progress-bar-striped active" id="progess" role="progressbar" style="width: 0%;  padding-top: 10px; font-weight: 900;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>   
+                    </div> 
+                      
+                     <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
                         <form action="Load_eid_tes_raw" method="post" enctype="multipart/form-data" class="form-horizontal" >
-                       
-                            
-                          
-                          <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
+                       <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
                         <br><br><br><br>
-
-
-
-                         
-                           <div class="form-actions">
+                        <div class="form-actions">
                               <button type="submit" class="btn blue">Load Excel.</button>
 
                            </div>
                         <div class="form-actions" style="overflow-x: scroll;">
-                              <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the eid positive raw data has column headers arranged in following order </h4>
+                             <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the EID tested raw data has column headers arranged in following order </h4>
                             
-                        <table border="1" class="table responsive"><tr><td>#(1)</td><td>System ID(2)</td><td>Batch No(3)</td><td>Sample Code(4)</td><td>Testing Lab(5)</td><td>County(6)</td><td>Sub-County(7)</td><td>Facility Name(8)</td><td>MFL Code(9)</td><td>Partner(10)</td><td>Sex(11)</td><td>Age(Months)(12)</td><td>Infant Prophylaxis(13)</td><td>Date Collected(14)</td><td>Spots(15)</td><td>Received Status(16)</td><td>PCR Type(17)</td><td>Reason for Repeat / Rejection(18)</td><td>HIV Status of Mother(19)</td><td>PMTCT Intervention(20)</td><td>Breast Feeding(21)</td><td>Entry Point(22)</td><td>Date Received(23)</td><td>Date Tested(24)</td><td>Date Dispatched(25)</td><td>Test Result(26)</td></tr></table>
+                        <table border="1" class="table responsive"><tr>
+                               <td>System ID<br>(1) </td><td>Sample ID<br>(2) </td><td>Batch<br>(3) </td><td>Lab Tested In<br>(4) </td><td>County<br>(5) </td><td>Sub-County<br>(6) </td><td>Partner<br>(7) </td><td>Facilty<br>(8) </td><td>Facility Code<br>(9) </td><td>Gender<br>(10) </td><td>DOB<br>(11) </td><td>Age (Months)<br>(12) </td><td>PCR Type<br>(13) </td><td>Enrollment CCC No<br>(14) </td><td>Date Collected<br>(15) </td><td>Date Received<br>(16) </td><td>Date Tested<br>(17) </td><td>Date Dispatched<br>(18) </td><td>Infant Prophylaxis<br>(19) </td><td>Received Status<br>(20) </td><td>Lab Comment<br>(21) </td><td>Reason for Repeat<br>(22) </td><td>Spots<br>(23) </td><td>Feeding<br>(24) </td><td>Entry Point<br>(25) </td><td>Result<br>(26) </td><td>PMTCT Intervention<br>(27) </td><td>Mother Result<br>(28) </td><td>Mother Age<br>(29) </td><td>Mother CCC No<br>(30) </td><td>Mother Last VL<br>(31)</td>
+                            </tr></table>
                            
                         </div>
                         </form>
@@ -242,7 +245,60 @@
      
 
 <script > 
-                
+     $(document).ready(function(){
+        $("#progress_area").hide();
+        $("#upload_area").show();
+         
+    $("form").submit(function(){
+        $("#progress_area").show();
+        $("#upload_area").hide();
+//        alert("data submitted");
+     setInterval(function() {
+      load_records();
+      }, 500);  
+    });
+     });
+     
+     function load_records(){
+             $.ajax({
+        url:'check_status?load_type=eid_tested',
+        type:"post",
+        dataType:"json",
+        success:function(response){
+//            alert("called");
+var per_value = response.count;
+var message = "["+per_value+"%] Complete "+response.message+" Records Scanned";
+
+    $("#progess").html(message);
+    $("#progess").css({'width':per_value+"%"}); 
+
+    if(per_value<30){
+     $("#progess").addClass('progress-bar-danger');  
+     $("#progess").removeClass('progress-bar-success'); 
+    }
+    if(per_value>=30 && per_value<60){
+     $("#progess").addClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');   
+    }
+    if(per_value>=60 && per_value<80){
+     $("#progess").addClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+    if(per_value>=90){
+     $("#progess").addClass('progress-bar-success'); 
+     $("#progess").removeClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+    $("#status").html(response);
+        }, 
+        error: function(jqXHR, textStatus, errorThrown) {
+       //error in loading upload status
+       $("#status").html(errorThrown);
+            }
+  });
+     }
 </script>
    
  <%if (session.getAttribute("upload_success") != null) { %>

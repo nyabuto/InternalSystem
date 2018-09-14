@@ -20,6 +20,7 @@
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
+   <link rel="stylesheet" href="css/progress_bar.css">
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -43,6 +44,9 @@
 <link rel="stylesheet" href="select2/css/select2.css">
 <link rel="stylesheet" href="css/animate.css">
 
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
                 
                 <style>
@@ -135,7 +139,7 @@ tr>td {
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Upload Viral Load raw Excel data to IMIS.</a> 
+                         <a href="DataCleaner.jsp" style="margin-left:40%;">Check gaps in Viral Load raw data to IMIS via excel.</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -146,34 +150,39 @@ tr>td {
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
-                  <!-- BEGIN SAMPLE FORM PORTLET-->   
+                  <!-- BEGIN SAMPLE FORM PORTLET--> 
+                 
                   <div class="portlet box blue">
-                     <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i></h4>
-                       
+                     <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
+                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload Viral Load Raw Data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated: 2018-09-13 12:45pm </div>
                      </div>
-                     <div class="portlet-body form">
+                      
+                      <div  class="portlet-body form" id="progress_area" hidden="true">
+                     <div class="progress"  style="height: 35px;">
+                         <div class="progress-bar progress-bar-striped active" id="progess" role="progressbar" style="width: 0%;  padding-top: 10px; font-weight: 900;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>   
+                  </div> 
+                      
+                     <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
                         <form action="LoadAllVLData" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                       <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
                        
-                            
-                          
-                          <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
-                        <br><br><br><br>
+                        <br><br><br> 
+                    <br>
 
-
-
-                         
-                           <div class="form-actions scrollmenu">
-                              <button type="submit" class="btn blue">Load Excel.</button>
-
+                     <div class="form-actions scrollmenu">
+                               <button type="submit" class="btn blue" style=" float: left;">Load Excel.</button>
                            </div>
                         <div class="form-actions scrollmenu">
+                           
+                            
                               <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the viral load raw data has column headers arranged in following order <b>[.xlsx]</b> </h4>
                             
                                <table border="1" class="table">
                                    <tr>
-                                        <td> (1) #</td> <td> (2) System ID</td> <td> (3) Batch No</td> <td> (4) Patient CCC No</td> <td> (5) Testing Lab</td> <td> (6) Partner</td> <td> (7) County</td> <td> (8) Sub-County</td> <td> (9) Facility Name</td> <td> (10) MFL Code</td> <td> (11) Sex</td> <td> (12) Age(Yrs)</td> <td> (13) Sample Type</td> <td> (14) Date Collected</td> <td> (15) Received Status</td> <td> (16) Reason for Repeat / Rejection</td> <td> (17) Regimen</td> <td> (18) Other Regimen</td> <td> (19) Justification</td> <td> (20) PMTCT</td> <td> (21) ART Initiation Date</td> <td> (22) Date Received</td> <td> (23) Date Tested</td> <td> (24) Date Dispatched</td> <td> (25) Valid Result</td> <td> (26) Value</td> <td> (27) Suppressed</td>   
+                                  <td>System ID<br> [1] </td><td>Batch<br> [2] </td><td>Patient CCC No<br> [3] </td><td>Lab Tested In<br> [4] </td><td>County<br> [5] </td><td>Sub-County<br> [6] </td><td>Partner<br> [7] </td><td>Facilty<br> [8] </td><td>Facility Code<br> [9] </td><td>Gender<br> [10] </td><td>DOB<br> [11] </td><td>Age<br> [12] </td><td>Sample Type<br> [13] </td><td>Date Collected<br> [14] </td><td>Justification<br> [15] </td><td>Date Received<br> [16] </td><td>Date Tested<br> [17] </td><td>Date Dispatched<br> [18] </td><td>ART Initiation Date<br> [19] </td><td>Received Status<br> [20] </td><td>Reasons for Repeat<br> [21] </td><td>Rejected Reason<br> [22] </td><td>Regimen<br> [23] </td><td>Regimen Line<br> [24] </td><td>PMTCT<br> [25] </td><td>Result<br> [26] </td>
+
                                    </tr>
                                </table>
                            
@@ -253,16 +262,66 @@ tr>td {
      
 
 <script > 
-                
+     $(document).ready(function(){
+        $("#progress_area").hide();
+        $("#upload_area").show();
+         
+    $("form").submit(function(){
+        $("#progress_area").show();
+        $("#upload_area").hide();
+//        alert("data submitted");
+     setInterval(function() {
+      load_records();
+      }, 100);  
+    });
+     });
+     
+     function load_records(){
+             $.ajax({
+        url:'check_status?load_type=viral_load',
+        type:"post",
+        dataType:"json",
+        success:function(response){
+//            alert("called");
+var per_value = response.count;
+var message = "["+per_value+"%] Complete "+response.message+" Records Scanned";
+
+    $("#progess").html(message);
+    $("#progess").css({'width':per_value+"%"}); 
+
+    if(per_value<30){
+     $("#progess").addClass('progress-bar-danger');  
+     $("#progess").removeClass('progress-bar-success'); 
+    }
+    if(per_value>=30 && per_value<60){
+     $("#progess").addClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');   
+    }
+    if(per_value>=60 && per_value<80){
+     $("#progess").addClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+    if(per_value>=90){
+     $("#progess").addClass('progress-bar-success'); 
+     $("#progess").removeClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+    $("#status").html(response);
+        }, 
+        error: function(jqXHR, textStatus, errorThrown) {
+       //error in loading upload status
+       $("#status").html(errorThrown);
+            }
+  });
+     }
 </script>
    
  <%if (session.getAttribute("vl_loaded") != null) { %>
-                                <script type="text/javascript"> 
+   <script type="text/javascript"> 
                     
-                    
-                    
-                         
-      $.notify(
+         $.notify(
       {icon: "images/validated.jpg", 
   message:'<%=session.getAttribute("vl_loaded")%>'},
       {
