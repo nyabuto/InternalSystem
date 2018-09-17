@@ -33,20 +33,10 @@ public class getPartner extends HttpServlet {
             
             dbConn conn = new dbConn();
             
-            String data="<option value=''>Select partner</option>";
-            String qry="select * from hc_partner";
             
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-            
-            data+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
-            
-            }
-            
-           
+            out.println(Partner(conn, ""));
             
             
-            out.println(data);
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -96,4 +86,32 @@ public class getPartner extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+
+
+public String Partner(dbConn conn, String curselect) throws SQLException{
+
+
+String data="<option value=''>Select partner</option>";
+            String qry="select * from hc_partner";
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+                
+                String selected="";
+                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+            
+            data+="<option "+selected+" value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
+            
+            }
+            
+           
+            
+            
+    
+
+
+
+    
+    return data;
+}
 }

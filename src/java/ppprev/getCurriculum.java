@@ -29,7 +29,10 @@ public class getCurriculum extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-          String popid="";
+            
+              String popid="";
+                        dbConn conn = new dbConn();
+            
           
           
           if(request.getParameter("targetpop")!=null){
@@ -37,32 +40,12 @@ public class getCurriculum extends HttpServlet {
           popid=request.getParameter("targetpop");
            }
           
-           String wherestring="";
            
-           
-           if(!popid.equals(""))
-           {
-           wherestring=" where 1=1 ";
-           wherestring+=" and target_id='"+popid+"' ";
-           }
-           
-           
-            dbConn conn = new dbConn();
-            
-            String data="<option value=''>Select Curriculum</option>";
-            String qry="select * from hc_curriculum "+wherestring;
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-            
-            data+="<option data-lessons='"+conn.rs.getString(3)+"' value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
-            
-            }
             
            
             
             
-            out.println(data);
+            out.println(curriculum(conn, popid, ""));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -111,5 +94,42 @@ public class getCurriculum extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+
+public String curriculum(dbConn conn,String populationid, String curselect) throws SQLException{
+
+  
+          
+String wherestring="";
+           
+           
+           if(!populationid.equals(""))
+           {
+           wherestring=" where 1=1 ";
+           wherestring+=" and target_id='"+populationid+"' ";
+           }
+           
+           
+
+            
+            String data="<option value=''>Select Curriculum</option>";
+            String qry="select * from hc_curriculum "+wherestring;
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+                
+                 String selected="";
+                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+            
+            data+="<option "+selected+" data-lessons='"+conn.rs.getString(3)+"' value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
+            
+            }
+
+
+
+return data;
+}
+
 
 }

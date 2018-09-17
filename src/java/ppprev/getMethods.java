@@ -29,28 +29,13 @@ public class getMethods extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-    
+     dbConn conn = new dbConn();
           
-           String wherestring="";
            
-         
-           
-            dbConn conn = new dbConn();
-            
-            String data="<option value=''>Select Method</option>";
-            String qry="select * from hc_teachingmethod "+wherestring;
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-            
-            data+="<option  value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+". "+conn.rs.getString(2)+"</option>";
-            
-                                 }
-            
            
             
             
-            out.println(data);
+            out.println(methods(conn, ""));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -99,5 +84,33 @@ public class getMethods extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+
+public String methods(dbConn conn,String curselect) throws SQLException{
+
+String wherestring="";
+           
+         
+           
+           
+            
+            String data="<option value=''>Select Method</option>";
+            String qry="select * from hc_teachingmethod "+wherestring;
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+            
+                String selected="";
+                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+                
+            data+="<option "+selected+"  value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+". "+conn.rs.getString(2)+"</option>";
+            
+                                 }
+            
+
+
+return data;
+}
 
 }

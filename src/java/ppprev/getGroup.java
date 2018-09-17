@@ -31,38 +31,18 @@ public class getGroup extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
           String subcountyid="";
           
+            dbConn conn = new dbConn();
           
           if(request.getParameter("subcounty")!=null){
            
           subcountyid=request.getParameter("subcounty");
            }
           
-           String wherestring="";
-           
-           
-           if(!subcountyid.equals(""))
-           {
-           wherestring=" where 1=1 ";
-           wherestring+=" and district_id='"+subcountyid+"' ";
-           }
-           
-           
-            dbConn conn = new dbConn();
-            
-            String data="<option value=''>Select group</option>";
-            String qry="select * from hc_groups "+wherestring;
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-            
-            data+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
-            
-            }
-            
+          
            
             
             
-            out.println(data);
+            out.println(Group(conn, subcountyid, ""));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -111,5 +91,40 @@ public class getGroup extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+public String Group(dbConn conn, String subcountyid, String curselect) throws SQLException{
+
+    
+     String wherestring="";
+           
+           
+           if(!subcountyid.equals(""))
+           {
+           wherestring=" where 1=1 ";
+           wherestring+=" and district_id='"+subcountyid+"' ";
+           }
+           
+           
+          
+            
+            String data="<option value=''>Select group</option>";
+            String qry="select * from hc_groups "+wherestring;
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+            
+                 String selected="";
+                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+                
+            data+="<option "+selected+" value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
+            
+            }
+            
+    
+
+return data;
+}
+
 
 }

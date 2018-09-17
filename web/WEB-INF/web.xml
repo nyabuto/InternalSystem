@@ -989,6 +989,18 @@
         <servlet-name>getPartner</servlet-name>
         <servlet-class>ppprev.getPartner</servlet-class>
     </servlet>
+       <servlet>
+        <servlet-name>getSessions</servlet-name>
+        <servlet-class>ppprev.getSessions</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getParticipants</servlet-name>
+        <servlet-class>ppprev.getParticipants</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getAttendance</servlet-name>
+        <servlet-class>ppprev.getAttendance</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>check_status</servlet-name>
         <servlet-class>LoadExcels.check_status</servlet-class>
@@ -1981,6 +1993,19 @@
         <servlet-name>getPartner</servlet-name>
         <url-pattern>/getPartner</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getSessions</servlet-name>
+        <url-pattern>/getSessions</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getParticipants</servlet-name>
+        <url-pattern>/getParticipants</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAttendance</servlet-name>
+        <url-pattern>/getAttendance</url-pattern>
+    </servlet-mapping> 
+    
     <servlet-mapping>
         <servlet-name>check_status</servlet-name>
         <url-pattern>/check_status</url-pattern>

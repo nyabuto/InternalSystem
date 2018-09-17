@@ -29,28 +29,13 @@ public class getAgegroup extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-    
+     dbConn conn = new dbConn();
           
-           String wherestring="where active=1 order by mpangilio asc";
            
-         
-           
-            dbConn conn = new dbConn();
-            
-            String data="<option value=''>Select Age group</option>";
-            String qry="select * from hc_agegroups "+wherestring;
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-            
-            data+="<option  value='"+conn.rs.getString(2)+"'>"+conn.rs.getString(2)+"</option>";
-            
-                                 }
-            
            
             
             
-            out.println(data);
+            out.println(ageGroup(conn,""));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -99,5 +84,35 @@ public class getAgegroup extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+
+
+public String ageGroup(dbConn conn, String curselect){
+ String data="<option value=''>Select Age group</option>";
+        try {
+            String wherestring="where active=1 order by mpangilio asc";
+            
+            
+            
+           
+            String qry="select * from hc_agegroups "+wherestring;
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+                String selected="";
+                if(curselect.equals(conn.rs.getString(2))){selected=" selected ";}
+                
+                data+="<option "+selected+"  value='"+conn.rs.getString(2)+"'>"+conn.rs.getString(2)+"</option>";
+                
+            }
+        
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(getAgegroup.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+}
+
 
 }

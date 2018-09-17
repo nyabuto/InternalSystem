@@ -34,7 +34,7 @@ public class loadwizard extends HttpServlet {
             
             
             String groupdetails=
-                    "<table style='' class='table table-responsive'>"
+                    "<table style='' class='table table-bordered table-hover'>"
                     //--------------start of a row ------
                     + "<tr>"
                     +" <td class='span2'> "
@@ -51,7 +51,7 @@ public class loadwizard extends HttpServlet {
                     + " <label><b>Sub-county</b><font color='red'><b>*</b></font></label>"
                     + " </td>"
                     + "<td class='span3'>"
-                    + " <select  onchange='loadgroup();'  class='span12' required    id='subcounty' name='subcounty'>"
+                    + " <select  onchange='getGroup();'  class='span12' required    id='subcounty' name='subcounty'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
@@ -66,7 +66,7 @@ public class loadwizard extends HttpServlet {
                     + ""
                     + "</td>"
                     + "<td class='span3'>"
-                    + " <select  onchange='loadpartner();' class='span12 ' required    id='targetpop' name='targetpop'>"
+                    + " <select  onchange='getCurriculum();' class='span12 ' required    id='targetpop' name='targetpop'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
@@ -75,7 +75,7 @@ public class loadwizard extends HttpServlet {
                     + "<label> <b>Curriculum/Standards<font color='red'><b>*</b></font></b></label>"
                     + " </td>"
                     + "<td class='span3'>"
-                    + " <select  onchange='loadsessions();' class='span12 ' required    id='curriculum' name='curriculum'>"
+                    + " <select  onchange='setLessons();setSessions(); setAttendance();' class='span12 ' required    id='curriculum' name='curriculum'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
@@ -90,7 +90,7 @@ public class loadwizard extends HttpServlet {
                     + ""
                     + "</td>"
                     + "<td class='span3'>"
-                    + " <select  onchange='loadfacilitators();' class='span12 ' required    id='group' name='group'>"
+                    + " <select  onchange='getFacilitator();' class='span12 ' required    id='group' name='group'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
@@ -99,9 +99,8 @@ public class loadwizard extends HttpServlet {
                     + "<label> <b>Expected number of sessions<font color='red'><b>*</b></font></b></label>"
                     + " </td>"
                     + "<td class='span3'>"
-                    + " <select  onchange='loadsessions();' class='span12 ' required    id='lessons' name='lessons'>"
-                    + " <option value=''></option>"
-                    + " </select>"
+                    + " <input readonly   class='span12 ' required  type='text'  id='lessons' name='lessons'>"
+                    
                     + " </td>"
                     + "</tr>"
                     //--------------end of a row ------
@@ -171,16 +170,23 @@ public class loadwizard extends HttpServlet {
             
             
             
+            
+            
+           
+            
+            
+            
+            
 	
                 String tabcontent="<div class='tab-content'>"
 	    +"<div class='tab-pane' id='tab1'>"+groupdetails+"</div>"
-	    +"<div class='tab-pane' id='tab2'> 2</div>"
-	    +"<div class='tab-pane' id='tab3'> 3</div>"
-	    +"<div class='tab-pane' id='tab4'> 4</div>";
+	    +"<div class='tab-pane' id='tab2'><div id='sessiondetails'></div></div>"
+	    +"<div class='tab-pane' id='tab3'><div id='participants'></div></div>"
+	    +"<div class='tab-pane' id='tab4'><h3> Attendance Register </h3><div id='attendance'> </div></div>";
 	   
 		String tabpager="<ul class='pager wizard'>"
 			+"<li class='previous first' style='display:none;'><a href='#'>First</a></li>"
-			+"<li class='previous'><a href='#'>Previous</a></li>"
+			+"<li class='previous' ><a href='#'>Previous</a></li>"
 			+"<!--<li class='next last' style='display:none;'><a href='#'>Last</a></li>-->"
 		  	+"<li class='next'><a href='#'>Next</a></li>"
                         +"<li class='next finish' style='display:none;'><a href='javascript:;'>Finish</a></li>"

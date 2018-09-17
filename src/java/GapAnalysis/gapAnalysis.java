@@ -423,7 +423,7 @@ if(position==55 || position==56){
   
  }
  
- System.out.println("Query is : "+running_query);
+ System.out.println("Query in "+position+" is : "+running_query);
  conn.rs1=conn.st1.executeQuery(running_query);
  while (conn.rs1.next()) {
     String value = "";

@@ -35,27 +35,11 @@ public class getCounty extends HttpServlet {
            
             dbConn conn = new dbConn();
             
-            String data="<option value=''>Select County</option>";
-            String qry="select * from county ";
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-                String isselected="";
-                if(conn.rs.getString(2).equals("Turkana")){
-                isselected=" selected ";
-                
-                }
-                
-                
-            
-            data+="<option "+isselected+" value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
-            
-            }
-            
+          
            
             
             
-            out.println(data);
+            out.println(county(conn, ""));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -104,5 +88,31 @@ public class getCounty extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+public String county(dbConn conn, String curselected) throws SQLException{
+
+
+      String data="<option value=''>Select County</option>";
+            String qry="select * from county ";
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+                String isselected="";
+                if(conn.rs.getString(2).equals("Turkana")){
+                isselected=" selected ";
+                
+                }
+                
+                
+            
+            data+="<option "+isselected+" value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(2)+"</option>";
+            
+            }
+            return data;
+
+}
+
+
+
 
 }

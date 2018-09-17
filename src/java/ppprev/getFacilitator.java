@@ -36,40 +36,13 @@ public class getFacilitator extends HttpServlet {
            groupid=request.getParameter("group");
            }
           
-           String wherestring="";
+                 dbConn conn = new dbConn();
            
            
-           if(!groupid.equals("")){
-           wherestring=" where 1=1 ";
-           wherestring+=" and groups_id='"+groupid+"' ";
-           }
-           
-           
-            dbConn conn = new dbConn();
             
-            String data="<option value=''>Select Facilitator</option>";
-            String qry="select * from hc_facilitator "+wherestring;
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-                String phone="";
-                
-                if(conn.rs.getString("phone")!=null){phone=conn.rs.getString("phone");}
-                
-                
-                
-            String facilitatorname=conn.rs.getString(2)+" "+conn.rs.getString(3)+" "+conn.rs.getString(4);
-            
-            if(!phone.equals("")){facilitatorname+=" ["+phone+"]";}
-            
-            data+="<option data-phoneno='"+phone+"' value='"+conn.rs.getString(1)+"'>"+facilitatorname+"</option>";
-            
-            }
-            
-           
+            out.println(Facilitator(conn, groupid, ""));
             
             
-            out.println(data);
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -118,5 +91,52 @@ public class getFacilitator extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+public String Facilitator(dbConn conn, String groupid, String curselect) throws SQLException{
+
+    
+    
+    String wherestring="";
+           
+           
+           if(!groupid.equals("")){
+           wherestring=" where 1=1 ";
+           wherestring+=" and groups_id='"+groupid+"' ";
+           }
+           
+           
+      
+            
+            String data="<option value=''>Select Facilitator</option>";
+            String qry="select * from hc_facilitator "+wherestring;
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+                String phone="";
+                
+                if(conn.rs.getString("phone")!=null){phone=conn.rs.getString("phone");}
+                
+                
+                
+            String facilitatorname=conn.rs.getString(2)+" "+conn.rs.getString(3)+" "+conn.rs.getString(4);
+            
+            if(!phone.equals("")){facilitatorname+=" ["+phone+"]";}
+            
+             String selected="";
+                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+            
+            data+="<option  "+selected+"  data-phoneno='"+phone+"' value='"+conn.rs.getString(1)+"'>"+facilitatorname+"</option>";
+            
+            }
+            
+           
+            
+
+return data;
+
+
+}
+
+
 
 }

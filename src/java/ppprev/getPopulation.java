@@ -31,36 +31,19 @@ public class getPopulation extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
            String partnerid="";
            
+           dbConn conn = new dbConn();
+           
            if(request.getParameter("partner")!=null){
            
            partnerid=request.getParameter("partner");
            }
           
-           String wherestring="";
-           
-           
-           if(!partnerid.equals("")){
-           wherestring=" where 1=1 ";
-           wherestring+=" and partner_id='"+partnerid+"' ";
-           }
-           
-           
-            dbConn conn = new dbConn();
-            
-            String data="<option value=''>Select population</option>";
-            String qry="select * from hc_targetpopulation "+wherestring;
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-            
-            data+="<option value='"+conn.rs.getString("target_id")+"'>"+conn.rs.getString("population_name")+"</option>";
-            
-            }
-            
-           
+         
             
             
-            out.println(data);
+            out.println(population(conn, partnerid, ""));
+            
+            
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -109,5 +92,41 @@ public class getPopulation extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+
+public String population(dbConn conn, String partnerid,String curselect) throws SQLException{
+
+    String wherestring="";
+           
+           
+           if(!partnerid.equals("")){
+           wherestring=" where 1=1 ";
+           wherestring+=" and partner_id='"+partnerid+"' ";
+           }
+           
+           
+            
+            
+            String data="<option value=''>Select population</option>";
+            String qry="select * from hc_targetpopulation "+wherestring;
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next())
+            {
+                
+                String selected="";
+                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+            
+            data+="<option "+selected+" value='"+conn.rs.getString("target_id")+"'>"+conn.rs.getString("population_name")+"</option>";
+            
+            }
+            
+             
+    
+    
+return data;
+}
+
 
 }

@@ -29,6 +29,9 @@ public class getSubcounty extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
+            
+            
+                dbConn conn = new dbConn();
            String countyid="";
            
            if(request.getParameter("county")!=null){
@@ -36,32 +39,12 @@ public class getSubcounty extends HttpServlet {
            countyid=request.getParameter("county");
            }
           
-           String wherestring="";
            
-           
-           if(!countyid.equals(""))
-           {
-           wherestring=" where active=1 ";
-           wherestring+=" and CountyID='"+countyid+"' ";
-           }
-           
-           
-            dbConn conn = new dbConn();
-            
-            String data="<option value=''>Select Subcounty</option>";
-            String qry="select * from district "+wherestring;
-            
-            conn.rs= conn.st.executeQuery(qry);
-            while(conn.rs.next()){
-            
-            data+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(3)+"</option>";
-            
-            }
             
            
             
             
-            out.println(data);
+            out.println(subcounty(conn, countyid, ""));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
@@ -110,5 +93,39 @@ public class getSubcounty extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+    public String subcounty(dbConn conn,String countyid ,String curselect) throws SQLException{
+    
+    String wherestring="";
+           
+           
+           if(!countyid.equals(""))
+           {
+           wherestring=" where active=1 ";
+           wherestring+=" and CountyID='"+countyid+"' ";
+           }
+           
+           
+        
+            
+            String data="<option value=''>Select Subcounty</option>";
+            String qry="select * from district "+wherestring;
+            
+            conn.rs= conn.st.executeQuery(qry);
+            while(conn.rs.next()){
+                
+                String selected="";
+                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+            
+            data+="<option "+selected+" value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(3)+"</option>";
+            
+            }
+    
+    
+    return data;
+    }
+
+
 
 }
