@@ -231,7 +231,7 @@ public class LoadAllVLData extends HttpServlet {
         } 
         }
         
-         session.setAttribute("viral_load", "<b>Upload complete. Syncing Data to Dashboards system</b>");
+        session.setAttribute("viral_load", "<b>Upload complete. Syncing Data to Dashboards system</b>");
         session.setAttribute("viral_load_count", 100);
         //add data to dashboards
          PushDataSet2 ds2 = new PushDataSet2();

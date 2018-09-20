@@ -28,10 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -47,519 +43,184 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
   public class Load_eid_pos_raw extends HttpServlet {
-   
-  String county_name,county_id, district_name,district_id,hf_name,hf_id;
-  
   String full_path="";
   String fileName="";
-  int checker_dist,checker_hf;
   File file_source;
   HttpSession session;
   private static final long serialVersionUID = 205242440643911308L;
   private static final String UPLOAD_DIR = "uploads";
-  String nextpage="";
-  String quarterName,facilityName,facilityID,id,missingFacility;
-          String mflcode;
-  int year,quarter,checker,missing,added,updated;
-String age,pcr_type,system_id;
+  String query="",query_update="",value,checker_query;
+  String SubPartnerID,mfl_code,year,month,yearmonth,id;
+  String[] columns =  {"SystemID","samplecode","Batch","Lab_Tested_In","County","Sub_County","Partner","Facility","Mflcode","Gender","DOB","Age","PCR_Type","enroll_cccno","collectiondate","Date_Received","testingdate","Date_Dispatched","Test_Result","validation","enrollment","treatment_init_date","`Enrollment_CCC_#`","other_reasons"};
+  int updated,added;
   String min_date="",max_date="",date_tested="";
- @Override
- protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
- //id	SubPartnerID 	Mflcode	samplecode	collectiondate	testingdate	validation	enrollment	treatment_init_date	enroll_cccno	other_reasons	year	quarter
- 
-  id="";    
- String samplecode_6="";
- String datecollected_7="";
- String datetested_8="";
+  String value_vl="";
+  String upload_message="",samplecode="",quarter="",system_id;
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        response.setContentType("text/html;charset=UTF-8");
 
- String validation_9="";
- String enrollmentstatus_10="";
- String treatmentinitdate_11="";
- String enroll_ccc_12="";
- String othereasons_13="";
- 
-mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecollected_7=datetested_8=validation_9=enrollmentstatus_10=treatmentinitdate_11=enroll_ccc_12=othereasons_13="";
- //-----------------------------------
- //(0)#	
- //(1)County	
- //(2)Sub-County	
- //(3)Facility Name	
- //(4)MFL Code	
- //(5)Partner	
- //(6)Sample Code	
- //(7)Date Collected	
- //(8)Date Tested	
- //(9)Validation (CP,A,VL,RT,UF)	
- //(10)Enrollement Status	
- //(11)Date Initiated on Treatment	
- //(12)Enrollement CCC #	
- //(13)Other Reasons
-
-  //<tr><td>#</td><td>County</td><td>Sub-County</td><td>Facility Name</td><td>MFL Code</td><td>Partner</td><td>Sample Code</td><td>Date Collected</td><td>Date Tested</td><td>Validation (CP,A,VL,RT,UF)</td><td>Enrolment Status</td><td>Date Initiated on Treatment</td><td>Enrollment CCC#</td><td>Other Reasons</td></tr>   
-     String serialnumber="";       
-     
-  
-     String dbname="eid_raw_pos";
-  
-
-     
-    
-     
-         try {
-      session=request.getSession();
-      dbConn conn = new dbConn();
-   nextpage="load_eid_positive.jsp";
-   
-   
-   
-   //---------------------------------------------------------------------
-  
-      String applicationPath = request.getServletContext().getRealPath("");
+        dbConn  conn = new dbConn();
+        session = request.getSession();
+        
+        min_date=max_date="";
+        String applicationPath = request.getServletContext().getRealPath("");
          String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
          session=request.getSession();
           File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
         }
-        System.out.println("Upload File Directory="+fileSaveDir.getAbsolutePath());
         
         for (Part part : request.getParts()) {
+            if(!getFileName(part).equals("")){
            fileName = getFileName(part);
             part.write(uploadFilePath + File.separator + fileName);
-            System.out.println("file name is  :  "+fileName);
+            }
         }
         if(!fileName.endsWith(".xlsx")){
-         nextpage="load_eid_positive.jsp";
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose a .xlsx excel file .</font>");   
         }
         else{
-            
-        
- full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+          full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
  
- System.out.println("the saved file directory is  :  "+full_path);
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
- 
+        query=query_update=value="";
+        updated=added=0;
   FileInputStream fileInputStream = new FileInputStream(full_path);
-			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-			XSSFSheet worksheet = workbook.getSheetAt(0);
-			Iterator rowIterator = worksheet.iterator();
-                        
-                        int i=1,y=0;
-			while(rowIterator.hasNext()){
-//                            System.out.println(" in while");
-			XSSFRow rowi = worksheet.getRow(i);
-                        if( rowi==null){
-                                
-                         break;
-                                        }
-
-                        
-//______________________________________________________________________                        
-                        
-serialnumber = mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecollected_7=datetested_8=validation_9=enrollmentstatus_10=treatmentinitdate_11=enroll_ccc_12=othereasons_13="";                                           
-//______________________________________________________________________
-
-                         XSSFCell cellserialno = rowi.getCell((short) 0);
-                         
-                         if(cellserialno.getCellType()==0){
-                             //numeric
-			serialnumber =""+(int)cellserialno.getNumericCellValue();
-                         } 
-                         else if(cellserialno.getCellType()==1){
-			serialnumber =cellserialno.getStringCellValue();
-                         } 
-                      
-                           
-                        //dont save county and subcounty directly since they may change
-                            //________systemid________________
-                        XSSFCell cellsystemid = rowi.getCell((short) 1);
-			 if(cellsystemid.getCellType()==0){
-                             //numeric
-			system_id =""+(int)cellsystemid.getNumericCellValue();
-                         } 
-                         else if(cellsystemid.getCellType()==1){
-			system_id =cellsystemid.getStringCellValue();
-                         } 
-                         
-                        
-                            //________county________________
-                        XSSFCell cellcounty = rowi.getCell((short) 2);
-			county_name = cellcounty.getStringCellValue();
-                        
-                        
-                        //_____________subcounty_____________
-                        XSSFCell cellsubcounty = rowi.getCell((short) 3);
-			district_name = cellsubcounty.getStringCellValue();
-                        
-                        
-                        //____________FacilityName______________
-                         XSSFCell cellfacil = rowi.getCell((short) 4);
-                         
-			facilityName = cellfacil.getStringCellValue();
-                        
-                       //_______________MFL______ 
-                        XSSFCell cellmfl = rowi.getCell((short) 5);
-			
-                        
-                        if(cellmfl.getCellType()==1){
-                              //string
-			 mflcode = (String) cellmfl.getStringCellValue();
-                          }
-                          else {
-                              //numeric
-                           mflcode = ""+(int)cellmfl.getNumericCellValue();                         
-                          }
-                        
-                        
-                        
-                        
-                      //______________________sample Code_______________
-                          XSSFCell cellsamplecode = rowi.getCell((short)7);
-                          if(cellsamplecode.getCellType()==1){
-                              //string
-			 samplecode_6 = (String) cellsamplecode.getStringCellValue();
-                          }
-                          else {
-                              //numeric
-                           samplecode_6 = ""+(int)cellsamplecode.getNumericCellValue();                         
-                          }
-                         
-                              //________age________________
-                        XSSFCell cellage = rowi.getCell((short) 8);
-                        if(cellage.getCellType()==1)
-                            {
-                                //this is a string
-			age = (String)cellage.getStringCellValue();
-                            }
-                            else if(cellage.getCellType()==0)
-                            {
-                           //this is a numeric value     
-                            age =""+(int)cellage.getNumericCellValue();
-                            
-                            }
-                            else 
-                            {
-                            age = ""+cellage.getDateCellValue();
-                        
-                            }
-			
-                        
-                            //________county________________
-                        XSSFCell cellpcr_type = rowi.getCell((short) 9);
-			if(cellpcr_type.getCellType()==1)
-                            {
-                                //this is a string
-			pcr_type = (String)cellpcr_type.getStringCellValue();
-                            }
-                            else if(cellpcr_type.getCellType()==0)
-                            {
-                           //this is a numeric value     
-                            pcr_type =""+(int)cellpcr_type.getNumericCellValue();
-                            
-                            }
-                            else 
-                            {
-                            pcr_type = ""+cellpcr_type.getDateCellValue();
-                        
-                            }
-                        
-                          
-                      //______________________Date Collected__________________________   
-                          
-                          XSSFCell cellregdate = rowi.getCell((short)10);
-//                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
-                            if(cellregdate.getCellType()==1)
-                            {
-                                //this is a string
-			datecollected_7 = (String)cellregdate.getStringCellValue();
-                            }
-                            else if(cellregdate.getCellType()==0)
-                            {
-                           //this is a numeric value     
-                            datecollected_7 =""+(int)cellregdate.getNumericCellValue();
-                            
-                            }
-                            else 
-                            {
-                            datecollected_7 = ""+cellregdate.getDateCellValue();
-                        
-                            } 
-                          
-                            
-                            
-                         //_______________Date tested_________________
-                            
-                           XSSFCell celldatetes = rowi.getCell((short)11);
-//                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
-                            if(celldatetes.getCellType()==1)
-                            {
-                                //this is a string
-			   datetested_8 = (String)celldatetes.getStringCellValue();
-                            }
-                            else if(celldatetes.getCellType()==0)
-                            {
-                           //this is a numeric value     
-                            datetested_8 =""+(int)celldatetes.getNumericCellValue();
-                            
-                            }
-                            else 
-                            {
-                            datetested_8 = ""+celldatetes.getDateCellValue();
-                        
-                            }  
-                            
-                            
-                            
-                     //_________________________quarter and year_______
-                     //split the date, year and month
-                          //raw date is of form yyyy-mm-dd eg 08 Jul 2015
-                         
-                          String dateparameters[]=datetested_8.split("-");
-                        if(dateparameters.length==3){
-                            
-                         if(!dateparameters[0].equals("")){//ensure tha date field is valid
-                           String month="";
-                           month=dateparameters[1];
-                           if(month.equalsIgnoreCase("01")||month.equalsIgnoreCase("02")||month.equalsIgnoreCase("03")){
-                           
-                           quarterName="January-March"; 
-                           
-                               if(dateparameters[0].length()==4)
-                           {
-                           year=Integer.parseInt(dateparameters[0]);
-                           }
-                           
-                          
-                           }
-                           else if(month.equalsIgnoreCase("04")||month.equalsIgnoreCase("05")||month.equalsIgnoreCase("06")){
-                          
-                               quarterName="April-June"; 
-                               if(dateparameters[0].length()==4)
-                           {
-                           year=Integer.parseInt(dateparameters[0]);
-                           }
-                               
-                           }
-                           
-                           else if(month.equalsIgnoreCase("07")||month.equalsIgnoreCase("08")||month.equalsIgnoreCase("09")){
-                           
-                               quarterName="July-September";  
-                                 if(dateparameters[0].length()==4)
-                           {
-                           year=Integer.parseInt(dateparameters[0]);
-                           }
-                               
-                           }
-                            else if(month.equalsIgnoreCase("10")||month.equalsIgnoreCase("11")||month.equalsIgnoreCase("12")){
-                           
-                               quarterName="October-December";  
-                                if(dateparameters[0].length()==4)
-                           {
-                               //assume
-                           year=Integer.parseInt(dateparameters[0])+1;
-                           }
-                               
-                            }
-                           
-                            }
-                       
-                        }
-                        else {
-                        
-                            System.out.println("Error in date of testing _ :"+datetested_8);
-                              
-                              }       
-                            
-                            
-                            
-                            
-                       //___________________validation_____________________
-                            
-                       XSSFCell cellval = rowi.getCell((short) 12);
-                         
-			validation_9 = cellval.getStringCellValue(); 
-                        
-                            
-                       //___________________Enrollment Status______________
-                        XSSFCell cellenroll = rowi.getCell((short) 13);
-                         
-			enrollmentstatus_10 = cellenroll.getStringCellValue();
-                        
-                       //___________________Date initiated on Treatment____
-                        
-                        
-                        XSSFCell celltraetmentdate = rowi.getCell((short)14);
-//                            System.out.println("CELLTYPE IS "+cellregdate.getCellType());
-                            if(celltraetmentdate.getCellType()==1)
-                            {
-                                //this is a string
-			   treatmentinitdate_11 = (String)celltraetmentdate.getStringCellValue();
-                            }
-                            else if(celltraetmentdate.getCellType()==0)
-                            {
-                           //this is a numeric value     
-                            treatmentinitdate_11 =""+(int)celltraetmentdate.getNumericCellValue();
-                            
-                            }
-                            else 
-                            {
-                            treatmentinitdate_11 = ""+celltraetmentdate.getDateCellValue();
-                        
-                            }
-                        
-                       //___________________Enrollment CCC_________________
-                       XSSFCell cellenrollccc = rowi.getCell((short) 15);
-                        if(cellenrollccc.getCellType()==1)
-                            {
-                                //this is a string
-			   enroll_ccc_12 = (String)cellenrollccc.getStringCellValue();
-                            }
-                            else if(celltraetmentdate.getCellType()==0)
-                            {
-                           //this is a numeric value     
-                            enroll_ccc_12 =""+(int)cellenrollccc.getNumericCellValue();
-                            
-                            }
-                            else 
-                            {
-                            enroll_ccc_12 = ""+cellenrollccc.getRawValue();
-                        
-                            } 
-		      
-                       //___________________Other Reasons__________________
-                        XSSFCell cellothereasons = rowi.getCell((short) 16);
-                         
-		       othereasons_13 = cellothereasons.getStringCellValue();  
-                          
-                         
-                         
-                       if(treatmentinitdate_11.equals("null")){treatmentinitdate_11="";}
-                       if(enroll_ccc_12.equals("null")){enroll_ccc_12="";}
-                     
-                       
-                      facilityID="";
-                      checker=0;  
-                      
-           //
-                   String get_id="SELECT SubPartnerID,ART_Support,CentreSanteId as mflcode,HTC_Support1,PMTCT_Support FROM subpartnera WHERE CentreSanteId like ? ";
-                   conn.pst=conn.conn.prepareStatement(get_id);
-                   conn.pst.setString(1,"%"+mflcode+"%");
+        XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+        int j=0;
+        int number_sheets = workbook.getNumberOfSheets();
+        while(j<number_sheets){
+        XSSFSheet worksheet;
+        
+        worksheet = workbook.getSheetAt(j);
+        Iterator rowIterator = worksheet.iterator();
+        int rowCount = worksheet.getLastRowNum();
+        int i=1,y=0;
+        while(rowIterator.hasNext()){
+//            session.removeAttribute("viral_load");
+            query = "INSERT INTO eid_raw_pos SET ";
+            query_update = "UPDATE eid_raw_pos SET ";
+             int colmnscounter=0;
+        SubPartnerID=mfl_code=date_tested=samplecode="";
+        XSSFRow rowi = worksheet.getRow(i);
+        if( rowi==null){
+         break;}
+        
+       for (String label : columns){
+          
+           XSSFCell cell = rowi.getCell((short) colmnscounter);
+            if(cell==null){
+                break;
+            }
+            else{
+               switch (cell.getCellType()) {
+                   case 0:
+                       //numeric
+                       if(colmnscounter==11){
+                  value =""+(double)cell.getNumericCellValue();               
+                       }
+                       else{
+                       value =""+(int)cell.getNumericCellValue();     
+                       }
+                       break;
+                   case 1:
+                       value =cell.getStringCellValue();
+                       break;
+                   default:
+                       value = cell.getRawValue();
+                       break;
+               }
+        
+            } 
+               
+               
+               if(value==null){
+          query+=label+"="+value+",";
+          query_update+=label+"="+value+",";
+//          checker_query+=label+"="+value+" AND ";
+               }
+               else{
                    
-                   conn.rs=conn.pst.executeQuery();
-                   if(conn.rs.next()==true)
-                   {
-                       facilityID=conn.rs.getString(1);
-                       //supporttype=conn.rs.getString("ART_Support");
-                       //mflcode=conn.rs.getInt(3);
-                      
-                      //if(supporttype==null){supporttype=conn.rs.getString("HTC_Support1");}
-                      //if(supporttype==null){supporttype=conn.rs.getString("PMTCT_Support");}
-                      //if(supporttype==null){supporttype="";}
+                   if(value.contains("'")){
+                       value=value.replace("'", "");
                    }
-                    if(facilityID.length()>0 && datetested_8.length()==10) {
-//                        DISTRICT FOUND ADD THE HF TO THE SYSTEM.........................
-                        
-                        String getQuarterID="SELECT id FROM quarter WHERE pmtct_fo_name like ?";
-                       conn.pst=conn.conn.prepareStatement(getQuarterID);
-                       conn.pst.setString(1, quarterName);
-                       conn.rs=conn.pst.executeQuery();
-                       
-                       if(conn.rs.next()==true){
-                        quarter=conn.rs.getInt(1);
-                                                }
-                       
-                       checker=0;
-                       
-                       
-                       
-                       
-//                     CHECK IF ALREADY ADDED TO PMTCT_FO TABLE
-                       id=serialnumber+"_"+datetested_8; 
-//                   System.out.println("to add data : "+facilityName+" id : "+facilityID+"mfl code "+mflcode+" year : "+year+" quarter : "+quarter+" numerator : "+Numerator+" denominator : "+Denominator);
-                       
-                       String checkerExisting="SELECT id FROM "+dbname+" WHERE id='"+id+"'";
-                       conn.rs=conn.st.executeQuery(checkerExisting);
-                       if(conn.rs.next()==true){
-                           checker++;
-                                               }
+               query+=label+"='"+value+"',";
+               query_update+=label+"='"+value+"',";
+               if(colmnscounter<=3){
+               checker_query+=label+"='"+value+"' AND "; 
+               }
+               }
+            if(colmnscounter==0){
+                system_id = value;
+            }
+            if(colmnscounter==1){
+                samplecode = value;
+            }
+            if(colmnscounter==8){
+                mfl_code = value;
+            }
+            if(colmnscounter==16){
+               date_tested =  value; 
+            }
+            
+            colmnscounter++;
+       }
+       
+       id=system_id+"_"+mfl_code+"_"+samplecode;
+            System.out.println("id is : "+id+" mflis : "+mfl_code+" sample code is : "+samplecode);
+            
+    String[] datesvalues = getperiod(date_tested,conn);
+    year = datesvalues[0];
+    quarter = datesvalues[1];
+//    quartername = datesvalues[2];
+        SubPartnerID=getSubPartnerID(conn,mfl_code); 
+    query_update +="year='"+year+"',quarter='"+quarter+"',SubPartnerID='"+SubPartnerID+"' WHERE id='"+id+"'";
+    query +="year='"+year+"',quarter='"+quarter+"',SubPartnerID='"+SubPartnerID+"', id='"+id+"'";
 
-                     
-                       
-  if(checker==0){
+            System.out.println("insert : "+query);
+            System.out.println("update : "+query_update);
+       
+        if(!SubPartnerID.equals("")){
+            //REMOVE LAST ELEMENT 
+            //END OF REMOVING LAST ELEMENT
+               
+        checker_query="SELECT id FROM eid_raw_pos WHERE samplecode=? AND  Mflcode=? AND SystemID=?";
+        conn.pst = conn.conn.prepareStatement(checker_query);
+        conn.pst.setString(1, samplecode);
+        conn.pst.setString(2, mfl_code);
+        conn.pst.setString(3, system_id);
+        conn.rs1 = conn.pst.executeQuery();
 
-  //id	SubPartnerID 	Mflcode	samplecode	collectiondate	testingdate	validation	enrollment	treatment_init_date	enroll_cccno	other_reasons	year	quarter
-
-  String inserter="INSERT INTO "+dbname+" (id,SubPartnerID,year,quarter,Mflcode,samplecode,collectiondate,testingdate,validation,enrollment,"
-          + "treatment_init_date, enroll_cccno,other_reasons,SystemID,Age,PCR_Type) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                        conn.pst=conn.conn.prepareStatement(inserter);
-                        conn.pst.setString(1,id);
-                        conn.pst.setString(2,facilityID);
-                        conn.pst.setInt(3, year);
-                        conn.pst.setInt(4, quarter);
-                        conn.pst.setString(5, mflcode);
-                        conn.pst.setString(6, samplecode_6);
-                        conn.pst.setString(7, datecollected_7);
-                        conn.pst.setString(8, datetested_8);
-                        conn.pst.setString(9, validation_9);
-                        conn.pst.setString(10, enrollmentstatus_10);
-                        conn.pst.setString(11, treatmentinitdate_11);
-                        conn.pst.setString(12, enroll_ccc_12);
-                        conn.pst.setString(13, othereasons_13);
-                        conn.pst.setString(14, system_id);
-                        conn.pst.setString(15, age);
-                        conn.pst.setString(16, pcr_type);
-                        conn.pst.executeUpdate();  
-                        
-                        added++;
-                        
-                       }
-  else {
-          //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
-        String inserter=" UPDATE "+dbname+" SET SubPartnerID=?,year=?,quarter=?,Mflcode=?, samplecode=?, collectiondate=? ,testingdate=? , validation=? ,enrollment=? ,"
-          + "treatment_init_date=? , enroll_cccno=? ,other_reasons=?,SystemID=?,Age=?,PCR_Type=?  "
-                + " WHERE id=?";
-//
-                        conn.pst=conn.conn.prepareStatement(inserter);
-                        conn.pst.setString(1, facilityID);
-                           conn.pst.setInt(2, year);
-                           conn.pst.setInt(3, quarter);
-                           conn.pst.setString(4, mflcode);
-                        conn.pst.setString(5,samplecode_6);
-                        conn.pst.setString(6,datecollected_7);
-                        conn.pst.setString(7,datetested_8);
-                        conn.pst.setString(8,validation_9);
-                        conn.pst.setString(9,enrollmentstatus_10);
-                        conn.pst.setString(10,treatmentinitdate_11);
-                        conn.pst.setString(11,enroll_ccc_12);
-                        conn.pst.setString(12,othereasons_13);                        
-                        conn.pst.setString(13,system_id);                        
-                        conn.pst.setString(14,age);                        
-                        conn.pst.setString(15,pcr_type);                        
-                        conn.pst.setString(16,id);
-                        conn.pst.executeUpdate();
-                       
-                     updated++;
-                       }
-    
-                    }
-                    
-                    else{
-                       missing++; 
-//                        missing facilities
-                     missingFacility+="facility name : "+facilityName+" mfl code : "+mflcode+" excel row num : "+i+"<br>"; 
-                        System.out.println(facilityName+ "_missing");
-                    }
-                    
-                        
-        compare_date(datetested_8);
-            System.out.println("Current date : "+datetested_8+" Min date : "+min_date+" max date : "+max_date);    
-                    
-                    i++;
-                        }
-    //add dashboard data
+        if(conn.rs1.next()){
+            
+        conn.st.executeUpdate(query_update);
+            updated++;
+        }
+        else{
+         conn.st.executeUpdate(query);
+            added++;
+        }
+        }
+        else{
+          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
+        }
+        
+        session.setAttribute("eid_pos", "<b>"+i+"/"+rowCount+"</b>");
+        session.setAttribute("eid_pos_count", (i*100)/rowCount);
+        compare_date(date_tested);
+            System.out.println("Current date : "+date_tested+" Min date : "+min_date+" max date : "+max_date);
+            i++;
+        }
+        
+        j++;
+        } 
+        }
+        
+        session.setAttribute("eid_pos", "<b>Upload complete. Syncing Data to Dashboards system</b>");
+        session.setAttribute("eid_pos_count", 100);
+        //add dashboard data
          PushDataSet2 ds2 = new PushDataSet2();
            
             Map m1 = new HashMap(); 
@@ -567,27 +228,26 @@ serialnumber = mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecoll
             m1.put("enddate", max_date);
             
             ds2.pmtct_eid(m1);//eid tested and pos
-
-    //end of adding t odashboards
-                        
-                        
-                        
-                        
-        }
         
+        //remove counter attributes
+        
+        session.removeAttribute("eid_pos");
+        session.removeAttribute("eid_pos_count");
+        
+        // end of removing county attributes
+        
+        //     END    
+            
          if(conn.rs!=null){conn.rs.close();}
          if(conn.st!=null){conn.st.close();}
          if(conn.pst!=null){conn.pst.close();}
+         if(conn.conn!=null){conn.conn.close();}
+
          
-         }
-         catch (SQLException ex) {
-         Logger.getLogger(Load_tb_raw.class.getName()).log(Level.SEVERE, null, ex);
-     }
-    String sessionText="<br/><b> "+added+ "</b> New data added <br/> <b> "+updated+"</b> updated facilities<br> <br> <b>"+missing+"</b> sites not in Imis Facilities List ";    
-    session.setAttribute("upload_success", sessionText);
-    response.sendRedirect(nextpage);  
- 
- 
+        session.setAttribute("eid_pos_loaded", "Upload complete. <b style=\"color:green\">"+added+"</b> records were added and <b style=\"color:red\">"+updated+"</b> records were updated.");
+        response.sendRedirect("load_eid_positive.jsp");
+        
+    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -599,15 +259,15 @@ serialnumber = mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecoll
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-//    @Override
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//     try {
-//         processRequest(request, response);
-//     } catch (SQLException ex) {
-//         Logger.getLogger(loadPMTCT_FO.class.getName()).log(Level.SEVERE, null, ex);
-//     }
-//    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+     try {
+         processRequest(request, response);
+     } catch (SQLException ex) {
+         Logger.getLogger(loadPMTCT_FO.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -617,15 +277,15 @@ serialnumber = mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecoll
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//     try {
-//         processRequest(request, response);
-//     } catch (SQLException ex) {
-//         Logger.getLogger(loadPMTCT_FO.class.getName()).log(Level.SEVERE, null, ex);
-//     }
-//    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+     try {
+         processRequest(request, response);
+     } catch (SQLException ex) {
+         Logger.getLogger(loadPMTCT_FO.class.getName()).log(Level.SEVERE, null, ex);
+     }
+    }
 
     /**
      * Returns a short description of the servlet.
@@ -649,9 +309,7 @@ serialnumber = mflcode = facilityID=age=pcr_type=system_id=samplecode_6=datecoll
         }
         return contentDisp;
     }
-    
-    public String getageBracket(int age)
-    {
+    public String getageBracket(int age){
     //<1	1-4	5-9  10-14	15-19	20+
         String finalbracket="";
 if(age<1){
@@ -677,10 +335,7 @@ finalbracket="no age";
 }
   return finalbracket;  
     }
-   
-    
-    
-         public void compare_date(String date){
+    public void compare_date(String date){
             String c_date_key="",in_date_key="";
             if(min_date.equals("")){
                 min_date=date;
@@ -710,6 +365,94 @@ finalbracket="no age";
              
             }
         }   
-    
-    
+    public String getSubPartnerID(dbConn conn, String code) throws SQLException{
+     String subpatID="";
+     
+    String gett="SELECT SubPartnerID FROM subpartnera WHERE CentreSanteId=? AND (ART=1 OR PMTCT=1)";
+        System.out.println(gett);
+    conn.pst=conn.conn.prepareStatement(gett);
+    conn.pst.setString(1, code);
+    conn.rs=conn.pst.executeQuery();
+    if(conn.rs.next()){
+        subpatID =conn.rs.getString(1);
+    }
+        System.out.println("subpartneris : "+subpatID+" code : "+code);
+     return subpatID;
+    }
+    public String removeLast(String str, int num) {
+    if (str != null && str.length() > 0) {
+        str = str.substring(0, str.length() - num);
+    }
+    return str;
+    }
+    public boolean isNumeric(String s) {  
+    return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}   
+
+
+public String[] getperiod(String date_tested, dbConn conn) throws SQLException{
+
+    String QuarterName="",QuarterID="",yr="";
+
+    String dateparameters[]=date_tested.split("-");
+    if(dateparameters.length==3){
+
+     if(!dateparameters[0].equals("")){//ensure tha date field is valid
+       String month="";
+       month=dateparameters[1];
+       if(month.equalsIgnoreCase("01")||month.equalsIgnoreCase("02")||month.equalsIgnoreCase("03")){
+
+       QuarterName="January-March"; 
+
+           if(dateparameters[0].length()==4)
+       {
+       year=dateparameters[0];
+       }
+
+
+       }
+       else if(month.equalsIgnoreCase("04")||month.equalsIgnoreCase("05")||month.equalsIgnoreCase("06")){
+
+           QuarterName="April-June"; 
+           if(dateparameters[0].length()==4)
+       {
+       yr=dateparameters[0];
+       }
+
+       }
+
+       else if(month.equalsIgnoreCase("07")||month.equalsIgnoreCase("08")||month.equalsIgnoreCase("09")){
+
+           QuarterName="July-September";  
+             if(dateparameters[0].length()==4)
+       {
+       yr=dateparameters[0];
+       }
+
+       }
+        else if(month.equalsIgnoreCase("10")||month.equalsIgnoreCase("11")||month.equalsIgnoreCase("12")){
+
+           QuarterName="October-December";  
+            if(dateparameters[0].length()==4)
+       {
+           //assume
+       yr=""+Integer.parseInt(dateparameters[0])+1;
+       }
+        }		   
+
+
+String getQuarterID="SELECT id FROM quarter WHERE pmtct_fo_name like ?";
+   conn.pst=conn.conn.prepareStatement(getQuarterID);
+   conn.pst.setString(1, QuarterName);
+   conn.rs=conn.pst.executeQuery();
+
+if(conn.rs.next()==true){
+    QuarterID=conn.rs.getString(1);
+}
+     }
+    }
+String response[]={yr,QuarterID,QuarterName};
+   
+return response;
+ }
 }
