@@ -75,12 +75,12 @@ public class getSessions extends HttpServlet {
              for(int a=1;a<=lessons;a++){
              
              sessiondetails+="<th><b>S"+a+"</th>";
-             topics+="<td><select   class='span12 ' required    id='topics"+a+"' name='topics"+a+"'>"+gt.Topics(conn, curriculumid, "")+"</select></td>";
-             methods+="<td><select   class='span12 ' required    id='methods"+a+"' name='methods"+a+"'>"+gm.methods(conn, "")+"</select></td>";
-             sessiondate+="<td> <input  class='span12 tarehe' required type='text' readonly    id='sessiondate"+a+"' name='sessiondate"+a+"'> </td>";
-             time+="<td> <input onkeypress='return numbers(event);'  class='span12' required type='text'     id='time"+a+"' name='time"+a+"'></td>";
-             malecondoms+="<td> <input onkeypress='return numbers(event);'  class='span12' required type='text'     id='malecondom"+a+"' name='malecondom"+a+"'> </td>";
-             femalecondoms+="<td> <input onkeypress='return numbers(event);'  class='span12' required type='text'     id='femalecondom"+a+"' name='femalecondom"+a+"'></td>";
+             topics+="<td><select   class='span12 topic' required    id='topics"+a+"' name='topics"+a+"'>"+gt.Topics(conn, curriculumid, "")+"</select></td>";
+             methods+="<td><select multiple='true' style='height:200px;'  class='span12 method' required    id='methods"+a+"' name='methods"+a+"'>"+gm.methods(conn, "")+"</select></td>";
+             sessiondate+="<td> <input  class='span12 tarehe sessiondate' required type='text' readonly    id='sessiondate"+a+"' name='sessiondate"+a+"'> </td>";
+             time+="<td> <input onkeypress='return numbers(event);'  class='span12 time' required type='text'     id='time"+a+"' name='time"+a+"'></td>";
+             malecondoms+="<td> <input onkeypress='return numbers(event);'  class='span12 malecondom' required type='text'     id='malecondom"+a+"' name='malecondom"+a+"'> </td>";
+             femalecondoms+="<td> <input onkeypress='return numbers(event);'  class='span12 femalecondom' required type='text'     id='femalecondom"+a+"' name='femalecondom"+a+"'></td>";
              
              }
             
@@ -88,6 +88,11 @@ public class getSessions extends HttpServlet {
              
              String completedata=table+sessiondetails+"</tr></thead>"+topics+"</tr>"+methods+"</tr>"+sessiondate+"</tr>"+time+"</tr>"+malecondoms+"</tr>"+femalecondoms+"</tr></tbody></table>";
             out.println(completedata);
+         if(conn.rs!=null){conn.rs.close(); }   
+         if(conn.st!=null){conn.st.close();  }   
+         if(conn.conn!=null){conn.conn.close();  }
+            
+            
         } finally {
             out.close();
         }

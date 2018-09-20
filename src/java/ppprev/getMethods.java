@@ -36,8 +36,9 @@ public class getMethods extends HttpServlet {
             
             
             out.println(methods(conn, ""));
-             if(conn.rs!=null){conn.rs.close();}
-            if(conn.st!=null){conn.st.close();}
+         if(conn.rs!=null){conn.rs.close(); }   
+         if(conn.st!=null){conn.st.close();  }   
+         if(conn.conn!=null){conn.conn.close();  }
             
         } catch (SQLException ex) {
             Logger.getLogger(getPartner.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +96,7 @@ String wherestring="";
            
            
             
-            String data="<option value=''>Select Method</option>";
+            String data="";
             String qry="select * from hc_teachingmethod "+wherestring;
             
             conn.rs= conn.st.executeQuery(qry);

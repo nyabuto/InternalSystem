@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author EKaunda
  */
-public class getFacilitator extends HttpServlet {
+public class getWard extends HttpServlet {
 
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -29,23 +29,25 @@ public class getFacilitator extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-           String groupid="";
+            
+            
+                dbConn conn = new dbConn();
+           String subcounty="";
            
-           if(request.getParameter("group")!=null){
+           if(request.getParameter("subcounty")!=null){
            
-           groupid=request.getParameter("group");
+           subcounty=request.getParameter("subcounty");
            }
           
-                 dbConn conn = new dbConn();
-           
            
             
-            out.println(Facilitator(conn, groupid, ""));
+           
             
             
-         if(conn.rs!=null){conn.rs.close(); }   
-         if(conn.st!=null){conn.st.close();  }   
-         if(conn.conn!=null){conn.conn.close();  }
+            out.println(ward(conn, subcounty, ""));
+             if(conn.rs!=null){conn.rs.close();}
+            if(conn.st!=null){conn.st.close();}
+             if(conn.conn!=null){conn.conn.close();  System.out.println(" connection closed ");}  
             
         } catch (SQLException ex) {
             Logger.getLogger(getPartner.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,50 +95,37 @@ public class getFacilitator extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-public String Facilitator(dbConn conn, String groupid, String curselect) throws SQLException{
 
-    
+    public String ward(dbConn conn,String subcountyid ,String curselect) throws SQLException{
     
     String wherestring="";
            
            
-           if(!groupid.equals("")){
+           if(!subcountyid.equals(""))
+           {
            wherestring=" where 1=1 ";
-           wherestring+=" and groups_id='"+groupid+"' ";
+           wherestring+=" and subcountyid='"+subcountyid+"' ";
            }
            
            
-      
+        
             
-            String data="<option value=''>Select Facilitator</option>";
-            String qry="select * from hc_facilitator "+wherestring;
+            String data="<option value=''>Select Ward</option>";
+            String qry="select * from ward "+wherestring;
             
             conn.rs= conn.st.executeQuery(qry);
             while(conn.rs.next()){
-                String phone="";
                 
-                if(conn.rs.getString("phone")!=null){phone=conn.rs.getString("phone");}
-                
-                
-                
-            String facilitatorname=conn.rs.getString(2)+" "+conn.rs.getString(3)+" "+conn.rs.getString(4);
-            
-            if(!phone.equals("")){facilitatorname+=" ["+phone+"]";}
-            
-             String selected="";
+                String selected="";
                 if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
             
-            data+="<option  "+selected+"  data-phoneno='"+phone+"' value='"+conn.rs.getString(1)+"'>"+facilitatorname+"</option>";
+            data+="<option "+selected+" value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(3)+"</option>";
             
             }
-            
-           
-            
-
-return data;
-
-
-}
+    
+    
+    return data;
+    }
 
 
 

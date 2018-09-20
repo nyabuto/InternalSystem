@@ -111,6 +111,9 @@ String userAccess;
          if(conn.pst!=null){
          conn.pst.close();
          }
+         if(conn.conn!=null){
+         conn.conn.close();
+         }
          response.sendRedirect(nextPage);
     }
 

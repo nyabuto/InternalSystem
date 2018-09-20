@@ -989,7 +989,7 @@
         <servlet-name>getPartner</servlet-name>
         <servlet-class>ppprev.getPartner</servlet-class>
     </servlet>
-       <servlet>
+    <servlet>
         <servlet-name>getSessions</servlet-name>
         <servlet-class>ppprev.getSessions</servlet-class>
     </servlet>
@@ -1004,6 +1004,26 @@
     <servlet>
         <servlet-name>check_status</servlet-name>
         <servlet-class>LoadExcels.check_status</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getWard</servlet-name>
+        <servlet-class>ppprev.getWard</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveGroup</servlet-name>
+        <servlet-class>ppprev.saveGroup</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveFacilitator</servlet-name>
+        <servlet-class>ppprev.saveFacilitator</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveForm</servlet-name>
+        <servlet-class>ppprev.saveForm</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getForm</servlet-name>
+        <servlet-class>ppprev.getForm</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -2004,11 +2024,30 @@
     <servlet-mapping>
         <servlet-name>getAttendance</servlet-name>
         <url-pattern>/getAttendance</url-pattern>
-    </servlet-mapping> 
-    
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>check_status</servlet-name>
         <url-pattern>/check_status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getWard</servlet-name>
+        <url-pattern>/getWard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveGroup</servlet-name>
+        <url-pattern>/saveGroup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveFacilitator</servlet-name>
+        <url-pattern>/saveFacilitator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveForm</servlet-name>
+        <url-pattern>/saveForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getForm</servlet-name>
+        <url-pattern>/getForm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

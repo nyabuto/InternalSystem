@@ -71,10 +71,10 @@ public class getParticipants extends HttpServlet {
              
                  rows+="<tr> "
                 + "<td class= 'col-sm-1 '>"+count+"<input value='"+conn.rs.getString("id")+"' type='hidden' id='id"+count+"' name= 'id"+count+"'  /></td>"
-                + "<td class= 'col-sm-2 '><input value='"+conn.rs.getString("fname")+"' type= 'text' id='firstname"+count+"' name= 'firstname"+count+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input value='"+conn.rs.getString("mname")+"' placeholder='optional' type= 'text' id='middlename"+count+"' name='middlename"+count+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input value='"+conn.rs.getString("sname")+"' type= 'text' id='lastname"+count+"' name='lastname"+count+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input value='"+conn.rs.getString("age")+"' type= 'text' id='age"+count+"' name='age"+count+"' class= 'form-control' /><></td>"
+                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+count+"\");' value='"+conn.rs.getString("fname")+"' type= 'text' id='firstname"+count+"' name= 'firstname"+count+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+count+"\");' value='"+conn.rs.getString("mname")+"' placeholder='optional' type= 'text' id='middlename"+count+"' name='middlename"+count+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+count+"\");' value='"+conn.rs.getString("sname")+"' type= 'text' id='lastname"+count+"' name='lastname"+count+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 '><input onkeypress='return numbers(event);' maxlength='2' value='"+conn.rs.getString("age")+"' type= 'text' id='age"+count+"' name='age"+count+"' class= 'form-control' /><></td>"
                 + "<td class= 'col-sm-2 '><select type= 'text' id='sex"+count+"' name='sex"+count+"' class= 'form-control' />"+getGender(""+conn.rs.getString("sex"))+"</select></td>"
                 +"<td class= 'col-sm-1 '><a class= 'deleteRow '></a></td></tr>";
                 
@@ -91,10 +91,10 @@ public class getParticipants extends HttpServlet {
                 int a=count;
         rows+="<tr> "
                 + "<td class= 'col-sm-1 '>"+a+"<input value='"+RandomNo(1000, 90000)+"' type='hidden' id='id"+a+"' name= 'id"+a+"'  /></td>"
-                + "<td class= 'col-sm-2 '><input type= 'text' id='firstname"+a+"' name= 'firstname"+a+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input placeholder='optional' type= 'text' id='middlename"+a+"' name='middlename"+a+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input type= 'text' id='lastname"+a+"' name='lastname"+a+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input type= 'text' id='age"+a+"' name='age"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+a+"\");' type= 'text' id='firstname"+a+"' name= 'firstname"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+a+"\");' placeholder='optional' type= 'text' id='middlename"+a+"' name='middlename"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+a+"\");' type= 'text' id='lastname"+a+"' name='lastname"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 '><input onkeypress='return numbers(event);' maxlength='2' type= 'text' id='age"+a+"' name='age"+a+"' class= 'form-control' /></td>"
                 + "<td class= 'col-sm-2 '><select  id='sex"+a+"' name='sex"+a+"' class= 'form-control' >"+getGender("")+"</select></td>"
                 +"<td class= 'col-sm-1 '><a class= 'deleteRow'></a></td></tr>";
         count++;
@@ -107,8 +107,9 @@ public class getParticipants extends HttpServlet {
             System.out.println(data+rows);
     
              out.println(data+rows);
-         if(conn.rs!=null){conn.rs.close();}   
-         if(conn.st!=null){conn.st.close();}   
+         if(conn.rs!=null){conn.rs.close(); }   
+         if(conn.st!=null){conn.st.close();  }   
+         if(conn.conn!=null){conn.conn.close();  }  
             
            
         } finally {

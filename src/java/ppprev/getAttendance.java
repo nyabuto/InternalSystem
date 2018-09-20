@@ -87,7 +87,11 @@ public class getAttendance extends HttpServlet {
                   for(int d=1;d<=c;d++)
                               {  
                           //presentAbsent 
-                     regrows+= "<td class= 'col-sm-1'><select style='width:100px;'  id='s"+count+"' name='s"+count+"' class= 'form-control' >"+presentAbsent(""+conn.rs.getString("s"+count))+"</select></td>";
+                                  
+                                 String icon="icon-check";
+                                 if(conn.rs.getString("s"+count).equals("1")){icon="icon-remove-sign";}
+                                 
+                     regrows+= "<td class= 'col-sm-1'><select onchange='attendanceicon(\""+count+"_"+d+"\");' style='width:100px;'  id='s"+count+"_"+d+"' name='s"+count+"_"+d+"' class= 'form-control' >"+presentAbsent(""+conn.rs.getString("s"+count))+"</select><i class='"+icon+"' id='status"+count+"_"+d+"'></i></td>";
                               } 
                   
                 regrows+="<td class= 'col-sm-1' ><a class= 'deleteRow'></a></td></tr>";
@@ -109,10 +113,10 @@ public class getAttendance extends HttpServlet {
                   for(int d=1;d<=c;d++)
                               {  
                           //presentAbsent 
-                     regrows+= "<td '><select style='width:100px;'  id='s"+count+"' name='s"+count+"' class='form-control' >"+presentAbsent("")+" </select> </td>";
+                     regrows+= "<td '><select onchange='attendanceicon(\""+count+"_"+d+"\");' style='width:100px;'  id='s"+count+"_"+d+"' name='s"+count+"_"+d+"' class='form-control' >"+presentAbsent("1")+" </select> <i class='icon-check' id='status"+count+"_"+d+"'></i></td>";
                               } 
                   
-                regrows+="<td class= 'col-sm-1' ><a class= 'deleteRow'></a></td></tr>";
+                regrows+="<td class= 'col-sm-1' ></a></td></tr>";
         count++;
                    
             
@@ -122,8 +126,9 @@ public class getAttendance extends HttpServlet {
             System.out.println(regdata+regrows);
     
              out.println(regdata+regrows);
-         if(conn.rs!=null){conn.rs.close();}   
-         if(conn.st!=null){conn.st.close();}   
+         if(conn.rs!=null){conn.rs.close(); System.out.println(" resultset closed ");}   
+         if(conn.st!=null){conn.st.close();  System.out.println(" resultset closed ");}   
+         if(conn.conn!=null){conn.conn.close();  System.out.println(" connection closed ");}   
             
            
         } finally {
@@ -167,10 +172,11 @@ public String presentAbsent(String curstatus){
     String allattendance[]={"Present","Absent"};
     String allattendanceid[]={"1","0"};
     
-    String options="<option value=''>Attendance</option>";
+   // String options="<option value=''>Attendance</option>";
+    String options="";
     for(int b=0;b<allattendance.length;b++){
         String isselected="";
-        
+        //System.out.println(" Compare statuses "+curstatus+"  "+allattendanceid[b]);
         if(curstatus.equals(allattendanceid[b])){isselected=" selected ";}
         
     options+="<option "+isselected+" value='"+allattendanceid[b]+"'>"+allattendance[b]+"</option>";

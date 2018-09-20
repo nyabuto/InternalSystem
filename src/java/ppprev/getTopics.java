@@ -47,8 +47,9 @@ public class getTopics extends HttpServlet {
             out.println(Topics(conn, curid, ""));
             
             
-             if(conn.rs!=null){conn.rs.close();}
-            if(conn.st!=null){conn.st.close();}
+         if(conn.rs!=null){conn.rs.close(); }   
+         if(conn.st!=null){conn.st.close();  }   
+         if(conn.conn!=null){conn.conn.close();  }
             
         } catch (SQLException ex) {
             Logger.getLogger(getPartner.class.getName()).log(Level.SEVERE, null, ex);

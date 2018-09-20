@@ -47,6 +47,7 @@ public class getSubcounty extends HttpServlet {
             out.println(subcounty(conn, countyid, ""));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
+             if(conn.conn!=null){conn.conn.close();  System.out.println(" connection closed ");}  
             
         } catch (SQLException ex) {
             Logger.getLogger(getPartner.class.getName()).log(Level.SEVERE, null, ex);
