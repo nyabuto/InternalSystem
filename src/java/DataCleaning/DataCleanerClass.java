@@ -704,8 +704,12 @@ System.out.println(" viral load at position : "+i);
         return vl;
     }
  
-  public XSSFWorkbook EIDTST(XSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
-              
+  public XSSFWorkbook EIDTST(XSSFSheet worksheetpREV,XSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
+   
+      //upload previous errors
+      upload_eid_tst_prev_data(worksheetpREV); 
+      //end
+      
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     String errors;
     int has_initial=0;
@@ -728,10 +732,10 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 //     6. PMTCT intervention (no data, none, other, SdNVP only, SdNVP/AZT/3TC & interrupted HAART)
 //    7. inappropriate breastfeeding options by age 
 //    8. entry point
-    
 
-           conn.st.executeUpdate("TRUNCATE eid_cleaning");
-
+       conn.st.executeUpdate("TRUNCATE eid_cleaning");
+       conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
+       
 
         worksheet = eid.getSheetAt(0);
         Iterator rowIterator = worksheet.iterator();
@@ -1599,10 +1603,12 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
          
          //START OF ERROR CHECKING LEVEL2####################################
          //check for duplicates within uploaded data
-        String checker1="SELECT * from eid_cleaning WHERE Sample_ID=? AND Facility_Code=?";
+        String checker1="SELECT * from eid_cleaning WHERE Sample_ID=?";
+//        String checker1="SELECT * from eid_cleaning WHERE Sample_ID=? AND Facility_Code=?";
         conn.pst = conn.conn.prepareStatement(checker1);
         conn.pst.setString(1, Sample_ID);
-        conn.pst.setString(2, Facility_Code);
+//        conn.pst.setString(2, Facility_Code);
+
         conn.rs = conn.pst.executeQuery();
          if(conn.rs.next()){
              has_initial++;
@@ -1631,7 +1637,10 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              errors+="Duplicated Record [Check Record Row Number "+(conn.rs.getInt("num")+1)+"]\n";
              XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
              XSSFCell anotherCell = anotherRow.getCell(31);
-             String errrs = anotherCell.getStringCellValue();
+             String errrs = "";
+                if(anotherCell.getStringCellValue()!=null){
+                    errrs = anotherCell.getStringCellValue();
+                }
              
              errrs+="Duplicated Record [Check Record Row Number "+(i+1)+"]\n";
              anotherCell.setCellValue(errrs);
@@ -1650,37 +1659,52 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
         
 
       if(PCR_Type.contains("Initial PCR")){
-         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
+//          if(Sample_ID.equals("14510/2017/425")){
+//              System.out.println("Here sample code : "+Sample_ID);
+//          }
+         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=?";
+//         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
             conn.pst = conn.conn.prepareStatement(checker);
             conn.pst.setString(1, Sample_ID);
-            conn.pst.setString(2, Facility_Code);
+//            conn.pst.setString(2, Facility_Code);
 
             conn.rs1 = conn.pst.executeQuery();
-            if(conn.rs.next()){
-                if(isNumeric(Age_Months)){
-                    errors+="The record previously exist.\n";
-                   if(Double.parseDouble(Age_Months)<5) {
-//                           CellPCR_Type.setCellValue("Initial PCR (6 week or first contact)");
+            if(conn.rs1.next()){
+                int issue_grouped=0;
+                if(isNumeric(Age_Months) || ageInMonths<=0){
+//                    errors+="The record previously exist.\n";
+                   if(Double.parseDouble(Age_Months)<6 || ageInMonths<6) {   
+                       errors+="Similar record exist in previous data. However, based on age, this is an initial PCR.\n";
+                       issue_grouped++;
                    }
-                   if(Double.parseDouble(Age_Months)>=5 && Double.parseDouble(Age_Months)<=11) {
-                           CellPCR_Type.setCellValue("2nd PCR (6 months)");      
+                   if((Double.parseDouble(Age_Months)>=6 && Double.parseDouble(Age_Months)<12) || (ageInMonths>=6 && ageInMonths<12)) {
+                           CellPCR_Type.setCellValue("2nd PCR (6 months)"); 
+                           errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist.\n";
+                           issue_grouped++;
                    }
-                   else if(Double.parseDouble(Age_Months)>11) {
-                           CellPCR_Type.setCellValue("3rd PCR (12 months)");      
+                   if(Double.parseDouble(Age_Months)>=12 || ageInMonths>=12) {
+                           CellPCR_Type.setCellValue("3rd PCR (12 months)");   
+                       errors+="Updated PCR Type to 3rd PCR (12 months) because the record previously exist.\n";
+                       issue_grouped++;
+                   }
+                   
+                   if(issue_grouped==0){
+                 CellPCR_Type.setCellValue("2nd PCR (6 months)");  
+                 errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist. However, age of the child could not be correctly determined. \n";  
                    }
 
                 }
                 else{
-                 CellPCR_Type.setCellValue("2nd PCR (6 months)");        
+                 CellPCR_Type.setCellValue("2nd PCR (6 months)");  
+                 errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist. Age is not numeric. \n";
                 }
-
-              CellPCR_Type.setCellStyle(redstyle);
+            CellPCR_Type.setCellStyle(redstyle);
         }
       }
         
 
       if(PCR_Type.contains("2nd PCR") || PCR_Type.contains("3rd PCR")){
-         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
+         String checker="SELECT * FROM eid_tested_prev WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
             conn.pst = conn.conn.prepareStatement(checker);
             conn.pst.setString(1, Sample_ID);
             conn.pst.setString(2, Facility_Code);
@@ -1766,8 +1790,16 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
         
         //Truncate data from db
        worksheet.autoSizeColumn(31);     
-        
-        
+      
+       conn.st.executeUpdate("TRUNCATE eid_cleaning");
+       conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
+       
+                //close connections
+        if(conn.rs!=null){conn.rs.close();}
+        if(conn.st!=null){conn.st.close();}
+        if(conn.rs1!=null){conn.rs1.close();}
+        if(conn.pst!=null){conn.pst.close();}
+        if(conn.conn!=null){conn.conn.close();}
         return eid;
     }
  
@@ -2618,7 +2650,7 @@ System.out.println(" viral load at position : "+i);
         return vl;
     }
  
-  public HSSFWorkbook EIDTST(HSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
+  public HSSFWorkbook EIDTST(HSSFSheet worksheet_prev, HSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
     String errors,age,where,mfl_code,pcr_type,date_tested;
         HSSFSheet worksheet;
     // Column to check age<=12 col-no11
@@ -3151,4 +3183,230 @@ public HSSFSheet copyRow(HSSFWorkbook wb, HSSFRow rowold,HSSFSheet toSheet, int 
   public boolean isNumeric(String s) {  
     return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
 }
+  
+//  function to add temporary data
+  
+  public void upload_eid_tst_prev_data(XSSFSheet worksheet) throws SQLException{
+          int missing=0,added=0,updated=0;
+          String dbname="eid_tested_prev";   
+    String min_date="",max_date="",date_tested="",agebracket="",upload_message="";
+    String[] columns =  {"orderno","samplecode","batchno","testinglab","County","Sub_County","Partner","Facility","Mflcode","sex","dob","age_months","PCR_Type","enrollment_ccc","datecollected","datereceived","datetested","datedispatched","infantprophylaxis","receivedstatus","lab_comment","repeat_rejection_reason","spots","breastfeeding","entrypoint","testresult","pmtct_intervention","hivstatus_mum","mother_age","mother_cccno","mother_lastVL"};
+    String query="",query_update="",value,checker_query,Age_Months="";
+    String year,quarter,SubPartnerID,mfl_code,month,yearmonth,id,samplecode,system_id="";
+
+        Iterator rowIterator = worksheet.iterator();
+           int rowCount = worksheet.getLastRowNum();
+        int i=1,y=0;
+        while(rowIterator.hasNext()){
+        XSSFRow rowi = worksheet.getRow(i);
+        if( rowi==null){
+
+         break;
+        }
+                            System.out.println("added is : "+added);
+                            
+            query = "REPLACE INTO "+dbname+" SET ";
+            query_update = "UPDATE "+dbname+" SET ";
+            checker_query="";
+             int colmnscounter=0;
+        SubPartnerID=mfl_code=date_tested=samplecode="";            
+                            
+        for (String label : columns){
+          
+           XSSFCell cell = rowi.getCell((short) colmnscounter);
+            if(cell==null){
+                break;
+            }
+            else{
+               switch (cell.getCellType()) {
+                   case 0:
+                       //numeric
+                       if(colmnscounter==11){
+                  value =""+(double)cell.getNumericCellValue();               
+                       }
+                       else{
+                       value =""+(int)cell.getNumericCellValue();     
+                       }
+                       break;
+                   case 1:
+                       value =cell.getStringCellValue();
+                       break;
+                   default:
+                       value = cell.getRawValue();
+                       break;
+               }
+        
+            } 
+               
+               
+               if(value==null){
+          query+=label+"="+value+",";
+          query_update+=label+"="+value+",";
+//          checker_query+=label+"="+value+" AND ";
+               }
+               else{
+                   
+                   if(value.contains("'")){
+                       value=value.replace("'", "");
+                   }
+               query+=label+"='"+value+"',";
+               query_update+=label+"='"+value+"',";
+               if(colmnscounter<=3){
+               checker_query+=label+"='"+value+"' AND "; 
+               }
+               }
+            if(colmnscounter==0){
+                system_id = value;
+            }
+            if(colmnscounter==1){
+                samplecode = value;
+            }
+            if(colmnscounter==8){
+                mfl_code = value;
+            }
+            if(colmnscounter==11){
+               Age_Months =  value; 
+            }
+            if(colmnscounter==16){
+               date_tested =  value; 
+            }
+            
+            colmnscounter++;
+       }
+        
+   if(isNumeric(Age_Months)){agebracket=getageBracket(Double.parseDouble(Age_Months));}   
+   id=system_id+"_"+samplecode+"_"+date_tested;    
+   
+   String[] datesvalues = getperiod(date_tested,conn);
+    year = datesvalues[0];
+    quarter = datesvalues[1];
+//    quartername = datesvalues[2];
+        SubPartnerID=getSubPartnerID(conn,mfl_code); 
+    query_update +="year='"+year+"',quarter='"+quarter+"',SubPartnerID='"+SubPartnerID+"' WHERE id='"+id+"'";
+    query +="year='"+year+"',quarter='"+quarter+"',SubPartnerID='"+SubPartnerID+"', id='"+id+"'";
+
+            System.out.println("insert : "+query);
+            System.out.println("update : "+query_update);
+
+    //end of adding todashboards
+              
+        if(!SubPartnerID.equals("")){
+            //REMOVE LAST ELEMENT 
+         conn.st.executeUpdate(query);
+            added++;
+        
+        }
+        else{
+          System.out.println("mfl : "+mfl_code+" Facility is missing in our master facility list.");   
+        }
+            System.out.println("Current date : "+date_tested+" Min date : "+min_date+" max date : "+max_date);
+            i++;
+        }   
+  }
+  
+      public String[] getperiod(String date_tested, dbConn conn) throws SQLException{
+
+    String QuarterName="",QuarterID="",yr="";
+
+    String dateparameters[]=date_tested.split("-");
+    if(dateparameters.length==3){
+
+     if(!dateparameters[0].equals("")){//ensure tha date field is valid
+       String month="";
+       month=dateparameters[1];
+       if(month.equalsIgnoreCase("01")||month.equalsIgnoreCase("02")||month.equalsIgnoreCase("03")){
+
+       QuarterName="January-March"; 
+
+           if(dateparameters[0].length()==4)
+       {
+       yr=dateparameters[0];
+       }
+
+
+       }
+       else if(month.equalsIgnoreCase("04")||month.equalsIgnoreCase("05")||month.equalsIgnoreCase("06")){
+
+           QuarterName="April-June"; 
+           if(dateparameters[0].length()==4)
+       {
+       yr=dateparameters[0];
+       }
+
+       }
+
+       else if(month.equalsIgnoreCase("07")||month.equalsIgnoreCase("08")||month.equalsIgnoreCase("09")){
+
+           QuarterName="July-September";  
+             if(dateparameters[0].length()==4)
+       {
+       yr=dateparameters[0];
+       }
+
+       }
+        else if(month.equalsIgnoreCase("10")||month.equalsIgnoreCase("11")||month.equalsIgnoreCase("12")){
+
+           QuarterName="October-December";  
+            if(dateparameters[0].length()==4)
+       {
+           //assume
+       yr=""+Integer.parseInt(dateparameters[0])+1;
+       }
+        }		   
+
+
+String getQuarterID="SELECT id FROM quarter WHERE pmtct_fo_name like ?";
+   conn.pst=conn.conn.prepareStatement(getQuarterID);
+   conn.pst.setString(1, QuarterName);
+   conn.rs=conn.pst.executeQuery();
+
+if(conn.rs.next()==true){
+    QuarterID=conn.rs.getString(1);
+}
+     }
+    }
+String response[]={yr,QuarterID,QuarterName};
+   
+return response;
+ }
+      public String getSubPartnerID(dbConn conn, String code) throws SQLException{
+     String subpatID="";
+     
+    String gett="SELECT SubPartnerID FROM subpartnera WHERE CentreSanteId=? AND (ART=1 OR PMTCT=1)";
+        System.out.println(gett);
+    conn.pst=conn.conn.prepareStatement(gett);
+    conn.pst.setString(1, code);
+    conn.rs=conn.pst.executeQuery();
+    if(conn.rs.next()){
+        subpatID =conn.rs.getString(1);
+    }
+        System.out.println("subpartneris : "+subpatID+" code : "+code);
+     return subpatID;
+    }
+      public String getageBracket(Double age){
+    //<1	1-4	5-9  10-14	15-19	20+
+        String finalbracket="";
+if(age<1){
+finalbracket="<1";
+}
+else if(age>=1&&age<=4){
+finalbracket="1-4";
+                        }
+else if(age>=5&&age<=9){
+finalbracket="5-9";
+                        }
+else if(age>=10&&age<=14){
+finalbracket="10-14";
+                        }
+else if(age>=15&&age<=19){
+finalbracket="15-19";
+                        }
+else if(age>=20){
+finalbracket="20+";
+                        }
+else {
+finalbracket="no age";
+}
+  return finalbracket;  
+    }
 }

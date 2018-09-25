@@ -6,16 +6,12 @@ Age and sex should be gotten from the eid tested raw data during the importing o
 
 package LoadExcels;
 
-import General.IdGenerator;
 import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

@@ -22,11 +22,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -41,7 +43,8 @@ String fileName="";
 File file_source;
 private static final long serialVersionUID = 205242440643911308L;
 private static final String UPLOAD_DIR = "uploads";
-
+      XSSFSheet worksheet=null;
+      HSSFSheet worksheet1=null;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException, SQLException, InvalidFormatException {
         session = request.getSession();
@@ -57,8 +60,48 @@ private static final String UPLOAD_DIR = "uploads";
       OPCPackage pkg  = null;
 //      SXSSFWorkbook wb = null;
       XSSFWorkbook wb = null;
+      XSSFWorkbook wb_prev = null; // EID TST Prev data
       HSSFWorkbook wb2 = null;
-        DataCleanerClass dcleaner = new DataCleanerClass();
+      HSSFWorkbook wb_prev2 = null; // EID TST Prev data
+      
+      
+      
+      DataCleanerClass dcleaner = new DataCleanerClass();
+        
+        
+        if(report_type.equals("eidtst")){
+         String applicationPath2 = request.getServletContext().getRealPath("");
+         String uploadFilePath2 = applicationPath2 + File.separator + UPLOAD_DIR;
+          File fileSaveDir2 = new File(uploadFilePath2);
+        if (!fileSaveDir2.exists()) {
+            fileSaveDir2.mkdirs();
+        }
+        
+        for (Part part : request.getParts()) {
+            if(!getFileNamePrev(part).equals("")){
+           fileName = getFileNamePrev(part);
+            part.write(uploadFilePath2 + File.separator + fileName);
+            }
+        }
+        if(fileName.endsWith(".xls")){
+        full_path=fileSaveDir2.getAbsolutePath()+"\\"+fileName;
+        FileInputStream fileInputStream = new FileInputStream(full_path);
+        wb_prev2 = new HSSFWorkbook(fileInputStream);
+        worksheet1 = wb_prev2.getSheetAt(0);
+        }
+        else if(fileName.endsWith(".xlsx")){
+        full_path=fileSaveDir2.getAbsolutePath()+"\\"+fileName;
+        FileInputStream fileInputStream = new FileInputStream(full_path);
+        wb_prev = new XSSFWorkbook(fileInputStream);
+        worksheet = wb_prev.getSheetAt(0);
+            System.out.println("full path : "+full_path);
+            
+         
+        }
+        }
+        
+        
+        
 
         //end of dropping yearmonth data
          String applicationPath = request.getServletContext().getRealPath("");
@@ -113,7 +156,7 @@ private static final String UPLOAD_DIR = "uploads";
           wb2 =  dcleaner.ViralLoad(wb2,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidtst")){
-          wb2 = dcleaner.EIDTST(wb2,redstyle,styleborder,start_date,end_date);
+          wb2 = dcleaner.EIDTST(worksheet1,wb2,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidpos")){
           wb2 =  dcleaner.EIDPOS(wb2,redstyle,start_date,end_date);
@@ -176,7 +219,7 @@ private static final String UPLOAD_DIR = "uploads";
           wb =  dcleaner.ViralLoad(wb,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidtst")){
-          wb = dcleaner.EIDTST(wb,redstyle,styleborder,start_date,end_date);
+          wb = dcleaner.EIDTST(worksheet,wb,redstyle,styleborder,start_date,end_date);
         }
         else if(report_type.equals("eidpos")){
           wb =  dcleaner.EIDPOS(wb,redstyle,start_date,end_date);
@@ -280,8 +323,9 @@ private static final String UPLOAD_DIR = "uploads";
 
     
         private String getFileName(Part part) {
-            String file_name="";
+          String file_name="";
         String contentDisp = part.getHeader("content-disposition");
+        if(contentDisp.contains("name=\"file_name\";")){
         System.out.println("content-disposition header= "+contentDisp);
         String[] tokens = contentDisp.split(";");
       
@@ -289,10 +333,34 @@ private static final String UPLOAD_DIR = "uploads";
             if (token.trim().startsWith("filename")) {
                 file_name = token.substring(token.indexOf("=") + 2, token.length()-1);
               break;  
-            }
+            }   
+        }
+         System.out.println("content-disposition final current : "+file_name);
+        }
+        else{
             
         }
+        return file_name;
+    }
+        
+        private String getFileNamePrev(Part part) {
+        String file_name="";
+        String contentDisp = part.getHeader("content-disposition");
+        if(contentDisp.contains("name=\"file_name_prev\";")){
+        System.out.println("content-disposition header= "+contentDisp);
+        String[] tokens = contentDisp.split(";");
+      
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                file_name = token.substring(token.indexOf("=") + 2, token.length()-1);
+              break;  
+            }   
+        }
          System.out.println("content-disposition final : "+file_name);
+        }
+        else{
+            
+        }
         return file_name;
     }
 }

@@ -3729,6 +3729,128 @@ splitData--;
          return num;
     }
     
+    public int prep(Map m1) throws SQLException{
+        String startyearmonth="",endyearmonth="",mflcode="",startdate="",enddate="";
+         if(m1.containsKey("startyearmonth")){startyearmonth=m1.get("startyearmonth").toString();}
+         if(m1.containsKey("endyearmonth")){endyearmonth=m1.get("endyearmonth").toString();}
+         if(m1.containsKey("startdate")){startdate=m1.get("startdate").toString();}
+         if(m1.containsKey("enddate")){enddate=m1.get("enddate").toString();}
+         if(m1.containsKey("mfl_code")){mflcode=m1.get("mfl_code").toString();}
+        int num=0;
+        String facilitiestable="subpartnera";
+        String county,sub_county,facilityName,support_type,mfl_code,arthv,pmtcthv,htchv,allhv,burdencategory,constituency;
+        String ward,Owner,Type,latitude,longitude,Male_clinics,Adolescent_clinics,Viremia_clinics,EMR_Sites,Link_desks,yearmonth;
+        int f19=0,f24=0,f29=0,f34=0,f39=0,f49=0,f50=0,m19=0,m24=0,m29=0,m34=0,m39=0,m49=0,m50=0;
+        String year,semi_annual,quarter,month;
+        String id_="";
+     
+        String facil_where="";
+         if(!mflcode.equals("")){
+             facil_where="AND "+facilitiestable+".CentreSanteID="+mflcode;
+         }
+     
+        String prep_query=" SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county," +
+"	"+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(PMTCT_Support,0) AS PMTCT_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv," +
+"	IFNULL(all_highvolume,0) AS  allhv,burden_cartegory AS burdencategory,IFNULL(constituency,'') AS constituency,IFNULL(ward,'') AS ward, IFNULL(Owner,'') AS Owner,IFNULL(Type,'') AS Type,latitude,longitude,IFNULL(Male_clinics,0) AS Male_clinics,IFNULL(Adolescent_clinics,0) AS Adolescent_clinics," +
+"	IFNULL(Viremia_clinics,0) AS Viremia_clinics,IFNULL(EMR_Sites,0) AS EMR_Sites,IFNULL(Link_desks,0) AS Link_desks," +
+"	IFNULL(f19,0) AS f19,IFNULL(f24,0) AS f24,IFNULL(f29,0) AS f29,IFNULL(f34,0) AS f34,IFNULL(f39,0) AS f39,IFNULL(f49,0) AS f49,IFNULL(f50,0) AS f50,IFNULL(m19,0) AS m19,IFNULL(m24,0) AS m24,IFNULL(m29,0) AS m29,IFNULL(m34,0) AS m34,IFNULL(m39,0) AS m39,IFNULL(m49,0) AS m49,IFNULL(m50,0) AS m50,year,quarter,yearmonth " +
+"	FROM prep " +
+"	LEFT JOIN "+facilitiestable+" ON prep.mflcode="+facilitiestable+".CentreSanteId " +
+"	LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
+"	LEFT JOIN county ON district.CountyID=county.CountyID " +
+"	 WHERE  yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" AND "+facilitiestable+".active=1 GROUP BY mfl_code,yearmonth " +
+"                "; 
+        
+                    System.out.println("PREP query : "+prep_query);
+
+                    conn.rs = conn.st.executeQuery(prep_query);
+                    while(conn.rs.next()){
+                       //basic information
+                county = conn.rs.getString("county");
+                sub_county = conn.rs.getString("sub_county");
+                facilityName = conn.rs.getString("facility");
+                support_type = conn.rs.getString("PMTCT_Support");
+                mfl_code = conn.rs.getString("mfl_code");
+
+                arthv = conn.rs.getString("arthv");
+                pmtcthv = conn.rs.getString("pmtcthv");
+                htchv = conn.rs.getString("htchv");
+                allhv = conn.rs.getString("allhv");
+                burdencategory = conn.rs.getString("burdencategory");
+                constituency = conn.rs.getString("constituency");
+                ward = conn.rs.getString("ward");
+                Owner = conn.rs.getString("Owner");
+                Type = conn.rs.getString("Type");
+                latitude = conn.rs.getString("latitude");
+                longitude = conn.rs.getString("longitude");
+                Male_clinics = conn.rs.getString("Male_clinics");
+                Adolescent_clinics = conn.rs.getString("Adolescent_clinics");
+                Viremia_clinics = conn.rs.getString("Viremia_clinics");
+                EMR_Sites = conn.rs.getString("EMR_Sites");
+                Link_desks = conn.rs.getString("Link_desks");
+                yearmonth = conn.rs.getString("yearmonth");
+                
+                f19 = conn.rs.getInt("f19");
+                f24 = conn.rs.getInt("f24");
+                f29 = conn.rs.getInt("f29");
+                f34 = conn.rs.getInt("f34");
+                f39 = conn.rs.getInt("f39");
+                f49 = conn.rs.getInt("f49");
+                f50 = conn.rs.getInt("f50");
+                m19 = conn.rs.getInt("m19");
+                m24 = conn.rs.getInt("m24");
+                m29 = conn.rs.getInt("m29");
+                m34 = conn.rs.getInt("m34");
+                m39 = conn.rs.getInt("m39");
+                m49 = conn.rs.getInt("m49");
+                m50 = conn.rs.getInt("m50");
+                
+                int total_f=f19+f24+f29+f34+f39+f49+f50;
+                int total_m= m19+m24+m29+m34+m39+m49+m50;       
+                int total = total_f+total_m;
+
+                JSONObject period_data = getperiod(yearmonth);
+
+                year = period_data.get("year").toString();
+                semi_annual = period_data.get("semi_annual").toString();
+                quarter = period_data.get("quarter").toString();
+                month = period_data.get("month").toString();
+                
+                String id_lv3="1";
+            
+          id_=mfl_code+"_"+yearmonth+"_"+id_lv3; //numerator 
+
+   String[] hearder ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+    "level1","level2","level3","f_19","f_24","f_29","f_34","f_39","f_49","f_50","m_19","m_24","m_29","m_34","m_39","m_49","m_50",
+    "total_f","total_m","total","year","semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+    "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
+   
+   String[] data =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+    "Prevention,PREP,PREP_New,"+f19+","+f24+","+f29+","+f34+","+f39+","+f49+","+f50+","+m19+","+m24+","+m29+","+m34+","+m39+","+m49+","+m50+","+total_f+","+total_m+","+total+","+year+","+
+    ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+    ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,1").split(",");
+    
+   
+   String query_params = "";
+    for(int i=0;i<hearder.length;i++){
+    query_params+=hearder[i]+"=?,";    
+    }
+    //remove last comma
+    query_params = removeLastChars(query_params, 1);
+    
+   String query = "REPLACE INTO table1 SET "+query_params;
+   conndash.pst = conndash.conn.prepareStatement(query);
+   
+    for(int i=0;i<data.length;i++){
+        conndash.pst.setString((i+1), data[i]);   
+    }
+    conndash.pst.executeUpdate();    
+//      end    
+                        
+    }
+        return num;
+    }
+    
     public JSONObject getperiod(String yearmonth){
         JSONObject obj = new JSONObject();
         String[] arraydata = yearmonth.split("");
