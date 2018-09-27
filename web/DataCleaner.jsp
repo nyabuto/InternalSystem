@@ -147,7 +147,10 @@ tr>td {
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="DataCleaner" method="post" enctype="multipart/form-data" class="form-horizontal" style="margin: 0px 300px 0 300px">
-                       
+                           <div> <b style="color: red">NOTE:</b> <p style="font-weight: bold">Ensure you have done the following before uploading your file(s) for error checking.</p></div>
+                           
+                        <p>1. All the excel files are in <b>.xlsx</b> format</p>
+                        <p>2. All data in these files has borders. Data without borders will not be read into the system</p>
                            <br>  
                           <table>
                               <tr> <td><b>Report Type</b> </td><td><select name="report_type" id="report_type" value="" class="textbox" required>
@@ -158,7 +161,7 @@ tr>td {
                                                       <option value="eidpos">EID POS</option>
                                                       
                                       </select></td> </tr>
-                         <tr id="tst_prev" hidden="true"> <td><b>Select 1 and 1/2 year ago EID Tested data file :</b> </td><td><input type="file" name="file_name_prev" id="upload" value="" class="textbox" required></td> </tr>
+                         <tr id="tst_prev" hidden="true"> <td><b>Select [1 and 1/2 years] ago EID Tested data file :</b> </td><td><input type="file" name="file_name_prev" id="file_name_prev" value="" class="textbox"></td> </tr>
                          <tr> <td><b id="current">Select File :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>
                           </table>
                         <br><br>
@@ -238,17 +241,20 @@ tr>td {
 
 <script > 
   $(document).ready(function(){
-       $("#tst_prev").hide();     
+       $("#tst_prev").hide();
+       $("#file_name_prev").removeAttr('required');
        
    $("#report_type").change(function(){
       var report_type=$("#report_type").val();
       if(report_type=="eidtst"){
         $("#tst_prev").show();  
-        $("#current").html("Select Data File for Current Period:");  
+        $("#current").html("Select Data File for Current Period:"); 
+        $("#file_name_prev").attr("required", true);
       }
       else{
          $("#tst_prev").hide();     
-         $("#current").html("Select File :");     
+         $("#current").html("Select File :");  
+         $("#file_name_prev").removeAttr('required');
       }
    });   
   });         

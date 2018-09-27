@@ -1618,12 +1618,12 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              //if gender is different for the same number flag out
              if(!Gender.equals(conn.rs.getString("Gender")) || !DOB.equals(conn.rs.getString("DOB"))){
              //flag out as wrong entry
-             errors+="Duplicated Sample ID. There is a posibility of wrong entry\n";
+             errors+="Duplicated Sample ID. There is a posibility of wrong entry. Date or Gender\n";
              XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
              XSSFCell anotherCell = anotherRow.getCell(31);
              String errrs = anotherCell.getStringCellValue();
              
-             errrs+="Duplicated Sample ID. There is a posibility of wrong entry\n";
+             errrs+="Duplicated Sample ID. There is a posibility of wrong entry. Date or Gender\n";
              anotherCell.setCellValue(errrs);
              anotherCell.setCellStyle(redstyle);
              }
@@ -1646,6 +1646,9 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              anotherCell.setCellValue(errrs);
              anotherCell.setCellStyle(redstyle);
              }
+             
+             
+             //CHECK FOR DATE OF BIRTH
          
          }
          
@@ -1702,7 +1705,6 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
         }
       }
         
-
       if(PCR_Type.contains("2nd PCR") || PCR_Type.contains("3rd PCR")){
          String checker="SELECT * FROM eid_tested_prev WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
             conn.pst = conn.conn.prepareStatement(checker);
@@ -1726,7 +1728,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                 // Age is not numeric     
                 }
         }
-            else{
+        else{
                 
             }
       }
