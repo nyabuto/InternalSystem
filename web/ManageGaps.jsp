@@ -220,7 +220,7 @@ td{
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; APHIAplus | USAID <%=year%>.
+       &copy; Afya Nyota Ya Bonde | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>
