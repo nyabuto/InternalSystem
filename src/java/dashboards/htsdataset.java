@@ -133,6 +133,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                  HashMap<String,String> vcthm;
                  HashMap<String,String> pmtcthm;
                  HashMap<String,String> htshm;
+                 HashMap<String,String> pitchm;
                  
                  htshm= new HashMap<String, String>();
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                 
@@ -158,7 +159,13 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             //IPD, OPD and VCT are similar in many ways. we need to have global variables that can be used to alert the system the report it is generating
   
             //the below will be activated each at its own loop/worksheet
-           
+  
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ if(6==6){
+                    pitchm= pitc(conn,sdate,edate,facil);
+                 }//end of 6==6 OPD
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%            
            
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 //PITC INPATIENT
@@ -6456,7 +6463,8 @@ String burdencategory = conn.rs.getString("burdencategory");
          return opdhm;          
      
  }
-    
+ 
+
     
     
     
@@ -8189,7 +8197,13 @@ String burdencategory = conn.rs.getString("burdencategory");
            return vcthm;      
     
     }
-    
+  
+
+
+
+
+
+
     
 public HashMap Pmtct(dbConn conn,String sdate,String edate,String facil) throws SQLException{
         
@@ -9959,5 +9973,2134 @@ String facilityIds1="";
 
 
 }
+
+
+
+
+//  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PITC%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+public HashMap pitc(dbConn conn,String sdate,String edate,String facil) throws SQLException {
+   //new htc for PITC 
+   
+   HashMap<String, String> opdhm = new HashMap<String, String>(); 
+   
+    
+    
+                  
+                     isOPD=true;
+                     isIPD=true;
+                     isVCT=true;
+                     
+                     //2017
+                     String pitc_ipd_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Positive","","","","","","","","","","","","","","","","","","","","","","","","Negative","","","","","","","","","","","","","","","","","","","","","","","","Total OPD + Postnatal Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Unknown age","","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Unknown age","Unknown age","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","F","M","Total OPD + Postnatal Tested","Total Pediatric tested ","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     String pitc_ipd_header3[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","F","M","<1","<1","1-4Y","1-4Y","5-9Y","5-9Y","10-14Y","10-14Y","15-19Y","15-19Y","20-24Y","20-24Y","25-29Y","25-29Y","30-34Y","30-34Y","35-39Y","35-39Y","40-49Y","40-49Y","50+","50+","Total OPD Tested","Total OPD + Postnatal Tested","Positive","Negative","ART High Volume","HTC High Volume","PMTCT High Volume","HTC","PMTCT"};
+                     
+    
+                     ArrayList allFacilities = new ArrayList();
+                     allFacilities.clear();
+                 int year,month,prevYear,maxYearMonth,mflcode;
+String reportDuration,duration,semi_annual,quarter;
+String facilityName,countyName,districtName,facilityIds,facilityId;
+
+   year=month=prevYear=maxYearMonth=mflcode=0;
+ reportDuration=duration=semi_annual=quarter="";
+ facilityName=countyName=districtName=facilityIds=facilityId="";
+
+year = new Integer(edate.substring(0,4));
+  
+  
+
+  
+  Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
+  
+  String facilitiestable="subpartnera";
+  
+  int selectedyear=year;
+  
+  if(selectedyear<currentyear){
+      
+      if(year<2014){
+          
+      //db for 2014 is the smallest
+          
+       facilitiestable="subpartnera2014";
+  
+      }
+      else 
+      {
+      
+  facilitiestable="subpartnera"+selectedyear;
+  
+      }
+  }
+  
+ 
+   String facilityIds1="";
+         if(!facil.equals("")){ facilityIds1=" moh731.SubPartnerID in ("+facil+") and "; }
+         
+          
+       // reportDuration=request.getParameter("reportDuration");
+        
+//        year=2015;
+        reportDuration="4";
+        String period1="";
+        String duration1="";
+        prevYear=year-1; 
+        maxYearMonth=0;
+        
+//        GET REPORT DURATION============================================
+
+        
+       
+        
+         
+        
+       if(reportDuration.equals("4")){
+       
+          month =new Integer(edate.substring(4,6));
+         duration1=" ( moh731.yearmonth between "+sdate+" and "+edate+" )";
+      }
+      else{
+     duration1="";     
+      }
+        
+      
+            
+            
+   String county="";
+   String  district="";
+    String facilityname="";
+     
+
+
+  
+   
+    double checkdiff=0;
+    int count=4;
+   
+    
+    //---------------------------------------------------------------------------
+    
+
+      //BEFORE WHILE LOOP
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    ArrayList staticfacility= new ArrayList();
+    ArrayList staticcounty= new ArrayList();
+    ArrayList staticdistrict= new ArrayList();
+    ArrayList staticmfl= new ArrayList();
+    ArrayList staticdsd_ta= new ArrayList();
+    
+    ArrayList staticart_hv= new ArrayList();
+    ArrayList statichtc_hv= new ArrayList();
+    ArrayList staticpmtct_hv= new ArrayList();
+     ArrayList staticishtc= new ArrayList();
+    ArrayList staticispmtct= new ArrayList();
+    
+    int blankrows=pitc_ipd_header1.length;
+    
+   String getstaticfacilities="SELECT   county.County as county,district.DistrictNom as district," //
+            + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport, IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume , IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT"
+           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( HTC=1 or PMTCT=1)   AND "+facilitiestable+".active=1  group by "+facilitiestable+".SubPartnerID   "; 
+    
+   conn.rs=conn.st.executeQuery(getstaticfacilities);
+    while(conn.rs.next())
+    {
+    
+     staticcounty.add(conn.rs.getString("county"));
+     district=conn.rs.getString("district");
+     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
+     staticfacility.add(conn.rs.getString("facility"));
+     staticmfl.add(conn.rs.getString("mflcode"));
+     if(conn.rs.getString("ART_highvolume")!=null){staticart_hv.add(conn.rs.getString("ART_highvolume"));} else {staticart_hv.add(""); }
+    if(conn.rs.getString("HTC_highvolume")!=null){statichtc_hv.add(conn.rs.getString("HTC_highvolume"));} else { statichtc_hv.add(""); }
+     if(conn.rs.getString("PMTCT_highvolume")!=null){staticpmtct_hv.add(conn.rs.getString("PMTCT_highvolume"));} else {staticpmtct_hv.add("");}
+     if(conn.rs.getString("HTC")!=null){staticishtc.add(conn.rs.getString("HTC"));} else {staticishtc.add("");}
+if(conn.rs.getString("PMTCT")!=null){staticispmtct.add(conn.rs.getString("PMTCT"));} else {staticispmtct.add("");}
+     //staticmfl.add(conn.rs.getString("mflcode"));
+     
+     
+     //dsdta=conn.rs.getString("htcsupport");   
+     String dsdta="DSD"; //static as of 201606 
+     staticdsd_ta.add(dsdta);   
+    }
+   
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+  
+    String facilid="";
+    String facilname="";
+    String dsdta="";
+               
+ 
+  //deduct   
+       String countyidcopy="0",countyid="0";
+       
+      
+
+double Tm=0,Tf=0; //Tested male, Tested female
+
+//by gender by age breakdown variables
+double Tmc=0,Tma=0,Tfc=0,Tfa=0; //Tested male children, Tested male adult, tested female children, tested female adult. 
+//Tested and Positive fine age	 
+    double Tf1=0,Tm1=0,Pf1=0,Pm1=0;
+    double Tf4=0,Tm4=0,Pf4=0,Pm4=0; //may or may not be there
+    double Tf9=0,Tm9=0,Pf9=0,Pm9=0;
+    double Tf14=0,Tm14=0,Pf14=0,Pm14=0,PTf14=0,PPf14=0;
+    double Tf19=0,Tm19=0,Pf19=0,Pm19=0,PTf19=0,PPf19=0;
+    double Tf24=0,Tm24=0,Pf24=0,Pm24=0,PTf24=0,PPf24=0;
+    double Tf29=0,Tm29=0,Pf29=0,Pm29=0,PTf29=0,PPf29=0;
+    double Tf34=0,Tm34=0,Pf34=0,Pm34=0,PTf34=0,PPf34=0;
+    double Tf39=0,Tm39=0,Pf39=0,Pm39=0,PTf39=0,PPf39=0;
+    double Tf49=0,Tm49=0,Pf49=0,Pm49=0,PTf49=0,PPf49=0;
+    double Tf50=0,Tm50=0,Pf50=0,Pm50=0,PTf50=0,PPf50=0;
+       
+       
+       
+    String get731data="SELECT "
+            + " sum(HV0103) as 711_totaltested, "
+            + " sum(HV0110) as 711_less15m ,"
+            + " sum(HV0111) as 711_less15f ,"
+            + " sum(HV0112) as 711_15_24m ,"
+            + " sum(HV0113) as 711_15_24f ,"
+            + " sum(HV0114) as 711_25m ,"
+            + " sum(HV0115) as 711_25f ,"
+            + " sum(HV0110+HV0111+HV0112+HV0113+HV0114+HV0115) as 711_totalpositive ," //updated in 201607            
+            + " county.County,district.DistrictNom,"
+            + ""+facilitiestable+".SubPartnerNom, "+facilitiestable+".CentreSanteId,"+facilitiestable+".HTC_Support1 ,IFNULL(ART_highvolume,0) as ART_highvolume,  IFNULL(HTC_highvolume,0) as HTC_highvolume,  IFNULL(PMTCT_highvolume,0) as PMTCT_highvolume"// facility details
+            +" ,sum( HV0103 + HV0201 ) as NUM,  "+facilitiestable+".SubPartnerID, IFNULL(HTC,0) as HTC, IFNULL(PMTCT,0) as PMTCT, SUM(IFNULL(0,0)) as serology "//new numerator for 2017 //_raise athe issue of monthly and quartely data for eid
+            + " ,county.CountyID as CountyID "
+            +", sum(IFNULL(HV0203,0)+IFNULL(HV0202,0)) as pnc_tes ,sum(IFNULL(HV0208,0)+IFNULL(HV0207,0)) as pnc_pos "
+            + " ,county.burden_cartegory as burdencategory,"+facilitiestable+".constituency as constituency,"+facilitiestable+".ward as ward, "
+           
+            + " substring(moh731.yearmonth,1,4) as year " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+"or substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03')  then '1. Oct - Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+"or substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '2. Apr - Sep' end  as semiannual " +
+"            " +
+", case when (  " +
+"   substring(moh731.yearmonth,5,2)  like '10' " +
+"or substring(moh731.yearmonth,5,2)  like '11' " +
+"or substring(moh731.yearmonth,5,2)  like '12' " +
+")  then '1. Oct - Dec'  " +
+"           when (  " +
+" " +
+"substring(moh731.yearmonth,5,2)  like '01' " +
+"or substring(moh731.yearmonth,5,2)  like '02' " +
+"or substring(moh731.yearmonth,5,2)  like '03' " +
+"           )  then '2. Jan - Mar'  " +
+"           when (  " +
+"   substring(moh731.yearmonth,5,2)  like '04' " +
+"or substring(moh731.yearmonth,5,2)  like '05' " +
+"or substring(moh731.yearmonth,5,2)  like '06' " +
+")  then '3. Apr-Jun'  " +
+"           when (  " +
+"substring(moh731.yearmonth,5,2)  like '07' " +
+"or substring(moh731.yearmonth,5,2)  like '08' " +
+"or substring(moh731.yearmonth,5,2)  like '09' " +
+"           )  then '4. Jul - Sep' end  as quarter " +
+" " +
+",case when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Oct' then '10. Oct' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Nov' then '11. Nov' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Dec' then '12. dec' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jan' then '01. Jan' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Feb' then '02. Feb' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Mar' then '03. Mar' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Apr' then '04. Apr' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'May' then '05. May' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jun' then '06. Jun' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Jul' then '07. Jul' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Aug' then '08. Aug' " +
+" when substring(MONTHNAME(concat(moh731.yearmonth,'01')),1,3) like 'Sep' then '09. Sep' " +
+" end  as month " +
+" " +
+",  moh731.yearmonth " +
+" ,IFNULL("+facilitiestable+".Owner,\"\") as ownedby " +
+" ,IFNULL("+facilitiestable+".Type,\"\") as facilitytype " +
+" ,IFNULL("+facilitiestable+".ART_highvolume,\"0\") as art_hv " +
+" ,IFNULL("+facilitiestable+".HTC_highvolume,\"0\") as htc_hv " +
+" ,IFNULL("+facilitiestable+".PMTCT_highvolume,\"0\") as pmtct_hv " +
+" ,IFNULL("+facilitiestable+".all_highvolume,\"0\") as activity_hv " +
+" ,IFNULL("+facilitiestable+".latitude,\"\") as latitude " +
+" ,IFNULL("+facilitiestable+".longitude,\"\") as longitude " +
+" ,IFNULL("+facilitiestable+".Male_clinics,\"0\") as maleclinic " +
+" ,IFNULL("+facilitiestable+".Adolescent_clinics,\"0\") as adoleclinic " +
+" ,IFNULL("+facilitiestable+".Viremia_clinics,\"0\") as viremiaclinic " +
+" ,IFNULL("+facilitiestable+".EMR_Sites,\"0\") as emrsite " +
+" ,IFNULL("+facilitiestable+".Link_desks,\"0\") as linkdesk " +
+" ,'0'as islocked "
+            + " FROM moh731  JOIN "+facilitiestable+" "
+            + " ON moh731.SubPartnerID="+facilitiestable+".SubPartnerID "
+            + " JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID JOIN county ON "
+          + " district.CountyID=county.CountyID"
+            + " WHERE "
+    + " "+facilityIds1+" "+duration1+" && ("+facilitiestable+".HTC=1 or PMTCT=1)  AND "+facilitiestable+".active=1   "
+            + "  GROUP BY moh731.SubPartnerID order by county.County " ;
+    
+    
+    
+    
+     System.out.println("2017q1 IPD : "+get731data);
+    conn.rs=conn.st.executeQuery(get731data);
+    while(conn.rs.next()){
+ 
+        //f_29	f_34	f_39
+//_______new age brackets added in 201710_______
+double FemaleAdultTested29=0;
+double FemaleAdultTested34=0;
+double FemaleAdultTested39=0;
+
+
+
+double AdultFemaleHIV29Neg=0;
+double AdultFemaleHIV34Neg=0;
+double AdultFemaleHIV39Neg=0;
+
+
+double AdultFemaleHIV29=0;
+double AdultFemaleHIV34=0;
+double AdultFemaleHIV39=0;
+
+//male 
+
+ double  MaleAdultTested29=0;
+ double  MaleAdultTested34=0;
+ double  MaleAdultTested39=0;
+ 
+ double AdultMaleHIV29Neg=0;
+  double AdultMaleHIV34Neg=0;
+  double AdultMaleHIV39Neg=0;
+  
+   double  AdultMaleHIV29=0;
+ double  AdultMaleHIV34=0;
+ double  AdultMaleHIV39=0;
+
+    
+    //master county changes. if the countycopy is different from the previous version, then fetch all variables for the current county
+    
+     countyid=conn.rs.getString("CountyID");
+	 if(!countyid.equals(countyidcopy)){
+         //change countyidcopy to be same as countyid
+         System.out.println("county confirmation "+countyid+" vs "+countyidcopy);
+         countyidcopy=countyid;
+         //now fetch the variables from proportions table
+             
+         
+         String getratios=" select * from htc_proportion where isactive='1' and county_id='"+countyid+"'";
+         conn.rs4=conn.st4.executeQuery(getratios);
+         while(conn.rs4.next()){
+         String indicator=conn.rs4.getString("indicator");
+           
+           if(indicator.equals("tested by gender")){
+                 
+           Tm=conn.rs4.getDouble("male_or_child");
+           Tf =conn.rs4.getDouble("female_or_adult"); 
+               System.out.println(countyName+"  OPD = Male: "+Tm +" Female :"+Tf);
+             }
+             
+             
+            if(indicator.equals("tested by broad age female")){
+             Tfc=conn.rs4.getDouble("male_or_child");
+             Tfa=conn.rs4.getDouble("female_or_adult");
+             
+                System.out.println(countyName+" OPD = = Female Child: "+Tfc +" Female Adult :"+Tfa);
+             } 
+            
+             if(indicator.equals("tested by broad age male"))
+             {
+             Tmc=conn.rs4.getDouble("male_or_child");
+             Tma=conn.rs4.getDouble("female_or_adult");
+             
+              System.out.println(countyName+" OPD = Male Child: "+Tmc +" Female Adult :"+Tma);
+              
+             }
+            
+             
+             if(indicator.equals("tested by fine age")){
+             
+    Tf1=conn.rs4.getDouble("f_1"); Tm1=conn.rs4.getDouble("m_1");
+    Tf4=conn.rs4.getDouble("f_4");Tm4=conn.rs4.getDouble("m_4");
+    Tf9=conn.rs4.getDouble("f_9");Tm9=conn.rs4.getDouble("m_9");
+    Tf14=conn.rs4.getDouble("f_14");Tm14=conn.rs4.getDouble("m_14");
+    Tf19=conn.rs4.getDouble("f_19");Tm19=conn.rs4.getDouble("m_19");
+    Tf24=conn.rs4.getDouble("f_24");Tm24=conn.rs4.getDouble("m_24");
+    Tf29=conn.rs4.getDouble("f_29");Tm29=conn.rs4.getDouble("m_29");
+    Tf34=conn.rs4.getDouble("f_34");Tm34=conn.rs4.getDouble("m_34");
+    Tf39=conn.rs4.getDouble("f_39");Tm39=conn.rs4.getDouble("m_39");
+    Tf49=conn.rs4.getDouble("f_49");Tm49=conn.rs4.getDouble("m_49");
+    Tf50=conn.rs4.getDouble("f_50");Tm50=conn.rs4.getDouble("m_50");
+ 
+                                                          } 
+             
+             
+             if(indicator.equals("positive by fine age")){
+   Pf1=conn.rs4.getDouble("f_1");Pm1=conn.rs4.getDouble("m_1");
+   Pf4=conn.rs4.getDouble("f_4");Pm4=conn.rs4.getDouble("m_4");
+   Pf9=conn.rs4.getDouble("f_9");Pm9=conn.rs4.getDouble("m_9");
+   Pf14=conn.rs4.getDouble("f_14");Pm14=conn.rs4.getDouble("m_14");
+   Pf19=conn.rs4.getDouble("f_19");Pm19=conn.rs4.getDouble("m_19");
+   Pf24=conn.rs4.getDouble("f_24");Pm24=conn.rs4.getDouble("m_24");
+   Pf29=conn.rs4.getDouble("f_29");Pm29=conn.rs4.getDouble("m_29");
+   Pf34=conn.rs4.getDouble("f_34");Pm34=conn.rs4.getDouble("m_34");
+   Pf39=conn.rs4.getDouble("f_39");Pm39=conn.rs4.getDouble("m_39");
+   Pf49=conn.rs4.getDouble("f_49");Pm49=conn.rs4.getDouble("m_49");
+   Pf50=conn.rs4.getDouble("f_50");Pm50=conn.rs4.getDouble("m_50"); 
+  } 
+           
+             
+             
+                      
+  if(indicator.equals("PMTCT_ANC")){
+    //use same proportion for pos and negative
+    PTf14=conn.rs4.getDouble("f_14");
+    PTf19=conn.rs4.getDouble("f_19");
+    PTf24=conn.rs4.getDouble("f_24");
+    PTf29=conn.rs4.getDouble("f_29");
+    PTf34=conn.rs4.getDouble("f_34");
+    PTf39=conn.rs4.getDouble("f_39");
+    PTf49=conn.rs4.getDouble("f_49");
+    PTf50=conn.rs4.getDouble("f_50");              
+                                   // }
+            
+  // if(indicator.equals("PMTCT_New_Postive")){
+                
+   PPf14=conn.rs4.getDouble("f_14");
+   PPf19=conn.rs4.getDouble("f_19");
+   PPf24=conn.rs4.getDouble("f_24");
+   PPf29=conn.rs4.getDouble("f_29");
+   PPf34=conn.rs4.getDouble("f_34");
+   PPf39=conn.rs4.getDouble("f_39");
+   PPf49=conn.rs4.getDouble("f_49");
+   PPf50=conn.rs4.getDouble("f_50");   }
+             
+             
+                 
+             } 
+             
+         }
+  
+         
+         double pmtct_t=0;
+         double pmtct_t_14=0;
+         double pmtct_t_19=0;
+         double pmtct_t_24=0;
+         double pmtct_t_29=0;
+         double pmtct_t_34=0;
+         double pmtct_t_39=0;
+         double pmtct_t_49=0;
+         double pmtct_t_50=0;
+         
+         double pmtct_p=0;
+         double pmtct_p_14=0;
+         double pmtct_p_19=0;
+         double pmtct_p_24=0;
+         double pmtct_p_29=0;
+         double pmtct_p_34=0;
+         double pmtct_p_39=0;
+         double pmtct_p_49=0;
+         double pmtct_p_50=0;
+         
+         
+         
+        //--------------added ratios fetching form 2017---------
+        
+ int TestedAdultMale=0,TestedAdultFemale=0;
+ int TestedChildMale=0,TestedChildFemale=0;
+ int HIV_AdultMale=0,HIV_AdultFemale=0;
+ int HIV_ChildMale=0,HIV_ChildFemale=0;
+ 
+double FemaleAdultTested;
+double FemaleTestedChild;
+double AdultFemaleHIV;
+double ChildFemaleHIV;
+ 
+ double  MaleAdultTested;
+ double MaleTestedChild;
+ double  AdultMaleHIV;
+ double ChildMaleHIV;
+ 
+
+double FemaleAdultTested19=0;
+double FemaleAdultTested24=0;
+double FemaleAdultTested49=0;
+double FemaleAdultTested50=0;
+
+double FemaleTestedChild1=0;
+double FemaleTestedChild4=0;
+double FemaleTestedChild9=0;
+double FemaleTestedChild14=0;
+
+
+double AdultFemaleHIV19Neg=0;
+double AdultFemaleHIV24Neg=0;
+double AdultFemaleHIV49Neg=0;
+double AdultFemaleHIV50Neg=0;
+
+double AdultFemaleHIV19=0;
+double AdultFemaleHIV24=0;
+double AdultFemaleHIV49=0;
+double AdultFemaleHIV50=0;
+
+double ChildFemaleHIV1=0;
+double ChildFemaleHIV4=0;
+double ChildFemaleHIV9=0;
+double ChildFemaleHIV14=0;
+
+double ChildFemaleHIV1Neg=0;
+double ChildFemaleHIV4Neg=0;
+double ChildFemaleHIV9Neg=0;
+double ChildFemaleHIV14Neg=0;
+ 
+ 
+// MALES
+  double MaleAdultTested19Neg=0;
+  double MaleAdultTested21Neg=0;
+  double MaleAdultTested49Neg=0;
+  double MaleAdultTested50Neg=0;
+  
+  double MaleAdultTested19=0;
+ double  MaleAdultTested24=0;
+ double MaleAdultTested49=0;
+ double MaleAdultTested50=0;
+  
+  
+  double MaleTestedChild1=0;
+  double MaleTestedChild4=0;
+  double MaleTestedChild9=0;
+  double MaleTestedChild14=0;
+  
+  double MaleTestedChild1Neg=0;
+  double MaleTestedChild4Neg=0;
+  double MaleTestedChild9Neg=0;
+  double MaleTestedChild14Neg=0;
+  
+  double AdultMaleHIV19Neg=0;
+  double AdultMaleHIV24Neg=0;
+  double AdultMaleHIV49Neg=0;
+  double AdultMaleHIV50Neg=0;
+  
+  double AdultMaleHIV19=0;
+ double  AdultMaleHIV24=0;
+  double AdultMaleHIV49=0;
+  double AdultMaleHIV50=0;
+  
+  
+ double ChildMaleHIV1=0;
+ double ChildMaleHIV4=0;
+double  ChildMaleHIV9=0;
+ double ChildMaleHIV14=0;
+ 
+ double ChildMaleHIV1Neg=0;
+ double ChildMaleHIV4Neg=0;
+ double ChildMaleHIV9Neg=0;
+  double ChildMaleHIV14Neg=0;
+  
+  double splitData=0; int adderPos=0;
+           double childSplitData=0;  
+           
+           int redalert=0;
+      
+            
+         FemaleAdultTested=0;
+ FemaleTestedChild=0;
+ AdultFemaleHIV=0;
+ ChildFemaleHIV=0;
+          double TotalTested=0;
+            double    TotalPositiveFemale=0;
+             double   TotalPositiveMale=0;
+             double   TotalNegativeFemale=0;
+             double   TotalNegativeMale=0;
+ 
+// MALES
+   MaleAdultTested=0;
+  MaleTestedChild=0;
+   AdultMaleHIV=0;
+  ChildMaleHIV=0;
+  double TotalPositive=0;
+  double TotalNegative=0;
+  
+ TestedAdultMale=0;TestedAdultFemale=0;
+ TestedChildMale=0;TestedChildFemale=0;
+ HIV_AdultMale=0;HIV_AdultFemale=0;
+ HIV_ChildMale=0;HIV_ChildFemale=0;
+	 
+	 //INSIDE WHILE LOOP
+	  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
+        
+        //get the index of the current facility
+        int mflindex=staticmfl.indexOf(conn.rs.getString("CentreSanteId"));
+        
+        if(mflindex!=-1){        
+           //remove the element from the arraylist 
+             staticfacility.remove(mflindex);
+             staticcounty.remove(mflindex);
+             staticdistrict.remove(mflindex);
+             staticmfl.remove(mflindex);
+             staticdsd_ta.remove(mflindex);
+             staticart_hv.remove(mflindex);
+             statichtc_hv.remove(mflindex);
+             staticpmtct_hv.remove(mflindex);
+             staticishtc.remove(mflindex);
+staticispmtct.remove(mflindex);
+        
+                        }
+        
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+       county=conn.rs.getString(9);
+     district=conn.rs.getString(10);
+     district=district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase();
+     facilityname=conn.rs.getString(11);
+     mflcode=conn.rs.getInt(12); 
+     if(conn.rs.getString(13)==null){
+     dsdta="DSD";
+     }
+     else {
+     dsdta=conn.rs.getString(13);   
+     }
+     
+     int arthv=0;
+     int htchv=0;
+     int pmtcthv=0;
+     
+      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getInt("ART_highvolume");}
+      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getInt("HTC_highvolume"); }
+      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getInt("PMTCT_highvolume");}
+     
+      //==============================================NEW2017Q1===========================================================
+      
+      
+       //________________________________________________________________________________________________________________________________________________________________________
+       //________________________________________________________________________________________________________________________________________________________________________
+       //________________________________________________________________________________________________________________________________________________________________________
+       //________________________________________________________________________________________________________________________________________________________________________
+       //________________________________________________________________________________________________________________________________________________________________________
+       //NEW CHANGES 201701  CHANGING DATA OUTPUT into the new datim format 
+       //Here Ratios are being applied
+       //isARTsite
+       double htctestedratio=1;
+       double htcpositiveratio=1;
+       
+    
+       double opd_tes_balancing=0;
+       double ipd_tes_balancing=0;
+       double vct_tes_balancing=0;
+       
+       
+       
+       double ipdpositiveratio=0;
+       double opdpositiveratio=0;
+       double vctpositiveratio=0;
+       
+       //ipd_tes_balancing+opd_tes_balancing+vct_tes_balancing
+       
+       		
+			
+   //TestedAdultFemale   TestedChildFemale  hivpos_711_15_24f  hivpos_711_25f HIV_ChildFemale
+   //TestedAdultMale     TestedChildMale    hivpos_711_15_24m  hivpos_711_25m HIV_ChildMale
+      
+  
+      
+      //==============================================NEW2017Q1===========================================================
+      
+     
+    //============================================================================================================================START NEW RATIOS===================================
+    
+    
+    
+  //%%%%%%%%%%%%%%%%added 201606 %%%%%%%%%%%%%%%%%%%%%% 
+     // 38 (M)%  ---	62% (F)
+
+  double tested_new711=(float)Math.round((conn.rs.getInt("711_totaltested")));
+  
+  //|__|
+        System.out.println(" 2017Q1__"+tested_new711);
+     
+  double testedmale_711=(float)Math.round((Tm*tested_new711));
+  double testedfemale_711=(float)Math.round((Tf*tested_new711));
+  
+
+   double tofautimpya=tested_new711-(testedmale_711+testedfemale_711);
+  if(tofautimpya!=0){
+  testedfemale_711+=tofautimpya;
+ 
+  }
+ 
+        //System.out.println("**2016_06_ "+testedmale_711+ "~ "+testedfemale_711+" ~ "+ tested_new711);
+        
+     //12%      88%
+       
+    //this will be defined from ratios 
+    TestedAdultFemale=(int)Math.round((Tfa*testedfemale_711));  //adult   
+    TestedChildFemale=(int)Math.round((Tfc*testedfemale_711)); //child
+    
+   tofautimpya=testedfemale_711 -(TestedAdultFemale+TestedChildFemale);   
+    if(tofautimpya!=0){
+  TestedAdultFemale+=tofautimpya;  
+  }
+    //  17%  83%   
+    
+    //TestedAdultMale=conn.rs.getInt(2);
+    //TestedChildMale=conn.rs.getInt(6);
+   
+    TestedAdultMale=(int)Math.round((Tma*testedmale_711));  //adult   
+    TestedChildMale=(int)Math.round((Tmc*testedmale_711)); //child
+    
+   
+ 
+   tofautimpya=testedmale_711 -(TestedAdultMale+TestedChildMale);   
+    if(tofautimpya!=0){
+        
+  TestedAdultMale+=tofautimpya;  
+   }
+     
+  	 pmtct_t=(float)Math.round((conn.rs.getInt("pnc_tes")));
+       pmtct_p=(float)Math.round((conn.rs.getInt("pnc_pos")));
+    
+    int hivpos_711_15_24f=(int) Math.round((conn.rs.getInt("711_15_24f")));//|__|
+    int hivpos_711_15_24m=(int) Math.round((conn.rs.getInt("711_15_24m")));//|__|
+    
+    int hivpos_711_25m=(int) Math.round((conn.rs.getInt("711_25m")));//|__|
+    int hivpos_711_25f=(int) Math.round((conn.rs.getInt("711_25f")));//|__|
+    
+    
+    HIV_AdultFemale=hivpos_711_15_24f+ hivpos_711_25f;//
+    HIV_AdultMale=hivpos_711_15_24m+ hivpos_711_25m; 
+    
+    HIV_ChildFemale=(int) Math.round((conn.rs.getInt("711_less15f"))); //|__|
+    HIV_ChildMale=(int) Math.round((conn.rs.getInt("711_less15m")));   //|__|
+    
+    
+    //============================================================================================================================END NEW RATIOS====================
+   
+String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+dsdta;
+String arrayDetails []=basicDetails.split("@");
+
+  count++;
+ 
+ int facilno=0;
+  
+   for(int j=0;j<arrayDetails.length;j++)
+   {
+    
+ 
+     facilno++;  
+   }
+        
+  
+   
+   
+   
+   
+   
+   
+   
+   pmtct_t_14=(float)Math.round((PTf14*pmtct_t));
+         pmtct_t_19=(float)Math.round((PTf19*pmtct_t));
+         pmtct_t_24=(float)Math.round((PTf24*pmtct_t));
+         pmtct_t_29=(float)Math.round((PTf29*pmtct_t));
+         pmtct_t_34=(float)Math.round((PTf34*pmtct_t));
+         pmtct_t_39=(float)Math.round((PTf39*pmtct_t));
+         pmtct_t_49=(float)Math.round((PTf49*pmtct_t));
+         pmtct_t_50=(float)Math.round((PTf50*pmtct_t));
+         
+         
+         pmtct_p_14=(float)Math.round((PPf14*pmtct_p));
+         pmtct_p_19=(float)Math.round((PPf19*pmtct_p));
+         pmtct_p_24=(float)Math.round((PPf24*pmtct_p));
+         pmtct_p_29=(float)Math.round((PPf29*pmtct_p));
+         pmtct_p_34=(float)Math.round((PPf34*pmtct_p));
+         pmtct_p_39=(float)Math.round((PPf39*pmtct_p));
+         pmtct_p_49=(float)Math.round((PPf49*pmtct_p));
+         pmtct_p_50=(float)Math.round((PPf50*pmtct_p));
+         
+         
+         double pmtcttestedyote=pmtct_t_14+pmtct_t_19+pmtct_t_24+pmtct_t_29+pmtct_t_34+pmtct_t_39+pmtct_t_49+pmtct_t_50;
+         double tofautini=pmtct_t-pmtcttestedyote;
+         while(tofautini>0){
+         pmtct_t_24+=1;
+         tofautini--;    
+         }
+         
+         
+         while(tofautini<0){
+     if(pmtct_t_24>=pmtct_t_29 && pmtct_t_24>0 ){
+         pmtct_t_24-=1;
+         tofautini++;  
+             }
+    else  if(pmtct_t_29>=pmtct_t_24 && pmtct_t_29>0){
+         pmtct_t_29-=1;
+         tofautini++;  
+                          }
+    else  if(pmtct_t_34>0){
+         pmtct_t_34-=1;
+         tofautini++;  
+                          }
+     
+    else  if(pmtct_t_39>0){
+         pmtct_t_39-=1;
+         tofautini++;  
+                          }
+    else {
+         System.out.println(" PMTCT tested balancing refused");
+         break;
+    }
+         }
+         
+         
+         
+         
+   
+   double pmtctposyote=pmtct_p_14+pmtct_p_19+pmtct_p_24+pmtct_p_29+pmtct_p_34+pmtct_p_39+pmtct_p_49+pmtct_p_50;
+         tofautini=pmtct_p-pmtctposyote;
+         
+         while(tofautini>0){
+         pmtct_p_24+=1;
+         tofautini--;    
+         }
+         
+         
+         while(tofautini<0){
+     if(pmtct_p_24>=pmtct_p_29 && pmtct_p_24>0 ){
+         pmtct_p_24-=1;
+         tofautini++;  
+             }
+    else  if(pmtct_p_29>=pmtct_p_24 && pmtct_p_29>0){
+         pmtct_p_29-=1;
+         tofautini++;  
+                          }
+    else  if(pmtct_p_34>0){
+         pmtct_p_34-=1;
+         tofautini++;  
+                          }
+     
+    else  if(pmtct_p_39>0){
+         pmtct_p_39-=1;
+         tofautini++;  
+                          }
+    else {
+         System.out.println(" PMTCT positive balancing refused");
+         break;
+    }
+         }
+		 
+		 
+		 
+		 
+		 
+		 
+   
+   
+   
+   
+   
+  //========================NEW FINE AGE RATIOS added 201607=====================================
+  //prior to this level, ensure all the main variables below being subjected to a ratio have already been subjected to the respective percentage per service area 
+   //i.e. IPD, OPD, VCT 
+  //the main variables are 
+   //TestedAdultFemale   TestedChildFemale  hivpos_711_15_24f  hivpos_711_25f HIV_ChildFemale
+   //TestedAdultMale   TestedChildMale  hivpos_711_15_24m  hivpos_711_25m HIV_ChildMale
+//      FEMALES
+//adult
+FemaleAdultTested19=(float)Math.round((Tf19*TestedAdultFemale));
+FemaleAdultTested24=(float)Math.round((Tf24*TestedAdultFemale));
+
+FemaleAdultTested29=(float)Math.round((Tf29*TestedAdultFemale));
+FemaleAdultTested34=(float)Math.round((Tf34*TestedAdultFemale));
+FemaleAdultTested39=(float)Math.round((Tf39*TestedAdultFemale));
+
+FemaleAdultTested49=(float)Math.round((Tf49*TestedAdultFemale));
+FemaleAdultTested50=(float)Math.round((Tf50*TestedAdultFemale));
+//children
+FemaleTestedChild1=(float)Math.round((Tf1*TestedChildFemale));
+FemaleTestedChild4=(float)Math.round((Tf4*TestedChildFemale));
+FemaleTestedChild9=(float)Math.round((Tf9*TestedChildFemale));
+FemaleTestedChild14=(float)Math.round((Tf14*TestedChildFemale));
+
+//postive 
+//adult  ** remaining 
+//hivpos_711_25f#hivpos_711_25m#hivpos_711_15_24m#hivpos_711_15_24f
+AdultFemaleHIV19=(float)Math.round((Pf19*hivpos_711_15_24f));
+AdultFemaleHIV24=(float)Math.round((Pf24*hivpos_711_15_24f));
+
+AdultFemaleHIV29=(float)Math.round((Pf29*hivpos_711_25f));
+AdultFemaleHIV34=(float)Math.round((Pf34*hivpos_711_25f));
+AdultFemaleHIV39=(float)Math.round((Pf39*hivpos_711_25f));
+
+AdultFemaleHIV49=(float)Math.round((Pf49*hivpos_711_25f));
+AdultFemaleHIV50=(float)Math.round((Pf50*hivpos_711_25f));
+   
+//positive
+
+//children
+ChildFemaleHIV1=(float)Math.round((Pf1*HIV_ChildFemale));
+ChildFemaleHIV4=(float)Math.round((Pf4*HIV_ChildFemale));
+ChildFemaleHIV9=(float)Math.round((Pf9*HIV_ChildFemale));
+ChildFemaleHIV14=(float)Math.round((Pf14*HIV_ChildFemale));
+
+// MALES  
+//adult
+
+  MaleAdultTested19=(float)Math.round((Tm19*TestedAdultMale));
+  MaleAdultTested24=(float)Math.round((Tm24*TestedAdultMale));
+  
+  MaleAdultTested29=(float)Math.round((Tm29*TestedAdultMale));
+  MaleAdultTested34=(float)Math.round((Tm34*TestedAdultMale));
+  MaleAdultTested39=(float)Math.round((Tm39*TestedAdultMale));
+  
+  MaleAdultTested49=(float)Math.round((Tm49*TestedAdultMale));
+  MaleAdultTested50=(float)Math.round((Tm50*TestedAdultMale));
+
+  //children
+  MaleTestedChild1=(float)Math.round((Tm1*TestedChildMale));
+  MaleTestedChild4=(float)Math.round((Tm4*TestedChildMale));
+  MaleTestedChild9=(float)Math.round((Tm9*TestedChildMale));
+  MaleTestedChild14=(float)Math.round((Tm14*TestedChildMale));
+
+  
+    System.out.println("Before Normalization "+facilityname+" OPD normalization  Tested Male prop Tested child="+TestedChildMale+" M1="+Tm1+" M4="+Tm4+" M9="+Tm9+" M14="+Tm14+"  Tested adult "+TestedAdultMale+"  M19="+Tm19+" M24="+Tm24+" M29="+Tm29+"  M34="+Tm34+" M39="+Tm39+" 49="+Tm49+" 50="+Tm50);
+    System.out.println("Before Normalization "+facilityname+" OPD normalization  Tested Male values Tested child="+TestedChildMale+" M1="+MaleTestedChild1+" M4="+MaleTestedChild4+" M9="+MaleTestedChild9+" M14="+MaleTestedChild14+"  Tested adult "+TestedAdultMale+"   M19="+MaleAdultTested19+" M24="+MaleAdultTested24+" M29="+MaleAdultTested29+"  M34="+MaleAdultTested34+" M39="+MaleAdultTested39+" 49="+MaleAdultTested49+" 50="+MaleAdultTested50);
+  
+//positive
+  //adult ** remaining 
+  //hivpos_711_25f#hivpos_711_25m#hivpos_711_15_24m#hivpos_711_15_24f
+   
+  AdultMaleHIV19=(float)Math.round((Pm19*hivpos_711_15_24m));
+  AdultMaleHIV24=(float)Math.round((Pm24*hivpos_711_15_24m));
+  
+  AdultMaleHIV29=(float)Math.round((Pm29*hivpos_711_25m));
+  AdultMaleHIV34=(float)Math.round((Pm34*hivpos_711_25m));
+  AdultMaleHIV39=(float)Math.round((Pm39*hivpos_711_25m));
+  
+  AdultMaleHIV49=(float)Math.round((Pm49*hivpos_711_25m));
+  AdultMaleHIV50=(float)Math.round((Pm50*hivpos_711_25m));
+
+  //positives
+  //children
+  ChildMaleHIV1=(float)Math.round((Pm1*HIV_ChildMale));
+  ChildMaleHIV4=(float)Math.round((Pm4*HIV_ChildMale));
+  ChildMaleHIV9=(float)Math.round((Pm9*HIV_ChildMale));
+  ChildMaleHIV14=(float)Math.round((Pm14*HIV_ChildMale));
+  
+     
+      double totalpositivesmale=0;   
+      double totalpositivesfemale=0;   
+      double totalpositives=0;
+      double totalnegatives=0; 
+     double totalfemalehiv=0;
+     double totalmalehiv=0;
+     double totalfemaletesteddis=0;
+     double totalmaletesteddis=0;
+     double totalfemaletested=0;
+     double totalmaletested=0;
+     double negfem=0;
+           double  negmale=0;
+           int redalert1=0;
+           int redalert2=0;
+           int redalert3=0;
+           int redalert4=0;
+   totalpositives=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV29+AdultFemaleHIV34+AdultFemaleHIV39+AdultFemaleHIV49+AdultFemaleHIV50+ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14+AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV29+AdultMaleHIV34+AdultMaleHIV39+AdultMaleHIV49+AdultMaleHIV50+ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;    
+   totalnegatives=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV29Neg+AdultFemaleHIV34Neg+AdultFemaleHIV39Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+ ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg+AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMaleHIV34Neg+AdultMaleHIV39Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
+  
+//   total tested after distribution
+   totalfemaletesteddis=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14+FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested29+FemaleAdultTested34+FemaleAdultTested39+FemaleAdultTested49+FemaleAdultTested50;
+   totalmaletesteddis=MaleAdultTested19+MaleAdultTested24+MaleAdultTested29+MaleAdultTested34+MaleAdultTested39+MaleAdultTested49+MaleAdultTested50+MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14;
+// totaltested after distriibution
+   double totaltestedis=0;
+   totaltestedis=totalfemaletesteddis+totalmaletesteddis;
+TotalTested=TestedChildFemale+TestedChildMale+TestedAdultMale+TestedAdultFemale;
+  
+   totalfemaletested=TestedAdultFemale+TestedChildFemale;
+   totalmaletested= TestedAdultMale+TestedChildMale;
+ 
+   //poistives
+   totalfemalehiv=HIV_AdultFemale+HIV_ChildFemale;
+   totalmalehiv=HIV_AdultMale+HIV_ChildMale;
+       //+ve after dist
+ totalpositivesfemale=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV29+AdultFemaleHIV34+AdultFemaleHIV39+AdultFemaleHIV49+AdultFemaleHIV50+ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 ;
+ totalpositivesmale=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV29+AdultMaleHIV34+AdultMaleHIV39+AdultMaleHIV49+AdultMaleHIV50+ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
+ 
+   // negative 
+   negfem=totalfemaletested-totalfemalehiv;
+   negmale=totalmaletested-totalmalehiv;
+   double checkdiff1=0;
+   double checkdiff2=0;
+   double checkdiff3=0;
+   int redfemalealert=0;
+   int redmalealert=0;
+   int finalalert=0;
+   double totalcheckdiff=0;
+   
+ 
+   
+    checkdiff=totalfemalehiv-totalpositivesfemale;
+//      System.out.println("checkdiff female  "+checkdiff1);
+   // positive female
+ if(checkdiff>2 ||checkdiff<-2){
+ redalert=1;
+ }
+ // positive male
+   checkdiff1=totalmalehiv-totalpositivesmale;
+//    System.out.println("checkdiff male  "+checkdiff1);
+ if(checkdiff1>2 ||checkdiff1<-2){
+ redalert1=1;
+ }
+
+ totalcheckdiff=TotalTested-totaltestedis;
+// System.out.println("dqa  "+totalcheckdiff);
+ if(totalcheckdiff>5 || totalcheckdiff<-5){
+ finalalert=1;
+ }
+ 
+   
+
+   adderPos=0;
+   double Totalhivfemale=0;
+   double Totalhivmale=0;
+   Totalhivfemale=HIV_AdultFemale+HIV_ChildFemale;
+   Totalhivmale=HIV_AdultMale+HIV_ChildMale;
+   splitData=0;  adderPos=0;
+            childSplitData=0;   
+//   // adult female hiv+
+splitData=AdultFemaleHIV19+AdultFemaleHIV24 ;
+//
+//System.out.println(facilityname+" lllll added "+splitData+" from db  "+HIV_AdultFemale);
+ adderPos=0;
+ 
+ while(splitData<hivpos_711_15_24f){ AdultFemaleHIV24+=1; splitData++;}
+ 
+splitData=AdultFemaleHIV19+AdultFemaleHIV24 ;
+ while(splitData>hivpos_711_15_24f){ 
+ if(AdultFemaleHIV24<AdultFemaleHIV19  ){ AdultFemaleHIV19-=1; splitData--;}
+ else if(AdultFemaleHIV24 > 0) { AdultFemaleHIV24-=1; splitData--;}
+ else { System.out.println("  balancing not working for opd Adult Female 19 to 24"); break;}
+ 
+}
+ 
+ //positive
+ 
+ splitData=AdultFemaleHIV29+AdultFemaleHIV34+AdultFemaleHIV39+AdultFemaleHIV49+AdultFemaleHIV50;
+
+ adderPos=0;
+ while(splitData<hivpos_711_25f){ AdultFemaleHIV29+=1; splitData++; }
+splitData=AdultFemaleHIV29+AdultFemaleHIV34+AdultFemaleHIV39+AdultFemaleHIV49+AdultFemaleHIV50; ;
+ while(splitData>hivpos_711_25f){
+     
+     if(AdultFemaleHIV29>0){ AdultFemaleHIV29-=1; splitData--;}
+     else if(AdultFemaleHIV34>0){ AdultFemaleHIV34-=1; splitData--; }
+     else if(AdultFemaleHIV39>0){ AdultFemaleHIV39-=1; splitData--;}
+     else if(AdultFemaleHIV49>0){ AdultFemaleHIV49-=1; splitData--;}
+     else if(AdultFemaleHIV50>0){AdultFemaleHIV50-=1; splitData--;}
+     else {break;}
+     
+ 
+}
+ 
+ 
+ //tested female adults
+splitData=FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested29+FemaleAdultTested34+FemaleAdultTested39+FemaleAdultTested49+FemaleAdultTested50;
+ adderPos=0;
+ while(splitData<TestedAdultFemale){ FemaleAdultTested34+=1; splitData++;}
+splitData=FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested29+FemaleAdultTested34+FemaleAdultTested39+FemaleAdultTested49+FemaleAdultTested50;
+ adderPos=0;
+ while(splitData>TestedAdultFemale){ 
+           if(FemaleAdultTested29>0){ FemaleAdultTested29-=1; splitData--; }
+     else  if(FemaleAdultTested34>0){ FemaleAdultTested34-=1; splitData--;}
+     else  if(FemaleAdultTested39>0){ FemaleAdultTested39-=1; splitData--; }
+     else  if(FemaleAdultTested49>0){ FemaleAdultTested49-=1; splitData--;}
+     else  if(FemaleAdultTested50>0) { FemaleAdultTested50-=1;  splitData--;}
+}
+   
+ 
+ 
+// adult male hiv+
+ 
+ splitData=AdultMaleHIV19+AdultMaleHIV24; adderPos=0;
+ while(splitData<hivpos_711_15_24m){ AdultMaleHIV24+=1; splitData++; }
+ splitData=AdultMaleHIV19+AdultMaleHIV24;
+ adderPos=0;
+ while(splitData>hivpos_711_15_24m){
+  
+     if(AdultMaleHIV19<AdultMaleHIV24 && AdultMaleHIV24> 0){  AdultMaleHIV24-=1; splitData--;}
+  
+  else if(AdultMaleHIV19>AdultMaleHIV24 && AdultMaleHIV19> 0){ AdultMaleHIV19-=1; splitData--;}
+  else if(AdultMaleHIV29> 0 ){ AdultMaleHIV29-=1; splitData--;}
+  else if(AdultMaleHIV34> 0 ){ AdultMaleHIV34-=1; splitData--;}
+  else if(AdultMaleHIV39> 0 ){  AdultMaleHIV39-=1; splitData--;}
+  else if(AdultMaleHIV49> 0 ){ AdultMaleHIV49-=1; splitData--;}
+   else if(AdultMaleHIV50> 0 ){ AdultMaleHIV50-=1; splitData--; }
+  else {  System.out.println(" balancing not working for opd 19 to 24 _"+facilityname); break;}
+
+}
+ 
+ splitData=AdultMaleHIV29+AdultMaleHIV34+AdultMaleHIV39+AdultMaleHIV49+AdultMaleHIV50;
+  adderPos=0;
+ while(splitData<hivpos_711_25m)
+ { AdultMaleHIV34+=1; splitData++; }
+ 
+ splitData=AdultMaleHIV29+AdultMaleHIV34+AdultMaleHIV39+AdultMaleHIV49+AdultMaleHIV50;
+ adderPos=0;
+ while(splitData>hivpos_711_25m)
+ { 
+
+  if(AdultMaleHIV34<AdultMaleHIV29){  AdultMaleHIV29-=1; splitData--;}
+  
+  else if(AdultMaleHIV34<AdultMaleHIV39){ AdultMaleHIV39-=1; splitData--;}
+  else if(AdultMaleHIV34<AdultMaleHIV24){  AdultMaleHIV24-=1; splitData--;}
+  else if(AdultMaleHIV34>0){AdultMaleHIV34-=1; splitData--;}
+  else {System.out.println(" balancing not working for opd male 25+ _"+facilityname); break;}
+ }
+ 
+ 
+ 
+ 
+ //tested male adults
+ splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested29+MaleAdultTested34+MaleAdultTested39+MaleAdultTested49+MaleAdultTested50 ;
+ adderPos=0;
+ while(splitData<TestedAdultMale){ MaleAdultTested29+=1; splitData++; }
+ 
+ splitData=MaleAdultTested19+MaleAdultTested24+MaleAdultTested29+MaleAdultTested34+MaleAdultTested39+MaleAdultTested49+MaleAdultTested50 ;
+ adderPos=0;
+ while(splitData>TestedAdultMale){ MaleAdultTested29-=1; splitData--; }
+ 
+
+// for child female tested 
+  childSplitData=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14; 
+
+   adderPos=0;
+while(childSplitData<TestedChildFemale){ 
+if(adderPos==0){ FemaleTestedChild14+=1; }
+if(adderPos==1){ FemaleTestedChild9+=1;  }
+if(adderPos==2){ FemaleTestedChild4+=1;    }
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==TestedChildFemale){}
+}
+
+   childSplitData=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14; 
+  adderPos=0;
+  
+while(childSplitData>TestedChildFemale){ 
+ if(adderPos==0){ FemaleTestedChild14-=1;  }
+if(adderPos==1){ FemaleTestedChild9-=1;   }
+if(adderPos==2){FemaleTestedChild4-=1; }
+childSplitData--; adderPos++  ; if(adderPos>2){adderPos=0;}
+ if(childSplitData==TestedChildFemale){}}
+
+ // for child female +ve
+  childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
+  
+   adderPos=0;
+   double diff=0;
+while(childSplitData<HIV_ChildFemale){ 
+  diff=FemaleTestedChild14-ChildFemaleHIV14;
+ if(adderPos==0){
+  if(FemaleTestedChild14-ChildFemaleHIV14>0){ ChildFemaleHIV14+=1; }
+  else if(FemaleTestedChild9-ChildFemaleHIV9>0){ ChildFemaleHIV9+=1; }
+  else if(FemaleTestedChild4-ChildFemaleHIV4>0){ ChildFemaleHIV4+=1;   }
+ 
+ }
+  
+ if(adderPos==1){
+
+   if(FemaleTestedChild9-ChildFemaleHIV9>0){ ChildFemaleHIV9+=1;    }
+  else if(FemaleTestedChild4-ChildFemaleHIV4>0){ ChildFemaleHIV4+=1;  }
+  else if(FemaleTestedChild14-ChildFemaleHIV14>0){ ChildFemaleHIV14+=1;   }
+ }
+ if(adderPos==2){
+  
+   if(FemaleTestedChild4-ChildFemaleHIV4>0){ ChildFemaleHIV4+=1;  }
+  else if(FemaleTestedChild14-ChildFemaleHIV14>0){ ChildFemaleHIV14+=1;   }
+  else if(FemaleTestedChild9-ChildFemaleHIV9>0){ ChildFemaleHIV9+=1; }
+ }
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==HIV_ChildFemale){}
+}
+
+childSplitData=ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14; 
+  adderPos=0;
+  
+while(childSplitData>HIV_ChildFemale){  
+  if(adderPos==0){ ChildFemaleHIV14-=1;  }
+ if(adderPos==1){ ChildFemaleHIV9-=1;   }
+ if(adderPos==2){ ChildFemaleHIV4-=1;  }
+childSplitData--;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==HIV_ChildFemale){}
+}
+   
+// tested male _______________________________________________________________________
+  childSplitData=MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14; 
+  adderPos=0;
+while(childSplitData<TestedChildMale){ 
+     if(adderPos==0){ MaleTestedChild14+=1; }
+ else if(adderPos==1){ MaleTestedChild9+=1; }
+ else if(adderPos==2){ MaleTestedChild4+=1;    }
+ 
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;} if(childSplitData==TestedChildMale){}
+}
+
+  childSplitData=MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14; 
+  adderPos=0;
+  
+while(childSplitData>TestedChildMale){ 
+ if(adderPos==0){ MaleTestedChild14-=1;}
+ else if(adderPos==1){MaleTestedChild9-=1; }
+ else if(adderPos==2){MaleTestedChild4-=1; }
+childSplitData--;adderPos++  ; if(adderPos>2){adderPos=0;} if(childSplitData==TestedChildMale){} }
+
+
+// for child male +ve 
+  childSplitData=ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14; 
+ 
+   adderPos=0;
+while(childSplitData<HIV_ChildMale){ 
+  if(adderPos==0){
+     if(MaleTestedChild14-ChildMaleHIV14>0){ ChildMaleHIV14+=1;   
+ }
+     else if(MaleTestedChild9-ChildMaleHIV9>0){   ChildMaleHIV9+=1;  }
+ else if(MaleTestedChild4-ChildMaleHIV4>0){ ChildMaleHIV4+=1; }
+  }
+ else if(adderPos==1){
+ if(MaleTestedChild9-ChildMaleHIV9>0){ ChildMaleHIV9+=1;} else if(MaleTestedChild4-ChildMaleHIV4>0){  ChildMaleHIV4+=1;   } else if(MaleTestedChild14-ChildMaleHIV14>0){ChildMaleHIV14+=1;  }
+    }
+ if(adderPos==2){
+   if(MaleTestedChild4-ChildMaleHIV4>0){ ChildMaleHIV4+=1;   }
+  else if(MaleTestedChild14-ChildMaleHIV14>0){ ChildMaleHIV14+=1; }
+  else if(MaleTestedChild9-ChildMaleHIV9>0){ ChildMaleHIV9+=1;   }
+ }
+childSplitData++;
+adderPos++  ;
+ if(adderPos>2){adderPos=0;}
+ if(childSplitData==HIV_ChildMale){}
+}
+ childSplitData=ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14; 
+  adderPos=0;
+  
+while(childSplitData>HIV_ChildMale){ 
+    
+ if(adderPos==0){ ChildMaleHIV14-=1;   }
+ 
+ else if(adderPos==1){ ChildMaleHIV9-=1;}
+ if(adderPos==2){  ChildMaleHIV4-=1; }
+childSplitData--;
+adderPos++  ;if(adderPos>2){adderPos=0;}if(childSplitData==HIV_ChildMale){}}
+
+
+///
+
+
+//  
+  // all positives
+
+//TotalPositive=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50+AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50+
+//        ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 +ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
+//  
+//TotalNegative=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+
+//        ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg +ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
+ double totaltestedmale1=0;
+     double totaltestedfemale1=0;
+ TotalTested=TestedChildFemale+TestedChildMale+TestedAdultMale+TestedAdultFemale;
+ totaltestedmale1=TestedChildMale+TestedAdultMale;
+ totaltestedfemale1=TestedChildFemale+TestedAdultFemale;
+ TotalPositiveFemale=HIV_ChildFemale + HIV_AdultFemale;
+ TotalPositiveMale=HIV_ChildMale + HIV_AdultMale;
+ TotalPositive=HIV_ChildFemale+HIV_AdultFemale+HIV_ChildMale+HIV_AdultMale;
+ TotalNegativeFemale=totaltestedfemale1-TotalPositiveFemale;
+ TotalNegativeMale=totaltestedmale1-TotalPositiveMale;
+ TotalNegative=TotalNegativeMale+TotalNegativeFemale;
+  //201510
+ //this code was added later
+ 
+
+// TotalNegativeFemale=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+ ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg;
+//TotalNegativeMale=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
+
+//                TotalTested=FemaleTestedChild1+FemaleTestedChild4+FemaleTestedChild9+FemaleTestedChild14+FemaleAdultTested19+FemaleAdultTested24+FemaleAdultTested49+FemaleAdultTested50+ MaleAdultTested19+MaleAdultTested24+MaleAdultTested49+MaleAdultTested50+MaleTestedChild1+MaleTestedChild4+MaleTestedChild9+MaleTestedChild14;
+//                TotalPositiveFemale=AdultFemaleHIV19+AdultFemaleHIV24+AdultFemaleHIV49+AdultFemaleHIV50+ChildFemaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildFemaleHIV14 ;
+//                TotalPositiveMale=AdultMaleHIV19+AdultMaleHIV24+AdultMaleHIV49+AdultMaleHIV50+ChildMaleHIV1+ChildMaleHIV4+ChildMaleHIV9+ChildMaleHIV14;
+//               
+//System.out.println(MaleTestedChild14 +" bbbbb  "+ChildMaleHIV14+"    mmmmm   "+ (MaleTestedChild14-ChildMaleHIV14));
+ 
+
+        //c11.setCellValue(facilname);
+//String basicDetails=county+"@"+district+"@"+facilityname+"@"+mflcode+"@"+dsdta;
+       
+       
+//      Female      
+    
+  
+  int neg1male=0,neg1female=0;
+  int neg4male=0,neg4female=0;
+  int neg9male=0,neg9female=0;
+  int neg14male=0,neg14female=0;
+  int neg19male=0,neg19female=0;
+  int neg24male=0,neg24female=0;
+   int neg29male=0,neg29female=0;
+  int neg34male=0,neg34female=0;
+  int neg39male=0,neg39female=0;
+  int neg49male=0,neg49female=0;
+  int neg50male=0,neg50female=0;
+  AdultMaleHIV19Neg=(float)Math.round(MaleAdultTested19)-(AdultMaleHIV19);
+  AdultMaleHIV24Neg=(float)Math.round(MaleAdultTested24)-(AdultMaleHIV24);
+  AdultMaleHIV29Neg=(float)Math.round(MaleAdultTested29)-(AdultMaleHIV29);
+  AdultMaleHIV34Neg=(float)Math.round(MaleAdultTested34)-(AdultMaleHIV34);
+  AdultMaleHIV39Neg=(float)Math.round(MaleAdultTested39)-(AdultMaleHIV39);
+  AdultMaleHIV49Neg=(float)Math.round(MaleAdultTested49)-(AdultMaleHIV49);
+  AdultMaleHIV50Neg=(float)Math.round(MaleAdultTested50)-(AdultMaleHIV50);
+  
+  
+        System.out.println("Before Normalization "+facilityname+" OPD  Neg Validation  M19="+AdultMaleHIV19Neg+" M24="+AdultMaleHIV24Neg+" M29="+AdultMaleHIV29Neg+"  M34="+AdultMaleHIV34Neg+" M39="+AdultMaleHIV39Neg+" 49="+AdultMaleHIV49Neg+" 50="+AdultMaleHIV50Neg);
+  
+if(AdultMaleHIV19Neg<=-1){
+neg19male=1;
+
+while(AdultMaleHIV19Neg<=-1){   System.out.println(facilityname+"___mara kadhaa kuna shida"); 
+if(AdultMaleHIV24Neg>0){ AdultMaleHIV19Neg=AdultMaleHIV19Neg+1; AdultMaleHIV24Neg=AdultMaleHIV24Neg-1;
+    }
+    
+ else if(AdultMaleHIV29Neg>0){ AdultMaleHIV19Neg=AdultMaleHIV19Neg+1; AdultMaleHIV29Neg=AdultMaleHIV29Neg-1;} 
+ else if(AdultMaleHIV34Neg>0){ AdultMaleHIV19Neg=AdultMaleHIV19Neg+1; AdultMaleHIV34Neg=AdultMaleHIV34Neg-1; } 
+ else if(AdultMaleHIV39Neg>0){ AdultMaleHIV19Neg=AdultMaleHIV19Neg+1; AdultMaleHIV39Neg=AdultMaleHIV39Neg-1; } 
+ else if(AdultMaleHIV49Neg>0){ AdultMaleHIV19Neg=AdultMaleHIV19Neg+1; AdultMaleHIV49Neg=AdultMaleHIV49Neg-1;} 
+     
+      else if(AdultMaleHIV50Neg>0){ AdultMaleHIV19Neg=AdultMaleHIV19Neg+1; AdultMaleHIV50Neg=AdultMaleHIV50Neg-1;} 
+         else { System.out.println(" Negative 19 Male unsolvable"); break; }
+}
+
+}
+
+
+if(AdultMaleHIV24Neg<=-1){
+neg24male=1;
+//try to find a stable age bracket to remove duplicates from
+while(AdultMaleHIV24Neg<=-1){ if(AdultMaleHIV19Neg>0){  AdultMaleHIV24Neg=AdultMaleHIV24Neg+1; AdultMaleHIV19Neg=AdultMaleHIV19Neg-1; }    
+ else if(AdultMaleHIV29Neg>0){ AdultMaleHIV24Neg=AdultMaleHIV24Neg+1; AdultMaleHIV29Neg=AdultMaleHIV29Neg-1;} 
+ else if(AdultMaleHIV34Neg>0){ AdultMaleHIV24Neg=AdultMaleHIV24Neg+1; AdultMaleHIV34Neg=AdultMaleHIV34Neg-1; } 
+ else if(AdultMaleHIV39Neg>0){ AdultMaleHIV24Neg=AdultMaleHIV24Neg+1;  AdultMaleHIV39Neg=AdultMaleHIV39Neg-1;  } 
+else if(AdultMaleHIV49Neg>0){  AdultMaleHIV24Neg=AdultMaleHIV24Neg+1;  AdultMaleHIV49Neg=AdultMaleHIV49Neg-1; }
+else if(AdultMaleHIV50Neg>0){ AdultMaleHIV24Neg=AdultMaleHIV24Neg+1;  AdultMaleHIV50Neg=AdultMaleHIV50Neg-1; } 
+else { System.out.println(" Negative 24 Male unsolvable");  break;}
+
+
+}
+
+}
+
+
+
+
+
+if(AdultMaleHIV29Neg<=-1)
+{
+neg29male=1;
+
+while(AdultMaleHIV29Neg<=-1){
+ if(AdultMaleHIV19Neg>0){ AdultMaleHIV29Neg=AdultMaleHIV29Neg+1; AdultMaleHIV19Neg=AdultMaleHIV19Neg-1; }
+ else if(AdultMaleHIV24Neg>0){  AdultMaleHIV29Neg=AdultMaleHIV29Neg+1; AdultMaleHIV24Neg=AdultMaleHIV24Neg-1;  }
+else if(AdultMaleHIV34Neg>0){  AdultMaleHIV29Neg=AdultMaleHIV29Neg+1;  AdultMaleHIV34Neg=AdultMaleHIV34Neg-1; } 
+ else if(AdultMaleHIV39Neg>0){ AdultMaleHIV29Neg=AdultMaleHIV29Neg+1;  AdultMaleHIV39Neg=AdultMaleHIV39Neg-1; } 
+else if(AdultMaleHIV49Neg>0){  AdultMaleHIV29Neg=AdultMaleHIV29Neg+1;  AdultMaleHIV49Neg=AdultMaleHIV49Neg-1; } 
+else if(AdultMaleHIV50Neg>0){  AdultMaleHIV29Neg=AdultMaleHIV29Neg+1; AdultMaleHIV50Neg=AdultMaleHIV50Neg-1; } 
+else { System.out.println(" Negative 29 male unsolvable");  break;}
+        
+}
+
+}
+
+if(AdultMaleHIV34Neg<=-1)
+{
+neg34male=1;
+   while(AdultMaleHIV34Neg<=-1){    
+
+        if(AdultMaleHIV19Neg>0){
+    AdultMaleHIV34Neg=AdultMaleHIV34Neg+1;
+    AdultMaleHIV19Neg=AdultMaleHIV19Neg-1;
+                               }
+        else if(AdultMaleHIV24Neg>0){
+    AdultMaleHIV34Neg=AdultMaleHIV34Neg+1;
+    AdultMaleHIV24Neg=AdultMaleHIV24Neg-1;
+    }
+    else if(AdultMaleHIV29Neg>0){
+    AdultMaleHIV34Neg=AdultMaleHIV34Neg+1;
+    AdultMaleHIV29Neg=AdultMaleHIV29Neg-1;
+    } 
+//     else if(AdultMaleHIV34Neg>0){
+//    AdultMaleHIV34Neg=AdultMaleHIV34Neg+1;
+//    AdultMaleHIV34Neg=AdultMaleHIV34Neg-1;
+//    } 
+ else if(AdultMaleHIV39Neg>0){
+    AdultMaleHIV34Neg=AdultMaleHIV34Neg+1;
+    AdultMaleHIV39Neg=AdultMaleHIV39Neg-1;
+                             } 
+
+ else if(AdultMaleHIV49Neg>0){
+    AdultMaleHIV34Neg=AdultMaleHIV34Neg+1;
+    AdultMaleHIV49Neg=AdultMaleHIV49Neg-1;
+                             } 
+        
+         else if(AdultMaleHIV50Neg>0){
+    AdultMaleHIV34Neg=AdultMaleHIV34Neg+1;
+    AdultMaleHIV50Neg=AdultMaleHIV50Neg-1;
+                                     } 
+         else {
+         
+            System.out.println(" Negative 34 male unsolvable");
+            break;
+         }
+    
+}
+  
+    System.out.println(" Positive is more than tested");
+   
+}
+
+if(AdultMaleHIV39Neg<=-1){
+neg39male=1;
+
+ while(AdultMaleHIV39Neg<=-1){
+if(AdultMaleHIV19Neg>0){ AdultMaleHIV39Neg=AdultMaleHIV39Neg+1; AdultMaleHIV19Neg=AdultMaleHIV19Neg-1; }
+else if(AdultMaleHIV24Neg>0){  AdultMaleHIV39Neg=AdultMaleHIV39Neg+1; AdultMaleHIV24Neg=AdultMaleHIV24Neg-1;}
+else if(AdultMaleHIV29Neg>0){   AdultMaleHIV39Neg=AdultMaleHIV39Neg+1;  AdultMaleHIV29Neg=AdultMaleHIV29Neg-1;} 
+else if(AdultMaleHIV34Neg>0){ AdultMaleHIV39Neg=AdultMaleHIV39Neg+1; AdultMaleHIV34Neg=AdultMaleHIV34Neg-1;} 
+else if(AdultMaleHIV49Neg>0){ AdultMaleHIV39Neg=AdultMaleHIV39Neg+1;AdultMaleHIV49Neg=AdultMaleHIV49Neg-1;} 
+else if(AdultMaleHIV50Neg>0){ AdultMaleHIV39Neg=AdultMaleHIV39Neg+1;AdultMaleHIV50Neg=AdultMaleHIV50Neg-1;} 
+else {System.out.println(" Negative 39 male unsolvable");break;}
+        
+}
+
+}
+
+if(AdultMaleHIV49Neg<=-1){
+neg49male=1;
+
+while(AdultMaleHIV49Neg<=-1){    
+if(AdultMaleHIV39Neg>0){ AdultMaleHIV49Neg=AdultMaleHIV49Neg+1; AdultMaleHIV19Neg=AdultMaleHIV19Neg-1;}
+else if(AdultMaleHIV24Neg>0){AdultMaleHIV49Neg=AdultMaleHIV49Neg+1;AdultMaleHIV24Neg=AdultMaleHIV24Neg-1;}
+else if(AdultMaleHIV29Neg>0){ AdultMaleHIV49Neg=AdultMaleHIV49Neg+1;AdultMaleHIV29Neg=AdultMaleHIV29Neg-1;} 
+else if(AdultMaleHIV34Neg>0){AdultMaleHIV49Neg=AdultMaleHIV49Neg+1;AdultMaleHIV34Neg=AdultMaleHIV34Neg-1;} 
+else if(AdultMaleHIV39Neg>0){ AdultMaleHIV49Neg=AdultMaleHIV49Neg+1; AdultMaleHIV39Neg=AdultMaleHIV39Neg-1;} 
+else if(AdultMaleHIV50Neg>0){ AdultMaleHIV49Neg=AdultMaleHIV49Neg+1; AdultMaleHIV50Neg=AdultMaleHIV50Neg-1;} 
+else {System.out.println(" Negative 49 male unsolvable");break;}
+        
+}
+
+}
+
+if(AdultMaleHIV50Neg<=-1){
+neg50male=1;
+
+while(AdultMaleHIV50Neg<=-1){    
+if(AdultMaleHIV39Neg>0){AdultMaleHIV50Neg=AdultMaleHIV50Neg+1; AdultMaleHIV19Neg=AdultMaleHIV19Neg-1;}
+else if(AdultMaleHIV24Neg>0){AdultMaleHIV50Neg=AdultMaleHIV50Neg+1;AdultMaleHIV24Neg=AdultMaleHIV24Neg-1;}
+ else if(AdultMaleHIV29Neg>0){AdultMaleHIV50Neg=AdultMaleHIV50Neg+1;AdultMaleHIV29Neg=AdultMaleHIV29Neg-1;} 
+else if(AdultMaleHIV34Neg>0){ AdultMaleHIV50Neg=AdultMaleHIV50Neg+1;AdultMaleHIV34Neg=AdultMaleHIV34Neg-1;} 
+ else if(AdultMaleHIV39Neg>0){AdultMaleHIV50Neg=AdultMaleHIV50Neg+1;AdultMaleHIV39Neg=AdultMaleHIV39Neg-1;} 
+else if(AdultMaleHIV49Neg>0){AdultMaleHIV50Neg=AdultMaleHIV50Neg+1;AdultMaleHIV49Neg=AdultMaleHIV49Neg-1;} 
+else {System.out.println(" Negative 50 male unsolvable"); break;}
+        
+}
+
+}
+
+ // child male negatives
+  ChildMaleHIV1Neg=(float)Math.round(MaleTestedChild1)-(ChildMaleHIV1);
+  ChildMaleHIV4Neg=(float)Math.round(MaleTestedChild4)-(ChildMaleHIV4);
+  ChildMaleHIV9Neg=(float)Math.round(MaleTestedChild9)-(ChildMaleHIV9);
+  ChildMaleHIV14Neg=(float)Math.round(MaleTestedChild14)-(ChildMaleHIV14);
+
+if(ChildMaleHIV1Neg<=-1){neg1male=1;}
+if(ChildMaleHIV4Neg<=-1){neg4male=1;}
+if(ChildMaleHIV9Neg<=-1){neg9male=1;}
+if(ChildMaleHIV14Neg<=-1){neg14male=1;}
+//negative
+
+ChildFemaleHIV1Neg=(float)Math.round(FemaleTestedChild1)-(ChildFemaleHIV1);
+ChildFemaleHIV4Neg=(float)Math.round(FemaleTestedChild4)-(ChildFemaleHIV4);
+ChildFemaleHIV9Neg=(float)Math.round(FemaleTestedChild9)-(ChildFemaleHIV9);
+ChildFemaleHIV14Neg=(float)Math.round(FemaleTestedChild14)-(ChildFemaleHIV14);
+
+if(ChildFemaleHIV1Neg<=-1){neg1female=1;}
+if(ChildFemaleHIV4Neg<=-1){neg4female=1;}
+if(ChildFemaleHIV9Neg<=-1){neg9female=1;}
+if(ChildFemaleHIV14Neg<=-1){neg14female=1;} 
+
+System.out.println(facilityname+" fffff "+ChildFemaleHIV1Neg+" "+ChildFemaleHIV4Neg+" "+ChildFemaleHIV9Neg +"  "+ChildFemaleHIV14Neg);
+//negative
+
+AdultFemaleHIV19Neg=(float)Math.round(FemaleAdultTested19)-(AdultFemaleHIV19);
+AdultFemaleHIV24Neg=(float)Math.round(FemaleAdultTested24)-(AdultFemaleHIV24);
+AdultFemaleHIV29Neg=(float)Math.round(FemaleAdultTested29)-(AdultFemaleHIV29);
+AdultFemaleHIV34Neg=(float)Math.round(FemaleAdultTested34)-(AdultFemaleHIV34);
+AdultFemaleHIV39Neg=(float)Math.round(FemaleAdultTested39)-(AdultFemaleHIV39);
+AdultFemaleHIV49Neg=(float)Math.round(FemaleAdultTested49)-(AdultFemaleHIV49);
+AdultFemaleHIV50Neg=(float)Math.round(FemaleAdultTested50)-(AdultFemaleHIV50);
+  
+if(AdultFemaleHIV19Neg<=-1){neg19female=1;}
+if(AdultFemaleHIV24Neg<=-1){neg24female=1;}
+if(AdultFemaleHIV29Neg<=-1){neg29female=1;}
+if(AdultFemaleHIV34Neg<=-1){neg34female=1;}
+if(AdultFemaleHIV39Neg<=-1){neg39female=1;}
+if(AdultFemaleHIV49Neg<=-1){neg49female=1;}
+if(AdultFemaleHIV50Neg<=-1){neg50female=1;} 
+
+if(AdultFemaleHIV19Neg<=-1){
+neg19female=1;
+while(AdultFemaleHIV19Neg<=-1){    
+    System.out.println(facilityname+"___mara kadhaa kuna shida");
+if(AdultFemaleHIV24Neg>0){AdultFemaleHIV19Neg=AdultFemaleHIV19Neg+1;AdultFemaleHIV24Neg=AdultFemaleHIV24Neg-1;}
+else if(AdultFemaleHIV29Neg>0){AdultFemaleHIV19Neg=AdultFemaleHIV19Neg+1;AdultFemaleHIV29Neg=AdultFemaleHIV29Neg-1;} 
+else if(AdultFemaleHIV34Neg>0){AdultFemaleHIV19Neg=AdultFemaleHIV19Neg+1;AdultFemaleHIV34Neg=AdultFemaleHIV34Neg-1;} 
+ else if(AdultFemaleHIV39Neg>0){AdultFemaleHIV19Neg=AdultFemaleHIV19Neg+1;AdultFemaleHIV39Neg=AdultFemaleHIV39Neg-1;} 
+else if(AdultFemaleHIV49Neg>0){AdultFemaleHIV19Neg=AdultFemaleHIV19Neg+1;AdultFemaleHIV49Neg=AdultFemaleHIV49Neg-1;} 
+else if(AdultFemaleHIV50Neg>0){AdultFemaleHIV19Neg=AdultFemaleHIV19Neg+1;AdultFemaleHIV50Neg=AdultFemaleHIV50Neg-1;} 
+else {System.out.println(" Negative 19 Female unsolvable");break;}
+}
+
+}
+
+if(AdultFemaleHIV24Neg<=-1){
+neg24female=1;
+//try to find a stable age bracket to remove duplicates from
+while(AdultFemaleHIV24Neg<=-1){
+    if(AdultFemaleHIV19Neg>0){AdultFemaleHIV24Neg=AdultFemaleHIV24Neg+1;AdultFemaleHIV19Neg=AdultFemaleHIV19Neg-1;}
+   else if(AdultFemaleHIV29Neg>0){AdultFemaleHIV24Neg=AdultFemaleHIV24Neg+1;AdultFemaleHIV29Neg=AdultFemaleHIV29Neg-1;} 
+     else if(AdultFemaleHIV34Neg>0){AdultFemaleHIV24Neg=AdultFemaleHIV24Neg+1; AdultFemaleHIV34Neg=AdultFemaleHIV34Neg-1;} 
+ else if(AdultFemaleHIV39Neg>0){AdultFemaleHIV24Neg=AdultFemaleHIV24Neg+1;AdultFemaleHIV39Neg=AdultFemaleHIV39Neg-1;} 
+else if(AdultFemaleHIV49Neg>0){AdultFemaleHIV24Neg=AdultFemaleHIV24Neg+1;AdultFemaleHIV49Neg=AdultFemaleHIV49Neg-1;}
+ else if(AdultFemaleHIV50Neg>0){AdultFemaleHIV24Neg=AdultFemaleHIV24Neg+1;AdultFemaleHIV50Neg=AdultFemaleHIV50Neg-1;} 
+         else {System.out.println(" Negative 24 Female unsolvable");break;}
+
+
+}
+
+}
+
+if(AdultFemaleHIV29Neg<=-1)
+{
+neg29female=1;
+while(AdultFemaleHIV29Neg<=-1){
+if(AdultFemaleHIV19Neg>0){AdultFemaleHIV29Neg=AdultFemaleHIV29Neg+1;AdultFemaleHIV19Neg=AdultFemaleHIV19Neg-1;}
+else if(AdultFemaleHIV24Neg>0){AdultFemaleHIV29Neg=AdultFemaleHIV29Neg+1;AdultFemaleHIV24Neg=AdultFemaleHIV24Neg-1;}
+else if(AdultFemaleHIV34Neg>0){ AdultFemaleHIV29Neg=AdultFemaleHIV29Neg+1;AdultFemaleHIV34Neg=AdultFemaleHIV34Neg-1;} 
+else if(AdultFemaleHIV39Neg>0){ AdultFemaleHIV29Neg=AdultFemaleHIV29Neg+1;AdultFemaleHIV39Neg=AdultFemaleHIV39Neg-1;} 
+else if(AdultFemaleHIV49Neg>0){AdultFemaleHIV29Neg=AdultFemaleHIV29Neg+1;AdultFemaleHIV49Neg=AdultFemaleHIV49Neg-1;} 
+else if(AdultFemaleHIV50Neg>0){AdultFemaleHIV29Neg=AdultFemaleHIV29Neg+1;AdultFemaleHIV50Neg=AdultFemaleHIV50Neg-1;} 
+else {System.out.println(" Negative 29 Female unsolvable");break;}
+        
+}
+
+}
+
+if(AdultFemaleHIV34Neg<=-1)
+{
+neg34female=1;
+   while(AdultFemaleHIV34Neg<=-1){
+if(AdultFemaleHIV19Neg>0){AdultFemaleHIV34Neg=AdultFemaleHIV34Neg+1;AdultFemaleHIV19Neg=AdultFemaleHIV19Neg-1;}
+else if(AdultFemaleHIV24Neg>0){AdultFemaleHIV34Neg=AdultFemaleHIV34Neg+1;AdultFemaleHIV24Neg=AdultFemaleHIV24Neg-1;}   
+else if(AdultFemaleHIV29Neg>0){AdultFemaleHIV34Neg=AdultFemaleHIV34Neg+1;AdultFemaleHIV29Neg=AdultFemaleHIV29Neg-1;} 
+else if(AdultFemaleHIV39Neg>0){AdultFemaleHIV34Neg=AdultFemaleHIV34Neg+1;AdultFemaleHIV39Neg=AdultFemaleHIV39Neg-1;} 
+else if(AdultFemaleHIV49Neg>0){ AdultFemaleHIV34Neg=AdultFemaleHIV34Neg+1; AdultFemaleHIV49Neg=AdultFemaleHIV49Neg-1;} 
+ else if(AdultFemaleHIV50Neg>0){AdultFemaleHIV34Neg=AdultFemaleHIV34Neg+1;AdultFemaleHIV50Neg=AdultFemaleHIV50Neg-1;} 
+else {System.out.println(" Negative 34 Female unsolvable");break;}
+   }  
+   System.out.println(" Positive is more than tested");  }
+
+if(AdultFemaleHIV39Neg<=-1){
+neg39female=1;
+ while(AdultFemaleHIV39Neg<=-1){
+if(AdultFemaleHIV19Neg>0){AdultFemaleHIV39Neg=AdultFemaleHIV39Neg+1;AdultFemaleHIV19Neg=AdultFemaleHIV19Neg-1;}
+ else if(AdultFemaleHIV24Neg>0){ AdultFemaleHIV39Neg=AdultFemaleHIV39Neg+1;AdultFemaleHIV24Neg=AdultFemaleHIV24Neg-1; }
+else if(AdultFemaleHIV29Neg>0){AdultFemaleHIV39Neg=AdultFemaleHIV39Neg+1;AdultFemaleHIV29Neg=AdultFemaleHIV29Neg-1;} 
+     else if(AdultFemaleHIV34Neg>0){AdultFemaleHIV39Neg=AdultFemaleHIV39Neg+1;AdultFemaleHIV34Neg=AdultFemaleHIV34Neg-1;} 
+else if(AdultFemaleHIV49Neg>0){ AdultFemaleHIV39Neg=AdultFemaleHIV39Neg+1; AdultFemaleHIV49Neg=AdultFemaleHIV49Neg-1;} 
+else if(AdultFemaleHIV50Neg>0){AdultFemaleHIV39Neg=AdultFemaleHIV39Neg+1;AdultFemaleHIV50Neg=AdultFemaleHIV50Neg-1;} 
+else { System.out.println(" Negative 39 Female unsolvable");break;}
+        
+}
+
+
+}
+
+if(AdultFemaleHIV49Neg<=-1){
+neg49female=1;
+while(AdultFemaleHIV49Neg<=-1){    
+if(AdultFemaleHIV39Neg>0){ AdultFemaleHIV49Neg=AdultFemaleHIV49Neg+1;AdultFemaleHIV19Neg=AdultFemaleHIV19Neg-1;}
+else if(AdultFemaleHIV24Neg>0){  AdultFemaleHIV49Neg=AdultFemaleHIV49Neg+1; AdultFemaleHIV24Neg=AdultFemaleHIV24Neg-1;}
+else if(AdultFemaleHIV29Neg>0){ AdultFemaleHIV49Neg=AdultFemaleHIV49Neg+1;AdultFemaleHIV29Neg=AdultFemaleHIV29Neg-1;} 
+else if(AdultFemaleHIV34Neg>0){AdultFemaleHIV49Neg=AdultFemaleHIV49Neg+1; AdultFemaleHIV34Neg=AdultFemaleHIV34Neg-1;} 
+else if(AdultFemaleHIV39Neg>0){ AdultFemaleHIV49Neg=AdultFemaleHIV49Neg+1;AdultFemaleHIV39Neg=AdultFemaleHIV39Neg-1;} 
+else if(AdultFemaleHIV50Neg>0){AdultFemaleHIV49Neg=AdultFemaleHIV49Neg+1;AdultFemaleHIV50Neg=AdultFemaleHIV50Neg-1;} 
+         else {System.out.println(" Negative 49 Female unsolvable");break;}
+        
+}
+
+}
+
+if(AdultFemaleHIV50Neg<=-1){
+neg50female=1;
+while(AdultFemaleHIV50Neg<=-1){    
+if(AdultFemaleHIV39Neg>0){AdultFemaleHIV50Neg=AdultFemaleHIV50Neg+1;AdultFemaleHIV19Neg=AdultFemaleHIV19Neg-1;}
+else if(AdultFemaleHIV24Neg>0){ AdultFemaleHIV50Neg=AdultFemaleHIV50Neg+1;AdultFemaleHIV24Neg=AdultFemaleHIV24Neg-1;}
+else if(AdultFemaleHIV29Neg>0){   AdultFemaleHIV50Neg=AdultFemaleHIV50Neg+1;  AdultFemaleHIV29Neg=AdultFemaleHIV29Neg-1;  } 
+else if(AdultFemaleHIV34Neg>0) {  AdultFemaleHIV50Neg=AdultFemaleHIV50Neg+1;  AdultFemaleHIV34Neg=AdultFemaleHIV34Neg-1; } 
+else if(AdultFemaleHIV39Neg>0){ AdultFemaleHIV50Neg=AdultFemaleHIV50Neg+1; AdultFemaleHIV39Neg=AdultFemaleHIV39Neg-1;  } 
+else if(AdultFemaleHIV49Neg>0){ AdultFemaleHIV50Neg=AdultFemaleHIV50Neg+1; AdultFemaleHIV49Neg=AdultFemaleHIV49Neg-1;} 
+        
+ 
+         else {System.out.println(" Negative 50 Female unsolvable");break;}
+        
+}
+
+}
+double TotalNegativeFemale1=0;
+ double TotalNegativeMale1=0;
+TotalNegativeFemale1=AdultFemaleHIV19Neg+AdultFemaleHIV24Neg+AdultFemaleHIV29Neg+AdultFemaleHIV34Neg+AdultFemaleHIV39Neg+AdultFemaleHIV49Neg+AdultFemaleHIV50Neg+ ChildFemaleHIV1Neg+ChildFemaleHIV4Neg+ChildFemaleHIV9Neg+ChildFemaleHIV14Neg;
+TotalNegativeMale1=AdultMaleHIV19Neg+AdultMaleHIV24Neg+AdultMaleHIV29Neg+AdultMaleHIV34Neg+AdultMaleHIV39Neg+AdultMaleHIV49Neg+AdultMaleHIV50Neg+ChildMaleHIV1Neg+ChildMaleHIV4Neg+ChildMaleHIV9Neg+ChildMaleHIV14Neg;
+// negative female
+  checkdiff2=negfem-TotalNegativeFemale1;
+ if(checkdiff2>2 ||checkdiff2<-2){redalert2=1;}
+ // negativemale
+   checkdiff3=negmale-TotalNegativeMale1;
+ if(checkdiff3>2 ||checkdiff3<-2){redalert3=1;}
+ 
+ 
+   int balancingvalue=(int) (conn.rs.getInt("711_totaltested")-(ipd_tes_balancing+tested_new711+vct_tes_balancing));
+        tested_new711+=balancingvalue;//add the missing value that you got when you deducted vct+opd+IPD from HTC in moh731 
+        AdultMaleHIV24Neg+=balancingvalue;//add the missing value that you got when you deducted vct+opd+IPD from HTC in moh731 to male 20-25 negative 
+ 
+double posotiveyote= ChildFemaleHIV1+ChildMaleHIV1+ChildFemaleHIV4+ChildFemaleHIV9+ChildMaleHIV4+ChildMaleHIV9+ChildFemaleHIV14+ChildMaleHIV14+AdultFemaleHIV19+AdultMaleHIV19+AdultFemaleHIV24+AdultMaleHIV24+AdultFemaleHIV29+AdultMaleHIV29+AdultFemaleHIV34+AdultMaleHIV34+AdultFemaleHIV39+AdultMaleHIV39+AdultFemaleHIV49+AdultMaleHIV49+AdultFemaleHIV50+AdultMaleHIV50;
+
+   //double balancegeneral=(int) Math.round((conn.rs.getInt("711_totalpositive")*htcpositiveratio))-(hivpos_711_less15m+hivpos_711_less15f+hivpos_711_25m+hivpos_711_25f+hivpos_711_15_24m+hivpos_711_15_24f);
+double balancegeneral=(int) Math.round((conn.rs.getInt("711_totalpositive")))-(posotiveyote);
+   //711_totalpositive 
+    
+    
+    
+       System.out.println("POSITIVE VALIDATION _OPD: "+facilityname+" Total positive :"+(int) Math.round((conn.rs.getInt("711_totalpositive")*htcpositiveratio))+"-"+(posotiveyote)+"="+balancegeneral);
+   
+       
+while(balancegeneral<0){
+   
+     if(AdultFemaleHIV34>0){ AdultFemaleHIV34-=1;  AdultFemaleHIV34Neg+=1;  balancegeneral++; }
+     else if(AdultFemaleHIV49>0){ AdultFemaleHIV49-=1; AdultFemaleHIV49Neg+=1;  balancegeneral++; }
+    else if(AdultFemaleHIV29>0) {AdultFemaleHIV29-=1; AdultFemaleHIV29Neg+=1;  balancegeneral++;}
+    else if(AdultFemaleHIV24>0) {AdultFemaleHIV24-=1; AdultFemaleHIV24Neg+=1; balancegeneral++;}
+    else if(AdultFemaleHIV19>0) { AdultFemaleHIV19-=1; AdultFemaleHIV19Neg+=1; balancegeneral++;}
+    else if(ChildFemaleHIV14>0) { ChildFemaleHIV14-=1; ChildFemaleHIV14Neg+=1; balancegeneral++;}
+    else if(ChildFemaleHIV9>0) { ChildFemaleHIV9-=1; ChildFemaleHIV9Neg+=1;  balancegeneral++;}
+   
+    //if female cant help, then use male
+    else if(AdultMaleHIV24>0) {  AdultMaleHIV24-=1; AdultMaleHIV24Neg+=1;  balancegeneral++; }
+    else if(AdultMaleHIV29>0) {  AdultMaleHIV29-=1; AdultMaleHIV29Neg+=1;  balancegeneral++; }
+    else if(AdultMaleHIV34>0){ AdultMaleHIV34-=1;  AdultMaleHIV34Neg+=1;   balancegeneral++;    }
+    else if(AdultMaleHIV49>0){ AdultMaleHIV49-=1; AdultMaleHIV49Neg+=1;   balancegeneral++;    }
+    else if(AdultMaleHIV39>0){ AdultMaleHIV39-=1;  AdultMaleHIV39Neg+=1;   balancegeneral++;    }
+    else{System.out.println("  balancing not working for opd at last level "+facilityname);break;}
+
+  
+                 }
+
+while(balancegeneral>0){
+    System.out.println(" endless loop line number 7261");
+ //add to pos and add deduct from negative since the negatives were achieved from tested-positive
+ if(AdultFemaleHIV49Neg>0){AdultFemaleHIV49+=1;AdultFemaleHIV49Neg-=1;balancegeneral--;}
+ else if (AdultFemaleHIV39Neg>0){AdultFemaleHIV39+=1;AdultFemaleHIV39Neg-=1;balancegeneral--;}
+ else if (AdultFemaleHIV34Neg>0){ AdultFemaleHIV34+=1;AdultFemaleHIV34Neg-=1;balancegeneral--;}
+ else if (AdultFemaleHIV29Neg>0){AdultFemaleHIV29+=1;AdultFemaleHIV29Neg-=1;balancegeneral--;}
+ else if (AdultFemaleHIV24Neg>0){AdultFemaleHIV24+=1;AdultFemaleHIV24Neg-=1;balancegeneral--;} 
+ else if (AdultFemaleHIV19Neg>0){AdultFemaleHIV19+=1; AdultFemaleHIV19Neg-=1;balancegeneral--;} 
+  else if (ChildFemaleHIV14Neg>0){  ChildFemaleHIV14+=1;ChildFemaleHIV14Neg-=1;balancegeneral--;}
+  else if (ChildFemaleHIV9Neg>0){ChildFemaleHIV9+=1;ChildFemaleHIV9Neg-=1;balancegeneral--;}
+  else { System.out.println("global Positive unsolvable "+facilityname); break;}
+ }
+
+if(balancegeneral!=0){  System.out.println("This facility has refused to balance "+facilityname);}
+double posotiveyoteglobal= (int) Math.round((conn.rs.getInt("711_totalpositive")));
+double balancegeneralglobal=(int) Math.round((conn.rs.getInt("711_totalpositive")))-(posotiveyoteglobal);
+   //711_totalpositive 
+while(balancegeneralglobal<0){
+    
+    if(AdultFemaleHIV49>0){AdultFemaleHIV49-=1;AdultFemaleHIV49Neg+=1; balancegeneralglobal++;}
+    else if(AdultFemaleHIV39>0){AdultFemaleHIV39-=1; AdultFemaleHIV39Neg+=1; balancegeneralglobal++;}
+    else if(AdultFemaleHIV34>0){AdultFemaleHIV34-=1; AdultFemaleHIV34Neg+=1; balancegeneralglobal++;}
+     else if(AdultFemaleHIV29>0){AdultFemaleHIV29-=1;AdultFemaleHIV29Neg+=1; balancegeneralglobal++;}
+     else if(AdultFemaleHIV24>0) {AdultFemaleHIV24-=1;AdultFemaleHIV24Neg+=1;balancegeneralglobal++;}    
+     else if(AdultFemaleHIV19>0) {AdultFemaleHIV19-=1; AdultFemaleHIV19Neg+=1;balancegeneralglobal++;}    
+     else if(ChildFemaleHIV14>0) {ChildFemaleHIV14-=1;ChildFemaleHIV14Neg+=1;balancegeneralglobal++;}    
+    else if(ChildFemaleHIV9>0) {ChildFemaleHIV9-=1;ChildFemaleHIV9Neg+=1; balancegeneralglobal++;}
+    
+    else if(AdultMaleHIV49>0){AdultMaleHIV49-=1;AdultMaleHIV49Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV39>0){AdultMaleHIV39-=1; AdultMaleHIV39Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV34>0){AdultMaleHIV34-=1; AdultMaleHIV34Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV29>0){AdultMaleHIV29-=1;AdultMaleHIV29Neg+=1; balancegeneralglobal++;}
+    else if(AdultMaleHIV24>0) {AdultMaleHIV24-=1;AdultMaleHIV24Neg+=1;balancegeneralglobal++;}    
+    else if(AdultMaleHIV19>0) {AdultMaleHIV19-=1; AdultMaleHIV19Neg+=1;balancegeneralglobal++;}    
+    else if(ChildMaleHIV14>0) {ChildMaleHIV14-=1;ChildMaleHIV14Neg+=1;balancegeneralglobal++;}    
+    else if(ChildMaleHIV9>0) {ChildMaleHIV9-=1;ChildMaleHIV9Neg+=1; balancegeneralglobal++;}
+    
+    
+    else { break;}
+  
+                 }
+
+while(balancegeneralglobal>0){
+ //add to pos and add deduct from negative since the negatives were achieved from tested-positive
+ if(AdultFemaleHIV49Neg>0){ AdultFemaleHIV49+=1;  AdultFemaleHIV49Neg-=1; balancegeneralglobal--;  }
+ 
+ else if(AdultFemaleHIV39Neg>0){ AdultFemaleHIV39+=1; AdultFemaleHIV39Neg-=1; balancegeneralglobal--;  }
+ 
+  else if(AdultFemaleHIV34Neg>0){ AdultFemaleHIV34+=1; AdultFemaleHIV34Neg-=1; balancegeneralglobal--;  }
+ else if( AdultFemaleHIV29Neg>0){AdultFemaleHIV29+=1;AdultFemaleHIV29Neg-=1; balancegeneralglobal--;}
+  else if(AdultFemaleHIV24Neg>0) { AdultFemaleHIV24+=1; AdultFemaleHIV24Neg-=1; balancegeneralglobal--;  }
+   else if(AdultFemaleHIV19Neg>0){ AdultFemaleHIV19+=1; AdultFemaleHIV19Neg-=1; balancegeneralglobal--; }
+  else if(ChildFemaleHIV14Neg>0){ ChildFemaleHIV14+=1; ChildFemaleHIV14Neg-=1; balancegeneralglobal--; }
+  else if(ChildFemaleHIV9Neg>0){ChildFemaleHIV9+=1; ChildFemaleHIV9Neg-=1; balancegeneralglobal--;  }
+  else { System.out.println(" global Positive unsolvable "); break;}
+  }
+
+
+//============================================================================
+        
+
+
+ double pmtct_n_14=(float)Math.round(pmtct_t_14)-(pmtct_p_14);
+ double pmtct_n_19= (float)Math.round(pmtct_t_19)-(pmtct_p_19);
+ double pmtct_n_24= (float)Math.round(pmtct_t_24)-(pmtct_p_24);
+ double pmtct_n_29= (float)Math.round(pmtct_t_29)-(pmtct_p_29);
+ double pmtct_n_34= (float)Math.round(pmtct_t_34)-(pmtct_p_34);
+ double pmtct_n_39= (float)Math.round(pmtct_t_39)-(pmtct_p_39);
+ double pmtct_n_49=(float)Math.round(pmtct_t_49)-(pmtct_p_49);
+ double pmtct_n_50= (float)Math.round(pmtct_t_50)-(pmtct_p_50);
+
+     
+  String alldatavals[]={county,district,facilityname,""+mflcode,dsdta
+        ,"0","0"
+        ,""+ChildFemaleHIV1,""+ChildMaleHIV1
+        ,""+ChildFemaleHIV4,""+ChildMaleHIV4
+        //,"0","0"//transfered to Pediatrics
+        ,""+(ChildFemaleHIV9),""+(ChildMaleHIV9)
+        ,""+(ChildFemaleHIV14+(pmtct_p_14)),""+ChildMaleHIV14
+        ,""+(AdultFemaleHIV19+(pmtct_p_19)),""+AdultMaleHIV19
+        ,""+(AdultFemaleHIV24+(pmtct_p_24)),""+AdultMaleHIV24
+        ,""+(AdultFemaleHIV29+(pmtct_p_29)),""+AdultMaleHIV29
+        ,""+(AdultFemaleHIV34+(pmtct_p_34)),""+AdultMaleHIV34
+        ,""+(AdultFemaleHIV39+(pmtct_p_39)),""+AdultMaleHIV39
+        ,""+(AdultFemaleHIV49+(pmtct_p_49)),""+AdultMaleHIV49
+        ,""+(AdultFemaleHIV50+(pmtct_p_50)),""+AdultMaleHIV50        
+         //negative starts here 
+        ,"0","0"
+        
+        ,""+ChildFemaleHIV1Neg,""+ChildMaleHIV1Neg
+        ,""+ChildFemaleHIV4Neg,""+ChildMaleHIV4Neg
+        //,"0","0"//transfered to Pediatrics
+        ,""+(ChildFemaleHIV9Neg),""+(ChildMaleHIV9Neg)
+        ,""+(ChildFemaleHIV14Neg+(pmtct_n_14)),""+ChildMaleHIV14Neg
+        ,""+(AdultFemaleHIV19Neg+(pmtct_n_19)),""+AdultMaleHIV19Neg
+        ,""+(AdultFemaleHIV24Neg+(pmtct_n_24) ),""+AdultMaleHIV24Neg
+          
+        ,""+(AdultFemaleHIV29Neg+(pmtct_n_29)),""+AdultMaleHIV29Neg
+        ,""+(AdultFemaleHIV34Neg+(pmtct_n_34)),""+AdultMaleHIV34Neg
+        ,""+(AdultFemaleHIV39Neg+(pmtct_n_39)),""+AdultMaleHIV39Neg
+        ,""+(AdultFemaleHIV49Neg+(pmtct_n_49)),""+AdultMaleHIV49Neg
+        ,""+(AdultFemaleHIV50Neg+(pmtct_n_50)),""+AdultMaleHIV50Neg
+          ,""+(((tested_new711))+(pmtct_t))
+          ,(ChildMaleHIV4Neg+ChildMaleHIV4+ChildFemaleHIV4Neg+ChildFemaleHIV4+conn.rs.getInt("serology"))+""
+          ,(ChildMaleHIV4+ChildFemaleHIV4)+"",(ChildMaleHIV4Neg+ChildFemaleHIV4Neg+conn.rs.getInt("serology"))+""
+          ,""+arthv,""+htchv,""+pmtcthv,""+conn.rs.getString("HTC"),""+conn.rs.getString("PMTCT")
+          
+        }; 
+//
+
+//opd
+ double opdp_u_f=0;
+ double opdp_u_m=0;
+ double opdp_1_f=ChildFemaleHIV1;
+ double opdp_1_m=ChildMaleHIV1;
+ double opdp_4_f=ChildFemaleHIV4;
+ double opdp_4_m=ChildMaleHIV4;
+ double opdp_9_f=ChildFemaleHIV9;
+ double opdp_9_m=ChildMaleHIV9;
+ double opdp_14_f=(ChildFemaleHIV14+pmtct_p_14);
+ double opdp_14_m=ChildMaleHIV14;
+ double opdp_19_f=(AdultFemaleHIV19+(pmtct_p_19));
+ double opdp_19_m=AdultMaleHIV19;
+ double opdp_24_f=(AdultFemaleHIV24+(pmtct_p_24));
+ double opdp_24_m=AdultMaleHIV24;
+ double opdp_29_f=(AdultFemaleHIV29+(pmtct_p_29));
+ double opdp_29_m=AdultMaleHIV29;
+ double opdp_34_f=(AdultFemaleHIV34+(pmtct_p_34));
+ double opdp_34_m=AdultMaleHIV34;
+ double opdp_39_f=(AdultFemaleHIV39+(pmtct_p_39));
+ double opdp_39_m=AdultMaleHIV39;
+ double opdp_49_f=(AdultFemaleHIV49+(pmtct_p_49));
+ double opdp_49_m=AdultMaleHIV49;
+ double opdp_50_f=(AdultFemaleHIV50+(pmtct_p_50));
+ double opdp_50_m=AdultMaleHIV50;
+ double opdn_u_f=0;
+ double opdn_u_m=0;
+ double opdn_1_f=ChildFemaleHIV1Neg;
+ double opdn_1_m=ChildMaleHIV1Neg;
+ double opdn_4_f=ChildFemaleHIV4Neg;
+ double opdn_4_m=ChildMaleHIV4Neg;
+ double opdn_9_f=ChildFemaleHIV9Neg;
+ double opdn_9_m=ChildMaleHIV9Neg;
+ double opdn_14_f=(ChildFemaleHIV14Neg+(pmtct_n_14));
+ double opdn_14_m=ChildMaleHIV14Neg;
+ double opdn_19_f=(AdultFemaleHIV19Neg+(pmtct_n_19));
+ double opdn_19_m=AdultMaleHIV19Neg;
+ double opdn_24_f=(AdultFemaleHIV24Neg+(pmtct_n_24));
+ double opdn_24_m=AdultMaleHIV24Neg;
+ double opdn_29_f=(AdultFemaleHIV29Neg+(pmtct_n_29));
+ double opdn_29_m=AdultMaleHIV29Neg;
+ double opdn_34_f=(AdultFemaleHIV34Neg+(pmtct_n_34));
+ double opdn_34_m=AdultMaleHIV34Neg;
+ double opdn_39_f=(AdultFemaleHIV39Neg+(pmtct_n_39));
+ double opdn_39_m=AdultMaleHIV39Neg;
+ double opdn_49_f=(AdultFemaleHIV49Neg+(pmtct_n_49));
+ double opdn_49_m=AdultMaleHIV49Neg;
+ double opdn_50_f=(AdultFemaleHIV50Neg+(pmtct_n_50));
+ double opdn_50_m=AdultMaleHIV50Neg;
+ double opdsubtotal=(((tested_new711))+(pmtct_t));
+
+double p_u_f=0;
+ double p_u_m=0;
+ double p_1_f=0;
+ double p_1_m=0;
+ double p_9_f=0;
+ double p_9_m=0;
+ double p_4_f=0;
+ double p_4_m=0;
+ double p_14_f=0;
+ double p_14_m=0;
+ double p_19_f=0;
+ double p_19_m=0;
+ double p_24_f=0;
+ double p_24_m=0;
+ double p_29_f=0;
+ double p_29_m=0;
+ double p_34_f=0;
+ double p_34_m=0;
+ double p_39_f=0;
+ double p_39_m=0;
+ double p_49_f=0;
+ double p_49_m=0;
+ double p_50_f=0;
+ double p_50_m=0;
+ double n_u_f=0;
+ double n_u_m=0;
+ double n_1_f=0;
+ double n_1_m=0;
+ double n_9_f=0;
+ double n_9_m=0;
+ double n_4_f=0;
+ double n_4_m=0;
+ double n_14_f=0;
+ double n_14_m=0;
+ double n_19_f=0;
+ double n_19_m=0;
+ double n_24_f=0;
+ double n_24_m=0;
+ double n_29_f=0;
+ double n_29_m=0;
+ double n_34_f=0;
+ double n_34_m=0;
+ double n_39_f=0;
+ double n_39_m=0;
+ double n_49_f=0;
+ double n_49_m=0;
+ double n_50_f=0;
+ double n_50_m=0;
+ double subtotal=0;
+ 
+ 
+ 
+ double valid_p_u_f=0;
+ double valid_p_u_m=0;
+ double valid_p_1_f=0;
+ double valid_p_1_m=0;
+ double valid_p_9_f=0;
+ double valid_p_9_m=0;
+ double valid_p_4_f=0;
+ double valid_p_4_m=0;
+ double valid_p_14_f=0;
+ double valid_p_14_m=0;
+ double valid_p_19_f=0;
+ double valid_p_19_m=0;
+ double valid_p_24_f=0;
+ double valid_p_24_m=0;
+ double valid_p_29_f=0;
+ double valid_p_29_m=0;
+ double valid_p_34_f=0;
+ double valid_p_34_m=0;
+ double valid_p_39_f=0;
+ double valid_p_39_m=0;
+ double valid_p_49_f=0;
+ double valid_p_49_m=0;
+ double valid_p_50_f=0;
+ double valid_p_50_m=0;
+ double valid_n_u_f=0;
+ double valid_n_u_m=0;
+ double valid_n_1_f=0;
+ double valid_n_1_m=0;
+ double valid_n_4_f=0;
+ double valid_n_4_m=0;
+ double valid_n_9_f=0;
+ double valid_n_9_m=0;
+ double valid_n_14_f=0;
+ double valid_n_14_m=0;
+ double valid_n_19_f=0;
+ double valid_n_19_m=0;
+ double valid_n_24_f=0;
+ double valid_n_24_m=0;
+ double valid_n_29_f=0;
+ double valid_n_29_m=0;
+ double valid_n_34_f=0;
+ double valid_n_34_m=0;
+ double valid_n_39_f=0;
+ double valid_n_39_m=0;
+ double valid_n_49_f=0;
+ double valid_n_49_m=0;
+ double valid_n_50_f=0;
+ double valid_n_50_m=0;
+ double valid_subtotal=0;
+ 
+
+
+          
+//__________________________________________________________________________________________________________________________________
+
+
+
+ String ym = conn.rs.getString("yearmonth");
+
+  opdhm.put("cty"+"_"+mflcode+ym, county);
+  opdhm.put("sty"+"_"+mflcode+ym, district);
+  opdhm.put("fac"+"_"+mflcode+ym, facilityname);
+  opdhm.put("mfl"+"_"+mflcode+ym, ""+mflcode);
+  opdhm.put("st"+"_"+mflcode+ym, dsdta);
+  opdhm.put("ukpf"+"_"+mflcode+ym,"0");
+  opdhm.put("ukpm"+"_"+mflcode+ym,"0");
+  opdhm.put("pf1"+"_"+mflcode+ym,""+(ChildFemaleHIV1 ));//serology added to female
+  opdhm.put("pm1"+"_"+mflcode+ym,""+ChildMaleHIV1);
+  opdhm.put("pf4"+"_"+mflcode+ym,""+ChildFemaleHIV4);
+  opdhm.put("pm4"+"_"+mflcode+ym,""+ChildMaleHIV4);
+  opdhm.put("pf9"+"_"+mflcode+ym,""+ChildFemaleHIV9);
+  opdhm.put("pm9"+"_"+mflcode+ym,""+ChildMaleHIV9);
+  opdhm.put("pf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14+pmtct_p_14));
+  opdhm.put("pm14"+"_"+mflcode+ym,""+ChildMaleHIV14);
+  opdhm.put("pf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19+pmtct_p_19));
+  opdhm.put("pm19"+"_"+mflcode+ym,""+AdultMaleHIV19);
+  opdhm.put("pf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24+pmtct_p_24));
+  opdhm.put("pm24"+"_"+mflcode+ym,""+AdultMaleHIV24);
+  opdhm.put("pf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29+pmtct_p_29));
+  opdhm.put("pm29"+"_"+mflcode+ym,""+AdultMaleHIV29);
+  opdhm.put("pf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34+pmtct_p_34));
+  opdhm.put("pm34"+"_"+mflcode+ym,""+AdultMaleHIV34);
+  opdhm.put("pf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39+pmtct_p_39));
+  opdhm.put("pm39"+"_"+mflcode+ym,""+AdultMaleHIV39);
+  opdhm.put("pf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49+pmtct_p_49));
+  opdhm.put("pm49"+"_"+mflcode+ym,""+AdultMaleHIV49);
+  opdhm.put("pf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50+pmtct_p_50));
+  opdhm.put("pm50"+"_"+mflcode+ym,""+AdultMaleHIV50);
+  //_____negative
+  opdhm.put("uknf"+"_"+mflcode+ym,"0");
+  opdhm.put("uknm"+"_"+mflcode+ym,"0");
+  opdhm.put("nf1"+"_"+mflcode+ym,""+ChildFemaleHIV1Neg);
+  opdhm.put("nm1"+"_"+mflcode+ym,""+(ChildMaleHIV1Neg+ conn.rs.getInt("serology")));
+  opdhm.put("nf4"+"_"+mflcode+ym,""+ChildFemaleHIV4Neg);
+  opdhm.put("nm4"+"_"+mflcode+ym,""+ChildMaleHIV4Neg);
+  opdhm.put("nf9"+"_"+mflcode+ym,""+ChildFemaleHIV9Neg);
+  opdhm.put("nm9"+"_"+mflcode+ym,""+ChildMaleHIV9Neg);
+  opdhm.put("nf14"+"_"+mflcode+ym,""+(ChildFemaleHIV14Neg+pmtct_n_14));
+  opdhm.put("nm14"+"_"+mflcode+ym,""+ChildMaleHIV14Neg);
+  opdhm.put("nf19"+"_"+mflcode+ym,""+(AdultFemaleHIV19Neg+pmtct_n_19));
+  opdhm.put("nm19"+"_"+mflcode+ym,""+AdultMaleHIV19Neg);
+  opdhm.put("nf24"+"_"+mflcode+ym,""+(AdultFemaleHIV24Neg+pmtct_n_24));
+  opdhm.put("nm24"+"_"+mflcode+ym,""+AdultMaleHIV24Neg);
+  opdhm.put("nf29"+"_"+mflcode+ym,""+(AdultFemaleHIV29Neg+pmtct_n_29));
+  opdhm.put("nm29"+"_"+mflcode+ym,""+AdultMaleHIV29Neg);
+  opdhm.put("nf34"+"_"+mflcode+ym,""+(AdultFemaleHIV34Neg+pmtct_n_34));
+  opdhm.put("nm34"+"_"+mflcode+ym,""+AdultMaleHIV34Neg);
+  opdhm.put("nf39"+"_"+mflcode+ym,""+(AdultFemaleHIV39Neg+pmtct_n_39));
+  opdhm.put("nm39"+"_"+mflcode+ym,""+AdultMaleHIV39Neg);
+  opdhm.put("nf49"+"_"+mflcode+ym,""+(AdultFemaleHIV49Neg+pmtct_n_49));
+  opdhm.put("nm49"+"_"+mflcode+ym,""+AdultMaleHIV49Neg);
+  opdhm.put("nf50"+"_"+mflcode+ym,""+(AdultFemaleHIV50Neg+pmtct_n_50));
+  opdhm.put("nm50"+"_"+mflcode+ym,""+AdultMaleHIV50Neg);
+  opdhm.put("tt"+"_"+mflcode+ym,""+((tested_new711)+(pmtct_t)+(conn.rs.getInt("serology"))));
+
+String burdencategory = conn.rs.getString("burdencategory");
+ String constituency = conn.rs.getString("constituency");
+ String ward = conn.rs.getString("ward");
+ String yr = conn.rs.getString("year");
+ String semiannual = conn.rs.getString("semiannual");
+ String qtr = conn.rs.getString("quarter");
+ String mn = conn.rs.getString("month");
+
+ String ownedby = conn.rs.getString("ownedby");
+ String facilitytype = conn.rs.getString("facilitytype");
+ String art_hv = conn.rs.getString("art_hv");
+ String htc_hv = conn.rs.getString("htc_hv");
+ String pmtct_hv = conn.rs.getString("pmtct_hv");
+ String activity_hv = conn.rs.getString("activity_hv");
+ String latitude = conn.rs.getString("latitude");
+ String longitude = conn.rs.getString("longitude");
+ String maleclinic = conn.rs.getString("maleclinic");
+ String adoleclinic = conn.rs.getString("adoleclinic");
+ String viremiaclinic = conn.rs.getString("viremiaclinic");
+ String emrsite = conn.rs.getString("emrsite");
+ String linkdesk = conn.rs.getString("linkdesk");
+ String islocked = conn.rs.getString("islocked");
+  
+  opdhm.put("burdencategory"+"_"+mflcode+ym, burdencategory);
+  opdhm.put("constituency"+"_"+mflcode+ym, constituency);
+  opdhm.put("ward"+"_"+mflcode+ym, ward);
+  opdhm.put("year"+"_"+mflcode+ym, yr);
+  opdhm.put("semiannual"+"_"+mflcode+ym, semiannual);
+  opdhm.put("quarter"+"_"+mflcode+ym, qtr);
+  opdhm.put("month"+"_"+mflcode+ym, mn);
+  opdhm.put("yearmonth"+"_"+mflcode+ym, ym);
+  opdhm.put("ownedby"+"_"+mflcode+ym, ownedby);
+  opdhm.put("facilitytype"+"_"+mflcode+ym, facilitytype);
+  opdhm.put("art_hv"+"_"+mflcode+ym, art_hv);
+  opdhm.put("htc_hv"+"_"+mflcode+ym, htc_hv);
+  opdhm.put("pmtct_hv"+"_"+mflcode+ym, pmtct_hv);
+  opdhm.put("activity_hv"+"_"+mflcode+ym, activity_hv);
+  opdhm.put("latitude"+"_"+mflcode+ym, latitude);
+  opdhm.put("longitude"+"_"+mflcode+ym, longitude);
+  opdhm.put("maleclinic"+"_"+mflcode+ym, maleclinic);
+  opdhm.put("adoleclinic"+"_"+mflcode+ym, adoleclinic);
+  opdhm.put("viremiaclinic"+"_"+mflcode+ym, viremiaclinic);
+  opdhm.put("emrsite"+"_"+mflcode+ym, emrsite);
+  opdhm.put("linkdesk"+"_"+mflcode+ym, linkdesk);
+  opdhm.put("islocked"+"_"+mflcode+ym, islocked);
+
+
+ // if(facilityname.equalsIgnoreCase("Kapua Dispensary")){ System.out.println(" Facility is "+facilityname+" and yearmonth is:"+ym);}
+  
+  
+
+
+         int mypos=0;
+         
+  for(int a=0;a<alldatavals.length;a++){
+      
+    
+       if(a==4||a<3){
+           //non numeric characters
+       
+       }
+       else {
+    
+       }
+      
+  
+  }
+//      shet3.addMergedRegion(new CellRangeAddress(2,5,20,20));
+}//end of while loop
+    
+ 
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	HSSFRow rwx=null;                     
+ for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
+  count++;   
+ 
+ 
+ for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
+ //create a row
+  if(z==0){
+    //county  
+  
+  }
+  else if(z==1){
+    //sub-county  
+   
+  }
+  else if(z==2){
+   //facility
+   
+  }
+  else if(z==3){
+   //mfl
+  
+  }
+   
+  else if(z==4){
+  //dsdta
+ 
+        }
+   //last section of blank rows
+  else if(z==pitc_ipd_header1.length-5){
+  //dsdta
+   
+        }
+   
+    else if(z==pitc_ipd_header1.length-4){
+  //dsdta
+  
+   
+        }
+    else if(z==pitc_ipd_header1.length-3){
+  //dsdta
+   
+        }
+    else if(z==pitc_ipd_header1.length-2){
+  //dsdta
+   
+        }
+    else if(z==pitc_ipd_header1.length-1){
+  //dsdta
+  
+   
+        }
+            
+  else {
+                     
+  
+   
+  
+  }//end of else
+  
+ }//end of inner loop                    
+ } //end of outer loop                    
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 
+                     
+     //____autofilter______       
+    //shet3.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length+3));
+
+                //System.out.println("1,"+rowpos+",0,"+colposcopy);
+                                
+
+         return opdhm;          
+     
+ }
+ 
+
 
 }

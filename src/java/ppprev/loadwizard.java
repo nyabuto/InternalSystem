@@ -26,6 +26,8 @@ public class loadwizard extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
            
+            getParticipants gp= new getParticipants();
+            
             String tabheader="<ul>"
 	  	+"<li><a href='#tab1' data-toggle='tab'><i class='icon-group'></i> Group Details</a></li>"
 		+"<li><a href='#tab2' data-toggle='tab'><i class='icon-time'></i> Session Details</a></li>"
@@ -164,6 +166,19 @@ public class loadwizard extends HttpServlet {
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
+                    
+                    
+                       +"<td class='span2'>"
+                    + "<label> <b>Form Id<font color='red'><b>*</b></font></b></label>"
+                    + " </td>"
+                    
+                    
+                    + "<td class='span3'>"
+                 + " <input value='"+gp.RandomNo(1000, 9000)+"'   class='span12 ' required    id='formid' name='formid'>"
+                   
+                    + " </td>"
+                    
+                    
                     + "</tr>"
                    
                     + "</table>"

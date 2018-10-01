@@ -47,9 +47,9 @@ public class pullHts extends HttpServlet {
 //            session.setAttribute("reportDuration", "4");//quarterly, monthly,yearly
             
 
-           // String sdate="201802";
-           //String edate="201802";
-           // String facil="";
+           //String sdate="201807";
+           //String edate="201807";
+            String facil="";
             //htsdataset ds= new htsdataset();
             //dbConn conn1 = new dbConn();
             
@@ -58,7 +58,7 @@ public class pullHts extends HttpServlet {
             
              //pullHts hts= new pullHts();
    // hts.hts_non731(yearmonth,yearmonth,facilityId); //stored procedure code 
-   // hts.hts731( sdate, edate, facil);
+  // hts731( sdate, edate, facil);
 
         } finally {
             out.close();
@@ -459,7 +459,7 @@ String insertqry = " REPLACE INTO dashboards.table2 SET "
    
    String level4="";
    
-   if(haslevel4 && !level3.contains("HTS - Pediatric Services")){
+   if(haslevel4 && !(level3.contains("HTS - Pediatric Services")  || level3.contains("HTS - Other PITC")) ){
 //Tested 40
       if(1==1){
           
@@ -606,7 +606,7 @@ String insertqry = " REPLACE INTO dashboards.table2 SET "
    conndb.pst.setInt(45,new Integer((int) (pm29+pm34+pm39+pm49)));
    conndb.pst.setInt(46,new Integer((int) (pf50)));
    conndb.pst.setInt(47,new Integer((int) (pm50)));
-   conndb.pst.setInt(48,new Integer((int) (gtp)));
+   conndb.pst.setInt(48,new Integer((int) (pf1+pf4+pf9+pf14+pf19+pf24+pf29+pf34+pf39+pf49+pf50+pm1+pm4+pm9+pm14+pm19+pm24+pm29+pm34+pm39+pm49+pm50)));
    conndb.pst.setInt(49,new Integer((int) (pf1+pf4+pf9+pf14+pf19+pf24+pf29+pf34+pf39+pf49+pf50)));
    conndb.pst.setInt(50,new Integer((int) (pm1+pm4+pm9+pm14+pm19+pm24+pm29+pm34+pm39+pm49+pm50)));
    conndb.pst.setInt(51,new Integer((int) (pf1+pf4+pf9+pf14)));
@@ -647,7 +647,201 @@ String insertqry = " REPLACE INTO dashboards.table2 SET "
           
       }
       }
+ 
+//----------------------------------------------Other PITC only . This is being done to exclude paeds----------------------------------   
+
+if(haslevel4 && level3.contains("HTS - Other PITC")){
+//Tested 40
+      if(1==1){
+          
+   String id=ym+"_"+mfl+"_3_"+Level3arr[1]+"_40";
+ conndb.pst.setString(1,id);
+   conndb.pst.setString(2,cty);
+   conndb.pst.setString(3,burdencategory);
+   conndb.pst.setString(4,constituency);
+   conndb.pst.setString(5,sty);
+   conndb.pst.setString(6,ward);
+   conndb.pst.setString(7,fac);
+   conndb.pst.setString(8,mfl);
+   conndb.pst.setString(9,st);
+   conndb.pst.setString(10,"90=Knowing HIV Status");
+   conndb.pst.setString(11,"HTS");
+   conndb.pst.setString(12,Level3arr[0]);
+   conndb.pst.setString(13,"Tested");
+   conndb.pst.setInt(14,new Integer((int) (uknf+ukpf)));
+   conndb.pst.setInt(15,new Integer((int) (uknm+ukpm)));
+   conndb.pst.setInt(16,0);
+   conndb.pst.setInt(17,0);
+   conndb.pst.setInt(18,0);
+   conndb.pst.setInt(19,0);
+   conndb.pst.setInt(20,new Integer((int) (0)));
+   conndb.pst.setInt(21,new Integer((int) (0)));
+   conndb.pst.setInt(22,new Integer((int) (0)));
+   conndb.pst.setInt(23,new Integer((int) (0)));
+   conndb.pst.setInt(24,new Integer((int) (0)));
+   conndb.pst.setInt(25,new Integer((int) (pf9+nf9)));
+   conndb.pst.setInt(26,new Integer((int) (pm9+nm9)));
+   conndb.pst.setInt(27,new Integer((int) (pf9+nf9)));
+   conndb.pst.setInt(28,new Integer((int) (pm9+nm9)));
+   conndb.pst.setInt(29,new Integer((int) (pf9+nf9+pm9+nm9)));
+   conndb.pst.setInt(30,new Integer((int) (pf14+nf14)));
+   conndb.pst.setInt(31,new Integer((int) (pm14+nm14)));
+   conndb.pst.setInt(32,new Integer((int) (pf19+nf19)));
+   conndb.pst.setInt(33,new Integer((int) (pm19+nm19)));
+   conndb.pst.setInt(34,new Integer((int) (pf24+nf24)));
+   conndb.pst.setInt(35,new Integer((int) (pm24+nm24)));
+   conndb.pst.setInt(36,new Integer((int) (pf29+nf29)));
+   conndb.pst.setInt(37,new Integer((int) (pm29+nm29)));
+   conndb.pst.setInt(38,new Integer((int) (pf34+nf34)));
+   conndb.pst.setInt(39,new Integer((int) (pm34+nm34)));
+   conndb.pst.setInt(40,new Integer((int) (pf39+nf39)));
+   conndb.pst.setInt(41,new Integer((int) (pm39+nm39)));
+   conndb.pst.setInt(42,new Integer((int) (pf49+nf49)));
+   conndb.pst.setInt(43,new Integer((int) (pm49+nm49)));
+   conndb.pst.setInt(44,new Integer((int) (pf29+nf29+pf34+nf34+pf39+nf39+pf49+nf49)));
+   conndb.pst.setInt(45,new Integer((int) (pm29+nm29+pm34+nm34+pm39+nm39+pm49+nm49)));
+   conndb.pst.setInt(46,new Integer((int) (pf50+nf50)));
+   conndb.pst.setInt(47,new Integer((int) (pm50+nm50)));
+   conndb.pst.setInt(48,new Integer((int) (pf9+nf9+pf14+nf14+pf19+nf19+pf24+nf24+pf29+nf29+pf34+nf34+pf39+nf39+pf49+nf49+pf50+nf50+pm9+nm9+pm14+nm14+pm19+nm19+pm24+nm24+pm29+nm29+pm34+nm34+pm39+nm39+pm49+nm49+pm50+nm50)));
+   conndb.pst.setInt(49,new Integer((int) (pf9+nf9+pf14+nf14+pf19+nf19+pf24+nf24+pf29+nf29+pf34+nf34+pf39+nf39+pf49+nf49+pf50+nf50)));
+   conndb.pst.setInt(50,new Integer((int) (pm9+nm9+pm14+nm14+pm19+nm19+pm24+nm24+pm29+nm29+pm34+nm34+pm39+nm39+pm49+nm49+pm50+nm50)));
+   conndb.pst.setInt(51,new Integer((int) (pf9+nf9+pf14+nf14)));
+   conndb.pst.setInt(52,new Integer((int) (pm9+nm9+pm14+nm14)));
+   conndb.pst.setInt(53,new Integer((int) (pf9+nf9+pf14+nf14+pm1+nm1+pm4+nm4+pm9+nm9+pm14+nm14)));
+   conndb.pst.setInt(54,new Integer((int) (pf19+nf19+pf24+nf24+pf29+nf29+pf34+nf34+pf39+nf39+pf49+nf49+pf50+nf50)));
+   conndb.pst.setInt(55,new Integer((int) (pm19+nm19+pm24+nm24+pm29+nm29+pm34+nm34+pm39+nm39+pm49+nm49+pm50+nm50)));
+   conndb.pst.setInt(56,new Integer((int) (pf19+nf19+pf24+nf24+pf29+nf29+pf34+nf34+pf39+nf39+pf49+nf49+pf50+nf50+pm19+nm19+pm24+nm24+pm29+nm29+pm34+nm34+pm39+nm39+pm49+nm49+pm50+nm50)));
+   conndb.pst.setInt(57,new Integer((int) (pf19+nf19+pf24+nf24)));
+   conndb.pst.setInt(58,new Integer((int) (pm19+nm19+pm24+nm24)));
+   conndb.pst.setInt(59,new Integer((int) (pf19+nf19+pf24+nf24+pm19+nm19+pm24+nm24)));
+   conndb.pst.setString(60,yr);
+   conndb.pst.setString(61,semiannual);
+   conndb.pst.setString(62,qtr);
+   conndb.pst.setString(63,mn);
+   conndb.pst.setString(64,ym);
+   conndb.pst.setString(65,ownedby);
+   conndb.pst.setString(66,facilitytype);
+   conndb.pst.setString(67,art_hv);
+   conndb.pst.setString(68,htc_hv);
+   conndb.pst.setString(69,pmtct_hv);
+   conndb.pst.setString(70,activity_hv);
+   conndb.pst.setString(71,latitude);
+   conndb.pst.setString(72,longitude);
+   conndb.pst.setString(73,maleclinic);
+   conndb.pst.setString(74,adoleclinic);
+   conndb.pst.setString(75,viremiaclinic);
+   conndb.pst.setString(76,emrsite);
+   conndb.pst.setString(77,linkdesk);
+   conndb.pst.setString(78,islocked);
+   conndb.pst.setString(79,ordernumber);
+    if(!ym.equals("")){
+   conndb.pst.executeUpdate(); 
+        System.out.println(""+conndb.pst);
+   }
    
+          
+      
+      }
+      
+
+//positive 41
+      if(2==2){
+       
+          
+          
+   String id=ym+"_"+mfl+"_3_"+Level3arr[1]+"_41";
+ conndb.pst.setString(1,id);
+   conndb.pst.setString(2,cty);
+   conndb.pst.setString(3,burdencategory);
+   conndb.pst.setString(4,constituency);
+   conndb.pst.setString(5,sty);
+   conndb.pst.setString(6,ward);
+   conndb.pst.setString(7,fac);
+   conndb.pst.setString(8,mfl);
+   conndb.pst.setString(9,st);
+   conndb.pst.setString(10,"90=Knowing HIV Status");
+   conndb.pst.setString(11,"HTS");
+   conndb.pst.setString(12,Level3arr[0]);
+   conndb.pst.setString(13,"Positive");
+   conndb.pst.setInt(14,new Integer((int) (ukpf)));
+   conndb.pst.setInt(15,new Integer((int) (ukpm)));
+   conndb.pst.setInt(16,0);
+   conndb.pst.setInt(17,0);
+   conndb.pst.setInt(18,0);
+   conndb.pst.setInt(19,0);
+   conndb.pst.setInt(20,new Integer((int) (0)));
+   conndb.pst.setInt(21,new Integer((int) (0)));
+   conndb.pst.setInt(22,new Integer((int) (0)));
+   conndb.pst.setInt(23,new Integer((int) (0)));
+   conndb.pst.setInt(24,new Integer((int) (0)));
+   conndb.pst.setInt(25,new Integer((int) (pf9)));
+   conndb.pst.setInt(26,new Integer((int) (pm9)));
+   conndb.pst.setInt(27,new Integer((int) (pf9)));
+   conndb.pst.setInt(28,new Integer((int) (pm9)));
+   conndb.pst.setInt(29,new Integer((int) (pf9+pm9)));
+   conndb.pst.setInt(30,new Integer((int) (pf14)));
+   conndb.pst.setInt(31,new Integer((int) (pm14)));
+   conndb.pst.setInt(32,new Integer((int) (pf19)));
+   conndb.pst.setInt(33,new Integer((int) (pm19)));
+   conndb.pst.setInt(34,new Integer((int) (pf24)));
+   conndb.pst.setInt(35,new Integer((int) (pm24)));
+   conndb.pst.setInt(36,new Integer((int) (pf29)));
+   conndb.pst.setInt(37,new Integer((int) (pm29)));
+   conndb.pst.setInt(38,new Integer((int) (pf34)));
+   conndb.pst.setInt(39,new Integer((int) (pm34)));
+   conndb.pst.setInt(40,new Integer((int) (pf39)));
+   conndb.pst.setInt(41,new Integer((int) (pm39)));
+   conndb.pst.setInt(42,new Integer((int) (pf49)));
+   conndb.pst.setInt(43,new Integer((int) (pm49)));
+   conndb.pst.setInt(44,new Integer((int) (pf29+pf34+pf39+pf49)));
+   conndb.pst.setInt(45,new Integer((int) (pm29+pm34+pm39+pm49)));
+   conndb.pst.setInt(46,new Integer((int) (pf50)));
+   conndb.pst.setInt(47,new Integer((int) (pm50)));
+   conndb.pst.setInt(48,new Integer((int) (pf9+pf14+pf19+pf24+pf29+pf34+pf39+pf49+pf50+pm9+pm14+pm19+pm24+pm29+pm34+pm39+pm49+pm50)));
+   conndb.pst.setInt(49,new Integer((int) (pf9+pf14+pf19+pf24+pf29+pf34+pf39+pf49+pf50)));
+   conndb.pst.setInt(50,new Integer((int) (pm9+pm14+pm19+pm24+pm29+pm34+pm39+pm49+pm50)));
+   conndb.pst.setInt(51,new Integer((int) (pf9+pf14)));
+   conndb.pst.setInt(52,new Integer((int) (pm9+pm14)));
+   conndb.pst.setInt(53,new Integer((int) (pf9+pf14+pm9+pm14)));
+   conndb.pst.setInt(54,new Integer((int) (pf19+pf24+pf29+pf34+pf39+pf49+pf50)));
+   conndb.pst.setInt(55,new Integer((int) (pm19+pm24+pm29+pm34+pm39+pm49+pm50)));
+   conndb.pst.setInt(56,new Integer((int) (pf19+pf24+pf29+pf34+pf39+pf49+pf50+pm19+pm24+pm29+pm34+pm39+pm49+pm50)));
+   conndb.pst.setInt(57,new Integer((int) (pf19+pf24)));
+   conndb.pst.setInt(58,new Integer((int) (pm19+pm24)));
+   conndb.pst.setInt(59,new Integer((int) (pf19+pf24+pm19+pm24)));
+   conndb.pst.setString(60,yr);
+   conndb.pst.setString(61,semiannual);
+   conndb.pst.setString(62,qtr);
+   conndb.pst.setString(63,mn);
+   conndb.pst.setString(64,ym);
+   conndb.pst.setString(65,ownedby);
+   conndb.pst.setString(66,facilitytype);
+   conndb.pst.setString(67,art_hv);
+   conndb.pst.setString(68,htc_hv);
+   conndb.pst.setString(69,pmtct_hv);
+   conndb.pst.setString(70,activity_hv);
+   conndb.pst.setString(71,latitude);
+   conndb.pst.setString(72,longitude);
+   conndb.pst.setString(73,maleclinic);
+   conndb.pst.setString(74,adoleclinic);
+   conndb.pst.setString(75,viremiaclinic);
+   conndb.pst.setString(76,emrsite);
+   conndb.pst.setString(77,linkdesk);
+   conndb.pst.setString(78,islocked);
+   conndb.pst.setString(79,ordernumber);
+   //only insert sites that have submitted data
+   if(!ym.equals("")){
+   conndb.pst.executeUpdate(); 
+    System.out.println(""+conndb.pst);
+   }
+      
+          
+      }
+      }
+
+
+
+//--------------------------------------------------------------Pediatrics--------------------------------- 
    else if(haslevel4 && level3.contains("HTS - Pediatric Services")){
    
    

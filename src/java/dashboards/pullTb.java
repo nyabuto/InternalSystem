@@ -34,7 +34,7 @@ public class pullTb extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
 
-         // tbDashboard("20180401","20180630");
+          //tbDashboard("20180701","20180930");
 
         } finally {
             out.close();
@@ -97,8 +97,8 @@ public class pullTb extends HttpServlet {
             dbConn conn = new dbConn();
 
             String facilitiestable = "subpartnera";
-            String [] procs={"tb_dashboard","tbclinics_dashboard"};
-            String [] desttable={"table3","table2"};
+            String [] procs={"tb_dashboard"};//,"tbclinics_dashboard"
+            String [] desttable={"table3"};//,"table2"
             
 for(int c=0;c<procs.length;c++){
             
