@@ -120,12 +120,12 @@ public class masterlist extends HttpServlet {
         }
         dbConn conn = new dbConn();
         //========Query 1=================
-        String mflistname="HSDSA";
+        String mflistname="Afya Nyota ya Bonde ";
         String detailedprocedurename="rpt_masterlist";
         String summaryprocedurename="rpt_masterlist_summary";
          mergerow="14";
          if(year.equals("")){
-         mflistname=" HSDSA Cluster 2";
+         mflistname=" Afya Nyota ya Bonde ";
          }
          else
         //APHIAPLUS facility Details
