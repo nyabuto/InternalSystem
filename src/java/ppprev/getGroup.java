@@ -122,7 +122,7 @@ public String Group(dbConn conn, String subcountyid, String curselect) throws SQ
             
             }
             
-    
+    if(data.equals("<option value=''>Select group</option>")){data="<option value=''>Add group by clicking add group button above</option>";}
 
 return data;
 }

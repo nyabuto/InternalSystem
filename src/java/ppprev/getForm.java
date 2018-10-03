@@ -8,32 +8,34 @@ package ppprev;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author EKaunda
  */
 public class getForm extends HttpServlet {
-
+HttpSession session=null;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-        
+        session=request.getSession();
             dbConn conn= new dbConn();
             
             //group details
-            
-
-
+     
 int lessons=7;
 int totalrows=1;
             
@@ -41,154 +43,281 @@ int totalrows=1;
                lessons = new Integer(request.getParameter("lessons"));}
             
             if(request.getParameter("totalrows")!=null && !request.getParameter("totalrows").equals("")){
-            totalrows=new Integer(request.getParameter("totalrows"));}
+            totalrows=new Integer(request.getParameter("totalrows"))-1;
+            }
+          
+            
+String formdatainsert=" replace into hc_formdata_1 ";
+String formdatacolumns="(";
+String formdatavalues=") values (";
+
+      String groupid="";
+      
+      
+     String variablesform[]={"id","formid","partner","subcounty","targetpop","curriculum","group","lessons","facilitator","cofacilitator","startdate","enddate","agegroup"};       
+     String variablesformname[]={"id","formid","partner","subcounty","targetpop","curriculum","kundi","lessons","facilitator","cofacilitator","startdate","enddate","agegroup"};       
+
+     
+    //_____________________    creates a query starting part similar to |          replace into hc_facilitator(facilitator_id,first_name)  values (?,?)
+    //__________________________Do that for section 1__________________________________________________________________________________________________
+            for (int p = 0; p < variablesform.length; p++) 
+            {
+                if(variablesformname[p].equals("kundi")){groupid=request.getParameter(variablesform[p]);}
+                formdatacolumns += variablesformname[p] + ",";
+                formdatavalues += "?,";
+            }
+            
+            
+//________________________________________Do that for session details section ( Wizard page 2)      __________________________________________________ 
+
+ String variablessessions[]={"topic","method","date","time","malecondoms","femalecondoms"};       
+ String variablessessionname[]={"topics","methods","sessiondate","time","malecondom","femalecondom"};       
+//___________________________________________Session details____________________________________________________
+for(int a=0;a<lessons;a++){
+for(int p=0;p<variablessessions.length;p++){
+//s1_topic   
+//if (p==variablessessions.length-1){
+//  formdatacolumns +="s"+(a+1)+variablessessions[p] + "";
+//   formdatavalues += "?";
+//}
+//else{
+if(1==1){
+ formdatacolumns +="s"+(a+1)+"_"+variablessessions[p] + ",";
+   formdatavalues += "?,";
+}
+
+}
+}
+          
+  //________________________    join the query parts    __________________________
+  
+formdatainsert+=formdatacolumns+formdatavalues+") ";
+
+formdatainsert=formdatainsert.replace("?,)", "?)");
+formdatainsert=formdatainsert.replace(",)", ")");
+
+//System.out.println(""+formdatainsert); 
+
+conn.pst1=conn.conn.prepareStatement(formdatainsert);  
+ //_________________________   append the data values into the prepared statement  ______________________
+              int count=1;
+            for (int p = 0; p < variablesform.length; p++) {
+                
+                String vals = "";
+                if (request.getParameter(variablesform[p]) != null) 
+                {
+                vals = request.getParameter(variablesform[p]);
+                conn.pst1.setString(count,vals);
+                count++;
+                }
+                                                           }
+            
+//___________________________________________Session details____________________________________________________
+for(int a=0;a<lessons;a++){
+for(int p=0;p<variablessessions.length;p++){  
+                String vals = "";
+                //for multiselect data
+                if(variablessessionname[p].equals("method")){
+                     if (request.getParameterValues(variablessessionname[p]+(a+1)) != null) 
+                {
+                String [] valsi=request.getParameterValues(variablessessionname[p]+(a+1));
+                   
+                for(int v=0;v<valsi.length;v++)
+                {
+                vals+=valsi[v]+",";
+                }
+                conn.pst1.setString(count,vals);
+                 count++;
+                }
+                                                         }
+                else {
+if (request.getParameter(variablessessionname[p]+(a+1)) != null) {
+    
+ vals = request.getParameter(variablessessionname[p]+(a+1));
+                
+  conn.pst1.setString(count,vals);
+   count++;
+                 
+                }
+}
+}
+}
+
+            System.out.println(""+conn.pst1.toString());
+conn.pst1.executeUpdate();     
             
 /**
  id       
 **/      
 
- String partner="";
- String subcounty="";
- String targetpop="";
- String curriculum="";
- String group="";
- String facilitator="";
- String cofacilitator="";
- String startdate="";
- String enddate="";
- String agegroup="";
+count=1;
 
+
+
+ //______________________________save wizard page 3 onwards___________________________________
  
-if(request.getParameter("partner")!=null) {partner=request.getParameter("partner"); }
-if(request.getParameter("subcounty")!=null) {subcounty=request.getParameter("subcounty"); }
-if(request.getParameter("targetpop")!=null) {targetpop=request.getParameter("targetpop"); }
-if(request.getParameter("curriculum")!=null) {curriculum=request.getParameter("curriculum"); }
-if(request.getParameter("group")!=null) {group=request.getParameter("group"); }
-//if(request.getParameter("lessons")!=null) {lessons=request.getParameter("lessons"); }
-if(request.getParameter("facilitator")!=null) {facilitator=request.getParameter("facilitator"); }
-if(request.getParameter("cofacilitator")!=null) {cofacilitator=request.getParameter("cofacilitator"); }
-if(request.getParameter("startdate")!=null) {startdate=request.getParameter("startdate"); }
-if(request.getParameter("enddate")!=null) {enddate=request.getParameter("enddate"); }
-if(request.getParameter("agegroup")!=null) {agegroup=request.getParameter("agegroup"); }
+ String section3[]={"lessons","formid","enddate","group","id","firstname","middlename","lastname","age","sex"};
+ String section3data[]={"expectedsessions","formid","enddate","group_id","id","fname","mname","sname","age","sex"};
+//Participant details____________________________________________________
 
 
+for(int a=0;a<totalrows;a++){
+   
+    String formdata2insert=" replace into hc_participants ";
+String formdata2columns="(";
+String formdata2values=") values (";
+String form2insert="";
 
-
-
-//___________________________________________Session details____________________________________________________
-for(int a=0;a<lessons;a++){
-
- String topic ="";
- String method ="";
- String date ="";
- String time ="";
- String malecondoms ="";
- String femalecondoms ="";
- 
-if(request.getParameter("s"+a+"_topic")!=null) {          topic=request.getParameter("s"+a+"_topic");     }
-if(request.getParameter("s"+a+"_method")!=null) {         method=request.getParameter("s"+a+"_method");   }
-if(request.getParameter("s"+a+"_date")!=null) {           date=request.getParameter("s"+a+"_date");       }
-if(request.getParameter("s"+a+"_time")!=null) {           time=request.getParameter("s"+a+"_time");       }
-if(request.getParameter("s"+a+"_malecondoms")!=null) {    malecondoms=request.getParameter("s"+a+"_malecondoms");     }
-if(request.getParameter("s"+a+"_femalecondoms")!=null) {  femalecondoms=request.getParameter("s"+a+"_femalecondoms"); }
-    
-
-
+    for(int p=0;p<section3data.length;p++){
+   formdata2columns +=""+section3data[p]+",";
+   formdata2values += "?,";
 
 }
 
+//___________________________________________Session atendance____________________________________________________
 
-
-//Participant details____________________________________________________
-for(int a=0;a<totalrows;a++){
-
- String firstname ="";
- String middlename ="";
- String lastname ="";
- String age ="";
- String sex ="";
-
- 
-if(request.getParameter("firstname1")!=null) {firstname=request.getParameter("firstname1"); }
-if(request.getParameter("middlename1")!=null) {middlename=request.getParameter("middlename1"); }
-if(request.getParameter("lastname1")!=null) {lastname=request.getParameter("lastname1"); }
-if(request.getParameter("age1")!=null) {age=request.getParameter("age1"); }
-if(request.getParameter("sex1")!=null) {sex=request.getParameter("sex1"); }
+   for(int x=0;x<lessons;x++){
+    
+ count=1;
+   
+//   if(x==lessons-1){
+//   formdata2columns +="s"+(x+1)+ "";
+//   formdata2values += "?";
+//   
+//   }
+   if(1==1) {
+     formdata2columns +="s"+(x+1)+ ",";
+   formdata2values += "?,"; 
+   }
+   
+ }
+   
+   formdata2insert+=formdata2columns+formdata2values+") ";
+   
+   formdata2insert=formdata2insert.replace("?,)", "?)");
+formdata2insert=formdata2insert.replace(",)", ")");
+   
+   
+conn.pst1=conn.conn.prepareStatement(formdata2insert);     
+   
+   //___________________values in section 2_____________________________
+   
+   for(int p=0;p<section3.length;p++){
+    
+  String vals="";
+  //getgroupid
+  if(section3[p].equals("group") || section3[p].equals("enddate") || section3[p].equals("formid")|| section3[p].equals("lessons")){
+  if (request.getParameter(section3[p]) != null)
+    {
+    vals = request.getParameter(section3[p]);
+    conn.pst1.setString(count,""+vals);
+    count++;
+    }
+   }
+  
+  else {
+     if (request.getParameter(section3[p]+""+(a+1)) != null)
+    {
+    vals = request.getParameter(section3[p]+(a+1));
+    conn.pst1.setString(count,""+vals);
+    count++;
+    }
+  }
    
 }
-
-
-//___________________________________________Session details____________________________________________________
-for(int a=0;a<lessons;a++){
-    
-for(int b=0;b<totalrows;b++){
+   for(int p=0;p<lessons;p++){
+       
+   String vals="";
  
-    String attendance ="";
- 
-if(request.getParameter("s"+a+"_"+b)!=null) { attendance=request.getParameter("s"+a+"_"+b);     }
+    if (request.getParameter("s"+(a+1)+"_"+(p+1)) != null)
+    {
+        
+    vals = request.getParameter("s"+(a+1)+"_"+(p+1));
+    conn.pst1.setString(count,""+vals);
+        System.out.println("conn.pst1.setString("+count+","+vals+");");
+    count++;
+    }
+   
 
 }
+   
+   System.out.println(""+conn.pst1.toString());
+conn.pst1.executeUpdate();   
+
+}//end of total rows string
+
+
+
+
+
+//know the name of the last group
+String returnnmsg="";
+String groupname=getGroupName(groupid, conn);
+            System.out.println(" Group Name"+groupname+" Group Id"+groupid);
+if(!groupname.equals("")){
+returnnmsg="<font color=\'green\'><b>Last saved group name is "+groupname+"</b></font>";
+
 }
 
 
+session.setAttribute("msg", returnnmsg);
 
+out.println(returnnmsg);
 
-String Inserttable=" insert into hc_participants () values ()";
-      
-      
-      
-     String variablesform[]={"formid","partner","subcounty","targetpop","curriculum","group","lessons","facilitator","cofacilitator","startdate","enddate","agegroup"};       
-            
-     String table1="hc_formdata_1";     
-            
-     ArrayList sessiondetails= new ArrayList();
-     
-     ArrayList participanttable= new ArrayList();
+   if(conn.rs!=null){conn.rs.close();}
+   if(conn.rs1!=null){conn.rs1.close();}
+   if(conn.st!=null){conn.st.close();}
+   if(conn.st1!=null){conn.st1.close();}
+   if(conn.pst1!=null){conn.pst1.close();}
+      if(conn.conn!=null){conn.conn.close();}
+   
     
-    
-            out.println("</html>");
+           
         } finally {
             out.close();
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(getForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(getForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
+    public String getGroupName(String groupid, dbConn conn) throws SQLException{
+        String groupname="";
+    String qry=" Select group_name from hc_groups where group_id ='"+groupid+"'";
+    conn.rs=conn.st.executeQuery(qry);
+    while(conn.rs.next()){
+     groupname=conn.rs.getString(1);
+    
+    }
+    
+    
+    return groupname;
+    }
+    
+    
 }

@@ -131,7 +131,7 @@ public String Facilitator(dbConn conn, String groupid, String curselect) throws 
             }
             
            
-            
+          if(data.equals("<option value=''>Select Facilitator</option>")){data="<option value=''>add Facilitator by clicking add Facilitator button above</option>";}  
 
 return data;
 

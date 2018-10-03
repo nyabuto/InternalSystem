@@ -169,6 +169,12 @@
                                         <div class="form-actions">
                                             <!--<button type="submit" class="btn blue">Go to Form</button>-->
                                             <!--                              <button type="button" class="btn">Cancel</button>-->
+                                            <div id="ujumbe">
+                                                
+                                                <%if(session.getAttribute("msg")!=null){out.println(session.getAttribute("msg"));}%>
+                                                
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <!-- END FORM-->           
@@ -495,7 +501,8 @@
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
-                        $("#rootwizard").html(data);
+                        $("#rootwizard").html("<form id='pprevform'>"+data+"</form>");
+                       // $("#rootwizard").html(data);
 
 
 
@@ -525,7 +532,7 @@
                             },
                             onNext: function(tab, navigation, index) {
                                 
-			if(index===5) {
+			if(index===1) {
 				// Make sure we entered the name
 				if($('#partner').val()==="") {
 					alert('Select partner');
@@ -771,7 +778,20 @@
         });
                         
                         $('#rootwizard .finish').click(function () {
-                            alert('Finished!, Starting over!');
+                            var dat= $("#pprevform").serialize();
+                             
+                             $.ajax({
+                    url: 'getForm?' + dat,
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+
+                      
+                        $("#ujumbe").html(data);
+                       
+location.reload();
+                    }
+                });
 
                         });
 
@@ -1385,6 +1405,18 @@ $("#groupsform").submit(function(e){
 $("#facilitatorform").submit(function(e){
     return false;
 });
+
+
+
+
+//listen to enter click
+
+$(document).keypress(function(e) {
+    if(e.which === 13 && $("#firstname1").is(":visible") ) {
+        $("#ongezarow").click();
+    }
+});
+
 
 
         </script>

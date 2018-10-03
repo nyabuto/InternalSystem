@@ -86,7 +86,7 @@ public class getSessions extends HttpServlet {
             
             
              
-             String completedata=table+sessiondetails+"</tr></thead>"+topics+"</tr>"+methods+"</tr>"+sessiondate+"</tr>"+time+"</tr>"+malecondoms+"</tr>"+femalecondoms+"</tr></tbody></table>";
+ String completedata=table+sessiondetails+"</tr></thead>"+topics+"</tr>"+methods+"</tr>"+sessiondate+"</tr>"+time+"</tr>"+malecondoms+"</tr>"+femalecondoms+"</tr></tbody></table>";
             out.println(completedata);
          if(conn.rs!=null){conn.rs.close(); }   
          if(conn.st!=null){conn.st.close();  }   

@@ -173,8 +173,8 @@ public class loadwizard extends HttpServlet {
                     + " </td>"
                     
                     
-                    + "<td class='span3'>"
-                 + " <input value='"+gp.RandomNo(1000, 9000)+"'   class='span12 ' required    id='formid' name='formid'>"
+                    + " <td class='span3'> "
+                 + " <input value='"+gp.RandomNo(1000, 9000)+"'   class='span12 ' required    id='formid' name='formid'>  <input type='hidden' value='"+gp.RandomNo(10050, 90000)+"'   class='span12 ' required    id='id' name='id'>"
                    
                     + " </td>"
                     

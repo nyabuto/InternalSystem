@@ -32,13 +32,7 @@ public class saveFacilitator extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             dbConn conn = new dbConn();
             
-            //"subcounty="+subcounty+"&ward="+ward+"&partner="+partnername+"&population="+targetpopname+"&group"+groupnam
-            //"fname
-            //mname
-            //sname
-            //phone
-            //subcounty
-            //group
+           
             
             String fname=request.getParameter("fname").trim();
             String mname=request.getParameter("mname").trim();
