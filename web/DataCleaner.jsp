@@ -151,6 +151,7 @@ tr>td {
                            
                         <p>1. All the excel files are in <b>.xlsx</b> format</p>
                         <p>2. All data in these files has borders. Data without borders will not be read into the system</p>
+                        <p>3. For <b>TB</b> Data, delete patient names column.</p>
                            <br>  
                           <table>
                               <tr> <td><b>Report Type</b> </td><td><select name="report_type" id="report_type" value="" class="textbox" required>

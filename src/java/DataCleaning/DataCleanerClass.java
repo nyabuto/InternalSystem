@@ -37,8 +37,8 @@ public class DataCleanerClass {
         XSSFSheet worksheet;
         int col_error = 59;
         int date_format=0,unsupported_site=0;
-        XSSFSheet errorSheet = null;
-        XSSFSheet cleanSheet = null;
+//        XSSFSheet errorSheet = null;
+//        XSSFSheet cleanSheet = null;
         //*Blank Sex (M)(12) --12
         //*Age (N)(13) above 100 ysrs and below 0--13 
         //*HIV Status (AT)(45) is Neg or POs and  HIV Test Date is Blank (AS)(44)
@@ -51,18 +51,18 @@ public class DataCleanerClass {
     
         worksheet = tb.getSheetAt(0);
         Iterator rowIterator = worksheet.iterator();
-        if(tb.getSheet("Clean Data")!=null){
-        errorSheet = tb.getSheet("Clean Data");
-        }
-        else{
-        errorSheet = tb.createSheet("Clean Data");    
-        }
-        if(tb.getSheet("TB Errors")!=null){
-        cleanSheet = tb.getSheet("TB Errors");
-        }
-        else{
-        cleanSheet = tb.createSheet("TB Errors");    
-        }
+//        if(tb.getSheet("Clean Data")!=null){
+//        errorSheet = tb.getSheet("Clean Data");
+//        }
+//        else{
+//        errorSheet = tb.createSheet("Clean Data");    
+//        }
+//        if(tb.getSheet("TB Errors")!=null){
+//        cleanSheet = tb.getSheet("TB Errors");
+//        }
+//        else{
+//        cleanSheet = tb.createSheet("TB Errors");    
+//        }
         
         int i=1,j=0,y=0;
         
@@ -70,8 +70,8 @@ public class DataCleanerClass {
         XSSFCell cellh = rowhead.createCell(col_error);
         cellh.setCellValue("Errors");
         
-       copyRow(tb,rowhead,cleanSheet,0);
-       copyRow(tb,rowhead,errorSheet,0);
+//       copyRow(tb,rowhead,cleanSheet,0);
+//       copyRow(tb,rowhead,errorSheet,0);
 
         while(rowIterator.hasNext()){
           errors=where=sex=age=hiv_status=hiv_test_date=art_status=art_start_date=treatment_date=area=health_facility=date_started_treatment=date_of_registration=""; 
@@ -1638,8 +1638,12 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
              XSSFCell anotherCell = anotherRow.getCell(31);
              String errrs = "";
-                if(anotherCell.getStringCellValue()!=null){
+                if(anotherCell!=null){
                     errrs = anotherCell.getStringCellValue();
+                }
+                else{
+                   anotherCell = anotherRow.createCell(31); 
+                    System.out.println("Another cell is null ::"+conn.rs.getInt("num")+":: row");
                 }
              
              errrs+="Duplicated Record [Check Record Row Number "+(i+1)+"]\n";
@@ -1674,34 +1678,44 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
             conn.rs1 = conn.pst.executeQuery();
             if(conn.rs1.next()){
                 int issue_grouped=0;
-                if(isNumeric(Age_Months) || ageInMonths<=0){
+                if((isNumeric(Age_Months) && !Age_Months.equals("")) || ageInMonths<=0){
+                    double entered_age = -1;
+                    if((isNumeric(Age_Months) && !Age_Months.equals(""))){
+                            entered_age=Double.parseDouble(Age_Months);
+                    }
+                    System.out.println("2. Age in months is --"+Age_Months+"--");
 //                    errors+="The record previously exist.\n";
-                   if(Double.parseDouble(Age_Months)<6 || ageInMonths<6) {   
+                   if((entered_age<6 && entered_age>=0) || ageInMonths<6) {   
                        errors+="Similar record exist in previous data. However, based on age, this is an initial PCR.\n";
                        issue_grouped++;
+//                        CellPCR_Type.setCellStyle(borderstyle);
                    }
-                   if((Double.parseDouble(Age_Months)>=6 && Double.parseDouble(Age_Months)<12) || (ageInMonths>=6 && ageInMonths<12)) {
+                   if((entered_age>=6 && Double.parseDouble(Age_Months)<12) || (ageInMonths>=6 && ageInMonths<12)) {
                            CellPCR_Type.setCellValue("2nd PCR (6 months)"); 
                            errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist.\n";
                            issue_grouped++;
+                            CellPCR_Type.setCellStyle(redstyle);
                    }
-                   if(Double.parseDouble(Age_Months)>=12 || ageInMonths>=12) {
+                   if(entered_age>=12 || ageInMonths>=12) {
                            CellPCR_Type.setCellValue("3rd PCR (12 months)");   
                        errors+="Updated PCR Type to 3rd PCR (12 months) because the record previously exist.\n";
                        issue_grouped++;
+                        CellPCR_Type.setCellStyle(redstyle);
                    }
                    
                    if(issue_grouped==0){
                  CellPCR_Type.setCellValue("2nd PCR (6 months)");  
-                 errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist. However, age of the child could not be correctly determined. \n";  
+                 errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist. However, age of the child could not be correctly determined. \n"; 
+                  CellPCR_Type.setCellStyle(redstyle);
                    }
 
                 }
                 else{
                  CellPCR_Type.setCellValue("2nd PCR (6 months)");  
                  errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist. Age is not numeric. \n";
+                  CellPCR_Type.setCellStyle(redstyle);
                 }
-            CellPCR_Type.setCellStyle(redstyle);
+           
         }
       }
         
@@ -1716,8 +1730,12 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              // has initial in the previous data set   
             }
             else if(has_initial==0){ // has no initial records in the current dataset
-                if(isNumeric(Age_Months)){
-                   if(Double.parseDouble(Age_Months)<5 && ageInMonths<6) {
+                if(isNumeric(Age_Months) && !Age_Months.equals("")){
+                    double entered_age = -1;
+                    if((isNumeric(Age_Months) && !Age_Months.equals(""))){
+                            entered_age=Double.parseDouble(Age_Months);
+                    }
+                   if(entered_age<5 && entered_age>=0 && ageInMonths<6) {
                        errors+="This should be an initial PCR. No Initial records found in dataset\n";
                    }
                    else{
@@ -3278,10 +3296,15 @@ public HSSFSheet copyRow(HSSFWorkbook wb, HSSFRow rowold,HSSFSheet toSheet, int 
         
    if(isNumeric(Age_Months)){agebracket=getageBracket(Double.parseDouble(Age_Months));}   
    id=system_id+"_"+samplecode+"_"+date_tested;    
-   
+   if(!date_tested.equalsIgnoreCase("")){
    String[] datesvalues = getperiod(date_tested,conn);
     year = datesvalues[0];
     quarter = datesvalues[1];
+   }
+   else{
+    year = "";
+    quarter = "";     
+   }
 //    quartername = datesvalues[2];
         SubPartnerID=getSubPartnerID(conn,mfl_code); 
     query_update +="year='"+year+"',quarter='"+quarter+"',SubPartnerID='"+SubPartnerID+"' WHERE id='"+id+"'";

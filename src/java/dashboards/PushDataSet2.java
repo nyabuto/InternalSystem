@@ -1875,7 +1875,7 @@ splitData--;
                 "LEFT JOIN "+facilitiestable+" ON eid_raw_pos.SubPartnerID="+facilitiestable+".SubPartnerID " +
                 "LEFT JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID " +
                 "LEFT JOIN county ON district.CountyID=county.CountyID " +
-                " WHERE  testingdate BETWEEN '"+startdate+"' AND '"+enddate+"' and "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && (`validation` !='A') && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID,yearmonth " +
+                " WHERE  testingdate BETWEEN '"+startdate+"' AND '"+enddate+"' and "+facilitiestable+".PMTCT=1 && PCR_Type like '%initial PCR%' && "+facilitiestable+".active=1 GROUP BY eid_raw_pos.SubPartnerID,yearmonth " +
                 "   UNION ALL           " +
                 "SELECT "+facilitiestable+".SubPartnerNom AS facility,district.DistrictNom AS sub_county,county.County AS county,"+
                 ""+facilitiestable+".CentreSanteId AS mfl_code,IFNULL(PMTCT_Support,0) AS PMTCT_Support,IFNULL(ART_highvolume,0) AS arthv, IFNULL(HTC_highvolume,0) AS htchv,IFNULL(PMTCT_highvolume,0) AS pmtcthv,"+
