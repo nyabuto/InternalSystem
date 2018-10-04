@@ -150,7 +150,7 @@ public class loadwizard extends HttpServlet {
                     + ""
                     + "</td>"
                     + "<td class='span3'>"
-                    + " <input  class='span12 tarehe' required type='text' readonly    id='startdate' name='startdate'>"
+                    + " <input  class='span12 tarehe' required type='text' readonly onchange='validatesessiondate();'    id='startdate' name='startdate'>"
                    
                     + " </td>"
                    
@@ -158,7 +158,7 @@ public class loadwizard extends HttpServlet {
                     + "<label> <b>End date<font color='red'><b>*</b></font></b></label>"
                     + " </td>"
                     + "<td class='span3'>"
-                  + " <input  class='span12 tarehe' required type='text' readonly    id='enddate' name='enddate'>"
+                  + " <input  class='span12 tarehe' required type='text' readonly onchange='setYearMonth();validatesessiondate();'    id='enddate' name='enddate'>"
                     
                     + " </td>"
                     
@@ -187,7 +187,8 @@ public class loadwizard extends HttpServlet {
                     
                     
                     + " <td class='span3'> "
-                 + " <input value='"+gp.RandomNo(10000, 90000)+"'   class='span12 ' required    id='formid' name='formid'>  <input type='hidden' value='"+gp.RandomNo(10050, 90000)+"'   class='span12 ' required    id='id' name='id'>"
+                 + " <input readonly value='"+gp.RandomNo(10000, 90000)+"'   class='span12 ' required    id='formid' name='formid'>  <input type='hidden' value='"+gp.RandomNo(10050, 90000)+"'   class='span12 ' required    id='id' name='id'>"
+                    + "<input type='hidden' value=''   class='span12'    id='yearmonth' name='yearmonth'>"
                    
                     + " </td>"
                     

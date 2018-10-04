@@ -77,7 +77,7 @@ public class getSessions extends HttpServlet {
              sessiondetails+="<th><b>S"+a+"</th>";
              topics+="<td><select   class='span12 topic' required    id='topics"+a+"' name='topics"+a+"'>"+gt.Topics(conn, curriculumid, "")+"</select></td>";
              methods+="<td><select multiple='true' style='height:200px;'  class='span12 method' required    id='methods"+a+"' name='methods"+a+"'>"+gm.methods(conn, "")+"</select></td>";
-             sessiondate+="<td> <input  class='span12 tarehe sessiondate' required type='text' readonly    id='sessiondate"+a+"' name='sessiondate"+a+"'> </td>";
+             sessiondate+="<td> <input  class='span12 tarehe1 sessiondate' required type='text' readonly    id='sessiondate"+a+"' name='sessiondate"+a+"'> </td>";
              time+="<td> <input onkeypress='return numbers(event);'  class='span12 time' required type='text'     id='time"+a+"' name='time"+a+"'></td>";
              malecondoms+="<td> <input onkeypress='return numbers(event);'  class='span12 malecondom' required type='text'     id='malecondom"+a+"' name='malecondom"+a+"'> </td>";
              femalecondoms+="<td> <input onkeypress='return numbers(event);'  class='span12 femalecondom' required type='text'     id='femalecondom"+a+"' name='femalecondom"+a+"'></td>";

@@ -1025,6 +1025,10 @@
         <servlet-name>getForm</servlet-name>
         <servlet-class>ppprev.getForm</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>editForm</servlet-name>
+        <servlet-class>ppprev.editForm</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2048,6 +2052,10 @@
     <servlet-mapping>
         <servlet-name>getForm</servlet-name>
         <url-pattern>/getForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editForm</servlet-name>
+        <url-pattern>/editForm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

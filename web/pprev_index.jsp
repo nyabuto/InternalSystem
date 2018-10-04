@@ -29,7 +29,8 @@
         <link href="assets/css/style_default.css" rel="stylesheet" id="style_color" />
 
         <link rel="stylesheet" type="text/css" href="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-datepicker.min.css" />
+        <!--<link rel="stylesheet" type="text/css" href="css/bootstrap-datepicker.min.css" />-->
+        <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker_1.css" />
 
 
         <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
@@ -452,7 +453,8 @@
         <script src="assets/bootstrap-wizard/jquery.bootstrap.wizard.js"></script>
         <script src="assets/bootstrap-wizard/prettify.js"></script>
 
-        <script src="js/bootstrap-datepicker.min.js"></script>
+        <!--<script src="js/bootstrap-datepicker.min.js"></script>-->
+        <script src="assets/bootstrap-datepicker/js/datepicker.js"></script>
  <script src="select2/js/select2.js"></script>
         <script src="assets/js/app.js"></script>     
         <script>
@@ -778,10 +780,12 @@ location.reload();
                         });
 
                         $('.tarehe').datepicker({
-                            todayHighlight: true, clearBtn: true, autoclose: true, format: "yyyy-mm-dd",endDate: "now()"
+                            todayHighlight: true, clearBtn: true, autoHide: true, format: "yyyy-mm-dd",endDate: "now()"
                         });
 
-
+$('.tarehe1').datepicker({
+                            todayHighlight: true, clearBtn: true, autoHide: true, format: "yyyy-mm-dd",endDate: "now()"
+                        });
 
 
 
@@ -905,9 +909,9 @@ setParticipants();
         var newRow = $("<tr id='tablerow"+counter+"'>");
         var cols = "<td class= 'col-sm-1 '>"+counter+"<input value='<%=gp.RandomNo(1000, 90000)%>' type='hidden' id='id"+counter+"' name= 'id"+counter+"'  /></td>";
         
-         cols += "<td class= 'col-sm-2 '><input onblur='appendnames(\""+counter+"\");' type= 'text' id='firstname"+counter+"' name= 'firstname"+counter+"' class= 'form-control' /></td>"
-         cols += "<td class= 'col-sm-2 '><input onblur='appendnames(\""+counter+"\");' placeholder='optional' type= 'text' id='middlename"+counter+"' name='middlename"+counter+"' class= 'form-control' /></td>"
-         cols += "<td class= 'col-sm-2 '><input onblur='appendnames(\""+counter+"\");' type= 'text' id='lastname"+counter+"' name='lastname"+counter+"' class= 'form-control' /></td>"
+         cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' type= 'text' id='firstname"+counter+"' name= 'firstname"+counter+"' class= 'form-control' /></td>"
+         cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' placeholder='optional' type= 'text' id='middlename"+counter+"' name='middlename"+counter+"' class= 'form-control' /></td>"
+         cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' type= 'text' id='lastname"+counter+"' name='lastname"+counter+"' class= 'form-control' /></td>"
          cols += "<td class= 'col-sm-2 '><input onkeypress='return numbers(event);' maxlength='2' type= 'text' id='age"+counter+"' name='age"+counter+"' class= 'form-control' /></td>"
          cols += "<td class= 'col-sm-2 '><select  id='sex"+counter+"' name='sex"+counter+"' class= 'form-control' ><%=gp.getGender("")%></select></td>"
          cols += "<td><input onclick='deleterow(\"tablerow"+counter+"\",\"tableregrow"+counter+"\");' type='button' class='ibtnDel btn btn-md btn-danger' value='Delete'></td>";
@@ -1127,9 +1131,9 @@ $("#cofacilitator").select2();
 
                       
                         $("#sessiondetails").html(data);
-                   $('.tarehe').datepicker({
-                            todayHighlight: true, clearBtn: true, autoclose: true, format: "yyyy-mm-dd"
-                        });
+                   
+                        
+                        validatesessiondate();
 
                     }
                 });
@@ -1439,6 +1443,42 @@ $(document).keypress(function(e) {
 });
 
 
+
+function setYearMonth(){
+    
+    var ym=$("#enddate").val();
+    
+    ym=ym.replace("-","");
+    ym=ym.substring(0,6);
+ $("#yearmonth").val(ym)   
+    
+    
+    
+    
+}
+
+function validatesessiondate(){
+    var mindate=$("#startdate").val();
+    var maxdate=$("#enddate").val();
+    
+    console.log("Startdate"+mindate+"  and maxdate "+maxdate);
+    
+    if(mindate!=="" && maxdate!==""){
+        console.log("Tuko hapa ");
+    $('.tarehe1').datepicker('destroy');
+    
+    $('.tarehe1').datepicker({
+                            todayHighlight: false, clearBtn: true, autoHide: true, format: "yyyy-mm-dd",endDate: maxdate,startDate:mindate
+                        });
+                    }
+                    else {
+                        $('.tarehe1').datepicker({
+                            todayHighlight: true, clearBtn: true, autoHide: true, format: "yyyy-mm-dd"
+                        });
+                        
+                    }
+    
+}
 
         </script>
         <!-- END JAVASCRIPTS -->   
