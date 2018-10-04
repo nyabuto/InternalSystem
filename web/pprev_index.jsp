@@ -38,6 +38,10 @@
 
         <link href="assets/bootstrap-wizard/prettify.css" rel="stylesheet">
 
+         <link rel="stylesheet" href="select2/css/select2.css"/>
+         
+         
+        
     </head>
     <!-- END HEAD -->
     <!-- BEGIN BODY -->
@@ -224,7 +228,7 @@
                       <div class="control-group" >
                                     <label>Sub county</label>
                                     <div class="controls" >
-                                        <select onchange='getWard();'   name="subcountyname" id="subcountyname" style="width:100%;" class="form-control">
+                                        <select onchange='getWard("subcountyname");'   name="subcountyname" id="subcountyname" style="width:100%;" class="form-control">
                                            
                                              <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
                                        
@@ -353,7 +357,7 @@
                     <div class="control-group" >
                                     <label>Sub County</label>
                                     <div class="controls" >
-                                        <select onchange='getGroup("subcountynamed");'  name="subcountynamed" id="subcountynamed" style="width:100%;" class="form-control">
+                                        <select onchange='getGroup("ward");'  name="subcountynamed" id="subcountynamed" style="width:100%;" class="form-control">
                                            
                                              <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
                                        
@@ -449,7 +453,7 @@
         <script src="assets/bootstrap-wizard/prettify.js"></script>
 
         <script src="js/bootstrap-datepicker.min.js"></script>
-
+ <script src="select2/js/select2.js"></script>
         <script src="assets/js/app.js"></script>     
         <script>
 
@@ -462,35 +466,7 @@
 
 
 
-                $.ajax({
-                    url: 'getPartner',
-                    type: 'post',
-                    dataType: 'html',
-                    success: function (data) {
-                        $("#partner").html(data);
-                        $("#partnername").html(data);
-                        $("#partnernamed").html(data);
-                        App.init();
-                    }
-                });
-
-
-
-
-                $.ajax({
-                    url: 'getSubcounty?county=8',
-                    type: 'post',
-                    dataType: 'html',
-                    success: function (data) {
-                        $("#subcounty").html(data);
-                        $("#subcountyname").html(data);
-                        $("#subcountynamed").html(data);
-
-
-                    }
-                });
-
-
+               
 
 
 
@@ -532,7 +508,7 @@
                             },
                             onNext: function(tab, navigation, index) {
                                 
-			if(index===1) {
+			if(index===5) {
 				// Make sure we entered the name
 				if($('#partner').val()==="") {
 					alert('Select partner');
@@ -544,6 +520,12 @@
                                 else if($('#subcounty').val()==="") {
 					alert('Select sub-county');
 					$('#subcounty').focus();
+					return false;
+				}
+                                
+                                 else if($('#wardid').val()==="") {
+					alert('Select Ward');
+					$('#wardid').focus();
 					return false;
 				}
                                 
@@ -637,7 +619,7 @@
                                         break;
                     }
                                   
-                    else if($('#methods'+a).val()===""){
+                    else if($('#methods'+a).val()==="" || $('#methods'+a).val()===null){
                                 
                                 alert('Select method(s) used for training');
 				$('#methods'+a).focus();
@@ -834,6 +816,35 @@ location.reload();
                     }
                 });
 
+ $.ajax({
+                    url: 'getPartner',
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+                        $("#partner").html(data);
+                        $("#partnername").html(data);
+                        $("#partnernamed").html(data);
+                        getPopulation();
+                        App.init();
+                    }
+                });
+
+
+
+
+                $.ajax({
+                    url: 'getSubcounty?county=8',
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+                        $("#subcounty").html(data);
+                        $("#subcountyname").html(data);
+                        $("#subcountynamed").html(data);
+
+
+                    }
+                });
+
 
 
                 $('.tarehe').datepicker({
@@ -991,16 +1002,16 @@ setParticipants();
 
             function getGroup(id ) {
 
-                var subcountyid = "";
-                var subcounty = $("#"+id).val();
+                var wardid = "";
+                var ward = $("#"+id).val();
 
-                if (subcounty !== '' && subcounty !== null) {
-                    subcountyid = "subcounty=" + subcounty;
+                if (ward !== '' && ward !== null) {
+                    wardid = "ward=" + ward;
                 }
 
 
                 $.ajax({
-                    url: 'getGroup?' + subcountyid,
+                    url: 'getGroup?' + wardid,
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
@@ -1043,16 +1054,21 @@ setParticipants();
                         $("#facilitator").html(data);
                         $("#cofacilitator").html(data);
 
+$("#facilitator").select2();
+$("#cofacilitator").select2();
+
+
                     }
                 });
             }
 
 
 
-    function getWard() {
+    function getWard(id) {
 
                 var subcountyid = "";
-                var subcounty = $("#subcountyname").val();
+               // var subcounty = $("#subcountyname").val();
+                var subcounty = $("#"+id).val();
 
                 if (subcounty !== '' && subcounty !== null) {
                     subcountyid = "subcounty=" + subcounty;
@@ -1064,7 +1080,12 @@ setParticipants();
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
-                        $("#ward").html(data);
+                        if(id==='subcounty'){ $("#wardid").html(data); }
+                        else {
+                           $("#ward").html(data);  
+                            
+                        }
+                        
 
                     }
                 });
@@ -1291,7 +1312,7 @@ function saveGroup(){
   $("#targetpopname").val("");
   $("#groupname").val("");
                         
-               getGroup("subcounty");         
+               getGroup("ward");         
 
                     }
                 });  

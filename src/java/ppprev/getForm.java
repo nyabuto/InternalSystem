@@ -156,8 +156,8 @@ count=1;
 
  //______________________________save wizard page 3 onwards___________________________________
  
- String section3[]={"lessons","formid","enddate","group","id","firstname","middlename","lastname","age","sex"};
- String section3data[]={"expectedsessions","formid","enddate","group_id","id","fname","mname","sname","age","sex"};
+ String section3[]={"wardid","lessons","formid","enddate","group","id","firstname","middlename","lastname","age","sex"};
+ String section3data[]={"wardid","expectedsessions","formid","enddate","group_id","id","fname","mname","sname","age","sex"};
 //Participant details____________________________________________________
 
 
@@ -206,7 +206,7 @@ conn.pst1=conn.conn.prepareStatement(formdata2insert);
     
   String vals="";
   //getgroupid
-  if(section3[p].equals("group") || section3[p].equals("enddate") || section3[p].equals("formid")|| section3[p].equals("lessons")){
+  if(section3[p].equals("wardid") || section3[p].equals("group") || section3[p].equals("enddate") || section3[p].equals("formid")|| section3[p].equals("lessons")){
   if (request.getParameter(section3[p]) != null)
     {
     vals = request.getParameter(section3[p]);
