@@ -34,7 +34,7 @@ public class getPartner extends HttpServlet {
             dbConn conn = new dbConn();
             
             
-            out.println(Partner(conn, ""));
+            out.println(Partner(conn, "10"));
             
             
          if(conn.rs!=null){conn.rs.close(); }   

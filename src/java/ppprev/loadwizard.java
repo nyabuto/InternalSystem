@@ -48,15 +48,30 @@ public class loadwizard extends HttpServlet {
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
+                    
+                    
                    
                     +" <td class='span2'>"
                     + " <label><b>Sub-county</b><font color='red'><b>*</b></font></label>"
                     + " </td>"
                     + "<td class='span3'>"
-                    + " <select  onchange='getGroup(\"subcounty\");'  class='span12' required    id='subcounty' name='subcounty'>"
+                    + " <select onchange='getWard(\"subcounty\");'    class='span12' required    id='subcounty' name='subcounty'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
+                    
+                     +" <td class='span2'> "
+                    + "<label><b> Ward </b><font color='red'><b>*</b></font></label>"
+                    + ""
+                    + "</td>"
+                    + "<td class='span3'>"
+                    + " <select onchange='getGroup(\"wardid\");';  class='span12' required    id='wardid' name='wardid'>"
+                    + " <option value=''></option>"
+                    + " </select>"
+                    + " </td>"
+                    
+                    
+                    
                     + "</tr>"
                     //--------------end of a row ------
                     
@@ -81,12 +96,7 @@ public class loadwizard extends HttpServlet {
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
-                    + "</tr>"
-                    //--------------end of a row ------
-                    
-                    
-                     //--------------start of a row ------
-                    + "<tr>"
+                   
                     +" <td class='span2'> "
                     + " <label><b>Name of group</b><font color='red'><b>*</b></font> </label>"
                     + " "
@@ -97,7 +107,12 @@ public class loadwizard extends HttpServlet {
                     + " </select>"
                     + ""
                     + " </td>"
-                   
+                    + "</tr>"
+                    //--------------end of a row ------
+                    
+                    
+                     //--------------start of a row ------
+                    + "<tr>"
                     +" <td class='span2'>"
                     + "<label> <b>Expected number of sessions<font color='red'><b>*</b></font></b></label>"
                     + " </td>"
@@ -105,14 +120,7 @@ public class loadwizard extends HttpServlet {
                     + " <input readonly   class='span12 ' required  type='text'  id='lessons' name='lessons'>"
                     
                     + " </td>"
-                    + "</tr>"
-                    //--------------end of a row ------
                     
-                    
-                    
-                    
-                     //--------------start of a row ------
-                    + "<tr>"
                     +" <td class='span2'> "
                     + " <label><b>Name of facilitator/Peer Educator</b><font color='red'><b>*</b></font></label>"
                     + ""
@@ -154,8 +162,7 @@ public class loadwizard extends HttpServlet {
                     
                     + " </td>"
                     
-                    + "</tr>"
-                       + "<tr>"
+                   
                     +"<td class='span2'>"
                     + "<label> <b>Age group<font color='red'><b>*</b></font></b></label>"
                     + " </td>"
@@ -167,6 +174,12 @@ public class loadwizard extends HttpServlet {
                     + " </select>"
                     + " </td>"
                     
+                     + "</tr>"
+                    //-
+                    
+                      
+                     //--------------start of a row ------
+                    + "<tr>"
                     
                        +"<td class='span2'>"
                     + "<label> <b>Form Id<font color='red'><b>*</b></font></b></label>"
@@ -174,7 +187,7 @@ public class loadwizard extends HttpServlet {
                     
                     
                     + " <td class='span3'> "
-                 + " <input value='"+gp.RandomNo(1000, 9000)+"'   class='span12 ' required    id='formid' name='formid'>  <input type='hidden' value='"+gp.RandomNo(10050, 90000)+"'   class='span12 ' required    id='id' name='id'>"
+                 + " <input value='"+gp.RandomNo(10000, 90000)+"'   class='span12 ' required    id='formid' name='formid'>  <input type='hidden' value='"+gp.RandomNo(10050, 90000)+"'   class='span12 ' required    id='id' name='id'>"
                    
                     + " </td>"
                     

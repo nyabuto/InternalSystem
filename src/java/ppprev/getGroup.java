@@ -29,20 +29,20 @@ public class getGroup extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-          String subcountyid="";
+          String wardid="";
           
             dbConn conn = new dbConn();
           
-          if(request.getParameter("subcounty")!=null){
+          if(request.getParameter("ward")!=null){
            
-          subcountyid=request.getParameter("subcounty");
+          wardid=request.getParameter("ward");
            }
           
           
            
             
             
-            out.println(Group(conn, subcountyid, ""));
+            out.println(Group(conn, wardid, ""));
          if(conn.rs!=null){conn.rs.close(); }   
          if(conn.st!=null){conn.st.close();  }   
          if(conn.conn!=null){conn.conn.close();  }
@@ -94,16 +94,16 @@ public class getGroup extends HttpServlet {
     }// </editor-fold>
 
 
-public String Group(dbConn conn, String subcountyid, String curselect) throws SQLException{
+public String Group(dbConn conn, String wardid, String curselect) throws SQLException{
 
     
      String wherestring="";
            
            
-           if(!subcountyid.equals(""))
+           if(!wardid.equals(""))
            {
            wherestring=" where 1=1 ";
-           wherestring+=" and district_id='"+subcountyid+"' ";
+           wherestring+=" and wardid='"+wardid+"' ";
            }
            
            
