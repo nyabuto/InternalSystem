@@ -38,10 +38,26 @@
         <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 
         <link href="assets/bootstrap-wizard/prettify.css" rel="stylesheet">
-
+        
          <link rel="stylesheet" href="select2/css/select2.css"/>
          
-         
+<style type='text/css'>
+input:focus {
+    border-color: red;
+    }
+    .control-group .select2-container {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+  display: table;
+  table-layout: fixed;
+}
+
+
+
+</style>  
         
     </head>
     <!-- END HEAD -->
@@ -129,7 +145,7 @@
                             <ul class="breadcrumb">
                                 <li>
                                     <i class="icon-check"></i>
-                                    <font color="#4b8df8">PP PREV Group Attendance Register</font>
+                                    <font color="#4b8df8">PP PREV 1 Group Attendance Register</font>
 
                                 </li>
 
@@ -143,7 +159,8 @@
                             <!-- BEGIN SAMPLE FORM PORTLET-->   
                             <div class="portlet box blue">
                                 <div class="portlet-title">
-                                    <h4><i class="icon-reorder"></i>  <a style='margin-left: 100px;'  class='btn btn-default'  data-toggle='modal' href='#addgroup'><i class='icon-plus'></i>Add Group</a>     <a class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#addfacilitator'><i class='icon-plus'></i>Add Facilitator</a></h4>
+                                    <h4><i class="icon-reorder"></i>  <a style='margin-left: 100px;' onclick="setGroupDefaults();"  class='btn btn-default'  data-toggle='modal' href='#addgroup'><i class='icon-plus'></i>Add Group</a>     <a onclick='setFacilitatorDefaults();' class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#addfacilitator'><i class='icon-plus'></i>Add Facilitator</a>
+                                    <a  class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#editattendance'><i class='icon-plus'></i>Edit Attendance</a></h4>
                                     <div class="tools">
                                         <a href="javascript:;" class="collapse"></a>
                                         <a href="#portlet-config" data-toggle="modal" class="config"></a>
@@ -195,11 +212,11 @@
                     </div>
 
 
-<div class="modal" id="addgroup">
-    <div class="modal-dialog">
+<div class="modal fade" id="addgroup" role="dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button"  class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button"  class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title" style='text-align: center;'><span id='addgroupmsg' style='text-align: right;'></span></h4>
             </div>
             <div class="modal-body">
@@ -310,11 +327,11 @@
                     
                     
                     
-<div class="modal" id="addfacilitator">
+<div class="modal fade" id="addfacilitator">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button"  class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button"  class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title" style='text-align: center;'><span id='addfacilitatormsg' style='text-align: right;'></span></h4>
             </div>
             <div class="modal-body">
@@ -349,9 +366,9 @@
                         <!------------------------------------------phoneno-------------------------------------------------------->  
                     
                         <div class="control-group" >
-                                    <label><font color="red"><b>*</b></font>Phone Number</label>
+                                    <label><font color="red"><b></b></font>Phone Number</label>
                                     <div class="controls">
-                                        <input type="text" maxlength="10" placeholder='07XX XXX XXX' name ="phone" id="phone" style="width:100%;"  class="form-control" >
+                                        <input type="tel" maxlength="10" placeholder='07XX XXX XXX' name ="phone" id="phone" style="width:100%;"  class="form-control" >
                                     </div>
                                 </div> 
                       
@@ -407,6 +424,125 @@
                     
                     
 
+                                                
+                                                
+ <!----------------------------------------------------------------------------Attendance-------------------------------------------------------------->
+
+
+
+
+
+<div class="modal fade" id="editattendance" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"  class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" style='text-align: center;'><span  style='text-align: right;'></span></h4>
+            </div>
+            <div class="modal-body">
+                <form  id="" method="post">
+                               
+                    <!------------------------------------------County-------------------------------------------------------->
+                       <div class="control-group" style='display:none;' >
+                                    <label>County</label>
+                                    <div class="controls">
+                                        <select  name="rpt_county" id="rpt_county" style="width:100%;" class="form-control">
+                                            <option value="">Select County (optional)</option>
+                                             <option value="Baringo">Baringo</option>
+                                             <option value="Kajiado">Kajiado</option>
+                                             <option value="Laikipia">Laikipia</option>
+                                             <option value="Nakuru">Nakuru</option>
+                                             <option value="Narok">Narok</option>
+                                              <option value="Samburu">Samburu</option>
+                                             <option selected value="Turkana">Turkana</option>
+                                            
+                                           
+                                        </select>
+                                    </div>
+                                </div>
+                    
+                    <!------------------------------------------SubCounty-------------------------------------------------------->  
+                    
+                      <div class="control-group" >
+                                    <label>Sub county</label>
+                                    <div class="controls" >
+                                        <select onchange='getWard("subcountyname");'   name="subcountyname" id="subcountyname" style="width:100%;" class="form-control">
+                                           
+                                             <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
+                                       
+                                        </select>
+                                    </div>
+                                </div>
+                    
+                    
+                     <div class="control-group" >
+                                    <label>Ward</label>
+                                    <div class="controls" >
+                                        <select  name="ward" id="ward" style="width:100%;" class="form-control">
+                                           
+                                             <option value="">Select Subcounty first</option>
+                                       
+                                        </select>
+                                    </div>
+                                </div>
+                    
+                    
+                    <div class="control-group" >
+                                    <label>Implementing Partner</label>
+                                    <div class="controls" >
+                                        <select onchange='getPopulation();'  name="partnername" id="partnername" style="width:100%;" class="form-control">
+                                           
+                                             <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
+                                       
+                                        </select>
+                                    </div>
+                                </div>
+                     <div class="control-group" >
+                                    <label>Target Population</label>
+                                    <div class="controls" >
+                                        <select  name="targetpopname" id="targetpopname" style="width:100%;" class="form-control">
+                                           
+                                             <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
+                                       
+                                        </select>
+                                    </div>
+                                </div>
+                    
+                 
+                    
+                    
+                 
+                                <div class="control-group">
+                                    
+                                    <div class="controls">
+                                        <button     style="margin-left: 30%;"  class="btn-lg btn-success ">
+                                            Save
+                                        </button>
+                                        
+                                        <img src='images/ajax_loader.gif' alt='loading' style="display:none; margin-left:30% ;" class='loading'/>
+                                        
+                                    </div>
+                                </div>   
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+              
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+
+
+
+ <!----------------------------------------------------------------------------Attendance-------------------------------------------------------------->
+                                                
+                                                
+                                                
 
                     <!-- END PAGE CONTENT-->         
                 </div>
@@ -598,7 +734,7 @@
                         //------------------------tab 2 validations---------------
      
         
-        else if(index===2) {
+        else if(index===7) {
             
             
             var masomo=7;
@@ -610,7 +746,15 @@
                                     
                                  //console.log(" loop number _ "+a);   
                                     //6
-				if($('#topics'+a).val()!=="" || ($('#methods'+a).val()!==null && $('#methods'+a).val()!=="" ) || $('#sessiondate'+a).val()!=="" || $('#time'+a).val()!=="" || $('#malecondom'+a).val()!=="" || $('#femalecondom'+a).val()!=="" )
+                                    if($('#topics'+a).val()==="" && ($('#methods'+a).val()===null || $('#methods'+a).val()==="" ) && $('#sessiondate'+a).val()==="" && $('#time'+a).val()==="" && $('#malecondom'+a).val()==="" && $('#femalecondom'+a).val()===""){
+                                        
+                                     alert('All columns should be filled with values');  
+                                     $('#topics'+a).focus();
+                                     return false;
+                                        break;
+                                    }
+                                    
+				else if($('#topics'+a).val()!=="" || ($('#methods'+a).val()!==null && $('#methods'+a).val()!=="" ) || $('#sessiondate'+a).val()!=="" || $('#time'+a).val()!=="" || $('#malecondom'+a).val()!=="" || $('#femalecondom'+a).val()!=="" )
                                 {
 			console.log(" topic:"+$('#topics'+a).val()+"  method:"+$('#methods'+a).val()+"  date:"+$('#sessiondate'+a).val()+" time:"+ $('#time'+a).val()+"  malecondom:"+$('#malecondom'+a).val()+"  femalecondom:"+$('#femalecondom'+a).val());		
                      if($('#topics'+a).val()===""){
@@ -875,7 +1019,7 @@ setSessions();
 
 setParticipants();
 
- setAttendance();
+setAttendance();
    
 
 
@@ -895,6 +1039,24 @@ setParticipants();
    // $("#addrow").on("click", function () {
       function addrow(){
          counter = $("#totalrows").val();
+         var agegroup="";
+         
+         var defaultsex="";
+         
+         agegroup=$("#agegroup").val();
+         
+         if(agegroup==='Young Women' || agegroup==='Older Women' ){
+             
+             defaultsex="Female";
+             
+         }
+         var gend="";
+         if(defaultsex!==""){gend="<%=gp.getGender("Female")%>";}
+else {
+  gend="<%=gp.getGender("")%>";  
+    
+}         
+         
         var lessons=7;
         
         if($("#lessons").val()!==''  ){
@@ -913,8 +1075,8 @@ setParticipants();
          cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' placeholder='optional' type= 'text' id='middlename"+counter+"' name='middlename"+counter+"' class= 'form-control' /></td>"
          cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' type= 'text' id='lastname"+counter+"' name='lastname"+counter+"' class= 'form-control' /></td>"
          cols += "<td class= 'col-sm-2 '><input onkeypress='return numbers(event);' maxlength='2' type= 'text' id='age"+counter+"' name='age"+counter+"' class= 'form-control' /></td>"
-         cols += "<td class= 'col-sm-2 '><select  id='sex"+counter+"' name='sex"+counter+"' class= 'form-control' ><%=gp.getGender("")%></select></td>"
-         cols += "<td><input onclick='deleterow(\"tablerow"+counter+"\",\"tableregrow"+counter+"\");' type='button' class='ibtnDel btn btn-md btn-danger' value='Delete'></td>";
+         cols += "<td class= 'col-sm-2 '><select  id='sex"+counter+"' name='sex"+counter+"' class= 'form-control' >"+gend+"</select></td>"
+         cols += "<td><input  tabindex='-1' onclick='deleterow(\"tablerow"+counter+"\",\"tableregrow"+counter+"\");' type='button' class='ibtnDel btn btn-md btn-danger' value='Delete'></td>";
          
         newRow.append(cols);
        // newRow.append("</tr>");
@@ -973,7 +1135,7 @@ setParticipants();
                     success: function (data) {
                         $("#targetpop").html(data);
                         $("#targetpopname").html(data);
-
+                     getCurriculum();
                     }
                 });
             }
@@ -996,6 +1158,7 @@ setParticipants();
                     dataType: 'html',
                     success: function (data) {
                         $("#curriculum").html(data);
+                        setLessons();setSessions(); setAttendance();
 
                     }
                 });
@@ -1021,6 +1184,9 @@ setParticipants();
                     success: function (data) {
                         $("#group").html(data);
                         $("#groupnamed").html(data);
+                        
+                        $("#group").select2();
+                        $("#groupnamed").select2();
 
                     }
                 });
@@ -1084,7 +1250,12 @@ $("#cofacilitator").select2();
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
-                        if(id==='subcounty'){ $("#wardid").html(data); }
+                        if(id==='subcounty'){ 
+                            
+            $("#wardid").html(data);
+             $("#ward").html(data);
+        
+        }
                         else {
                            $("#ward").html(data);  
                             
@@ -1147,7 +1318,11 @@ $("#cofacilitator").select2();
 
                 var group= "";
                 
+                var agegroup="";
                 
+                if (typeof $("#agegroup").val() !== "undefined") {
+                      agegroup = $("#agegroup").val();
+				  }
                 
                 
                 var groupid ="";
@@ -1159,7 +1334,7 @@ $("#cofacilitator").select2();
               
                 //if (curriculumid !== '' && curriculumid !== null) {
            
-                    group = "groupid="+groupid;
+                    group = "groupid="+groupid+"&agegroup="+agegroup;
               
 
 
@@ -1477,6 +1652,36 @@ function validatesessiondate(){
                         });
                         
                     }
+    
+}
+
+
+
+function setGroupDefaults(){
+    
+    var sc=$("#subcounty").val();
+    var ward=$("#wardid").val();
+    var ptn=$("#partner").val();
+    var tp=$("#targetpop").val();
+    
+    
+    $("#subcountyname").val(sc);
+    $("#ward").val(ward);
+    $("#partnername").val(ptn);
+    $("#targetpopname").val(tp);
+    
+    
+}
+
+
+function setFacilitatorDefaults(){
+    
+    var sc=$("#subcounty").val();
+    var grp=$("#group").val();
+    
+    
+     $("#subcountynamed").val(sc);
+     $("#groupnamed").val(grp);
     
 }
 

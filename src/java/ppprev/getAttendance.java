@@ -89,7 +89,7 @@ public class getAttendance extends HttpServlet {
                           //presentAbsent 
                                   
                                  String icon="icon-check";
-                                 if(conn.rs.getString("s"+count).equals("1")){icon="icon-remove-sign";}
+                                 if(conn.rs.getString("s"+count).equals("0")){icon="icon-remove-sign";}
                                  
                      regrows+= "<td class= 'col-sm-1'><select onchange='attendanceicon(\""+count+"_"+d+"\");' style='width:100px;'  id='s"+count+"_"+d+"' name='s"+count+"_"+d+"' class= 'form-control' >"+presentAbsent(""+conn.rs.getString("s"+count))+"</select><i class='"+icon+"' id='status"+count+"_"+d+"'></i></td>";
                               } 

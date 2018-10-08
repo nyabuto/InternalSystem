@@ -45,7 +45,7 @@ public class getCurriculum extends HttpServlet {
            
             
             
-            out.println(curriculum(conn, popid, ""));
+            out.println(curriculum(conn, popid, "20"));
          if(conn.rs!=null){conn.rs.close(); }   
          if(conn.st!=null){conn.st.close();  }   
          if(conn.conn!=null){conn.conn.close();  }

@@ -77,17 +77,17 @@ public class saveFacilitator extends HttpServlet {
                       
                         if(conn.pst1.executeUpdate()==1){
                             
-                        responsetxt="<font color='green'>Facilitator "+fname+" "+mname+" "+sname+" saved successfully</font>";
+                        responsetxt="<b><font color='green'>Facilitator "+fname+" "+mname+" "+sname+" saved successfully</font></b>";
                         
                         }
                         else {
-                       responsetxt="<font color='red'>Facilitator "+fname+" "+mname+" "+sname+" Already added</font>";
+                       responsetxt="<b><font color='red'>Facilitator "+fname+" "+mname+" "+sname+" Already added</font></b>";
                         }
             
             //-------------------------------------------------
                         }
                         else {
-                        responsetxt="<font color='red'>Facilitator "+fname+" "+mname+" "+sname+" Already added</font>";
+                        responsetxt="<b><font color='red'>Facilitator "+fname+" "+mname+" "+sname+" Already added</font></b>";
                         
                         }
             

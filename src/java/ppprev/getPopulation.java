@@ -41,7 +41,7 @@ public class getPopulation extends HttpServlet {
          
             
             
-            out.println(population(conn, partnerid, ""));
+            out.println(population(conn, partnerid, "16"));
             
             
          if(conn.rs!=null){conn.rs.close(); }   

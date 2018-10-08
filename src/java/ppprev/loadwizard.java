@@ -102,7 +102,7 @@ public class loadwizard extends HttpServlet {
                     + " "
                     + "</td>"
                     + "<td class='span3'>"
-                    + " <select   onchange='getFacilitator();' class='span12 ' required    id='group' name='group'>"
+                    + " <select   onchange='getFacilitator();setParticipants();setAttendance();' class='span12 ' required    id='group' name='group'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + ""
@@ -169,7 +169,7 @@ public class loadwizard extends HttpServlet {
                     
                     
                     + "<td class='span3'>"
-                 + " <select   class='span12 ' required    id='agegroup' name='agegroup'>"
+                 + " <select   class='span12 ' required onchange='setParticipants();'    id='agegroup' name='agegroup'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
@@ -216,10 +216,10 @@ public class loadwizard extends HttpServlet {
 	   
 		String tabpager="<ul class='pager wizard'>"
 			+"<li class='previous first' style='display:none;'><a href='#'>First</a></li>"
-			+"<li class='previous' ><a href='#'>Previous</a></li>"
+			+"<li class='previous' ><a  href='#'>Previous</a></li>"
 			+"<!--<li class='next last' style='display:none;'><a href='#'>Last</a></li>-->"
-		  	+"<li class='next'><a href='#'>Next</a></li>"
-                        +"<li class='next finish' style='display:none;'><a href='javascript:;'>Finish</a></li>"
+		  	+"<li class='next'><a  href='#'>Next</a></li>"
+                        +"<li class='next finish' style='display:none;'><a  href='javascript:;'>Finish</a></li>"
 		+"</ul>";
 
             
