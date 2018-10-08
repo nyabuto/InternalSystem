@@ -2913,7 +2913,7 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
             String month = "";
             String year = "";
             String facil = "361";
-            String form = "sgbv";
+            String form = "sgbv_new";
             
 //=====================================================================================================
             year = "2015";
@@ -2922,12 +2922,10 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
             String header = "";
             
             
-            
-                String mainheaders[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Sexual Violence","Physical and/or Emotional Violence","Number of people receiving PEP Service","Sexual violence","","","","","","","","","","","","","","Physical and / or Emotional Violence","","","","","","","","","","","","","","Verification","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            String sectionheaders1[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Sexual Violence","Physical and/or Emotional Violence","Number of people receiving PEP Service","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Verification","ART High Volume","HTC High Volume","PMTCT High Volume"};
-             String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Sexual Violence","Physical and/or Emotional Violence","Number of people receiving PEP Service","Unknown","<10","10-14","15-19","20-24","25-49","50+","Unknown","<10","10-14","15-19","20-24","25-49","50+","Unknown","<10","10-14","15-19","20-24","25-49","50+","Unknown","<10","10-14","15-19","20-24","25-49","50+","Verification","ART High Volume","HTC High Volume","PMTCT High Volume"};
-            //String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Type Of Support","Antenatal Clinic","","","Labour & Delivery","","","Under 5 Clinic","","","Postnatal","","","TB_STAT","","","Sexually Transmitted Infections","","","Outpatient Department","","","Inpatient","","","Hiv Care and Treatment Clinic","","","Voluntary Medical Male Circumcission","","","Voluntary Counselling & Testing (Co-located)","","","Voluntary Counselling & Testing (Standalone)","","","Mobile","","","Home-based","","","Other","",""};
-              String merge_row_col[]={"0,0,0,"+(mainheaders.length-1),"1,3,0,0","1,3,1,1","1,3,2,2","1,3,3,3","1,3,4,4","1,3,5,5","1,3,6,6","1,3,7,7","1,3,8,8","1,1,9,22","2,2,9,15","2,2,16,22","1,1,23,36","2,2,23,29","2,2,30,36","1,3,37,37","1,3,38,38","1,3,39,39","1,3,40,40"};
+            String mainheaders[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Sexual violence","","","","","","","","","","","","","","","","","","","","Physical and / or Emotional Violence","","","","","","","","","","","","","","","","","","","","Number of people receiving PEP services","","","","","","","","","","","","","","","","","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders1[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String sectionheaders[]={"County","Sub-county","Health Facility","Mfl Code","Support type","Numerator","Unknown","<10","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Unknown","<10","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Unknown","<10","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Unknown","<10","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Unknown","<10","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","Unknown","<10","10-14","15-19","20-24","25-29","30-34","35-39","40-49","50+","ART High Volume","HTC High Volume","PMTCT High Volume"};
+            String merge_row_col[]={"0,0,0,"+(mainheaders.length-1),"1,3,0,0","1,3,1,1","1,3,2,2","1,3,3,3","1,3,4,4","1,3,5,5","1,1,6,25","1,1,26,45","1,1,46,65","2,2,6,15","2,2,16,25","2,2,26,35","2,2,36,45","2,2,46,55","2,2,56,65","1,3,66,66","1,3,67,67","1,3,68,68"};
             
             String reportType = "";
             if (request.getParameter("reportType") != null) {
@@ -3139,40 +3137,6 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
        
             
           //BEFORE WHILE LOOP
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    ArrayList staticfacility= new ArrayList();
-    ArrayList staticcounty= new ArrayList();
-    ArrayList staticdistrict= new ArrayList();
-    ArrayList staticmfl= new ArrayList();
-    ArrayList staticdsd_ta= new ArrayList();
-    ArrayList staticart_hv= new ArrayList();
-    ArrayList statichtc_hv= new ArrayList();
-    ArrayList staticpmtct_hv= new ArrayList();
-    
-    int blankrows=mainheaders.length;
-    
-   String getstaticfacilities="SELECT  county.County as county,district.DistrictNom as district," //
-            + " "+facilitiestable+".SubPartnerNom as facility, "+facilitiestable+".CentreSanteId as mflcode, "+facilitiestable+".HTC_Support1 as htcsupport,ART_highvolume, HTC_highvolume,PMTCT_highvolume "
-           + " FROM    "+facilitiestable+" join (district join county on county.CountyID=district.CountyID)  on district.DistrictID = "+facilitiestable+".DistrictID    where ( PEP='1')  AND "+facilitiestable+".active=1   group by "+facilitiestable+".SubPartnerID   "; 
-    
-   conn.rs=conn.st.executeQuery(getstaticfacilities);
-    while(conn.rs.next()){
-    
-     staticcounty.add(conn.rs.getString("county"));
-     String district=conn.rs.getString("district");
-     staticdistrict.add(district.substring(0,1).toUpperCase()+district.substring(1).toLowerCase());
-     staticfacility.add(conn.rs.getString("facility"));
-     staticmfl.add(conn.rs.getString("mflcode"));   
-     //dsdta=conn.rs.getString("htcsupport");   
-     String dsdta="DSD"; //static as of 201606 
-     staticdsd_ta.add(dsdta);  
-      if(conn.rs.getString("ART_highvolume")!=null){staticart_hv.add(conn.rs.getString("ART_highvolume"));} else {staticart_hv.add(""); }
-     if(conn.rs.getString("HTC_highvolume")!=null){ statichtc_hv.add(conn.rs.getString("HTC_highvolume"));} else { statichtc_hv.add(""); }
-     if(conn.rs.getString("PMTCT_highvolume")!=null){staticpmtct_hv.add(conn.rs.getString("PMTCT_highvolume"));} else {staticpmtct_hv.add("");}
-
-     
-    }
    
      //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%         
             
@@ -3182,7 +3146,37 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, "+facilitiestable+".SubPartnerID as SubPartnerID  FROM moh711 left join moh731 on moh731.id=moh711.id left join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county  union select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode ,HTC_Support1,PMTCT_Support, sum(HV0201) as HV0201,sum(HV0202) as HV0202,sum(HV0203) as HV0203,sum(HV0206) as HV0206,sum(HV0207) as HV0207,sum(HV0208) as HV0208,sum(HV0228) as HV0228,sum(HV0232) as HV0232, sum(DTCB_Test_Out_Tot) as DTCB_Test_Out_Tot,sum(DTCB_Test_In_Tot) as DTCB_Test_In_Tot , sum(DTCC_HIV_Out_Tot) as DTCC_HIV_Out_Tot,  sum(DTCC_HIV_In_Tot) as DTCC_HIV_In_Tot, sum(VCTClient_Tested_TOT) as VCTClient_Tested_TOT, sum(VCTClient_HIV_TOT) as VCTClient_HIV_TOT, sum(P511KP) as P511KP, sum(P511KN) as P511KN, subpartnera.SubPartnerID as SubPartnerID  FROM moh711 right join moh731 on moh731.id=moh711.id right join vmmc on moh711.id=vmmc.tableid join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on "+form+".SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" and (HTC='1'||PMTCT='1'||VMMC='1') group by subpartnera.SubPartnerID  order by county";
            //    getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode,ART_Support , sum(HV0507) as numerator  ,(sum(HV0502)+sum(HV0504)+sum(HV0506)) as femaletotal, (sum(HV0501)+sum(HV0503)+sum(HV0505)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID  FROM moh731 join ( subpartnera join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = subpartnera.DistrictID )  on moh731.SubPartnerID = subpartnera.SubPartnerID   "+joinedwhwere+" group by subpartnera.SubPartnerID ";
             //getexistingdata="select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode, ART_Support , sum(IFNULL(HV0503,0)+IFNULL(HV0504,0)) as numerator , sum(IFNULL(HV0503,0)+IFNULL(HV0504,0)) as sexual_violence,'0' as physical_violence  ,(sum(HV0504)) as femaletotal, (sum(HV0503)) as maletotal ,(sum(HV0503)+sum(HV0504)) as postrapecare, "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM moh731 join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on moh731.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" group by "+facilitiestable+".SubPartnerID ";
-            getexistingdata=" select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode, ART_Support , sum(IFNULL(rapesurvivor_M,0)+IFNULL(rapesurvivor_F,0)) as numerator , sum(IFNULL(rapesurvivor_M,0)+IFNULL(rapesurvivor_F,0)) as sexual_violence,'0' as physical_violence  , (sum(rapesurvivor_F)) as femaletotal, (sum(rapesurvivor_M)) as maletotal ,sum(initiatedpep_T) as pep_service,  "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM sgbv join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on sgbv.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" group by "+facilitiestable+".SubPartnerID ";
+//            getexistingdata=" select county,DistrictNom,  SubPartnerNom, CentreSanteId as mflcode, ART_Support , sum(IFNULL(rapesurvivor_M,0)+IFNULL(rapesurvivor_F,0)) as numerator , sum(IFNULL(rapesurvivor_M,0)+IFNULL(rapesurvivor_F,0)) as sexual_violence,'0' as physical_violence  , (sum(rapesurvivor_F)) as femaletotal, (sum(rapesurvivor_M)) as maletotal ,sum(initiatedpep_T) as pep_service,  "+facilitiestable+".SubPartnerID as SubPartnerID ,ART_highvolume, HTC_highvolume,PMTCT_highvolume FROM sgbv join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) on district.DistrictID = "+facilitiestable+".DistrictID )  on sgbv.SubPartnerID = "+facilitiestable+".SubPartnerID   "+joinedwhwere+" group by "+facilitiestable+".SubPartnerID ";
+            getexistingdata="SELECT \n" +
+                    "county.County AS County, DistrictNom AS 'Sub County',subpartnera.SubPartnerNom AS 'Health Facility',CentreSanteId AS MFLCode,\n" +
+                    "ART_Support AS support_type,\n" +
+                    "rapesurvivor_T AS Numerator,\n" +
+                    "0 AS 'Unkown Age F', (rapesurvivor_1_F+rapesurvivor_4_F+rapesurvivor_9_F) AS '<10 F', rapesurvivor_14_F AS '10-14 F',\n" +
+                    "rapesurvivor_19_F AS '15-19 F', rapesurvivor_24_F AS '20-24 F',rapesurvivor_29_F AS '25-29 F',rapesurvivor_34_F AS '30-34 F',\n" +
+                    "rapesurvivor_39_F AS '35-39 F',rapesurvivor_49_F AS '40-49 F',rapesurvivor_50_F AS '50+ F',\n" +
+                    "0 AS 'Unkown Age M', (rapesurvivor_1_M+rapesurvivor_4_M+rapesurvivor_9_M) AS '<10 M', rapesurvivor_14_M AS '10-14 M',\n" +
+                    "rapesurvivor_19_M AS '15-19 M', rapesurvivor_24_M AS '20-24 M',rapesurvivor_29_M AS '25-29 M',rapesurvivor_34_M AS '30-34 M',\n" +
+                    "rapesurvivor_39_M AS '35-39 M',rapesurvivor_49_M AS '40-49 M',rapesurvivor_50_M AS '50+ M',\n" +
+                    "0 AS 'Unkown Age F', 0 AS '<10 F', 0 AS '10-14 F',\n" +
+                    "0 AS '15-19 F', 0 AS '20-24 F',0 AS '25-29 F',0 AS '30-34 F',\n" +
+                    "0 AS '35-39 F',0 AS '40-49 F',0 AS '50+ F',\n" +
+                    "0 AS 'Unkown Age M', 0 AS '<10 M', 0 AS '10-14 M',\n" +
+                    "0 AS '15-19 M', 0 AS '20-24 M',0 AS '25-29 M',0 AS '30-34 M',\n" +
+                    "0 AS '35-39 M',0 AS '40-49 M',0 AS '50+ M',\n" +
+                    "0 AS 'Unkown Age F', (initiatedpep_1_F+initiatedpep_4_F+initiatedpep_9_F) AS '<10 F', initiatedpep_14_F AS '10-14 F',\n" +
+                    "initiatedpep_19_F AS '15-19 F', initiatedpep_F AS '20-24 F',initiatedpep_F AS '25-29 F',initiatedpep_34_F AS '30-34 F',\n" +
+                    "initiatedpep_39_F AS '35-39 F',initiatedpep_49_F AS '40-49 F',initiatedpep_50_F AS '50+ F',\n" +
+                    "0 AS 'Unkown Age M', (initiatedpep_1_M+initiatedpep_4_M+initiatedpep_9_M) AS '<10 M', initiatedpep_14_M AS '10-14 M',\n" +
+                    "initiatedpep_19_M AS '15-19 M', initiatedpep_24_M AS '20-24 M',initiatedpep_29_M AS '25-29 M',initiatedpep_34_M AS '30-34 M',\n" +
+                    "initiatedpep_39_M AS '35-39 M',initiatedpep_49_M AS '40-49 M',initiatedpep_50_M AS '50+ M',\n" +
+                    "IFNULL(ART_highvolume,0) AS ART_highvolume, IFNULL(HTC_highvolume,0) AS HTC_highvolume,IFNULL(PMTCT_highvolume,0) AS PMTCT_highvolume\n" +
+                    "\n" +
+                    " FROM internal_system.sgbv_new\n" +
+                    "join subpartnera ON sgbv_new.SubPartnerID=subpartnera.SubPartnerID  \n" +
+                    "join district on subpartnera.DistrictID=district.DistrictID \n" +
+                    "join county on county.CountyID=district.CountyID \n" +
+                    "WHERE subpartnera.active=1 AND yearmonth BETWEEN 201710 AND 201809 AND rapesurvivor_T is not null GROUP BY MFLCode\n" +
+                    " ";
            
               String Tbid=year+"_"+quarter+"_"+facil;
            // String getstat="select sum(positive) as positive ,sum(negative) as negative from   tb_stat_art WHERE "+tbstatduration;
@@ -3329,472 +3323,39 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
            shet.addMergedRegion(new CellRangeAddress(Integer.parseInt(points[0]),Integer.parseInt(points[1]),Integer.parseInt(points[2]),Integer.parseInt(points[3])));
               
             }
-           
-            
             shet.setColumnWidth(0, 5000);
             
 //add the rows here          
        
             
              conn.rs=conn.st.executeQuery(getexistingdata);
-    
+            ResultSetMetaData metaData = conn.rs.getMetaData();
+            int totalcolumns = metaData.getColumnCount(); //number of column
+
     
     while(conn.rs.next()){
-    
-   	 
-	 
-	 
-	 
-	 //INSIDE WHILE LOOP
-	 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	 
-        //REMOVE SITES THAT HAVE DATA FROM THE STATIC ARRAYLIST SET
-        
-        //get the index of the current facility
-        int mflindex=staticmfl.indexOf(conn.rs.getString("mflcode"));
-        
-        if(mflindex!=-1){        
-           //remove the element from the arraylist 
-             staticfacility.remove(mflindex);
-             staticcounty.remove(mflindex);
-             staticdistrict.remove(mflindex);
-             staticmfl.remove(mflindex);
-             staticdsd_ta.remove(mflindex);
-             
-staticart_hv.remove(mflindex);
-statichtc_hv.remove(mflindex);
-staticpmtct_hv.remove(mflindex);
-        
-                         }
-        
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	 
-	 
-	 
-	 
-	    String arthv=" ";
-     String htchv=" ";
-     String pmtcthv=" ";
-     
-      if(conn.rs.getString("ART_highvolume")!=null){arthv=conn.rs.getString("ART_highvolume");}
-      if(conn.rs.getString("HTC_highvolume")!=null){htchv=conn.rs.getString("HTC_highvolume"); }
-      if(conn.rs.getString("PMTCT_highvolume")!=null){pmtcthv=conn.rs.getString("PMTCT_highvolume");}
-        
-        
-        
-        
-        
-        
-        
-         int colpos=0; 
-           int conpos=1; 
-               HSSFRow rwx = shet.createRow(rowpos); 
-               rwx.setHeightInPoints(25);
-               
-               //county
-            if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                //subcounty
-             if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                 
-                 //facility name
-           if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos).substring(0, 1).toUpperCase() + conn.rs.getString(conpos).substring(1).toLowerCase());
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;
-
-        }
-                   //mfl
-          if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(conpos));
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;//connection position
-
-        }
-        
-                    //support type
-          if (1 == 1) {
-
-            HSSFCell clx = rwx.createCell(colpos);
-            //clx.setCellValue(conn.rs.getString(conpos));
-            clx.setCellValue("DSD");
-            clx.setCellStyle(style2);
-
-            colpos++;
-            conpos++;//connection position
-
-        }
-          
-        //get the variables
-          int Numerator=0;
-          int gbvfemaletotal=0;
-          int gbvmaletotal=0;
-          int sexualviolence=0;
-          
-          //female proportions
-          double gbvless10f=0;
-          double gbv10to14f=0;
-          double gbv15to19f=0;
-          double gbv20to24f=0;
-          double gbv25to49f=0;          
-          double gbv50f=0;          
-          
-          //male proportions
-          double gbvless10m=0;
-          double gbv10to14m=0;
-          double gbv15to19m=0;
-          double gbv20to24m=0;
-          double gbv25to49m=0;
-          double gbv50m=0;
-         int redalert=0;
-          
-          double maleverify=0; 
-          double femaleverify=0;
-          
-          int pepservice=0;
-          int otherpostgbv=0;
-          
-          // (sum(HV0501)+sum(HV0502)+sum(HV0505)+sum(HV0506)) as otherpostgbv, subpartnera.SubPartnerID as SubPartnerID 
-          
-          Numerator=conn.rs.getInt("numerator");
-          gbvmaletotal=conn.rs.getInt("maletotal");
-          gbvfemaletotal=conn.rs.getInt("femaletotal");
-          pepservice=conn.rs.getInt("pep_service");
-          sexualviolence=conn.rs.getInt("numerator");
-          //otherpostgbv=conn.rs.getInt("otherpostgbv"); this was ignored later
-          
-          
-         //begin the distributions 
-        //< 10	10-14	15-19	20-24	25-49  50+	Male	< 10	10-14	15-19	20-24	25-49 50+
-        //0.23	0.17	0.38	0.09	0.11   0.02		0.24	0.12	0.36	0.16	0.12  0
-
-          
-           gbvless10f=(float)Math.round((0.23*gbvfemaletotal));
-           gbv10to14f=(float)Math.round((0.17*gbvfemaletotal));
-           gbv15to19f=(float)Math.round((0.38*gbvfemaletotal));
-           gbv20to24f=(float)Math.round((0.09*gbvfemaletotal));
-           gbv25to49f=(float)Math.round((0.11*gbvfemaletotal));
-           gbv50f=(float)Math.round((0.02*gbvfemaletotal));
-          
-           //then do the normalization
-          femaleverify= gbvless10f+gbv10to14f+gbv15to19f+gbv20to24f+gbv25to49f+gbv50f;
-          //do normalization for the female
-  // if the two are not equal, do a distribution
-  double currdiff=0;
-  if(femaleverify<gbvfemaletotal){
-     currdiff=gbvfemaletotal-femaleverify;
-     if(currdiff>2){
-     //raise an alarm
-     redalert++;
-     }
-  //add to the groupings with the larger percentage until equal
-        //25-49
-      while(currdiff>0){ 
-      gbv15to19f+=1; 
-      currdiff--;
-                       }
-  
-  }
-  else if(femaleverify>gbvfemaletotal) {
-  //minus  until equal
-    currdiff=femaleverify-gbvfemaletotal;
-  //add to the groupings with the larger percentage until equal
-        //25-49
-     if(currdiff>2){
-     //raise an alarm
-     redalert++;
-     }
-    
-        while(currdiff>0){ 
- gbv15to19f-=1; 
- currdiff--;
-                         }
-  
-                                               }
-  
-  //=====================work on males now==========================================================
-     //begin the distributions 
-        //	Male	< 10	10-14	15-19	20-24	25-49 50+
-        //	0.24	0.12	0.36	0.16	0.12  0
-
-          
-          
-           gbvless10m=(float)Math.round((0.24*gbvmaletotal));
-           gbv10to14m=(float)Math.round((0.12*gbvmaletotal));
-           gbv15to19m=(float)Math.round((0.36*gbvmaletotal));
-           gbv20to24m=(float)Math.round((0.16*gbvmaletotal));
-           gbv25to49m=(float)Math.round((0.12*gbvmaletotal));
-           gbv50m=(float)Math.round((0*gbvmaletotal));
-          
-           //then do the normalization
-          maleverify= gbvless10m+gbv10to14m+gbv15to19m+gbv20to24m+gbv25to49m+gbv50m;
-        
-   
-                    //do normalization for the male
-  // if the two are not equal, do a distribution
-   currdiff=0;
-  if(maleverify<gbvmaletotal){
-     currdiff=gbvmaletotal-maleverify;
-     if(currdiff>2){
-     //raise an alarm
-     redalert++;
-     }
-  //add to the groupings with the larger percentage until equal
-        //25-49
-      while(currdiff>0){ 
-      gbv15to19m+=1; 
-      currdiff--;
-                       }
-  
-  }
-  else if(maleverify>gbvmaletotal) {
-  //minus  until equal
-    currdiff=maleverify-gbvmaletotal;
-  //add to the groupings with the larger percentage until equal
-        //25-49
-     if(currdiff>2){
-     //raise an alarm
-     redalert++;
-     }
-    
-        while(currdiff>0){ 
- gbv15to19m-=1; 
- currdiff--;
-                         }
-  
-                                               }
-          
-  ArrayList al=new ArrayList();
-  al.add(Numerator);
-  al.add(sexualviolence);
-  al.add(0);//physical or emotional violence
-  al.add(pepservice);//
-  al.add("0");//unknown Female
-  al.add(gbvless10f);
-  al.add(gbv10to14f);
-  al.add(gbv15to19f);
-  al.add(gbv20to24f);
-  al.add(gbv25to49f);
-  al.add(gbv50f);
-  al.add("0");//unknown male
-  al.add(gbvless10m);
-  al.add(gbv10to14m);
-  al.add(gbv15to19m);
-  al.add(gbv20to24m);
-  al.add(gbv25to49m);
-  al.add(gbv50m);
- //physical/emotional 
- al.add("0");//unknown Female
-  al.add("0");
-  al.add("0");
-  al.add("0");
-  al.add("0");
-  al.add("0");
-  al.add("0");
-  al.add("0");//unknown male
-  al.add("0");
-  al.add("0");
-  al.add("0");
-  al.add("0");
-  al.add("0");
-  al.add("0");
- 
-  
-  
-
-  
-  
-  //________________________________________________________________________________________________________
-  //FINISH UP THE POST GBV
-  //________________________________________________________________________________________________________
-  for(int a=0;a<al.size();a++){
-  
-  
-             //data from the arraylist
+   HSSFRow rwx = shet.createRow(rowpos); 
+          rwx.setHeightInPoints(25);
+           int colpos=0; 
+           HSSFCell clx;
+        for(int i=0;i<totalcolumns;i++){
+           clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getString(colpos+1));
+            clx.setCellStyle(style2); 
          
-
-            HSSFCell clx = rwx.createCell(colpos);
-            clx.setCellValue(Double.parseDouble(al.get(a).toString()));
-            clx.setCellStyle(style2);
-
-            colpos++;
-          //
-        
-  
-  
-  }
-  
-  if(1==1){
-  
-  HSSFCell clx = rwx.createCell(colpos);
-  if(redalert==0){
-            clx.setCellValue("PASSED");
-            clx.setCellStyle(style2);
-  }
-  else {
-  clx.setCellValue("FAILED");
-            clx.setCellStyle(errorstyle);
-  }
-  }
-  
-   if(1==1){
-  colpos++;
-  HSSFCell clx = rwx.createCell(colpos);
- 
-            clx.setCellValue(arthv);
-            clx.setCellStyle(style2);
-  
-          }
-   if(1==1){
-  colpos++;
-  HSSFCell clx = rwx.createCell(colpos);
- 
-            clx.setCellValue(htchv);
-            clx.setCellStyle(style2);
-  
-          }
-   
-     if(1==1){
-  colpos++;
-  HSSFCell clx = rwx.createCell(colpos);
- 
-            clx.setCellValue(pmtcthv);
-            clx.setCellStyle(style2);
-  
-            }
-  
-         //all the rows should come before this line  
-          rowpos++;
-          
-          
-          
-    }//end of while loop 
-        
-        
-   
-  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	HSSFRow rwx=null;                     
- for(int a=0;a<staticfacility.size();a++){ //outer loop taking care of the no of rows
-     
-  rwx=shet.createRow(rowpos);  
- rwx.setHeightInPoints(23);  
- rowpos++;
- for(int z=0;z<blankrows;z++){ //inner loop taking care of the number of columns
- //create a row
-  if(z==0){
-    //county  
-   HSSFCell cellcounty=rwx.createCell(0); 
-   cellcounty.setCellValue(staticcounty.get(a).toString());
-   cellcounty.setCellStyle(style2);
-  }
-  else if(z==1){
-    //sub-county  
-   HSSFCell cellsubcounty=rwx.createCell(1); 
-   cellsubcounty.setCellValue(staticdistrict.get(a).toString());
-   cellsubcounty.setCellStyle(style2);
-  }
-  else if(z==2){
-   //facility
-   HSSFCell cellfacil=rwx.createCell(2); 
-   cellfacil.setCellValue(staticfacility.get(a).toString());
-   cellfacil.setCellStyle(style2);
-  }
-  else if(z==3){
-   //mfl
-   HSSFCell cellmfl=rwx.createCell(3); 
-   cellmfl.setCellValue(staticmfl.get(a).toString());
-   cellmfl.setCellStyle(style2);
-  }
-   
-  else if(z==4){
-  //dsdta
-   HSSFCell celldsd=rwx.createCell(4); 
-   celldsd.setCellValue(staticdsd_ta.get(a).toString());
-   celldsd.setCellStyle(style2);
-   
+         colpos++;
         }
-else if(z==blankrows-4){
-  //data status
-   HSSFCell celldsd=rwx.createCell(blankrows-4); 
-   celldsd.setCellValue("NO DATA");
-   celldsd.setCellStyle(stborder);
-   
-        }
-                 	 else if(z==blankrows-3){
-  //art high volume site
-   HSSFCell celldsd=rwx.createCell(blankrows-3); 
-   celldsd.setCellValue(staticart_hv.get(a).toString());
-   celldsd.setCellStyle(stborder);
-   
-        }
-                         
-                        else if(z==blankrows-2){
-  //ht high volume site
-   HSSFCell celldsd=rwx.createCell(blankrows-2); 
-   celldsd.setCellValue(statichtc_hv.get(a).toString());
-   celldsd.setCellStyle(stborder);
-   
-                                             }
-                        
-                        else if(z==blankrows-1){
-  //pmtct high volume site
-   HSSFCell celldsd=rwx.createCell(blankrows-1); 
-   celldsd.setCellValue(staticpmtct_hv.get(a).toString());
-   celldsd.setCellStyle(stborder);
-   
-                                                  }
-  else {
-                     
-   HSSFCell celldata=rwx.createCell(z); 
-   celldata.setCellValue(0);
-   celldata.setCellStyle(style2);
-   
   
-  }//end of else
-  
+  rowpos++;
  }//end of inner loop                    
  } //end of outer loop                    
                      
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
- }
+
     //___________________________________________________PP_PREV_________________________________________________
     if(5==5){
-    
-    
-    
-    
- 
-
-    
-    
-    
-                
+             
     HSSFCellStyle stylex = wb.createCellStyle();
 stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
 stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);

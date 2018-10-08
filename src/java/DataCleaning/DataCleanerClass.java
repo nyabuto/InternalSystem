@@ -1615,6 +1615,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
           //similar records already in the system
 //             System.out.println("row num : "+(i+1)+" sc:"+Sample_ID+" row :"+(conn.rs.getInt("num")+1)+" sc:"+conn.rs.getString("Sample_ID"));
              
+
              //if gender is different for the same number flag out
              if(!Gender.equals(conn.rs.getString("Gender")) || !DOB.equals(conn.rs.getString("DOB"))){
              //flag out as wrong entry
@@ -1651,6 +1652,58 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              anotherCell.setCellStyle(redstyle);
              }
              
+             //check for confirmatory
+             
+             if(Result.equalsIgnoreCase("Positive") && conn.rs.getString("Result").equalsIgnoreCase("Positive")){
+                 //check the latest and convert int to confirmatory
+                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs.getString("Date_Tested").replace("-", ""))){
+                     
+                     if(Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs.getString("Date_Tested").replace("-", ""))){
+                      // convert current to confirmatory 
+                      CellPCR_Type.setCellValue("Confirmatory PCR and Baseline VL");
+                      errors+="The PCR Type has been updated to Confirmatory PCR and Baseline VL. Check Row "+(conn.rs.getInt("num")+1)+"\n";
+                     }
+                     else{
+                         //convert previous to convermatory
+                        XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
+                        XSSFCell anotherCell = anotherRow.getCell(12);
+                        anotherCell.setCellValue("Confirmatory PCR and Baseline VL");
+                        
+                        anotherCell = anotherRow.getCell(31);
+                        String errrs = anotherCell.getStringCellValue()+"The PCR Type has been updated to Confirmatory PCR and Baseline VL. Check Row "+(i+1)+"";
+                        anotherCell.setCellValue(errrs);
+                        anotherCell.setCellStyle(redstyle);
+                     }
+                 }
+             }
+             
+             //end of checking for confirmatory
+             
+             //first test is positive and second is negative
+              
+             if((Result.equalsIgnoreCase("Negative") && conn.rs.getString("Result").equalsIgnoreCase("Positive")) || (Result.equalsIgnoreCase("Positive") && conn.rs.getString("Result").equalsIgnoreCase("Negative"))){
+                 //check the latest and if negative flag out
+                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs.getString("Date_Tested").replace("-", ""))){
+                     
+                     if((Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs.getString("Date_Tested").replace("-", ""))) &&(Result.equalsIgnoreCase("Negative") && conn.rs.getString("Result").equalsIgnoreCase("Positive")) ){
+
+                      errors+="First Test result is Positive and this test result is Negative. Check Row "+(conn.rs.getInt("num")+1)+"\n";
+                     }
+                     else if((Integer.parseInt(Date_Tested.replace("-", ""))<Integer.parseInt(conn.rs.getString("Date_Tested").replace("-", ""))) &&(Result.equalsIgnoreCase("Positive") && conn.rs.getString("Result").equalsIgnoreCase("Negative")) ){
+                         //convert previous to convermatory
+                        XSSFRow anotherRow = worksheet.getRow(conn.rs.getInt("num"));
+                        
+                       XSSFCell anotherCell = anotherRow.getCell(31);
+                        String errrs = anotherCell.getStringCellValue()+"First test result is Positive and this test result is Negative. Check Row "+(i+1)+"";
+                        anotherCell.setCellValue(errrs);
+                        anotherCell.setCellStyle(redstyle);
+                     }
+                 }
+             }
+             
+             //end of checking for this first positive then negative
+             
+             
              
              //CHECK FOR DATE OF BIRTH
          
@@ -1669,8 +1722,8 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 //          if(Sample_ID.equals("14510/2017/425")){
 //              System.out.println("Here sample code : "+Sample_ID);
 //          }
-         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=?";
-//         String checker="SELECT * FROM eid_raw_tested WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
+         String checker="SELECT * FROM eid_tested_prev WHERE samplecode=?";
+//         String checker="SELECT * FROM eid_tested_prev WHERE samplecode=? && Mflcode=? && datetested<'"+Date_Tested+"'";
             conn.pst = conn.conn.prepareStatement(checker);
             conn.pst.setString(1, Sample_ID);
 //            conn.pst.setString(2, Facility_Code);
@@ -1726,7 +1779,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
             conn.pst.setString(2, Facility_Code);
 
             conn.rs1 = conn.pst.executeQuery();
-            if(conn.rs.next()){
+            if(conn.rs1.next()){
              // has initial in the previous data set   
             }
             else if(has_initial==0){ // has no initial records in the current dataset
@@ -1750,6 +1803,49 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
                 
             }
       }
+      
+      
+      //check for positives and convert to confirmatory
+      
+              String checker="SELECT * FROM eid_tested_prev WHERE samplecode=?";
+            conn.pst = conn.conn.prepareStatement(checker);
+            conn.pst.setString(1, Sample_ID);
+
+            conn.rs1 = conn.pst.executeQuery();
+            if(conn.rs1.next()){
+              
+                //check for confirmatory
+             
+             if(Result.equalsIgnoreCase("Positive") && conn.rs1.getString("Result").equalsIgnoreCase("Positive")){
+                 //check the latest and convert int to confirmatory
+                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs1.getString("Date_Tested").replace("-", ""))){
+                     
+                     if(Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs1.getString("Date_Tested").replace("-", ""))){
+                      // convert current to confirmatory 
+                      CellPCR_Type.setCellValue("Confirmatory PCR and Baseline VL");
+                      errors+="The PCR Type has been updated to Confirmatory PCR and Baseline VL. Data on the previous data set i.e 1 and 1/2 years ago has a positive record.\n";
+                     }
+                 }
+             }
+             
+             //end of checking for confirmatory
+             
+             //first test is positive and second is negative
+              
+             if((Result.equalsIgnoreCase("Negative") && conn.rs1.getString("Result").equalsIgnoreCase("Positive"))){
+                 //check the latest and if negative flag out
+                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs1.getString("Date_Tested").replace("-", ""))){
+                     
+                     if((Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs1.getString("Date_Tested").replace("-", "")))){
+
+                      errors+="First Test result (from previous 1 and 1/2 years data) is Positive and this test result is Negative.\n";
+                     }
+                 }
+             }
+             
+             //end of checking for this first positive then negative
+            } 
+      
       
         //END OF LEVEL 3 Checking
       
