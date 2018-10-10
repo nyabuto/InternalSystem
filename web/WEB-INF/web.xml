@@ -1029,6 +1029,10 @@
         <servlet-name>editForm</servlet-name>
         <servlet-class>ppprev.editForm</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Upload_CXCA</servlet-name>
+        <servlet-class>LoadExcels.Upload_CXCA</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2056,6 +2060,10 @@
     <servlet-mapping>
         <servlet-name>editForm</servlet-name>
         <url-pattern>/editForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Upload_CXCA</servlet-name>
+        <url-pattern>/Upload_CXCA</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

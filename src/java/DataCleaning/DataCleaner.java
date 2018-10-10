@@ -50,11 +50,9 @@ private static final String UPLOAD_DIR = "uploads";
         session = request.getSession();
         
         report_type = request.getParameter("report_type");
-//        start_date = request.getParameter("start_date");
-//        end_date = request.getParameter("end_date");
       
-        start_date = "2018-04-01";
-        end_date = "2018-06-30";
+        start_date = "2018-07-01";
+        end_date = "2018-09-30";
         
         
       OPCPackage pkg  = null;

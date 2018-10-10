@@ -325,6 +325,9 @@ stylemainHeader.setWrapText(true);
                 if(14==14){
     IndexTesting(conn, request,wb);
                          }
+                if(15==15){
+    CXCA_SCRN(conn, request,wb);
+                         }
                
                if(12==12){
                //create the final report set
@@ -3881,7 +3884,7 @@ if(1==1){
                     
             
  }   
-			public HashMap Ipd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
+ public HashMap Ipd(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
    //new htc for PITC 
  
    
@@ -8130,10 +8133,7 @@ HSSFCell  cxy;
          return opdhm;          
      
  }
-    
-    
-    
-    
+ 
     public HashMap Vct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException {
         
         
@@ -10035,8 +10035,7 @@ HSSFCell  cxy;
            return vcthm;      
     
     }
-    
-    
+
     public HashMap Pmtct(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
         
               HashMap<String , String> Pmtcthm = new HashMap<String,String>(); 
@@ -10909,9 +10908,375 @@ HSSFCell  cxy;
       return Pmtcthm;           
     
     }// end of pmtct
+    public void CXCA_SCRN(dbConn conn,HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
+        
+              HashMap<String , String> cxcathm = new HashMap<String,String>(); 
+     
+                   
+    HSSFCellStyle stylex = wb.createCellStyle();
+stylex.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+   stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    stylex.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    
+HSSFFont fontx = wb.createFont();
+fontx.setColor(HSSFColor.DARK_BLUE.index);
+stylex.setFont(fontx);
+stylex.setWrapText(true);
+
+HSSFCellStyle stylemainHeader = wb.createCellStyle();
+stylemainHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+stylemainHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+stylemainHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
+stylemainHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+stylemainHeader.setWrapText(true);
+
+    HSSFCellStyle styleHeader = wb.createCellStyle();
+    styleHeader.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+    styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+    styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    styleHeader.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    styleHeader.setWrapText(true);  
+    
+    
+       
+   HSSFCellStyle stborder = wb.createCellStyle();
+    stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+    stborder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+    stborder.setWrapText(true);
+
+    
+      HSSFFont font1 = wb.createFont();
+            font1.setFontName("Cambria");
+            font1.setColor((short) 0000);
+           stborder.setFont(font1);
+            
+    
+    // for the red color
+   HSSFCellStyle redstyle = wb.createCellStyle();
+    redstyle.setFillForegroundColor(HSSFColor.RED.index);
+    redstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+    redstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+    redstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+    redstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+    redstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+    redstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    redstyle.setWrapText(true);
     
     
     
+    
+      HSSFFont font = wb.createFont();
+            font.setFontHeightInPoints((short) 12);
+            font.setFontName("Cambria");
+            font.setColor((short) 0000);
+            CellStyle style = wb.createCellStyle();
+            style.setFont(font);
+            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            HSSFFont font2 = wb.createFont();
+            font2.setFontName("Cambria");
+            font2.setColor((short) 0000);
+            CellStyle style2 = wb.createCellStyle();
+            style2.setFont(font2);
+            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+            style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+           
+            //this font will be used to show errors on negatives
+            HSSFCellStyle errorstyle = wb.createCellStyle();
+            errorstyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            errorstyle.setFillBackgroundColor(HSSFColor.RED.index);
+            errorstyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            errorstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            errorstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    
+     // Cancer screening 
+                 
+                     //2018 Q4
+                     String pitc_pmtct_header0[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","First time screened for cancer","","","","","","","","","","","","","","","","","","","","","","","","","","","Rescreened after previous negative or suspected cancer","","","","","","","","","","","","","","","","","","","","","","","","","","","Post-treatment follow-up","","","","","","","","","","","","","","","","","","","","","","","","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+                     String pitc_pmtct_header1[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Negative","","","","","","","","","Positive","","","","","","","","","Suspected Cancer","","","","","","","","","Negative","","","","","","","","","Positive","","","","","","","","","Suspected Cancer","","","","","","","","","Negative","","","","","","","","","Positive","","","","","","","","","Suspected Cancer","","","","","","","","","ART High Volume","HTC High Volume","PMTCT High Volume"};
+                     String pitc_pmtct_header2[]={"County","Sub-county","Facility","Mfl-Code","Type of Support","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","Unknown","15-19","20-24","25-29","30-34","35-39","40-44","45-49","50+","ART High Volume","HTC High Volume","PMTCT High Volume"};
+                     ArrayList allFacilities = new ArrayList();
+                     allFacilities.clear();
+                 int year,month,prevYear,maxYearMonth,mflcode;
+String reportDuration,duration,semi_annual,quarter;
+String facilityName,countyName,districtName,facilityIds,facilityId;
+
+   year=month=prevYear=maxYearMonth=mflcode=0;
+ reportDuration=duration=semi_annual=quarter="";
+ facilityName=countyName=districtName=facilityIds=facilityId="";
+  year=Integer.parseInt(request.getParameter("year"));
+  Calendar ca= Calendar.getInstance();
+  int currentyear=ca.get(Calendar.YEAR);
+  String facilitiestable="subpartnera";
+  int selectedyear=year;
+  if(selectedyear<currentyear){
+      if(year<2014){ facilitiestable="subpartnera2014"; }
+      else  {facilitiestable="subpartnera"+selectedyear;}
+  }
+   String facilityIds1="";
+        facilityIds1="(";
+           if(request.getParameter("subcounty")!=null && !request.getParameter("subcounty").equals(""))   {
+         String subcounty=request.getParameter("subcounty");
+    String getDist="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+     + "WHERE district.DistrictID='"+subcounty+"'" ;
+           subcounty_countywhere=" ( district.DistrictID='"+subcounty+"')  AND "+facilitiestable+".active=1  and ";//20160711
+    
+    conn.rs=conn.st.executeQuery(getDist);
+    while(conn.rs.next()){
+     allFacilities.add(conn.rs.getString(1));
+ 
+     facilityIds1+=" cxca.SubPartnerID='"+conn.rs.getString(1)+"' || ";
+    }
+     
+      facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+     facilityIds1+=") && ";   
+     } 
+     else{
+        if(request.getParameter("county")!=null && !request.getParameter("county").equals(""))   {  
+         String county=request.getParameter("county");
+         String getCounty="SELECT "+facilitiestable+".SubPartnerID FROM "+facilitiestable+" "
+    + "JOIN district ON "+facilitiestable+".DistrictID=district.DistrictID "
+     + "JOIN county ON district.CountyID=county.CountyID WHERE county.CountyID='"+county+"'" ;
+         
+         subcounty_countywhere=" (county.CountyID='"+county+"')   AND "+facilitiestable+".active=1 and  ";//20160711
+         
+    conn.rs=conn.st.executeQuery(getCounty);
+    while(conn.rs.next()){
+     allFacilities.add(conn.rs.getString(1));
+     facilityIds1+=" cxca.SubPartnerID='"+conn.rs.getString(1)+"' || "; }
+   
+    facilityIds1 = facilityIds1.substring(0, facilityIds1.length()-3);
+     facilityIds1+=") && ";  } 
+        else{ facilityIds1=""; }   
+        
+     }      
+        reportDuration=request.getParameter("reportDuration");
+        
+//        year=2015;
+//        reportDuration="4";
+        String period1="";
+        String duration1="";
+        prevYear=year-1; 
+        maxYearMonth=0;
+        
+//        GET REPORT DURATION============================================
+
+        if(reportDuration.equals("1")){
+         duration1=" cxca.yearmonth BETWEEN "+prevYear+"10 AND "+year+"09";   
+        period1="DATIM ANNUAL DATA REPORT FOR PEPFAR YEAR : "+year;
+        }
+        else if(reportDuration.equals("2")){
+        semi_annual=request.getParameter("semi_annual");
+//        semi_annual="2";
+       if(semi_annual.equals("1")){
+     duration1=" cxca.yearmonth BETWEEN "+prevYear+"10 AND "+year+"03"; 
+       
+     period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : OCT "+prevYear+" to MARCH "+year;
+       }
+           else{
+       duration1=" cxca.yearmonth BETWEEN "+year+"04 AND "+year+"09";      
+      period1="DATIM SEMI - ANNUAL DATA REPORT FOR PERIOD : APRIL "+year+" to SEPT "+year; 
+       }
+       }
+        
+        else if(reportDuration.equals("3")){
+            String startMonth,endMonth;
+       quarter=request.getParameter("quarter");
+//       quarter="3";
+       String getMonths="SELECT months,name FROM quarter WHERE id='"+quarter+"'";
+       conn.rs=conn.st.executeQuery(getMonths);
+       if(conn.rs.next()==true){
+      String months []=conn.rs.getString(1).split(",");
+       startMonth=months[0];
+       endMonth=months[2];
+      if(quarter.equals("1")){
+      duration1=" cxca.yearmonth BETWEEN "+prevYear+""+startMonth+" AND "+prevYear+""+endMonth;    
+      period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+prevYear+" TO ")+" "+prevYear+"";
+      }
+      else{
+     duration1=" cxca.yearmonth BETWEEN "+year+""+startMonth+" AND "+year+""+endMonth;   
+     period1="DATIM QUARTERLY DATA REPORT FOR PERIOD : "+conn.rs.getString(2).replace("-", " "+year+" TO ")+" "+year+"";
+      }
+        }
+        }  
+        
+      else if(reportDuration.equals("4")){
+     month=Integer.parseInt(request.getParameter("month"));
+//            month=5;
+           String getMonthName="SELECT name FROM month WHERE id='"+month+"'" ;
+    conn.rs=conn.st.executeQuery(getMonthName);
+    if(conn.rs.next()==true){
+   if(month>=10){
+     duration1=" cxca.yearmonth="+prevYear+""+month;    
+     period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+prevYear+")"; 
+     }
+     else{
+  duration1=" cxca.yearmonth="+year+"0"+month;  
+    period1="DATIM MONTHLY DATA REPORT FOR : "+conn.rs.getString(1)+"("+year+")";
+     }
+      }
+      }
+      else{
+     duration1="";     
+      }
+        
+     period1+=" Number of HIV-Positive women on ART screened for cervical cancer.";   
+        
+        
+      HSSFSheet shet3=wb.createSheet("CXCA_SCRN"); 
+   String county="";
+   String  district="";
+    String facilityname="";
+
+  shet3.setColumnWidth(0, 4000);  
+  shet3.setColumnWidth(1, 5000);  
+  shet3.setColumnWidth(2,5000);  
+  //shet3.setColumnWidth(6,5000);
+   HSSFRow rw0=shet3.createRow(0);
+           rw0.setHeightInPoints(25);
+           
+           HSSFCell  c1;
+         c1=rw0.createCell(0);
+      //_____________________________________________________________report heading row 0   
+      c1.setCellValue(period1);
+      c1.setCellStyle(stylemainHeader);
+      for(int j=1;j<=pitc_pmtct_header0.length-1;j++){
+      c1=rw0.createCell(j);
+       c1.setCellStyle(stylemainHeader);
+      }
+      
+      //-----------------------------------row 1 header 
+       rw0=shet3.createRow(1); 
+       rw0.setHeightInPoints(25);
+    for (int i=0;i<pitc_pmtct_header0.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(pitc_pmtct_header0[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
+      //-----------------------------------row 1 header b 
+       rw0=shet3.createRow(2); 
+       rw0.setHeightInPoints(25);
+    for (int i=0;i<pitc_pmtct_header1.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(pitc_pmtct_header1[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
+ //-----------------------------------row 2 header 
+       rw0=shet3.createRow(3); 
+       rw0.setHeightInPoints(25);
+    for (int i=0;i<pitc_pmtct_header2.length;i++)
+       {
+      HSSFCell clx=rw0.createCell(i);
+      clx.setCellValue(pitc_pmtct_header2[i]);
+      clx.setCellStyle(stylemainHeader);
+        }
+      
+    String mergeinfor[]={"0,0,0,"+(pitc_pmtct_header0.length-1)+"","1,1,5,31","1,1,32,58","1,1,59,85","2,2,5,13","2,2,14,22","2,2,23,31","2,2,32,40","2,2,41,49","2,2,50,58","2,2,59,67","2,2,68,76","2,2,77,85","1,3,0,0","1,3,1,1","1,3,2,2","1,3,3,3","1,3,4,4","1,3,86,86","1,3,87,87","1,3,88,88"};  
+   
+    //do the merging
+    
+    for(int d=0;d<mergeinfor.length;d++){
+    if(!mergeinfor[d].equals("")){
+        String pos[]=mergeinfor[d].split(",");
+     shet3.addMergedRegion(new CellRangeAddress(new Integer(pos[0]),new Integer(pos[1]),new Integer(pos[2]),new Integer(pos[3])));   
+    }
+     }
+    
+    String query = "SELECT \n" +
+        "county.County AS County, DistrictNom AS 'Sub County',"+facilitiestable+".SubPartnerNom AS 'Health Facility',CentreSanteId AS MFLCode,\n" +
+        "HTC_Support1 AS support_type,\n" +
+        "/*First Time Screend for cervical cancer*/\n" +
+        "SUM(IFNULL(a_u,0)) AS 'Unknown',SUM(IFNULL(a_19,0)) AS '15-19',SUM(IFNULL(a_24,0)) AS '20-24',SUM(IFNULL(a_29,0)) AS '25-29',SUM(IFNULL(a_34,0)) AS '30-34',SUM(IFNULL(a_39,0)) AS '35-39',SUM(IFNULL(a_44,0)) AS '40-44',SUM(IFNULL(a_49,0)) AS '45-49',SUM(IFNULL(a_50,0)) AS '50+',\n" +
+        "SUM(IFNULL(b_u,0)) AS 'Unknown',SUM(IFNULL(b_19,0)) AS '15-19',SUM(IFNULL(b_24,0)) AS '20-24',SUM(IFNULL(b_29,0)) AS '25-29',SUM(IFNULL(b_34,0)) AS '30-34',SUM(IFNULL(b_39,0)) AS '35-39',SUM(IFNULL(b_44,0)) AS '40-44',SUM(IFNULL(b_49,0)) AS '45-49',SUM(IFNULL(b_50,0)) AS '50+',\n" +
+        "SUM(IFNULL(c_u,0)) AS 'Unknown',SUM(IFNULL(c_19,0)) AS '15-19',SUM(IFNULL(c_24,0)) AS '20-24',SUM(IFNULL(c_29,0)) AS '25-29',SUM(IFNULL(c_34,0)) AS '30-34',SUM(IFNULL(c_39,0)) AS '35-39',SUM(IFNULL(c_44,0)) AS '40-44',SUM(IFNULL(c_49,0)) AS '45-49',SUM(IFNULL(c_50,0)) AS '50+',\n" +
+        "\n" +
+        "/*Rescreend after previous negative or suspected cancer*/\n" +
+        "SUM(IFNULL(d_u,0)) AS 'Unknown',SUM(IFNULL(d_19,0)) AS '15-19',SUM(IFNULL(d_24,0)) AS '20-24',SUM(IFNULL(d_29,0)) AS '25-29',SUM(IFNULL(d_34,0)) AS '30-34',SUM(IFNULL(d_39,0)) AS '35-39',SUM(IFNULL(d_44,0)) AS '40-44',SUM(IFNULL(d_49,0)) AS '45-49',SUM(IFNULL(d_50,0)) AS '50+',\n" +
+        "SUM(IFNULL(e_u,0)) AS 'Unknown',SUM(IFNULL(e_19,0)) AS '15-19',SUM(IFNULL(e_24,0)) AS '20-24',SUM(IFNULL(e_29,0)) AS '25-29',SUM(IFNULL(e_34,0)) AS '30-34',SUM(IFNULL(e_39,0)) AS '35-39',SUM(IFNULL(e_44,0)) AS '40-44',SUM(IFNULL(e_49,0)) AS '45-49',SUM(IFNULL(e_50,0)) AS '50+',\n" +
+        "SUM(IFNULL(f_u,0)) AS 'Unknown',SUM(IFNULL(f_19,0)) AS '15-19',SUM(IFNULL(f_24,0)) AS '20-24',SUM(IFNULL(f_29,0)) AS '25-29',SUM(IFNULL(f_34,0)) AS '30-34',SUM(IFNULL(f_39,0)) AS '35-39',SUM(IFNULL(f_44,0)) AS '40-44',SUM(IFNULL(f_49,0)) AS '45-49',SUM(IFNULL(f_50,0)) AS '50+',\n" +
+        "\n" +
+        "/*Post treatment follow up*/\n" +
+        "SUM(IFNULL(g_u,0)) AS 'Unknown',SUM(IFNULL(g_19,0)) AS '15-19',SUM(IFNULL(g_24,0)) AS '20-24',SUM(IFNULL(g_29,0)) AS '25-29',SUM(IFNULL(g_34,0)) AS '30-34',SUM(IFNULL(g_39,0)) AS '35-39',SUM(IFNULL(g_44,0)) AS '40-44',SUM(IFNULL(g_49,0)) AS '45-49',SUM(IFNULL(g_50,0)) AS '50+',\n" +
+        "SUM(IFNULL(h_u,0)) AS 'Unknown',SUM(IFNULL(h_19,0)) AS '15-19',SUM(IFNULL(h_24,0)) AS '20-24',SUM(IFNULL(h_29,0)) AS '25-29',SUM(IFNULL(h_34,0)) AS '30-34',SUM(IFNULL(h_39,0)) AS '35-39',SUM(IFNULL(h_44,0)) AS '40-44',SUM(IFNULL(h_49,0)) AS '45-49',SUM(IFNULL(h_50,0)) AS '50+',\n" +
+        "SUM(IFNULL(i_u,0)) AS 'Unknown',SUM(IFNULL(i_19,0)) AS '15-19',SUM(IFNULL(i_24,0)) AS '20-24',SUM(IFNULL(i_29,0)) AS '25-29',SUM(IFNULL(i_34,0)) AS '30-34',SUM(IFNULL(i_39,0)) AS '35-39',SUM(IFNULL(i_44,0)) AS '40-44',SUM(IFNULL(i_49,0)) AS '45-49',SUM(IFNULL(i_50,0)) AS '50+',\n" +
+        "\n" +
+        "IFNULL(ART_highvolume,0) AS ART_highvolume, IFNULL(HTC_highvolume,0) AS HTC_highvolume,IFNULL(PMTCT_highvolume,0) AS PMTCT_highvolume\n" +
+        "\n" +
+        " FROM internal_system.cxca\n" +
+        "join subpartnera ON cxca.SubPartnerID="+facilitiestable+".SubPartnerID  \n" +
+        "join district on "+facilitiestable+".DistrictID=district.DistrictID \n" +
+        "join county on county.CountyID=district.CountyID \n" +
+        "WHERE "+facilitiestable+".active=1 AND "+facilityIds1+" "+duration1+"  GROUP BY MFLCode";
+    
+    
+    int rowpos=4;
+    
+     System.out.println("CXCA SCRN Query : "+query);
+    conn.rs=conn.st.executeQuery(query);
+    ResultSetMetaData metaData = conn.rs.getMetaData();
+    int totalcolumns = metaData.getColumnCount(); //number of column
+            
+    while(conn.rs.next()){
+      HSSFRow rwx = shet3.createRow(rowpos); 
+          rwx.setHeightInPoints(25);
+           int colpos=0; 
+           HSSFCell clx;
+        for(int i=0;i<totalcolumns;i++){
+           clx = rwx.createCell(colpos);
+            clx.setCellValue(conn.rs.getString(colpos+1));
+            clx.setCellStyle(style2); 
+         
+         colpos++;
+        }
+  
+  rowpos++;
+ }//end of inner loop                         
+                     
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     //____autofilter______       
+    //shet3.setAutoFilter(new org.apache.poi.ss.util.CellRangeAddress(3, rowpos - 1, 0, sectionheaders.length+3));
+
+                //System.out.println("1,"+rowpos+",0,"+colposcopy);
+                for (int e = 0; e < 3; e++) {
+                shet3.autoSizeColumn(e);
+                }
+                //Made my life veery simple...
+                shet3.setDisplayGridlines(false);
+                shet3.createFreezePane(5,6);                 
+               
+//      return Pmtcthm;           
+    
+    }// end of pmtct
+ 
 public void TbClinics(dbConn conn, HttpServletRequest request,HSSFWorkbook wb) throws SQLException{
 
     
@@ -13781,5 +14146,8 @@ rw.setHeightInPoints(26);
 
 
 }
+    public boolean isNumeric(String s) {  
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+    }
 
 }
