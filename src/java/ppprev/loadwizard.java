@@ -41,7 +41,6 @@ public class loadwizard extends HttpServlet {
                     + "<tr>"
                     +" <td class='span2'> "
                     + "<label><b> Implementing Partner </b><font color='red'><b>*</b></font></label>"
-                    + ""
                     + "</td>"
                     + "<td class='span3'>"
                     + " <select  onchange='getPopulation();' class='span12' required    id='partner' name='partner'>"
@@ -55,7 +54,7 @@ public class loadwizard extends HttpServlet {
                     + " <label><b>Sub-county</b><font color='red'><b>*</b></font></label>"
                     + " </td>"
                     + "<td class='span3'>"
-                    + " <select onchange='getWard(\"subcounty\");'    class='span12' required    id='subcounty' name='subcounty'>"
+                    + " <select onchange='getWard(\"subcounty\",\"\");'    class='span12' required    id='subcounty' name='subcounty'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
@@ -65,7 +64,7 @@ public class loadwizard extends HttpServlet {
                     + ""
                     + "</td>"
                     + "<td class='span3'>"
-                    + " <select onchange='getGroup(\"wardid\");';  class='span12' required    id='wardid' name='wardid'>"
+                    + " <select onchange='getGroup(\"wardid\",\"\");'  class='span12' required    id='wardid' name='wardid'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + " </td>"
@@ -102,7 +101,7 @@ public class loadwizard extends HttpServlet {
                     + " "
                     + "</td>"
                     + "<td class='span3'>"
-                    + " <select   onchange='getFacilitator();setParticipants();setAttendance();' class='span12 ' required    id='group' name='group'>"
+                    + " <select   onchange='getFacilitator(\"\");getCoFacilitator(\"\");setParticipants();setAttendance();' class='span12 ' required    id='group' name='group'>"
                     + " <option value=''></option>"
                     + " </select>"
                     + ""
@@ -189,6 +188,7 @@ public class loadwizard extends HttpServlet {
                     + " <td class='span3'> "
                  + " <input readonly value='"+gp.RandomNo(10000, 90000)+"'   class='span12 ' required    id='formid' name='formid'>  <input type='hidden' value='"+gp.RandomNo(10050, 90000)+"'   class='span12 ' required    id='id' name='id'>"
                     + "<input type='hidden' value=''   class='span12'    id='yearmonth' name='yearmonth'>"
+                   
                    
                     + " </td>"
                     

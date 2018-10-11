@@ -87,11 +87,11 @@ public class getAttendance extends HttpServlet {
                   for(int d=1;d<=c;d++)
                               {  
                           //presentAbsent 
-                                  
+                                 // System.out.println("Present absent conn.rs.getString('s'"+count+")");
                                  String icon="icon-check";
-                                 if(conn.rs.getString("s"+count).equals("0")){icon="icon-remove-sign";}
+                                 if(conn.rs.getString("s"+d).equals("0")){icon="icon-remove-sign";}
                                  
-                     regrows+= "<td class= 'col-sm-1'><select onchange='attendanceicon(\""+count+"_"+d+"\");' style='width:100px;'  id='s"+count+"_"+d+"' name='s"+count+"_"+d+"' class= 'form-control' >"+presentAbsent(""+conn.rs.getString("s"+count))+"</select><i class='"+icon+"' id='status"+count+"_"+d+"'></i></td>";
+                     regrows+= "<td class= 'col-sm-1'><select onchange='attendanceicon(\""+count+"_"+d+"\");' style='width:100px;'  id='s"+count+"_"+d+"' name='s"+count+"_"+d+"' class= 'form-control' >"+presentAbsent(""+conn.rs.getString("s"+d))+"</select><i class='"+icon+"' id='status"+count+"_"+d+"'></i></td>";
                               } 
                   
                 regrows+="<td class= 'col-sm-1' ><a class= 'deleteRow'></a></td></tr>";
@@ -123,7 +123,7 @@ public class getAttendance extends HttpServlet {
                 
     regrows+="</tfoot></table>";
             
-            System.out.println(regdata+regrows);
+           // System.out.println(regdata+regrows);
     
              out.println(regdata+regrows);
          if(conn.rs!=null){conn.rs.close(); System.out.println(" resultset closed ");}   

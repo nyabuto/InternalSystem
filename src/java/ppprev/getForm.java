@@ -117,15 +117,15 @@ for(int a=0;a<lessons;a++){
 for(int p=0;p<variablessessions.length;p++){  
                 String vals = "";
                 //for multiselect data
-                if(variablessessionname[p].equals("method")){
-                     if (request.getParameterValues(variablessessionname[p]+(a+1)) != null) 
+                if(variablessessionname[p].equals("methods")){
+                if(request.getParameterValues(variablessessionname[p]+(a+1)) != null) 
                 {
                 String [] valsi=request.getParameterValues(variablessessionname[p]+(a+1));
-                   
-                for(int v=0;v<valsi.length;v++)
-                {
-                vals+=valsi[v]+",";
-                }
+                   //System.out.println( " Methods Visible Lenth nini " + valsi.length);
+                    for (String valsi1 : valsi) {
+                        vals += "" + valsi1 + ",";
+                        //System.out.println(valsi1 + " Methods Visible ni " + vals);
+                    }
                 conn.pst1.setString(count,vals);
                  count++;
                 }
@@ -201,7 +201,7 @@ formdata2insert=formdata2insert.replace(",)", ")");
 conn.pst1=conn.conn.prepareStatement(formdata2insert);     
    
    //___________________values in section 2_____________________________
-   
+   boolean isblankrow=true;
    for(int p=0;p<section3.length;p++){
     
   String vals="";
@@ -219,6 +219,12 @@ conn.pst1=conn.conn.prepareStatement(formdata2insert);
      if (request.getParameter(section3[p]+""+(a+1)) != null)
     {
     vals = request.getParameter(section3[p]+(a+1));
+    if(section3[p].equals("firstname")||section3[p].equals("lastname")||section3[p].equals("age") ){
+    
+    if(vals!=""){isblankrow=false;}
+    
+    }
+    
     conn.pst1.setString(count,""+vals);
     count++;
     }
@@ -242,7 +248,14 @@ conn.pst1=conn.conn.prepareStatement(formdata2insert);
 }
    
    System.out.println(""+conn.pst1.toString());
-conn.pst1.executeUpdate();   
+   if(!isblankrow){
+conn.pst1.executeUpdate();
+   }
+   else {
+       
+      // System.out.println("$$ A blank wa skipped ");
+   
+   }
 
 }//end of total rows string
 

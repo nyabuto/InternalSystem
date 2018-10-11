@@ -30,17 +30,22 @@ public class getFacilitator extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
            String groupid="";
-           
+           String Defaultfacil="";
            if(request.getParameter("group")!=null){
            
            groupid=request.getParameter("group");
+           }
+           
+            if(request.getParameter("Defaultfacil")!=null){
+           
+           Defaultfacil=request.getParameter("Defaultfacil");
            }
           
                  dbConn conn = new dbConn();
            
            
             
-            out.println(Facilitator(conn, groupid, ""));
+            out.println(Facilitator(conn, groupid, Defaultfacil));
             
             
          if(conn.rs!=null){conn.rs.close(); }   

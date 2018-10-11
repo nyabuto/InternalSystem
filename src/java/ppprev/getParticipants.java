@@ -70,7 +70,7 @@ public class getParticipants extends HttpServlet {
             
             
             
-            String qry="select * from hc_participants where group_id='"+groupid+"' ";
+            String qry="select * from hc_participants where group_id='"+groupid+"' order by timestamp asc ";
            
             
             conn.rs=conn.st.executeQuery(qry);
@@ -115,7 +115,7 @@ public class getParticipants extends HttpServlet {
     rows+="</tbody><tfoot><tr><td  style= 'text-align: left;' colspan='6'><input type='button' onclick='addrow();' class='btn btn-lg btn-block btn-success' id='ongezarow' value='Add Participant row' /></td></tr>"
         +"<tr><td ><input type='hidden' value='"+count+"' id='totalrows' name='totalrows'></td></tr></tfoot></table>";
             
-            System.out.println(data+rows);
+            //System.out.println(data+rows);
     
              out.println(data+rows);
          if(conn.rs!=null){conn.rs.close(); }   

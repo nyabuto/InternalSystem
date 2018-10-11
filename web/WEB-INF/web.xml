@@ -1033,6 +1033,18 @@
         <servlet-name>Upload_CXCA</servlet-name>
         <servlet-class>LoadExcels.Upload_CXCA</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadServices</servlet-name>
+        <servlet-class>ppprev.loadServices</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveServices</servlet-name>
+        <servlet-class>ppprev.saveServices</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadParticipantsforServices</servlet-name>
+        <servlet-class>ppprev.loadParticipantsforServices</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2064,6 +2076,18 @@
     <servlet-mapping>
         <servlet-name>Upload_CXCA</servlet-name>
         <url-pattern>/Upload_CXCA</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadServices</servlet-name>
+        <url-pattern>/loadServices</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveServices</servlet-name>
+        <url-pattern>/saveServices</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadParticipantsforServices</servlet-name>
+        <url-pattern>/loadParticipantsforServices</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

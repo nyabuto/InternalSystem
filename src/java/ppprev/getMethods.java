@@ -103,7 +103,7 @@ String wherestring="";
             while(conn.rs.next()){
             
                 String selected="";
-                if(curselect.equals(conn.rs.getString(1))){selected=" selected ";}
+                if(curselect.contains(conn.rs.getString(1)+",")){selected=" selected ";}
                 
             data+="<option "+selected+"  value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+". "+conn.rs.getString(2)+"</option>";
             

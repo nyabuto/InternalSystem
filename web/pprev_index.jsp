@@ -14,7 +14,7 @@
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title>PPrev</title>
+        <title>PP_Prev</title>
         <link rel="shortcut icon" href="images/index.JPG"/>
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <meta content="" name="description" />
@@ -33,7 +33,7 @@
         <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker_1.css" />
 
 
-        <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
+        <link rel="stylesheet" href="dataTables/css/jquery.dataTables.css" />
 
         <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 
@@ -246,7 +246,7 @@ input:focus {
                       <div class="control-group" >
                                     <label>Sub county</label>
                                     <div class="controls" >
-                                        <select onchange='getWard("subcountyname");'   name="subcountyname" id="subcountyname" style="width:100%;" class="form-control">
+                                        <select onchange='getWard("subcountyname","");'   name="subcountyname" id="subcountyname" style="width:100%;" class="form-control">
                                            
                                              <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
                                        
@@ -375,7 +375,7 @@ input:focus {
                     <div class="control-group" >
                                     <label>Sub County</label>
                                     <div class="controls" >
-                                        <select onchange='getGroup("ward");'  name="subcountynamed" id="subcountynamed" style="width:100%;" class="form-control">
+                                        <select onchange='getGroup("ward","");'  name="subcountynamed" id="subcountynamed" style="width:100%;" class="form-control">
                                            
                                              <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
                                        
@@ -442,87 +442,15 @@ input:focus {
             <div class="modal-body">
                 <form  id="" method="post">
                                
-                    <!------------------------------------------County-------------------------------------------------------->
-                       <div class="control-group" style='display:none;' >
-                                    <label>County</label>
-                                    <div class="controls">
-                                        <select  name="rpt_county" id="rpt_county" style="width:100%;" class="form-control">
-                                            <option value="">Select County (optional)</option>
-                                             <option value="Baringo">Baringo</option>
-                                             <option value="Kajiado">Kajiado</option>
-                                             <option value="Laikipia">Laikipia</option>
-                                             <option value="Nakuru">Nakuru</option>
-                                             <option value="Narok">Narok</option>
-                                              <option value="Samburu">Samburu</option>
-                                             <option selected value="Turkana">Turkana</option>
-                                            
-                                           
-                                        </select>
-                                    </div>
-                                </div>
-                    
-                    <!------------------------------------------SubCounty-------------------------------------------------------->  
-                    
-                      <div class="control-group" >
-                                    <label>Sub county</label>
-                                    <div class="controls" >
-                                        <select onchange='getWard("subcountyname");'   name="subcountyname" id="subcountyname" style="width:100%;" class="form-control">
-                                           
-                                             <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
-                                       
-                                        </select>
-                                    </div>
-                                </div>
                     
                     
-                     <div class="control-group" >
-                                    <label>Ward</label>
-                                    <div class="controls" >
-                                        <select  name="ward" id="ward" style="width:100%;" class="form-control">
-                                           
-                                             <option value="">Select Subcounty first</option>
-                                       
-                                        </select>
-                                    </div>
-                                </div>
+                   
+           <div id="editattendancediv"></div>         
                     
                     
-                    <div class="control-group" >
-                                    <label>Implementing Partner</label>
-                                    <div class="controls" >
-                                        <select onchange='getPopulation();'  name="partnername" id="partnername" style="width:100%;" class="form-control">
-                                           
-                                             <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
-                                       
-                                        </select>
-                                    </div>
-                                </div>
-                     <div class="control-group" >
-                                    <label>Target Population</label>
-                                    <div class="controls" >
-                                        <select  name="targetpopname" id="targetpopname" style="width:100%;" class="form-control">
-                                           
-                                             <!--<option title="From 1st October of the selected date year to the end date specified inside the same date year " value="excelreport_cumulative">Cumulative</option>-->
-                                       
-                                        </select>
-                                    </div>
-                                </div>
-                    
+              
                  
-                    
-                    
-                 
-                                <div class="control-group">
-                                    
-                                    <div class="controls">
-                                        <button     style="margin-left: 30%;"  class="btn-lg btn-success ">
-                                            Save
-                                        </button>
-                                        
-                                        <img src='images/ajax_loader.gif' alt='loading' style="display:none; margin-left:30% ;" class='loading'/>
-                                        
-                                    </div>
-                                </div>   
+                                  
                     
                 </form>
             </div>
@@ -588,6 +516,7 @@ input:focus {
 
         <script src="assets/bootstrap-wizard/jquery.bootstrap.wizard.js"></script>
         <script src="assets/bootstrap-wizard/prettify.js"></script>
+        <script src="dataTables/js/jquery.dataTables.js"></script>
 
         <!--<script src="js/bootstrap-datepicker.min.js"></script>-->
         <script src="assets/bootstrap-datepicker/js/datepicker.js"></script>
@@ -646,7 +575,7 @@ input:focus {
                             },
                             onNext: function(tab, navigation, index) {
                                 
-			if(index===5) {
+			if(index===1) {
 				// Make sure we entered the name
 				if($('#partner').val()==="") {
 					alert('Select partner');
@@ -734,7 +663,7 @@ input:focus {
                         //------------------------tab 2 validations---------------
      
         
-        else if(index===7) {
+        else if(index===2) {
             
             
             var masomo=7;
@@ -1001,22 +930,6 @@ $('.tarehe1').datepicker({
 
 setSessions();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 setParticipants();
 
 setAttendance();
@@ -1040,7 +953,7 @@ setAttendance();
       function addrow(){
          counter = $("#totalrows").val();
          var agegroup="";
-         
+         var id="";
          var defaultsex="";
          
          agegroup=$("#agegroup").val();
@@ -1050,13 +963,22 @@ setAttendance();
              defaultsex="Female";
              
          }
+         
+         if(agegroup==='Young Men' || agegroup==='Older Men' ){
+             
+             defaultsex="Male";
+             
+         }
+         
          var gend="";
          if(defaultsex!==""){gend="<%=gp.getGender("Female")%>";}
 else {
   gend="<%=gp.getGender("")%>";  
     
 }         
-         
+    id= getRandomId(); 
+    
+    console.log(" iiid ni "+getRandomId());
         var lessons=7;
         
         if($("#lessons").val()!==''  ){
@@ -1069,7 +991,7 @@ else {
         
         
         var newRow = $("<tr id='tablerow"+counter+"'>");
-        var cols = "<td class= 'col-sm-1 '>"+counter+"<input value='<%=gp.RandomNo(1000, 90000)%>' type='hidden' id='id"+counter+"' name= 'id"+counter+"'  /></td>";
+        var cols = "<td class= 'col-sm-1 '>"+counter+"<input value='"+getRandomId(10000,90000)+"' type='hidden' id='id"+counter+"' name= 'id"+counter+"'  /></td>";
         
          cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' type= 'text' id='firstname"+counter+"' name= 'firstname"+counter+"' class= 'form-control' /></td>"
          cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' placeholder='optional' type= 'text' id='middlename"+counter+"' name='middlename"+counter+"' class= 'form-control' /></td>"
@@ -1097,7 +1019,7 @@ else {
        // newRow.append("</tr>");
         $("#attendancetable").append(newregRow);
         
-        
+         id="<%=gp.RandomNo(10000, 90000)%>";  
         counter++;
        $("#totalrows").val(counter); 
    }
@@ -1157,6 +1079,7 @@ else {
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
+                        
                         $("#curriculum").html(data);
                         setLessons();setSessions(); setAttendance();
 
@@ -1167,18 +1090,18 @@ else {
 
             //getPopulation();
 
-            function getGroup(id ) {
+            function getGroup(id ,defaultgroup) {
 
                 var wardid = "";
                 var ward = $("#"+id).val();
 
                 if (ward !== '' && ward !== null) {
-                    wardid = "ward=" + ward;
+                    wardid = "&ward=" + ward;
                 }
 
 
                 $.ajax({
-                    url: 'getGroup?' + wardid,
+                    url: 'getGroup?defaultgroup='+defaultgroup + wardid,
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
@@ -1204,27 +1127,55 @@ else {
 
 
 
-            function getFacilitator() {
+            function getFacilitator(Defaultfacil) {
+                
+                
 
                 var group = "";
                 var groupid = $("#group").val();
 
                 if (groupid !== '' && groupid !== null) {
-                    group = "group=" + groupid;
+                    group = "&group=" + groupid;
                 }
 
 
                 $.ajax({
-                    url: 'getFacilitator?' + group,
+                    url: 'getFacilitator?Defaultfacil='+Defaultfacil + group,
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
 
                       
                         $("#facilitator").html(data);
+                      
+$("#facilitator").select2();
+
+
+
+                    }
+                });
+            }
+
+function getCoFacilitator(Defaultfacil) {
+
+                var group = "";
+                var groupid = $("#group").val();
+
+                if (groupid !== '' && groupid !== null) {
+                    group = "&group=" + groupid;
+                }
+
+
+                $.ajax({
+                     url: 'getFacilitator?Defaultfacil='+Defaultfacil + group,
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+
+                      
+                        
                         $("#cofacilitator").html(data);
 
-$("#facilitator").select2();
 $("#cofacilitator").select2();
 
 
@@ -1233,20 +1184,19 @@ $("#cofacilitator").select2();
             }
 
 
-
-    function getWard(id) {
-
+    function getWard(id,defaultward) {
+//console.log("nimeitwa");
                 var subcountyid = "";
                // var subcounty = $("#subcountyname").val();
                 var subcounty = $("#"+id).val();
 
                 if (subcounty !== '' && subcounty !== null) {
-                    subcountyid = "subcounty=" + subcounty;
+                    subcountyid = "&subcounty=" + subcounty;
                 }
 
 
                 $.ajax({
-                    url: 'getWard?' + subcountyid,
+                    url: 'getWard?defaultward='+defaultward+subcountyid,
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
@@ -1254,6 +1204,7 @@ $("#cofacilitator").select2();
                             
             $("#wardid").html(data);
              $("#ward").html(data);
+             //console.log("ward imechange sasa");
         
         }
                         else {
@@ -1278,6 +1229,7 @@ $("#cofacilitator").select2();
 
                 var curriculum= "";
                 var curriculumid = $("#curriculum").val();
+                var formid = $("#formid").val();
                 
                   var lesson = "7";
                   
@@ -1290,12 +1242,12 @@ $("#cofacilitator").select2();
                 
                 //if (curriculumid !== '' && curriculumid !== null) {
                 if (1===1) {
-                    curriculum = "curriculumid="+curriculumid+"&lessons="+lesson;
+                    curriculum = "&curriculumid="+curriculumid+"&lessons="+lesson;
                 }
 
 
                 $.ajax({
-                    url: 'getSessions?' + curriculum,
+                    url: 'getSessions?formid='+formid + curriculum,
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
@@ -1352,7 +1304,41 @@ $("#cofacilitator").select2();
                 });
             }
 
+function setParticipantsWithGroup(defaultgroup) {
 
+                var group= "";
+                
+                var agegroup="";
+                
+                if (typeof $("#agegroup").val() !== "undefined") {
+                      agegroup = $("#agegroup").val();
+				  }
+                
+                
+                var groupid =defaultgroup;
+                
+                
+               
+              
+                //if (curriculumid !== '' && curriculumid !== null) {
+           
+                    group = "groupid="+groupid+"&agegroup="+agegroup;
+              
+
+
+                $.ajax({
+                    url: 'getParticipants?' + group,
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+
+                    
+                        $("#participants").html(data);
+                 
+
+                    }
+                });
+            }
 
 
 
@@ -1491,7 +1477,7 @@ function saveGroup(){
   $("#targetpopname").val("");
   $("#groupname").val("");
                         
-               getGroup("ward");         
+               getGroup("ward","");         
 
                     }
                 });  
@@ -1574,8 +1560,16 @@ function saveFacilitator(){
    $("#phone").val("");
    $("#subcountynamed").val("");
    $("#groupnamed").val("");
+                    if($("#facilitator").val()===''){
+                        getFacilitator("");   
                         
-                 getFacilitator();       
+                    } 
+                     if($("#cofacilitator").val()===''){
+                        getCoFacilitator("");   
+                        
+                    }
+                     
+                        
 
                     }
                 });  
@@ -1682,7 +1676,118 @@ function setFacilitatorDefaults(){
     
      $("#subcountynamed").val(sc);
      $("#groupnamed").val(grp);
+      $("#groupnamed").select2();
     
+}
+
+
+
+
+
+function loadEnteredForms()
+{
+    
+  //        
+           $.ajax({
+                    url: 'loaddata' ,
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+
+                      
+                        $("#editattendancediv").html(data);
+                        
+                        
+                        var table2 = $('#editattendancetable').DataTable({"autoWidth": true,
+              "paging": true,
+              "pagingType": "full",
+              "lengthChange": false,  
+              "order": [[0,'desc']]});
+                       
+//location.reload();
+                    }
+                });      
+    
+    
+}
+loadEnteredForms();
+
+
+function editAttendanceForm(id,ward)
+{
+    
+  $.ajax({
+                    url: 'editForm?ward='+ward+'&formid='+id ,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+
+                   //load the various eleements   
+                        //$("#editattendancediv").html(data);
+                        
+ //var mauwanja={"formid","partner","subcounty","targetpop","curriculum","group","lessons","facilitator","cofacilitator","startdate","enddate","agegroup"};      
+   // for(var s=0;s<mauwanja.length;s++){
+     
+//    $("#"+mauwanja[s]).val(data.)        
+        
+   // }   
+//    $("#facilitator").trigger('change');  
+//    $("#cofacilitator").trigger('change'); 
+
+   
+  $("#formid").val(data.formid);   
+  $("#id").val(data.id);   
+  $("#partner").val(data.partner);   
+  $("#partner").change();   
+  $("#subcounty").val(data.subcounty); 
+  getWard("subcounty",ward);
+  getGroup("ward",data.group);
+  $("#targetpop").val(data.targetpop); 
+  //$("#targetpop").change();  
+  
+  $("#curriculum").val(data.curriculum); 
+  
+  $("#lessons").val(data.lessons); 
+ 
+  getFacilitator(data.facilitator); 
+  getCoFacilitator(data.cofacilitator); 
+  $("#startdate").val(data.startdate);   
+  $("#startdate").trigger('blur');   
+  $("#enddate").val(data.enddate);   
+  $("#enddate").trigger('blur'); ;   
+  $("#agegroup").val(data.agegroup);
+  //$("#agegroup").change();
+     // $("#group").trigger('change'); 
+  
+//  $("#group").val(data.group);
+//  $("#facilitator").val(data.facilitator);
+//  $("#cofacilitator").val(data.cofacilitator);
+  
+  $("#facilitator").select2(); 
+  $("#cofacilitator").select2();
+  $("#group").select2();
+  
+  //setSessions();
+
+setParticipantsWithGroup(data.group);
+
+//setAttendance();
+        
+//location.reload();
+                    }
+                });    
+    
+    
+}
+
+
+function getRandomId(min,max){
+    var valueni="";
+    
+
+    return Math.floor(Math.random()*(max-min+1)+min);
+
+   
 }
 
         </script>

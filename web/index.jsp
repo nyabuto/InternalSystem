@@ -164,15 +164,15 @@ int year= cal.get(Calendar.YEAR);
   <script src="assets/js/app.js"></script>
   <script>
     jQuery(document).ready(function() {     
-       $.ajax({
-url:'facilityautobackup',
-type:'post',
-dataType:'html',
-success:function (data){
-        // $("#facility").chosen();
-}
-
-});
+//       $.ajax({
+//url:'facilityautobackup',
+//type:'post',
+//dataType:'html',
+//success:function (data){
+//        // $("#facility").chosen();
+//}
+//
+//});
  $.ajax({
 url:'validateTotals',
 type:'post',

@@ -33,18 +33,22 @@ public class getWard extends HttpServlet {
             
                 dbConn conn = new dbConn();
            String subcounty="";
+           String defaultward="";
            
            if(request.getParameter("subcounty")!=null){
            
            subcounty=request.getParameter("subcounty");
            }
           
+            if(request.getParameter("defaultward")!=null){
+           
+           defaultward=request.getParameter("defaultward");
+           }
+            
            
             
-           
             
-            
-            out.println(ward(conn, subcounty, ""));
+            out.println(ward(conn, subcounty, defaultward));
              if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
              if(conn.conn!=null){conn.conn.close();  System.out.println(" connection closed ");}  
