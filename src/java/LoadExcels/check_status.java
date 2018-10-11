@@ -57,6 +57,14 @@ int pos=0;
              }
             }
          }
+         else if(load_type.equalsIgnoreCase("cxca")){
+              if(session.getAttribute("cxca")!=null){
+             message = session.getAttribute("cxca").toString();
+             if(isNumeric(session.getAttribute("cxca_count").toString())){
+             pos = Integer.parseInt(session.getAttribute("cxca_count").toString());
+             }
+            }
+         }
          
          obj.put("count", pos);
          obj.put("message", message);

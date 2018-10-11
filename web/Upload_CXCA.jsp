@@ -181,7 +181,16 @@ tr>td {
                   <!-- END SAMPLE FORM PORTLET-->
                </div>
             </div>
-       
+       <div>
+          
+ <%if (session.getAttribute("cxca_uploaded") != null) {
+  out.println(session.getAttribute("cxca_uploaded"));  
+  session.removeAttribute("cxca_uploaded");
+   }
+                        %>
+     
+  
+           </div>
           
          
           

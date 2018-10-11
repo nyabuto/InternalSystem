@@ -38,14 +38,15 @@ private static final String UPLOAD_DIR = "uploads";
 String full_path="";
 String fileName="";
 File file_source;
-String output="",sheetName =""; 
+String output="",sheetName ="",info=""; 
 String query="";
+int total_workbooks=0;
         protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
          dbConn  conn = new dbConn();
         session = request.getSession();
         
-        output="";
+        output = info = "";
             XSSFSheet  worksheet;
         
         
@@ -57,7 +58,10 @@ String query="";
             fileSaveDir.mkdirs();
         }
         
+            total_workbooks = request.getParts().size();
+            
                 for (Part part : request.getParts()) {
+                    System.out.println("total_workbooks : "+total_workbooks);
             if(!getFileName(part).equals("")){
            fileName = getFileName(part);
             part.write(uploadFilePath + File.separator + fileName);
@@ -84,8 +88,9 @@ String query="";
        XSSFWorkbook workbook = null;
        if(fileName.endsWith(".xlsx")){
        workbook = new XSSFWorkbook(fileInputStream);
-       output+="<br><b><u>File Name:"+fileName+"</u></b><br>";
+       info+="<br><b><u>File Name:"+fileName+"</u></b><br><br>";
 //       loop through the sheets to read data
+        mflcode="";
        int all_sheets = workbook.getNumberOfSheets();
        for(int q=0;q<all_sheets;q++){
            existing_values = 0;
@@ -109,7 +114,10 @@ String query="";
               facility = cell.getStringCellValue();
               cell = row3.getCell(7);
               cell.setCellType(1);
+              if(isNumeric(cell.getStringCellValue())){
               mflcode = cell.getStringCellValue();
+              }
+              System.out.println("facility:"+cell.getStringCellValue()+":");
               cell = row3.getCell(10);
               cell.setCellType(1);
               year = cell.getStringCellValue();
@@ -136,7 +144,6 @@ String query="";
                
              //start reading data here in arraylike 
               
-              
              for(int i=0;i<data_columns.length;i++){
                String row_data[] = data_columns[i];
                XSSFRow row = worksheet.getRow(i+5);
@@ -161,17 +168,23 @@ String query="";
              
              conn.st.executeUpdate(query);
              
-             
+             info+="<b style=\"color:black\">Successfully uploaded</b>:"+sheetName+"<br>";
             }
             else{
+                info+="<b style=\"color:red\">No Data</b>: "+sheetName+"<br>";
                 //System.out.println(sheetName+" of "+yearmonth+ " has no data");
             }
            
               //System.out.println("Final Query : "+query);
           }
           else{
+                  info+="<b style=\"color:red\">Missing MFL Code, year or month</b>: "+sheetName+"<br>";
+                  
 //              missing facility, year or month data
           }
+              
+        session.setAttribute("cxca", "<b>"+q+"/"+(all_sheets*total_workbooks)+"</b>");
+        session.setAttribute("cxca_count", (q*100)/(all_sheets*total_workbooks));
           }
           else{
               System.out.println("Wrong sheetName :"+sheetName);
@@ -181,13 +194,19 @@ String query="";
        
        }
        else{
+              info+="<b style=\"color:red\">Wrong file uploaded</b>:"+fileName+"<br>";
+                      
            System.out.println("Wrong file format");
            output+="<br><b><u>Wrong file format for file "+fileName+". Your file must end with .xlsx </u></b><br>";
        }
         }
-    }
-               
-     
+    }   
+                
+        session.setAttribute("cxca", "<b>Upload complete.</b>");
+        session.setAttribute("cxca_count", 100);
+        
+        
+     session.setAttribute("cxca_uploaded", info);
                 response.sendRedirect("Upload_CXCA.jsp");
     }
 

@@ -11252,7 +11252,11 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
            HSSFCell clx;
         for(int i=0;i<totalcolumns;i++){
            clx = rwx.createCell(colpos);
-            clx.setCellValue(conn.rs.getString(colpos+1));
+             if(isNumeric(conn.rs.getString(colpos+1))){
+               clx.setCellValue(Integer.parseInt(conn.rs.getString(colpos+1)));    
+           }else{
+              clx.setCellValue(conn.rs.getString(colpos+1));      
+           }
             clx.setCellStyle(style2); 
          
          colpos++;
