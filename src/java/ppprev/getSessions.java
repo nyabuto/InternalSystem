@@ -140,7 +140,7 @@ public class getSessions extends HttpServlet {
                   
                   
                  String defaulttopic =hm.get("s"+a+"_topic");
-                 String defaultmethod=hm.get("s"+a+"_method");
+                 String defaultmethod=","+hm.get("s"+a+"_method");
                  String defaultdate  =hm.get("s"+a+"_date");
                  String defaulttime  =hm.get("s"+a+"_time");
                  String defaultmcn   =hm.get("s"+a+"_malecondoms");
