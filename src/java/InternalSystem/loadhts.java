@@ -1055,6 +1055,13 @@ if(conn.rs.getString("tk_total2")!=null){tk_total2= conn.rs.getString("tk_total2
                 output = "<tr ><td colspan='4'><font color=\"red\" size=\"6px;\" style=\"margin-left: 0%;\"><b>sorry :</b> </font><font color=\"black\" size=\"5px;\"> Facility Does not Support  IPT module.</font></td></tr>";
 
             }
+           if(conn.conn!=null){ conn.conn.close();}
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.st!=null){ conn.st.close();}
+         if(conn.st2!=null){ conn.st2.close();}
+         if(conn.conn!=null){ conn.conn.close();}
         
         out.println(output);
         } finally {

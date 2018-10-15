@@ -30,7 +30,7 @@
 
         <link rel="stylesheet" type="text/css" href="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
         <!--<link rel="stylesheet" type="text/css" href="css/bootstrap-datepicker.min.css" />-->
-        <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker_1.css" />
+        <!--<link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker_1.css" />-->
 
 
         <link rel="stylesheet" href="dataTables/css/jquery.dataTables.css" />
@@ -40,6 +40,7 @@
         <link href="assets/bootstrap-wizard/prettify.css" rel="stylesheet">
         
          <link rel="stylesheet" href="select2/css/select2.css"/>
+         <link rel="stylesheet" href="css/jquery-ui.css"/>
          
 <style type='text/css'>
 input:focus {
@@ -55,6 +56,19 @@ input:focus {
   table-layout: fixed;
 }
 
+.datepicker-container .datepicker-dropdown .datepicker-top-left 
+{
+   z-index: 32767 !important;
+}
+
+/* Important part */
+/*.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body {
+    height: 80%;
+    overflow-y: scroll;
+}*/
 
 
 </style>  
@@ -138,21 +152,58 @@ input:focus {
                             <!-- BEGIN STYLE CUSTOMIZER -->
 
                             <!-- END BEGIN STYLE CUSTOMIZER -->   
-                            <h3 class="page-title" style="text-align: center;">
+                            <h5 class="page-title" style="text-align: center;">
+<div id="ujumbempya"> 
+                                                
+                                                <%if(session.getAttribute("msg2")!=null){out.println(session.getAttribute("msg2"));}%>
+                                                
+                                            </div>
 
-
-                            </h3>
+                            </h5>
                             <ul class="breadcrumb">
                                 <li>
                                     <i class="icon-check"></i>
-                                    <font color="#4b8df8">PP PREV 1 Group Attendance Register</font>
+                                    <font color="#4b8df8"></font>
 
                                 </li>
 
                             </ul>
                         </div>
                     </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <!------------------------------------Accordion End---------------------------------------->
+                    
+                   
+ 
+<div id="accordion">
+
+
+  <h3 style="text-align: center;"> <span class='badge badge-warning'>1</span> PP PREV 1 GROUP ATTENDANCE REGISTER</h3>
+  <!----Start accordion div---->
+  <div style="height:100%;">
+    
+<!--      body 1-->
+
+
+
+
+
+ 
+ 
+ 
+                    
+                    <!------------------------------------Accordion End---------------------------------------->
+                    
+                    
+                    
                     <!-- END PAGE HEADER-->
+                    
                     <!-- BEGIN PAGE CONTENT-->
                     <div class="row-fluid">
                         <div class="span12">
@@ -160,7 +211,8 @@ input:focus {
                             <div class="portlet box blue">
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>  <a style='margin-left: 100px;' onclick="setGroupDefaults();"  class='btn btn-default'  data-toggle='modal' href='#addgroup'><i class='icon-plus'></i>Add Group</a>     <a onclick='setFacilitatorDefaults();' class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#addfacilitator'><i class='icon-plus'></i>Add Facilitator</a>
-                                    <a  class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#editattendance'><i class='icon-plus'></i>Edit Attendance</a></h4>
+                                    <a  class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#editattendance'><i class='icon-plus'></i>Edit Attendance</a>
+                                    <a id="servicesbutton" class='btn btn-default' style='margin-left: 100px;display:none;'  data-toggle='modal' href='#hcservicesmodal'><i class='icon-plus'></i>Launch Services</a></h4>
                                     <div class="tools">
                                         <a href="javascript:;" class="collapse"></a>
                                         <a href="#portlet-config" data-toggle="modal" class="config"></a>
@@ -465,8 +517,64 @@ input:focus {
 </div>
 
 
+ </div>
+  
+  
+  
+  <h3 style="text-align: center;" id="participantsaccordion"><span class='badge badge-warning'>2</span> PP PPREV SERVICES</h3>
+  <div>
+    
+      
+      <div id="hcservices"></div>
+      
+      
+  </div>
+  
+  
+  
+  
+  
+  
+</div><!-----end of accordion----->
+
+ <!----------------------------------------------------------------------------Attendance-------------------------------------------------------------->
+ <!----------------------------------------------------------------------------services modal-------------------------------------------------------------->
+ 
+ 
 
 
+
+<div class="modal fade" id="hcservicesmodal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id='servicesclosebtn' class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" style='text-align: center;'><span  style='text-align: right;'></span></h4>
+            </div>
+            <div class="modal-body">
+                
+                               
+                    
+                    
+                   
+           <div id="servicesdiv" style='overflow-y:scroll;height:600px;'><label>Loading services</label></div>         
+                    
+                    
+              
+                 
+                                  
+                    
+              
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+              
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
  <!----------------------------------------------------------------------------Attendance-------------------------------------------------------------->
                                                 
                                                 
@@ -494,7 +602,9 @@ input:focus {
         <!-- END FOOTER -->
         <!-- BEGIN JAVASCRIPTS -->    
         <!-- Load javascripts at bottom, this will reduce page load time -->
-        <script src="assets/js/jquery-1.8.3.min.js"></script>    
+        <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->    
+        <script src="js/jquery-1.12.4.js"></script>    
+        <script src="js/jquery-ui.js"></script>    
 
         <script src="assets/breakpoints/breakpoints.js"></script>       
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -507,7 +617,7 @@ input:focus {
         <script src="assets/js/respond.js"></script>
         <![endif]-->
         <script type="text/javascript" src="assets/chosen-bootstrap/chosen/chosen.jquery.min.js"></script>
-        <script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>
+        <!--<script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>-->
         <script type="text/javascript" src="assets/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script> 
         <script type="text/javascript" src="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
         <script type="text/javascript" src="assets/jquery-tags-input/jquery.tagsinput.min.js"></script>
@@ -519,9 +629,9 @@ input:focus {
         <script src="dataTables/js/jquery.dataTables.js"></script>
 
         <!--<script src="js/bootstrap-datepicker.min.js"></script>-->
-        <script src="assets/bootstrap-datepicker/js/datepicker.js"></script>
+        <!--<script src="assets/bootstrap-datepicker/js/datepicker.js"></script>-->
  <script src="select2/js/select2.js"></script>
-        <script src="assets/js/app.js"></script>     
+        <!--<script src="assets/js/app.js"></script>-->     
         <script>
 
   var counter=null;
@@ -773,7 +883,7 @@ input:focus {
                                     //6
 				if(((typeof $('#firstname'+a).val() !== "undefined") && $('#firstname'+a).val() !==null ) && ($('#firstname'+a).val().trim()!==""  || $('#middlename'+a).val().trim()!=="" || $('#lastname'+a).val()!=="" || $('#age'+a).val()!=="" || $('#sex'+a).val()!=="" ))
                                 {
-			console.log(" fname:"+$('#firstname'+a).val()+"  mname"+$('#middlename'+a).val()+"  lastname:"+$('#lastname'+a).val()+" age:"+ $('#age'+a).val()+"  sex:"+$('#sex'+a).val());		
+			console.log(a+" fname:"+$('#firstname'+a).val()+"  mname"+$('#middlename'+a).val()+"  lastname:"+$('#lastname'+a).val()+" age:"+ $('#age'+a).val()+"  sex:"+$('#sex'+a).val());		
                      if($('#firstname'+a).val()===""){
                                 
                                 alert('Enter firstname');
@@ -853,11 +963,13 @@ location.reload();
                         });
 
                         $('.tarehe').datepicker({
-                            todayHighlight: true, clearBtn: true, autoHide: true, format: "yyyy-mm-dd",endDate: "now()"
+                            todayHighlight: true, clearBtn: true, autoHide: true, dateFormat: "yy-mm-dd",maxDate: "now()",changeMonth: true,
+        changeYear: true
                         });
 
 $('.tarehe1').datepicker({
-                            todayHighlight: true, clearBtn: true, autoHide: true, format: "yyyy-mm-dd",endDate: "now()"
+                            todayHighlight: true, clearBtn: true, autoHide: true, dateFormat: "yy-mm-dd",maxDate: "now()",changeMonth: true,
+        changeYear: true
                         });
 
 
@@ -902,7 +1014,7 @@ $('.tarehe1').datepicker({
                         $("#partnername").html(data);
                         $("#partnernamed").html(data);
                         getPopulation();
-                        App.init();
+                        //App.init();
                     }
                 });
 
@@ -925,7 +1037,7 @@ $('.tarehe1').datepicker({
 
 
                 $('.tarehe').datepicker({
-                    todayHighlight: true, clearBtn: true, autoclose: true, format: "yyyy-mm-dd"
+                    todayHighlight: true, clearBtn: true, autoclose: true, dateFormat: "yy-mm-dd"
                 });
 
 setSessions();
@@ -976,9 +1088,7 @@ else {
   gend="<%=gp.getGender("")%>";  
     
 }         
-    id= getRandomId(); 
     
-    console.log(" iiid ni "+getRandomId());
         var lessons=7;
         
         if($("#lessons").val()!==''  ){
@@ -1028,8 +1138,9 @@ else {
 
  function deleterow(participantid,attendancerowid){
    // $("table.order-list").on("click", ".ibtnDel", function (event) {
-  
+  var sexelement=participantid.replace("tablerow","sex");
       //  $("table.order-list").closest("tr").remove();       
+        $("#"+sexelement).val("");       
         $("#"+participantid).remove();       
         $("#"+attendancerowid).remove();       
         //counter -=1;
@@ -1637,12 +1748,12 @@ function validatesessiondate(){
     $('.tarehe1').datepicker('destroy');
     
     $('.tarehe1').datepicker({
-                            todayHighlight: false, clearBtn: true, autoHide: true, format: "yyyy-mm-dd",endDate: maxdate,startDate:mindate
+                            todayHighlight: false, clearBtn: true, autoHide: true, dateFormat: "yy-mm-dd",maxDate: maxdate,minDate:mindate
                         });
                     }
                     else {
                         $('.tarehe1').datepicker({
-                            todayHighlight: true, clearBtn: true, autoHide: true, format: "yyyy-mm-dd"
+                            todayHighlight: true, clearBtn: true, autoHide: true, dateFormat: "yy-mm-dd"
                         });
                         
                     }
@@ -1790,7 +1901,115 @@ function getRandomId(min,max){
    
 }
 
-        </script>
+
+  $( function() {
+    $( "#accordion" ).accordion({
+        
+        heightStyle: "content" 
+        
+    });
+  } );
+  
+  
+  
+    function setServiceParticipants() {
+
+              
+
+
+                $.ajax({
+                    url: 'loadParticipantsforServices',
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+
+                    
+                        $("#hcservices").html(data);
+                   var table2 = $('#participants2table').DataTable({"autoWidth": true,
+              "paging": true,
+              "pagingType": "full",
+              "lengthChange": false,  
+              "order": [[0,'desc']]});
+
+                    }
+                });
+            }
+  
+  setServiceParticipants();
+  
+  function launchservices(sex,participantid,participant,age,ward){
+    
+    $("#servicesbutton").click();
+  
+    
+       $.ajax({
+                    url: 'loadServices?sx='+sex+"&id="+participantid+"&pp="+participant+"&ag="+age+"&wd="+ward,
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) 
+                    {
+                     $("#servicesdiv").html("<form id='servicesf'  >"+data+"</form>");
+                    
+        
+ 
+    $( ".tarehe3" ).datepicker({dateFormat:"yy-mm-dd",maxDate:  '+0m +0w' ,changeMonth: true,
+        changeYear: true});
+  
+        
+//                     $('.tarehe3').datepicker({
+//                            todayHighlight: false, clearBtn: true, autoHide: true, format: "yy-mm-dd"
+//                        });
+                    }
+                });  
+      
+      
+  }
+  
+  
+  function saveServices(){
+       var da= $("#servicesf").serialize();
+       
+       
+	var ishtsrefChecked = $('#htc_ref').prop('checked');
+	var ishtsrecChecked = $('#htc_rec').prop('checked');
+        
+        var htsrefdate=$("#htc_ref_date").val();
+        
+        var htsrecdate=$("#htc_rec_date").val();
+        var htsres=$("#hivresults").val();
+       
+       if(ishtsrefChecked===true && htsrefdate===''){ $("#ujumbe3").html("<font color='red'>Data not saved.Please enter HTC service referral date</font>");}
+       else if(ishtsrecChecked===true && htsrecdate===''){ $("#ujumbe3").html("<font color='red'>Data not saved.Please enter HTC service received date</font>");}
+       else if(ishtsrecChecked===true && htsres===''){ $("#ujumbe3").html("<font color='red'>Data not saved.Please enter HIV results</font>");}
+       
+      // alert(da);
+      else {
+          
+       var idd=   $("#participantid").val();
+          
+          $("#status_"+idd).addClass('btn-success').removeClass('btn-danger');
+          $("#status_"+idd).html('Yes');
+             $.ajax({
+                    url: 'saveServices?' + da,
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+
+                      
+                        $("#ujumbempya").html(data);
+                        $("#ujumbe3").html(data);
+                        $("#servicesclosebtn").click();
+                       
+
+                    }
+                }); 
+            }
+      
+      
+  }
+  
+  </script>
+        
         <!-- END JAVASCRIPTS -->   
     </body>
     <!-- END BODY -->

@@ -94,16 +94,16 @@ String wherestring="";
            
          
            
-           
+          
             
             String data="";
-            String qry="select * from hc_teachingmethod "+wherestring;
+            String qry="select * from hc_teachingmethod "+wherestring+" order by method_id asc";
             
             conn.rs= conn.st.executeQuery(qry);
             while(conn.rs.next()){
             
                 String selected="";
-                if(curselect.contains(conn.rs.getString(1)+",")){selected=" selected ";}
+                if(curselect.contains(","+conn.rs.getString(1)+",")){selected=" selected ";}
                 
             data+="<option "+selected+"  value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+". "+conn.rs.getString(2)+"</option>";
             
