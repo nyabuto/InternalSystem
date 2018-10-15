@@ -3127,7 +3127,7 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
                 
             }
             
-            String joinedwhwere = " where ("+facilitiestable+".PEP=1)  AND "+facilitiestable+".active=1   " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere;
+            String joinedwhwere = " where ("+facilitiestable+".PEP=1)  AND "+facilitiestable+".active=1   " + yearwhere + " && " + duration + " " + countywhere + " " + subcountywhere+"  AND rapesurvivor_T is not null";
         
             
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
@@ -3150,32 +3150,32 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
             getexistingdata="SELECT \n" +
                     "county.County AS County, DistrictNom AS 'Sub County',subpartnera.SubPartnerNom AS 'Health Facility',CentreSanteId AS MFLCode,\n" +
                     "ART_Support AS support_type,\n" +
-                    "rapesurvivor_T AS Numerator,\n" +
-                    "0 AS 'Unkown Age F', (rapesurvivor_1_F+rapesurvivor_4_F+rapesurvivor_9_F) AS '<10 F', rapesurvivor_14_F AS '10-14 F',\n" +
-                    "rapesurvivor_19_F AS '15-19 F', rapesurvivor_24_F AS '20-24 F',rapesurvivor_29_F AS '25-29 F',rapesurvivor_34_F AS '30-34 F',\n" +
-                    "rapesurvivor_39_F AS '35-39 F',rapesurvivor_49_F AS '40-49 F',rapesurvivor_50_F AS '50+ F',\n" +
-                    "0 AS 'Unkown Age M', (rapesurvivor_1_M+rapesurvivor_4_M+rapesurvivor_9_M) AS '<10 M', rapesurvivor_14_M AS '10-14 M',\n" +
-                    "rapesurvivor_19_M AS '15-19 M', rapesurvivor_24_M AS '20-24 M',rapesurvivor_29_M AS '25-29 M',rapesurvivor_34_M AS '30-34 M',\n" +
-                    "rapesurvivor_39_M AS '35-39 M',rapesurvivor_49_M AS '40-49 M',rapesurvivor_50_M AS '50+ M',\n" +
+                    "SUM(rapesurvivor_T) AS Numerator,\n" +
+                    "0 AS 'Unkown Age F', SUM(rapesurvivor_1_F+rapesurvivor_4_F+rapesurvivor_9_F) AS '<10 F', SUM(rapesurvivor_14_F) AS '10-14 F',\n" +
+                    "SUM(rapesurvivor_19_F) AS '15-19 F', SUM(rapesurvivor_24_F) AS '20-24 F',SUM(rapesurvivor_29_F) AS '25-29 F',SUM(rapesurvivor_34_F) AS '30-34 F',\n" +
+                    "SUM(rapesurvivor_39_F) AS '35-39 F',SUM(rapesurvivor_49_F) AS '40-49 F',SUM(rapesurvivor_50_F) AS '50+ F',\n" +
+                    "0 AS 'Unkown Age M', SUM(rapesurvivor_1_M+rapesurvivor_4_M+rapesurvivor_9_M) AS '<10 M', SUM(rapesurvivor_14_M) AS '10-14 M',\n" +
+                    "SUM(rapesurvivor_19_M) AS '15-19 M', SUM(rapesurvivor_24_M) AS '20-24 M',SUM(rapesurvivor_29_M) AS '25-29 M',SUM(rapesurvivor_34_M) AS '30-34 M',\n" +
+                    "SUM(rapesurvivor_39_M) AS '35-39 M',SUM(rapesurvivor_49_M) AS '40-49 M',SUM(rapesurvivor_50_M) AS '50+ M',\n" +
                     "0 AS 'Unkown Age F', 0 AS '<10 F', 0 AS '10-14 F',\n" +
                     "0 AS '15-19 F', 0 AS '20-24 F',0 AS '25-29 F',0 AS '30-34 F',\n" +
                     "0 AS '35-39 F',0 AS '40-49 F',0 AS '50+ F',\n" +
                     "0 AS 'Unkown Age M', 0 AS '<10 M', 0 AS '10-14 M',\n" +
                     "0 AS '15-19 M', 0 AS '20-24 M',0 AS '25-29 M',0 AS '30-34 M',\n" +
                     "0 AS '35-39 M',0 AS '40-49 M',0 AS '50+ M',\n" +
-                    "0 AS 'Unkown Age F', (initiatedpep_1_F+initiatedpep_4_F+initiatedpep_9_F) AS '<10 F', initiatedpep_14_F AS '10-14 F',\n" +
-                    "initiatedpep_19_F AS '15-19 F', initiatedpep_F AS '20-24 F',initiatedpep_F AS '25-29 F',initiatedpep_34_F AS '30-34 F',\n" +
-                    "initiatedpep_39_F AS '35-39 F',initiatedpep_49_F AS '40-49 F',initiatedpep_50_F AS '50+ F',\n" +
-                    "0 AS 'Unkown Age M', (initiatedpep_1_M+initiatedpep_4_M+initiatedpep_9_M) AS '<10 M', initiatedpep_14_M AS '10-14 M',\n" +
-                    "initiatedpep_19_M AS '15-19 M', initiatedpep_24_M AS '20-24 M',initiatedpep_29_M AS '25-29 M',initiatedpep_34_M AS '30-34 M',\n" +
-                    "initiatedpep_39_M AS '35-39 M',initiatedpep_49_M AS '40-49 M',initiatedpep_50_M AS '50+ M',\n" +
+                    "0 AS 'Unkown Age F', SUM(initiatedpep_1_F+initiatedpep_4_F+initiatedpep_9_F) AS '<10 F', SUM(initiatedpep_14_F) AS '10-14 F',\n" +
+                    "SUM(initiatedpep_19_F) AS '15-19 F', SUM(initiatedpep_F) AS '20-24 F',SUM(initiatedpep_F) AS '25-29 F',SUM(initiatedpep_34_F) AS '30-34 F',\n" +
+                    "SUM(initiatedpep_39_F) AS '35-39 F',SUM(initiatedpep_49_F) AS '40-49 F',SUM(initiatedpep_50_F) AS '50+ F',\n" +
+                    "0 AS 'Unkown Age M', SUM(initiatedpep_1_M+initiatedpep_4_M+initiatedpep_9_M) AS '<10 M', SUM(initiatedpep_14_M) AS '10-14 M',\n" +
+                    "SUM(initiatedpep_19_M) AS '15-19 M', SUM(initiatedpep_24_M) AS '20-24 M',SUM(initiatedpep_29_M) AS '25-29 M',SUM(initiatedpep_34_M) AS '30-34 M',\n" +
+                    "SUM(initiatedpep_39_M) AS '35-39 M',SUM(initiatedpep_49_M) AS '40-49 M',SUM(initiatedpep_50_M) AS '50+ M'," +
                     "IFNULL(ART_highvolume,0) AS ART_highvolume, IFNULL(HTC_highvolume,0) AS HTC_highvolume,IFNULL(PMTCT_highvolume,0) AS PMTCT_highvolume\n" +
                     "\n" +
                     " FROM internal_system.sgbv_new\n" +
                     "join subpartnera ON sgbv_new.SubPartnerID=subpartnera.SubPartnerID  \n" +
                     "join district on subpartnera.DistrictID=district.DistrictID \n" +
                     "join county on county.CountyID=district.CountyID \n" +
-                    "WHERE subpartnera.active=1 AND yearmonth BETWEEN 201710 AND 201809 AND rapesurvivor_T is not null GROUP BY MFLCode\n" +
+                    " "+joinedwhwere+" GROUP BY MFLCode\n" +
                     " ";
            
               String Tbid=year+"_"+quarter+"_"+facil;
