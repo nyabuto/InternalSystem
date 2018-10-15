@@ -1045,6 +1045,10 @@
         <servlet-name>loadParticipantsforServices</servlet-name>
         <servlet-class>ppprev.loadParticipantsforServices</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadPrepNew</servlet-name>
+        <servlet-class>LoadExcels.UploadPrepNew</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2088,6 +2092,10 @@
     <servlet-mapping>
         <servlet-name>loadParticipantsforServices</servlet-name>
         <url-pattern>/loadParticipantsforServices</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadPrepNew</servlet-name>
+        <url-pattern>/UploadPrepNew</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
