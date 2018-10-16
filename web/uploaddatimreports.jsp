@@ -274,7 +274,7 @@
                            <div class="form-actions">
                               <button type="submit" class="btn blue">Generate Report</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
-<h4 style="color:green;margin-left: 160px;font-family: cambria;">Note:Upload csv files from DATIM .</h4>
+<h4 style="color:green;margin-left: 160px;font-family: cambria;">Note:Upload  files from DATIM in xlsx format with indicator names on top.</h4>
                            </div>
                         </form>
                         <!-- END FORM-->           

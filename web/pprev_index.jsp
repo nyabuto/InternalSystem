@@ -525,7 +525,7 @@ input:focus {
   <div>
     
       
-      <div id="hcservices"></div>
+      <div id="hcservices"><h3 style="text-align: center;"><img src="images/ajax_loader.gif"/></h3></div>
       
       
   </div>
@@ -1924,12 +1924,32 @@ function getRandomId(min,max){
                     success: function (data) {
 
                     
-                        $("#hcservices").html(data);
-                   var table2 = $('#participants2table').DataTable({"autoWidth": true,
+                $("#hcservices").html(data);
+                
+                var table2 = $('#participants2table').DataTable({"autoWidth": true,
               "paging": true,
               "pagingType": "full",
-              "lengthChange": false,  
-              "order": [[0,'desc']]});
+              "lengthChange": true,
+              
+              "order": [[1,'desc']]});
+          
+          $('#participants2table tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+    
+    table2.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+          
 
                     }
                 });
