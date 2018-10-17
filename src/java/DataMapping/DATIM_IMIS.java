@@ -138,7 +138,7 @@ int datastartcol=10;   //column that starts reading data
               session.setAttribute("datimuploadrpt", "<font color=\"red\">Failed to load the excel file. Please choose a .xlsx excel file .</font>");
           } else {
 
-              full_path = fileSaveDir.getAbsolutePath() + "\\" + fileName;
+              full_path = fileSaveDir.getAbsolutePath() + "/" + fileName;
 
               System.out.println("the saved file directory is  :  " + full_path);
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
@@ -150,23 +150,25 @@ int datastartcol=10;   //column that starts reading data
               DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 
              
-//[3]________________________________________loop through excel data______________________________________________         
+//[3]________________________________________loop through excel sheets______________________________________________         
 
 
 for(int a=0;a<totalsheets;a++){
     
      HashMap<String, String> imishm = new HashMap<String, String>();
-     HashMap<String, String> imisinsertqrt = new HashMap<String, String>();
-     HashMap<String, String> datiminsertqrt = new HashMap<String, String>();
+     HashMap<String, String> elementidhm = new HashMap<String, String>();
+     //save this with column name accompanied
+     
      
     ArrayList headers= new ArrayList();
     ArrayList activecolumns= new ArrayList();
     ArrayList elementid= new ArrayList();
+    
    int rowcount=0; 
     XSSFSheet sheet = workbook.getSheetAt(a);
     
     
-    System.out.println( a+" ("+workbook.getSheetName(a)+") out of "+totalsheets+" sheets");
+    System.out.println( "Now at sheet number "+a+" named ("+workbook.getSheetName(a)+") out of "+totalsheets+" sheets");
     
     String sheetname =  workbook.getSheetName(a);
     
@@ -186,33 +188,33 @@ while (cellIterator.hasNext()) {
                 
 //----------------------------------------------------------------------
 
-XSSFCell cellfacil = sheet.getRow(rowcount).getCell((short) i);
-
+XSSFCell datacell = sheet.getRow(rowcount).getCell((short) i);
+//______________________consider valid cells only________________________
 if(sheet.getRow(rowcount).getCell((short) i)!=null)
                 {
                 
-if(cellfacil.getCellType()==0){
-    //numeric
-    value =""+(int)cellfacil.getNumericCellValue();
-}
-else if(cellfacil.getCellType()==1){
-    value =cellfacil.getStringCellValue();
-}
-else if(cellfacil.getCellType()==3){
-    //__blank cells with borders
-    value ="0";
-}
-
-else{
- value =cellfacil.getRawValue();   
-}
+    switch (datacell.getCellType()) {
+        case 0:
+            //numeric
+            value =""+(int)datacell.getNumericCellValue();
+            break;
+        case 1:
+            value =datacell.getStringCellValue();
+            break;
+        case 3:
+            //__blank cells with borders
+            value ="0";
+            break;
+        default:
+            value =datacell.getRawValue();
+            break;
+    }
 
 //[6]________________________________________get headers from excel and find which column stores which data______________________________________________
 if(rowcount==0){
    
-    //add headers to arralist for future reference
+    //add headers to arraylist for future reference
 headers.add(value);
-    
 
     String getheaders="select * from datim_imis_map where datim_element='"+value+"' and active='1'";
     conn.rs=conn.st.executeQuery(getheaders);
@@ -222,12 +224,13 @@ headers.add(value);
         String eleid=conn.rs.getString("elementid");
         
         elementid.add(eleid);
+        elementidhm.put("column_"+i, eleid);
         
         String imisqry="";
         //System.out.println(eleid+"** was added "+value+" size is "+elementid.size());
-    
+    //____ get data source for all the inidicators from IMIS. The indicators have been mapped in IMIS table_______
     if(!conn.rs.getString("technicalarea").equals("Organisational Unit")){
-        
+    //_____ skip the indicators whose datim source has not been defined____   
         if(!conn.rs.getString("imiscolumn").equals("")){
         // mark the columns that are active
         activecolumns.add("1");
@@ -241,13 +244,14 @@ headers.add(value);
         }
         else {
         
-        // mark the columns that are active
+        // mark the columns that are active but whose source is not in IMIS
         activecolumns.add("2");
         imishm.put("col"+i,"");
         
         }
         
     }
+    //the orgunit heder columns
     else {
     // mark the columns that are active
         activecolumns.add("0");
@@ -257,6 +261,7 @@ headers.add(value);
     
     
     }
+    //where the element is mapped in IMIS
     else {
     // mark the columns that are active
         activecolumns.add("0");
@@ -265,7 +270,7 @@ headers.add(value);
     }
     
     
-}
+}//__________________________________________end of header_____________________________
 
 
 
@@ -300,7 +305,7 @@ else {
      
      //pull imis qry from the hashmap
  String extractimisdata=imishm.get("col"+i).
-         replace("@mflcode",mflcode).
+         replace("@mflcode","'"+mflcode+"'").
          replace("@startkey",startdate.substring(0,6)).
          replace("@endkey",enddate.substring(0,6)).
          replace("@lastmonthkey",enddate.substring(0,6)).
@@ -312,7 +317,7 @@ else {
  
      if(!extractimisdata.contains("group")){ extractimisdata+=" group by mflcode";}
       
-        System.out.println("  Imisreadyquerry "+extractimisdata);
+     System.out.println("  Imisreadyquerry "+extractimisdata);
         
      conn.rs2=conn.st2.executeQuery(extractimisdata);
      
@@ -334,8 +339,8 @@ SUM(HV0201+HV0205)
      int imisvalue=conn.rs2.getInt(6);
      int datimvalue=0;
      //System.out.println((i-1)+"_Element in position ");
-     System.out.println("_Element in position_"+elementid.get(i-1));
-     String eleid=elementid.get(i-1).toString();
+     System.out.println("_Element in position_"+elementidhm.get("column_"+i));
+     String eleid=elementidhm.get("column_"+i);
      String id=eleid+"_"+mflcode+"_"+enddate.substring(0,6);
      if(!value.equals(""))
      {
@@ -374,7 +379,7 @@ SUM(HV0201+HV0205)
                 }
                 else {
                     
-                    System.out.println("");
+                    System.out.println("end of valid cells");
                     break;
                 }
                 

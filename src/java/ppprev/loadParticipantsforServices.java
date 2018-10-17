@@ -136,8 +136,22 @@ public class loadParticipantsforServices extends HttpServlet {
               
          
                 
-    rows+="</tbody><tfoot><tr></tr>"
-        +"<tr><td ></td></tr></tfoot></table>";
+    rows+="</tbody><tfoot>"
+        +"<tr>"
+           
+                    + "<th>Serial No</th>"
+                    + "<th>Participant Name</th>"
+                    + "<th>Age</th>"
+                    + "<th>Sex</th>"
+                    + "<th>Group</th>"
+                    + "<th>End Date</th>"
+                    + "<th>Form Id</th>"
+                    + "<th>Facilitator</th>"
+                    + "<th>Ward</th>"
+                     + "<th>Services given?</th>"
+                    + "<th>Services</th>"
+                    
+            + "</tr></tfoot></table>";
             
             //System.out.println(data+rows);
     
