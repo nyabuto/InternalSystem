@@ -3164,7 +3164,7 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
                     "0 AS '15-19 M', 0 AS '20-24 M',0 AS '25-29 M',0 AS '30-34 M',\n" +
                     "0 AS '35-39 M',0 AS '40-49 M',0 AS '50+ M',\n" +
                     "0 AS 'Unkown Age F', SUM(initiatedpep_1_F+initiatedpep_4_F+initiatedpep_9_F) AS '<10 F', SUM(initiatedpep_14_F) AS '10-14 F',\n" +
-                    "SUM(initiatedpep_19_F) AS '15-19 F', SUM(initiatedpep_F) AS '20-24 F',SUM(initiatedpep_F) AS '25-29 F',SUM(initiatedpep_34_F) AS '30-34 F',\n" +
+                    "SUM(initiatedpep_19_F) AS '15-19 F', SUM(initiatedpep_24_F) AS '20-24 F',SUM(initiatedpep_29_F) AS '25-29 F',SUM(initiatedpep_34_F) AS '30-34 F',\n" +
                     "SUM(initiatedpep_39_F) AS '35-39 F',SUM(initiatedpep_49_F) AS '40-49 F',SUM(initiatedpep_50_F) AS '50+ F',\n" +
                     "0 AS 'Unkown Age M', SUM(initiatedpep_1_M+initiatedpep_4_M+initiatedpep_9_M) AS '<10 M', SUM(initiatedpep_14_M) AS '10-14 M',\n" +
                     "SUM(initiatedpep_19_M) AS '15-19 M', SUM(initiatedpep_24_M) AS '20-24 M',SUM(initiatedpep_29_M) AS '25-29 M',SUM(initiatedpep_34_M) AS '30-34 M',\n" +

@@ -522,12 +522,14 @@ String genexpert="";
                           
                           //art status
                            HSSFCell cellartstatus = rowi.getCell((short)52);
+                           cellartstatus.setCellType(1);
 			  artstatus =(String) cellartstatus.getStringCellValue();
                           
                           
                           //art date
                         
                            HSSFCell cellartdate=rowi.getCell((short)53);
+                           cellartdate.setCellType(1);
 			  artdate=""+cellartdate.getStringCellValue();
                           
                           //treatment outcome
