@@ -6,10 +6,14 @@ Age and sex should be gotten from the eid tested raw data during the importing o
 
 package DataMapping;
 
+import General.IdGenerator;
 import database.dbConn;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +27,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -60,7 +73,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
  
-    
+      HSSFWorkbook wb = new HSSFWorkbook();
+      
+       String startMonth, endMonth;
+        String startdate="";
+          String enddate="";
+       
       try {
           
           int year,checker,missing = 0,added = 0,updated = 0;
@@ -68,8 +86,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
           session=request.getSession();
           id="";
          
-          String startdate="";
-          String enddate="";
+         
+          
+          
+          
           
           
           
@@ -77,9 +97,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
           
 //[1]________________________________________get start and end date______________________________________________
           
-          String startMonth, endMonth;
+         
           quarter = request.getParameter("quarter");
           year = new Integer(request.getParameter("year"));
+          
+          
+          
+          
           int prevYear = year - 1;
           //       quarter="3";
           String getMonths = "SELECT months,name,enddate FROM quarter WHERE id='" + quarter + "'";
@@ -107,6 +131,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
               }
           }
+          
+      //[2]_______________________________________Create workbook__________________________________    
+          
+     String where="";
+          
+          if(request.getParameter("onlyvariances")!=null){
+          
+        where=" and tofauti <> 0 ";
+          
+          }
+          
+          
+          if(request.getParameter("generateoutput")!=null){
+          
+          generateOutput(response, startdate.substring(0,6), enddate.substring(0, 6), conn,  wb, where);
+          
+          }
+          
+          
 //[2]________________________________________upload excel______________________________________________
          
           //System.out.println(" iko hapa nche");
@@ -419,6 +462,9 @@ SUM(HV0201+HV0205)
           Logger.getLogger(DATIM_IMIS.class.getName()).log(Level.SEVERE, null, ex);
       }
  
+      
+    
+      
 
  
     }
@@ -486,5 +532,184 @@ SUM(HV0201+HV0205)
          System.out.println("content-disposition final : "+file_name);
         return file_name;
     }
+    
+    
+    public void generateOutput( HttpServletResponse response, String startyearmonth,String endyearmonth, dbConn conn, HSSFWorkbook wb, String where) throws SQLException, IOException{
+        
+        
+      HSSFFont font = wb.createFont();
+        font.setFontHeightInPoints((short) 18);
+        font.setFontName("Cambria");
+        font.setColor((short) 0000);
+        CellStyle style = wb.createCellStyle();
+        style.setFont(font);
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        HSSFFont font2 = wb.createFont();
+        font2.setFontName("Cambria");
+        font2.setColor((short) 0000);
+        CellStyle style2 = wb.createCellStyle();
+        style2.setFont(font2);
+        style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+        HSSFCellStyle stborder = wb.createCellStyle();
+        stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+        HSSFCellStyle stylex = wb.createCellStyle();
+        stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stylex.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+        HSSFCellStyle stylesum = wb.createCellStyle();
+        stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+        HSSFFont fontx = wb.createFont();
+        fontx.setColor(HSSFColor.BLACK.index);
+        fontx.setFontName("Cambria");
+        stylex.setFont(fontx);
+        stylex.setWrapText(true);
+
+        stylesum.setFont(fontx);
+        stylesum.setWrapText(true);
+
+        HSSFSheet shet = wb.createSheet("Datim IMIS Output");  
+        
+        
+         HSSFRow rw0=shet.createRow(1);
+        HSSFCell cell = rw0.createCell(0);
+                    cell.setCellValue("IMIS DATIM Gap Analysis between "+startyearmonth+" and "+endyearmonth);
+                    cell.setCellStyle(style);
+        shet.addMergedRegion(new CellRangeAddress(1, 1, 0,10));
+                    
+                int count1  = 3;
+        
+    
+String qry=" SELECT county as County, " +
+" subcounty as Subcounty, " +
+" facilityname as Facility, " +
+" mflcode as MFLCode,'' as ward, " +
+" supporttype,label as Indicator,technicalarea as 'Main Indicator',datimvalue as 'DATIM', imisvalue as 'IMIS', tofauti as 'Variance', startyearmonth as 'Start YearMonth',endyearmonth as 'End YearMonth' FROM " +
+" internal_system.datim_imis " +
+" join datim_imis_map on datim_imis_map.elementid=datim_imis.indicatorid " +
+" where (startyearmonth between "+startyearmonth+" and "+endyearmonth+") "+where+" order by tofauti desc ";
+    
+    conn.rs=conn.st.executeQuery(qry);
+   
+    
+      System.out.println(qry);
+        conn.rs = conn.st.executeQuery(qry);
+        
+         ResultSetMetaData metaData = conn.rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+         metaData = conn.rs.getMetaData();
+         columnCount = metaData.getColumnCount();
+        int count = count1;
+        ArrayList mycolumns = new ArrayList();
+
+        while (conn.rs.next()) {
+
+            if (count == (count1)) {
+//header rows
+                HSSFRow rw = shet.createRow(count);
+rw.setHeightInPoints(26);
+                for (int i = 1; i <= columnCount; i++) {
+
+                    mycolumns.add(metaData.getColumnLabel(i));
+                    HSSFCell cell0 = rw.createCell(i - 1);
+                    cell0.setCellValue(metaData.getColumnLabel(i));
+                    cell0.setCellStyle(stylex);
+
+                    //create row header
+                }//end of for loop
+                count++;
+            }//end of if
+            //data rows     
+            HSSFRow rw = shet.createRow(count);
+
+            for (int a = 0; a < columnCount; a++) {
+                //System.out.print(mycolumns.get(a) + ":" + conn.rs.getString("" + mycolumns.get(a)));
+
+                HSSFCell cell0 = rw.createCell(a);
+                 if(isNumeric(conn.rs.getString("" + mycolumns.get(a)))){
+               // if(1==1){
+                
+                     cell0.setCellValue(conn.rs.getInt(mycolumns.get(a).toString()));
+                    
+                   }
+                else 
+                {
+                     cell0.setCellValue(conn.rs.getString("" + mycolumns.get(a)));
+                    //cell0.setCellValue(conn.rs.getString("" + mycolumns.get(a)));
+                   
+                }
+            
+                cell0.setCellStyle(style2);
+
+            }
+
+            // System.out.println("");
+            count++;
+        }
+
+        
+        
+        //Autofreeze  || Autofilter  || Remove Gridlines ||  
+        
+        shet.setAutoFilter(new CellRangeAddress(count1, count - 1, 0, columnCount-1));
+
+        //System.out.println("1,"+rowpos+",0,"+colposcopy);
+        for (int i = 0; i <= columnCount; i++) {
+            shet.autoSizeColumn(i);
+        }
+
+        shet.setDisplayGridlines(false);
+        shet.createFreezePane(6, 4);
+    
+      IdGenerator IG = new IdGenerator();
+        String createdOn = IG.CreatedOn();
+
+        System.out.println("" + "Imis_Datim_reports_Gen_" + createdOn.trim() + ".xls");
+
+        ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
+        wb.write(outByteStream);
+        byte[] outArray = outByteStream.toByteArray();
+        response.setContentType("application/ms-excel");
+        response.setContentLength(outArray.length);
+        response.setHeader("Expires:", "0"); // eliminates browser caching
+        response.setHeader("Content-Disposition", "attachment; filename=" + "IMIS_DATIM_Validation_rpt_between_"+startyearmonth+"_to_"+startyearmonth+"__gen_" + createdOn.trim() + ".xls");
+         response.setHeader("Set-Cookie","fileDownload=true; path=/");
+        OutputStream outStream = response.getOutputStream();
+        outStream.write(outArray);
+        outStream.flush();
+    
+    }
+    
+    
+    
+    
+       
+  public boolean isNumeric(String s) {  
+    return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}
+    
+    
     
 }

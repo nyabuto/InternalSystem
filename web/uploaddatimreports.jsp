@@ -215,6 +215,21 @@
                                     
                               </div>
                            </div>  
+                           <div class="control-group" >
+                              <label class="control-label">Generate Output <font color='red'><b>?</b></font></label>
+                              <div class="controls">
+                                  <input value="1" data-placeholder="Reporting Month" type="checkbox" class="span6 m-wrap" tabindex="-1"  id="generateoutput" name="generateoutput" style="width: 400px;"/>
+                                    
+                              </div>
+                           </div>  
+                            
+                             <div class="control-group" >
+                              <label class="control-label">Show variances Only<font color='red'><b>?</b></font></label>
+                              <div class="controls">
+                                  <input value="1"  type="checkbox" class="span6 m-wrap" tabindex="-1"  id="onlyvariances" name="onlyvariances" style="width: 400px;"/>
+                                    
+                              </div>
+                           </div> 
                             
                             
                            <!--  <div class="control-group" style="display:none;">

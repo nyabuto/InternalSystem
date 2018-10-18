@@ -34,7 +34,7 @@ public class pullTb extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
 
-          //tbDashboard("20180701","20180930");
+          tbDashboard("20180101","20180930");
 
         } finally {
             out.close();

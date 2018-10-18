@@ -212,6 +212,7 @@ input:focus {
                                 <div class="portlet-title">
                                     <h4><i class="icon-reorder"></i>  <a style='margin-left: 100px;' onclick="setGroupDefaults();"  class='btn btn-default'  data-toggle='modal' href='#addgroup'><i class='icon-plus'></i>Add Group</a>     <a onclick='setFacilitatorDefaults();' class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#addfacilitator'><i class='icon-plus'></i>Add Facilitator</a>
                                     <a  class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#editattendance'><i class='icon-plus'></i>Edit Attendance</a>
+                                    <a  class='btn btn-default' style='margin-left: 100px;'  data-toggle='modal' href='#rawdata'><i class='icon-plus'></i>Raw Data</a>
                                     <a id="servicesbutton" class='btn btn-default' style='margin-left: 100px;display:none;'  data-toggle='modal' href='#hcservicesmodal'><i class='icon-plus'></i>Launch Services</a></h4>
                                     <div class="tools">
                                         <a href="javascript:;" class="collapse"></a>
@@ -577,7 +578,76 @@ input:focus {
 </div>
  <!----------------------------------------------------------------------------Attendance-------------------------------------------------------------->
                                                 
-                                                
+      
+ 
+  <!----------------------------------------------------------------------------services modal-------------------------------------------------------------->
+ 
+ 
+
+
+
+<div class="modal fade" id="rawdata" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id='' class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title" style='text-align: center;'><span  style='text-align: right;'></span></h4>
+            </div>
+            <div class="modal-body">
+                
+                               
+                    
+                  <table>  <tr><th>Element</th><th>Value</th></tr>
+                   
+                
+                   
+                                 <tr><td>   <label><font color="red"><b>*</b></font>Report Start Date</label></td>
+                                     <td>
+                                    <div class="controls">
+                                       <input type="text"  name ="sdate" id="sdate"  class="form-control tarehe1" readonly placeholder="e.g yyyy-mm-dd">
+                                    </div>
+                                     </td></tr>
+                               
+                     
+                                   <tr><td> <label><font color="red"><b>*</b></font>Report End Date</label></td><td>
+                                    
+                                    <div class="controls">
+                                       <input type="text"  name ="edate" id="edate"  class="form-control tarehe1" readonly placeholder="e.g yyyy-mm-dd">
+                                    </div></td></tr>
+                              
+                    
+                    
+                     
+                    
+                  <tr><td colspan='2'><div class="control-group">
+                                    
+                                    <div class="controls">
+                                        <button onclick="getreport();" id="excelreportbtn"   style="margin-left: 30%;"  class="btn-lg btn-success ">
+                                            Generate
+                                        </button>
+                                        
+                                      <img src='images/ajax_loader.gif' alt='loading' style="display:none; margin-left:30% ;" class='loading1'/>
+                                        
+                                    </div>
+                                </div> </td></tr>   
+              
+              </table>   
+                                  
+                    
+              
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+              
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+ <!----------------------------------------------------------------------------reports-------------------------------------------------------------->
+ 
+ 
                                                 
 
                     <!-- END PAGE CONTENT-->         
@@ -627,6 +697,7 @@ input:focus {
         <script src="assets/bootstrap-wizard/jquery.bootstrap.wizard.js"></script>
         <script src="assets/bootstrap-wizard/prettify.js"></script>
         <script src="dataTables/js/jquery.dataTables.js"></script>
+         <script type="text/javascript" src="js/jquery.fileDownload.js"></script>
 
         <!--<script src="js/bootstrap-datepicker.min.js"></script>-->
         <!--<script src="assets/bootstrap-datepicker/js/datepicker.js"></script>-->
@@ -1933,22 +2004,20 @@ function getRandomId(min,max){
               
               "order": [[1,'desc']]});
           
-          $('#participants2table tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
+//          $('#participants2table tfoot th').each( function () {
+//        var title = $(this).text();
+//        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+//    } );
     
-    table2.columns().every( function () {
-        var that = this;
- 
-        $( 'input', this.footer() ).on( 'keyup change', function () {
-            if ( that.search() !== this.value ) {
-                that
-                    .search( this.value )
-                    .draw();
-            }
-        } );
-    } );
+//    table2.columns().every( function () {
+//        var that = this;
+// 
+//        $( 'input', this.footer() ).on( 'keyup change', function () {
+//            if ( that.search() !== this.value ) {
+//                that.search( this.value ).draw();
+//            }
+//        } );
+//    } );
           
 
                     }
@@ -2027,6 +2096,72 @@ function getRandomId(min,max){
       
       
   }
+  
+  
+  
+function getreport(){
+    
+    
+    var exelstart=$("#sdate").val();
+    var exelend=$("#edate").val();
+    
+ 
+    
+    //var countyrpt=$("#rpt_county").val();
+    //var rpttypeurl=$("#rpt_type").val();   
+    var rpttypeurl="rawdata";   
+        if (exelstart==='')
+     {
+         
+     alert('Select report begining date');
+   $("#sdate").focus();    
+     }    
+   //end date
+      else if (exelend==='')
+     {
+         
+     alert('Select report ending date');
+   $("#edate").focus();    
+     } 
+     
+      else  if(Date.parse(exelstart) > Date.parse(exelend)){
+                    alert(" Report Start date cannot be greater than end date.");   
+                    $("#edate").focus();  
+                }
+                else {
+                    //call the report generation page
+                 downloadrpt(exelstart,exelend,rpttypeurl) ;  
+                    
+                }
+        
+    
+}
+
+
+
+  function downloadrpt(startdate,enddate,rpttypeurl){
+      
+                $('.loading1').show();
+                $('#excelreportbtn').hide();
+               
+                //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
+             
+                var uur=rpttypeurl+"?sdate=" + startdate + "&edate=" + enddate;
+                console.log(uur);
+                $.fileDownload(uur).done(function () { $('.loading1').hide(); $('#excelreportbtn').show(); $('#excelreportbtn').html("<i class='glyphicon glyphicon-ok'></i> Report Generated"); }).fail(function () { alert('Report generation failed, kindly try again!'); $('.loading1').hide(); $('#excelreportbtn').show(); });
+ 
+                //$('.loading').hide();
+            }
+
+
+
+  function resetgeneratebutton(){
+    
+   $("#excelreportbtn").removeClass('btn-lg btn-success active').addClass('btn-lg btn-info active');  
+    
+}
+
+  
   
   </script>
         
