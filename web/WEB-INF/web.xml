@@ -1057,6 +1057,38 @@
         <servlet-name>DATIM_IMIS_Variance_Output</servlet-name>
         <servlet-class>DataMapping.DATIM_IMIS_Variance_Output</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadhiv</servlet-name>
+        <servlet-class>form1a.loadhiv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadhtsrecent</servlet-name>
+        <servlet-class>form1a.loadhtsrecent</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadhtsself</servlet-name>
+        <servlet-class>form1a.loadhtsself</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadprep</servlet-name>
+        <servlet-class>form1a.loadprep</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savehiv</servlet-name>
+        <servlet-class>form1a.savehiv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savehtsrecent</servlet-name>
+        <servlet-class>form1a.savehtsrecent</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveprep</servlet-name>
+        <servlet-class>form1a.saveprep</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savehtsself</servlet-name>
+        <servlet-class>form1a.savehtsself</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2112,6 +2144,38 @@
     <servlet-mapping>
         <servlet-name>DATIM_IMIS_Variance_Output</servlet-name>
         <url-pattern>/DATIM_IMIS_Variance_Output</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadhiv</servlet-name>
+        <url-pattern>/loadhiv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadhtsrecent</servlet-name>
+        <url-pattern>/loadhtsrecent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadhtsself</servlet-name>
+        <url-pattern>/loadhtsself</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadprep</servlet-name>
+        <url-pattern>/loadprep</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savehiv</servlet-name>
+        <url-pattern>/savehiv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savehtsrecent</servlet-name>
+        <url-pattern>/savehtsrecent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveprep</servlet-name>
+        <url-pattern>/saveprep</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savehtsself</servlet-name>
+        <url-pattern>/savehtsself</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

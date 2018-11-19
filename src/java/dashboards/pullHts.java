@@ -47,8 +47,8 @@ public class pullHts extends HttpServlet {
 //            session.setAttribute("reportDuration", "4");//quarterly, monthly,yearly
             
 
-           //String sdate="201807";
-           //String edate="201807";
+           String sdate="201809";
+           String edate="201809";
             String facil="";
             //htsdataset ds= new htsdataset();
             //dbConn conn1 = new dbConn();
@@ -58,7 +58,7 @@ public class pullHts extends HttpServlet {
             
              //pullHts hts= new pullHts();
    // hts.hts_non731(yearmonth,yearmonth,facilityId); //stored procedure code 
-  // hts731( sdate, edate, facil);
+   hts731( sdate, edate, facil);
 
         } finally {
             out.close();
@@ -213,7 +213,7 @@ public String hts731( String sdate, String edate, String facil){
             insertHts(hts_hm, sdate,edate, facil, "HTS TST@8",false, "8");//HTS TST
             insertHts(ipd_hm, sdate,edate, facil, "HTS - Inpatient Services@12",true, "12"); //HTS IPD
             insertHts(opd_hm, sdate,edate, facil, "HTS - Pediatric Services@13",true, "13"); //HTS Pediatrics and Other PITC
-            insertHts(opd_hm, sdate,edate, facil, "HTS - Other PITC@20",true, "20"); //HTS Pediatrics and Other PITC
+            //insertHts(opd_hm, sdate,edate, facil, "HTS - Other PITC@20",true, "20"); //HTS Pediatrics and Other PITC
             insertHts(pmtct_hm,sdate,edate,facil, "HTS - PMTCT (ANC Only) Clinics@16",true, "16"); //PMTCT ANC ONLY
             insertHts(vct_hm, sdate,edate, facil, "HTS - VCT@21",true, "21"); //VCT
 //           

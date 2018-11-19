@@ -12,6 +12,8 @@ import java.io.PrintWriter;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -28,13 +30,21 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 public class pullTb extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
 
-          tbDashboard("20180101","20180930");
+         // tbDashboard("20180401","20180930");
+          PushDataSet2 ds2 = new PushDataSet2();
+           
+      Map m1 = new HashMap(); 
+      m1.put("startyearmonth", "201804");
+      m1.put("endyearmonth", "201809");
+      m1.put("mfl_code", "");
+      
+       ds2.TBPrev(m1);//IPT Module
 
         } finally {
             out.close();
@@ -53,7 +63,11 @@ public class pullTb extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(pullTb.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -67,7 +81,11 @@ public class pullTb extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(pullTb.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
