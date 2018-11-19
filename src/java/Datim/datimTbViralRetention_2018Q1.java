@@ -2655,17 +2655,17 @@ String getVLData = "/*DSD TX_PVLS (Denominator) */ " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs BETWEEN 50 AND 100) THEN  'd_nd_m_50' END) AS d_nd_m_50, " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' AND AgeYrs BETWEEN 10 AND 100) THEN  'd_nd_10_50_m' END) AS d_nd_10_50_m, " +
 "COUNT( CASE WHEN (Justification='No Data' OR Justification='' OR Justification='Other') AND (Sex='M' OR Sex='F') AND (AgeYrs BETWEEN 0 AND 100) THEN  'd_nd_0_50' END) AS d_nd_0_50 " +
-"FROM ("
-+ ""+
-"SELECT MAX(Date_Dispatched),county.County AS County, DistrictNom,constituency,ward,"+facilitiestable+".SubPartnerNom AS SubPartnerNom ,CentreSanteId, " +
+"FROM ("+
+" "+
+" SELECT * FROM (SELECT distinct(mfl_ccc) AS uniquemflccc,county.County AS County, DistrictNom,constituency,ward,"+facilitiestable+".SubPartnerNom AS SubPartnerNom ,CentreSanteId, " +
 "GSN,ART_Support,PMTCT_Support,HTC_Support1,Type,ART_highvolume,PMTCT_highvolume, " +
 "HTC_highvolume,latitude,longitude,'DSD' support_type, " +
 "autokey,`#`,System_ID,Batch_No,Patient_CCC_No,Testing_Lab,Partner,Sub_County,Facility_Name,MFL_Code AS mflcode,"
 + "Sex,AgeYrs,Sample_Type,Date_Collected,Received_Status,`Reason_for_Repeat`,Regimen,Regimen_Line,Justification,"
-+ "vl_validation.PMTCT AS PMTCT,ART_Initiation_Date,Date_Received,Date_Tested,Date_Dispatched,Valid_Result,Value,Suppressed,year,quarter " +      
++ "vl_validation.PMTCT AS PMTCT,ART_Initiation_Date,Date_Received,Date_Tested,Date_Dispatched,Valid_Result,Value,Suppressed,year,quarter,mfl_ccc " +      
 "FROM vl_validation join "+facilitiestable+" ON vl_validation.MFL_Code="+facilitiestable+".CentreSanteId "
 +"join district on "+facilitiestable+".DistrictID=district.DistrictID join county on county.CountyID=district.CountyID " +
-""+joinedwhere+" GROUP BY mfl_ccc) AS vl_validation GROUP BY mfl_code "; 
+""+joinedwhere+" ORDER BY Date_Tested DESC) AS fndata GROUP BY mfl_ccc) AS vl_validation GROUP BY mfl_code "; 
 
 
 

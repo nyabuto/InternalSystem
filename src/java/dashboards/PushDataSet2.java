@@ -2775,7 +2775,7 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID "+
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        "WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM'  AND "+facilitiestable+".active=1  " +
+        "WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1 AND "+facilitiestable+".ART_Outreach=0   AND ratios.indicator='TX_RETENTION_NUM'  AND "+facilitiestable+".active=1  " +
         "GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth " +
         " " +
         "UNION " +
@@ -2817,7 +2817,7 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID " +
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        "WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_NUM_PREG' " +
+        "WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" AND "+facilitiestable+".ART=1 AND "+facilitiestable+".ART_Outreach=0  AND ratios.indicator='TX_RETENTION_NUM_PREG' " +
         "AND (pmtct_art_cohort.pmtct_cohort.indicator=21 OR pmtct_art_cohort.pmtct_cohort.indicator=9)  AND "+facilitiestable+".active=1   " +
         "GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth ORDER BY mfl_code,yearmonth" ;
 
@@ -2947,17 +2947,32 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
            // create row and add data
 
        id_=mfl_code+"_"+yearmonth+"_44"; //
-        String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+//        String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
+//        "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19",
+//        "m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
+//        "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
+//        "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
+//
+//        String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
+//        "90:90:90= Viral Suppression,TX,TX Ret Num,"+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+
+//        ""+m_19+","+f_24+","+m_24+","+f_34+","+m_34+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
+//        ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
+//        ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,45").split(",");
+//        
+        
+                String[] header_Num ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
         "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19",
-        "m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
+        "m_19","f_24","m_24","f_29","m_29","f_34","m_34","f_39","m_39","f_49","m_49","f_50","m_50","total","total_f","total_m","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
         "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Num =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Num,"+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+
-        ""+m_19+","+f_24+","+m_24+","+f_34+","+m_34+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
+        ""+m_19+","+f_24+","+m_24+","+f_29+","+m_29+","+f_34+","+m_34+","+f_39+","+m_39+","+f_49+","+m_49+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
         ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,45").split(",");
+        
+        
         
                id_=mfl_code+"_"+yearmonth+"_44_2"; //
         String[] header_Breast ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
@@ -3071,7 +3086,7 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        " WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1  AND ratios.indicator='TX_RETENTION_DEN'  AND "+facilitiestable+".active=1  " +
+        " WHERE internal_system.moh731.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1 AND "+facilitiestable+".ART_Outreach=0  AND ratios.indicator='TX_RETENTION_DEN'  AND "+facilitiestable+".active=1  " +
         " GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth  " +
         "  " +
         " UNION  " +
@@ -3111,7 +3126,7 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
         "JOIN internal_system.district ON internal_system." + facilitiestable + ".DistrictID=internal_system.district.DistrictID  " +
         "JOIN internal_system.county ON internal_system.district.CountyID=internal_system.county.CountyID  " +
         "JOIN ratios ON county.CountyID=ratios.county_id " +
-        " WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1 AND ratios.indicator='TX_RETENTION_DEN_PREG' " +
+        " WHERE pmtct_art_cohort.pmtct_cohort.yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+"  "+facil_where+" AND "+facilitiestable+".ART=1 AND "+facilitiestable+".ART_Outreach=0  AND ratios.indicator='TX_RETENTION_DEN_PREG' " +
         " AND (pmtct_art_cohort.pmtct_cohort.indicator=4 OR pmtct_art_cohort.pmtct_cohort.indicator=16)  AND "+facilitiestable+".active=1   " +
         " GROUP BY internal_system." + facilitiestable + ".SubPartnerID,yearmonth ) AS all_data group by mfl_code,yearmonth  ORDER BY mfl_code,yearmonth";
 
@@ -3241,13 +3256,13 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
        id_=mfl_code+"_"+yearmonth+"_45"; //
         String[] header_Den ={"id","county","burdencategory","constituency","subcounty","ward","facility","mflcode","supporttype",
         "level1","level2","level3","f_1","m_1","f_1_9","m_1_9","f_14","m_14","f_19",
-        "m_19","f_24","m_24","f_25_49","m_25_49","f_50","m_50","total","total_f","total_m","year",
+        "m_19","f_24","m_24","f_29","m_29","f_34","m_34","f_39","m_39","f_49","m_49","f_50","m_50","total","total_f","total_m","year",
         "semiannual","quarter","month","yearmonth","ownedby","facilitytype","art_hv","htc_hv","pmtct_hv",
         "activity_hv","latitude","longitude","maleclinic","adoleclinic","viremiaclinic","emrsite","linkdesk","islocked","ordernumber"};
 
         String[] data_Den =(""+id_+","+county+","+burdencategory+","+constituency+","+sub_county+","+ward+","+facilityName+","+mfl_code+","+support_type+","+
         "90:90:90= Viral Suppression,TX,TX Ret Den,"+f_1+","+m_1+","+f_9+","+m_9+","+f_14+","+m_14+","+f_19+","+
-        ""+m_19+","+f_24+","+m_24+","+f_34+","+m_34+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
+        ""+m_19+","+f_24+","+m_24+","+f_29+","+m_29+","+f_34+","+m_34+","+f_39+","+m_39+","+f_49+","+m_49+","+f_50+","+m_50+","+total+","+total_f+","+total_m+","+year+","+
         ""+semi_annual+","+quarter+","+month+","+yearmonth+","+Owner+","+Type+","+arthv+","+htchv+","+pmtcthv+","+
         ""+allhv+","+latitude+","+longitude+","+Male_clinics+","+Adolescent_clinics+","+Viremia_clinics+","+EMR_Sites+","+Link_desks+",0,44").split(",");
         
@@ -3864,7 +3879,8 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
             " FROM sgbv_new join ( "+facilitiestable+" join (district join county on county.CountyID=district.CountyID ) "+
             " ON district.DistrictID = "+facilitiestable+".DistrictID )  ON sgbv_new.SubPartnerID = "+facilitiestable+".SubPartnerID  "+
             " WHERE yearmonth BETWEEN "+startyearmonth+" AND "+endyearmonth+" "+facil_where+" group by "+facilitiestable+".SubPartnerID,yearmonth ";
-//         System.out.println("query: "+qr_);
+         System.out.println("query sgbv: "+qr_);
+  
           conn.rs = conn.st.executeQuery(qr_);
           while(conn.rs.next()){
             county = conn.rs.getString("county");

@@ -36,7 +36,7 @@ HttpSession session;
       m1.put("endyearmonth", "201812");
       m1.put("startdate", "2017-10-01");
       m1.put("enddate", "2018-12-31");
-//      m1.put("mfl_code", "15288");
+//    m1.put("mfl_code", "15288");
            
            
         System.out.println("called push");

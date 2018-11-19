@@ -707,7 +707,7 @@ System.out.println(" viral load at position : "+i);
   public XSSFWorkbook EIDTST(XSSFSheet worksheetpREV,XSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
    
       //upload previous errors
-      upload_eid_tst_prev_data(worksheetpREV); 
+     // upload_eid_tst_prev_data(worksheetpREV); 
       //end
       
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -723,7 +723,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 // Possible errors
         // Flag:
 //    1. Duplicates,
-        //    Missing: 
+//    Missing: 
 //    1. age 
 //    2. gender 
 //    3. mother HIV status
@@ -734,7 +734,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 //    8. entry point
 
        conn.st.executeUpdate("TRUNCATE eid_cleaning");
-       conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
+//       conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
        
 
         worksheet = eid.getSheetAt(0);
@@ -1576,7 +1576,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 //    }
       if(DOB==null){DOB="";}
       if(Date_Tested==null){Date_Tested="";}
-      if(!DOB.equals("") && !Date_Tested.equals("") && isNumeric(Age_Months)){
+      if(!DOB.equals("") && !Date_Tested.equals("") && !isNumeric(DOB) && !isNumeric(Date_Tested) && isNumeric(Age_Months)){
 
             Calendar cal_DOB = Calendar.getInstance();
             cal_DOB.setTime(sdf.parse(DOB));// all done

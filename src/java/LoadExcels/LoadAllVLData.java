@@ -174,9 +174,8 @@ public class LoadAllVLData extends HttpServlet {
          query_update+="Suppressed='Y',Valid_Result='Y'";  
        }
        else{
-         if(isNumeric(value_vl)){
-            
-             if(Integer.parseInt(value_vl)>1000){
+         if(isNumeric(value_vl.trim())){
+            if(Integer.parseInt(value_vl.replace(" ", ""))>1000){
                   query+="Suppressed='N',Valid_Result='Y'"; 
                   query_update+="Suppressed='N',Valid_Result='Y'"; 
              }
@@ -186,7 +185,7 @@ public class LoadAllVLData extends HttpServlet {
              }
          } 
          else{
-               query+="Valid_Result='N'"; 
+              query+="Valid_Result='N'"; 
                query_update+="Valid_Result='N'";   
          }
        }
