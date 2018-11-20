@@ -1089,6 +1089,62 @@
         <servlet-name>savehtsself</servlet-name>
         <servlet-class>form1a.savehtsself</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load_art</servlet-name>
+        <servlet-class>form1a.load_art</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_art</servlet-name>
+        <servlet-class>form1a.save_art</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_cxca</servlet-name>
+        <servlet-class>form1a.load_cxca</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_cxca</servlet-name>
+        <servlet-class>form1a.save_cxca</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_gendgbv</servlet-name>
+        <servlet-class>form1a.load_gendgbv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_gendgbv</servlet-name>
+        <servlet-class>form1a.save_gendgbv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_ipt</servlet-name>
+        <servlet-class>form1a.load_ipt</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_ipt</servlet-name>
+        <servlet-class>form1a.save_ipt</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_pmtct</servlet-name>
+        <servlet-class>form1a.load_pmtct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_pmtct</servlet-name>
+        <servlet-class>form1a.save_pmtct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_pmtctart</servlet-name>
+        <servlet-class>form1a.load_pmtctart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_pmtctart</servlet-name>
+        <servlet-class>form1a.save_pmtctart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_txml</servlet-name>
+        <servlet-class>form1a.load_txml</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_txml</servlet-name>
+        <servlet-class>form1a.save_txml</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2176,6 +2232,62 @@
     <servlet-mapping>
         <servlet-name>savehtsself</servlet-name>
         <url-pattern>/savehtsself</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_art</servlet-name>
+        <url-pattern>/load_art</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_art</servlet-name>
+        <url-pattern>/save_art</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_cxca</servlet-name>
+        <url-pattern>/load_cxca</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_cxca</servlet-name>
+        <url-pattern>/save_cxca</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_gendgbv</servlet-name>
+        <url-pattern>/load_gendgbv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_gendgbv</servlet-name>
+        <url-pattern>/save_gendgbv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_ipt</servlet-name>
+        <url-pattern>/load_ipt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_ipt</servlet-name>
+        <url-pattern>/save_ipt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_pmtct</servlet-name>
+        <url-pattern>/load_pmtct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_pmtct</servlet-name>
+        <url-pattern>/save_pmtct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_pmtctart</servlet-name>
+        <url-pattern>/load_pmtctart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_pmtctart</servlet-name>
+        <url-pattern>/save_pmtctart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_txml</servlet-name>
+        <url-pattern>/load_txml</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_txml</servlet-name>
+        <url-pattern>/save_txml</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
