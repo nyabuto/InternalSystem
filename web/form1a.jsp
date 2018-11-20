@@ -18,7 +18,8 @@
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
-   <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+   <link href="bootstrap4/css/bootstrap.css" rel="stylesheet" />
+   <!--<link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet" />-->
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
    <link href="assets/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
@@ -29,11 +30,6 @@
    <link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css" />
    <link rel="stylesheet" type="text/css" href="assets/chosen-bootstrap/chosen/chosen.css" />
    <link rel="stylesheet" type="text/css" href="assets/jquery-tags-input/jquery.tagsinput.css" />
-   <link rel="stylesheet" type="text/css" href="assets/clockface/css/clockface.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-timepicker/compiled/timepicker.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-colorpicker/css/colorpicker.css" />
    <link rel="stylesheet" href="assets/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
@@ -71,13 +67,12 @@ legend.formatter {
 
 }
 .data-cell{
-    width: 33px;
-    background-color: red;
+    width: 100%;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 table{
     width: 100%;
-    border-width: 2px;
-    margin-left: 4px;
 }
 tr > .st{
 border-width: 2px;    
@@ -98,11 +93,11 @@ td{
  text-align: center;   
 }
 </style>
-<script type="text/javascript" src="js/sum_art.js"></script>
+<script type="text/javascript" src="js/fas/sum_values.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="fixed-top" style="width: 105%; overflow-y: scroll;" onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }">
+<body onkeydown="if (event.keyCode==13) {event.keyCode=9; return event.keyCode }">
     
      <!-------------------------------------------dialog box for unvalidated facils-------------------------------------------------->  
     <div class="modal fade" id="unvalidatedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -203,7 +198,7 @@ td{
    <!-- BEGIN CONTAINER -->
    <div class="page-container row-fluid">
       <!-- BEGIN SIDEBAR -->
-      <div class="page-sidebar nav-collapse collapse">
+      <div class="page-sidebar nav-collapse collapse show scroller">
          <!-- BEGIN SIDEBAR MENU -->         
        <%@include file="/menu/menu.jsp"%>
          <!-- END SIDEBAR MENU -->
@@ -239,32 +234,194 @@ td{
             </div>
             <!-- END PAGE HEADER-->
             <!-- BEGIN PAGE CONTENT-->
-            <div class="row-fluid" style=" overflow-y: scroll;">
+            <div class="row-fluid" style="">
                 <div class="span12" style="">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
-                  <div class="portlet box blue" style="width: 105%;">
+                  <div class="portlet box " style="">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i></h4>
+<!--                        <h4><i class="icon-reorder"></i></h4>
                         <b style="color:white;text-align: center;font-size: 20px;">New and Current on ART</b>
                        <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:16px;font-family: cambria;"><b></b></span>
                     <span id="newform" style="margin-left: 15%;background-color: white;padding: 2px;"><b></b></span>
-                     </div>
+                     </div>-->
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="route_out" class="form-horizontal">
-                            <div id="table" style="margin-right:5%">   
-             <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
-                          
+          
+ <div class="accordion" id="form1a_accordion">
+   <div class="card">
+    <div class="card-header" id="headingHTS">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseHTS" aria-expanded="true" aria-controls="collapseHTS" style="width:35%; text-align:left;">
+          1.1 HIV Testing
+        </button>
+      </h5>
+    </div>
 
-        <fieldset class='formatter'><legend class='formatter'><b style='text-align:center;'> ART Data Collection Tool</b></legend><table  cellpadding='2px' border='0' style='border-color: #e5e5e5;margin-bottom: 3px;'>
+    <div id="collapseHTS" class="collapse" aria-labelledby="headingHTS" data-parent="#form1a_accordion">
+        <div class="card-body">
+      HTS Main here
+        </div>
+    </div>
+  </div>
+   <div class="card">
+    <div class="card-header" id="headingHTS_RECENT">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseHTS_RECENT" aria-expanded="true" aria-controls="collapseHTS_RECENT" style="width:35%; text-align:left;">
+          1.2 HTS_RECENT
+        </button>
+      </h5>
+    </div>
 
-    </table></fieldset><div class='form-actions'><input type='submit' class='btn blue' value='Run Validation' name='validate' id='validate'/></div>
-                      
-                   
-                   </div>
-                          <input type="hidden" name="checkblank" id="checkblank" value="0"/>
-                            
-                        </form>
+    <div id="collapseHTS_RECENT" class="collapse" aria-labelledby="headingHTS_RECENT" data-parent="#form1a_accordion">
+      <div class="card-body">
+      HTS_RECENT HERE
+      </div>
+    </div>
+  </div>
+ <div class="card">
+    <div class="card-header" id="headingHTS_SELF">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseHTS_SELF" aria-expanded="true" aria-controls="collapseHTS_SELF" style="width:35%; text-align:left;">
+          1.3 HTS_SELF
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseHTS_SELF" class="collapse" aria-labelledby="headingHTS_SELF" data-parent="#form1a_accordion">
+      <div class="card-body">
+      HTS_SELF here
+      </div>
+    </div>
+  </div>
+    
+     <div class="card">
+    <div class="card-header" id="headingPREP">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapsePREP" aria-expanded="true" aria-controls="collapsePREP" style="width:35%; text-align:left;">
+          1.4 PrEP NEW &CURRENT 
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapsePREP" class="collapse" aria-labelledby="headingPREP" data-parent="#form1a_accordion">
+      <div class="card-body">
+      PREP content here
+      </div>
+    </div>
+  </div>
+                          <div class="card">
+    <div class="card-header" id="headingIPT">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseIPT" aria-expanded="true" aria-controls="collapseIPT" style="width:35%; text-align:left;">
+          1.5 IPT Outcomes
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseIPT" class="collapse" aria-labelledby="headingIPT" data-parent="#form1a_accordion">
+      <div class="card-body">
+     IPT Outcomes content here
+      </div>
+    </div>
+  </div>
+                          <div class="card">
+    <div class="card-header" id="headingCXCA">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseCXCA" aria-expanded="true" aria-controls="collapseCXCA" style="width:35%; text-align:left;">
+          1.6 CERVICAL CANCER SCREENING & TREATMENT 
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseCXCA" class="collapse" aria-labelledby="headingCXCA" data-parent="#form1a_accordion">
+      <div class="card-body">
+     Cancer Screening content Here
+      </div>
+    </div>
+  </div>
+                          <div class="card">
+    <div class="card-header" id="headingGEND_GBV">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseGEND_GBV" aria-expanded="true" aria-controls="collapseGEND_GBV" style="width:35%; text-align:left;">
+          1.7 GEND_GBV
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseGEND_GBV" class="collapse" aria-labelledby="headingGEND_GBV" data-parent="#form1a_accordion">
+      <div class="card-body">
+     GEND GBV content here
+      </div>
+    </div>
+  </div>
+                          <div class="card">
+    <div class="card-header" id="headingPMTCT">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapsePMTCT" aria-expanded="true" aria-controls="collapsePMTCT" style="width:35%; text-align:left;">
+          1.8 PMTCT TESTING
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapsePMTCT" class="collapse" aria-labelledby="headingPMTCT" data-parent="#form1a_accordion">
+      <div class="card-body">
+     PMTCT here
+      </div>
+    </div>
+  </div>
+                        
+                        
+                        
+                        
+  <div class="card">
+    <div class="card-header" id="headingPMTCT_ART">
+      <h5 class="mb-0">
+          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapsePMTCT_ART" aria-expanded="true" aria-controls="collapsePMTCT_ART" style="width:35%; text-align:left;">
+          1.9 MATERNAL HAART 
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapsePMTCT_ART" class="collapse" aria-labelledby="headingPMTCT_ART" data-parent="#form1a_accordion">
+      <div class="card-body">
+      PMTCT ART Content here
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingART">
+      <h5 class="mb-0">
+        <button class="btn blue collapsed" id="section_10" type="button" data-toggle="collapse" data-target="#collapseART" aria-expanded="false" aria-controls="collapseART" style="width:35%; text-align:left;">
+          1.10 HIV & TB SCREENING
+        </button>
+      </h5>
+    </div>
+    <div id="collapseART" class="collapse" aria-labelledby="headingART" data-parent="#form1a_accordion">
+      <div class="card-body">
+          <div id="table" style="margin-right:0%">   
+            <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
+            </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTX_ML">
+      <h5 class="mb-0">
+        <button class="btn blue collapsed" type="button" data-toggle="collapse" data-target="#collapseTX_ML" aria-expanded="false" aria-controls="collapseTX_ML" style="width:35%; text-align:left;">
+          1.11 ACCOUNTING FOR ART PATIENTS WITH NO CLINICAL CONTACT
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTX_ML" class="collapse" aria-labelledby="headingTX_ML" data-parent="#form1a_accordion">
+      <div class="card-body">
+      TX ML Content here
+      </div>
+    </div>
+  </div>
+</div>       
+                    
+                        
+                       
                         <!-- END FORM-->           
                      </div>
                   </div>
@@ -302,9 +459,9 @@ td{
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
 
-   <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
-   <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
+   <script src="bootstrap4/js/bootstrap.js"></script>   
+        <!--<script src="assets/bootstrap/js/bootstrap.js"></script>   -->
    <script type="text/javascript" src="assets/bootstrap-fileupload/bootstrap-fileupload.js"></script>
    <script src="assets/js/jquery.blockui.js"></script>
    <script src="assets/js/jquery.cookie.js"></script>
@@ -330,12 +487,9 @@ td{
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-         
-         $('form').submit(function(){
-        
-         return true;
-         });
-                    $.ajax({
+         load_data("load_art");
+
+    $.ajax({
 url:'loadFacilities',
 type:'post',
 dataType:'html',
@@ -345,22 +499,9 @@ success:function (data){
         $('#facility').select2();   
 }
 
-
 }); 
          
-         
-         $.ajax({
-            url:'load_art',
-            type:'post',
-            dataType:'html',
-            success:function (data){
-                 $("#table").html(data);                
-                 $("#newform").html($("#formstatus").html());  
-                 $("#recordcounter").html($("#rc").html());  
-                 $("#allunValidated").html($("#ufs").html());
-           
-            }
-        }); 
+ 
   
 $.ajax({
     url:'loadYear',
@@ -377,8 +518,30 @@ $.ajax({
 //               
      });
       
-      
-      
+
+function save_data(form_name,url_save,url_load,section_id){
+    var form_data = $('#'+form_name).serialize();
+    $.post(url_save,form_data , function(output) {
+    section_saved(section_id);
+    load_data(url_load); 
+ 
+    });  
+}
+
+    function load_data(url){
+         $.ajax({
+            url:url,
+            type:'post',
+            dataType:'html',
+            success:function (data){
+                 $("#table").html(data);                
+                 $("#newform").html($("#formstatus").html());  
+                 $("#recordcounter").html($("#rc").html());  
+                 $("#allunValidated").html($("#ufs").html());
+           
+            }
+        }); 
+    }
 function loadmonths(){
       
       var yr=document.getElementById("year").value;
@@ -403,11 +566,7 @@ success:function (data){
       
       
       }
-
-
-
-
-
+      
 
  function sendtosessionyear(){
       
@@ -478,10 +637,6 @@ return false;
 }
 
 else{
- 
-
-document.getElementById("checkblank").value='1';
- 
 return true;
 }
 }
@@ -615,6 +770,13 @@ success:function (data){
  loadcounty(); 
       
    </script>
+   <script>
+       
+       
+   </script>
+   
+   
+   
    <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->

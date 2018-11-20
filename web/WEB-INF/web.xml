@@ -1094,8 +1094,8 @@
         <servlet-class>form1a.load_art</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>save_art</servlet-name>
-        <servlet-class>form1a.save_art</servlet-class>
+        <servlet-name>save_data</servlet-name>
+        <servlet-class>form1a.save_data</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>load_cxca</servlet-name>
@@ -2238,8 +2238,8 @@
         <url-pattern>/load_art</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>save_art</servlet-name>
-        <url-pattern>/save_art</url-pattern>
+        <servlet-name>save_data</servlet-name>
+        <url-pattern>/save_data</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>load_cxca</servlet-name>

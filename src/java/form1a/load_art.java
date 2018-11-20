@@ -32,8 +32,13 @@ String indicator_ids[][] = {{"121","122","123","124"},{"1"}};
 String indicators[][] = {{"Starting ART","Breastfeeding at initiation of ART","Currently on ART (All)","TB screening & presumed TB"},{"Am done"}};
 String main_indicator[]={"HIV Treatment & TB screening","Testing"};
 String main_indic_rowspan[] = {"4","1"};
-int indic_pos=0,main_indic_pos=0,max_length=5;
-            String facil = "";
+int indic_pos=0,main_indic_pos=0,max_length=5,indic_counter=0,totals,locked_form,locked_indicator=0,columns_pos;
+String tableid = "",submit_button_name="",value="";
+String facil = "";
+String finer_age_sex_state[] = {"",",2,3,4,5,6,7,8,10,12,14,16,18,20,22,24,","","","",""}; // disable male for breastfeeding
+String table_name="fas_art",save_data_url="save_data",load_data_url="load_art",form_name="fas_art";
+String section_name="1.10 HIV & TB SCREENING",section_code="10";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,33 +51,23 @@ int indic_pos=0,main_indic_pos=0,max_length=5;
 
             validity="<b><font color='#4b8df8'>New Entry</font></b>";
 
-//            if (session.getAttribute("year") != null) {
-//                year = session.getAttribute("year").toString();
-//            }
-//            if (session.getAttribute("monthid") != null) {
-//                month = session.getAttribute("monthid").toString();
-//            }
-//
-//            if (session.getAttribute("facilityid") != null) {
-//                facil = session.getAttribute("facilityid").toString();
-//            }
-          year="2018";
-          month="10";
-          facil = "383";
-            
-            
-            
-            
-int ARTdone=0;
-int ARTundone=0;
-int ARTvalid=0;
-int facilssupporting=0;
-String distid="";
+            if (session.getAttribute("year") != null) {
+                year = session.getAttribute("year").toString();
+            }
+            if (session.getAttribute("monthid") != null) {
+                month = session.getAttribute("monthid").toString();
+            }
 
-if(session.getAttribute("subcountyid")!=null){
-distid=session.getAttribute("subcountyid").toString();
-}
-     yearmonth="";
+            if (session.getAttribute("facilityid") != null) {
+                facil = session.getAttribute("facilityid").toString();
+            }
+
+
+//          year="2018";
+//          month="10";
+//          facil = "383";
+
+        yearmonth="";
         String tempmonth=month;
         int pepfaryear=Integer.parseInt(year);
         if(Integer.parseInt(month)<10){ tempmonth="0"+month; }
@@ -89,12 +84,22 @@ distid=session.getAttribute("subcountyid").toString();
     if(conn.rs.next()){
       isLocked= "1";
       lock="disabled";
+      locked_form=1;
     }
-    
- 
-         enterdby="";  
-         output = "<table  border=\"1px;\">";
-          output+="<tr>"
+    else{
+         isLocked= "0";
+         lock="";  
+         locked_form=0;
+    }
+
+
+         enterdby="";
+         output = ""+
+                  " <fieldset class='formatter' style=\"margin:20px; color:black;\"><legend class='formatter'><b style='text-align:center;'> "+section_name+"</b></legend>" +
+                 " <form action=\"#\" id=\""+form_name+"\" method=\"post\" class=\"form-horizontal\">"+
+                  " <table  border=\"1px;\">";
+
+          output+="<tr style=\"font-weight:bold; background:#a9c7e4;\">"
                  + "<td rowspan=\"2\">Main Indicator</td>"
                   + "<td rowspan=\"2\">Indicator</td>"
                   + "<td colspan=\"2\">Unknown</td>"
@@ -111,8 +116,8 @@ distid=session.getAttribute("subcountyid").toString();
                   + "<td colspan=\"2\">45-49</td>"
                   + "<td colspan=\"2\">50+</td>"
                   + "<td>Total</td>"
-                 + "</tr>"; 
-          output+="<tr><td>M</td><td>F</td>"
+                 + "</tr>";
+          output+="<tr style=\"font-weight:bold; background:#a9c7e4;\"><td>M</td><td>F</td>"
                   + "<td>M</td><td>F</td><td>M</td><td>F</td>"
                   + "<td>M</td><td>F</td><td>M</td><td>F</td>"
                   + "<td>M</td><td>F</td><td>M</td><td>F</td>"
@@ -120,49 +125,137 @@ distid=session.getAttribute("subcountyid").toString();
                   + "<td>M</td><td>F</td><td>M</td><td>F</td>"
                   + "<td>M</td><td>F</td><td>M</td><td>F</td>"
                   + "<td>Total</td>"
-                  + "</tr>"; 
-          
-          
+                  + "</tr>";
+
+
           main_indic_pos = 0;
-          
+          indic_counter = 0;
+
          for(String main_indic:main_indicator){
-          indic_pos=0;   
+          indic_pos=0;
              System.out.println("main indicator pos = "+main_indic_pos);
          for(String indic_id:indicator_ids[main_indic_pos]){
-             String tableid = yearmonth+"_"+indic_id;
+             totals=columns_pos=0;
+             indic_counter++;
+             tableid = yearmonth+"_"+facil+"_"+indic_id;
          String get_data = "SELECT * FROM fas_art WHERE id=?";
          conn.pst = conn.conn.prepareStatement(get_data);
          conn.pst.setString(1, tableid);
          conn.rs = conn.pst.executeQuery();
+
+
          if(conn.rs.next()){ // indicator data already exist
+             if(conn.rs.getString("is_locked")!=null){
+           if(conn.rs.getString("is_locked").equals("1")){
+//                isLocked= "1";
+//                lock="disabled";
+                locked_indicator=1;
+           } 
+           else{
+//                isLocked= "0";
+//                lock="";
+                locked_indicator=0;
+           }
+             }
+             else{
+//               isLocked= "0";
+//                lock=""; 
+                locked_indicator=0;
+             }
+             
+         submit_button_name = "Update ART";
          output+="<tr>";
          if(indic_pos==0){
          output+= "<td rowspan=\""+main_indic_rowspan[main_indic_pos]+"\">"+main_indic+"</td>";
          }
-         output+="<td>"+indicators[main_indic_pos][indic_pos]+"</td>";
+         output+="<td>"+indicators[main_indic_pos][indic_pos]+"<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
           for(String column_name:columns){
-          output+="<td><input type=\"text\"  name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\""+conn.rs.getString(column_name)+"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"');\"  oninput=\"art"+indic_pos+"(); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
-                  }
-          output+="<td><p id=\""+indic_id+"\">"+indic_id+"</p></td></tr>";   
+              
+              if(conn.rs.getString(column_name)!=null){
+                  value = conn.rs.getString(column_name);
+                  if(isNumeric(value)){
+                  totals+=Integer.parseInt(value);
+                          }
+              }
+              else{value="";}
+             if(finer_age_sex_state[indic_counter-1].contains(","+columns_pos+",")){
+              lock="disabled"; 
+              isLocked="1";  
+             }
+             else{
+               if(locked_form==0 && locked_indicator==0){
+                  lock=""; 
+                  isLocked="0";  
+               }
+                else if(locked_indicator==1){
+                  lock="disabled"; 
+                  isLocked="1"; 
+               }
+           }
+           
+             //
+          output+="<td><input type=\"text\"  name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\""+value+"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"'); section_changed('"+section_code+"');\"  oninput=\"sum_indicators('"+indic_counter+"');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
+           
+          columns_pos++;
+          }
+          System.out.println("locked form:"+locked_form+" locked indic"+locked_indicator);
+          output+="<td><p id=\""+indic_id+"\" style=\"padding-left:10px; padding-right:10px; font-weight:bold;\">"+totals+"</p></td></tr>";
          }
+
+         
+         
+         
+         
+         
          else{ // new indicator
+             locked_indicator=0;
+             if(locked_form==0){
+              isLocked= "0";
+              lock="";     
+             }
+          submit_button_name = "Save ART";
          output+="<tr>";
          if(indic_pos==0){
          output+= "<td rowspan=\""+main_indic_rowspan[main_indic_pos]+"\">"+main_indic+"</td>";
          }
-         output+="<td>"+indicators[main_indic_pos][indic_pos]+"</td>";
+         output+="<td>"+indicators[main_indic_pos][indic_pos]+"<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
           for(String column_name:columns){
-          output+="<td><input type=\"text\" name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"');\"  oninput=\"art"+indic_pos+"(); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
-                  }
-          output+="<td><p id=\""+indic_id+"\">"+indic_id+""+indic_id+"</p></td></tr>";  
+              
+           if(finer_age_sex_state[indic_counter-1].contains(","+columns_pos+",")){
+              lock="disabled"; 
+              isLocked="1";
+             }
+           else{
+               if(locked_form==0 && locked_indicator==0){
+                  lock=""; 
+                  isLocked="0";  
+               }
+               else{
+                  lock="disabled"; 
+                  isLocked="1"; 
+               }
+           }
+          // System.out.println("locked form:"+locked_form+" locked indic"+locked_indicator);
+          output+="<td><input type=\"text\" name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"');  section_changed('"+section_code+"');\" oninput=\"sum_indicators('"+indic_counter+"');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
+          columns_pos++;
+          }
+          output+="<td><p id=\""+indic_id+"\" style=\"padding-left:10px; padding-right:10px; font-weight:bold;\"></p></td></tr>";
          }
-         
-         
+
          indic_pos++;
                  }
          main_indic_pos++;
        }
-        
+         output+="</table>";
+         output+="<input type=\"hidden\" name=\"num_indicators\" id=\"num_indicators\" value=\""+indic_counter+"\">";
+         output+="<input type=\"hidden\" name=\"table_name\" id=\"table_name\" value=\""+table_name+"\">";
+
+//         output+="<p id=\"submit_name\">"+submit_button_name+"</p>";
+         output+="<div class='form-actions' style=\"text-align:right;\"><button type='button' class='btn blue' onclick=\"save_data('"+form_name+"','"+save_data_url+"','"+load_data_url+"','"+section_code+"')\" name='validate' id='validate' style=\"font-weight:700; font-size:20px; width:20%;\">"+submit_button_name+"</button></div>"
+                 + "</form>"
+                 + " </fieldset>";
+
+
         out.println(output);
         } finally {
             out.close();
@@ -216,4 +309,10 @@ distid=session.getAttribute("subcountyid").toString();
         return "Short description";
     }// </editor-fold>
 
+       public boolean isNumeric(String s) {  
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}
+   private static String removeLast(String str, int num) {
+    return str.substring(0, str.length() - num);
+}
 }
