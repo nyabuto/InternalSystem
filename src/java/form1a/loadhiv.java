@@ -71,7 +71,7 @@ int indic_counter;
             String support_column_name,support_column_value;
             int num_serv_supported=0;
             // READ FACILITY SUPPORTED SERVICES
-            String get_supported_service = "SELECT IFNULL(PMTCT,0) AS PMTCT,IFNULL(ART,0) AS ART,IFNULL(VMMC,0) AS VMMC,IFNULL(HTC,0) AS HTC,IFNULL(Gender,0) AS Gender,IFNULL(PNS,0) AS PNS FROM subpartnera WHERE SubPartnerID='"+facil+"'";
+            String get_supported_service = "SELECT IFNULL(PMTCT,0) AS PMTCT,IFNULL(ART,0) AS ART,IFNULL(VMMC,0) AS VMMC,IFNULL(HTC,0) AS HTC,IFNULL(Gender,0) AS Gender,IFNULL(PNS,0) AS PNS, IFNULL(IPD,0) AS IPD FROM subpartnera WHERE SubPartnerID='"+facil+"'";
             System.out.println(""+get_supported_service);
             conn.rs = conn.st.executeQuery(get_supported_service);
                ResultSetMetaData metaData = conn.rs.getMetaData();
@@ -118,7 +118,7 @@ int indic_counter;
             section_label="";
             String columns[] = {"m_uk", "f_uk", "m_1", "f_1", "m_4", "f_4", "m_9", "f_9", "m_14", "f_14", "m_19", "f_19", "m_24", "f_24", "m_29", "f_29", "m_34", "f_34", "m_39", "f_39", "m_44", "f_44", "m_49", "f_49", "m_50", "f_50","total"};
             //load indicators from the table
-            String tbls = "select * from fas_indicators where database_name='" + database_name + "' and is_active='1'";
+            String tbls = "select * from fas_indicators where database_name='" + database_name + "' and is_active='1' AND ("+supported_services.replace("WHERE", "")+")";
 
             conn.rs = conn.st.executeQuery(tbls);
 
