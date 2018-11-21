@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  */
 public class save_data extends HttpServlet {
 HttpSession session;
-String columns[] = {"m_uk","f_uk","m_1","f_1","m_4","f_4","m_9","f_9","m_14","f_14","m_19","f_19","m_24","f_24","m_29","f_29","m_34","f_34","m_39","f_39","m_44","f_44","m_49","f_49","m_50","f_50"};
+String columns[] = {"m_uk","f_uk","m_1","f_1","m_4","f_4","m_9","f_9","m_14","f_14","m_19","f_19","m_24","f_24","m_29","f_29","m_34","f_34","m_39","f_39","m_44","f_44","m_49","f_49","m_50","f_50","total"};
 String query="";
 int num_indicators;
 String year,month,facil,yearmonth,tableid;
@@ -40,6 +40,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
            
            num_indicators = Integer.parseInt(request.getParameter("num_indicators"));
            table_name = request.getParameter("table_name");
+                       System.out.println("entered here: nm indics"+num_indicators+" table name : "+table_name);
 //           num_indicators = 5;
           
             if (session.getAttribute("year") != null) {
@@ -83,7 +84,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
            }
             }
         }
-        
+//         System.out.println("Query1 = "+query);
         //remove the last comma
         query = removeLast(query, 1);
         if(counted_values>0){

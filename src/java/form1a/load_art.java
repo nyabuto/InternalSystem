@@ -194,7 +194,7 @@ String section_name="1.10 HIV & TB SCREENING",section_code="10";
            }
            
              //
-          output+="<td><input type=\"text\"  name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\""+value+"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"'); section_changed('"+section_code+"');\"  oninput=\"sum_indicators('"+indic_counter+"');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
+          output+="<td><input type=\"text\"  name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\""+value+"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"'); section_changed('"+section_code+"');\"  oninput=\"sum_indicators('"+indic_id+"');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
            
           columns_pos++;
           }
@@ -236,7 +236,7 @@ String section_name="1.10 HIV & TB SCREENING",section_code="10";
                }
            }
           // System.out.println("locked form:"+locked_form+" locked indic"+locked_indicator);
-          output+="<td><input type=\"text\" name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"');  section_changed('"+section_code+"');\" oninput=\"sum_indicators('"+indic_counter+"');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
+          output+="<td><input type=\"text\" name=\""+column_name+"_"+indic_id+"\" id=\""+column_name+"_"+indic_id+"\" value=\"\" onblur=\"indicate_changed('"+column_name+"_"+indic_id+"');  section_changed('"+section_code+"');\" oninput=\"sum_indicators('"+indic_id+"');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\""+max_length+"\" onkeypress=\"return numbers(event)\" ></td>";
           columns_pos++;
           }
           output+="<td><p id=\""+indic_id+"\" style=\"padding-left:10px; padding-right:10px; font-weight:bold;\"></p></td></tr>";

@@ -89,8 +89,11 @@ input[type=text]{
     border-color: black;
     border-width: 0.5px;
 }
+input[readonly]{
+    background-color: #aeb5ae;
+}
 td{
- text-align: center;   
+ text-align: center ;   
 }
 </style>
 <script type="text/javascript" src="js/fas/sum_values.js"></script>
@@ -248,176 +251,7 @@ td{
                         <!-- BEGIN FORM-->
           
  <div class="accordion" id="form1a_accordion">
-   <div class="card">
-    <div class="card-header" id="headingHTS">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseHTS" aria-expanded="true" aria-controls="collapseHTS" style="width:35%; text-align:left;">
-          1.1 HIV Testing
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapseHTS" class="collapse" aria-labelledby="headingHTS" data-parent="#form1a_accordion">
-        <div class="card-body">
-      HTS Main here
-        </div>
-    </div>
-  </div>
-   <div class="card">
-    <div class="card-header" id="headingHTS_RECENT">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseHTS_RECENT" aria-expanded="true" aria-controls="collapseHTS_RECENT" style="width:35%; text-align:left;">
-          1.2 HTS_RECENT
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapseHTS_RECENT" class="collapse" aria-labelledby="headingHTS_RECENT" data-parent="#form1a_accordion">
-      <div class="card-body">
-      HTS_RECENT HERE
-      </div>
-    </div>
-  </div>
- <div class="card">
-    <div class="card-header" id="headingHTS_SELF">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseHTS_SELF" aria-expanded="true" aria-controls="collapseHTS_SELF" style="width:35%; text-align:left;">
-          1.3 HTS_SELF
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapseHTS_SELF" class="collapse" aria-labelledby="headingHTS_SELF" data-parent="#form1a_accordion">
-      <div class="card-body">
-      HTS_SELF here
-      </div>
-    </div>
-  </div>
-    
-     <div class="card">
-    <div class="card-header" id="headingPREP">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapsePREP" aria-expanded="true" aria-controls="collapsePREP" style="width:35%; text-align:left;">
-          1.4 PrEP NEW &CURRENT 
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapsePREP" class="collapse" aria-labelledby="headingPREP" data-parent="#form1a_accordion">
-      <div class="card-body">
-      PREP content here
-      </div>
-    </div>
-  </div>
-                          <div class="card">
-    <div class="card-header" id="headingIPT">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseIPT" aria-expanded="true" aria-controls="collapseIPT" style="width:35%; text-align:left;">
-          1.5 IPT Outcomes
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapseIPT" class="collapse" aria-labelledby="headingIPT" data-parent="#form1a_accordion">
-      <div class="card-body">
-     IPT Outcomes content here
-      </div>
-    </div>
-  </div>
-                          <div class="card">
-    <div class="card-header" id="headingCXCA">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseCXCA" aria-expanded="true" aria-controls="collapseCXCA" style="width:35%; text-align:left;">
-          1.6 CERVICAL CANCER SCREENING & TREATMENT 
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapseCXCA" class="collapse" aria-labelledby="headingCXCA" data-parent="#form1a_accordion">
-      <div class="card-body">
-     Cancer Screening content Here
-      </div>
-    </div>
-  </div>
-                          <div class="card">
-    <div class="card-header" id="headingGEND_GBV">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapseGEND_GBV" aria-expanded="true" aria-controls="collapseGEND_GBV" style="width:35%; text-align:left;">
-          1.7 GEND_GBV
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapseGEND_GBV" class="collapse" aria-labelledby="headingGEND_GBV" data-parent="#form1a_accordion">
-      <div class="card-body">
-     GEND GBV content here
-      </div>
-    </div>
-  </div>
-                          <div class="card">
-    <div class="card-header" id="headingPMTCT">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapsePMTCT" aria-expanded="true" aria-controls="collapsePMTCT" style="width:35%; text-align:left;">
-          1.8 PMTCT TESTING
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapsePMTCT" class="collapse" aria-labelledby="headingPMTCT" data-parent="#form1a_accordion">
-      <div class="card-body">
-     PMTCT here
-      </div>
-    </div>
-  </div>
-                        
-                        
-                        
-                        
-  <div class="card">
-    <div class="card-header" id="headingPMTCT_ART">
-      <h5 class="mb-0">
-          <button class="btn blue" type="button" data-toggle="collapse" data-target="#collapsePMTCT_ART" aria-expanded="true" aria-controls="collapsePMTCT_ART" style="width:35%; text-align:left;">
-          1.9 MATERNAL HAART 
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapsePMTCT_ART" class="collapse" aria-labelledby="headingPMTCT_ART" data-parent="#form1a_accordion">
-      <div class="card-body">
-      PMTCT ART Content here
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingART">
-      <h5 class="mb-0">
-        <button class="btn blue collapsed" id="section_10" type="button" data-toggle="collapse" data-target="#collapseART" aria-expanded="false" aria-controls="collapseART" style="width:35%; text-align:left;">
-          1.10 HIV & TB SCREENING
-        </button>
-      </h5>
-    </div>
-    <div id="collapseART" class="collapse" aria-labelledby="headingART" data-parent="#form1a_accordion">
-      <div class="card-body">
-          <div id="table" style="margin-right:0%">   
-            <i style="margin-left: 450px; margin-top: 200px;">  loading data...<img src="images/utube.gif"></i>
-            </div>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="headingTX_ML">
-      <h5 class="mb-0">
-        <button class="btn blue collapsed" type="button" data-toggle="collapse" data-target="#collapseTX_ML" aria-expanded="false" aria-controls="collapseTX_ML" style="width:35%; text-align:left;">
-          1.11 ACCOUNTING FOR ART PATIENTS WITH NO CLINICAL CONTACT
-        </button>
-      </h5>
-    </div>
-    <div id="collapseTX_ML" class="collapse" aria-labelledby="headingTX_ML" data-parent="#form1a_accordion">
-      <div class="card-body">
-      TX ML Content here
-      </div>
-    </div>
-  </div>
+ 
 </div>       
                     
                         
@@ -487,7 +321,7 @@ td{
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
-         load_data("load_art");
+         load_data();
 
     $.ajax({
 url:'loadFacilities',
@@ -519,26 +353,25 @@ $.ajax({
      });
       
 
-function save_data(form_name,url_save,url_load,section_id){
+function save_data(form_name,section_id){
+    var url_save = "save_data";
+//    var url_load = "load_form1a";
+    
     var form_data = $('#'+form_name).serialize();
     $.post(url_save,form_data , function(output) {
     section_saved(section_id);
-    load_data(url_load); 
  
     });  
 }
 
-    function load_data(url){
+    function load_data(){
+        var url = "loadhiv";
          $.ajax({
             url:url,
             type:'post',
             dataType:'html',
             success:function (data){
-                 $("#table").html(data);                
-                 $("#newform").html($("#formstatus").html());  
-                 $("#recordcounter").html($("#rc").html());  
-                 $("#allunValidated").html($("#ufs").html());
-           
+                 $("#form1a_accordion").html(data);
             }
         }); 
     }

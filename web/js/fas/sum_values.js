@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-function sum_indicators(indic_pos){
+function sum_indicators(indicator_id){
     var total=0, elem_value="";
 var columns = ["m_uk","f_uk","m_1","f_1","m_4","f_4","m_9","f_9","m_14","f_14","m_19","f_19","m_24","f_24","m_29","f_29","m_34","f_34","m_39","f_39","m_44","f_44","m_49","f_49","m_50","f_50"];
-    var indicator_id=document.getElementById("indic_pos_"+indic_pos).value;
+//    var indicator_id=document.getElementById("indic_pos_"+indic_pos).value;
 //    alert(indicator_id);
 var num_elems = columns.length;
 for(var i=0;i<num_elems;i++){
@@ -17,7 +17,7 @@ for(var i=0;i<num_elems;i++){
     }
 }
 
-document.getElementById(indicator_id).innerHTML = total;
+document.getElementById("total_"+indicator_id).value = total;
 //alert(total);
 }
 
