@@ -11,7 +11,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>ART (New & Current) Form</title>
+   <title>Form 1A Data Entry</title>
    
       <script src="assets/js/jquery-1.8.3.min.js"></script>    
      <link rel="shortcut icon" href="images/index.JPG"/>
@@ -241,21 +241,13 @@ td{
                 <div class="span12" style="">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box " style="">
-                     <div class="portlet-title">
-<!--                        <h4><i class="icon-reorder"></i></h4>
-                        <b style="color:white;text-align: center;font-size: 20px;">New and Current on ART</b>
-                       <span id="recordcounter" style="margin-left:9%;color:yellow;font-size:16px;font-family: cambria;"><b></b></span>
-                    <span id="newform" style="margin-left: 15%;background-color: white;padding: 2px;"><b></b></span>
-                     </div>-->
+                     <div class="portlet-title">          
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
           
- <div class="accordion" id="form1a_accordion">
- 
-</div>       
-                    
-                        
-                       
+                        <div class="accordion" id="form1a_accordion">
+                            <div style="color:#000000; font-size: 30px; font-weight: 500; text-align: center; margin-top: 10%;"> Please wait, we are loading Form 1A ... <img src="images/utube.gif"></div>
+                       </div>   
                         <!-- END FORM-->           
                      </div>
                   </div>
@@ -285,9 +277,9 @@ td{
 %>
        
        &copy; Afya Nyota Ya Bonde | USAID <%=year%>.
-      <div class="span pull-right">
+<!--      <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
-      </div>
+      </div>-->
    </div>
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
@@ -318,11 +310,11 @@ td{
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>   
     <script src="select2/js/select2.js"></script>
+    <script src="js/notify.js"></script>
    <script>
       jQuery(document).ready(function() {       
          // initiate layout and plugins
          load_data();
-
     $.ajax({
 url:'loadFacilities',
 type:'post',
@@ -355,17 +347,43 @@ $.ajax({
 
 function save_data(form_name,section_id){
     var url_save = "save_data";
-//    var url_load = "load_form1a";
     
+     $("#validate_"+section_id).notify(
+        'Please wait, data is saving ...',
+        {position:"top",
+        autoHide: false,
+        className: 'info'
+});
+//    var url_load = "load_form1a";
     var form_data = $('#'+form_name).serialize();
     $.post(url_save,form_data , function(output) {
-    section_saved(section_id);
- 
+        var response = JSON.parse(output);
+        var code = response.code;
+        var message = response.message;
+        var output_type="";
+        if(code==0){
+          output_type="error";  
+        }
+        else if(code==1){
+         output_type="success"; 
+         section_saved(section_id);
+        }
+        else{
+        output_type="warning";    
+        }
+        $("#validate_"+section_id).notify(
+        message,
+        {position:"top",
+        autoHide: true,
+        autoHideDelay: 10000,
+        className: output_type, //error for error options
+        globalPosition: 'top left'
+});
     });  
 }
 
     function load_data(){
-        var url = "loadhiv";
+        var url = "loadform1a";
          $.ajax({
             url:url,
             type:'post',

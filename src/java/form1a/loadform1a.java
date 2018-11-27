@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author GNyabuto
  */
-public class loadhiv extends HttpServlet {
+public class loadform1a extends HttpServlet {
 
     HttpSession session;
 String database_name,section_name,section_code,section_label,value="";
@@ -340,7 +340,7 @@ int indic_counter;
          output+="<input type=\"hidden\" name=\"table_name\" id=\"table_name\" value=\""+database_name+"\">";
 
 //         output+="<p id=\"submit_name\">"+submit_button_name+"</p>";
-         output+="<div class='form-actions' style=\"text-align:right;\"><button type='button' class='btn blue' onclick=\"save_data('"+database_name+"','"+section_code+"')\" name='validate' id='validate' style=\"font-weight:700; font-size:20px; width:20%;\">"+save_data+""+section_label+"</button></div>"
+         output+="<div class='form-actions' style=\"text-align:right;\"><button type='button' class='btn blue' onclick=\"save_data('"+database_name+"','"+section_code+"')\" name='validate' id='validate_"+section_code+"' style=\"font-weight:700; font-size:20px; width:20%;\">"+save_data+""+section_label+"</button></div>"
                  + "</form>"
                  + " </fieldset>"
                  + "</div>\n" +
@@ -373,7 +373,7 @@ int indic_counter;
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(load_art.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(loadform1a.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -391,7 +391,7 @@ int indic_counter;
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(load_art.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(loadform1a.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

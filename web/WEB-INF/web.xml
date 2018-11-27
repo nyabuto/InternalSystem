@@ -1058,8 +1058,8 @@
         <servlet-class>DataMapping.DATIM_IMIS_Variance_Output</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>loadhiv</servlet-name>
-        <servlet-class>form1a.loadhiv</servlet-class>
+        <servlet-name>loadform1a</servlet-name>
+        <servlet-class>form1a.loadform1a</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>loadhtsrecent</servlet-name>
@@ -2202,8 +2202,8 @@
         <url-pattern>/DATIM_IMIS_Variance_Output</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>loadhiv</servlet-name>
-        <url-pattern>/loadhiv</url-pattern>
+        <servlet-name>loadform1a</servlet-name>
+        <url-pattern>/loadform1a</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>loadhtsrecent</servlet-name>
