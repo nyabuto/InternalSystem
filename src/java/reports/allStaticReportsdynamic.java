@@ -44,7 +44,7 @@ public class allStaticReportsdynamic extends HttpServlet {
         String isgroupby="yes";
         try {
             response.setContentType("text/html;charset=UTF-8");
-
+            dbConn conn = new dbConn();
 //a page to get Report of all the servlets
             String months[] = null;
 
@@ -73,20 +73,36 @@ public class allStaticReportsdynamic extends HttpServlet {
             }
             
             
-            if(form.equalsIgnoreCase("VMMC")){
-                form="vmmc_new";
-            }
+//            if(form.equalsIgnoreCase("VMMC")){
+//                form="vmmc_new";
+//            }
+//            
+//            String pivotform = form;
+//            if (form.equalsIgnoreCase("MOH 731")) {
+//                form = "vw_moh731";
+//            }
+//            if (form.equalsIgnoreCase("MOH 711A")) {
+//                form = "MOH711";
+//            }
+//            if (form.equalsIgnoreCase("MOH 711 (New)")) {
+//                form = "moh711_new";
+//            }
+//            
+//            if (form.equalsIgnoreCase("MOH 731 (New)")) {
+//                form = "moh731_new";
+//            }
             
-            String pivotform = form;
-            if (form.equalsIgnoreCase("MOH 731")) {
-                form = "vw_moh731";
-            }
-            if (form.equalsIgnoreCase("MOH 711A")) {
-                form = "MOH711";
-            }
-            if (form.equalsIgnoreCase("MOH 711 (New)")) {
-                form = "moh711_new";
-            }
+//            String gettable = "SELECT table_name FROM forms WHERE form=?";
+//            conn.pst = conn.conn.prepareStatement(gettable);
+//            conn.pst.setString(1, form);
+//            conn.rs = conn.pst.executeQuery();
+//            if(conn.rs.next()){
+//                form = conn.rs.getString(1);
+//            }
+//            
+//            
+            
+            
             String facilitywhere = "";
             String yearwhere = "";
             String monthwhere = "";
@@ -120,7 +136,6 @@ public class allStaticReportsdynamic extends HttpServlet {
 
             String reportType = "";
 
-            dbConn conn = new dbConn();
 
             if (request.getParameter("reportType") != null) {
                 reportType = request.getParameter("reportType");
@@ -838,12 +853,9 @@ public class allStaticReportsdynamic extends HttpServlet {
 //create an array to store the number of row for each excel worksheet. 
 //This will help in retrieving the number of rows for each month since we are wring data for different months with increasing rows.
 //the size of that array will be determined by the number of excel worksheets
-            String qrform = form;
-             if(!form.equalsIgnoreCase("vmmc_new") && !form.equalsIgnoreCase("vw_moh731")){
-             qrform=form.replace("_", "");   
-            }
+           
             
-            String selectdistinctworksheet = "select section,servicearea from pivottable where form='" + qrform + "' and active='1' "+indicatorswhere+" group by section order by order_per_form";
+            String selectdistinctworksheet = "select section,servicearea from pivottable where form='" + form + "' and active='1' "+indicatorswhere+" group by section order by order_per_form";
 
             conn.rs = conn.st.executeQuery(selectdistinctworksheet);
             System.out.println("worksheetquery: "+selectdistinctworksheet);
@@ -856,7 +868,7 @@ public class allStaticReportsdynamic extends HttpServlet {
                     servicearea = " (  " + conn.rs.getString(2) + "=1 )";
                 }
                 distinctservicearea.add(servicearea);
-
+                System.out.println("service area: "+servicearea);
                                    }
 
             int rowstartpersheet[] = new int[distinctsheets.size()];
@@ -869,13 +881,8 @@ public class allStaticReportsdynamic extends HttpServlet {
 
                 
             }
-            
-            qrform = form;
-            if(!form.equalsIgnoreCase("vmmc_new") && !form.equalsIgnoreCase("vw_moh731")){
-             qrform=form.replace("_", "");   
-            }
-            
-            String getattribs = "select tableid,indicator,label,section,cumulative,percentage,active ,shortlabel,sourcetable from pivottable where form='" + qrform + "' "+indicatorswhere+" order by order_per_form, section";
+       
+            String getattribs = "select tableid,indicator,label,section,cumulative,percentage,active ,shortlabel,sourcetable from pivottable where form='" + form + "' "+indicatorswhere+" order by order_per_form, section,tableid";
             conn.rs = conn.st.executeQuery(getattribs);
             System.out.println("get attributes : "+getattribs);
             while (conn.rs.next()) {
@@ -889,9 +896,9 @@ public class allStaticReportsdynamic extends HttpServlet {
                     sourcetable.add(conn.rs.getString("sourcetable"));
                     
 //add label
-                    if (form.equalsIgnoreCase("vw_moh731")) {
+                    if (form.contains("moh731")) {
                         
-                        labels.add(conn.rs.getString("shortlabel") + " \n" + conn.rs.getString("label"));
+                        labels.add(conn.rs.getString("shortlabel") + " \n (" + conn.rs.getString("label")+")");
 
                     } else {
                         labels.add(conn.rs.getString("label"));
@@ -1011,7 +1018,6 @@ public class allStaticReportsdynamic extends HttpServlet {
 //recall, each indicator has got an associated section / worksheet
 //An indicator should be put as an header in the respective worksheet
                     if (worksheets.get(c).equals(distinctsheets.get(b))) {
-
                         shet.setColumnWidth(headercellpos, 6000);
                         XSSFCell cell0 = rw.createCell(headercellpos);
                         cell0.setCellValue(labels.get(c).toString());
@@ -1175,7 +1181,8 @@ System.out.println("enntered loop");
                 
                 String lastperiod="";
                 ArrayList alldistinctperiods = new ArrayList();
-            //System.out.println(""+getdistinctperiod);                
+            
+                System.out.println("Query is :"+getdistinctperiod);                
                 
                 conn.rs = conn.st.executeQuery(getdistinctperiod);
                 System.out.println("perfacilselect: "+perfacilselect);
