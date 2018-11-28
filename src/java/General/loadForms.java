@@ -33,9 +33,9 @@ public class loadForms extends HttpServlet {
     user_access="";
     dbConn conn= new dbConn();
    String forms="<option value=''> Select Form</option>"; 
-    String getForms="select * from forms where form !='MOH 711A'";
+    String getForms="select * from forms where form !='MOH 731'";
     
-    if(session.getAttribute("username").equals("fhi360")|| session.getAttribute("username").equals("christopher") ){
+    if(session.getAttribute("username").equals("fhi360")){
      getForms="select * from forms ";
     }
    
@@ -45,21 +45,14 @@ public class loadForms extends HttpServlet {
  form =session.getAttribute("form").toString();
  }
  System.out.println("form session "+form);
-    
+ System.out.println("user access : "+session.getAttribute("userAccess").toString());
     while(conn.rs.next()){
         
-      if(conn.rs.getString("form").equals("MOH 711A") || conn.rs.getString("form").equalsIgnoreCase("MOH 711 (New)")){user_access="moh711";}  
-      if(conn.rs.getString("form").equals("MOH 731") || conn.rs.getString("form").equalsIgnoreCase("MOH 731 (New)")){user_access="moh731";}   
-      if(conn.rs.getString("form").equals("Gender")){user_access="gender";}  
+      if(conn.rs.getString("form").equalsIgnoreCase("Form 1A")){user_access="form1a";} 
+      if(conn.rs.getString("form").equalsIgnoreCase("MOH 731 (New)")){user_access="moh731";} 
       if(conn.rs.getString("form").equals("VMMC")){user_access="vmmc";}  
-      if(conn.rs.getString("form").equals("733B (Nutrition)")){user_access="nutrition";}  
-      if(conn.rs.getString("form").equals("KMMP")){user_access="kmmp";}  
-      if(conn.rs.getString("form").equals("TB")){user_access="tb";}  
-      if(conn.rs.getString("form").equals("HEI")){user_access="hei";}
-      if(conn.rs.getString("form").equals("SGBV")){user_access="gender";} 
-      if(conn.rs.getString("form").equals("HTS")){user_access="gender";} 
+      if(conn.rs.getString("form").equals("KMMP")){user_access="kmmp";}    
        
-        System.out.println("user access : "+session.getAttribute("userAccess").toString());
         
         if(form.equals(conn.rs.getString("nextpage"))){
        if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     

@@ -256,10 +256,6 @@ td{
             </div>
        
           
-         
-          
-           
-         
           
             <!-- END PAGE CONTENT-->         
          </div>
@@ -311,9 +307,17 @@ td{
    <script src="assets/js/app.js"></script>   
     <script src="select2/js/select2.js"></script>
     <script src="js/notify.js"></script>
+    
    <script>
-      jQuery(document).ready(function() {       
+       
+      jQuery(document).ready(function() { 
          // initiate layout and plugins
+         
+      jQuery(window).unload(function() {
+        return "Bye now!";
+        });
+
+
          load_data();
     $.ajax({
 url:'loadFacilities',

@@ -54,171 +54,44 @@
                <span class="title">Home</span>
                </a>
             </li>
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh711,")){%> 
-            <li class="has-sub" <%   /**if(session.getAttribute("forms_holder")!=null)  */ if(1==2){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
            
-           
-              
-                <a href="load711.jsp">
-               <!--<i class="icon-bookmark-empty"></i>--> 
-               <span class="title">MOH 711 A</span>
-               <!--<span class="arrow "></span>-->
+            <%if(session.getAttribute("userAccess")!=null){%> 
+            <li class="has-sub">
+            
+               <a href="form1a.jsp">
+               <span class="title">Form 1A</span>
                </a>
-                
             </li>
-            <%}}%>
+            <%}%>
+            
+            
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh731,")){%> 
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 731 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
             
                <a href="loadnew731.jsp">
-               <!--<i class="icon-table"></i>--> 
                <span class="title">MOH 731 (New)</span>
-               <!--<span class="selected"></span>-->
-               <!--<span class="arrow open"></span>-->
                </a>
-<!--              forms_holder-->
-            </li>
-            
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 731")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
-            
-               <a href="Form731.jsp">
-               <!--<i class="icon-table"></i>--> 
-               <span class="title">MOH 731</span>
-               <!--<span class="selected"></span>-->
-               <!--<span class="arrow open"></span>-->
-               </a>
-<!--              forms_holder-->
             </li>
             <%}}%>
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){out.println("____hey");  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="loadGender.jsp">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">Gender</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            <%}}%>
+            
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",vmmc,")){%> 
             <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("VMMC")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
                <a href="loadVmmc.jsp">
-               <!--<i class="icon-th-list"></i>--> 
                <span class="title">VMMC</span>
-               <!--<span class="arrow "></span>-->
                </a>
               
             </li>
             <%}}%>
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",nutrition,")){%> 
-            <li class="has-sub"  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Nutrition")){  %> style="display:none;" <%} } else { %> style="display:none;"<% } %>>
-               <a href="load733B.jsp">
-               <!--<i class="icon-map-marker"></i>--> 
-               <span class="title">733B (Nutrition)</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            <%}}%>
+            
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",kmmp,")){%> 
             <li class=""  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("KMMP")){  %> style="display:none;" <%} } else { %> style="display:none;"<%} %>>
              
                 <a href="loadKmmp.jsp">
-               <!--<i class="icon-bar-chart"></i>--> 
                <span class="title">KMMP</span>
                </a>
             </li>
             <%}}%>
-           <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",tb,")){%>  
-            <li class="" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("TB")){  %> style="display:none;" <%} } else { %> style="display:none;"<%} %>>
-               <a href="loadTb.jsp">
-               <!--<i class="icon-calendar"></i>--> 
-               <span class="title">TB</span>
-               </a>
-            </li>
-            <%}}%>
-            
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh711,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("MOH 711 (New)")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%>>
            
-             <a href="loadnew711.jsp">
-               <!--<i class="icon-bookmark-empty"></i>--> 
-               <span class="title">MOH 711 (New)</span>
-               <!--<span class="arrow "></span>-->
-               </a> 
-              
-               
-                
-            </li>
-            <%}}%>
-            
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Gender")){ %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="loadsgbv_new.jsp">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">SGBV</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            <%}}%>
-            
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("IPT")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="IPT.jsp">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">IPT</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            <%}}%>
-            
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",gender,")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("Index Testing")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="loadIndexTesting.jsp">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">Index Testing</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            <%}}%>
-            
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains("hts")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("HTS")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="loadhts.jsp">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">HTS</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            
-            <%}}%>
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains("art")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("ART")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="loadART.jsp">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">ART</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            
-            <%}}%>
-             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains("pmtct")){%> 
-            <li class="has-sub" <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("PMTCT")){  %> style="display:none;" <%} } else { %> style="display:none;"<%}%> >
-               <a href="loadPMTCT.jsp">
-               <!--<i class="icon-th-list"></i>--> 
-               <span class="title">PMTCT</span>
-               <!--<span class="arrow "></span>-->
-               </a>
-              
-            </li>
-            <%}}%>
-            
-      
            <li class="has-sub ">
                <a href="#">
                <i class="icon-signin"></i>
@@ -261,8 +134,6 @@
                   <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>EID tested raw (.xlsx)</a></li>
                   <li ><a href="Upload_CXCA.jsp"><i class="icon-plus"></i>Cervical Cancer (.xlsx)</a></li>
                   <li ><a href="Upload_PrePNew.jsp"><i class="icon-plus"></i>Upload PrEP New (.xlsx)</a></li>
-                  
-                  <!--<li ><a href="UploadNewANCData.jsp"><i class="icon-plus"></i>New on ANC [MOH 711] (.xlsx)</a></li>-->
                   <li ><a href="UploadDHISData.jsp"><i class="icon-plus"></i>DHIS Data (.xlsx)</a></li>
                </ul>
             </li>

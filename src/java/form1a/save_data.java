@@ -41,7 +41,8 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
            session = request.getSession();
            dbConn conn = new dbConn();
            
-           error="";
+           error="Form data NOT saved. Correct the following:\n";
+           missing_info=0;
            has_prev_data=false;
            num_indicators = Integer.parseInt(request.getParameter("num_indicators"));
            table_name = request.getParameter("table_name");
@@ -53,28 +54,28 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }
             else{
                 missing_info++; 
-                error+=missing_info+". Missing Year <br>";
+                error+=missing_info+". Missing Year \n";
             }
             if (session.getAttribute("monthid") != null) {
                 month = session.getAttribute("monthid").toString();
             }
             else{
                 missing_info++; 
-                error+=missing_info+". Missing Month <br>";
+                error+=missing_info+". Missing Month \n";
             }
             if (session.getAttribute("facilityid") != null) {
                 facil = session.getAttribute("facilityid").toString();
             }
             else{
                 missing_info++; 
-                error+=missing_info+". Health Facility <br>";
+                error+=missing_info+". Missing Health Facility \n";
             }
                 if(session.getAttribute("userid")!=null){        
                 user_id=session.getAttribute("userid").toString();
                 }
             else{
                 missing_info++; 
-                error+=missing_info+". Missing User Information <br>";
+                error+=missing_info+". Missing User Information \n";
             }
 
 //          year="2018";
@@ -188,6 +189,10 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         code=1;
         message="Record data deleted successfully.";  
         }
+        else{
+         code=0;
+        message="Nothing to be saved.";     
+        }
         }
         
         if(num_added>0){
@@ -198,7 +203,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             else{
         // one or more information passed in session is missing
                  code=0;
-                 error+=" Log out of the system and login again";
+                 error+="\nADVICE:Log out of the system and login again";
                   message=error;
             }
            

@@ -48,7 +48,7 @@ String userAccess;
         System.out.println("username : "+username+" password : "+password);  
         String logger="SELECT userid,fname,mname,lname,level,"
        + "access_reports,access_maintenance,access_moh711,access_moh731,"
-                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct " 
+                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct,access_form1a " 
                 + " FROM user WHERE username=? && password=?" ;
         conn.pst=conn.conn.prepareStatement(logger);
         conn.pst.setString(1, username);
@@ -83,6 +83,7 @@ String userAccess;
              if(conn.rs.getInt("access_hts")==1){userAccess+="hts,";}
              if(conn.rs.getInt("access_art")==1){userAccess+="art,";}
              if(conn.rs.getInt("access_pmtct")==1){userAccess+="pmtct,";}
+             if(conn.rs.getInt("access_form1a")==1){userAccess+="form1a,";}
              
              
              session.setAttribute("access_gapanalysis",conn.rs.getInt("gapanalysis"));
