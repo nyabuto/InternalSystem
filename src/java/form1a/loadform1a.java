@@ -108,6 +108,11 @@ int indic_counter;
             String main_indicator_string = "";
             String main_indic_rowspan_String = "";
             String disabledcolumnsstring = "";
+            
+             String autocalculatestring = "";
+            String criticalvalidationstring = "";
+            String noncriticalvalidationstring = "";
+            
             int rowspancount = 1;
 //            year = "2018";
 //            month = "10";
@@ -118,7 +123,7 @@ int indic_counter;
             section_label="";
             String columns[] = {"m_uk", "f_uk", "m_1", "f_1", "m_4", "f_4", "m_9", "f_9", "m_14", "f_14", "m_19", "f_19", "m_24", "f_24", "m_29", "f_29", "m_34", "f_34", "m_39", "f_39", "m_44", "f_44", "m_49", "f_49", "m_50", "f_50","total"};
             //load indicators from the table
-            String tbls = "select * from fas_indicators where database_name='" + database_name + "' and is_active='1' AND ("+supported_services.replace("WHERE", "")+")";
+            String tbls = "select * from fas_indicators where database_name='" + database_name + "' and is_active='1' AND ("+supported_services.replace("WHERE", "")+") order by order_no asc";
 
             conn.rs = conn.st.executeQuery(tbls);
 
@@ -140,6 +145,28 @@ int indic_counter;
                     } else {
                         disabledcolumnsstring += " " + "$%";
                     }
+                    
+                    //autocalculate string
+                    if (conn.rs.getString("autocalculate") != null) {
+                        autocalculatestring += "" + conn.rs.getString("autocalculate") + "$%";
+                    } else {
+                        autocalculatestring += " " + "$%";
+                    }
+                    
+ //critical validation
+   if (conn.rs.getString("critical_validation") != null) {
+                        criticalvalidationstring += "" + conn.rs.getString("critical_validation") + "$%";
+                    } else {
+                        criticalvalidationstring += " " + "$%";
+                    }
+
+   //non critical  validation 
+   if (conn.rs.getString("non_critical_validation") != null) {
+                        noncriticalvalidationstring += "" + conn.rs.getString("non_critical_validation") + "$%";
+                    } else {
+                        noncriticalvalidationstring += " " + "$%";
+   }
+                    
 
                     rowspancount = 0;
                 } else {
@@ -152,6 +179,30 @@ int indic_counter;
                     } else {
                         disabledcolumnsstring += " " + "%";
                     }
+                    
+                    
+                     
+                    //autocalculate
+                     if (conn.rs.getString("autocalculate") != null) {
+                        autocalculatestring += conn.rs.getString("autocalculate") + "%";
+                    } else {
+                        autocalculatestring += " " + "%";
+                    }
+                   
+                    //critical validation
+                     if (conn.rs.getString("critical_validation") != null) {
+                        criticalvalidationstring +=conn.rs.getString("critical_validation") + "%";
+                    } else {
+                        criticalvalidationstring += " " + "%";
+                    }
+
+   //non critical  validation 
+   if (conn.rs.getString("non_critical_validation") != null) {
+                        noncriticalvalidationstring +=conn.rs.getString("non_critical_validation") + "%";
+                    } else {
+                        noncriticalvalidationstring += " " + "%";
+   }
+                    
 
                 }
 
@@ -165,6 +216,11 @@ int indic_counter;
             main_indicator_string += ")";
             main_indic_rowspan_String += ")";
             disabledcolumnsstring += ")";
+            
+            //__________________________________________
+            autocalculatestring += ")";
+            criticalvalidationstring += ")";
+            noncriticalvalidationstring += ")";
 
             //for each set, replace $, with just $
             indicator_ids_string = indicator_ids_string.replace("$,", "$").replace(",)", "");
@@ -172,12 +228,23 @@ int indic_counter;
             main_indicator_string = main_indicator_string.replace("$,", "$").replace(",)", "");
             main_indic_rowspan_String = main_indic_rowspan_String.replace("$,", "$").replace(",)", "");
             disabledcolumnsstring = disabledcolumnsstring.replace("$%", "$");
+            //--------------
+             autocalculatestring = autocalculatestring.replace("$%", "$");
+            criticalvalidationstring = criticalvalidationstring.replace("$%", "$");
+            noncriticalvalidationstring = noncriticalvalidationstring.replace("$%", "$");
 
             String indicator_ids[] = indicator_ids_string.split("\\$");
             String indicators[] = indicators_string.split("\\$");
             String main_indicator[] = main_indicator_string.split(",");
             String main_indic_rowspan[] = main_indic_rowspan_String.split(",");
             String disabledcolumns_arr[] = disabledcolumnsstring.split("\\$");
+            
+            //____________________________________________________
+	    String autocalculate_arr[]          = autocalculatestring.split("\\$");
+            String criticalvalidations_arr[]    = criticalvalidationstring.split("\\$");
+            String noncriticalvalidations_arr[] = noncriticalvalidationstring.split("\\$");
+            
+            
             int indic_pos = 0, main_indic_pos = 0, max_length = 5;
 
             //   tableid="2018_10_331";
@@ -302,10 +369,18 @@ int indic_counter;
 //                             System.out.println( " disabled columns  = " + disabledcolumns_arr[main_indic_pos].split("%")[indic_pos]);
                             
                             String isreadonly = "";
+                            String autocalc = "";
+                            
+                            
                             if (disabledcolumns_arr[main_indic_pos].split("%")[indic_pos].contains("," + column_name + ",")) {
                                 isreadonly = " tabindex='-1' readonly='true' ";
                             }
-                            output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); sum_indicators('"+indic_id+"');\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                            
+                            if (autocalculate_arr[main_indic_pos].split("%")[indic_pos]!=null && !autocalculate_arr[main_indic_pos].split("%")[indic_pos].trim().equals("") ) {
+                                autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
+                            }
+                            
+                            output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); sum_indicators('"+indic_id+"');"+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
                         }
                         output += "<p id='" + indic_id + "'></p></tr>";
                     } else { // new indicator
@@ -321,12 +396,18 @@ int indic_counter;
 //                             System.out.println( " disabled columns  = " + disabledcolumns_arr[main_indic_pos].split("%")[indic_pos]);
                             
                             String isreadonly = "";
+                            String autocalc = "";
+                            
                             if (disabledcolumns_arr[main_indic_pos].split("%")[indic_pos].contains("," + column_name + ",")) 
                             {
                                 isreadonly = " tabindex='-1' readonly='true' ";
                             }
+                            
+                            if (autocalculate_arr[main_indic_pos].split("%")[indic_pos]!=null && !autocalculate_arr[main_indic_pos].split("%")[indic_pos].trim().equals("") ) {
+                                autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
+                            }
 
-                            output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); sum_indicators('"+indic_id+"');\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                            output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); sum_indicators('"+indic_id+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
                                                            }
                         output += "<p id='" + indic_id + "'></p></tr>";
                     }
