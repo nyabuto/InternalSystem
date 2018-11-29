@@ -23,16 +23,23 @@ document.getElementById("total_"+indicator_id).value = total;
 
     function indicate_changed(id){
      $("#"+id).css('background-color', '#fae512');
-    }
-    
+    }  
     function section_changed(section_id){
-      $("#section_"+section_id).css('background','red'); 
+      $("#section_"+section_id).css('background','red');
+      format_section(section_id);
     }
     
-        function section_saved(section_id){
-      $("#section_"+section_id).css('background','#0bb708'); 
+    function section_saved(section_id){
+      $("#section_"+section_id).css('background','#0bb708');
+      format_section(section_id);
     }
     
+    function format_section(section_id){
+     $("#collapse"+section_id).collapse();
+     $("#section_"+section_id).removeClass('blue');
+     $("#section_"+section_id).css('color','white'); 
+     $("#section_"+section_id).css('font-weight','700'); 
+    }
 //eg function sum_multipleindicators('1+2+3-1','4'){
 
 function autocalculate(sourceindicators,destination_indicator){

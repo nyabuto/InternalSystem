@@ -120,6 +120,7 @@ public class LoadAllVLData extends HttpServlet {
                }
                
               if(colmnscounter==9){
+                 if(value==null){value="";}
                   if(value.trim().equalsIgnoreCase("Male")){
                       value="M";
                   }

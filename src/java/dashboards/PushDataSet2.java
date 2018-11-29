@@ -4087,6 +4087,7 @@ String getVLData = "SELECT SubPartnerNom AS facility,DistrictNom AS sub_county,C
     }
     
     public JSONObject getperiod(String yearmonth){
+        System.out.println("Year Month : "+yearmonth);
         JSONObject obj = new JSONObject();
         String[] arraydata = yearmonth.split("");
         String year = arraydata[0]+""+arraydata[1]+""+arraydata[2]+""+arraydata[3];

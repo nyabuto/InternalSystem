@@ -26,7 +26,7 @@ import org.json.simple.JSONObject;
 public class save_data extends HttpServlet {
 HttpSession session;
 String columns[] = {"m_uk","f_uk","m_1","f_1","m_4","f_4","m_9","f_9","m_14","f_14","m_19","f_19","m_24","f_24","m_29","f_29","m_34","f_34","m_39","f_39","m_44","f_44","m_49","f_49","m_50","f_50","total"};
-String query="";
+String query="",query_insert,query_update;
 int num_indicators,columns_counter;
 String year,month,facil,yearmonth,tableid;
 String table_name="fas_art",indic_id="",value;
@@ -100,7 +100,10 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             
         //query = "REPLACE INTO "+table_name+" SET id='"+tableid+"',facility_id='"+facil+"',indicator_id='"+indic_id+"',yearmonth='"+yearmonth+"',user_id='"+user_id+"',user_pc='"+getComputerName()+"',";    
  
-        query = "REPLACE INTO "+table_name+" SET id='"+tableid+"',facility_id='"+facil+"',indicator_id='"+indic_id+"',yearmonth='"+yearmonth+"',";    
+        query_insert = "INSERT INTO "+table_name+" SET id='"+tableid+"',facility_id='"+facil+"',indicator_id='"+indic_id+"',yearmonth='"+yearmonth+"',";    
+        query_update = "UPDATE  "+table_name+" SET "; 
+        query="";
+        
         for(String column_name:columns){
             columns_counter++;
             value = request.getParameter(column_name+"_"+indic_id);
@@ -150,25 +153,31 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
              conn.pst.setString(7, getComputerName());
              
              conn.pst.executeUpdate();
-                 
+             
+             query = removeLast(query, 1);
+             query_update+=""+query+" WHERE id='"+tableid+"' ";
+             if(counted_values>0){
+             System.out.println("Query UPDATE = "+query_update);
+             num_added++;
+            conn.st.executeUpdate(query_update);
+            message="Data Updated Successfully";
+            }
              }
              else{// new data entry
                  has_prev_data=false;
                  //add entries to the main table data. append it there to be appended include user id, user pc
-                 query +="user_id='"+user_id+"',user_pc='"+getComputerName()+"',";
-             } 
-            
-
-
-        //remove the last comma
-        query = removeLast(query, 1);
+                 query +="user_id='"+user_id+"',user_pc='"+getComputerName()+"'";
+                 query_insert +=""+query;
+                 
         if(counted_values>0){
-             System.out.println("Query = "+query);
+             System.out.println("Query INSERT = "+query_insert);
              num_added++;
-            conn.st.executeUpdate(query);
+            conn.st.executeUpdate(query_insert);
+            message="Data Saved Successfully";
         }
+        } 
         
-        else if(counted_values==0 && has_prev_data){
+        if(counted_values==0 && has_prev_data){
             //delete the record from the database and record the actions
             
             String deleter = "DELETE FROM "+table_name+" WHERE id='"+tableid+"'";
@@ -189,7 +198,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         code=1;
         message="Record data deleted successfully.";  
         }
-        else{
+        else if(num_added==0){
          code=0;
         message="Nothing to be saved.";     
         }
@@ -197,7 +206,6 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         
         if(num_added>0){
         code=1;
-        message="Data Saved Successfully";
         }
             }
             else{

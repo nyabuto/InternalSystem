@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -273,7 +272,7 @@ int indic_counter;
             }
 
             yearmonth = pepfaryear + "" + tempmonth;
-
+            isLocked = "0";
             String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND form1a=?";
             conn.pst = conn.conn.prepareStatement(locked_DATA);
             conn.pst.setString(1, yearmonth);
@@ -281,9 +280,10 @@ int indic_counter;
             conn.rs = conn.pst.executeQuery();
             if (conn.rs.next()) {
                 isLocked = "1";
-                lock = "disabled";
+                lock = "readonly=\"true\"";
             }
 
+              System.out.println("is indicator locked?"+isLocked);
             enterdby = "";
             
             output += "<div class=\"card\">\n" +
@@ -343,13 +343,21 @@ int indic_counter;
                     indic_counter++;
            
 //            System.out.println( " indicator names  = " +main_indic);
-                    
+                    isLocked = "0";
+                    lock = "";
                     String tableid = yearmonth + "_" + facil + "_" + indic_id;
                     String get_data = "SELECT * FROM " + database_name + " WHERE id=?";
                     conn.pst = conn.conn.prepareStatement(get_data);
                     conn.pst.setString(1, tableid);
                     conn.rs = conn.pst.executeQuery();
                     if (conn.rs.next()) { // indicator data already exist
+                        if(conn.rs.getString("is_locked")!=null){
+                            if(conn.rs.getString("is_locked").equals("1")){
+                              isLocked = "1";
+                                lock = "readonly=\"true\"";   
+                            }
+                            
+                        }
                         save_data="UPDATE ";
                         output += "<tr>";
                         if (indic_pos == 0) {
