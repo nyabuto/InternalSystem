@@ -1145,6 +1145,10 @@
         <servlet-name>save_txml</servlet-name>
         <servlet-class>form1a.save_txml</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadValidation</servlet-name>
+        <servlet-class>form1a.loadValidation</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2288,6 +2292,10 @@
     <servlet-mapping>
         <servlet-name>save_txml</servlet-name>
         <url-pattern>/save_txml</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadValidation</servlet-name>
+        <url-pattern>/loadValidation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

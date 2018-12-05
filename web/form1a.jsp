@@ -97,6 +97,7 @@ td{
 }
 </style>
 <script type="text/javascript" src="js/fas/sum_values.js"></script>
+<script type="text/javascript" src="js/fas/validation.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

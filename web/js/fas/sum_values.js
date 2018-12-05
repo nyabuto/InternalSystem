@@ -54,6 +54,7 @@ var agesets = ["m_uk","f_uk","m_1","f_1","m_4","f_4","m_9","f_9","m_14","f_14","
  var sourcearrays=sourceindicators.split("+");
 
 var num_agesets = agesets.length;
+
 var num_indics = sourcearrays.length;
 
 //alert(num_indics);

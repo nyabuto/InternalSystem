@@ -429,7 +429,7 @@ int indic_counter;
          output+="<input type=\"hidden\" name=\"table_name\" id=\"table_name\" value=\""+database_name+"\">";
 
 //         output+="<p id=\"submit_name\">"+submit_button_name+"</p>";
-         output+="<div class='form-actions' style=\"text-align:right;\"><button type='button' class='btn blue' onclick=\"save_data('"+database_name+"','"+section_code+"')\" name='validate' id='validate_"+section_code+"' style=\"font-weight:700; font-size:20px; width:20%;\">"+save_data+""+section_label+"</button></div>"
+         output+="<div class='form-actions' style=\"text-align:right;\"><label id='msg"+database_name+"' style='text-align:left;color:red;'> ujumbe</label> &nbsp;  <button type='button' class='btn blue' onclick=\"save_data('"+database_name+"','"+section_code+"')\" name='validate' id='validate_"+section_code+"' style=\"font-weight:700; font-size:20px; width:20%;\">"+save_data+""+section_label+"</button></div>"
                  + "</form>"
                  + " </fieldset>"
                  + "</div>\n" +
