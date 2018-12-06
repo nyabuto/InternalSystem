@@ -10,7 +10,6 @@ import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -26,6 +25,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -41,7 +41,7 @@ public class DatimOutput extends HttpServlet {
 HttpSession session;
 String stored_procedures,where_indicators;
 String categories,indicators;
-int has_data,year,prevYear,month,row;
+int has_data,year,prevYear,month,row,t_i;
 
 String reportDuration,duration,period,excelDuration,semi_annual,quarter;
 String start_date,end_date;
@@ -236,7 +236,7 @@ CallableStatement cs = null;
         System.out.println("start "+start_date+" end date: "+end_date);
               
         // get stored procedures      
-       String get_stored_procedures = "SELECT indicator_code,stored_procedure FROM datim_output WHERE "+where_indicators+" AND stored_procedure IS NOT NULL";
+       String get_stored_procedures = "SELECT indicator_code,stored_procedure,headers,merging FROM datim_output WHERE "+where_indicators+" AND stored_procedure IS NOT NULL";
        conn.rs2 = conn.st2.executeQuery(get_stored_procedures);
        while(conn.rs2.next()){
            row=0; 
@@ -244,9 +244,36 @@ CallableStatement cs = null;
           stored_procedures=conn.rs2.getString(2)+"(?,?)"; 
           
            System.out.println("call "+stored_procedures);
+     
+      //  GET HEADERS FROM DB  
+      String headers = conn.rs2.getString(3);
+      String merging = conn.rs2.getString(4);
+           if(headers!=null){
+               String headers_array[] = headers.split("@");
+              
+               for(String header:headers_array){ 
+                System.out.println("header main:"+header); 
+                   t_i=0;
+                XSSFRow RowHeader = sheet.createRow(row);
+                RowHeader.setHeightInPoints(30);   
+               
+                String header_elems_array[] = header.split(",");
+                for(String header_value:header_elems_array){
+                    
+                 XSSFCell cell_h = RowHeader.createCell(t_i); 
+                 cell_h.setCellValue(header_value);
+                 cell_h.setCellStyle(styleHeader);
+                 
+                 t_i++;
+                }
+                
+               row++;    
+               }
+           }
            
-   XSSFRow RowHeader = sheet.createRow(row);
-   RowHeader.setHeightInPoints(60);
+           
+   XSSFRow RowTitles = sheet.createRow(row);
+//   RowTitles.setHeightInPoints(30);
    
     cs = (CallableStatement) conn.conn.prepareCall("{call "+stored_procedures+"}");
     cs.setString(1, start_date);
@@ -260,7 +287,7 @@ CallableStatement cs = null;
       
       for(int i=0;i<col_count; i++){
       value = metaData.getColumnName(i+1);
-      XSSFCell cell = RowHeader.createCell(i);
+      XSSFCell cell = RowTitles.createCell(i);
       if(isNumeric(value)){cell.setCellValue(Integer.parseInt(value));}
       else{cell.setCellValue(value);}
       cell.setCellStyle(stylex);
@@ -280,7 +307,26 @@ CallableStatement cs = null;
       }
     
     } 
-          
+      
+   
+   
+              
+           if(merging!=null){
+               String headers_array[] = merging.split("@");
+              
+               for(String header:headers_array){
+                String header_elems_array[] = header.split(",");
+                   System.out.println("header:"+header);
+                int row_start = Integer.parseInt(header_elems_array[0]);
+                int row_end = Integer.parseInt(header_elems_array[1]);
+                int col_start  = Integer.parseInt(header_elems_array[2]);       
+                int col_end  = Integer.parseInt(header_elems_array[3]);       
+                 
+                sheet.addMergedRegion(new CellRangeAddress(row_start,row_end,col_start,col_end)); 
+                
+               row++;    
+               }
+           }
        }
        
        
