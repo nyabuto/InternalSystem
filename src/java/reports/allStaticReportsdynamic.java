@@ -765,6 +765,7 @@ public class allStaticReportsdynamic extends HttpServlet {
 
             String joinedwhwere = " where 1=1 " + duration + " " + countywhere + " " + subcountywhere+" "+facilitywhere;
 
+            System.out.println("where : "+joinedwhwere);
            // System.out.println(""+joinedwhwere);
             //we need a case statement in our main query. This will allow for friendly display of 
             
@@ -1149,7 +1150,6 @@ System.out.println("element size : "+dbcolumns.size());
                     perfacilselect += " ,";
 
 // } 
-System.out.println("enntered loop");
                 }
 
 //---------------------------------add highvolume,gsn,latitude,ward------------------------------------------------
@@ -1206,6 +1206,7 @@ System.out.println("enntered loop");
 
 //      if(--!sectioncopy.equals(shet)){}
 //create the org unit data values e.g BARINGO | BARINGO CENTRAL |KABARNET DISTRICT HOSPITAL | MFL CODE
+System.out.println("number of sheets : "+distinctsheets.size()+", "+distinctservicearea.size());
                 for (int g = 0; g < distinctsheets.size(); g++) {
 
                    
@@ -1216,7 +1217,10 @@ System.out.println("enntered loop");
                     int colpos = 0;
 
                     String finalquery = perfacilselect.replace("1=1", distinctservicearea.get(g).toString());
+                    System.out.println(" per facil :"+perfacilselect);
+                    System.out.println(" service area :"+distinctservicearea.get(g).toString());
                     System.out.println("final query" + finalquery);
+                    
                     conn.rs = conn.st.executeQuery(finalquery);
                     while (conn.rs.next()) {
 

@@ -1149,6 +1149,18 @@
         <servlet-name>loadValidation</servlet-name>
         <servlet-class>form1a.loadValidation</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load_categories</servlet-name>
+        <servlet-class>Datim.load_categories</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_indicators</servlet-name>
+        <servlet-class>Datim.load_indicators</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DatimOutput</servlet-name>
+        <servlet-class>Datim.DatimOutput</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2296,6 +2308,18 @@
     <servlet-mapping>
         <servlet-name>loadValidation</servlet-name>
         <url-pattern>/loadValidation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_categories</servlet-name>
+        <url-pattern>/load_categories</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_indicators</servlet-name>
+        <url-pattern>/load_indicators</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatimOutput</servlet-name>
+        <url-pattern>/DatimOutput</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

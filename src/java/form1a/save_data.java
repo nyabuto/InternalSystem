@@ -113,9 +113,12 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
              counted_values++;
              query+=" "+column_name+"="+value+",";  
            }
+            else{
+           query+=" "+column_name+"=NULL,";       
+            }
             }
         }
-//         System.out.println("Query1 = "+query);
+
                 fullname=health_facility=indicator_name="";
                 String getusername = "SELECT fname,lname FROM user WHERE userid='"+user_id+"'";
                  conn.rs1=conn.st1.executeQuery(getusername);
