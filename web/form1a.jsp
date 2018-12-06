@@ -349,8 +349,13 @@ $.ajax({
 //               
      });
       
+      
 
 function save_data(form_name,section_id){
+    //console.log(loadValidation(section_id));
+    
+   
+    
     var url_save = "save_data";
     
      $("#validate_"+section_id).notify(
@@ -384,7 +389,9 @@ function save_data(form_name,section_id){
         className: output_type, //error for error options
         globalPosition: 'top left'
 });
-    });  
+    });
+    
+        
 }
 
     function load_data(){

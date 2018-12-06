@@ -32,8 +32,7 @@ public class loadValidation extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
          
-            out.println("</html>");
-            
+                        
             
             JSONArray arr= new JSONArray();
             
@@ -67,10 +66,11 @@ public class loadValidation extends HttpServlet {
             iscritical="no";
             }
             
-            obj.put("validation", conn.rs.getString("iscritical"));
+            obj.put("validation", conn.rs.getString("validation"));
             obj.put("message", conn.rs.getString("message"));
             obj.put("iscritical", conn.rs.getString("iscritical"));
             obj.put("sectionid", sectionid);
+            
            arr.add(obj);
             
             
@@ -80,7 +80,13 @@ public class loadValidation extends HttpServlet {
             if(conn.rs!=null){conn.rs.close();}
             if(conn.st!=null){conn.st.close();}
             
+            
+            if(!arr.isEmpty()){
             out.println(arr);
+            }
+            else{
+            
+            }
             
         } catch (SQLException ex) {
             Logger.getLogger(loadValidation.class.getName()).log(Level.SEVERE, null, ex);

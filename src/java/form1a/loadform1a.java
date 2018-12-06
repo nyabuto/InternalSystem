@@ -109,8 +109,7 @@ int indic_counter;
             String disabledcolumnsstring = "";
             
              String autocalculatestring = "";
-            String criticalvalidationstring = "";
-            String noncriticalvalidationstring = "";
+           
             
             int rowspancount = 1;
 //            year = "2018";
@@ -152,19 +151,7 @@ int indic_counter;
                         autocalculatestring += " " + "$%";
                     }
                     
- //critical validation
-   if (conn.rs.getString("critical_validation") != null) {
-                        criticalvalidationstring += "" + conn.rs.getString("critical_validation") + "$%";
-                    } else {
-                        criticalvalidationstring += " " + "$%";
-                    }
 
-   //non critical  validation 
-   if (conn.rs.getString("non_critical_validation") != null) {
-                        noncriticalvalidationstring += "" + conn.rs.getString("non_critical_validation") + "$%";
-                    } else {
-                        noncriticalvalidationstring += " " + "$%";
-   }
                     
 
                     rowspancount = 0;
@@ -188,19 +175,9 @@ int indic_counter;
                         autocalculatestring += " " + "%";
                     }
                    
-                    //critical validation
-                     if (conn.rs.getString("critical_validation") != null) {
-                        criticalvalidationstring +=conn.rs.getString("critical_validation") + "%";
-                    } else {
-                        criticalvalidationstring += " " + "%";
-                    }
+                    
 
-   //non critical  validation 
-   if (conn.rs.getString("non_critical_validation") != null) {
-                        noncriticalvalidationstring +=conn.rs.getString("non_critical_validation") + "%";
-                    } else {
-                        noncriticalvalidationstring += " " + "%";
-   }
+  
                     
 
                 }
@@ -218,8 +195,7 @@ int indic_counter;
             
             //__________________________________________
             autocalculatestring += ")";
-            criticalvalidationstring += ")";
-            noncriticalvalidationstring += ")";
+          
 
             //for each set, replace $, with just $
             indicator_ids_string = indicator_ids_string.replace("$,", "$").replace(",)", "");
@@ -229,8 +205,7 @@ int indic_counter;
             disabledcolumnsstring = disabledcolumnsstring.replace("$%", "$");
             //--------------
              autocalculatestring = autocalculatestring.replace("$%", "$");
-            criticalvalidationstring = criticalvalidationstring.replace("$%", "$");
-            noncriticalvalidationstring = noncriticalvalidationstring.replace("$%", "$");
+            
 
             String indicator_ids[] = indicator_ids_string.split("\\$");
             String indicators[] = indicators_string.split("\\$");
@@ -240,8 +215,7 @@ int indic_counter;
             
             //____________________________________________________
 	    String autocalculate_arr[]          = autocalculatestring.split("\\$");
-            String criticalvalidations_arr[]    = criticalvalidationstring.split("\\$");
-            String noncriticalvalidations_arr[] = noncriticalvalidationstring.split("\\$");
+           
             
             
             int indic_pos = 0, main_indic_pos = 0, max_length = 5;
@@ -388,7 +362,7 @@ int indic_counter;
                                 autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
                             }
                             
-                            output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); sum_indicators('"+indic_id+"');"+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                            output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); \" onkeyup=\"sum_indicators('"+indic_id+"'); "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
                         }
                         output += "<p id='" + indic_id + "'></p></tr>";
                     } else { // new indicator
@@ -415,7 +389,7 @@ int indic_counter;
                                 autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
                             }
 
-                            output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); sum_indicators('"+indic_id+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                            output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"');  \" onkeyup=\"sum_indicators('"+indic_id+"'); "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
                                                            }
                         output += "<p id='" + indic_id + "'></p></tr>";
                     }
@@ -429,7 +403,7 @@ int indic_counter;
          output+="<input type=\"hidden\" name=\"table_name\" id=\"table_name\" value=\""+database_name+"\">";
 
 //         output+="<p id=\"submit_name\">"+submit_button_name+"</p>";
-         output+="<div class='form-actions' style=\"text-align:right;\"><label id='msg"+database_name+"' style='text-align:left;color:red;'> ujumbe</label> &nbsp;  <button type='button' class='btn blue' onclick=\"save_data('"+database_name+"','"+section_code+"')\" name='validate' id='validate_"+section_code+"' style=\"font-weight:700; font-size:20px; width:20%;\">"+save_data+""+section_label+"</button></div>"
+         output+="<div class='form-actions' style=\"text-align:right;\"><label id='msg"+section_code+"' style='text-align:left;color:red;'></label> &nbsp;  <button type='button' class='btn blue' data-save_"+section_code+"='"+save_data+""+section_label+"'  onclick=\"loadValidation('"+database_name+"','"+section_code+"');\" name='validate' id='validate_"+section_code+"' style=\"font-weight:700; font-size:20px; width:20%;\">"+save_data+""+section_label+"</button></div>"
                  + "</form>"
                  + " </fieldset>"
                  + "</div>\n" +
