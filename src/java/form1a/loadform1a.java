@@ -36,13 +36,15 @@ int indic_counter;
         try {
             dbConn conn = new dbConn();
             session = request.getSession();
-           String supported_services = " WHERE ";
+           String supported_services = " WHERE  is_active=1 && ";
                         
             if(request.getParameter("database_name")!=null && !request.getParameter("database_name").equals("") ){
              supported_services += " database_name='"+request.getParameter("database_name")+"' ";
             }
-            else{
+            else {
+                
              supported_services +=" 1=1 ";   
+                
             }
             
                       

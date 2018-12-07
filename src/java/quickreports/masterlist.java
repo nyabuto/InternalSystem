@@ -148,6 +148,8 @@ public class masterlist extends HttpServlet {
         
                 String qry1 = "call "+summaryprocedurename+"('2015-10-01','2016-09-30','"+year+"')";
 
+                System.out.println(""+qry1);
+                
         conn.rs = conn.st.executeQuery(qry1);
 
         ResultSetMetaData metaData = conn.rs.getMetaData();
