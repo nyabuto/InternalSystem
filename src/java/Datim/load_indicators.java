@@ -57,7 +57,7 @@ int items=0;
            category_where+=")";
            
            output="";
-           String get_indicators = "SELECT indicator_name,indicator_code,stored_procedure,frequency FROM datim_output WHERE is_active=1 AND "+category_where+" ORDER BY order_no";
+           String get_indicators = "SELECT indicator_name,indicator_code,stored_procedure,frequency FROM datim_output WHERE is_active=1 AND "+category_where+" AND (stored_procedure!='' AND stored_procedure IS NOT NULL) ORDER BY order_no";
            conn.rs = conn.st.executeQuery(get_indicators);
            while(conn.rs.next()){
              output+="<option value=\""+conn.rs.getString(2)+"\">"+conn.rs.getString(1)+" ["+conn.rs.getString(2)+"]</option>";  

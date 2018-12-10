@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -42,7 +46,7 @@ HttpSession session;
 String stored_procedures,where_indicators;
 String categories,indicators;
 int has_data,year,prevYear,month,row,t_i;
-
+int end_month=0;
 String reportDuration,duration,period,excelDuration,semi_annual,quarter;
 String start_date,end_date;
 String current_procedure,value;
@@ -61,7 +65,7 @@ CallableStatement cs = null;
         
                 
                 
-                
+                end_month=0;
            //SELECTED PERIOD     
                 
                 prevYear=year-1;
@@ -69,17 +73,20 @@ CallableStatement cs = null;
                 
          if(reportDuration.equals("1")){
              start_date=prevYear+"-10-01";
-             end_date=year+"-09-31";
+             end_date=year+"-09-end";
+             end_month=9;
         }
         else if(reportDuration.equals("2")){
         semi_annual=request.getParameter("semi_annual");
        if(semi_annual.equals("1")){
            start_date=prevYear+"-10-01";
-           end_date=year+"-03-31";
+           end_date=year+"-03-end";
+           end_month=3;
        }
            else{
            start_date=year+"-04-01";
-             end_date=year+"-09-31";
+             end_date=year+"-09-end";
+             end_month=9;
        }
        }
         
@@ -94,11 +101,13 @@ CallableStatement cs = null;
        endMonth=months[2];
       if(quarter.equals("1")){
           start_date=prevYear+"-"+startMonth+"-01";
-          end_date=prevYear+"-"+endMonth+"-31";
+          end_date=prevYear+"-"+endMonth+"-end";
+          end_month=Integer.parseInt(endMonth);
       }
       else{
         start_date=year+"-"+startMonth+"-01";
-        end_date=year+"-"+endMonth+"-31";
+        end_date=year+"-"+endMonth+"-end";
+          end_month=Integer.parseInt(endMonth);
       }
         }
         }  
@@ -110,18 +119,35 @@ CallableStatement cs = null;
     if(conn.rs.next()==true){
    if(month>=10){
         start_date=prevYear+"-"+month+"-01";
-        end_date=prevYear+"-"+month+"-31";
+        end_date=prevYear+"-"+month+"-end";
+          end_month=month;
      }
      else{
     start_date=year+"-0"+month+"-01";
-    end_date=year+"-0"+month+"-31";
+    end_date=year+"-0"+month+"-end";
+          end_month=month;
      }
       }
       }
       else{
      duration="";     
       }
-                       
+          
+      
+         Calendar gc = new GregorianCalendar();
+        gc.set(Calendar.MONTH, (end_month-1));
+        gc.set(Calendar.DAY_OF_MONTH, 1);
+        Date monthStart = gc.getTime();
+        gc.add(Calendar.MONTH, 1);
+        gc.add(Calendar.DAY_OF_MONTH, -1);
+        Date monthEnd = gc.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("dd");
+
+        System.out.println("Calculated month start date : " + format.format(monthStart)+"<br>");
+        String month_end = format.format(monthEnd);
+         
+         end_date = end_date.replace("end", month_end);
+         
             
        // INDICATOR CHOICES         
               has_data=0;
@@ -241,7 +267,7 @@ CallableStatement cs = null;
        while(conn.rs2.next()){
            row=0; 
            XSSFSheet sheet= wb.createSheet(conn.rs2.getString(1));
-          stored_procedures=conn.rs2.getString(2)+"(?,?)"; 
+          stored_procedures=conn.rs2.getString(2)+"('"+start_date+"','"+end_date+"')"; 
           
            System.out.println("call "+stored_procedures);
      
@@ -275,9 +301,10 @@ CallableStatement cs = null;
    XSSFRow RowTitles = sheet.createRow(row);
 //   RowTitles.setHeightInPoints(30);
    
+           System.out.println("start date "+start_date+" end date : "+end_date);
     cs = (CallableStatement) conn.conn.prepareCall("{call "+stored_procedures+"}");
-    cs.setString(1, start_date);
-    cs.setString(2, end_date);
+//    cs.setString(1, start_date);
+//    cs.setString(2, end_date);
     cs.execute();
    
         conn.rs = cs.getResultSet();
@@ -286,7 +313,7 @@ CallableStatement cs = null;
        
       
       for(int i=0;i<col_count; i++){
-      value = metaData.getColumnName(i+1);
+      value = metaData.getColumnLabel(i+1);
       XSSFCell cell = RowTitles.createCell(i);
       if(isNumeric(value)){cell.setCellValue(Integer.parseInt(value));}
       else{cell.setCellValue(value);}
