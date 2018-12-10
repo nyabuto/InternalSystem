@@ -25,7 +25,7 @@ function loadValidation(form_name,section_id) {
 
 var call_save=true;
 
-            if (data.length > 0)
+            if (data!==null)
             {
 
 
