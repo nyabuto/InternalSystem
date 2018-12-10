@@ -11,7 +11,7 @@
 
 var breakloop=false;
 
-
+var appendstring="";
 
 
 function loadValidation(form_name,section_id) {
@@ -27,7 +27,7 @@ var call_save=true;
 
             if (data!==null)
             {
-
+    //appendstring="";
 
                 for (var as = 0; as < data.length; as++)
                 {
@@ -70,7 +70,7 @@ if(call_save){
 function runvalidation(valids, message, iscritical, sectionid) 
 { 
    if(iscritical==='1'){iscritical="yes";} 
-   else if(iscritical==='0'){iscritical="no";} 
+   else if(iscritical==='0'){iscritical="no";    } 
     
       if(valids.indexOf("<=")>=0){   lessOrEqual(valids,message,iscritical,sectionid);  }
  else if(valids.indexOf(">=")>=0){   greaterOrEqual(valids,message,iscritical,sectionid);   }
@@ -149,10 +149,11 @@ function less(valids, message, iscritical, sectionid) {
 
                 } else {
 
-                      $("#msg" + sectionid).append("<b>For " + ag + " years " + sx + " , " + message + "</b><br/>");
+                     // $("#msg" + sectionid).append("<b>For " + ag + " years " + sx + " , " + message + "</b><br/>");
+                        $(" <font color='red'><b> For " + ag + " years " + sx + " , " + message + "</b></font> <br/>").insertBefore("#msg" + sectionid);
 savebutton_active(sectionid);
-                    yellowborder(columns[i], valarray[0]);
-                    yellowborder(columns[i], valarray[1]);
+                    yellowborder(columns[i], valarray[0],message);
+                    yellowborder(columns[i], valarray[1],message);
 
                 }
             } else {
@@ -237,18 +238,18 @@ function greater(valids, message, iscritical, sectionid) {
                         //$("#" + columns[i] + "_" + valarray[1]).focus();
                     }
 
-                    redborder(columns[i], valarray[0]);
-                    redborder(columns[i], valarray[1]);
+                    redborder(columns[i], valarray[0],message);
+                    redborder(columns[i], valarray[1],message);
                    breakloop=true;
                     break;
                     //end the loop so that the data entry person can make corrections
 
                 } else {
     savebutton_active(sectionid);
-                      $("#msg" + sectionid).append("<b>* For " + ag + " years " + sx + " , " + message + "</b><br/>");
-                    
-                    yellowborder(columns[i], valarray[0]);
-                    yellowborder(columns[i], valarray[1]);
+                      //$("#msg" + sectionid).append("<b>* For " + ag + " years " + sx + " , " + message + "</b><br/>");
+                      $("<label class='img'> <font color='red'><b> For " + ag + " years " + sx + " , " + message + "</b></font> </label>").insertBefore("#msg" + sectionid);
+                    yellowborder(columns[i], valarray[0],message);
+                    yellowborder(columns[i], valarray[1],message);
 
 
                 }
@@ -332,18 +333,18 @@ function lessOrEqual(valids, message, iscritical, sectionid) {
                         //$("#" + columns[i] + "_" + valarray[1]).focus();
                     }
  savebutton_inactive(sectionid);
-                    redborder(columns[i], valarray[0]);
-                    redborder(columns[i], valarray[1]);
+                    redborder(columns[i], valarray[0],message);
+                    redborder(columns[i], valarray[1],message);
                      breakloop=true;
                     break;
                     //end the loop so that the data entry person can make corrections
 
                 } else {
 
-                    $("#msg" + sectionid).append("<b/>* For " + ag + " years " + sx + " , " + message + "</b><br/>");
-   
-                    yellowborder(columns[i], valarray[0]);
-                    yellowborder(columns[i], valarray[1]);
+                   // $("#msg" + sectionid).append("<b/>* For " + ag + " years " + sx + " , " + message + "</b><br/>");
+     $("<label class='img'> <font color='red'><b> For " + ag + " years " + sx + " , " + message + "</b></font> </label>").insertBefore("#msg" + sectionid);
+                    yellowborder(columns[i], valarray[0],message);
+                    yellowborder(columns[i], valarray[1],message);
 savebutton_active(sectionid);
 
                 }
@@ -375,6 +376,7 @@ function greaterOrEqual(valids, message, iscritical, sectionid) {
     //eg 1>2 means for all the age disagregations, indicator 1 should be greater than indicator 2
 
  
+ 
     $("#msg" + sectionid).html("");
 
     var val1, val2;
@@ -399,7 +401,7 @@ function greaterOrEqual(valids, message, iscritical, sectionid) {
         val2 = multisum(valarray[1], columns[i]);
         //m_uk
 
-//console.log("val1:"+val1+" val2:"+val2);
+
 
         var agegender = columns[i].split("_");
         var sx = "";
@@ -419,9 +421,13 @@ function greaterOrEqual(valids, message, iscritical, sectionid) {
 //        }
 
         if ((isNumber(val1) &&  val1 > 0) || ( isNumber(val2) && val2 > 0)) {
+            
+            
             if (val1 < val2) {
+                console.log("val1:"+val1+" val2:"+val2);
+                
                 if (iscritical === 'yes') {
-                    
+                 
                     $("#msg" + sectionid).html(" <img style='width:4%;' src='images/stop.png'/>   <b>For " + ag + " years " + sx + " , " + message+"</b>");
                     //alert("For age disaggregation " + ag + " years " + sx + " , " + message);
                     savebutton_inactive(sectionid);
@@ -429,8 +435,8 @@ function greaterOrEqual(valids, message, iscritical, sectionid) {
                         //$("#" + columns[i] + "_" + valarray[1]).focus();
                     }
                      
-                    redborder(columns[i], valarray[0]);
-                    redborder(columns[i], valarray[1]);
+                    redborder(columns[i], valarray[0],message);
+                    redborder(columns[i], valarray[1],message);
                     
                      savebutton_inactive(sectionid);
                     
@@ -440,10 +446,17 @@ function greaterOrEqual(valids, message, iscritical, sectionid) {
 
                 } else {
 
-                     $("#msg" + sectionid).append("<b>* For " + ag + " years " + sx + " , " + message + "</b><br/>");
-savebutton_active(sectionid);
-                    yellowborder(columns[i], valarray[0]);
-                    yellowborder(columns[i], valarray[1]);
+appendstring+=" * <b> For " + ag + " years " + sx + " , " + message + "</b> <br/>";
+
+
+                     $("#msg" + sectionid).html(appendstring+"<br/>");
+//                     $("<label class='img'> <font color='red'><b> For " + ag + " years " + sx + " , " + message + "</b></font> </label>").insertBefore("#msg" + sectionid);
+//                         $("<label class='img' style='color:red;'><b> For " + ag + " years " + sx + " , " + message + "</b></label>").insertBefore("#msg" + sectionid);
+                  
+                    savebutton_active(sectionid);
+                    
+                    yellowborder(columns[i], valarray[0],message);
+                    yellowborder(columns[i], valarray[1],message);
 
                 }
             } else {
@@ -457,6 +470,10 @@ savebutton_active(sectionid);
             }
 
 
+        }else {
+            
+            console.log("no values");
+            
         }
 
 
@@ -529,16 +546,16 @@ function Equal(valids, message, iscritical, sectionid) {
            
                     savebutton_inactive(sectionid);
            
-                    redborder(columns[i], valarray[0]);
-                    redborder(columns[i], valarray[1]);
+                    redborder(columns[i], valarray[0],message);
+                    redborder(columns[i], valarray[1],message);
                     breakloop=true;
                     break;
                     //end the loop so that the data entry person can make corrections
 
                 } else {
 
-                    $("#msg" + sectionid).append("<b> * For " + ag + " years " + sx + " , " + message + "</b><br/>");
-
+                    //$("#msg" + sectionid).append("<b> * For " + ag + " years " + sx + " , " + message + "</b><br/>");
+    $("<label class='img'> <font color='red'><b> For " + ag + " years " + sx + " , " + message + "</b></font> </label>").insertBefore("#msg" + sectionid);
     savebutton_active(sectionid);
 
                 }
@@ -590,7 +607,7 @@ function multisum(vals, age) {
 
 
 
-function redborder(age, elem) {
+function redborder(age, elem,msg) {
 
     var valsarr = elem.split("+");
 
@@ -601,13 +618,14 @@ function redborder(age, elem) {
         
         $("#" + age + "_" + valsarr[v]).css('border-color', '#ff0000');
         $("#" + age + "_" + valsarr[v]).css('background', '#ff0000');
+         $("#" + age + "_" + valsarr[v]).prop('title',msg);
            
 
     }
 
 }
 
-function yellowborder(age, elem) {
+function yellowborder(age, elem,msg) {
 
     var valsarr = elem.split("+");
 
@@ -618,7 +636,8 @@ function yellowborder(age, elem) {
         
         $("#" + age + "_" + valsarr[v]).css('border-color', '#fc7044');
         $("#" + age + "_" + valsarr[v]).css('background', '#fc7044');
-           
+        $("#" + age + "_" + valsarr[v]).prop('title',msg);
+    
 
     }
 
