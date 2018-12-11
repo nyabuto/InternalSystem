@@ -1161,6 +1161,14 @@
         <servlet-name>DatimOutput</servlet-name>
         <servlet-class>Datim.DatimOutput</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load_year_month</servlet-name>
+        <servlet-class>reportsAjax.load_year_month</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ewi</servlet-name>
+        <servlet-class>reports.ewi</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2320,6 +2328,14 @@
     <servlet-mapping>
         <servlet-name>DatimOutput</servlet-name>
         <url-pattern>/DatimOutput</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_year_month</servlet-name>
+        <url-pattern>/load_year_month</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ewi</servlet-name>
+        <url-pattern>/ewi</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

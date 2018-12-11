@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package Datim;
+package reportsAjax;
 
 import database.dbConn;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,62 +19,42 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Nyabuto Geofrey
+ * @author GNyabuto
  */
-public class yearMonth extends HttpServlet {
-int year, month, position;
-String yearMonth,monthTXT,id;
+public class load_year_month extends HttpServlet {
+String output;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        dbConn conn = new dbConn();
-        
-        position=0;
-        String getMOH711="SELECT ID,Annee,Mois FROM moh711";
-        conn.rs=conn.st.executeQuery(getMOH711);
-        while(conn.rs.next()){
-            id=conn.rs.getString(1);
-            year=conn.rs.getInt(2);
-            month=conn.rs.getInt(3);
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        try {
+            dbConn conn = new dbConn();
+           int current_year = Calendar.getInstance().get(Calendar.YEAR);
             
-          if(month<10){
-              monthTXT="0"+month;
-          } 
-          else{
-              monthTXT=""+month;
-          }
-          
-          yearMonth=year+""+monthTXT;
-          
-          String update="UPDATE moh711 SET yearmonth='"+yearMonth+"' WHERE id='"+id+"'";
-          conn.st1.executeUpdate(update);
-          position++;
-            System.out.println(" MOH 711 A at position : "+position);
-        }
-        
-        
-         position=0;
-        String getMOH731="SELECT id,Annee,Mois FROM moh731";
-        conn.rs=conn.st.executeQuery(getMOH731);
-        while(conn.rs.next()){
-            id=conn.rs.getString(1);
-            year=conn.rs.getInt(2);
-            month=conn.rs.getInt(3);
+           output="";
+            String get_years = "SELECT year FROM year WHERE year<="+(current_year+1)+" AND year>2018";
+            conn.rs = conn.st.executeQuery(get_years);
+            while(conn.rs.next()){
+                //get months
+                
+               String get_months = "SELECT id,name,mois FROM month ORDER BY mois";
+               conn.rs1 = conn.st1.executeQuery(get_months);
+              while(conn.rs1.next()){
+                  if(conn.rs1.getInt(1)>9){
+                      output+="<option value=\""+(conn.rs.getInt(1)-1)+"-"+conn.rs1.getString(1)+"\">"+(conn.rs.getInt(1)-1)+" - "+conn.rs1.getString(2)+"</option>";
+                  }
+                  else{
+                  output+="<option value=\""+conn.rs.getInt(1)+"-0"+conn.rs1.getString(1)+"\">"+conn.rs.getInt(1)+" - "+conn.rs1.getString(2)+"</option>";    
+                  }
+              } 
+            }
             
-          if(month<10){
-              monthTXT="0"+month;
-          } 
-          else{
-              monthTXT=""+month;
-          }
-          
-          yearMonth=year+""+monthTXT;
-          
-          String update="UPDATE moh731 SET yearmonth='"+yearMonth+"' WHERE id='"+id+"'";
-          conn.st1.executeUpdate(update);
-          position++;
-            System.out.println("MOH 731 at position : "+position);
+            
+            
+            out.println(output);
+        } finally {
+            out.close();
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,7 +72,7 @@ String yearMonth,monthTXT,id;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(yearMonth.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(load_year_month.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
@@ -109,7 +90,7 @@ String yearMonth,monthTXT,id;
     try {
         processRequest(request, response);
     } catch (SQLException ex) {
-        Logger.getLogger(yearMonth.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(load_year_month.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
 
