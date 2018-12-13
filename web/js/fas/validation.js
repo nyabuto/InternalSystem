@@ -586,9 +586,11 @@ function multisum(vals, age) {
     var valsarr = vals.split("+");
 
     var totl = 0;
-
+ console.log("length ya multisum"+valsarr.length);
     for (var v = 0; v < valsarr.length; v++)
     {
+        if(document.getElementById(age + "_" + valsarr[v])!==null){
+         console.log("val sai ni "+age + "_" + valsarr[v]);
         var val = document.getElementById(age + "_" + valsarr[v]).value;
         if (isNumber(val))
         {
@@ -597,7 +599,7 @@ function multisum(vals, age) {
 
 
         }
-
+        }
     }
 
     return totl;
@@ -615,10 +617,11 @@ function redborder(age, elem,msg) {
 
     for (var v = 0; v < valsarr.length; v++)
     {
-        
+        if(document.getElementById(age + "_" + valsarr[v])!==null){
         $("#" + age + "_" + valsarr[v]).css('border-color', '#ff0000');
         $("#" + age + "_" + valsarr[v]).css('background', '#ff0000');
          $("#" + age + "_" + valsarr[v]).prop('title',msg);
+     }
            
 
     }
@@ -633,10 +636,11 @@ function yellowborder(age, elem,msg) {
 
     for (var v = 0; v < valsarr.length; v++)
     {
-        
+        if(document.getElementById(age + "_" + valsarr[v])!==null){
         $("#" + age + "_" + valsarr[v]).css('border-color', '#fc7044');
         $("#" + age + "_" + valsarr[v]).css('background', '#fc7044');
         $("#" + age + "_" + valsarr[v]).prop('title',msg);
+    }
     
 
     }
@@ -652,11 +656,13 @@ function blackborder(age, elem) {
 
     for (var v = 0; v < valsarr.length; v++)
     {
+        if(document.getElementById(age + "_" + valsarr[v])!==null){
         $("#" + age + "_" + valsarr[v]).css('border-color', '#000000');
         //skip blank elements
         if($("#" + age + "_" + valsarr[v]).val()!==''){
         $("#" + age + "_" + valsarr[v]).css('background', '#fae512');
                                                        }
+                                                   }
         
     }
 
