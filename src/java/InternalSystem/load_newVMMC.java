@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 public class load_newVMMC extends HttpServlet {
 HttpSession session;
-String tableid,SubPartnerID,Annee,Mois,site_type,v1_60d,v1_4y,v1_9y,v1_14y,v1_19y,v1_24y,v1_29y,v1_34y,v1_39y,v1_49y,v1_50y,v1_total,v2_dc_m_60d,v2_dc_m_4y,v2_dc_m_9y,v2_dc_m_14y,v2_dc_m_19y,v2_dc_m_24y,v2_dc_m_29y,v2_dc_m_34y,v2_dc_m_39y,v2_dc_m_49y,v2_dc_m_50y,v2_dc_m_total,v2_dc_s_60d,v2_dc_s_4y,v2_dc_s_9y,v2_dc_s_14y,v2_dc_s_19y,v2_dc_s_24y,v2_dc_s_29y,v2_dc_s_34y,v2_dc_s_39y,v2_dc_s_49y,v2_dc_s_50y,v2_dc_s_total,v2_dc_t_60d,v2_dc_t_4y,v2_dc_t_9y,v2_dc_t_14y,v2_dc_t_19y,v2_dc_t_24y,v2_dc_t_29y,v2_dc_t_34y,v2_dc_t_39y,v2_dc_t_49y,v2_dc_t_50y,v2_dc_t_total,v2_pc_m_60d,v2_pc_m_4y,v2_pc_m_9y,v2_pc_m_14y,v2_pc_m_19y,v2_pc_m_24y,v2_pc_m_29y,v2_pc_m_34y,v2_pc_m_39y,v2_pc_m_49y,v2_pc_m_50y,v2_pc_m_total,v2_pc_s_60d,v2_pc_s_4y,v2_pc_s_9y,v2_pc_s_14y,v2_pc_s_19y,v2_pc_s_24y,v2_pc_s_29y,v2_pc_s_34y,v2_pc_s_39y,v2_pc_s_49y,v2_pc_s_50y,v2_pc_s_total,v2_pc_t_60d,v2_pc_t_4y,v2_pc_t_9y,v2_pc_t_14y,v2_pc_t_19y,v2_pc_t_24y,v2_pc_t_29y,v2_pc_t_34y,v2_pc_t_39y,v2_pc_t_49y,v2_pc_t_50y,v2_pc_t_total,v2_60d_total,v2_4y_total,v2_9y_total,v2_14y_total,v2_19y_total,v2_24y_total,v2_29y_total,v2_34y_total,v2_39y_total,v2_49y_total,v2_50y_total,v2_total,v3_tp_60d,v3_tp_4y,v3_tp_9y,v3_tp_14y,v3_tp_19y,v3_tp_24y,v3_tp_29y,v3_tp_34y,v3_tp_39y,v3_tp_49y,v3_tp_50y,v3_tp_total,v3_srp_60d,v3_srp_4y,v3_srp_9y,v3_srp_14y,v3_srp_19y,v3_srp_24y,v3_srp_29y,v3_srp_34y,v3_srp_39y,v3_srp_49y,v3_srp_50y,v3_srp_total,v3_tn_60d,v3_tn_4y,v3_tn_9y,v3_tn_14y,v3_tn_19y,v3_tn_24y,v3_tn_29y,v3_tn_34y,v3_tn_39y,v3_tn_49y,v3_tn_50y,v3_tn_total,v3_nt_60d,v3_nt_4y,v3_nt_9y,v3_nt_14y,v3_nt_19y,v3_nt_24y,v3_nt_29y,v3_nt_34y,v3_nt_39y,v3_nt_49y,v3_nt_50y,v3_nt_total,v3_us_60d,v3_us_4y,v3_us_9y,v3_us_14y,v3_us_19y,v3_us_24y,v3_us_29y,v3_us_34y,v3_us_39y,v3_us_49y,v3_us_50y,v3_us_total,v3_srn_60d,v3_srn_4y,v3_srn_9y,v3_srn_14y,v3_srn_19y,v3_srn_24y,v3_srn_29y,v3_srn_34y,v3_srn_39y,v3_srn_49y,v3_srn_50y,v3_srn_total,v3_t_60d,v3_t_4y,v3_t_9y,v3_t_14y,v3_t_19y,v3_t_24y,v3_t_29y,v3_t_34y,v3_t_39y,v3_t_49y,v3_t_50y,v3_t_total,v4_s_vmmc_60d,v4_s_vmmc_4y,v4_s_vmmc_9y,v4_s_vmmc_14y,v4_s_vmmc_19y,v4_s_vmmc_24y,v4_s_vmmc_29y,v4_s_vmmc_34y,v4_s_vmmc_39y,v4_s_vmmc_49y,v4_s_vmmc_50y,v4_s_vmmc_total,v4_db_vmmc_60d,v4_db_vmmc_4y,v4_db_vmmc_9y,v4_db_vmmc_14y,v4_db_vmmc_19y,v4_db_vmmc_24y,v4_db_vmmc_29y,v4_db_vmmc_34y,v4_db_vmmc_39y,v4_db_vmmc_49y,v4_db_vmmc_50y,v4_db_vmmc_total,v4_t_vmmc_60d,v4_t_vmmc_4y,v4_t_vmmc_9y,v4_t_vmmc_14y,v4_t_vmmc_19y,v4_t_vmmc_24y,v4_t_vmmc_29y,v4_t_vmmc_34y,v4_t_vmmc_39y,v4_t_vmmc_49y,v4_t_vmmc_50y,v4_t_vmmc_total,v5_followup_60d,v5_followup_4y,v5_followup_9y,v5_followup_14y,v5_followup_19y,v5_followup_24y,v5_followup_29y,v5_followup_34y,v5_followup_39y,v5_followup_49y,v5_followup_50y,v5_followup_total,v6_nofollowup_60d,v6_nofollowup_4y,v6_nofollowup_9y,v6_nofollowup_14y,v6_nofollowup_19y,v6_nofollowup_24y,v6_nofollowup_29y,v6_nofollowup_34y,v6_nofollowup_39y,v6_nofollowup_49y,v6_nofollowup_50y,v6_nofollowup_total,isValidated,isLocked,updatedBy,updatedOn,yearmonth,timestamp;
+String tableid,SubPartnerID,Annee,Mois,site_type,v1_60d,v1_4y,v1_9y,v1_14y,v1_19y,v1_24y,v1_29y,v1_34y,v1_39y,v1_49y,v1_50y,v1_total,v2_dc_m_60d,v2_dc_m_4y,v2_dc_m_9y,v2_dc_m_14y,v2_dc_m_19y,v2_dc_m_24y,v2_dc_m_29y,v2_dc_m_34y,v2_dc_m_39y,v2_dc_m_49y,v2_dc_m_50y,v2_dc_m_total,v2_dc_s_60d,v2_dc_s_4y,v2_dc_s_9y,v2_dc_s_14y,v2_dc_s_19y,v2_dc_s_24y,v2_dc_s_29y,v2_dc_s_34y,v2_dc_s_39y,v2_dc_s_49y,v2_dc_s_50y,v2_dc_s_total,v2_dc_t_60d,v2_dc_t_4y,v2_dc_t_9y,v2_dc_t_14y,v2_dc_t_19y,v2_dc_t_24y,v2_dc_t_29y,v2_dc_t_34y,v2_dc_t_39y,v2_dc_t_49y,v2_dc_t_50y,v2_dc_t_total,v2_pc_m_60d,v2_pc_m_4y,v2_pc_m_9y,v2_pc_m_14y,v2_pc_m_19y,v2_pc_m_24y,v2_pc_m_29y,v2_pc_m_34y,v2_pc_m_39y,v2_pc_m_49y,v2_pc_m_50y,v2_pc_m_total,v2_pc_s_60d,v2_pc_s_4y,v2_pc_s_9y,v2_pc_s_14y,v2_pc_s_19y,v2_pc_s_24y,v2_pc_s_29y,v2_pc_s_34y,v2_pc_s_39y,v2_pc_s_49y,v2_pc_s_50y,v2_pc_s_total,v2_pc_t_60d,v2_pc_t_4y,v2_pc_t_9y,v2_pc_t_14y,v2_pc_t_19y,v2_pc_t_24y,v2_pc_t_29y,v2_pc_t_34y,v2_pc_t_39y,v2_pc_t_49y,v2_pc_t_50y,v2_pc_t_total,v2_60d_total,v2_4y_total,v2_9y_total,v2_14y_total,v2_19y_total,v2_24y_total,v2_29y_total,v2_34y_total,v2_39y_total,v2_49y_total,v2_50y_total,v2_total,v3_tp_60d,v3_tp_4y,v3_tp_9y,v3_tp_14y,v3_tp_19y,v3_tp_24y,v3_tp_29y,v3_tp_34y,v3_tp_39y,v3_tp_49y,v3_tp_50y,v3_tp_total,v3_srp_60d,v3_srp_4y,v3_srp_9y,v3_srp_14y,v3_srp_19y,v3_srp_24y,v3_srp_29y,v3_srp_34y,v3_srp_39y,v3_srp_49y,v3_srp_50y,v3_srp_total,v3_tn_60d,v3_tn_4y,v3_tn_9y,v3_tn_14y,v3_tn_19y,v3_tn_24y,v3_tn_29y,v3_tn_34y,v3_tn_39y,v3_tn_49y,v3_tn_50y,v3_tn_total,v3_nt_60d,v3_nt_4y,v3_nt_9y,v3_nt_14y,v3_nt_19y,v3_nt_24y,v3_nt_29y,v3_nt_34y,v3_nt_39y,v3_nt_49y,v3_nt_50y,v3_nt_total,v3_us_60d,v3_us_4y,v3_us_9y,v3_us_14y,v3_us_19y,v3_us_24y,v3_us_29y,v3_us_34y,v3_us_39y,v3_us_49y,v3_us_50y,v3_us_total,v3_srn_60d,v3_srn_4y,v3_srn_9y,v3_srn_14y,v3_srn_19y,v3_srn_24y,v3_srn_29y,v3_srn_34y,v3_srn_39y,v3_srn_49y,v3_srn_50y,v3_srn_total,v3_t_60d,v3_t_4y,v3_t_9y,v3_t_14y,v3_t_19y,v3_t_24y,v3_t_29y,v3_t_34y,v3_t_39y,v3_t_49y,v3_t_50y,v3_t_total,v4_s_vmmc_60d,v4_s_vmmc_4y,v4_s_vmmc_9y,v4_s_vmmc_14y,v4_s_vmmc_19y,v4_s_vmmc_24y,v4_s_vmmc_29y,v4_s_vmmc_34y,v4_s_vmmc_39y,v4_s_vmmc_49y,v4_s_vmmc_50y,v4_s_vmmc_total,v4_db_vmmc_60d,v4_db_vmmc_4y,v4_db_vmmc_9y,v4_db_vmmc_14y,v4_db_vmmc_19y,v4_db_vmmc_24y,v4_db_vmmc_29y,v4_db_vmmc_34y,v4_db_vmmc_39y,v4_db_vmmc_49y,v4_db_vmmc_50y,v4_db_vmmc_total,v4_t_vmmc_60d,v4_t_vmmc_4y,v4_t_vmmc_9y,v4_t_vmmc_14y,v4_t_vmmc_19y,v4_t_vmmc_24y,v4_t_vmmc_29y,v4_t_vmmc_34y,v4_t_vmmc_39y,v4_t_vmmc_49y,v4_t_vmmc_50y,v4_t_vmmc_total,v5_followup_60d,v5_followup_4y,v5_followup_9y,v5_followup_14y,v5_followup_19y,v5_followup_24y,v5_followup_29y,v5_followup_34y,v5_followup_39y,v5_followup_49y,v5_followup_50y,v5_followup_total,v6_nofollowup_60d,v6_nofollowup_4y,v6_nofollowup_9y,v6_nofollowup_14y,v6_nofollowup_19y,v6_nofollowup_24y,v6_nofollowup_29y,v6_nofollowup_34y,v6_nofollowup_39y,v6_nofollowup_49y,v6_nofollowup_50y,v6_nofollowup_total,isValidated,isLocked,updatedBy,updatedOn,yearmonth,timestamp,v1_44y,v2_dc_m_44y,v2_dc_s_44y,v2_dc_t_44y,v2_pc_m_44y,v2_pc_s_44y,v2_pc_t_44y,v2_44y_total,v3_tp_44y,v3_srp_44y,v3_tn_44y,v3_nt_44y,v3_us_44y,v3_srn_44y,v3_t_44y,v4_s_vmmc_44y,v4_db_vmmc_44y,v4_t_vmmc_44y,v5_followup_44y,v6_nofollowup_44y;
 String output,lock,enterdby,validity,Header;
 String v1,v2,v3,v4,v5,v6;
 String year,month;
@@ -36,7 +36,7 @@ String year,month;
             dbConn conn = new dbConn();
            session = request.getSession();
            
-        v1_60d=v1_4y=v1_9y=v1_14y=v1_19y=v1_24y=v1_29y=v1_34y=v1_39y=v1_49y=v1_50y=v1_total=v2_dc_m_60d=v2_dc_m_4y=v2_dc_m_9y=v2_dc_m_14y=v2_dc_m_19y=v2_dc_m_24y=v2_dc_m_29y=v2_dc_m_34y=v2_dc_m_39y=v2_dc_m_49y=v2_dc_m_50y=v2_dc_m_total=v2_dc_s_60d=v2_dc_s_4y=v2_dc_s_9y=v2_dc_s_14y=v2_dc_s_19y=v2_dc_s_24y=v2_dc_s_29y=v2_dc_s_34y=v2_dc_s_39y=v2_dc_s_49y=v2_dc_s_50y=v2_dc_s_total=v2_dc_t_60d=v2_dc_t_4y=v2_dc_t_9y=v2_dc_t_14y=v2_dc_t_19y=v2_dc_t_24y=v2_dc_t_29y=v2_dc_t_34y=v2_dc_t_39y=v2_dc_t_49y=v2_dc_t_50y=v2_dc_t_total=v2_pc_m_60d=v2_pc_m_4y=v2_pc_m_9y=v2_pc_m_14y=v2_pc_m_19y=v2_pc_m_24y=v2_pc_m_29y=v2_pc_m_34y=v2_pc_m_39y=v2_pc_m_49y=v2_pc_m_50y=v2_pc_m_total=v2_pc_s_60d=v2_pc_s_4y=v2_pc_s_9y=v2_pc_s_14y=v2_pc_s_19y=v2_pc_s_24y=v2_pc_s_29y=v2_pc_s_34y=v2_pc_s_39y=v2_pc_s_49y=v2_pc_s_50y=v2_pc_s_total=v2_pc_t_60d=v2_pc_t_4y=v2_pc_t_9y=v2_pc_t_14y=v2_pc_t_19y=v2_pc_t_24y=v2_pc_t_29y=v2_pc_t_34y=v2_pc_t_39y=v2_pc_t_49y=v2_pc_t_50y=v2_pc_t_total=v2_60d_total=v2_4y_total=v2_9y_total=v2_14y_total=v2_19y_total=v2_24y_total=v2_29y_total=v2_34y_total=v2_39y_total=v2_49y_total=v2_50y_total=v2_total=v3_tp_60d=v3_tp_4y=v3_tp_9y=v3_tp_14y=v3_tp_19y=v3_tp_24y=v3_tp_29y=v3_tp_34y=v3_tp_39y=v3_tp_49y=v3_tp_50y=v3_tp_total=v3_srp_60d=v3_srp_4y=v3_srp_9y=v3_srp_14y=v3_srp_19y=v3_srp_24y=v3_srp_29y=v3_srp_34y=v3_srp_39y=v3_srp_49y=v3_srp_50y=v3_srp_total=v3_tn_60d=v3_tn_4y=v3_tn_9y=v3_tn_14y=v3_tn_19y=v3_tn_24y=v3_tn_29y=v3_tn_34y=v3_tn_39y=v3_tn_49y=v3_tn_50y=v3_tn_total=v3_nt_60d=v3_nt_4y=v3_nt_9y=v3_nt_14y=v3_nt_19y=v3_nt_24y=v3_nt_29y=v3_nt_34y=v3_nt_39y=v3_nt_49y=v3_nt_50y=v3_nt_total=v3_us_60d=v3_us_4y=v3_us_9y=v3_us_14y=v3_us_19y=v3_us_24y=v3_us_29y=v3_us_34y=v3_us_39y=v3_us_49y=v3_us_50y=v3_us_total=v3_srn_60d=v3_srn_4y=v3_srn_9y=v3_srn_14y=v3_srn_19y=v3_srn_24y=v3_srn_29y=v3_srn_34y=v3_srn_39y=v3_srn_49y=v3_srn_50y=v3_srn_total=v3_t_60d=v3_t_4y=v3_t_9y=v3_t_14y=v3_t_19y=v3_t_24y=v3_t_29y=v3_t_34y=v3_t_39y=v3_t_49y=v3_t_50y=v3_t_total=v4_s_vmmc_60d=v4_s_vmmc_4y=v4_s_vmmc_9y=v4_s_vmmc_14y=v4_s_vmmc_19y=v4_s_vmmc_24y=v4_s_vmmc_29y=v4_s_vmmc_34y=v4_s_vmmc_39y=v4_s_vmmc_49y=v4_s_vmmc_50y=v4_s_vmmc_total=v4_db_vmmc_60d=v4_db_vmmc_4y=v4_db_vmmc_9y=v4_db_vmmc_14y=v4_db_vmmc_19y=v4_db_vmmc_24y=v4_db_vmmc_29y=v4_db_vmmc_34y=v4_db_vmmc_39y=v4_db_vmmc_49y=v4_db_vmmc_50y=v4_db_vmmc_total=v4_t_vmmc_60d=v4_t_vmmc_4y=v4_t_vmmc_9y=v4_t_vmmc_14y=v4_t_vmmc_19y=v4_t_vmmc_24y=v4_t_vmmc_29y=v4_t_vmmc_34y=v4_t_vmmc_39y=v4_t_vmmc_49y=v4_t_vmmc_50y=v4_t_vmmc_total=v5_followup_60d=v5_followup_4y=v5_followup_9y=v5_followup_14y=v5_followup_19y=v5_followup_24y=v5_followup_29y=v5_followup_34y=v5_followup_39y=v5_followup_49y=v5_followup_50y=v5_followup_total=v6_nofollowup_60d=v6_nofollowup_4y=v6_nofollowup_9y=v6_nofollowup_14y=v6_nofollowup_19y=v6_nofollowup_24y=v6_nofollowup_29y=v6_nofollowup_34y=v6_nofollowup_39y=v6_nofollowup_49y=v6_nofollowup_50y=v6_nofollowup_total=isValidated=isLocked=updatedBy=updatedOn=yearmonth="";
+        v1_60d=v1_4y=v1_9y=v1_14y=v1_19y=v1_24y=v1_29y=v1_34y=v1_39y=v1_49y=v1_50y=v1_total=v2_dc_m_60d=v2_dc_m_4y=v2_dc_m_9y=v2_dc_m_14y=v2_dc_m_19y=v2_dc_m_24y=v2_dc_m_29y=v2_dc_m_34y=v2_dc_m_39y=v2_dc_m_49y=v2_dc_m_50y=v2_dc_m_total=v2_dc_s_60d=v2_dc_s_4y=v2_dc_s_9y=v2_dc_s_14y=v2_dc_s_19y=v2_dc_s_24y=v2_dc_s_29y=v2_dc_s_34y=v2_dc_s_39y=v2_dc_s_49y=v2_dc_s_50y=v2_dc_s_total=v2_dc_t_60d=v2_dc_t_4y=v2_dc_t_9y=v2_dc_t_14y=v2_dc_t_19y=v2_dc_t_24y=v2_dc_t_29y=v2_dc_t_34y=v2_dc_t_39y=v2_dc_t_49y=v2_dc_t_50y=v2_dc_t_total=v2_pc_m_60d=v2_pc_m_4y=v2_pc_m_9y=v2_pc_m_14y=v2_pc_m_19y=v2_pc_m_24y=v2_pc_m_29y=v2_pc_m_34y=v2_pc_m_39y=v2_pc_m_49y=v2_pc_m_50y=v2_pc_m_total=v2_pc_s_60d=v2_pc_s_4y=v2_pc_s_9y=v2_pc_s_14y=v2_pc_s_19y=v2_pc_s_24y=v2_pc_s_29y=v2_pc_s_34y=v2_pc_s_39y=v2_pc_s_49y=v2_pc_s_50y=v2_pc_s_total=v2_pc_t_60d=v2_pc_t_4y=v2_pc_t_9y=v2_pc_t_14y=v2_pc_t_19y=v2_pc_t_24y=v2_pc_t_29y=v2_pc_t_34y=v2_pc_t_39y=v2_pc_t_49y=v2_pc_t_50y=v2_pc_t_total=v2_60d_total=v2_4y_total=v2_9y_total=v2_14y_total=v2_19y_total=v2_24y_total=v2_29y_total=v2_34y_total=v2_39y_total=v2_49y_total=v2_50y_total=v2_total=v3_tp_60d=v3_tp_4y=v3_tp_9y=v3_tp_14y=v3_tp_19y=v3_tp_24y=v3_tp_29y=v3_tp_34y=v3_tp_39y=v3_tp_49y=v3_tp_50y=v3_tp_total=v3_srp_60d=v3_srp_4y=v3_srp_9y=v3_srp_14y=v3_srp_19y=v3_srp_24y=v3_srp_29y=v3_srp_34y=v3_srp_39y=v3_srp_49y=v3_srp_50y=v3_srp_total=v3_tn_60d=v3_tn_4y=v3_tn_9y=v3_tn_14y=v3_tn_19y=v3_tn_24y=v3_tn_29y=v3_tn_34y=v3_tn_39y=v3_tn_49y=v3_tn_50y=v3_tn_total=v3_nt_60d=v3_nt_4y=v3_nt_9y=v3_nt_14y=v3_nt_19y=v3_nt_24y=v3_nt_29y=v3_nt_34y=v3_nt_39y=v3_nt_49y=v3_nt_50y=v3_nt_total=v3_us_60d=v3_us_4y=v3_us_9y=v3_us_14y=v3_us_19y=v3_us_24y=v3_us_29y=v3_us_34y=v3_us_39y=v3_us_49y=v3_us_50y=v3_us_total=v3_srn_60d=v3_srn_4y=v3_srn_9y=v3_srn_14y=v3_srn_19y=v3_srn_24y=v3_srn_29y=v3_srn_34y=v3_srn_39y=v3_srn_49y=v3_srn_50y=v3_srn_total=v3_t_60d=v3_t_4y=v3_t_9y=v3_t_14y=v3_t_19y=v3_t_24y=v3_t_29y=v3_t_34y=v3_t_39y=v3_t_49y=v3_t_50y=v3_t_total=v4_s_vmmc_60d=v4_s_vmmc_4y=v4_s_vmmc_9y=v4_s_vmmc_14y=v4_s_vmmc_19y=v4_s_vmmc_24y=v4_s_vmmc_29y=v4_s_vmmc_34y=v4_s_vmmc_39y=v4_s_vmmc_49y=v4_s_vmmc_50y=v4_s_vmmc_total=v4_db_vmmc_60d=v4_db_vmmc_4y=v4_db_vmmc_9y=v4_db_vmmc_14y=v4_db_vmmc_19y=v4_db_vmmc_24y=v4_db_vmmc_29y=v4_db_vmmc_34y=v4_db_vmmc_39y=v4_db_vmmc_49y=v4_db_vmmc_50y=v4_db_vmmc_total=v4_t_vmmc_60d=v4_t_vmmc_4y=v4_t_vmmc_9y=v4_t_vmmc_14y=v4_t_vmmc_19y=v4_t_vmmc_24y=v4_t_vmmc_29y=v4_t_vmmc_34y=v4_t_vmmc_39y=v4_t_vmmc_49y=v4_t_vmmc_50y=v4_t_vmmc_total=v5_followup_60d=v5_followup_4y=v5_followup_9y=v5_followup_14y=v5_followup_19y=v5_followup_24y=v5_followup_29y=v5_followup_34y=v5_followup_39y=v5_followup_49y=v5_followup_50y=v5_followup_total=v6_nofollowup_60d=v6_nofollowup_4y=v6_nofollowup_9y=v6_nofollowup_14y=v6_nofollowup_19y=v6_nofollowup_24y=v6_nofollowup_29y=v6_nofollowup_34y=v6_nofollowup_39y=v6_nofollowup_49y=v6_nofollowup_50y=v6_nofollowup_total=isValidated=isLocked=updatedBy=updatedOn=yearmonth=v1_44y=v2_dc_m_44y=v2_dc_s_44y=v2_dc_t_44y=v2_pc_m_44y=v2_pc_s_44y=v2_pc_t_44y=v2_44y_total=v3_tp_44y=v3_srp_44y=v3_tn_44y=v3_nt_44y=v3_us_44y=v3_srn_44y=v3_t_44y=v4_s_vmmc_44y=v4_db_vmmc_44y=v4_t_vmmc_44y=v5_followup_44y=v6_nofollowup_44y="";
         
         tableid="2018_10_331";
         lock="";
@@ -152,6 +152,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v1_29y=conn.rs.getString("v1_29y");
                      v1_34y=conn.rs.getString("v1_34y");
                      v1_39y=conn.rs.getString("v1_39y");
+                     v1_44y=conn.rs.getString("v1_44y");
                      v1_49y=conn.rs.getString("v1_49y");
                      v1_50y=conn.rs.getString("v1_50y");
                      v1_total=conn.rs.getString("v1_total");
@@ -164,6 +165,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v2_dc_m_29y=conn.rs.getString("v2_dc_m_29y");
                      v2_dc_m_34y=conn.rs.getString("v2_dc_m_34y");
                      v2_dc_m_39y=conn.rs.getString("v2_dc_m_39y");
+                     v2_dc_m_44y=conn.rs.getString("v2_dc_m_44y");
                      v2_dc_m_49y=conn.rs.getString("v2_dc_m_49y");
                      v2_dc_m_50y=conn.rs.getString("v2_dc_m_50y");
                      v2_dc_m_total=conn.rs.getString("v2_dc_m_total");
@@ -176,6 +178,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v2_dc_s_29y=conn.rs.getString("v2_dc_s_29y");
                      v2_dc_s_34y=conn.rs.getString("v2_dc_s_34y");
                      v2_dc_s_39y=conn.rs.getString("v2_dc_s_39y");
+                     v2_dc_s_44y=conn.rs.getString("v2_dc_s_44y");
                      v2_dc_s_49y=conn.rs.getString("v2_dc_s_49y");
                      v2_dc_s_50y=conn.rs.getString("v2_dc_s_50y");
                      v2_dc_s_total=conn.rs.getString("v2_dc_s_total");
@@ -188,6 +191,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v2_dc_t_29y=conn.rs.getString("v2_dc_t_29y");
                      v2_dc_t_34y=conn.rs.getString("v2_dc_t_34y");
                      v2_dc_t_39y=conn.rs.getString("v2_dc_t_39y");
+                     v2_dc_t_44y=conn.rs.getString("v2_dc_t_44y");
                      v2_dc_t_49y=conn.rs.getString("v2_dc_t_49y");
                      v2_dc_t_50y=conn.rs.getString("v2_dc_t_50y");
                      v2_dc_t_total=conn.rs.getString("v2_dc_t_total");
@@ -200,6 +204,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v2_pc_m_29y=conn.rs.getString("v2_pc_m_29y");
                      v2_pc_m_34y=conn.rs.getString("v2_pc_m_34y");
                      v2_pc_m_39y=conn.rs.getString("v2_pc_m_39y");
+                     v2_pc_m_44y=conn.rs.getString("v2_pc_m_44y");
                      v2_pc_m_49y=conn.rs.getString("v2_pc_m_49y");
                      v2_pc_m_50y=conn.rs.getString("v2_pc_m_50y");
                      v2_pc_m_total=conn.rs.getString("v2_pc_m_total");
@@ -212,6 +217,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v2_pc_s_29y=conn.rs.getString("v2_pc_s_29y");
                      v2_pc_s_34y=conn.rs.getString("v2_pc_s_34y");
                      v2_pc_s_39y=conn.rs.getString("v2_pc_s_39y");
+                     v2_pc_s_44y=conn.rs.getString("v2_pc_s_44y");
                      v2_pc_s_49y=conn.rs.getString("v2_pc_s_49y");
                      v2_pc_s_50y=conn.rs.getString("v2_pc_s_50y");
                      v2_pc_s_total=conn.rs.getString("v2_pc_s_total");
@@ -224,6 +230,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v2_pc_t_29y=conn.rs.getString("v2_pc_t_29y");
                      v2_pc_t_34y=conn.rs.getString("v2_pc_t_34y");
                      v2_pc_t_39y=conn.rs.getString("v2_pc_t_39y");
+                     v2_pc_t_44y=conn.rs.getString("v2_pc_t_44y");
                      v2_pc_t_49y=conn.rs.getString("v2_pc_t_49y");
                      v2_pc_t_50y=conn.rs.getString("v2_pc_t_50y");
                      v2_pc_t_total=conn.rs.getString("v2_pc_t_total");
@@ -236,6 +243,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v2_29y_total=conn.rs.getString("v2_29y_total");
                      v2_34y_total=conn.rs.getString("v2_34y_total");
                      v2_39y_total=conn.rs.getString("v2_39y_total");
+                     v2_44y_total=conn.rs.getString("v2_44y_total");
                      v2_49y_total=conn.rs.getString("v2_49y_total");
                      v2_50y_total=conn.rs.getString("v2_50y_total");
                      v2_total=conn.rs.getString("v2_total");
@@ -248,6 +256,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v3_tp_29y=conn.rs.getString("v3_tp_29y");
                      v3_tp_34y=conn.rs.getString("v3_tp_34y");
                      v3_tp_39y=conn.rs.getString("v3_tp_39y");
+                     v3_tp_44y=conn.rs.getString("v3_tp_44y");
                      v3_tp_49y=conn.rs.getString("v3_tp_49y");
                      v3_tp_50y=conn.rs.getString("v3_tp_50y");
                      v3_tp_total=conn.rs.getString("v3_tp_total");
@@ -260,6 +269,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v3_srp_29y=conn.rs.getString("v3_srp_29y");
                      v3_srp_34y=conn.rs.getString("v3_srp_34y");
                      v3_srp_39y=conn.rs.getString("v3_srp_39y");
+                     v3_srp_44y=conn.rs.getString("v3_srp_44y");
                      v3_srp_49y=conn.rs.getString("v3_srp_49y");
                      v3_srp_50y=conn.rs.getString("v3_srp_50y");
                      v3_srp_total=conn.rs.getString("v3_srp_total");
@@ -272,6 +282,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v3_tn_29y=conn.rs.getString("v3_tn_29y");
                      v3_tn_34y=conn.rs.getString("v3_tn_34y");
                      v3_tn_39y=conn.rs.getString("v3_tn_39y");
+                     v3_tn_44y=conn.rs.getString("v3_tn_44y");
                      v3_tn_49y=conn.rs.getString("v3_tn_49y");
                      v3_tn_50y=conn.rs.getString("v3_tn_50y");
                      v3_tn_total=conn.rs.getString("v3_tn_total");
@@ -284,6 +295,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v3_nt_29y=conn.rs.getString("v3_nt_29y");
                      v3_nt_34y=conn.rs.getString("v3_nt_34y");
                      v3_nt_39y=conn.rs.getString("v3_nt_39y");
+                     v3_nt_44y=conn.rs.getString("v3_nt_44y");
                      v3_nt_49y=conn.rs.getString("v3_nt_49y");
                      v3_nt_50y=conn.rs.getString("v3_nt_50y");
                      v3_nt_total=conn.rs.getString("v3_nt_total");
@@ -296,6 +308,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v3_us_29y=conn.rs.getString("v3_us_29y");
                      v3_us_34y=conn.rs.getString("v3_us_34y");
                      v3_us_39y=conn.rs.getString("v3_us_39y");
+                     v3_us_44y=conn.rs.getString("v3_us_44y");
                      v3_us_49y=conn.rs.getString("v3_us_49y");
                      v3_us_50y=conn.rs.getString("v3_us_50y");
                      v3_us_total=conn.rs.getString("v3_us_total");
@@ -308,6 +321,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v3_srn_29y=conn.rs.getString("v3_srn_29y");
                      v3_srn_34y=conn.rs.getString("v3_srn_34y");
                      v3_srn_39y=conn.rs.getString("v3_srn_39y");
+                     v3_srn_44y=conn.rs.getString("v3_srn_44y");
                      v3_srn_49y=conn.rs.getString("v3_srn_49y");
                      v3_srn_50y=conn.rs.getString("v3_srn_50y");
                      v3_srn_total=conn.rs.getString("v3_srn_total");
@@ -320,6 +334,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v3_t_29y=conn.rs.getString("v3_t_29y");
                      v3_t_34y=conn.rs.getString("v3_t_34y");
                      v3_t_39y=conn.rs.getString("v3_t_39y");
+                     v3_t_44y=conn.rs.getString("v3_t_44y");
                      v3_t_49y=conn.rs.getString("v3_t_49y");
                      v3_t_50y=conn.rs.getString("v3_t_50y");
                      v3_t_total=conn.rs.getString("v3_t_total");
@@ -332,6 +347,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v4_s_vmmc_29y=conn.rs.getString("v4_s_vmmc_29y");
                      v4_s_vmmc_34y=conn.rs.getString("v4_s_vmmc_34y");
                      v4_s_vmmc_39y=conn.rs.getString("v4_s_vmmc_39y");
+                     v4_s_vmmc_44y=conn.rs.getString("v4_s_vmmc_44y");
                      v4_s_vmmc_49y=conn.rs.getString("v4_s_vmmc_49y");
                      v4_s_vmmc_50y=conn.rs.getString("v4_s_vmmc_50y");
                      v4_s_vmmc_total=conn.rs.getString("v4_s_vmmc_total");
@@ -344,6 +360,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v4_db_vmmc_29y=conn.rs.getString("v4_db_vmmc_29y");
                      v4_db_vmmc_34y=conn.rs.getString("v4_db_vmmc_34y");
                      v4_db_vmmc_39y=conn.rs.getString("v4_db_vmmc_39y");
+                     v4_db_vmmc_44y=conn.rs.getString("v4_db_vmmc_44y");
                      v4_db_vmmc_49y=conn.rs.getString("v4_db_vmmc_49y");
                      v4_db_vmmc_50y=conn.rs.getString("v4_db_vmmc_50y");
                      v4_db_vmmc_total=conn.rs.getString("v4_db_vmmc_total");
@@ -356,6 +373,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v4_t_vmmc_29y=conn.rs.getString("v4_t_vmmc_29y");
                      v4_t_vmmc_34y=conn.rs.getString("v4_t_vmmc_34y");
                      v4_t_vmmc_39y=conn.rs.getString("v4_t_vmmc_39y");
+                     v4_t_vmmc_44y=conn.rs.getString("v4_t_vmmc_44y");
                      v4_t_vmmc_49y=conn.rs.getString("v4_t_vmmc_49y");
                      v4_t_vmmc_50y=conn.rs.getString("v4_t_vmmc_50y");
                      v4_t_vmmc_total=conn.rs.getString("v4_t_vmmc_total");
@@ -368,6 +386,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v5_followup_29y=conn.rs.getString("v5_followup_29y");
                      v5_followup_34y=conn.rs.getString("v5_followup_34y");
                      v5_followup_39y=conn.rs.getString("v5_followup_39y");
+                     v5_followup_44y=conn.rs.getString("v5_followup_44y");
                      v5_followup_49y=conn.rs.getString("v5_followup_49y");
                      v5_followup_50y=conn.rs.getString("v5_followup_50y");
                      v5_followup_total=conn.rs.getString("v5_followup_total");
@@ -380,6 +399,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      v6_nofollowup_29y=conn.rs.getString("v6_nofollowup_29y");
                      v6_nofollowup_34y=conn.rs.getString("v6_nofollowup_34y");
                      v6_nofollowup_39y=conn.rs.getString("v6_nofollowup_39y");
+                     v6_nofollowup_44y=conn.rs.getString("v6_nofollowup_44y");
                      v6_nofollowup_49y=conn.rs.getString("v6_nofollowup_49y");
                      v6_nofollowup_50y=conn.rs.getString("v6_nofollowup_50y");
                      v6_nofollowup_total=conn.rs.getString("v6_nofollowup_total");
@@ -446,7 +466,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
     
     v1 = "<table border=\"1px;\">"
         + "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">1. Number of Males circumcised as part of the minimum package of VMMC for HIV prevention services:</td>"
+        + "<td colspan=\"14\" class=\"title\">1. Number of Males circumcised as part of the minimum package of VMMC for HIV prevention services:</td>"
         + "</tr>"
 
         +""
@@ -461,7 +481,8 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td>25-29</td>"
         + "<td>30-34</td>"
         + "<td>35-39</td>"
-        + "<td>40-49</td>"
+        + "<td>40-44</td>"
+        + "<td>45-49</td>"
         + "<td>50+</td>"
         + "<td>Totals</td>"
         + "</tr>"
@@ -477,6 +498,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v1_29y\" id=\"v1_29y\" value=\""+v1_29y+"\" onblur=\"autosave('v1_29y');\"  oninput=\"v1('v1_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v1_34y\" id=\"v1_34y\" value=\""+v1_34y+"\" onblur=\"autosave('v1_34y');\"  oninput=\"v1('v1_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v1_39y\" id=\"v1_39y\" value=\""+v1_39y+"\"  onblur=\"autosave('v1_39y');\"  oninput=\"v1('v1_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v1_44y\" id=\"v1_44y\" value=\""+v1_44y+"\"  onblur=\"autosave('v1_44y');\"  oninput=\"v1('v1_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v1_49y\" id=\"v1_49y\" value=\""+v1_49y+"\"  onblur=\"autosave('v1_49y');\"  oninput=\"v1('v1_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v1_50y\" id=\"v1_50y\" value=\""+v1_50y+"\"  onblur=\"autosave('v1_50y');\"  oninput=\"v1('v1_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v1_total\" id=\"v1_total\" value=\""+v1_total+"\" tabindex=\"-1\"  onblur=\"autosave('v1_total');\"  oninput=\"v1('v1_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -486,7 +508,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
     
     v2 = "<table border=\"1px;\">"
         + "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">2. Number of Males circumcised as part of the minimum package of VMMC for HIV prevention services:</td>"
+        + "<td colspan=\"14\" class=\"title\">2. Number of Males circumcised as part of the minimum package of VMMC for HIV prevention services:</td>"
         + "</tr>"
 
         +""
@@ -501,13 +523,13 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td>25-29</td>"
         + "<td>30-34</td>"
         + "<td>35-39</td>"
-        + "<td>40-49</td>"
+        + "<td>40-44</td><td>45-49</td>"
         + "<td>50+</td>"
         + "<td>Totals</td>"
         + "</tr>"
         
         + "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">During circumcision</td>"
+        + "<td colspan=\"14\" class=\"title\">During circumcision</td>"
         + "</tr>"
                 + "<tr>"
         + "<td>Moderate</td>"
@@ -520,6 +542,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v2_dc_m_29y\" id=\"v2_dc_m_29y\" value=\""+v2_dc_m_29y+"\" onblur=\"autosave('v2_dc_m_29y');\"  oninput=\"v2_dc('v2_dc_m_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_m_34y\" id=\"v2_dc_m_34y\" value=\""+v2_dc_m_34y+"\" onblur=\"autosave('v2_dc_m_34y');\"  oninput=\"v2_dc('v2_dc_m_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_m_39y\" id=\"v2_dc_m_39y\" value=\""+v2_dc_m_39y+"\" onblur=\"autosave('v2_dc_m_39y');\"  oninput=\"v2_dc('v2_dc_m_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v2_dc_m_44y\" id=\"v2_dc_m_44y\" value=\""+v2_dc_m_44y+"\"  onblur=\"autosave('v2_dc_m_44y');\"  oninput=\"v2_dc('v2_dc_m_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_m_49y\" id=\"v2_dc_m_49y\" value=\""+v2_dc_m_49y+"\"  onblur=\"autosave('v2_dc_m_49y');\"  oninput=\"v2_dc('v2_dc_m_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_m_50y\" id=\"v2_dc_m_50y\" value=\""+v2_dc_m_50y+"\" onblur=\"autosave('v2_dc_m_50y');\"  oninput=\"v2_dc('v2_dc_m_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_m_total\" id=\"v2_dc_m_total\" value=\""+v2_dc_m_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_m_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -537,6 +560,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v2_dc_s_29y\" id=\"v2_dc_s_29y\" value=\""+v2_dc_s_29y+"\" onblur=\"autosave('v2_dc_s_29y');\"  oninput=\"v2_dc('v2_dc_s_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_s_34y\" id=\"v2_dc_s_34y\" value=\""+v2_dc_s_34y+"\" onblur=\"autosave('v2_dc_s_34y');\"  oninput=\"v2_dc('v2_dc_s_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_s_39y\" id=\"v2_dc_s_39y\" value=\""+v2_dc_s_39y+"\" onblur=\"autosave('v2_dc_s_39y');\"  oninput=\"v2_dc('v2_dc_s_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v2_dc_s_44y\" id=\"v2_dc_s_44y\" value=\""+v2_dc_s_44y+"\" onblur=\"autosave('v2_dc_s_44y');\"  oninput=\"v2_dc('v2_dc_s_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_s_49y\" id=\"v2_dc_s_49y\" value=\""+v2_dc_s_49y+"\" onblur=\"autosave('v2_dc_s_49y');\"  oninput=\"v2_dc('v2_dc_s_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_s_50y\" id=\"v2_dc_s_50y\" value=\""+v2_dc_s_50y+"\" onblur=\"autosave('v2_dc_s_50y');\"  oninput=\"v2_dc('v2_dc_s_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_s_total\" id=\"v2_dc_s_total\" value=\""+v2_dc_s_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_s_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -554,13 +578,14 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v2_dc_t_29y\" id=\"v2_dc_t_29y\" value=\""+v2_dc_t_29y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_t_29y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_t_34y\" id=\"v2_dc_t_34y\" value=\""+v2_dc_t_34y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_t_34y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_t_39y\" id=\"v2_dc_t_39y\" value=\""+v2_dc_t_39y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_t_39y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"v2_dc_t_44y\" id=\"v2_dc_t_44y\" value=\""+v2_dc_t_44y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_t_44y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_t_49y\" id=\"v2_dc_t_49y\" value=\""+v2_dc_t_49y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_t_49y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_t_50y\" id=\"v2_dc_t_50y\" value=\""+v2_dc_t_50y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_t_50y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_dc_t_total\" id=\"v2_dc_t_total\" value=\""+v2_dc_t_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_dc_t_total');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "</tr>"
         
 	+ "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">Post circumcision</td>"
+        + "<td colspan=\"14\" class=\"title\">Post circumcision</td>"
         + "</tr>"
             
 	+ "<tr>"
@@ -574,6 +599,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v2_pc_m_29y\" id=\"v2_pc_m_29y\" value=\""+v2_pc_m_29y+"\" onblur=\"autosave('v2_pc_m_29y');\"  oninput=\"v2_pc('v2_pc_m_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_m_34y\" id=\"v2_pc_m_34y\" value=\""+v2_pc_m_34y+"\"  onblur=\"autosave('v2_pc_m_34y');\"  oninput=\"v2_pc('v2_pc_m_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_m_39y\" id=\"v2_pc_m_39y\" value=\""+v2_pc_m_39y+"\" onblur=\"autosave('v2_pc_m_39y');\"  oninput=\"v2_pc('v2_pc_m_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v2_pc_m_44y\" id=\"v2_pc_m_44y\" value=\""+v2_pc_m_44y+"\"  onblur=\"autosave('v2_pc_m_44y');\"  oninput=\"v2_pc('v2_pc_m_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_m_49y\" id=\"v2_pc_m_49y\" value=\""+v2_pc_m_49y+"\"  onblur=\"autosave('v2_pc_m_49y');\"  oninput=\"v2_pc('v2_pc_m_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_m_50y\" id=\"v2_pc_m_50y\" value=\""+v2_pc_m_50y+"\"  onblur=\"autosave('v2_pc_m_50y');\"  oninput=\"v2_pc('v2_pc_m_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_m_total\" id=\"v2_pc_m_total\" value=\""+v2_pc_m_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_m_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -591,6 +617,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v2_pc_s_29y\" id=\"v2_pc_s_29y\" value=\""+v2_pc_s_29y+"\" onblur=\"autosave('v2_pc_s_29y');\"  oninput=\"v2_pc('v2_pc_s_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_s_34y\" id=\"v2_pc_s_34y\" value=\""+v2_pc_s_34y+"\" onblur=\"autosave('v2_pc_s_34y');\"  oninput=\"v2_pc('v2_pc_s_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_s_39y\" id=\"v2_pc_s_39y\" value=\""+v2_pc_s_39y+"\" onblur=\"autosave('v2_pc_s_39y');\"  oninput=\"v2_pc('v2_pc_s_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v2_pc_s_44y\" id=\"v2_pc_s_49y\" value=\""+v2_pc_s_44y+"\" onblur=\"autosave('v2_pc_s_44y');\"  oninput=\"v2_pc('v2_pc_s_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_s_49y\" id=\"v2_pc_s_49y\" value=\""+v2_pc_s_49y+"\" onblur=\"autosave('v2_pc_s_49y');\"  oninput=\"v2_pc('v2_pc_s_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_s_50y\" id=\"v2_pc_s_50y\" value=\""+v2_pc_s_50y+"\" onblur=\"autosave('v2_pc_s_50y');\"  oninput=\"v2_pc('v2_pc_s_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_s_total\" id=\"v2_pc_s_total\" value=\""+v2_pc_s_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_s_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -608,6 +635,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v2_pc_t_29y\" id=\"v2_pc_t_29y\" value=\""+v2_pc_t_29y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_t_29y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_t_34y\" id=\"v2_pc_t_34y\" value=\""+v2_pc_t_34y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_t_34y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_t_39y\" id=\"v2_pc_t_39y\" value=\""+v2_pc_t_39y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_t_39y');\"  class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"v2_pc_t_44y\" id=\"v2_pc_t_44y\" value=\""+v2_pc_t_44y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_t_44y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_t_49y\" id=\"v2_pc_t_49y\" value=\""+v2_pc_t_49y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_t_49y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_t_50y\" id=\"v2_pc_t_50y\" value=\""+v2_pc_t_50y+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_t_50y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_pc_t_total\" id=\"v2_pc_t_total\" value=\""+v2_pc_t_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_pc_t_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -624,6 +652,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v2_29y_total\" id=\"v2_29y_total\" value=\""+v2_29y_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_29y_total');\"  oninput=\"v2('v2_29y_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_34y_total\" id=\"v2_34y_total\" value=\""+v2_34y_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_34y_total');\"  oninput=\"v2('v2_34y_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_39y_total\" id=\"v2_39y_total\" value=\""+v2_39y_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_39y_total');\"  oninput=\"v2('v2_39y_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"v2_44y_total\" id=\"v2_44y_total\" value=\""+v2_44y_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_44y_total');\"  oninput=\"v2('v2_44y_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_49y_total\" id=\"v2_49y_total\" value=\""+v2_49y_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_49y_total');\"  oninput=\"v2('v2_49y_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_50y_total\" id=\"v2_50y_total\" value=\""+v2_50y_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_50y_total');\"  oninput=\"v2('v2_50y_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v2_total\" id=\"v2_total\" value=\""+v2_total+"\" tabindex=\"-1\"  onblur=\"autosave('v2_total');\"  oninput=\"v2('v2_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -633,7 +662,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
     
     v3 = "<table border=\"1px;\">"
         + "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">3. HIV Status of VMMC clients:</td>"
+        + "<td colspan=\"14\" class=\"title\">3. HIV Status of VMMC clients:</td>"
         + "</tr>"
 
         +""
@@ -648,7 +677,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td>25-29</td>"
         + "<td>30-34</td>"
         + "<td>35-39</td>"
-        + "<td>40-49</td>"
+        + "<td>40-44</td><td>45-49</td>"
         + "<td>50+</td>"
         + "<td>Totals</td>"
         + "</tr>"
@@ -665,6 +694,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v3_tp_29y\" id=\"v3_tp_29y\" value=\""+v3_tp_29y+"\"onblur=\"autosave('v3_tp_29y');\"  oninput=\"v3('v3_tp_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tp_34y\" id=\"v3_tp_34y\" value=\""+v3_tp_34y+"\" onblur=\"autosave('v3_tp_34y');\"  oninput=\"v3('v3_tp_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tp_39y\" id=\"v3_tp_39y\" value=\""+v3_tp_39y+"\" onblur=\"autosave('v3_tp_39y');\"  oninput=\"v3('v3_tp_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v3_tp_44y\" id=\"v3_tp_44y\" value=\""+v3_tp_44y+"\" onblur=\"autosave('v3_tp_44y');\"  oninput=\"v3('v3_tp_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tp_49y\" id=\"v3_tp_49y\" value=\""+v3_tp_49y+"\" onblur=\"autosave('v3_tp_49y');\"  oninput=\"v3('v3_tp_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tp_50y\" id=\"v3_tp_50y\" value=\""+v3_tp_50y+"\" onblur=\"autosave('v3_tp_50y');\"  oninput=\"v3('v3_tp_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tp_total\" id=\"v3_tp_total\" value=\""+v3_tp_total+"\" tabindex=\"-1\"  onblur=\"autosave('v3_tp_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -682,6 +712,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v3_srp_29y\" id=\"v3_srp_29y\" value=\""+v3_srp_29y+"\"  onblur=\"autosave('v3_srp_29y');\"  oninput=\"v3('v3_srp_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srp_34y\" id=\"v3_srp_34y\" value=\""+v3_srp_34y+"\"  onblur=\"autosave('v3_srp_34y');\"  oninput=\"v3('v3_srp_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srp_39y\" id=\"v3_srp_39y\" value=\""+v3_srp_39y+"\"  onblur=\"autosave('v3_srp_39y');\"  oninput=\"v3('v3_srp_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v3_srp_44y\" id=\"v3_srp_44y\" value=\""+v3_srp_44y+"\"  onblur=\"autosave('v3_srp_44y');\"  oninput=\"v3('v3_srp_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srp_49y\" id=\"v3_srp_49y\" value=\""+v3_srp_49y+"\"  onblur=\"autosave('v3_srp_49y');\"  oninput=\"v3('v3_srp_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srp_50y\" id=\"v3_srp_50y\" value=\""+v3_srp_50y+"\"   onblur=\"autosave('v3_srp_50y');\"  oninput=\"v3('v3_srp_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srp_total\" id=\"v3_srp_total\" value=\""+v3_srp_total+"\" tabindex=\"-1\"  onblur=\"autosave('v3_srp_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -699,6 +730,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v3_tn_29y\" id=\"v3_tn_29y\" value=\""+v3_tn_29y+"\" onblur=\"autosave('v3_tn_29y');\"  oninput=\"v3('v3_tn_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tn_34y\" id=\"v3_tn_34y\" value=\""+v3_tn_34y+"\"  onblur=\"autosave('v3_tn_34y');\"  oninput=\"v3('v3_tn_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tn_39y\" id=\"v3_tn_39y\" value=\""+v3_tn_39y+"\" onblur=\"autosave('v3_tn_39y');\"  oninput=\"v3('v3_tn_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v3_tn_44y\" id=\"v3_tn_44y\" value=\""+v3_tn_44y+"\" onblur=\"autosave('v3_tn_44y');\"  oninput=\"v3('v3_tn_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tn_49y\" id=\"v3_tn_49y\" value=\""+v3_tn_49y+"\" onblur=\"autosave('v3_tn_49y');\"  oninput=\"v3('v3_tn_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tn_50y\" id=\"v3_tn_50y\" value=\""+v3_tn_50y+"\" onblur=\"autosave('v3_tn_50y');\"  oninput=\"v3('v3_tn_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_tn_total\" id=\"v3_tn_total\" value=\""+v3_tn_total+"\" tabindex=\"-1\"  onblur=\"autosave('v3_tn_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -716,6 +748,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v3_nt_29y\" id=\"v3_nt_29y\" value=\""+v3_nt_29y+"\" onblur=\"autosave('v3_nt_29y');\"  oninput=\"v3('v3_nt_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_nt_34y\" id=\"v3_nt_34y\" value=\""+v3_nt_34y+"\" onblur=\"autosave('v3_nt_34y');\"  oninput=\"v3('v3_nt_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_nt_39y\" id=\"v3_nt_39y\" value=\""+v3_nt_39y+"\" onblur=\"autosave('v3_nt_39y');\"  oninput=\"v3('v3_nt_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v3_nt_44y\" id=\"v3_nt_44y\" value=\""+v3_nt_44y+"\" onblur=\"autosave('v3_nt_44y');\"  oninput=\"v3('v3_nt_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_nt_49y\" id=\"v3_nt_49y\" value=\""+v3_nt_49y+"\" onblur=\"autosave('v3_nt_49y');\"  oninput=\"v3('v3_nt_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_nt_50y\" id=\"v3_nt_50y\" value=\""+v3_nt_50y+"\" onblur=\"autosave('v3_nt_50y');\"  oninput=\"v3('v3_nt_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_nt_total\" id=\"v3_nt_total\" value=\""+v3_nt_total+"\" tabindex=\"-1\"  onblur=\"autosave('v3_nt_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -733,6 +766,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v3_us_29y\" id=\"v3_us_29y\" value=\""+v3_us_29y+"\" onblur=\"autosave('v3_us_29y');\"  oninput=\"v3('v3_us_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_us_34y\" id=\"v3_us_34y\" value=\""+v3_us_34y+"\" onblur=\"autosave('v3_us_34y');\"  oninput=\"v3('v3_us_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_us_39y\" id=\"v3_us_39y\" value=\""+v3_us_39y+"\" onblur=\"autosave('v3_us_39y');\"  oninput=\"v3('v3_us_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v3_us_44y\" id=\"v3_us_44y\" value=\""+v3_us_44y+"\" onblur=\"autosave('v3_us_44y');\"  oninput=\"v3('v3_us_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_us_49y\" id=\"v3_us_49y\" value=\""+v3_us_49y+"\" onblur=\"autosave('v3_us_49y');\"  oninput=\"v3('v3_us_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_us_50y\" id=\"v3_us_50y\" value=\""+v3_us_50y+"\" onblur=\"autosave('v3_us_50y');\"  oninput=\"v3('v3_us_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_us_total\" id=\"v3_us_total\" value=\""+v3_us_total+"\" tabindex=\"-1\"  onblur=\"autosave('v3_us_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -750,6 +784,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v3_srn_29y\" id=\"v3_srn_29y\" value=\""+v3_srn_29y+"\" onblur=\"autosave('v3_srn_29y');\"  oninput=\"v3('v3_srn_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srn_34y\" id=\"v3_srn_34y\" value=\""+v3_srn_34y+"\" onblur=\"autosave('v3_srn_34y');\"  oninput=\"v3('v3_srn_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srn_39y\" id=\"v3_srn_39y\" value=\""+v3_srn_39y+"\" onblur=\"autosave('v3_srn_39y');\"  oninput=\"v3('v3_srn_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v3_srn_44y\" id=\"v3_srn_44y\" value=\""+v3_srn_44y+"\" onblur=\"autosave('v3_srn_44y');\"  oninput=\"v3('v3_srn_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srn_49y\" id=\"v3_srn_49y\" value=\""+v3_srn_49y+"\" onblur=\"autosave('v3_srn_49y');\"  oninput=\"v3('v3_srn_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srn_50y\" id=\"v3_srn_50y\" value=\""+v3_srn_50y+"\" onblur=\"autosave('v3_srn_50y');\"  oninput=\"v3('v3_srn_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v3_srn_total\" id=\"v3_srn_total\" value=\""+v3_srn_total+"\" tabindex=\"-1\"  onblur=\"autosave('v3_srn_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -767,6 +802,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v3_t_29y\" id=\"v3_t_29y\" value=\""+v3_t_29y+"\" tabindex=\"-1\"  onblur=\"autosave('v3_t_29y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v3_t_34y\" id=\"v3_t_34y\" value=\""+v3_t_34y+"\" tabindex=\"-1\"  onblur=\"autosave('v3_t_34y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v3_t_39y\" id=\"v3_t_39y\" value=\""+v3_t_39y+"\" tabindex=\"-1\"  onblur=\"autosave('v3_t_39y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"v3_t_44y\" id=\"v3_t_44y\" value=\""+v3_t_44y+"\" tabindex=\"-1\"  onblur=\"autosave('v3_t_44y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v3_t_49y\" id=\"v3_t_49y\" value=\""+v3_t_49y+"\" tabindex=\"-1\"  onblur=\"autosave('v3_t_49y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v3_t_50y\" id=\"v3_t_50y\" value=\""+v3_t_50y+"\" tabindex=\"-1\"  onblur=\"autosave('v3_t_50y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v3_t_total\" id=\"v3_t_total\" value=\""+v3_t_total+"\" tabindex=\"-1\"  onblur=\"autosave('v3_t_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -778,7 +814,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
     
     v4 = "<table border=\"1px;\">"
         + "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">4. Circumcision Technique</td>"
+        + "<td colspan=\"14\" class=\"title\">4. Circumcision Technique</td>"
         + "</tr>"
 
         +""
@@ -793,7 +829,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td>25-29</td>"
         + "<td>30-34</td>"
         + "<td>35-39</td>"
-        + "<td>40-49</td>"
+        + "<td>40-44</td><td>45-49</td>"
         + "<td>50+</td>"
         + "<td>Totals</td>"
         + "</tr>"
@@ -809,6 +845,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v4_s_vmmc_29y\" id=\"v4_s_vmmc_29y\" value=\""+v4_s_vmmc_29y+"\"  onblur=\"autosave('v4_s_vmmc_29y');\"  oninput=\"v4('v4_s_vmmc_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_s_vmmc_34y\" id=\"v4_s_vmmc_34y\" value=\""+v4_s_vmmc_34y+"\"  onblur=\"autosave('v4_s_vmmc_34y');\"  oninput=\"v4('v4_s_vmmc_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_s_vmmc_39y\" id=\"v4_s_vmmc_39y\" value=\""+v4_s_vmmc_39y+"\"  onblur=\"autosave('v4_s_vmmc_39y');\"  oninput=\"v4('v4_s_vmmc_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v4_s_vmmc_44y\" id=\"v4_s_vmmc_44y\" value=\""+v4_s_vmmc_44y+"\" onblur=\"autosave('v4_s_vmmc_44y');\"  oninput=\"v4('v4_s_vmmc_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_s_vmmc_49y\" id=\"v4_s_vmmc_49y\" value=\""+v4_s_vmmc_49y+"\" onblur=\"autosave('v4_s_vmmc_49y');\"  oninput=\"v4('v4_s_vmmc_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_s_vmmc_50y\" id=\"v4_s_vmmc_50y\" value=\""+v4_s_vmmc_50y+"\" onblur=\"autosave('v4_s_vmmc_50y');\"  oninput=\"v4('v4_s_vmmc_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_s_vmmc_total\" id=\"v4_s_vmmc_total\" value=\""+v4_s_vmmc_total+"\" tabindex=\"-1\"  onblur=\"autosave('v4_s_vmmc_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -825,6 +862,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v4_db_vmmc_29y\" id=\"v4_db_vmmc_29y\" value=\""+v4_db_vmmc_29y+"\"  onblur=\"autosave('v4_db_vmmc_29y');\"  oninput=\"v4('v4_db_vmmc_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_db_vmmc_34y\" id=\"v4_db_vmmc_34y\" value=\""+v4_db_vmmc_34y+"\" onblur=\"autosave('v4_db_vmmc_34y');\"  oninput=\"v4('v4_db_vmmc_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_db_vmmc_39y\" id=\"v4_db_vmmc_39y\" value=\""+v4_db_vmmc_39y+"\"  onblur=\"autosave('v4_db_vmmc_39y');\"  oninput=\"v4('v4_db_vmmc_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v4_db_vmmc_44y\" id=\"v4_db_vmmc_44y\" value=\""+v4_db_vmmc_44y+"\"  onblur=\"autosave('v4_db_vmmc_44y');\"  oninput=\"v4('v4_db_vmmc_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_db_vmmc_49y\" id=\"v4_db_vmmc_49y\" value=\""+v4_db_vmmc_49y+"\"  onblur=\"autosave('v4_db_vmmc_49y');\"  oninput=\"v4('v4_db_vmmc_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_db_vmmc_50y\" id=\"v4_db_vmmc_50y\" value=\""+v4_db_vmmc_50y+"\"  onblur=\"autosave('v4_db_vmmc_50y');\"  oninput=\"v4('v4_db_vmmc_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v4_db_vmmc_total\" id=\"v4_db_vmmc_total\" value=\""+v4_db_vmmc_total+"\" tabindex=\"-1\"  onblur=\"autosave('v4_db_vmmc_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -841,6 +879,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v4_t_vmmc_29y\" id=\"v4_t_vmmc_29y\" value=\""+v4_t_vmmc_29y+"\" tabindex=\"-1\"  onblur=\"autosave('v4_t_vmmc_29y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v4_t_vmmc_34y\" id=\"v4_t_vmmc_34y\" value=\""+v4_t_vmmc_34y+"\" tabindex=\"-1\"  onblur=\"autosave('v4_t_vmmc_34y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v4_t_vmmc_39y\" id=\"v4_t_vmmc_39y\" value=\""+v4_t_vmmc_39y+"\" tabindex=\"-1\"  onblur=\"autosave('v4_t_vmmc_39y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
+        + "<td><input type=\"text\" name=\"v4_t_vmmc_44y\" id=\"v4_t_vmmc_44y\" value=\""+v4_t_vmmc_44y+"\" tabindex=\"-1\"  onblur=\"autosave('v4_t_vmmc_44y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v4_t_vmmc_49y\" id=\"v4_t_vmmc_49y\" value=\""+v4_t_vmmc_49y+"\" tabindex=\"-1\"  onblur=\"autosave('v4_t_vmmc_49y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v4_t_vmmc_50y\" id=\"v4_t_vmmc_50y\" value=\""+v4_t_vmmc_50y+"\" tabindex=\"-1\"  onblur=\"autosave('v4_t_vmmc_50y');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\"  style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
         + "<td><input type=\"text\" name=\"v4_t_vmmc_total\" id=\"v4_t_vmmc_total\" value=\""+v4_t_vmmc_total+"\" tabindex=\"-1\"  onblur=\"autosave('v4_t_vmmc_total');\" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -851,7 +890,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      
     v5 = "<table border=\"1px;\">"
         + "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">5. Number of Males circumcised within the reporting period who <u>return</u> atleast for postoperative follow-up care (routine or emergent) within 14 days of surgery:</td>"
+        + "<td colspan=\"14\" class=\"title\">5. Number of Males circumcised within the reporting period who <u>return</u> atleast for postoperative follow-up care (routine or emergent) within 14 days of surgery:</td>"
         + "</tr>"
 
         +""
@@ -866,7 +905,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td>25-29</td>"
         + "<td>30-34</td>"
         + "<td>35-39</td>"
-        + "<td>40-49</td>"
+        + "<td>40-44</td><td>45-49</td>"
         + "<td>50+</td>"
         + "<td>Totals</td>"
         + "</tr>"
@@ -882,6 +921,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v5_followup_29y\" id=\"v5_followup_29y\" value=\""+v5_followup_29y+"\" onblur=\"autosave('v5_followup_29y');\"  oninput=\"v5_followup('v5_followup_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v5_followup_34y\" id=\"v5_followup_34y\" value=\""+v5_followup_34y+"\"  onblur=\"autosave('v5_followup_34y');\"  oninput=\"v5_followup('v5_followup_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v5_followup_39y\" id=\"v5_followup_39y\" value=\""+v5_followup_39y+"\"  onblur=\"autosave('v5_followup_39y');\"  oninput=\"v5_followup('v5_followup_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v5_followup_44y\" id=\"v5_followup_44y\" value=\""+v5_followup_44y+"\" onblur=\"autosave('v5_followup_44y');\"  oninput=\"v5_followup('v5_followup_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v5_followup_49y\" id=\"v5_followup_49y\" value=\""+v5_followup_49y+"\" onblur=\"autosave('v5_followup_49y');\"  oninput=\"v5_followup('v5_followup_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v5_followup_50y\" id=\"v5_followup_50y\" value=\""+v5_followup_50y+"\" onblur=\"autosave('v5_followup_50y');\"  oninput=\"v5_followup('v5_followup_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v5_followup_total\" id=\"v5_followup_total\" value=\""+v5_followup_total+"\" tabindex=\"-1\"  onblur=\"autosave('v5_followup_total');\"  oninput=\"v5_followup('v5_followup_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
@@ -892,7 +932,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
                      
     v6 = "<table border=\"1px;\">"
         + "<tr border=\"1px;\">"
-        + "<td colspan=\"13\" class=\"title\">6. Number of Males circumcised within the reporting period who <u>have not returned</u> for postoperative follow-up care (routine or emergent) within 14 days of surgery:</td>"
+        + "<td colspan=\"14\" class=\"title\">6. Number of Males circumcised within the reporting period who <u>have not returned</u> for postoperative follow-up care (routine or emergent) within 14 days of surgery:</td>"
         + "</tr>"
 
         +""
@@ -907,7 +947,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td>25-29</td>"
         + "<td>30-34</td>"
         + "<td>35-39</td>"
-        + "<td>40-49</td>"
+        + "<td>40-44</td><td>45-49</td>"
         + "<td>50+</td>"
         + "<td>Totals</td>"
         + "</tr>"
@@ -923,6 +963,7 @@ String validated="&nbsp &nbsp Validated Form(s): <b>"+kmmpvalid+" </b>";
         + "<td><input type=\"text\" name=\"v6_nofollowup_29y\" id=\"v6_nofollowup_29y\" value=\""+v6_nofollowup_29y+"\"  onblur=\"autosave('v6_nofollowup_29y');\"  oninput=\"v6_nofollowup('v6_nofollowup_29y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v6_nofollowup_34y\" id=\"v6_nofollowup_34y\" value=\""+v6_nofollowup_34y+"\"  onblur=\"autosave('v6_nofollowup_34y');\"  oninput=\"v6_nofollowup('v6_nofollowup_34y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v6_nofollowup_39y\" id=\"v6_nofollowup_39y\" value=\""+v6_nofollowup_39y+"\"  onblur=\"autosave('v6_nofollowup_39y');\"  oninput=\"v6_nofollowup('v6_nofollowup_39y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
+        + "<td><input type=\"text\" name=\"v6_nofollowup_44y\" id=\"v6_nofollowup_44y\" value=\""+v6_nofollowup_44y+"\"  onblur=\"autosave('v6_nofollowup_44y');\"  oninput=\"v6_nofollowup('v6_nofollowup_44y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v6_nofollowup_49y\" id=\"v6_nofollowup_49y\" value=\""+v6_nofollowup_49y+"\"  onblur=\"autosave('v6_nofollowup_49y');\"  oninput=\"v6_nofollowup('v6_nofollowup_49y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v6_nofollowup_50y\" id=\"v6_nofollowup_50y\" value=\""+v6_nofollowup_50y+"\"  onblur=\"autosave('v6_nofollowup_50y');\"  oninput=\"v6_nofollowup('v6_nofollowup_50y'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" ></td>"
         + "<td><input type=\"text\" name=\"v6_nofollowup_total\" id=\"v6_nofollowup_total\" value=\""+v6_nofollowup_total+"\" tabindex=\"-1\"  onblur=\"autosave('v6_nofollowup_total');\"  oninput=\"v6_nofollowup('v6_nofollowup_total'); \" class=\"data-cell\" data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" maxLength=\"6\" onkeypress=\"return numbers(event)\" style=\"background-color:#DDDDDD;\"   readonly=\"true\"  ></td>"
