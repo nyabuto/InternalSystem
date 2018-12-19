@@ -319,10 +319,11 @@ CallableStatement cs = null;
       else{cell.setCellValue(value);}
       cell.setCellStyle(stylex);
       }
-   
+           System.out.println("Row pos : "+row);
    while (conn.rs.next()) {
     System.out.println("Name : " + conn.rs.getString(3));
     row++;
+    System.out.println("Row pos : .. "+row);
     XSSFRow RowData = sheet.createRow(row);
     
     for(int i=0;i<col_count; i++){ // read and output data
