@@ -28,6 +28,8 @@ public class loadform1a extends HttpServlet {
 String database_name,section_name,section_code,section_label,value="";
 int indic_counter;
   String save_data;
+  int num_saved_elems;
+  String btn_color = "blue";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -265,8 +267,8 @@ int indic_counter;
             output += "<div class=\"card\">\n" +
             "    <div class=\"card-header\" id=\"headingART\">\n" +
             "      <h5 class=\"mb-0\">\n" +
-            "        <button class=\"btn blue collapsed\" id=\"section_"+section_code+"\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapse"+section_code+"\" aria-expanded=\"false\" aria-controls=\"collapse"+section_code+"\" style=\"width:35%; text-align:left;\">\n" +
-            "          "+section_name+"\n" +
+            "        <button class=\"btn blue collapsed\"  id=\"section_"+section_code+"\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapse"+section_code+"\" aria-expanded=\"false\" aria-controls=\"collapse"+section_code+"\" style=\"width:35%; text-align:left;background-color:section_label_button_color;font-weight: bolder;\">\n" +
+            "          "+section_name+" &nbsp;&nbsp;&nbsp; section_label_tick\n" +
             "        </button>\n" +
             "      </h5>\n" +
             "    </div>\n" +
@@ -307,13 +309,13 @@ int indic_counter;
 
             main_indic_pos = 0;
             indic_counter = 0;
+            num_saved_elems=0;
             for (String main_indic : main_indicator) {
                 indic_pos = 0;
                 //System.out.println("main indicator pos = " + main_indic_pos);
               //System.out.println("main indicator  = " + main_indicator_string);
 //                System.out.println("Indicator id string = " + indicator_ids_string);
 //                System.out.println("Indicator id  = " + indicator_ids[main_indic_pos]);
-                
 
                 for (String indic_id : indicator_ids[main_indic_pos].split(",")) {
                     indic_counter++;
@@ -325,6 +327,7 @@ int indic_counter;
                     String get_data = "SELECT * FROM " + database_name + " WHERE id=?";
                     conn.pst = conn.conn.prepareStatement(get_data);
                     conn.pst.setString(1, tableid);
+                    System.out.println("query: "+conn.pst);
                     conn.rs = conn.pst.executeQuery();
                     if (conn.rs.next()) { // indicator data already exist
                         if(conn.rs.getString("is_locked")!=null){
@@ -335,6 +338,7 @@ int indic_counter;
                             
                         }
                         save_data="UPDATE ";
+                        num_saved_elems++;
                         output += "<tr>";
                         if (indic_pos == 0) {
                             output += "<td rowspan='" + main_indic_rowspan[main_indic_pos] + "'>" + main_indic + "</td>";
@@ -375,6 +379,7 @@ int indic_counter;
                         {
                             output += "<td rowspan='" + main_indic_rowspan[main_indic_pos] + "'>" + main_indic + "</td>";
                         }
+                        System.out.println(indicators[main_indic_pos]+"The indicator is : "+indicators[main_indic_pos].split(",")[indic_pos]);
                         output += "<td>" + indicators[main_indic_pos].split(",")[indic_pos] + "<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
                         for (String column_name : columns) {
 //                             System.out.println( " disabled columns  = " + disabledcolumns_arr[main_indic_pos].split("%")[indic_pos]);
@@ -404,6 +409,18 @@ int indic_counter;
          output+="<input type=\"hidden\" name=\"num_indicators\" id=\"num_indicators\" value=\""+indic_counter+"\">";
          output+="<input type=\"hidden\" name=\"table_name\" id=\"table_name\" value=\""+database_name+"\">";
 
+              System.out.println("num saved : "+num_saved_elems);
+         if(num_saved_elems>0){
+          output = output.replace("section_label_button_color", "green");
+          output = output.replace("section_label_tick", "<img src=\"images/checked.png\" style=\"\" alt=\"Entered\">");
+         }
+         else{
+           output = output.replace("section_label_button_color", "#0394ff");
+           output = output.replace("section_label_tick", "");
+//           output = output.replace("section_label_button_color", "red");
+         }
+         
+         
 //         output+="<p id=\"submit_name\">"+submit_button_name+"</p>";
          output+="<div class='form-actions' style=\"text-align:right;\"><label id='msg"+section_code+"' style='text-align:left;color:red;'></label> &nbsp;  <button type='button' class='btn blue' data-save_"+section_code+"='"+save_data+""+section_label+"'  onclick=\"loadValidation('"+database_name+"','"+section_code+"');\" name='validate' id='validate_"+section_code+"' style=\"font-weight:700; font-size:20px; width:20%;\">"+save_data+""+section_label+"</button></div>"
                  + "</form>"

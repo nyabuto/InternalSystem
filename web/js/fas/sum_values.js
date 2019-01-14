@@ -30,7 +30,7 @@ document.getElementById("total_"+indicator_id).value = total;
     }
     
     function section_saved(section_id){
-      $("#section_"+section_id).css('background','#0bb708');
+      $("#section_"+section_id).css('background','green');
       format_section(section_id);
     }
     

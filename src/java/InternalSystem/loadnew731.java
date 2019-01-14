@@ -1342,7 +1342,7 @@ s2_infant_feeding_for_HIVP_mothers="<fieldset class=\"formatter\"><legend class=
               + "</table>"
               + "<br></fieldset>";
        
-       
+      
        s3_on_CTX_Dapsone="<fieldset class=\"formatter\"><legend class=\"formatter\"><b style=\"text-align:center;\">3.6 On CTX/Dapsone.</b></legend><table style=\"margin-left:100px;\"><tr><td colspan=\"3\"><br></td></tr>"
               + "<tr>"
               + "<td style=\"padding:0 30px 0 35px;\">On CTX/DDS <1</td><td style=\"padding:0 30px 0 35px;\" >HV03-044</td><td style=\"padding:0 35px 0 35px;\"><input type=\"text\" name=\"HV03044\" id=\"HV03044\" value=\""+HV03044+"\"  data-toggle=\"tooltip\"  "+lock+"  data-placement=\"right\" autocomplete=\"off\" title=\"\" onblur=\"autosave('HV03044');\" maxLength=\"4\" onkeypress=\"return numbers(event)\" oninput=\"sumHV03050();\" style=\"width: 80px;\"></td>"

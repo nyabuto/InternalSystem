@@ -707,7 +707,7 @@ System.out.println(" viral load at position : "+i);
   public XSSFWorkbook EIDTST(XSSFSheet worksheetpREV,XSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
    
       //upload previous errors
-     // upload_eid_tst_prev_data(worksheetpREV); 
+      //upload_eid_tst_prev_data(worksheetpREV); 
       //end
       
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -734,7 +734,6 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 //    8. entry point
 
        conn.st.executeUpdate("TRUNCATE eid_cleaning");
-//       conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
        
 
         worksheet = eid.getSheetAt(0);
@@ -1717,7 +1716,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
 //         Check data against previosly reported data
 
         
-
+if(PCR_Type==null){PCR_Type="";}
       if(PCR_Type.contains("Initial PCR")){
 //          if(Sample_ID.equals("14510/2017/425")){
 //              System.out.println("Here sample code : "+Sample_ID);
@@ -1816,11 +1815,11 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
               
                 //check for confirmatory
              
-             if(Result.equalsIgnoreCase("Positive") && conn.rs1.getString("Result").equalsIgnoreCase("Positive")){
-                 //check the latest and convert int to confirmatory
-                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs1.getString("Date_Tested").replace("-", ""))){
+             if(Result.equalsIgnoreCase("Positive") && conn.rs1.getString("testresult").equalsIgnoreCase("Positive")){
+                 //check the latest and convert it to confirmatory
+                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs1.getString("datetested").replace("-", ""))){
                      
-                     if(Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs1.getString("Date_Tested").replace("-", ""))){
+                     if(Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs1.getString("datetested").replace("-", ""))){
                       // convert current to confirmatory 
                       CellPCR_Type.setCellValue("Confirmatory PCR and Baseline VL");
                       errors+="The PCR Type has been updated to Confirmatory PCR and Baseline VL. Data on the previous data set i.e 1 and 1/2 years ago has a positive record.\n";
@@ -1832,11 +1831,11 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
              
              //first test is positive and second is negative
               
-             if((Result.equalsIgnoreCase("Negative") && conn.rs1.getString("Result").equalsIgnoreCase("Positive"))){
+             if((Result.equalsIgnoreCase("Negative") && conn.rs1.getString("testresult").equalsIgnoreCase("Positive"))){
                  //check the latest and if negative flag out
-                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs1.getString("Date_Tested").replace("-", ""))){
+                 if(isNumeric(Date_Tested.replace("-", "")) && isNumeric(conn.rs1.getString("datetested").replace("-", ""))){
                      
-                     if((Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs1.getString("Date_Tested").replace("-", "")))){
+                     if((Integer.parseInt(Date_Tested.replace("-", ""))>Integer.parseInt(conn.rs1.getString("datetested").replace("-", "")))){
 
                       errors+="First Test result (from previous 1 and 1/2 years data) is Positive and this test result is Negative.\n";
                      }
@@ -1908,7 +1907,7 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
        worksheet.autoSizeColumn(31);     
       
        conn.st.executeUpdate("TRUNCATE eid_cleaning");
-       conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
+       //conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
        
                 //close connections
         if(conn.rs!=null){conn.rs.close();}
@@ -2093,8 +2092,6 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
         
         return eid;
     }
-    
-  
     
   public HSSFWorkbook TB(HSSFWorkbook tb,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
         String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility,date_of_registration;
@@ -3303,6 +3300,9 @@ public HSSFSheet copyRow(HSSFWorkbook wb, HSSFRow rowold,HSSFSheet toSheet, int 
 //  function to add temporary data
   
   public void upload_eid_tst_prev_data(XSSFSheet worksheet) throws SQLException{
+      
+     conn.st.executeUpdate("TRUNCATE eid_tested_prev"); // delete all data
+      
           int missing=0,added=0,updated=0;
           String dbname="eid_tested_prev";   
     String min_date="",max_date="",date_tested="",agebracket="",upload_message="";

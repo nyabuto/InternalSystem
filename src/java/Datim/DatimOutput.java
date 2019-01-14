@@ -274,7 +274,7 @@ CallableStatement cs = null;
       //  GET HEADERS FROM DB  
       String headers = conn.rs2.getString(3);
       String merging = conn.rs2.getString(4);
-           if(headers!=null){
+           if(headers!=null && !headers.equals("")){
                String headers_array[] = headers.split("@");
               
                for(String header:headers_array){ 
@@ -339,7 +339,7 @@ CallableStatement cs = null;
    
    
               
-           if(merging!=null){
+           if(merging!=null && !merging.equals("")){
                String headers_array[] = merging.split("@");
               
                for(String header:headers_array){

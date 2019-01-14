@@ -1169,6 +1169,10 @@
         <servlet-name>ewi</servlet-name>
         <servlet-class>reports.ewi</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Load_EID_Monthly_Data</servlet-name>
+        <servlet-class>LoadExcels.Load_EID_Monthly_Data</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2336,6 +2340,10 @@
     <servlet-mapping>
         <servlet-name>ewi</servlet-name>
         <url-pattern>/ewi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Load_EID_Monthly_Data</servlet-name>
+        <url-pattern>/Load_EID_Monthly_Data</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

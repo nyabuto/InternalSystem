@@ -1,8 +1,16 @@
 <%-- 
-    Document   : DataCleaner
-    Created on : Jul 11, 2018, 2:59:07 PM
+    Document   : UploadEID
+    Created on : Jan 14, 2019, 2:20:20 PM
     Author     : GNyabuto
 --%>
+<%-- 
+    Document   : loadTBExcel
+    Created on : Jul 27, 2015, 2:41:29 PM
+    Author     : Maureen
+--%>
+
+
+
 <%@page import="database.dbConn"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,12 +20,13 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Data Cleaning Module</title>
+   <title>Load EID Excel Data.</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/progress_bar.css">
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
    <link href="assets/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
@@ -40,6 +49,8 @@
 <link rel="stylesheet" href="select2/css/select2.css">
 <link rel="stylesheet" href="css/animate.css">
 
+
+                
                 <style>
                     
                     [data-notify="progressbar"] {
@@ -50,14 +61,7 @@
 	width: 100%;
 	height: 5px;
 }
-     div.scrollmenu {
-    overflow: auto;
-    white-space: nowrap;
-}  
-tr>td {
-  padding-bottom: 1em;
-  padding-right: 3em;
-}
+                    
                 </style>
                 
   
@@ -124,10 +128,13 @@ tr>td {
                   </h3>
                   
                   
+                  
+                  
+                  
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Excel Data Error checking module</a> 
+                        <a href="DataCleaner.jsp" style="margin-left:40%;">Check gaps in EID tested raw data to IMIS via excel.</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -140,37 +147,31 @@ tr>td {
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
-                     <div class="portlet-title">
-                        <h4 style="text-align:center;"><i class="icon-reorder"></i>Upload Excel Data for checking</h4>
-                       
+                     <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
+                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload EID Monthly Data</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated: 2019-01-15 10:09am </div>
                      </div>
-                     <div class="portlet-body form">
+                      
+                      
+                   <div  class="portlet-body form" id="progress_area" hidden="true">
+                     <div class="progress"  style="height: 35px;">
+                         <div class="progress-bar progress-bar-striped active" id="progess" role="progressbar" style="width: 0%;  padding-top: 10px; font-weight: 900;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>   
+                    </div> 
+                      
+                     <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
-                        <form action="DataCleaner" method="post" enctype="multipart/form-data" class="form-horizontal" style="margin: 0px 300px 0 300px">
-                           <div> <b style="color: red">NOTE:</b> <p style="font-weight: bold">Ensure you have done the following before uploading your file(s) for error checking.</p></div>
+                        <form action="Load_EID_Monthly_Data" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                       <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
+                        <br><br><br><br>
+                        <div class="form-actions">
+                              <button type="submit" class="btn blue">Upload Excel.</button>
+
+                           </div>
+                        <div class="form-actions" style="overflow-x: scroll;">
+                             <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the EID data has column headers arranged in following order </h4>
+                            
+                             <img src ="images/eid_data.PNG" alt="EID Excel data" style="height: 50%;">
                            
-                        <p>1. All the excel files are in <b>.xlsx</b> format</p>
-                        <p>2. All data in these files has borders. Data without borders will not be read into the system</p>
-                        <p>3. For <b>TB</b> Data, delete patient names column.</p>
-                           <br>  
-                          <table>
-                              <tr> <td><b>Report Type</b> </td><td><select name="report_type" id="report_type" value="" class="textbox" required>
-                                                      <option value="">Report Type</option>
-                                                      <option value="tb">TB</option>
-                                                      <option value="vl">Viral Load</option>
-                                                      <option value="eidtst">EID Tested</option>
-                                                      <option value="eidpos">EID POS</option>
-                                                      
-                                      </select></td> </tr>
-                         <tr id="tst_prev" hidden="true"> <td><b>Select [1 and 1/2 years] ago EID Tested data file :</b> </td><td><input type="file" name="file_name_prev" id="file_name_prev" value="" class="textbox"></td> </tr>
-                         <tr> <td><b id="current">Select File :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>
-                         <!--<tr> <td><b id="current">Select File :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>-->
-                          </table>
-                        <br><br>
-
-
-                           <div class="form-actions">
-                              <button type="submit" class="btn blue">Upload & Check File</button>
                         </div>
                         </form>
                         <!-- END FORM-->           
@@ -180,6 +181,11 @@ tr>td {
                </div>
             </div>
        
+          
+         
+          
+           
+         
           
             <!-- END PAGE CONTENT-->         
          </div>
@@ -242,24 +248,60 @@ tr>td {
      
 
 <script > 
-  $(document).ready(function(){
-       $("#tst_prev").hide();
-       $("#file_name_prev").removeAttr('required');
-       
-   $("#report_type").change(function(){
-      var report_type=$("#report_type").val();
-      if(report_type=="eidtst"){
-        $("#tst_prev").show();  
-        $("#current").html("Select Data File for Current Period:"); 
-        $("#file_name_prev").attr("required", true);
-      }
-      else{
-         $("#tst_prev").hide();     
-         $("#current").html("Select File :");  
-         $("#file_name_prev").removeAttr('required');
-      }
-   });   
-  });         
+     $(document).ready(function(){
+        $("#progress_area").hide();
+        $("#upload_area").show();
+         
+    $("form").submit(function(){
+        $("#progress_area").show();
+        $("#upload_area").hide();
+//        alert("data submitted");
+     setInterval(function() {
+      load_records();
+      }, 500);  
+    });
+     });
+     
+     function load_records(){
+             $.ajax({
+        url:'check_status?load_type=eid_tested',
+        type:"post",
+        dataType:"json",
+        success:function(response){
+//            alert("called");
+var per_value = response.count;
+var message = "["+per_value+"%] Complete "+response.message+" Records Scanned";
+
+    $("#progess").html(message);
+    $("#progess").css({'width':per_value+"%"}); 
+
+    if(per_value<30){
+     $("#progess").addClass('progress-bar-danger');  
+     $("#progess").removeClass('progress-bar-success'); 
+    }
+    if(per_value>=30 && per_value<60){
+     $("#progess").addClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');   
+    }
+    if(per_value>=60 && per_value<80){
+     $("#progess").addClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+    if(per_value>=90){
+     $("#progess").addClass('progress-bar-success'); 
+     $("#progess").removeClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+    $("#status").html(response);
+        }, 
+        error: function(jqXHR, textStatus, errorThrown) {
+       //error in loading upload status
+       $("#status").html(errorThrown);
+            }
+  });
+     }
 </script>
    
  <%if (session.getAttribute("upload_success") != null) { %>
@@ -269,7 +311,7 @@ tr>td {
                     
                          
       $.notify(
-      {icon: "images/checked.png", 
+      {icon: "images/validated.jpg", 
   message:'<%=session.getAttribute("upload_success")%>'},
       {
 	icon_type: 'image'
@@ -290,7 +332,15 @@ tr>td {
                             }
 
                         %>
- 
+     
+
+   <script>
+
+   </script>
+   
+   <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->
 </html>
+
+

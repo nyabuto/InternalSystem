@@ -162,8 +162,8 @@
                   <li ><a href="rawdata.jsp">Facility raw data</a></li>
                   <li><a href="staticFormData.jsp">Static Reports</a></li>
                   <li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>
-                   <!--<li><a href="datimReport.jsp">Datim Report</a></li>-->
-                   <li><a href="DatimOutput.jsp">Datim/Raw Report</a></li>
+                   <li><a href="datimReport.jsp">Datim Report</a></li>
+                   <li><a href="DatimOutput.jsp">Datim/Raw Reports [New]</a></li>
                    <li><a href="ewi.jsp">EWI Monthly Data</a></li>
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
                   <li ><a href="masterlist.jsp">Master List</a></li>
