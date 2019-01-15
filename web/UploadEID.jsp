@@ -161,17 +161,20 @@
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
                         <form action="Load_EID_Monthly_Data" method="post" enctype="multipart/form-data" class="form-horizontal" >
-                       <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
+                            <input type="file" name="file_name" id="upload" value="" class="textbox" multiple="true" required>   
                         <br><br><br><br>
                         <div class="form-actions">
                               <button type="submit" class="btn blue">Upload Excel.</button>
 
                            </div>
                         <div class="form-actions" style="overflow-x: scroll;">
-                             <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the EID data has column headers arranged in following order </h4>
-                            
+                             <h4 style="text-align: center; color:red;font-family: cambria; font-weight: bolder;">Note: Kindly ensure the excel file containing the EID data has column headers arranged in following order </h4><br>
+                             <%if(session.getAttribute("upload_output")!=null){
+                             out.println(session.getAttribute("upload_output").toString());
+                             session.removeAttribute("upload_output");
+                             } else{%>
                              <img src ="images/eid_data.PNG" alt="EID Excel data" style="height: 50%;">
-                           
+                           <%}%>
                         </div>
                         </form>
                         <!-- END FORM-->           
