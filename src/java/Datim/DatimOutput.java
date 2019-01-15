@@ -339,7 +339,7 @@ CallableStatement cs = null;
    
    
               
-           if(merging!=null && !merging.equals("")){
+           if(merging!=null){
                String headers_array[] = merging.split("@");
               
                for(String header:headers_array){
@@ -354,7 +354,22 @@ CallableStatement cs = null;
                 
                row++;    
                }
+               int ln=0;
+               if(headers.contains("@")){
+               ln=headers.split("@").length;
+               }
+               
+               sheet.createFreezePane(5, ln+1);
            }
+           else {
+           sheet.createFreezePane(5, 1);
+           }
+           
+           for (int e = 0; e < col_count; e++) {
+               sheet.autoSizeColumn(e);
+           }
+           
+           sheet.setDisplayGridlines(false);
        }
        
        
