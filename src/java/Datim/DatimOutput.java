@@ -57,13 +57,17 @@ public class DatimOutput extends HttpServlet {
     String start_date, end_date;
     String current_procedure, value;
     CallableStatement cs = null;
-
+    String filename=null; 
+    String categoryname=null; 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
         session = request.getSession();
         dbConn conn = new dbConn();
 
+    filename=""; 
+    categoryname=""; 
+        
         categories = request.getParameter("service_area");
         indicators = request.getParameter("indicators");
 
@@ -265,13 +269,18 @@ public class DatimOutput extends HttpServlet {
         System.out.println("start " + start_date + " end date: " + end_date);
 
         // get stored procedures      
-        String get_stored_procedures = "SELECT indicator_code,stored_procedure,headers,merging FROM datim_output WHERE " + where_indicators + " AND stored_procedure IS NOT NULL";
+        String get_stored_procedures = "SELECT indicator_code,stored_procedure,headers,merging,filename FROM datim_output WHERE " + where_indicators + " AND (stored_procedure IS NOT NULL AND is_active=1 )";
         conn.rs2 = conn.st2.executeQuery(get_stored_procedures);
         while (conn.rs2.next()) {
             row = 0;
             XSSFSheet sheet = wb.createSheet(conn.rs2.getString(1));
             stored_procedures = conn.rs2.getString(2) + "('" + start_date + "','" + end_date + "')";
-
+            
+            filename+=conn.rs2.getString(1)+"_";
+            
+            if (!categoryname.contains(conn.rs2.getString("filename"))) {
+                categoryname += conn.rs2.getString("filename") + "_";
+            }
             System.out.println("call " + stored_procedures);
 
             //  GET HEADERS FROM DB  
@@ -377,9 +386,9 @@ public class DatimOutput extends HttpServlet {
                     ln = headers.split("@").length;
                 }
 
-                sheet.createFreezePane(5, ln + 1);
+                sheet.createFreezePane(4, ln + 1);
             } else {
-                sheet.createFreezePane(5, 1);
+                sheet.createFreezePane(4, 1);
             }
 
             for (int e = 0; e < col_count; e++) {
@@ -390,13 +399,25 @@ public class DatimOutput extends HttpServlet {
 
         }
 
+        filename+=""+start_date+"_"+end_date.replace("-","_").replace(",","_");
+        
+        String f1="DATIM_REPORT_"+filename;
+        if(f1.length()>144){
+        f1="DATIM_REPORT_"+categoryname+start_date+"_"+end_date.replace("-","_").replace(",","_");
+        if(f1.length()>144){ f1="DATIM_REPORT_"+start_date+"_"+end_date.replace("-","_").replace(",","_");}
+        
+        }
+         
+        
+        System.out.println(f1.length());
+        
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
         byte[] outArray = outByteStream.toByteArray();
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=DATIM_OUTPUT_REPORT.xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename="+f1+".xlsx");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
         outStream.flush();
