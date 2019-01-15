@@ -26,10 +26,14 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.ComparisonOperator;
+import org.apache.poi.ss.usermodel.ConditionalFormattingRule;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.PatternFormatting;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.Region;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -202,7 +206,7 @@ CallableStatement cs = null;
          XSSFWorkbook wb = new XSSFWorkbook();     
               
          XSSFFont font=wb.createFont();
-    font.setFontHeightInPoints((short)18);
+    font.setFontHeightInPoints((short)16);
     font.setFontName("Cambria");
     font.setColor((short)0000);
     
@@ -224,7 +228,7 @@ CallableStatement cs = null;
     fontHeader.setBold(true);
     fontHeader.setFamily(FontFamily.MODERN);
     fontHeader.setFontName("Cambria");
-    fontHeader.setFontHeight(15);
+    fontHeader.setFontHeight(13);
     styleHeader.setFont(fontHeader);
     styleHeader.setWrapText(true);
     
@@ -257,7 +261,10 @@ CallableStatement cs = null;
     font_cell.setFamily(FontFamily.MODERN);
     font_cell.setFontName("Cambria");
     stborder.setFont(font_cell);
-    stborder.setWrapText(true);     
+    stborder.setWrapText(true);
+    
+    
+    
       
         System.out.println("start "+start_date+" end date: "+end_date);
               
@@ -326,12 +333,24 @@ CallableStatement cs = null;
     System.out.println("Row pos : .. "+row);
     XSSFRow RowData = sheet.createRow(row);
     
-    for(int i=0;i<col_count; i++){ // read and output data
-          value = conn.rs.getString(i+1);
-      XSSFCell cell = RowData.createCell(i);
-      if(isNumeric(value)){cell.setCellValue(Integer.parseInt(value));}
-      else{cell.setCellValue(value);}
-      cell.setCellStyle(stborder);
+       for (int i = 0; i < col_count; i++) { // read and output data
+           value = conn.rs.getString(i + 1);
+           XSSFCell cell = RowData.createCell(i);
+           if (isNumeric(value)) {
+               cell.setCellValue(Integer.parseInt(value));
+
+               if (value.contains("-")) {
+                  
+                   cell.setCellStyle(styleHeader);
+               } else {
+                   cell.setCellStyle(stborder);
+               }
+
+           } else {
+               cell.setCellValue(value);
+               cell.setCellStyle(stborder);
+           }
+      
       }
     
     } 
@@ -370,6 +389,9 @@ CallableStatement cs = null;
            }
            
            sheet.setDisplayGridlines(false);
+           
+
+           
        }
        
        
