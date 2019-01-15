@@ -180,7 +180,6 @@
                         <!-- END FORM-->           
                      </div>
                   </div>
-                  <!-- END SAMPLE FORM PORTLET-->
                </div>
             </div>
        

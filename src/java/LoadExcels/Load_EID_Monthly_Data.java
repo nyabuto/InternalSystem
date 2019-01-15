@@ -119,8 +119,7 @@ public class Load_EID_Monthly_Data extends HttpServlet {
                       if(worksheet.getRow(8).getCell(5)!=null){worksheet.getRow(8).getCell(5).setCellType(Cell.CELL_TYPE_STRING);}else{not_uploaded+="";}
                       if(worksheet.getRow(8).getCell(9)!=null){worksheet.getRow(8).getCell(9).setCellType(Cell.CELL_TYPE_STRING);}else{to_skip++; not_uploaded+="Missing MFL Code<br>";}
                       
-                      
-                     
+                     if(to_skip==0){
                       //reading data from the header columns
                       reporting_month = worksheet.getRow(6).getCell(7).getStringCellValue();
                       reporting_year = worksheet.getRow(6).getCell(9).getStringCellValue();
@@ -188,8 +187,6 @@ public class Load_EID_Monthly_Data extends HttpServlet {
               results = cell_5.getStringCellValue();
               
               
-               cell_6.setCellType(Cell.CELL_TYPE_STRING);
-              date_initiated_art = cell_6.getStringCellValue();
               
               
                cell_7.setCellType(Cell.CELL_TYPE_STRING);
@@ -204,7 +201,12 @@ public class Load_EID_Monthly_Data extends HttpServlet {
         }
         else{
            if (cell_3.getCellType()==1) {
-            dob = dateformat.format(cell_3.getDateCellValue());
+               try{
+            dob = dateformat.format(cell_3.getStringCellValue());
+               }
+               catch (Exception e){
+               dob = cell_3.getStringCellValue();    
+               }
         }
         else{
          dob = cell_3.getStringCellValue();
@@ -216,20 +218,50 @@ public class Load_EID_Monthly_Data extends HttpServlet {
         }
         else{
            if (cell_4.getCellType()==1) {
-            date_tested = dateformat.format(cell_4.getDateCellValue());
+               
+             try{
+            date_tested = dateformat.format(cell_4.getStringCellValue());
+               }
+               catch (Exception e){
+               date_tested = cell_4.getStringCellValue();    
+               }  
         }
         else{
          date_tested = cell_4.getStringCellValue();
         }
-            } 
+            }
+              
+              
+              
+              
+              
+              if(cell_6.getCellType()==0){
+          date_initiated_art =""+dateformat.format(cell_6.getDateCellValue());
+        }
+        else{
+           if (cell_6.getCellType()==1) {
+               
+             try{
+            date_initiated_art = dateformat.format(cell_6.getStringCellValue());
+               }
+               catch (Exception e){
+               date_initiated_art = cell_6.getStringCellValue();    
+               }  
+        }
+        else{
+         date_initiated_art = cell_6.getStringCellValue();
+        }
+            }
+              
+              
             String  record_issue=""; int num_recs=0;
        if(hei_no.length()<1) {num_recs++; record_issue+="Hei no,";}      
        if(sex.length()!=1) {num_recs++; record_issue+="Sex,";}      
        if(dob.length()!=10) {num_recs++; record_issue+="Date of Birth,";}      
        if(date_tested.length()!=10) {num_recs++; record_issue+="Date EID Tested,";}      
-       if(!(date_initiated_art.length()==3 || date_initiated_art.length()==10)) {num_recs++; record_issue+="Date Initiated on ART,";}
+//       if(!(date_initiated_art.length()==3 || date_initiated_art.length()==10)) {num_recs++; record_issue+="Date Initiated on ART,";}
        
-         if(record_issue.length()>0 && num_recs<5){not_uploaded+="Record with S/NO: "+serial_no+" not uplodaded because it is missing: "+record_issue+"<br>";}     
+         if(record_issue.length()>0 && num_recs<4){not_uploaded+="Record with S/NO: "+serial_no+" not uplodaded because it is missing: "+record_issue+"<br>";}     
          
          else{    
               //END
@@ -300,6 +332,10 @@ public class Load_EID_Monthly_Data extends HttpServlet {
 //                Missing basic info
             }
         }//facility exist
+                         }// details are ok basic info exist
+                         else{
+                          not_uploaded+="Missing basic information as highlighted above. <br>";   
+                         }
         }// of of data sheet
         } // loop through the data sheets
         }

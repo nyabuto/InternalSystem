@@ -130,8 +130,9 @@
                   <li ><a href="upload_tb_raw_data.jsp" Title="Tb raw data"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>
                   <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Data(.xls)</a></li>
                   <li ><a href="UploadVL.jsp"><i class="icon-plus"></i>Viral Load raw (.xlsx)</a></li>
-                  <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>EID Positive raw (.xlsx)</a></li>
-                  <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>EID tested raw (.xlsx)</a></li>
+<!--                  <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>EID Positive raw (.xlsx)</a></li>
+                  <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>EID tested raw (.xlsx)</a></li>-->
+                  <li ><a href="UploadEID.jsp"><i class="icon-plus"></i>EID Data (.xlsx)</a></li>
                   <li ><a href="Upload_CXCA.jsp"><i class="icon-plus"></i>Cervical Cancer (.xlsx)</a></li>
                   <li ><a href="Upload_PrePNew.jsp"><i class="icon-plus"></i>Upload PrEP New (.xlsx)</a></li>
                   <li ><a href="UploadDHISData.jsp"><i class="icon-plus"></i>DHIS Data (.xlsx)</a></li>
