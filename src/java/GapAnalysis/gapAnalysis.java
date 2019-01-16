@@ -405,25 +405,9 @@ int position = conn.rs.getInt("id");
  no_months=0;
  String running_query="";
  running_query=currentqry.replace("PAREA", active_section);
- if(position!=26){
  running_query=running_query.replace("YMONTH", ""+current_year);
-//replace Previous month for expected care and ART
-if(position==55 || position==56){
-  int prevmonth = prevmonth(current_year);  
-  running_query=running_query.replace("PMONTH", ""+prevmonth);
-  System.out.println("expected query: "+running_query);
- }
- }
- else{
-  String[] between_array = getmonthbetween(current_year).split("###");
-  String between = between_array[0];
-  no_months = Integer.parseInt(between_array[1]);
-  
-  running_query=running_query.replace("yearmonth=YMONTH", between)+" HAVING HV0116<"+no_months;
-  
- }
- 
- System.out.println("Query in "+position+" is : "+running_query);
+
+ System.out.println("Query in "+position+" is : ---"+running_query+"-----end");
  conn.rs1=conn.st1.executeQuery(running_query);
  while (conn.rs1.next()) {
     String value = "";
