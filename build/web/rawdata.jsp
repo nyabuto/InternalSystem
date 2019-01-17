@@ -268,7 +268,7 @@ dbConn conn = new dbConn();
                                  
                              
 %>
-                                       <option value="<%=conn.rs.getString("form")%>"><%=conn.rs.getString("form")%></option>                              
+                                       <option value="<%=conn.rs.getString("table_name")%>"><%=conn.rs.getString("form")%></option>                              
                                    <%}%>
                                  </select>
                               </div>
@@ -372,7 +372,7 @@ dbConn conn = new dbConn();
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; APHIAplus | USAID <%=year%>.
+       &copy; Afya Nyota Ya Bonde | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>
