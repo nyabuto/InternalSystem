@@ -147,7 +147,7 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="Load_tb_raw" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                        <form action="Load_tb_rawv2" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        
                             
                           <table class='table-striped' border='0'>
