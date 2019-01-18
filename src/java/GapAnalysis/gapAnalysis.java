@@ -425,7 +425,8 @@ int position = conn.rs.getInt("id");
         value = conn.rs1.getString("value");
     }
     else if(no_months>0){
-        value=String.valueOf(((conn.rs1.getInt("HV0116")*100)/no_months))+"%";
+//        value=String.valueOf(((conn.rs1.getInt("HV0116")*100)/no_months))+"%";
+          value = "0";
     }
  String mn_name="";
     switch (mn){

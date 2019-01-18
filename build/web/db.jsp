@@ -61,9 +61,9 @@
             data=$.trim(data);
 if(data=="success"){
      var timer=5;
-    var interv= setInterval(function(){ $(".validateTips1").html("<font color=\"green\"><b>Correct Connection Credentials. You will be redirected within "+timer+" seconds</b></font>"); timer--; }, 1000);
+    var interv= setInterval(function(){ $(".validateTips1").html("<font color=\"green\"><b>Correct Connection Credentials. You will be redirected within "+timer+" seconds to set up dashboards connection credentials.</b></font>"); timer--; }, 1000);
     $(".validateTips1").fadeOut(8000);
-    setTimeout(function(){ clearInterval(interv); $(".validateTips1").val("");timer=5; window.location.href="index.jsp";}, 5000);
+    setTimeout(function(){ clearInterval(interv); $(".validateTips1").val("");timer=5; window.location.href="db_dash.jsp";}, 5000);
 
 }
 else{

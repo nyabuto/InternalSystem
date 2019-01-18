@@ -121,12 +121,12 @@ public class Load_EID_Monthly_Data extends HttpServlet {
                       
                      if(to_skip==0){
                       //reading data from the header columns
-                      reporting_month = worksheet.getRow(6).getCell(7).getStringCellValue();
-                      reporting_year = worksheet.getRow(6).getCell(9).getStringCellValue();
-                      County = worksheet.getRow(8).getCell(1).getStringCellValue();
-                      sub_county = worksheet.getRow(8).getCell(3).getStringCellValue();
-                      facility = worksheet.getRow(8).getCell(5).getStringCellValue();
-                      mfl_code = worksheet.getRow(8).getCell(9).getStringCellValue();
+                      reporting_month = worksheet.getRow(6).getCell(7).getStringCellValue().trim();
+                      reporting_year = worksheet.getRow(6).getCell(9).getStringCellValue().trim();
+                      County = worksheet.getRow(8).getCell(1).getStringCellValue().trim();
+                      sub_county = worksheet.getRow(8).getCell(3).getStringCellValue().trim();
+                      facility = worksheet.getRow(8).getCell(5).getStringCellValue().trim();
+                      mfl_code = worksheet.getRow(8).getCell(9).getStringCellValue().trim();
                         
                       if(reporting_month.length()!=3){to_skip++; not_uploaded+="Wrong Month Code. We Expect month Name Like Jan, Feb etc<br>";}
                       if(reporting_year.length()!=4){to_skip++; not_uploaded+="Wrong reporting Year we expect year like 2018, 2019<br>";}
@@ -169,7 +169,7 @@ public class Load_EID_Monthly_Data extends HttpServlet {
             if(cell_0==null){break;}
             else{
               cell_0.setCellType(Cell.CELL_TYPE_STRING);
-              serial_no = cell_0.getStringCellValue();
+              serial_no = cell_0.getStringCellValue().trim();
               
               if(!isNumeric(serial_no)){
               break;    
@@ -177,20 +177,20 @@ public class Load_EID_Monthly_Data extends HttpServlet {
             }
              
              cell_1.setCellType(Cell.CELL_TYPE_STRING);
-              hei_no = cell_1.getStringCellValue();
+              hei_no = cell_1.getStringCellValue().trim();
              
                cell_2.setCellType(Cell.CELL_TYPE_STRING);
-              sex = cell_2.getStringCellValue();
+              sex = cell_2.getStringCellValue().trim();
               
              
                cell_5.setCellType(Cell.CELL_TYPE_STRING);
-              results = cell_5.getStringCellValue();
+              results = cell_5.getStringCellValue().trim();
               
               
               
               
                cell_7.setCellType(Cell.CELL_TYPE_STRING);
-              remarks = cell_7.getStringCellValue();
+              remarks = cell_7.getStringCellValue().trim();
             
              
               
@@ -202,14 +202,14 @@ public class Load_EID_Monthly_Data extends HttpServlet {
         else{
            if (cell_3.getCellType()==1) {
                try{
-            dob = dateformat.format(cell_3.getStringCellValue());
+            dob = dateformat.format(cell_3.getStringCellValue().trim());
                }
                catch (Exception e){
-               dob = cell_3.getStringCellValue();    
+               dob = cell_3.getStringCellValue().trim();    
                }
         }
         else{
-         dob = cell_3.getStringCellValue();
+         dob = cell_3.getStringCellValue().trim();
         }
             }
     
@@ -220,14 +220,14 @@ public class Load_EID_Monthly_Data extends HttpServlet {
            if (cell_4.getCellType()==1) {
                
              try{
-            date_tested = dateformat.format(cell_4.getStringCellValue());
+            date_tested = dateformat.format(cell_4.getStringCellValue().trim());
                }
                catch (Exception e){
-               date_tested = cell_4.getStringCellValue();    
+               date_tested = cell_4.getStringCellValue().trim();    
                }  
         }
         else{
-         date_tested = cell_4.getStringCellValue();
+         date_tested = cell_4.getStringCellValue().trim();
         }
             }
               
@@ -242,14 +242,14 @@ public class Load_EID_Monthly_Data extends HttpServlet {
            if (cell_6.getCellType()==1) {
                
              try{
-            date_initiated_art = dateformat.format(cell_6.getStringCellValue());
+            date_initiated_art = dateformat.format(cell_6.getStringCellValue().trim());
                }
                catch (Exception e){
-               date_initiated_art = cell_6.getStringCellValue();    
+               date_initiated_art = cell_6.getStringCellValue().trim();    
                }  
         }
         else{
-         date_initiated_art = cell_6.getStringCellValue();
+         date_initiated_art = cell_6.getStringCellValue().trim();
         }
             }
               

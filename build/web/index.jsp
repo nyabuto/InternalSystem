@@ -139,7 +139,8 @@
                         <img src="images/aphia_logo.png" style="border:1px solid #cbcdcc; padding:1%; width:410px;margin-left: 0%;"  />
                         
                         
-  </div>                 
+  </div>
+                        
   <!-- END LOGIN -->
     <div class="copyright" style="width:auto;">
    <div id="footer">
@@ -150,7 +151,7 @@ int year= cal.get(Calendar.YEAR);
 
 %>
 <br><br>
-               <p align="center" style=" font-size: 18px;"> &copy IMIS - HSDSA | USAID <%=year%></p>
+               <p align="center" style=" font-size: 18px;"> &copy IMIS - Afya Nyota Ya Bonde | USAID <%=year%></p>
             </div>
   </div>
   <!-- END COPYRIGHT -->
@@ -163,15 +164,15 @@ int year= cal.get(Calendar.YEAR);
   <script src="assets/js/app.js"></script>
   <script>
     jQuery(document).ready(function() {     
-       $.ajax({
-url:'facilityautobackup',
-type:'post',
-dataType:'html',
-success:function (data){
-        // $("#facility").chosen();
-}
-
-});
+//       $.ajax({
+//url:'facilityautobackup',
+//type:'post',
+//dataType:'html',
+//success:function (data){
+//        // $("#facility").chosen();
+//}
+//
+//});
  $.ajax({
 url:'validateTotals',
 type:'post',
