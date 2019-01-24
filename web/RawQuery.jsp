@@ -41,7 +41,7 @@
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
 <link rel="stylesheet" href="css/animate.css">
-
+<link href="linedtextarea/jquery-linedtextarea.css" type="text/css" rel="stylesheet" /> 
 
                 
                 <style>
@@ -58,7 +58,7 @@
 textarea {
   width: 32%;
   float: top;
-  min-height: 250px;
+  min-height: 450px;
   overflow: scroll;
   margin: auto;
   display: inline-block;
@@ -67,6 +67,9 @@ textarea {
   outline: none;
   font-family: BatangChe,'Book Antiqua';
   font-size: 14px;
+  width: 98%;
+  border-color: black;
+  font-size: 17px;
 }
                     
                 </style>
@@ -156,8 +159,11 @@ textarea {
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
                         <form action="RawQuery" method="post" class="form-horizontal" >
-                            <textarea name="query" id="query" value="" class="" spellcheck="false" placeholder="Enter your query here" required style="min-width: 98%; min-height: 200px; border-color: black; border: 2px 2px 2px 2px; font-size: 18px;"><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
+                            <textarea name="query" id="query" value="" class="lined" rows="10" cols="60" spellcheck="false" placeholder="Enter your query here" required><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
                         <br><br><br><br>
+                        
+                        
+                        
                         <div class="form-actions">
                             <button type="submit" class="btn blue" style="font-weight: bolder;">Execute Query</button>
 
@@ -212,7 +218,7 @@ textarea {
    <!-- Load javascripts at bottom, this will reduce page load time -->
    
 <script src="assets/js/jquery-1.8.3.min.js"></script>
-   
+<script src="linedtextarea/jquery-linedtextarea.js"></script>    
 
 <script type="text/javascript" src="js/bootstrap-notify.js"></script>
 
@@ -241,23 +247,21 @@ textarea {
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>  
    <script src="select2/js/select2.js"></script>
-  
-     
+   
 
-<script > 
-    function resizeTextarea (id) {
-  var a = document.getElementById(id);
-  a.style.height = 'auto';
-  a.style.height = a.scrollHeight+'px';
-}
+<script>
+$(function() {
 
-function init() {
-  var a = document.getElementsByTagName('textarea');
-  for(var i=0,inb=a.length;i<inb;i++) {
-     if(a[i].getAttribute('data-resizable')=='true')
-      resizeTextarea(a[i].id);
-  }
-   </script>
+  // Target all classed with ".lined"
+  $(".lined").linedtextarea(
+    {selectedLine: 1}
+  );
+
+  // Target a single one
+  $("#mytextarea").linedtextarea();
+
+});
+</script>
    
    <!-- END JAVASCRIPTS -->   
 </body>
