@@ -87,7 +87,6 @@ public class Load_EID_Monthly_Data extends HttpServlet {
         }
         else{
             not_uploaded+="<br><u>File Name:"+fileName+"</u></br>";
-            added=missing=0;
             full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
 
  System.out.println("the saved file directory is  :  "+full_path);
@@ -123,9 +122,9 @@ public class Load_EID_Monthly_Data extends HttpServlet {
                       //reading data from the header columns
                       reporting_month = worksheet.getRow(6).getCell(7).getStringCellValue().trim();
                       reporting_year = worksheet.getRow(6).getCell(9).getStringCellValue().trim();
-                      County = worksheet.getRow(8).getCell(1).getStringCellValue().trim();
-                      sub_county = worksheet.getRow(8).getCell(3).getStringCellValue().trim();
-                      facility = worksheet.getRow(8).getCell(5).getStringCellValue().trim();
+                      //County = worksheet.getRow(8).getCell(1).getStringCellValue().trim();
+                      //sub_county = worksheet.getRow(8).getCell(3).getStringCellValue().trim();
+                      //facility = worksheet.getRow(8).getCell(5).getStringCellValue().trim();
                       mfl_code = worksheet.getRow(8).getCell(9).getStringCellValue().trim();
                         
                       if(reporting_month.length()!=3){to_skip++; not_uploaded+="Wrong Month Code. We Expect month Name Like Jan, Feb etc<br>";}
@@ -182,18 +181,22 @@ public class Load_EID_Monthly_Data extends HttpServlet {
                cell_2.setCellType(Cell.CELL_TYPE_STRING);
               sex = cell_2.getStringCellValue().trim();
               
-             
+             if(cell_5==null){
+             results="";    
+             }
+             else{
                cell_5.setCellType(Cell.CELL_TYPE_STRING);
               results = cell_5.getStringCellValue().trim();
+             }
               
+              if(cell_7==null){
+                  remarks="";
+              }
               
-              
-              
+              else{
                cell_7.setCellType(Cell.CELL_TYPE_STRING);
               remarks = cell_7.getStringCellValue().trim();
-            
-             
-              
+              }
               //DATE CELLS 
               
               if(cell_3.getCellType()==0){

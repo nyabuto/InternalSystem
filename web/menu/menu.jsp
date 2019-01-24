@@ -166,6 +166,7 @@
                    <li><a href="datimReport.jsp">Datim Report</a></li>
                    <li><a href="DatimOutput.jsp">Datim/Raw Reports [New]</a></li>
                    <li><a href="ewi.jsp">EWI Monthly Data</a></li>
+                   <li><a href="RawQuery.jsp">Run Queries</a></li>
                   <li ><a href="DQA.jsp">DQA per Form</a></li>
                   <li ><a href="masterlist.jsp">Master List</a></li>
                   <li ><a href="T1SummaryReports.jsp">Training Report</a></li>

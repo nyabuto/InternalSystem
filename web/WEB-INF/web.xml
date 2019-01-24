@@ -1177,6 +1177,10 @@
         <servlet-name>Load_tb_rawv2</servlet-name>
         <servlet-class>LoadExcels.Load_tb_rawv2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RawQuery</servlet-name>
+        <servlet-class>reports.RawQuery</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2352,6 +2356,10 @@
     <servlet-mapping>
         <servlet-name>Load_tb_rawv2</servlet-name>
         <url-pattern>/Load_tb_rawv2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RawQuery</servlet-name>
+        <url-pattern>/RawQuery</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

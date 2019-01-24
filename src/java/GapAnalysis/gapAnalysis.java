@@ -118,11 +118,6 @@ pathtodelete=filepth;
     wb = new XSSFWorkbook(pkg);
 
             
-            
-            
-            
-            
-            
           dbConn conn= new dbConn();
           HashMap<String, String> rawdatahashmap= new HashMap<String,String>();
           
@@ -274,6 +269,7 @@ pathtodelete=filepth;
         shet.setColumnWidth(9, 4000); 
         shet.setColumnWidth(10, 4000); 
         shet.setColumnWidth(11, 4000); 
+        shet.setColumnWidth(12, 4000); 
         
         shetGap.setColumnWidth(0, 8000);  
         shetGap.setColumnWidth(1, 8000);  
@@ -380,8 +376,30 @@ nojustgap++;
       c11x.setCellStyle(stylex);
       
      Cell c12x= rwh.createCell(11);
-      c12x.setCellValue("Value");
+      c12x.setCellValue("Source");
       c12x.setCellStyle(stylex);
+      
+      //for moh731 against form1a
+     Cell c13x= rwh.createCell(12);
+      c13x.setCellValue("MOH731");
+      c13x.setCellStyle(stylex);
+     Cell c14x= rwh.createCell(13);
+      c14x.setCellValue("FORM1A");
+      c14x.setCellStyle(stylex);
+     Cell c15x= rwh.createCell(14);
+      c15x.setCellValue("Variance i.e MOH731-Form1A");
+      c15x.setCellStyle(stylex);
+      
+      //form1a & moh731
+     Cell c16x= rwh.createCell(15);
+      c16x.setCellValue("L.H.S Value");
+      c16x.setCellStyle(stylex);
+     Cell c17x= rwh.createCell(16);
+      c17x.setCellValue("R.H.S Value");
+      c17x.setCellStyle(stylex);
+     Cell c18x= rwh.createCell(17);
+      c18x.setCellValue("Variance i.e L.H.S Value-R.H.S Value");
+      c18x.setCellStyle(stylex);
      
       for(int a=0;a< Sections.length; a++){
       
@@ -397,6 +415,7 @@ nojustgap++;
  String rule = conn.rs.getString("explanation");
  String gap = conn.rs.getString("rule");
  String currentqry=conn.rs.getString("query");
+ String source=conn.rs.getString("source");
      System.out.println("gaps are : "+gap);
 int position = conn.rs.getInt("id");
  int i=0;
@@ -522,18 +541,56 @@ int position = conn.rs.getInt("id");
       
      Cell c11= rwx.createCell(10);
       c11.setCellValue(longitude);
-      c11.setCellStyle(style2);     
+      c11.setCellStyle(style2);
       
      Cell c12= rwx.createCell(11);
-      if(isNumeric(value)){
-      c12.setCellValue(Integer.parseInt(value));
-      }
-      else{
-      c12.setCellValue(value);   
-      }
+      c12.setCellValue(source);
+      c12.setCellStyle(style2);     
       
-      c12.setCellStyle(style2); 
+            Cell c13= rwx.createCell(12);
+            Cell c14= rwx.createCell(13);
+            Cell c15= rwx.createCell(14); 
+            
+     int value1,value2,variance;
+                
+      if(running_query.contains("AS moh731")){
+       value1 = conn.rs1.getInt("moh731");
+       value2 = conn.rs1.getInt("form1a");
+       variance = value1-value2;
+       
+      //moh731 vs form1a
+      c13.setCellValue(value1);   
+      c14.setCellValue(value2);   
+      c15.setCellValue(variance);   
       
+     
+      }// end of moh731 vs form1a
+            c13.setCellStyle(style2); 
+            c14.setCellStyle(style2); 
+            c15.setCellStyle(style2); 
+      
+             Cell c16= rwx.createCell(15);
+             Cell c17= rwx.createCell(16);
+             Cell c18= rwx.createCell(17);
+         
+        if(running_query.contains("AS Num1")){      
+      //moh731 & form1a
+      
+       value1 = conn.rs1.getInt("Num1");
+       value2 = conn.rs1.getInt("Num2");
+       variance = value1-value2;
+       
+      //moh731 vs form1a
+      c16.setCellValue(value1);   
+      c17.setCellValue(value2);   
+      c18.setCellValue(variance); 
+      
+      //end
+    }
+            c16.setCellStyle(style2); 
+            c17.setCellStyle(style2); 
+            c18.setCellStyle(style2); 
+         
     }
       //my key is a 
 //      String mykey=active_section+conn.rs1.getString("SubPartnerNom")+"_"+current_year+"_";
