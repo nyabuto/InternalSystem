@@ -324,6 +324,10 @@ String genexpert="";
                            System.out.println(" agestring M Only "+agestring+" _ "+age); 
                               
                           }
+                          else {
+                          age= new Integer(agestring.trim());
+                          
+                          }
                           
                           ageinteger=age;
                           agebracket=getageBracket(ageinteger);
