@@ -51,14 +51,20 @@ int indic_counter;
             
                       
                       
-            String output="", lock, enterdby, validity, Header;
+            String output="", lock="",lockUser = "", enterdby, validity, Header;
 
-            String year, month, yearmonth, isLocked,facil;
+            String year, month, yearmonth, isLocked,isLockedUser,facil;
 
 
             year = "";
             month = "";
             facil = "";
+            //if a user is only allowed to read the data
+            String userreadonly="";
+            
+            if (session.getAttribute("f1a_readonly") != null) {
+                userreadonly = session.getAttribute("f1a_readonly").toString();
+            }
 
             if (session.getAttribute("year") != null) {
                 year = session.getAttribute("year").toString();
@@ -96,10 +102,13 @@ int indic_counter;
               }
             }
             
+           // System.out.println("Supported services : "+supported_services);
+            //From the facility supported services, load the list of indications in the indicators table source
             
             
           String getsections = "SELECT section_name,database_name FROM fas_indicators "+supported_services+" GROUP BY section";
-            System.out.println(""+getsections);
+          
+            //System.out.println(""+getsections);
           conn.rs2 = conn.st2.executeQuery(getsections);
           while(conn.rs2.next()){
             database_name = conn.rs2.getString("database_name");
@@ -126,7 +135,7 @@ int indic_counter;
             String columns[] = {"m_uk", "f_uk", "m_1", "f_1", "m_4", "f_4", "m_9", "f_9", "m_14", "f_14", "m_19", "f_19", "m_24", "f_24", "m_29", "f_29", "m_34", "f_34", "m_39", "f_39", "m_44", "f_44", "m_49", "f_49", "m_50", "f_50","total"};
             //load indicators from the table
             String tbls = "select * from fas_indicators where database_name='" + database_name + "' and is_active='1' AND ("+supported_services.replace("WHERE", "")+") order by order_no asc";
-
+              System.out.println("indicators per table :"+tbls);
             conn.rs = conn.st.executeQuery(tbls);
 
             while (conn.rs.next()) {
@@ -251,6 +260,15 @@ int indic_counter;
 
             yearmonth = pepfaryear + "" + tempmonth;
             isLocked = "0";
+            
+            
+            if(userreadonly.equals("1")){
+              isLockedUser = "1";
+                lockUser = " tabindex='-1' readonly='true' ";
+                
+                
+            }
+            
             String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND form1a=?";
             conn.pst = conn.conn.prepareStatement(locked_DATA);
             conn.pst.setString(1, yearmonth);
@@ -258,7 +276,7 @@ int indic_counter;
             conn.rs = conn.pst.executeQuery();
             if (conn.rs.next()) {
                 isLocked = "1";
-                lock = "readonly=\"true\"";
+                lock = " tabindex='-1' readonly='true' ";
             }
 
               System.out.println("is indicator locked?"+isLocked);
@@ -333,7 +351,7 @@ int indic_counter;
                         if(conn.rs.getString("is_locked")!=null){
                             if(conn.rs.getString("is_locked").equals("1")){
                               isLocked = "1";
-                                lock = "readonly=\"true\"";   
+                                lock = " tabindex='-1' readonly='true' ";   
                             }
                             
                         }
@@ -358,11 +376,14 @@ int indic_counter;
                             
                             String isreadonly = "";
                             String autocalc = "";
-                            
+                           
                             
                             if (disabledcolumns_arr[main_indic_pos].split("%")[indic_pos].contains("," + column_name + ",")) {
                                 isreadonly = " tabindex='-1' readonly='true' ";
                             }
+                            
+                             if(!lockUser.equals("")){isreadonly=lockUser;}
+                             
                             
                             if (autocalculate_arr[main_indic_pos].split("%")[indic_pos]!=null && !autocalculate_arr[main_indic_pos].split("%")[indic_pos].trim().equals("") ) {
                                 autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
@@ -387,11 +408,15 @@ int indic_counter;
                             String isreadonly = "";
                             String autocalc = "";
                             
+                           
+                            
                             if (disabledcolumns_arr[main_indic_pos].split("%")[indic_pos].contains("," + column_name + ",")) 
                             {
                                 isreadonly = " tabindex='-1' readonly='true' ";
                             }
                             
+                             if(!lockUser.equals("")){isreadonly=lockUser;}
+                             
                             if (autocalculate_arr[main_indic_pos].split("%")[indic_pos]!=null && !autocalculate_arr[main_indic_pos].split("%")[indic_pos].trim().equals("") ) {
                                 autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
                             }
@@ -430,7 +455,7 @@ int indic_counter;
                 "  </div>\n" +
                 "  </div>";
          
-        }
+        }//end of sections while loop
 
         
         out.println(output);

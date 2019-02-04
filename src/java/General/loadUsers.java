@@ -24,9 +24,9 @@ import javax.servlet.http.HttpSession;
  */
 public class loadUsers extends HttpServlet {
 HttpSession session;
-String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC,checkedGapanalysis,checkedHTS,checkedART,checkedPMTCT;
+String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC,checkedGapanalysis,checkedHTS,checkedART,checkedPMTCT,checkedF1a,checkedF1a_readonly;
 String data;
-int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads,gapanalysis,hts,art,pmtct;
+int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads,gapanalysis,hts,art,pmtct,f1a,f1a_readonly;
 String userid,fname,mname,lname,username,fullname,Access;
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -51,18 +51,18 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 + "<th>Access Gender</th>"
 + "<th>Access Nutrition</th>"
 + "<th>Access KMMP</th>"
-+ "<th>Access TB</th>"
++ "<th>Access F1</th>"
 + "<th>Access VMMC</th>"
 + "<th>Gap Analysis</th>"
 + "<th>HTS</th>"
 + "<th>ART</th>"
-+ "<th>PMTCT</th>"
++ "<th>F1 ReadOnly</th>"
 + "</tr></thead>";
          
           String getAllUsers="SELECT * FROM user";
           conn.rs=conn.st.executeQuery(getAllUsers);
           while(conn.rs.next()){
-checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP=checkedGapanalysis=checkedHTS=checkedART=checkedPMTCT="";
+checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP=checkedGapanalysis=checkedHTS=checkedART=checkedPMTCT=checkedF1a_readonly=checkedF1a="";
          position++;
          
         userid=conn.rs.getString("userid");
@@ -80,7 +80,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         management=conn.rs.getInt("access_maintenance");
         moh711=conn.rs.getInt("access_moh711");
         moh731=conn.rs.getInt("access_moh731");
-        tb=conn.rs.getInt("access_tb");
+        f1a=conn.rs.getInt("access_form1a");
         gender=conn.rs.getInt("access_gender");
         nutrition=conn.rs.getInt("access_nutrition");
         kmmp=conn.rs.getInt("access_kmmp");
@@ -89,13 +89,13 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         gapanalysis=conn.rs.getInt("gapanalysis");
         hts=conn.rs.getInt("access_hts");
         art=conn.rs.getInt("access_art");
-        pmtct=conn.rs.getInt("access_pmtct");
+        f1a_readonly=conn.rs.getInt("readonly_form1a");
         
         if(report==1){checkedReport="checked";}      
         if(management==1){checkedManagement="checked";}      
         if(moh711==1){checked711A="checked";}      
         if(moh731==1){checkedmoh731="checked";}
-        if(tb==1){checkedTB="checked";}
+        if(f1a==1){checkedF1a="checked";}
         if(gender==1){checkedGender="checked";}
         if(nutrition==1){checkedNutrition="checked";}
         if(kmmp==1){checkedKMMP="checked";}
@@ -104,7 +104,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         if(gapanalysis==1){checkedGapanalysis="checked";}
         if(hts==1){checkedHTS="checked";}
         if(art==1){checkedART="checked";}
-        if(pmtct==1){checkedPMTCT="checked";}
+        if(f1a_readonly==1){checkedF1a_readonly="checked";}
 
  data+="<tr id="+userid+">"
          + "<input type=\"hidden\" name=\"userid_"+position+"\" value=\""+userid+"\" id=\"userid_"+position+"\">";       
@@ -120,12 +120,12 @@ data+="<td><input type=\"checkbox\" name=\"access_moh731_"+position+"\" onchange
 data+="<td><input type=\"checkbox\" name=\"access_gender_"+position+"\" onchange=\"return updator('access_gender##"+position+"');\" id=\"access_gender##"+position+"\" style=\"width:20px;\" "+checkedGender+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_nutrition_"+position+"\" onchange=\"return updator('access_nutrition##"+position+"');\" id=\"access_nutrition##"+position+"\" style=\"width:20px;\" "+checkedNutrition+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_kmmp_"+position+"\" onchange=\"return updator('access_kmmp##"+position+"');\" id=\"access_kmmp##"+position+"\" style=\"width:20px;\" "+checkedKMMP+" ></td>"; 
-data+="<td><input type=\"checkbox\" name=\"access_tb_"+position+"\" onchange=\"return updator('access_tb##"+position+"');\" id=\"access_tb##"+position+"\" style=\"width:20px;\" "+checkedTB+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"access_form1a_"+position+"\" onchange=\"return updator('access_form1a##"+position+"');\" id=\"access_form1a##"+position+"\" style=\"width:20px;\" "+checkedF1a+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_vmmc_"+position+"\" onchange=\"return updator('access_vmmc##"+position+"');\" id=\"access_vmmc##"+position+"\" style=\"width:20px;\" "+checkedVMMC+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"gapanalysis_"+position+"\" onchange=\"return updator('gapanalysis##"+position+"');\" id=\"gapanalysis##"+position+"\" style=\"width:20px;\" "+checkedGapanalysis+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_hts_"+position+"\" onchange=\"return updator('access_hts##"+position+"');\" id=\"access_hts##"+position+"\" style=\"width:20px;\" "+checkedHTS+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_art_"+position+"\" onchange=\"return updator('access_art##"+position+"');\" id=\"access_art##"+position+"\" style=\"width:20px;\" "+checkedART+" ></td>"; 
-data+="<td><input type=\"checkbox\" name=\"access_pmtct_"+position+"\" onchange=\"return updator('access_pmtct##"+position+"');\" id=\"access_pmtct##"+position+"\" style=\"width:20px;\" "+checkedPMTCT+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"readonly_form1a_"+position+"\" onchange=\"return updator('readonly_form1a##"+position+"');\" id=\"readonly_form1a##"+position+"\" style=\"width:20px;\" "+checkedF1a_readonly+" ></td>"; 
 data+="</tr>";
 
     }
