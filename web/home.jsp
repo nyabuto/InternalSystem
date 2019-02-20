@@ -213,7 +213,7 @@
                             
                          
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Go to Form</button>
+                              <button type="submit" class="btn blue">Open Form</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
                            </div>
                         </form>
