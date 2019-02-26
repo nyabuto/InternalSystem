@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -45,6 +46,9 @@ public class LoadAllVLData extends HttpServlet {
   String min_date="",max_date="",date_tested="";
   String value_vl="";
   String upload_message="";
+  
+  SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+  
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -88,6 +92,7 @@ public class LoadAllVLData extends HttpServlet {
         int rowCount = worksheet.getLastRowNum();
         int i=1,y=0;
         while(rowIterator.hasNext()){
+           
 //            session.removeAttribute("viral_load");
             query = "INSERT INTO vl_validation SET ";
             query_update = "UPDATE vl_validation SET ";
@@ -98,13 +103,33 @@ public class LoadAllVLData extends HttpServlet {
         if( rowi==null){
          break;}
         value_vl="";
-        
+     
        for (String label : columns){
           
            XSSFCell cell = rowi.getCell((short) colmnscounter);
             if(cell==null){
                 break;
             }
+            
+             else if("DOB,Date_Collected,Date_Received,Date_Tested,Date_Dispatched,ART_Initiation_Date".contains(label)){
+            if(cell.getCellType()==1){
+              value = cell.getStringCellValue(); 
+            }
+            else{
+                try{
+              value = dateformat.format(cell.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 value="";   
+                }
+            }
+            if(label.equalsIgnoreCase("Date_Tested")){
+              date_tested =  value; 
+            }
+                System.out.println(i+" nowdate : "+value);
+            }
+             
+             
             else{
                switch (cell.getCellType()) {
                    case 0:
@@ -128,7 +153,7 @@ public class LoadAllVLData extends HttpServlet {
                       value="F";
                   }
             } 
-               
+             }  
                
                if(value==null){
           query+=label+"="+value+",";
@@ -147,12 +172,9 @@ public class LoadAllVLData extends HttpServlet {
                }
                }
             
-            }
+            
             if(colmnscounter==8){
                 mfl_code = value;
-            }
-            if(label.equalsIgnoreCase("Date_Tested")){
-              date_tested =  value; 
             }
             
             if(label.equalsIgnoreCase("Value")){

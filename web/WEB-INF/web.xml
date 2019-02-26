@@ -1181,6 +1181,10 @@
         <servlet-name>RawQuery</servlet-name>
         <servlet-class>reports.RawQuery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EIDPrevData</servlet-name>
+        <servlet-class>DataCleaning.EIDPrevData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2360,6 +2364,10 @@
     <servlet-mapping>
         <servlet-name>RawQuery</servlet-name>
         <url-pattern>/RawQuery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EIDPrevData</servlet-name>
+        <url-pattern>/EIDPrevData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

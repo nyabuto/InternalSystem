@@ -1,6 +1,6 @@
 <%-- 
-    Document   : DataCleaner
-    Created on : Jul 11, 2018, 2:59:07 PM
+    Document   : EIDPrevData
+    Created on : Feb 21, 2019, 4:32:25 PM
     Author     : GNyabuto
 --%>
 <%@page import="database.dbConn"%>
@@ -12,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Data Cleaning Module</title>
+   <title>Uploading EID 18 Months Data</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -39,8 +39,7 @@
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
 <link rel="stylesheet" href="css/animate.css">
-
-                <style>
+  <style>
                     
                     [data-notify="progressbar"] {
 	margin-bottom: 0px;
@@ -74,7 +73,7 @@ p{
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder; margin-bottom: 20px;">IMIS Error Checking Module</h1><br/>
+            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder; margin-bottom: 20px;">Previous, 18 Months EID Data</h1><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -130,7 +129,7 @@ p{
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">EID Error checking module</a> 
+                        <a href="#" style="margin-left:40%;">Previous, 18 Months EID Datae</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -144,50 +143,24 @@ p{
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4 style="text-align:center;"><i class="icon-reorder"></i>Upload EID Excel File for checking</h4>
+                        <h4 style="text-align:center;"><i class="icon-reorder"></i>Upload EID Previous, 18 Months EID Data</h4>
                        
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="DataCleaner" method="post" enctype="multipart/form-data" class="form-horizontal" style="margin: 0px 300px 0 300px">
-                           <div> <b style="color: red">NOTE:</b> <p style="font-weight: bold">Ensure you have done the following before uploading your file(s) for error checking.</p></div>
+                        <form action="EIDPrevData" method="post" enctype="multipart/form-data" class="form-horizontal" style="margin: 0px 300px 0 300px">
                            
-                        <p>1. All the excel files are in <b>.xlsx</b> format</p>
-                        <p>2. All data in these files has borders. Data without borders will not be read into the system</p>
-                        <p>3. Data for prior period, i.e 18 months has already been pre-populated.</p>
-                           <br>  
+                         <br>  
                           <table>
                             
-                                 <tr> <td><b>Report Type</b> </td><td><select name="report_type" id="report_type" value="" class="textbox" required>
-                                                      <option value="">Report Type</option>
-                                                      <!--<option value="tb">TB</option>-->
-                                                      <!--<option value="vl">Viral Load</option>-->
-                                                      <option value="eidtst" selected="">EID Tested</option>
-                                                      <!--<option value="eidpos">EID POS</option>-->
-                                                      
-                                      </select></td> </tr>
-                                 
-                              <tr> 
-                                  <td><b>Reporting Period Start Date</b> </td>
-                                  <td>    <input name="start_date" id="start_date" autocomplete="off" class="form-control" placeholder="e.g yyyy-mm-dd"  required="true">
-                                   </td> 
-                              </tr>
-                              <tr> 
-                                  <td><b>Reporting Period End Date</b> </td>
-                                  <td> 
-                                      <input name="end_date" id="end_date" autocomplete="off" class="form-control" placeholder="e.g yyyy-mm-dd"  required="true">
-                                  </td> 
-                              </tr>
-                           
-                         <tr id="tst_prev" hidden="true"> <td><b>Select [1 and 1/2 years] ago EID Tested data file :</b> </td><td><input type="file" name="file_name_prev" id="file_name_prev" value="" class="textbox"></td> </tr>
-                         <tr> <td><b id="current">Select File :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>
+                        <tr> <td><b id="current">Select [1 and 1/2 years] ago EID Tested data file :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>
                          <!--<tr> <td><b id="current">Select File :</b> </td><td><input type="file" name="file_name" id="upload" value="" class="textbox" required></td> </tr>-->
                           </table>
                         <br><br>
 
 
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Upload & Check File</button>
+                              <button type="submit" class="btn blue">Upload Now</button>
                         </div>
                         </form>
                         <!-- END FORM-->           
@@ -227,9 +200,6 @@ p{
 
 <script type="text/javascript" src="js/bootstrap-notify.js"></script>
 
-
-      
-   
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   

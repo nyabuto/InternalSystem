@@ -41,6 +41,7 @@ String report_type,start_date,end_date;
 String full_path="";
 String fileName="";
 File file_source;
+boolean unsupported=true;
 private static final long serialVersionUID = 205242440643911308L;
 private static final String UPLOAD_DIR = "uploads";
       XSSFSheet worksheet=null;
@@ -53,9 +54,10 @@ private static final String UPLOAD_DIR = "uploads";
         
         report_type = request.getParameter("report_type");
       
-        start_date = "2018-10-01";
-        end_date = "2018-12-31";
+        start_date = request.getParameter("start_date");
+        end_date = request.getParameter("end_date");
         
+        unsupported=false;
         
       OPCPackage pkg  = null;
 //      SXSSFWorkbook wb = null;
@@ -95,8 +97,9 @@ private static final String UPLOAD_DIR = "uploads";
         wb_prev = new XSSFWorkbook(fileInputStream);
         worksheet = wb_prev.getSheetAt(0);
             System.out.println("full path : "+full_path);
-            
-         
+        }
+        else{
+          unsupported=true;  
         }
         }
         
@@ -245,6 +248,11 @@ private static final String UPLOAD_DIR = "uploads";
         outStream.close(); 
 
     }
+        
+        else{
+          session.setAttribute("upload_success", "<font color=\"red\"></b>ERROR: YOU HAVE UPLOADED AN UNSUPPORTED DOCUMENT FORMAT. WE ALLOW .xlsx or xls.</b></red>");
+            response.sendRedirect("DataCleaner.jsp");
+        }
         
 //        
 //        IdGenerator IG = new IdGenerator();

@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
     String[] columns =  {"orderno","samplecode","batchno","testinglab","County","Sub_County","Partner","Facility","Mflcode","sex","dob","age_months","PCR_Type","enrollment_ccc","datecollected","datereceived","datetested","datedispatched","infantprophylaxis","receivedstatus","lab_comment","repeat_rejection_reason","spots","breastfeeding","entrypoint","testresult","pmtct_intervention","hivstatus_mum","mother_age","mother_cccno","mother_lastVL"};
     String query="",query_update="",value,checker_query,Age_Months;
     String year,quarter,SubPartnerID,mfl_code,month,yearmonth,id,samplecode,system_id;
+      SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
      added=missing=0;   
@@ -101,6 +103,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
             if(cell==null){
                 break;
             }
+            
+             else if("dob,datecollected,datereceived,datetested,datedispatched".contains(label)){
+            if(cell.getCellType()==1){
+              value = cell.getStringCellValue(); 
+            }
+            else{
+                try{
+              value = dateformat.format(cell.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 value="";   
+                }
+            }
+            if(label.equals("datetested")){
+               date_tested =  value; 
+            }
+                System.out.println(i+" nowdate : "+value);
+            }
+            
             else{
                switch (cell.getCellType()) {
                    case 0:
@@ -151,9 +172,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
             if(colmnscounter==11){
                Age_Months =  value; 
             }
-            if(colmnscounter==16){
-               date_tested =  value; 
-            }
             
             colmnscounter++;
        }
@@ -201,6 +219,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
         
         session.setAttribute("eid_tested", "<b>"+i+"/"+rowCount+"</b>");
         session.setAttribute("eid_tested_count", (i*100)/rowCount);
+        System.out.println("CURRENT EID Test date : "+date_tested);
         compare_date(date_tested);
             System.out.println("Current date : "+date_tested+" Min date : "+min_date+" max date : "+max_date);
             i++;

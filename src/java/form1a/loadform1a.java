@@ -147,7 +147,7 @@ int indic_counter;
                 if (conn.rs.getString("lastspanrow").equals("1")) {
 
                     indicator_ids_string += "" + conn.rs.getString("id") + "$,";
-                    indicators_string += "" + conn.rs.getString("indicator") + "$,";
+                    indicators_string += "" + conn.rs.getString("indicator")+"<br><b style=\"color: #6c00ff\">["+conn.rs.getString("code")+"]</b>" + "$,";
                     main_indicator_string += "" + conn.rs.getString("main_indicator") + ",";
                     main_indic_rowspan_String += "" + rowspancount + ",";
 
@@ -163,15 +163,13 @@ int indic_counter;
                     } else {
                         autocalculatestring += " " + "$%";
                     }
-                    
-
-                    
+                   
 
                     rowspancount = 0;
                 } else {
 
                     indicator_ids_string += conn.rs.getString("id") + ",";
-                    indicators_string += conn.rs.getString("indicator") + ",";
+                    indicators_string += conn.rs.getString("indicator")+"<br><b style=\"color: #6c00ff\">["+conn.rs.getString("code")+"]</b>" + ",";
 
                     if (conn.rs.getString("disabledcolumns") != null) {
                         disabledcolumnsstring += conn.rs.getString("disabledcolumns") + "%";
@@ -362,8 +360,11 @@ int indic_counter;
                             output += "<td rowspan='" + main_indic_rowspan[main_indic_pos] + "'>" + main_indic + "</td>";
                         }
                         output += "<td>" + indicators[main_indic_pos].split(",")[indic_pos] + "<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
+                        System.out.println("column length :"+columns.length);
+                        int col_counter=0;
                         for (String column_name : columns) {
-                            
+                            col_counter++;
+                            System.out.println("column counter : "+col_counter);
                              if(conn.rs.getString(column_name)!=null){
                                 value = conn.rs.getString(column_name);
 //                                if(isNumeric(value)){
@@ -389,8 +390,19 @@ int indic_counter;
                                 autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
                             }
                             
+                            System.out.println("is readonly:-"+isreadonly+"-autocalc:"+autocalc);
+                            if(isreadonly.equals("")){
+                                if(col_counter==columns.length){
+                             output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                                }
+                                else{
                             output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); \" onkeyup=\"sum_indicators('"+indic_id+"'); "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
-                        }
+                                }
+                                }
+                            else{
+                            output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                            }
+                            }
                         output += "<p id='" + indic_id + "'></p></tr>";
                     } else { // new indicator
                         save_data="SAVE ";
@@ -402,13 +414,13 @@ int indic_counter;
                         }
                         System.out.println(indicators[main_indic_pos]+"The indicator is : "+indicators[main_indic_pos].split(",")[indic_pos]);
                         output += "<td>" + indicators[main_indic_pos].split(",")[indic_pos] + "<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
+                        int col_counter=0;
                         for (String column_name : columns) {
+                            col_counter++;
 //                             System.out.println( " disabled columns  = " + disabledcolumns_arr[main_indic_pos].split("%")[indic_pos]);
                             
                             String isreadonly = "";
                             String autocalc = "";
-                            
-                           
                             
                             if (disabledcolumns_arr[main_indic_pos].split("%")[indic_pos].contains("," + column_name + ",")) 
                             {
@@ -421,7 +433,17 @@ int indic_counter;
                                 autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
                             }
 
-                            output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"');  \" onkeyup=\"sum_indicators('"+indic_id+"'); "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                            if(isreadonly.equals("")){
+                                if(col_counter==columns.length){
+                                   output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                                }
+                                else{
+                                output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"');  \" onkeyup=\"sum_indicators('"+indic_id+"'); "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                                }
+                                }
+                            else{
+                                 output += "<td><input " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
+                            }
                                                            }
                         output += "<p id='" + indic_id + "'></p></tr>";
                     }
