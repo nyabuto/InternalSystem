@@ -12,7 +12,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Uploading EID 18 Months Data</title>
+   <title>Uploading EID 1&#189; Yrs Data</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -73,7 +73,7 @@ p{
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder; margin-bottom: 20px;">Previous, 18 Months EID Data</h1><br/>
+            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder; margin-bottom: 20px;">Previous, <b>1&#189;</b> Yrs EID Data</h1><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -129,7 +129,7 @@ p{
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Previous, 18 Months EID Datae</a> 
+                        <a href="#" style="margin-left:40%;">Previous, <b>1&#189;</b> Yrs EID Datae</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -143,7 +143,7 @@ p{
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4 style="text-align:center;"><i class="icon-reorder"></i>Upload EID Previous, 18 Months EID Data</h4>
+                        <h4 style="text-align:center;"><i class="icon-reorder"></i>Upload EID Previous, <b>1&#189;</b> Yrs EID Data</h4>
                        
                      </div>
                      <div class="portlet-body form">

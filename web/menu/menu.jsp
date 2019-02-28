@@ -143,12 +143,13 @@
               <li class="has-sub ">
                <a href="#">
                <i class="icon-edit"></i>
-               <span class="title">Data Cleaning Module</span>
+               <span class="title">Data Error Checking</span>
                <span class="arrow "></span>
                </a>
                 <ul class="sub">
                     
-                  <li ><a href="DataCleaner.jsp" Title="EID Clean data module"><i class="icon-plus"></i>EID Data(.xlsx)</a></li>
+                  <li ><a href="DataCleaner.jsp" Title="EID Clean data module"><i class="icon-plus"></i>EID Error Checking(.xlsx)</a></li>
+                  <li ><a href="EIDPrevData.jsp" Title="EID Clean data module"><i class="icon-plus"></i>Load <b>1&#189;</b> Yrs ago data(.xlsx)</a></li>
                </ul>
             </li>
             

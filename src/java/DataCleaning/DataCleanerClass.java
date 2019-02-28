@@ -1058,7 +1058,7 @@ if(PCR_Type==null){PCR_Type="";}
             conn.rs1 = conn.pst.executeQuery();
             if(conn.rs1.next()){
                 int issue_grouped=0;
-                if((isNumeric(Age_Months) && !Age_Months.equals("")) || ageInMonths<=0){
+                if((isNumeric(Age_Months) && (!Age_Months.equals("")) || ageInMonths<=0)){
                     double entered_age = -1;
                     if((isNumeric(Age_Months) && !Age_Months.equals(""))){
                             entered_age=Double.parseDouble(Age_Months);
@@ -1070,18 +1070,19 @@ if(PCR_Type==null){PCR_Type="";}
                        issue_grouped++;
 //                        CellPCR_Type.setCellStyle(borderstyle);
                    }
-                   if((entered_age>=6 && Double.parseDouble(Age_Months)<12) || (ageInMonths>=6 && ageInMonths<12)) {
+                   else if((entered_age>=6 && Double.parseDouble(Age_Months)<12) || (ageInMonths>=6 && ageInMonths<12)) {
                            CellPCR_Type.setCellValue("2nd PCR (6 months)"); 
                            errors+="Updated PCR Type to 2nd PCR (6 months) because the record previously exist.\n";
                            issue_grouped++;
                             CellPCR_Type.setCellStyle(redstyle);
                    }
-                   if(entered_age>=12 || ageInMonths>=12) {
+                   else if(entered_age>=12 || ageInMonths>=12) {
                            CellPCR_Type.setCellValue("3rd PCR (12 months)");   
                        errors+="Updated PCR Type to 3rd PCR (12 months) because the record previously exist.\n";
                        issue_grouped++;
                         CellPCR_Type.setCellStyle(redstyle);
                    }
+                   else{}
                    
                    if(issue_grouped==0){
                  CellPCR_Type.setCellValue("2nd PCR (6 months)");  
@@ -1169,15 +1170,12 @@ if(PCR_Type==null){PCR_Type="";}
                      }
                  }
              }
-             
              //end of checking for this first positive then negative
             } 
       
       
         //END OF LEVEL 3 Checking
-      
-      
-       //ADD DATA TO THE DATABASE FOR COMPARISON
+      //ADD DATA TO THE DATABASE FOR COMPARISON
          
          String query_to_add="REPLACE INTO eid_cleaning SET num=?,SystemID=?,Sample_ID=?,Batch=?,Lab_Tested_In=?,County=?,Sub_County=?,Partner=?,Facilty=?,Facility_Code=?,Gender=?,DOB=?,Age_Months=?,PCR_Type=?,Enrollment_CCC_No=?,Date_Collected=?,Date_Received=?,Date_Tested=?,Date_Dispatched=?,Infant_Prophylaxis=?,Received_Status=?,Lab_Comment=?,Reason_for_Repeat=?,Spots=?,Feeding=?,Entry_Point=?,Result=?,PMTCT_Intervention=?,Mother_Result=?,Mother_Age=?,Mother_CCC_No=?,Mother_Last_VL=?";
          conn.pst = conn.conn.prepareStatement(query_to_add);

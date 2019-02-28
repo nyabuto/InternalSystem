@@ -74,7 +74,7 @@ p{
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder; margin-bottom: 20px;">IMIS Error Checking Module</h1><br/>
+            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder; margin-bottom: 20px;">EID Error Checking Module</h1><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
