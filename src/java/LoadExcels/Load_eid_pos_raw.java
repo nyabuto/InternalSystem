@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -52,6 +53,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   String min_date="",max_date="",date_tested="";
   String value_vl="";
   String upload_message="",samplecode="",quarter="",system_id;
+ SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -110,6 +112,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
             if(cell==null){
                 break;
             }
+            
+             else if("DOB,collectiondate,Date_Received,testingdate,Date_Dispatched,treatment_init_date".contains(label)){
+            if(cell.getCellType()==1){
+              value = cell.getStringCellValue(); 
+            }
+            else{
+                try{
+              value = dateformat.format(cell.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 value="";   
+                }
+            }
+            if(label.equals("testingdate")){
+               date_tested =  value; 
+            }
+                System.out.println(i+" nowdate : "+value);
+            }
+             
             else{
                switch (cell.getCellType()) {
                    case 0:
@@ -156,9 +177,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
             }
             if(colmnscounter==8){
                 mfl_code = value;
-            }
-            if(colmnscounter==16){
-               date_tested =  value; 
             }
             
             colmnscounter++;
