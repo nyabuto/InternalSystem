@@ -1185,6 +1185,10 @@
         <servlet-name>EIDPrevData</servlet-name>
         <servlet-class>DataCleaning.EIDPrevData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>downloadTemplate</servlet-name>
+        <servlet-class>form1a.downloadTemplate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2368,6 +2372,10 @@
     <servlet-mapping>
         <servlet-name>EIDPrevData</servlet-name>
         <url-pattern>/EIDPrevData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadTemplate</servlet-name>
+        <url-pattern>/downloadTemplate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
