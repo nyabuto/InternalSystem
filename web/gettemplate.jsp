@@ -173,7 +173,7 @@ legend.formatter {
 <!--                 <div class=\"notifications top-left"><a href="#" class="close" data-dismiss="alert"></a> here we are</div>
                  -->
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
-                  <form action="LockData" method="post" class="form-horizontal" style="min-height: 450px;">
+                  <form action="downloadTemplate" method="post" class="form-horizontal" style="min-height: 450px;">
                       <br/>
                       <h4 class='btn-block btn-info btn-lg' style='text-align:center;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional </h4>
                       <br/>
@@ -192,27 +192,29 @@ legend.formatter {
                                                 Calendar cal= Calendar.getInstance();
                                                 int curyear=cal.get(Calendar.YEAR);
                                                  int curmn=cal.get(Calendar.MONTH)+1;
-                                                
+                                                String selected="";
                                                 if(curmn>=10){curyear=curyear+1;}
                                                 
-                                            for(int a=curyear-2;a<=curyear;a++)
+                                            for(int a=curyear-1;a<=curyear;a++)
                                             {
-                                               
+                                               if(a==curyear){selected=" selected ";} else { selected=" ";   }
                                                 
                                                 if(session.getAttribute("yr")!=null){
                                                   
                                                 if(new Integer(session.getAttribute("yr").toString())==a){
-                                                 System.out.println(" Mwaaka ni "+session.getAttribute("yr")+" vs "+a);  
-                                                 out.println("<option selected value='"+a+"'>"+a+"</option>");
+                                                  
+                                                    
+                                                    
+                                                 out.println("<option "+selected+" value='"+a+"'>"+a+"</option>");
                                                 }
                                                 else {
-                                                 out.println("<option value='"+a+"'>"+a+"</option>");
+                                                 out.println("<option "+selected+" value='"+a+"'>"+a+"</option>");
                                                 }
                                                 
                                                                                      }
                                                 else {
                                                 
-                                             out.println("<option value='"+a+"'>"+a+"</option>");
+                                             out.println("<option "+selected+" value='"+a+"'>"+a+"</option>");
                                              
                                                 }
                                                 %>
@@ -224,12 +226,17 @@ legend.formatter {
                                             %>                                
                                    
                                  </select>
-                                </td></tr>
+                                </td>
+                             
+                             <td><label class=" btn-success btn-large">Save currently selected county, subcounty and facilities</label></td>
+                             
+                             
+                             </tr>
                              <tr><td><br></td></tr>
                                <tr><td> 
                                 <b>Month</b> <font color="red">*</font>
                                    </td><td>
-                                  <select  multiple placeholder="Month" required class="span4 m-wrap" style="width: 300px; height:150px;" tabindex="-1"  id="month" name="month" onchange="">
+                                  <select  multiple placeholder="Month" required class="span4 m-wrap" style="width: 300px;" size="12" tabindex="-1"  id="month" name="month" onchange="">
                                     <option value=""></option>
                                  </select>
                                   </td></tr>
@@ -238,7 +245,7 @@ legend.formatter {
                                  <tr><td> 
                                     <b>County</b> <font color="red"></font>
                                </td><td>
-                               <select placeholder="County" onchange="loadsubcounty();" style="width: 300px;"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                               <select placeholder="County" onchange="loadsubcounty();" style="width: 300px;" required=""  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                                    </td></tr>
@@ -246,7 +253,7 @@ legend.formatter {
                                     <tr><td> 
                                     <b>Sub-County</b> <font color="red"></font>
                                </td><td>
-                                <select data-placeholder="Sub-County" onchange="loadfacils();" style="width: 300px;"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
+                                <select multiple data-placeholder="Sub-County" onchange="loadfacils();" size="8" style="width: 300px;"  class="span6 m-wrap" tabindex="-1"  id="subcounty" name="subcounty">
                                     <option value="">Select County First</option>
                                  </select>
                                     </td></tr>
@@ -396,7 +403,7 @@ return true;
 });
 
                $.ajax({
-url:'loadFacilities',
+url:'loadMultipleFacilities',
 type:'post',
 dataType:'html',
 success:function (data){
@@ -442,6 +449,9 @@ success:function (data){
     
     
        function loadsubcounty(){
+           
+           
+           
         
         var county=document.getElementById("county").value;
         $.ajax({
@@ -450,6 +460,8 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#subcounty").html(data);
+                var select = document.getElementById('subcounty');
+                    select.size = select.length;
                 
               //  App.init();   
             }
@@ -459,10 +471,12 @@ success:function (data){
         
     }
     
-       function loadfacils(){
-      var subcounty=document.getElementById("subcounty").value;  
-                    $.ajax({
-url:'loadFacilities?subcounty='+subcounty,
+       function loadfacils()
+{
+      var subcounty=$("#subcounty").val();
+      
+$.ajax({
+url:'loadMultipleFacilities?subcounty='+subcounty,
 type:'post',
 dataType:'html',
 success:function (data){
@@ -480,9 +494,7 @@ success:function (data){
 
 
 }); 
-         
-         
-        }
+}
     
  
  loadcounty();

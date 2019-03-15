@@ -79,17 +79,21 @@ public class updatedbpword extends HttpServlet {
                             
     String allpath = getServletContext().getRealPath("/dbase.txt");
         String mydrive = allpath.substring(0, 1);
+        String templatespath="";
         //dbconnpath=mydrive+":\\MNHC_SYSTEM_APHIA_PLUS\\"; 
        if(OSValidator.isWindows()){
       dbconnpath=mydrive+":\\HSDSA\\InternalSystem\\DO_NOT_DELETE\\_\\_\\."; 
+      templatespath=mydrive+":\\HSDSA\\InternalSystem\\F1a\\Templates"; 
         }
         else if(OSValidator.isUnix()){
         dbconnpath="/HSDSA/InternalSystem/DO_NOT_DELETE/_/_/.";     
+        templatespath="/HSDSA/InternalSystem/F1a/Templates";     
         } 
       //create a directory
       
       // new File(dbconnpath).mkdir();
      new File(dbconnpath).mkdirs();
+     new File(templatespath).mkdirs();
         
         
         

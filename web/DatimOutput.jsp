@@ -553,7 +553,7 @@ success:function (data){
             success:function (data){
                 $("#indicators").html(data);
                 $("#indicators").select2(); 
-           }
+                                   }
         });
         
     }

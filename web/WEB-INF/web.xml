@@ -1189,6 +1189,18 @@
         <servlet-name>downloadTemplate</servlet-name>
         <servlet-class>form1a.downloadTemplate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadMultipleFacilities</servlet-name>
+        <servlet-class>General.loadMultipleFacilities</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveFavoriteSites</servlet-name>
+        <servlet-class>form1a.saveFavoriteSites</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadFavoriteSites</servlet-name>
+        <servlet-class>form1a.loadFavoriteSites</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2376,6 +2388,18 @@
     <servlet-mapping>
         <servlet-name>downloadTemplate</servlet-name>
         <url-pattern>/downloadTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadMultipleFacilities</servlet-name>
+        <url-pattern>/loadMultipleFacilities</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveFavoriteSites</servlet-name>
+        <url-pattern>/saveFavoriteSites</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadFavoriteSites</servlet-name>
+        <url-pattern>/loadFavoriteSites</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
