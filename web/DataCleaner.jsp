@@ -154,8 +154,12 @@ p{
                            
                         <p>1. All the excel files are in <b>.xlsx</b> format</p>
                         <p>2. All data in these files has borders. Data without borders will not be read into the system</p>
-                        <p>3. Data for prior period, i.e 18 months has already been pre-populated.</p>
-                           <br>  
+                        <p>3. Data for prior period, i.e 1&#189; Years needs to be pre-populated. You need to confirm if the dates below are right. </p>
+                           <br>
+                           <p id="prev_period" style="font-weight: bold; color: red;">
+                           </p>
+                           
+                           <br>
                           <table>
                             
                                  <tr> <td><b>Report Type</b> </td><td><select name="report_type" id="report_type" value="" class="textbox" required>
@@ -260,6 +264,7 @@ p{
 
 <script > 
   $(document).ready(function(){
+      load_prev_data_dates();
        $("#tst_prev").hide();
        $("#file_name_prev").removeAttr('required');
        
@@ -293,7 +298,28 @@ p{
                              startDate: '-1y',
                              endDate: '+0d'
                             }); 
-  });         
+  }); 
+  
+  function load_prev_data_dates(){
+    $.ajax({        
+    url:"load_prev_data_dates",
+    type:'post',
+    dataType:'html',
+    success:function (data){
+        var response = JSON.parse(data);
+        if(response.min_date!=null && response.max_date!=null){
+        $('#prev_period').html("<b style=\"color: green\">The previous 1&#189; Years data we have in the system ranges from <b id=\"min_date\" style=\"color:red\">date 1</b> to <b id=\"max_date\" style=\"color:red\">date 2</b>. <a href=\"EIDPrevData.jsp\"> Click Here to Load Previous Data Now </a><br><br> <b style=\"color:blue\">If this is not the right data, you need to re-upload the right data before running this module.</b>");  
+        $('#min_date').html(response.min_date);
+        $('#max_date').html(response.max_date);
+    }
+    else{
+       $('#prev_period').html("<b style=\"red\">Previous 1&#189; Years data has not been loaded into the system. <a href=\"EIDPrevData.jsp\"> Click Here to Load Previous Data Now </a>. </b>");  
+    }
+        
+    }
+    });
+  }
+  
 </script>
    
  <%if (session.getAttribute("upload_success") != null) { %>

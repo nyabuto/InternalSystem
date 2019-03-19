@@ -5,6 +5,7 @@
  */
 package DataCleaning;
 
+import database.OSValidator;
 import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -41,8 +41,8 @@ HSSFSheet worksheet1=null;
 
 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+  throws ServletException, IOException, SQLException {
         
          dbConn conn = new dbConn();
          
@@ -64,6 +64,7 @@ SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         }
         if(fileName.endsWith(".xlsx")){
         full_path=fileSaveDir2.getAbsolutePath()+"\\"+fileName;
+        if(OSValidator.isUnix()){ full_path=fileSaveDir2.getAbsolutePath()+"/"+fileName;  }
         FileInputStream fileInputStream = new FileInputStream(full_path);
         wb_prev = new XSSFWorkbook(fileInputStream);
         worksheet = wb_prev.getSheetAt(0);

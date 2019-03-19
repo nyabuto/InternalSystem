@@ -9,16 +9,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
-        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
         <script src="assets/js/jquery-1.8.3.min.js"></script>  
         <title></title>
         
         <script>
-            
-            
             
    jQuery(document).ready(function() {       
          // initiate layout and plugins
@@ -30,7 +26,6 @@
    });
             
         </script>
-        
     </head>
     <body>
 
@@ -85,8 +80,7 @@
             
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",kmmp,")){%> 
             <li class=""  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("KMMP")){  %> style="display:none;" <%} } else { %> style="display:none;"<%} %>>
-             
-                <a href="loadKmmp.jsp">
+               <a href="loadKmmp.jsp">
                <span class="title">KMMP</span>
                </a>
             </li>

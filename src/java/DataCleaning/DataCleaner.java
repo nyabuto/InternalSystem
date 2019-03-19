@@ -6,6 +6,7 @@
 package DataCleaning;
 
 import General.IdGenerator;
+import database.OSValidator;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -117,12 +118,14 @@ private static final String UPLOAD_DIR = "uploads";
         }
         if(fileName.endsWith(".xls")){
         full_path=fileSaveDir2.getAbsolutePath()+"\\"+fileName;
+        if(OSValidator.isUnix()){ full_path=fileSaveDir2.getAbsolutePath()+"/"+fileName;  }
         FileInputStream fileInputStream = new FileInputStream(full_path);
         wb_prev2 = new HSSFWorkbook(fileInputStream);
         worksheet1 = wb_prev2.getSheetAt(0);
         }
         else if(fileName.endsWith(".xlsx")){
         full_path=fileSaveDir2.getAbsolutePath()+"\\"+fileName;
+        if(OSValidator.isUnix()){ full_path=fileSaveDir2.getAbsolutePath()+"/"+fileName;  }
         FileInputStream fileInputStream = new FileInputStream(full_path);
         wb_prev = new XSSFWorkbook(fileInputStream);
         worksheet = wb_prev.getSheetAt(0);
@@ -151,6 +154,7 @@ private static final String UPLOAD_DIR = "uploads";
         }
         if(fileName.endsWith(".xls")){
     full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+     if(OSValidator.isUnix()){ full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;  }
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
       FileInputStream fileInputStream = new FileInputStream(full_path);
@@ -216,6 +220,7 @@ private static final String UPLOAD_DIR = "uploads";
         }
         else if(fileName.endsWith(".xlsx")){ //FOR xlsx
           full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+           if(OSValidator.isUnix()){ full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;  }
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
       FileInputStream fileInputStream = new FileInputStream(full_path);
