@@ -1197,7 +1197,7 @@
         <servlet-name>saveFavoriteSites</servlet-name>
         <servlet-class>form1a.saveFavoriteSites</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>loadFavoriteSites</servlet-name>
         <servlet-class>form1a.loadFavoriteSites</servlet-class>
     </servlet>
@@ -1209,8 +1209,10 @@
         <servlet-name>uploadf1a</servlet-name>
         <servlet-class>form1a.uploadf1a</servlet-class>
     </servlet>
-     
-    
+    <servlet>
+        <servlet-name>fas_trial</servlet-name>
+        <servlet-class>form1a.fas_trial</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2415,12 +2417,14 @@
         <servlet-name>load_prev_data_dates</servlet-name>
         <url-pattern>/load_prev_data_dates</url-pattern>
     </servlet-mapping>
-     
-   <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>uploadf1a</servlet-name>
         <url-pattern>/uploadf1a</url-pattern>
-   </servlet-mapping>
-    
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fas_trial</servlet-name>
+        <url-pattern>/fas_trial</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
     </session-config>
