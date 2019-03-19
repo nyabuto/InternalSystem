@@ -102,7 +102,7 @@ int indic_counter;
               }
             }
             
-           // System.out.println("Supported services : "+supported_services);
+            System.out.println("Supported services : "+supported_services);
             //From the facility supported services, load the list of indications in the indicators table source
             
             

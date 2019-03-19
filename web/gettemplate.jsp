@@ -236,8 +236,8 @@ legend.formatter {
                                <tr><td> 
                                 <b>Month</b> <font color="red">*</font>
                                    </td><td>
-                                  <select  multiple placeholder="Month" required class="span4 m-wrap" style="width: 300px;" size="12" tabindex="-1"  id="month" name="month" onchange="">
-                                    <option value=""></option>
+                                  <select  multiple placeholder="Month" required="true" class="span4 m-wrap" style="width: 300px;" size="12" tabindex="-1"  id="month" name="month" onchange="">
+                                    
                                  </select>
                                   </td></tr>
                                <tr><td><br></td></tr>
@@ -423,7 +423,7 @@ url:'loadMonth?year='+yr,
 type:'post',
 dataType:'html',
 success:function (data){
-    $("#month").html(data);
+    $("#month").html(data.replace("<option value=''>Select Month </option>",""));
 }
 });  
      }
@@ -458,8 +458,9 @@ success:function (data){
             url:'loadSubcounty?county='+county,
             type:'post',
             dataType:'html',
-            success:function (data){
-                $("#subcounty").html(data);
+            success:function (data)
+            {
+                $("#subcounty").html(data.replace("<option value=''>Select sub-county</option>",""));
                 var select = document.getElementById('subcounty');
                     select.size = select.length;
                 

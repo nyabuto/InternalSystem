@@ -411,7 +411,7 @@ outStream.flush();
             
             }
             
-            if(curworkbook==countworkbooks){
+            if(curworkbook==countworkbooks && countworkbooks>1 ){
             
             //write the zip
             

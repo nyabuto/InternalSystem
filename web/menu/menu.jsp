@@ -50,11 +50,25 @@
                </a>
             </li>
            
+            <li class="has-sub ">
+               <a href="#">
+                <i class="icon-bar-chart"></i>
+               <span class="title">Form 1A Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                   <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1a Template</a></li>
+                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1 a</a></li>
+            </ul>
+            </li>
+            
+           
             <%if(session.getAttribute("userAccess")!=null){%> 
             <li class="has-sub">
             
                <a href="form1a.jsp">
-               <span class="title">Form 1A</span>
+               <span class="title">Form 1A Web</span>
                </a>
             </li>
             <%}%>
