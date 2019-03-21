@@ -39,7 +39,41 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
+<style>
+#notify {
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  font-weight: 900;
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  background-size: 120% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  -ms-background-clip: text;
+  -ms-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  background-image: linear-gradient(45deg, 
+                    #7794ff, 
+                    #44107A,
+                    #FF1361,
+                    #FFF800);
+  animation: .2s shake infinite alternate;
+}
 
+@keyframes shake {
+  0% { transform: skewX(-15deg); }
+  5% { transform: skewX(15deg); }
+  10% { transform: skewX(-15deg); }
+  15% { transform: skewX(15deg); }
+  20% { transform: skewX(0deg); }
+  100% { transform: skewX(0deg); }  
+} 
+    </style>
   
 </head>
 <!-- END HEAD -->
@@ -149,18 +183,9 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <!--<form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">-->
+                        <form action="fas_trial" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
                           
-                         
-                          
-                          
-                            
-                            
-                         
-                           
-                          
-                            
-                            
                            <div class="control-group" >
                               <label class="control-label">Select Excel File<font color='red'><b>*</b></font></label>
                               <div class="controls">
@@ -176,25 +201,55 @@
                               </div>
                            </div>  
                             
-                            
-                            
-                             
-                            
-                         
                            <div class="form-actions">
-                              <button type="submit" class="btn blue">Upload</button>
+                              <button type="submit" id="run_upload" class="btn blue">Upload</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
 <h3 style="color:green;margin-left: 160px;font-family: cambria;">Note:Ensure by the time of uploading, you have corrected all the displayed errors in the excel template. 
     <br/><b>Excel file(s) with Critical Gaps will not go through the upload process </b>.</h3>
                            </div>
                         </form>
-                        <!-- END FORM-->           
-                     </div>
+                        <!-- END FORM-->  
+                      </div>
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
+                  <% if(session.getAttribute("warnings")!=null){%>
+                  <div id="table_output">
+                      <div>
+                          <div style="font-weight: bolder; color: red;" id="message">
+                              <% if(session.getAttribute("message")!=null){
+                              out.println(session.getAttribute("message").toString());
+                              }%>
+                              </div>
+                          
+                          <%if(!session.getAttribute("warnings").toString().equals("")){%>
+                          <br>
+                          <div>
+                              <div style="text-align: center; font-size: 30px; font-family: bolder; text-decoration: underline;">Early Warning Indicators: Data Quality Issues</div>
+                      <div style="text-align: right;">
+                          <button id="generate_output" class="btn-info btn-sm" style="background: "><b>Convert to Excel(.xls)</b></button>
+                      </div>
+                      <table id="table_warning" class="table table-striped table-bordered table-advance table-hover">
+                          <thead> <tr> <th>County</th><th>Sub County</th><th>Health Facility</th><th>MFL Code</th><th>Calendar Year</th><th>Month</th><th>Year-Month</th><th>Program</th><th>Message</th><th>Age Group</th></tr></thead>
+                      <tbody id="warnings_details">
+               <%
+               out.println(session.getAttribute("warnings").toString());
+                   %>
+                    
+                      </tbody>
+                </table>
+               </div>
+                   <%}%>
+                   </div>
+                  </div>
+               <%
+               }
+               else{ // no session do
+               
+               }
+                session.removeAttribute("warnings");
+               %>
                </div>
             </div>
-       
           
          
           
@@ -687,6 +742,56 @@ success:function (data){
    $('#gapsection option').prop('selected', true);
                                         });
       
+   </script>
+   <script>
+       $("#generate_output").click(function(){
+       exportTableToExcel("table_warning","Exported_Form1A_Excel_Warnings_Data");
+    });
+    
+        function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+
+      jQuery(document).ready(function() {  
+//      $("#run_upload").click(function(){
+//          alert("called");
+//      });    
+      $("#formActions").submit(function(){
+        check_warning_notification();
+      });    
+      });
+      
+      function check_warning_notification(){
+          $("#table_output").hide();
+          $("#warnings_details").val("");
+      }
    </script>
    
    <!-- END JAVASCRIPTS -->   

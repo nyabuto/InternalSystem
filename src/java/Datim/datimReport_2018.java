@@ -4581,7 +4581,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId,subcounty_cou
         "\n" +
         "IFNULL(ART_highvolume,0) AS ART_highvolume, IFNULL(HTC_highvolume,0) AS HTC_highvolume,IFNULL(PMTCT_highvolume,0) AS PMTCT_highvolume" +
         " FROM internal_system.cxca\n" +
-        "join subpartnera ON cxca.SubPartnerID="+facilitiestable+".SubPartnerID  \n" +
+        "join "+facilitiestable+" ON cxca.SubPartnerID="+facilitiestable+".SubPartnerID  \n" +
         "join district on "+facilitiestable+".DistrictID=district.DistrictID \n" +
         "join county on county.CountyID=district.CountyID \n" +
         "WHERE "+facilitiestable+".active=1 AND "+facilityIds1+" "+duration1+"  GROUP BY MFLCode";

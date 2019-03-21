@@ -48,7 +48,7 @@ public class loadValidation extends HttpServlet {
             
             dbConn conn = new dbConn();
             
-            String getList="select * from fas_validation where sectionid='"+sectionid+"' and active=1";
+            String getList="select * from fas_validation where sectionid='"+sectionid+"' and active=1 AND source='web'";
             
             
             conn.rs=conn.st.executeQuery(getList);

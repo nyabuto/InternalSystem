@@ -28,7 +28,7 @@ import org.json.simple.JSONObject;
  */
 public class ValidateExcel {
     dbConn conn = new dbConn();
-    int error_count,warning_count; 
+    int error_count,warning_count,summarypos; 
    
     public JSONObject validate(String[] facilityids, String period[]) throws SQLException{
         JSONObject obj = new JSONObject();
@@ -39,14 +39,31 @@ public class ValidateExcel {
           for( int j=0;j<period.length;j++){
           facility_id = facilityids[i];
           yearmonth = period[j];   
+          
+          if(data_exist(facility_id,yearmonth)){
           JSONObject obj_item = validate(facility_id,yearmonth);
           jarray.add(obj_item);
-              System.out.println("facility :"+i+" month : "+j);
+          }
+          System.out.println("facility :"+i+" month : "+j);
           }
           }
       obj.put("output", jarray);
         return obj;
     }
+    
+    public boolean data_exist(String facil_id, String yearmonth) throws SQLException{
+        boolean status= false;
+     String count_recs = "SELECT COUNT(id) AS no_recs FROM fas_temp WHERE yearmonth="+yearmonth+" AND facility_id="+facil_id+"";
+     conn.rs = conn.st.executeQuery(count_recs);
+     if(conn.rs.next()){
+         if(conn.rs.getInt(1)>0){
+             status=true;
+         }
+     }
+     
+        return status;
+    }
+    
     
     public JSONObject validate(String facility_id,String yearmonth) throws SQLException{
            JSONArray jarray = new JSONArray();
@@ -202,6 +219,7 @@ public class ValidateExcel {
      } 
       
      obj.put("yearmonth", yearmonth);
+     obj.put("facility_id", facilityID);
      obj.put("errors", errors);
      obj.put("warnings", warnings);
      obj.put("details", jarray);
@@ -210,9 +228,12 @@ public class ValidateExcel {
     
     public XSSFWorkbook generateExcel(JSONObject obj){
         XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheetSummary = wb.createSheet("Summary");
         XSSFSheet sheetErrors = wb.createSheet("Errors");
         XSSFSheet sheetWarning = wb.createSheet("Early Warning");
   
+        sheetErrors.setTabColor(HSSFColor.RED.index);
+        sheetWarning.setTabColor(HSSFColor.YELLOW.index);
        // 
     XSSFCellStyle styleHeader = wb.createCellStyle();
     styleHeader.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
@@ -263,27 +284,71 @@ public class ValidateExcel {
     stborder.setFont(font_cell);
     stborder.setWrapText(true);
     
+    //success
+    XSSFCellStyle stsuccess = wb.createCellStyle();
+    stsuccess.setFillForegroundColor(HSSFColor.GREEN.index);
+    stsuccess.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    stsuccess.setBorderTop(BorderStyle.THIN);
+    stsuccess.setBorderBottom(BorderStyle.THIN);
+    stsuccess.setBorderLeft(BorderStyle.THIN);
+    stsuccess.setBorderRight(BorderStyle.THIN);
+    stsuccess.setAlignment(HorizontalAlignment.LEFT);
     
-          error_count =warning_count = 0; 
+    font_cell=wb.createFont();
+    font_cell.setColor(HSSFColor.BLACK.index);
+    font_cell.setFamily(FontFamily.MODERN);
+    font_cell.setFontName("Cambria");
+    stsuccess.setFont(font_cell);
+    stsuccess.setWrapText(true);
     
+    //fail
+    XSSFCellStyle stfail = wb.createCellStyle();
+     stfail.setFillForegroundColor(HSSFColor.RED.index);
+    stfail.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    stfail.setBorderTop(BorderStyle.THIN);
+    stfail.setBorderBottom(BorderStyle.THIN);
+    stfail.setBorderLeft(BorderStyle.THIN);
+    stfail.setBorderRight(BorderStyle.THIN);
+    stfail.setAlignment(HorizontalAlignment.LEFT);
+    
+    font_cell=wb.createFont();
+    font_cell.setColor(HSSFColor.BLACK.index);
+    font_cell.setFamily(FontFamily.MODERN);
+    font_cell.setFontName("Cambria");
+    stfail.setFont(font_cell);
+    stfail.setWrapText(true);
+    
+    
+          summarypos = error_count =warning_count = 0; 
     
         //add  headers to both
         String headers[] = {"County","Sub County","Health Facility", "MFL Code","Calendar Year","Month","Year-Month","Program","Message","Age Group"};
         int column_widths[] = {3500,5500,6500, 2500,2500,3500,2500,4500,18000,3500};
         
+        String headers_summary[] = {"County","Sub County","Health Facility", "MFL Code","Calendar Year","Month","Year-Month","No. Errors","No. of Warnings","Upload Status"};
+        int column_widths_summary[] = {5500,7500,8500, 4500,4500,5500,4500,6500,6500,7000};
+        
+        summarypos=0;
+        XSSFRow rowSummary = sheetSummary.createRow(summarypos);
+        rowSummary.setHeightInPoints(35);
+        
         XSSFRow rowError = sheetErrors.createRow(0);
         XSSFRow rowWarning = sheetWarning.createRow(0);
-        XSSFCell cell_h_e,cell_h_w;  
+        XSSFCell cell_h_s,cell_h_e,cell_h_w;  
         for(int i=0;i<headers.length;i++){
+          cell_h_s = rowSummary.createCell(i);
           cell_h_e = rowError.createCell(i);
           cell_h_w = rowWarning.createCell(i);
           
+          cell_h_s.setCellValue(headers_summary[i]);
           cell_h_e.setCellValue(headers[i]);
           cell_h_w.setCellValue(headers[i]);
           
+          cell_h_s.setCellStyle(stylex);
           cell_h_e.setCellStyle(stylex);
           cell_h_w.setCellStyle(stylex);
           
+          sheetSummary.setColumnWidth(i, column_widths_summary[i]);
           sheetErrors.setColumnWidth(i, column_widths[i]);
           sheetWarning.setColumnWidth(i, column_widths[i]);
          }
@@ -299,23 +364,23 @@ public class ValidateExcel {
                 
              JSONObject facil_info = (JSONObject)array_facil.get(facils);
              
-             facil_output(facil_info,sheetErrors,sheetWarning,stborder);
+             facil_output(facil_info,sheetSummary,sheetErrors,sheetWarning,stborder,stsuccess,stfail);
              
 //           end of looping facilities  
             }
         }
         else{ // for one facility, one period
-        facil_output(obj,sheetErrors,sheetWarning,stborder);    
+        facil_output(obj,sheetSummary,sheetErrors,sheetWarning,stborder,stsuccess,stfail);    
         }
         
         return wb;
     }
     
-    private void facil_output(JSONObject facil_info,XSSFSheet sheetErrors, XSSFSheet sheetWarning, XSSFCellStyle stborder){
+    private void facil_output(JSONObject facil_info,XSSFSheet sheetSummary, XSSFSheet sheetErrors,XSSFSheet sheetWarning, XSSFCellStyle stborder, XSSFCellStyle stsuccess, XSSFCellStyle stfail){
               
         String month,mflcode,facility,subcounty,county,year,yearmonth;
         int warnings,errors;
-        String age_group,message_type,program,message;
+        String age_group,message_type,program,message,upload_status;
         
         
              System.out.println("facil:"+facil_info);
@@ -330,6 +395,37 @@ public class ValidateExcel {
     
              warnings = (Integer)facil_info.get("warnings");
              errors = (Integer)facil_info.get("errors");
+             
+             if(errors==0){upload_status="Success";}
+             else{upload_status="Failed";}
+             
+            summarypos++;
+             
+             
+             
+             XSSFRow row_data_summary = sheetSummary.createRow(summarypos);
+             row_data_summary.setHeightInPoints(30);
+              //add data to excel
+              String data_summary[] = {county,subcounty,facility, mflcode,year,month,yearmonth,""+errors,""+warnings,upload_status};
+              
+                
+        XSSFCell cell_data_summary=null;  
+        for(int i=0;i<data_summary.length;i++){
+          cell_data_summary = row_data_summary.createCell(i);
+          if(isNumeric(data_summary[i])){cell_data_summary.setCellValue(Integer.parseInt(data_summary[i]));}
+          else{cell_data_summary.setCellValue(data_summary[i]);}
+          cell_data_summary.setCellStyle(stborder);
+         }
+        
+        if(cell_data_summary!=null){
+        if(errors==0){
+          cell_data_summary.setCellStyle(stsuccess);  
+        }
+        else{
+            cell_data_summary.setCellStyle(stfail);   
+        }
+        }    
+//             end
         
              JSONArray arr_details = (JSONArray) facil_info.get("details");
              
@@ -366,6 +462,112 @@ public class ValidateExcel {
              
                
     }
+    
+    public String gel_all_warnings(JSONObject obj){
+        String output="";
+        
+          if(obj.containsKey("output")){ // data from several facilities or several periods
+            JSONArray array_facil = (JSONArray)obj.get("output");
+            
+            for(int facils=0; facils<array_facil.size();facils++){
+                
+                
+             JSONObject facil_info = (JSONObject)array_facil.get(facils);
+             
+             output+=get_warnings(facil_info); // 
+             
+//           end of looping facilities  
+            }
+        }
+        else{ // for one facility, one period
+        output+=get_warnings(obj);    
+        }
+      return output;    
+    }
+    
+    
+    public String get_warnings(JSONObject facil_info){
+        String output="";
+        
+        String month,mflcode,facility,subcounty,county,year,yearmonth;
+        int warnings,errors;
+        String age_group,message_type,program,message;
+        
+        
+        
+        
+             System.out.println("facil:"+facil_info);
+             month = facil_info.get("Month").toString();  
+             facility = facil_info.get("HealthFacility").toString();
+             subcounty = facil_info.get("SubCounty").toString();
+             county = facil_info.get("County").toString();
+             mflcode = facil_info.get("MFLCode").toString();
+             year = facil_info.get("Year").toString();
+             yearmonth = facil_info.get("yearmonth").toString();
+                      
+    
+             warnings = (Integer)facil_info.get("warnings");
+             errors = (Integer)facil_info.get("errors");
+        
+             JSONArray arr_details = (JSONArray) facil_info.get("details");
+             
+              
+             //loop for errors
+             for(int details=0;details<arr_details.size();details++){
+                age_group = ((JSONObject)arr_details.get(details)).get("age_group").toString();
+                message_type = ((JSONObject)arr_details.get(details)).get("message_type").toString();
+                program = ((JSONObject)arr_details.get(details)).get("program").toString();
+                message = ((JSONObject)arr_details.get(details)).get("message").toString();
+                //write data to excel based on error type
+                if(message_type.equalsIgnoreCase("error")){
+                  }
+                else{
+                 warning_count++; 
+                 
+                //add data to excel
+                String data[] = {county,subcounty,facility, mflcode,year,month,yearmonth,program,message,age_group};
+                    output+="<tr>";
+                    for (String data1 : data) {
+                        output += "<td>" + data1+ "</td>";
+                    }
+                        output+="</tr>";
+          }
+                
+            
+          }
+        
+        
+        return output;
+    }
+    
+    
+    public int no_of_errors(JSONObject obj){
+     int no_errors=0;
+        
+          if(obj.containsKey("output")){ // data from several facilities or several periods
+            JSONArray array_facil = (JSONArray)obj.get("output");
+            
+            for(int facils=0; facils<array_facil.size();facils++){
+                
+                
+             JSONObject facil_info = (JSONObject)array_facil.get(facils);
+             
+             no_errors+=error_per_sheet(facil_info); // 
+             
+//           end of looping facilities  
+            }
+        }
+        else{ // for one facility, one period
+        no_errors+=error_per_sheet(obj);    
+        }
+          
+     return no_errors;
+    }
+    
+    public int error_per_sheet(JSONObject obj){// 1 facil, 1 year month
+     return (Integer)obj.get("errors"); 
+    }
+    
     
     public boolean isNumeric(String s) {  
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
