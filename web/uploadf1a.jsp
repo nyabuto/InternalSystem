@@ -13,7 +13,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>IMIS-DATIM</title>
+   <title>Upload F1A</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -183,8 +183,8 @@
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <!--<form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">-->
-                        <form action="fas_trial" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <!--<form action="fas_trial" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">-->
                           
                            <div class="control-group" >
                               <label class="control-label">Select Excel File<font color='red'><b>*</b></font></label>
