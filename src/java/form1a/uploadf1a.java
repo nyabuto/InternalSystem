@@ -639,7 +639,7 @@ try {
            
           //call delete facilities from fas_temp
                     
-                   //deletefacilities(conn, removeLast(todeleteymf,1));
+                   deletefacilities(conn, removeLast(todeleteymf,1));
             
             
             try {
