@@ -185,7 +185,7 @@ legend.formatter {
 	                      <b>Year</b> <font color="red">*</font>  
                                
                                  </td><td>
-                                <select required data-placeholder="Reporting Year" class="span4 m-wrap" style="width: 300px;" tabindex="-1" onchange="loadmonths();"  id="year" name="year">
+                                <select required="true" data-placeholder="Reporting Year" class="span4 m-wrap" style="width: 300px;" tabindex="-1" onchange="loadmonths();"  id="year" name="year">
                                    <option value=''>Select Year</option>
                                               <%
                                                 
@@ -228,7 +228,7 @@ legend.formatter {
                                  </select>
                                 </td>
                              
-                             <td><label class=" btn-success btn-large">Save currently selected county, subcounty and facilities</label></td>
+                             <!--<td><label class=" btn-success btn-large" onclick="savecluster();">Save currently selected organizational units</label></td>-->
                              
                              
                              </tr>
@@ -243,9 +243,9 @@ legend.formatter {
                                <tr><td><br></td></tr>
                                
                                  <tr><td> 
-                                    <b>County</b> <font color="red"></font>
+                                    <b>County</b> <font color="red">*</font>
                                </td><td>
-                               <select placeholder="County" onchange="loadsubcounty();" style="width: 300px;" required=""  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                               <select placeholder="County" onchange="loadsubcounty();" style="width: 300px;" required="true"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                                    </td></tr>
@@ -504,113 +504,41 @@ success:function (data){
    <script type="text/javascript" src="js/form731Totals.js"></script>
 <script type="text/javascript" src="js/val731.js"></script>
 <script type="text/javascript">
- $(document).ready(function(){
-   var errorsHCT=0,errorsPMTCT=0,errorsCT=0,errorsVMMC=0,errorsPEP=0,errorBLOOD=0;
 
-//    $('#myModal').modal();
-   $("form").submit(function(){
-       var errors=0;
-$("#data_elements").val("");
-$("#description").val("");
-
-       $(":text").css({'background-color' : 'white'});        
-var totalsVariables ="HV0103,HV0116,HV0204,HV0209,HV0210,HV0217,HV0220,HV0228,HV0232,HV0236,HV0240,HV0244,HV0307,HV0313,HV0319,HV0325,HV0333,HV0334,HV0335,HV0336,HV0337,HV0338,HV0339,HV0344,HV0349,HV0354,HV0373,HV0406,HV0414,HV0415,HV0507,HV0514,HV0340,HV0341,HV0342,HV0343";
-var arrayTotals=totalsVariables.split(",");  
-var arrayLength=arrayTotals.length;
-var i=0;
-//alert("length : "+arrayLength);
-while(i<arrayLength){
- $("#"+arrayTotals[i]).css({'background-color' : '#DDDDDD'});          
- i++;   
-}
-var allErrors="The following errors were found : <br><br>";
-  var returned;
-//   if ( $( "#HV0101" ).length ) {    
-//   errorsHCT=validateHCT();
-//   if(parseInt(errorsHCT)>0){
-//   allErrors+=" "+errorsHCT+" errors in HIV Counselling and Testing.<br>";
-//   }
-//   }
-   
-   if ( $( "#HV0201" ).length ) {
-   errorsPMTCT=validatePMTCT();
-//   alert("errors"+errorsPMTCT);
-if(parseInt(errorsPMTCT)>0){
-   allErrors+=" "+errorsPMTCT+" error(s) were found in PMTCT section.<br>";
-errors+=parseInt(errorsPMTCT);
-}
+function savecluster(){
+    
+    
+            var county=$("#county").val();
+          
+            var subcounty=$("#subcounty").val();
+       
+            var facility=$("#facility").val();
+            
+            if(county===''){alert("Select County");}
+            else{
+                
+                
+                
+                $.ajax({
+url:'saveFavoriteSites',
+type:'post',
+data:{county:county,subcounty:subcounty,facility:facility},
+dataType:'html',
+success:function (data){
+   alert(data);
+       
+       
 }
 
-if ( $( "#HV0301" ).length ) {
-   errorsCT=validateCT();
-//   alert("errors"+errorsCT);
-if(parseInt(errorsCT)>0){
-   allErrors+=" "+errorsCT+" error(s) were found in Care and Treatment section.<br>";
-errors+=parseInt(errorsCT);
-}
-}
 
-//if ( $( "#HV0401" ).length ) {
-//   errorsVMMC=validateVMMC();
-////   alert("errors"+errorsVMMC);
-//if(parseInt(errorsVMMC)>0){
-//   allErrors+=" "+errorsVMMC+" errors in VMMC.<br>";
-//}
-//}
-
-if ( $( "#HV0501" ).length ) {
-   errorsPEP=validatePEP();
-//   alert("errors"+errorsPEP);
-if(parseInt(errorsPEP)>0){
-   allErrors+=" "+errorsPEP+" error(s) were found in Post-Exposure Prophylaxis (PEP) section.<br>";
-errors+=parseInt(errorsPEP);
-}
+});
+                
+            }
+    
+    
 }
 
-//if ( $( "#HV0601" ).length ) {
-//   errorBLOOD=validateBlood();
-////   alert("errors"+errorBLOOD);
-//if(parseInt(errorBLOOD)>0){
-//   allErrors+=" "+errorBLOOD+" errors in Blood safety.<br>";
-//}
-//} 
 
-//alert("errors : "+allErrors);
-
-
-if(errors>0){
-    $("#errorBody").html(allErrors);
-     $('#notifier').modal();
-$("#submit").click(function(){
-//  alert("to submit");  
-$('#notifier').modal('hide');
-$.ajax({
-        url: 'validate731',
-        type: 'post',
-        dataType: 'html',
-        data: $('form').serialize(),
-        success: function() {
-//                alert("submitted");
-       location.reload(); 
-                 }
-         
-    });
-  });    
- $("#viewErrors").click(function(){
-//alert("to view errors");
-  });
-  
-  returned = false;
-}
-else{
-    returned=true;
-}
- $('[data-toggle="tooltip"]').tooltip();
-return returned;
- });
- 
- 
- });
 
     </script>
    <!-- END JAVASCRIPTS -->   

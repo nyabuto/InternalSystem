@@ -8,6 +8,9 @@ package form1a;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +33,7 @@ public class saveFavoriteSites extends HttpServlet {
             
             session=request.getSession();
             /* TODO output your page here. You may use following sample code. */
-            
+            String ujumbe="Cluster saved successfully";
             //county
             //subcounty
             //facility
@@ -106,12 +109,25 @@ public class saveFavoriteSites extends HttpServlet {
             
             
             
-            
+        String insert="insert into f1a_clusters set clustername='"+name+"',county='"+county+"',subcounty='"+subcounty+"',facility='"+facility+"',user='"+userid+"'";    
+            System.out.println(""+insert);
+            try 
+            {
+                 
+                 conn.st.executeUpdate(insert);
+                 if(conn.st!=null){conn.st.close();}
+              ujumbe="Organizational unit cluster saved successfully";   
+                 
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(saveFavoriteSites.class.getName()).log(Level.SEVERE, null, ex);
+                ujumbe="Organizational unit Cluster Not saved";
+            }
            
+          
             
             
-            
-//            out.println("</html>");
+            out.println(ujumbe);
         } finally {
             out.close();
         }
@@ -129,7 +145,9 @@ public class saveFavoriteSites extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       
+            processRequest(request, response);
+       
     }
 
     /**
