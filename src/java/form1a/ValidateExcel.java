@@ -71,7 +71,7 @@ public class ValidateExcel {
         int error_counter=0,warnings_counter=0;
         String message_type="",message="";
         String lhs,rhs,sign,query="";
-        String getRules="SELECT section_name,codes,validation,iscritical,message,fine_age,raw_query FROM fas_validation WHERE active=1 AND source='excel' AND codes!='General'";
+        String getRules="SELECT section_name,codes,validation,iscritical,message,fine_age,raw_query FROM fas_validation WHERE active=1 AND source='excel' ";
         //System.out.println("rules :"+getRules);
         conn.rs = conn.st.executeQuery(getRules);
         while(conn.rs.next()){

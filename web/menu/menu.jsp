@@ -16,7 +16,8 @@
         
         <script>
             
-   jQuery(document).ready(function() {       
+   jQuery(document).ready(function() 
+   {       
          // initiate layout and plugins
        
     $("ul li").on("click", function() {
@@ -40,15 +41,17 @@
             </li>
             <li class="start " style="background-color: #69a4e0;">
                <a href="#">
-             <span class="title" ><b>Hi, <%if(session.getAttribute("userid")!=null){out.println(session.getAttribute("fullname").toString());}%></b></span>
+              <%if(session.getAttribute("userid")!=null){out.println("<span><b>Hi ,"+session.getAttribute("fullname").toString()+"</span>");} else {%><a href="index.jsp" class="btn-info">Sign up</a><%}%></b></span>
                </a>
                 </li>
+                <%if(session.getAttribute("userAccess")!=null){%>  
                 <li>
                 <a href="home.jsp">
                <i class="icon-home"></i> 
                <span class="title">Home</span>
                </a>
             </li>
+            <%}%>
            
             <li class="has-sub ">
                <a href="#">
@@ -59,7 +62,7 @@
                <ul class="sub">
                 
                    <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1a Template</a></li>
-                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1 a</a></li>
+               <li >   <%if(session.getAttribute("userAccess")!=null){%>   <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1 a</a>  <%} else {%> <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
             </ul>
             </li>
             
@@ -100,28 +103,37 @@
             </li>
             <%}}%>
            
-           <li class="has-sub ">
+             <% if(session.getAttribute("level")!=null){ %>
+                  <li class="has-sub ">
                <a href="#">
                <i class="icon-signin"></i>
                <span class="title">Management</span>
                <span class="arrow "></span>
                </a>
                 <ul class="sub">
+                
+               <% if(!session.getAttribute("level").toString().equals("1")){  %>  
+                 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>
+            
+          
                     
-                  <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
-                 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%> 
+                  
                   <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
                   <li ><a href="LockData.jsp"><i class="icon-plus"></i>Lock / Un lock Editing </a></li>
                   <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                   <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
                   <li ><a href="ManageRatios.jsp"><i class="icon-edit"></i>Manage Ratios</a></li>
-                  <%}}}else{}}%>
+                
+                
                   
-                  <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
+                  
 
-               </ul>
+              
+              <%}}}else{}%>
+                <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
+ </ul>
             </li>
-            
+<%}%>
             
             
              <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
@@ -205,7 +217,7 @@
                   <%}}%>
                </ul>
             </li>            
-          
+           <%if(session.getAttribute("userAccess")!=null){%> 
             <li class="has-sub">
                 <a href="T1FORM.jsp">
                 <i class="icon-trophy"></i>
@@ -224,6 +236,7 @@
                <span class="title">Log Out</span>
                </a>
             </li>
+            <%}%>
             
          </ul>
    </body>

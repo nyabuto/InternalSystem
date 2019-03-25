@@ -365,6 +365,9 @@ while (conn.rs2.next()) {
             
             XSSFCell valcell = worksheet.getRow(poirow).getCell((short) d + startcol);
             // System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
+            
+            System.out.println(indicator_name+" Ni formulae "+val);
+            
             switch (valcell.getCellType()) {
                 case 0:
                     val = "" + (int) valcell.getNumericCellValue(); //integer
@@ -375,6 +378,7 @@ while (conn.rs2.next()) {
                     break;
                 case 2:
                     val = "" + (int) valcell.getNumericCellValue(); //formula
+                    
                     break;
                 case 3:
                     val = valcell.getStringCellValue();//blank
@@ -403,7 +407,8 @@ while (conn.rs2.next()) {
         
         if (!hasexcecuted) {
             conn.rs = conn.st.executeQuery(getindicator);
-            if (conn.rs.next()) {
+            if (conn.rs.next()) 
+            {
                 // System.out.println(" data upload locked ");
                 hasexcecuted = true;
                 uploadlocked = conn.rs.getInt("is_locked");
