@@ -64,14 +64,14 @@
             </li>
             
            
-            <%if(session.getAttribute("userAccess")!=null){%> 
+            <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("year")!=null){%> 
             <li class="has-sub">
             
                <a href="form1a.jsp">
                <span class="title">Form 1A Web</span>
                </a>
             </li>
-            <%}%>
+            <%}}%>
             
             
              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",moh731,")){%> 

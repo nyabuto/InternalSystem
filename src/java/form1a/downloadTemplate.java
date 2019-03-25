@@ -238,7 +238,8 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
 
             //first time , it should create those folders that host the macro file
             File f = new File(np);
-            if (!f.exists() && !f.isDirectory()) {
+            if (!f.exists() && !f.isDirectory()) 
+            {
                 /* do something */
                 copytemplates ct = new copytemplates();
                 ct.transfermacros(sr, np);
@@ -255,7 +256,9 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                 ct.copymacros(sr, np);
 
             }
-                //System.out.println("New Path "+np);
+                
+            System.out.println("New Path "+np);
+                
             String filepth = np;
 
             File allpathfile = new File(filepth);
