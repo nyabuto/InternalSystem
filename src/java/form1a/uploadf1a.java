@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -91,6 +92,7 @@ public class uploadf1a extends HttpServlet {
             String subpartnerid = "", yearmonth = "", month = "";
             
             String uploadstatus="";
+            String lastexcelid="135";
             
             session = request.getSession();
             if (session.getAttribute("userid") != null) {
@@ -104,6 +106,13 @@ public class uploadf1a extends HttpServlet {
             fileName = "";
             
             File file_source;
+            
+            int mailstosent=0;
+            
+            HashMap<String, String> maildetails= new HashMap<String, String>();
+            
+            
+            
             
             id = "";
             String indicator = "";
@@ -294,7 +303,7 @@ String support_column_name, support_column_value;
 int num_serv_supported = 0;
 // READ FACILITY SUPPORTED SERVICES
 String get_supported_service = "SELECT SubPartnerID, IFNULL(PMTCT,0) AS PMTCT,IFNULL(ART,0) AS ART,IFNULL(VMMC,0) AS VMMC,IFNULL(HTC,0) AS HTC,IFNULL(Gender,0) AS Gender,IFNULL(PNS,0) AS PNS, IFNULL(IPD,0) AS IPD FROM subpartnera WHERE CentresanteID='" + mflcode + "'";
-System.out.println("" + get_supported_service);
+//System.out.println("" + get_supported_service);
 conn.rs = conn.st.executeQuery(get_supported_service);
 ResultSetMetaData metaData = conn.rs.getMetaData();
 int col_count = metaData.getColumnCount(); //number of column
@@ -332,7 +341,7 @@ String table = "";
 String code = "";
 String indicator_name = "";
 int poirow = 0;
-
+ArrayList insertal=new ArrayList();
 String getsections = "SELECT id,database_name,code,poi_row_no,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
 
 System.out.println("" + getsections);
@@ -366,7 +375,7 @@ while (conn.rs2.next()) {
             XSSFCell valcell = worksheet.getRow(poirow).getCell((short) d + startcol);
             // System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
             
-            System.out.println(indicator_name+" Ni formulae "+val);
+            
             
             switch (valcell.getCellType()) {
                 case 0:
@@ -388,14 +397,15 @@ while (conn.rs2.next()) {
                     
                     break;
             }
+           // System.out.println(indicator_name+" ni Value "+val+" na Ni cell type "+valcell.getCellType()+" na ni color "+valcell.getCellStyle().getFillBackgroundColorColor());
             //put the values into a hash table
             //for blanks, insert null instead of a blank
-            if (valcell.getCellType() == 3) {
+            if (valcell.getCellType() == 3) 
+            {
                 insert += colskey.get(d).toString() + "=null, ";
             } else {
-                
-                insert += colskey.get(d).toString() + "='" + val + "', ";
-            }
+            insert += colskey.get(d).toString() + "='" + val + "', ";
+                   }
             
         }
         
@@ -404,7 +414,8 @@ while (conn.rs2.next()) {
         //================================check if data for facility is locked========================================
         String getindicator = "SELECT is_locked FROM check_locked  where is_locked = '1' and id like '" + yearmonth + "_" + subpartnerid + "%' limit 1 ";
         // System.out.println(""+getindicator);
-        
+       
+        //hasexcecuted variable checks if data for a specific yearmonth is locked on the original yearmonths 
         if (!hasexcecuted) {
             conn.rs = conn.st.executeQuery(getindicator);
             if (conn.rs.next()) 
@@ -449,37 +460,28 @@ while (conn.rs2.next()) {
                     todeleteymf += ymf;
                 }
                 
-                String tx = "Sucess: Uploaded excel sheet " + sheetname + " for " + year + " , " + month + " \n ";
-                if (!uploadstatus.contains(tx)) 
+               
+                
+                //execute the waiting insert statements in the insert arraylist and reset the arraylist
+                for(int g=0;g<insertal.size();g++)
                 {
-                    uploadstatus += tx;
+                    //System.out.println("Inserted at late stage "+insertal.get(g).toString());    
+                conn.st4.executeUpdate(insertal.get(g).toString());
+                if(g==insertal.size()-1)
+                {//last row, reset 
+                insertal.clear();
                 }
+                
+                }
+                
+                
                 
                 //____________________________________AUDIT TRAIL______________________________________
                 
-                String getusername = "SELECT fname,lname FROM user WHERE userid='" + user_id + "'";
-                conn.rs1 = conn.st1.executeQuery(getusername);
-                if (conn.rs1.next())
-                {
-                    fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
-                }
+                insertAuditTrail(conn, indicator_name, yearmonth, facilityName, id, user_id);
                 
+                //____________________________________AUDIT TRAIL______________________________________
                 
-                
-                // update the audit trails table with relevant information
-                String insert_audit_trails = "INSERT INTO fas_audit_trails (entry_id,table_name,fullname,facility,indicator,yearmonth,user_pc) VALUES(?,?,?,?,?,?,?)";
-                conn.pst = conn.conn.prepareStatement(insert_audit_trails);
-                conn.pst.setString(1, id);
-                conn.pst.setString(2, "fas_temp");
-                conn.pst.setString(3, fullname);
-                conn.pst.setString(4, facilityName);
-                conn.pst.setString(5, indicator_name);
-                conn.pst.setString(6, yearmonth);
-                conn.pst.setString(7, getComputerName());
-                
-                conn.pst.executeUpdate();
-                
-                //____________________________________END AUDIT TRAIL______________________________________
             }
             else
             {
@@ -492,9 +494,19 @@ while (conn.rs2.next()) {
                 
             }
             
-        } else if (uploadlocked != 1 && hasdata == false) {
+        } 
+        //if entry is not locked but so far for all the rows, no indication of a typed value
+        else if (uploadlocked != 1 && hasdata == false) {
+            
+            //save insert statements and preserve them so that if a type data value is found on lower sections of the excel, then all the inserts can be done at once
+            insertal.add(insert);
+            
+            //if this is the last row and no data typed so far, then conclude excel is blank
             
             
+            
+            if(indicatorid.equals(lastexcelid))
+            {
             String tx="Failed: Blank excel sheet for  " + year + " , " + month+" \n " ;
             if(!uploadstatus.contains(tx))
             {
@@ -505,6 +517,8 @@ while (conn.rs2.next()) {
             if (!msgal.contains(ujumbe)) {
                 msgal.add(ujumbe);
             }
+            }
+            
         }
         
     } //end of try
@@ -524,7 +538,8 @@ while (conn.rs2.next()) {
             uploadstatus+=tx;
         }
         String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"gettemplate.pns\\\">download new template\"";
-        if (!msgal.contains(ujumbe)) {
+        if (!msgal.contains(ujumbe)) 
+        {
             msgal.add(ujumbe);
         }
         
@@ -532,17 +547,24 @@ while (conn.rs2.next()) {
     
 }
 
-try {
+
     
     //if upload has completed, then sent excel workbook via email
-    if (sheetno == totalsheets-1 && issentexcel == false) {
+    if (sheetno == totalsheets-1 && issentexcel == false) 
+    {
+        mailstosent++;
+        
+        maildetails.put("fac"+mailstosent, facilityName);
+        maildetails.put("st"+mailstosent, uploadstatus);
+        maildetails.put("fp"+mailstosent, full_path);
+        maildetails.put("fn"+mailstosent, excelfilename);
+        maildetails.put("fulln"+mailstosent, fullname);
+        
         issentexcel = true;
-        SendF1excel(facilityName, uploadstatus , full_path, excelfilename, fullname);
+        //SendF1excel(facilityName, uploadstatus , full_path, excelfilename, fullname);
     }
     
-} catch (MessagingException ex) {
-    Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
-}
+
 
 
                         }//end of worksheets loop
@@ -603,15 +625,51 @@ try {
       {
       totransferymf+="'"+yearm+"_"+facilid+"',";
       }
+       String tx = "Sucess: Uploaded excel for Facility "+getFacilityname(conn,facilid)+" " + yearm.substring(0, 4) + " , " + yearm.substring(4) + " \n ";
+                   System.out.println(""+tx);
+                if (!uploadstatus.contains(tx)) 
+                {
+                    uploadstatus += tx;
+                }
+                maildetails.put("st"+mailstosent, uploadstatus);
                  
                                      }
                else
                {// increment errors
                 total_errors+=error_per_sheet;
-                   System.out.println(" _ Maerrors ni "+total_errors);
+                
+                  String yearm=((JSONObject)jarray.get(i)).get("yearmonth").toString();
+                 String facilid=((JSONObject)jarray.get(i)).get("facility_id").toString();
+                 
+                  String tx = "Failed: Failed Validation for Facility "+getFacilityname(conn,facilid)+" " + yearm.substring(0, 4) + " , " + yearm.substring(4) + " \n ";
+                                  System.out.println(""+tx);
+                  if (!uploadstatus.contains(tx)) 
+                {
+                    uploadstatus += tx;
+                }
+                   maildetails.put("st"+mailstosent, uploadstatus);
+                   
                }
               }
           }
+            
+            
+            
+            
+        
+       for(int q=1;q<=mailstosent;q++){
+                try {
+                    
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q));
+                    
+                    
+                } catch (MessagingException ex) {
+                    Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                }
+       }
+            
+            
+            
             XSSFWorkbook wb1;
              wb1 = vExcel.generateExcel(obj); // to generate Excel file
           
@@ -619,7 +677,7 @@ try {
           warning = vExcel.gel_all_warnings(obj);
               System.out.println(warning);
           session.setAttribute("warnings", warning);
-          session.setAttribute("message", " <img src=\"images/ok.png\"> <b id=\"notify\">Data Uploaded Successfully</b> ");
+          session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
           
           response.sendRedirect("uploadf1a.jsp");
           }
@@ -645,6 +703,11 @@ try {
           //call delete facilities from fas_temp
                     
                    deletefacilities(conn, removeLast(todeleteymf,1));
+                   
+                   
+                   
+                   //send mail
+                   
             
             
             try {
@@ -887,7 +950,7 @@ boolean retvalue=true;
                     count++;
                 }//end of if
                 //data rows
-                // we are only geting the distinct the distinct cols
+                // we are only geting the distinct cols
 // sample qry REPLACE fas_hts SELECT `id`,`facility_id`,`indicator_id`,`yearmonth`,`m_uk`,`f_uk`,`m_1`,`f_1`,`m_4`,`f_4`,`m_9`,`f_9`,`m_14`,`f_14`,`m_19`,`f_19`,`m_24`,`f_24`,`m_29`,`f_29`,`m_34`,`f_34`,`m_39`,`f_39`,`m_44`,`f_44`,`m_49`,`f_49`,`m_50`,`f_50`,`f_total`,`m_total`,`total`,`is_locked`,`user_id`,`user_pc`,`timestamp` FROM fas_temp where destination_table='fas_hts';
 replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from fas_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") ";
 //System.out.println(""+replaceqry);
@@ -921,6 +984,49 @@ boolean iscomplete=true;
             Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
         }
       return iscomplete;
+     }
+     
+     
+     public void insertAuditTrail( dbConn conn,String indicator_name,String yearmonth, String facname, String id, String userid) throws SQLException{
+     
+     
+                String getusername = "SELECT fname,lname FROM user WHERE userid='" + userid + "'";
+                conn.rs1 = conn.st1.executeQuery(getusername);
+                if (conn.rs1.next())
+                {
+                    fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
+                }
+                
+                
+                // update the audit trails table with relevant information
+                String insert_audit_trails = "INSERT INTO fas_audit_trails (entry_id,table_name,fullname,facility,indicator,yearmonth,user_pc) VALUES(?,?,?,?,?,?,?)";
+                conn.pst = conn.conn.prepareStatement(insert_audit_trails);
+                conn.pst.setString(1, id);
+                conn.pst.setString(2, "fas_temp");
+                conn.pst.setString(3, fullname);
+                conn.pst.setString(4, facname);
+                conn.pst.setString(5, indicator_name);
+                conn.pst.setString(6, yearmonth);
+                conn.pst.setString(7, getComputerName());
+                
+                conn.pst.executeUpdate();
+                
+                //____________________________________END AUDIT TRAIL______________________________________
+     
+     }
+     
+     public String getFacilityname(dbConn conn, String facilityid) throws SQLException{
+     String facility="unkown";
+     
+     conn.rs_6=conn.st_6.executeQuery("select subpartnernom from subpartnera where subpartnerid='"+facilityid+"'");
+     
+     while(conn.rs_6.next())
+     {
+     facility=conn.rs_6.getString(1);
+     }
+     
+     return facility;
+     
      }
      
 }
