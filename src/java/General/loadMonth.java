@@ -41,9 +41,16 @@ System.out.println("sessionmonth   "+sessionmonth);
 Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);  
 int currentmonth= cal.get(Calendar.MONTH)+1;
-if(currentmonth>=10){
+
+String above10="";
+
+
+
+if(currentmonth>=10)
+{
 
 year+=1;
+above10=" and  id <='"+currentmonth+"' ";
     
 }
 
@@ -57,7 +64,7 @@ year+=1;
                 passedyear = request.getParameter("year");
                 //if the passsed year is the current year, then disable future months from appearing in data entry and report generation selects.
              if(year==new Integer(passedyear)){
-             mywhere=" where id <='"+currentmonth+"' ";
+             mywhere=" where (id <='"+currentmonth+"') or (id > '9' "+above10+" ) ";
                  
              }
              else {
