@@ -98,9 +98,9 @@ public class saveFavoriteSites extends HttpServlet {
                 }
             }
 
-            if (request.getParameter("clustername") != null) 
+            if (request.getParameter("cluster") != null) 
             {
-                name = request.getParameter("clustername");
+                name = request.getParameter("cluster");
 
             }
             
@@ -116,7 +116,7 @@ public class saveFavoriteSites extends HttpServlet {
                  
                  conn.st.executeUpdate(insert);
                  if(conn.st!=null){conn.st.close();}
-              ujumbe="Organizational unit cluster saved successfully";   
+              ujumbe="Bookmark saved successfully";   
                  
             } 
             catch (SQLException ex) {

@@ -186,9 +186,10 @@
                         <form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <!--<form action="fas_trial" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">-->
                           
-                           <div class="control-group" >
-                              <label class="control-label">Select Excel File<font color='red'><b>*</b></font></label>
-                              <div class="controls">
+                        <div class="control-group " ></div>
+                           <div class="control-group col-lg-12" >
+                              <label class="control-label col-lg-6">Select Filled Form1A excel file<font color='red'><b>*</b></font></label>
+                              <div class="controls col-lg-6">
                                  <input accept=".xlsx" required type="file" name="file_name" multiple="true" id="upload" value="" class="textbox" required> 
                                     
                               </div>
@@ -205,7 +206,7 @@
                               <button type="submit" id="run_upload" class="btn blue">Upload</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
 <h3 style="color:green;margin-left: 160px;font-family: cambria;">Note:Ensure by the time of uploading, you have corrected all the displayed errors in the excel template. 
-    <br/><b>Excel file(s) with Critical Gaps will not go through the upload process </b>.</h3>
+    <br/><b>Excel file(s) with Errors will not go through the upload process </b>.</h3>
                            </div>
                         </form>
                         <!-- END FORM-->  

@@ -57,7 +57,7 @@ year+=1;
                 passedyear = request.getParameter("year");
                 //if the passsed year is the current year, then disable future months from appearing in data entry and report generation selects.
              if(year==new Integer(passedyear)){
-             //mywhere=" where id <='"+currentmonth+"' ";
+             mywhere=" where id <='"+currentmonth+"' ";
                  
              }
              else {

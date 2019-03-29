@@ -5,29 +5,68 @@
  */
 package form1a;
 
+import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author EKaunda
  */
 public class loadFavoriteSites extends HttpServlet {
-
+    HttpSession session=null;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        
+        session=request.getSession();
+        
+       String userid="";
+       
+       if(session.getAttribute("userid")!=null)
+       {
+              userid=session.getAttribute("userid").toString();
+       }
+        
+       dbConn conn= new dbConn();
+       
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
+            String getfavs="select id, clustername,county,subcounty,facility from f1a_clusters where user='"+userid+"'";
+             String data="<option value='.'>Bookmark Name</option>";
+            try {
+                conn.rs=conn.st.executeQuery(getfavs);
+               
+                
+                while(conn.rs.next()){
+                
+                data+="<option data-county='"+conn.rs.getString("county")+"' data-subcounty='"+conn.rs.getString("subcounty")+"' data-facil='"+conn.rs.getString("facility")+"'   value=''>"+conn.rs.getString("clustername")+"</option>";
+                
+                                     }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(loadFavoriteSites.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
+            if(data.equals("<option value='.'>Bookmark Name</option>"))
+            {
             
-            out.println("</html>");
+            data="";
+               
+            }
+            
+            out.println(data);
         } finally {
             out.close();
         }

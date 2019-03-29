@@ -231,11 +231,11 @@ legend.formatter {
                                  </select>
                                 </td>
                              
-                             <!--<td><label class=" btn-success btn-large" onclick="savecluster();">Save currently selected organizational units</label></td>-->
+                             
                              
                              
                              </tr>
-                             <tr><td><br></td></tr>
+                             <tr><td></td><td></td></tr>
                                <tr><td> 
                                 <b>Month</b> <font color="red">*</font>
                                    </td><td>
@@ -243,12 +243,16 @@ legend.formatter {
                                     
                                  </select>
                                   </td></tr>
-                               <tr><td><br></td></tr>
                                
+                               <tr class='bookmark'><td> <b>Show Bookmark</b> </td><td><input type='checkbox' onclick='showbookmarkselect();' value='use cluster' name='iscluster' id='iscluster'></td></tr>
+                               <tr><td></td><td></td></tr>
+                               <tr class='bookmarkselect' style='display:none;'><td> <b>Select Bookmark</b> </td><td><select style="width: 300px;" class="span4 m-wrap" onchange='setorgunits();'    name='clusterlist' id='clusterlist'> </select></td></tr>
+                               
+                                <tr><td></td><td></td></tr>
                                  <tr><td> 
                                     <b>County</b> <font color="red">*</font>
                                </td><td>
-                               <select placeholder="County" onchange="loadsubcounty();" style="width: 300px;" required="true"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
+                                   <select placeholder="County" onchange="loadsubcounty();checkbkmark();" style="width: 300px;" required="true"  class="span4 m-wrap" tabindex="-1"  id="county" name="county">
                                     <option value=""></option>
                                  </select>
                                    </td></tr>
@@ -276,13 +280,30 @@ legend.formatter {
                                    
             
             
-                           </table>
+                         
                          <!--<p style="margin-left: 450px; margin-top: 200px;">  Management module here....</p>-->
 
-                 <div class="form-actions">
-                              <button type="submit" id="submit"  class="btn-lg btn-info">Download</button>
+                <tr><td> </td><td> 
+                              <button style='width:230px;' type="submit" id="submit"  class="btn-info btn-large "> Download Template(s)</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
-                           </div>
+</td></tr>
+                <tr><td>.</td><td></td></tr>
+                <tr><td>.</td><td></td></tr>
+                <tr><td>.</td><td></td></tr>
+                   </table>
+               
+                          
+                  <%if(session.getAttribute("userAccess")!=null){%>
+                    <table class='ujumbe' style="margin-left:20%;display:none;">
+                        <tr><td colspan='3'><label class='btn'><b> Are you interested in saving the selected sites for future easy selection? </b></label></td></tr>
+                <tr> <td><b>Bookmark Name </b> </td><td>  <input type='text' name='clustername' placeholder="Type Bookmark name" id='clustername' class='m-wrap'/>
+                       </td> <td> <label style='width:230px;' id='ujumbe' class="btn-large  btn-success" onclick="savecluster();">Save sites </label> </td></tr>
+                  <tr><td colspan='2'><div ></div></td></tr>
+                       
+                       </table>    
+                          <%}%>
+                          
+                        
                  </div>
                       </form>
                   <!-- END SAMPLE FORM PORTLET-->
@@ -417,8 +438,20 @@ success:function (data){
 });
 });
 
+
+
 function loadmonths(){
-      
+    
+    var dt=new Date();
+    
+    
+    var curmonth=dt.getMonth()+1;
+   
+       
+        var curyr=dt.getYear()+1900;
+     
+        console.log("mwezi wa "+curmonth+"  mwaka wa "+curyr);
+        
       var yr=document.getElementById("year").value;
 //      alert(yr);
               $.ajax({
@@ -427,6 +460,9 @@ type:'post',
 dataType:'html',
 success:function (data){
     $("#month").html(data.replace("<option value=''>Select Month </option>",""));
+    var select = document.getElementById('month');
+                    select.size = select.length;
+    
 }
 });  
      }
@@ -473,8 +509,39 @@ success:function (data){
             
             
         });
-        
+      return true;  
     }
+    
+    
+       function loadsubcounty2(arr,far){
+           
+           
+           
+        
+        var county=document.getElementById("county").value;
+        $.ajax({
+            url:'loadSubcounty?county='+county,
+            type:'post',
+            dataType:'html',
+            success:function (data)
+            {
+                $("#subcounty").html(data.replace("<option value=''>Select sub-county</option>",""));
+                var select = document.getElementById('subcounty');
+                select.size = select.length;
+                 $("#subcounty").val(arr);  
+                 
+                 loadfacil2(far);
+              //  App.init();   
+            }
+            
+            
+        });
+       
+    }
+    
+    
+    
+    
     
        function loadfacils()
 {
@@ -502,34 +569,94 @@ success:function (data){
 }
     
  
+    
+    
+       function loadfacil2( far)
+{
+      var subcounty=$("#subcounty").val();
+      
+$.ajax({
+url:'loadMultipleFacilities?subcounty='+subcounty,
+type:'post',
+dataType:'html',
+success:function (data){
+       $("#facility").html(data);
+         if(document.getElementById("facility").value!==''){
+      updatefacilsession();
+      
+      
+     
+      }  
+      $("#facility").val(far);
+    $("#facility").select2(); 
+         // $("#facility").chosen();
+       
+       
+}
+
+
+}); 
+}
+    
+ 
  loadcounty();
   
    </script>
    <script type="text/javascript" src="js/form731Totals.js"></script>
 <script type="text/javascript" src="js/val731.js"></script>
 <script type="text/javascript">
+    
+    
+    function checkbkmark(){
+        
+         var county=$("#county").val();
+           
+          
+        var subcounty=$("#subcounty").val();
+        if(county!==''){
+            
+            
+            $(".ujumbe").show();
+        }
+        else {
+            
+            $(".ujumbe").hide();
+        }
+        
+    }
+    
 
 function savecluster(){
     
+    var msg="";
     
             var county=$("#county").val();
+            var cluster=$("#clustername").val();
           
             var subcounty=$("#subcounty").val();
        
             var facility=$("#facility").val();
             
-            if(county===''){alert("Select County");}
+            if(county===''){$("#ujumbe").html(" Select County "); $("#county").css("border-color","red");}
+            else if(cluster===''){$("#ujumbe").html("Enter Bookmark Name"); $("#clustername").css("border-color","red");}
+            
             else{
                 
-                
+               $("#county").css("border-color","grey"); 
+               $("#clustername").css("border-color","grey");
                 
                 $.ajax({
-url:'saveFavoriteSites',
+url:'saveFavoriteSites?county='+county+"&subcounty="+subcounty+"&facility="+facility+"&cluster="+cluster,
 type:'post',
-data:{county:county,subcounty:subcounty,facility:facility},
 dataType:'html',
 success:function (data){
-   alert(data);
+    
+   $("#ujumbe").html(data);
+   
+   if(data==='Bookmark saved successfully'){$("#clustername").val("");
+   
+        loadfavorite();
+        }
        
        
 }
@@ -542,7 +669,82 @@ success:function (data){
     
 }
 
+function showbookmarkselect(){
+    
+    
+    
+   
+ if($('#iscluster:checkbox:checked').length > 0){
+  //showtargets 
 
+   $(".bookmarkselect").show();
+  
+ }
+ else 
+ {
+         $(".bookmarkselect").hide();
+ }
+    
+}
+
+
+function loadfavorite(){
+    
+    
+    
+   
+ $.ajax({
+     url:'loadFavoriteSites',
+     type:'post',
+     dataType:'html',
+     success: function (data) {
+         
+         $("#clusterlist").html(data);
+         
+         if(data.trim()===''){$(".bookmark").hide();} else { $(".bookmark").show(); }
+                        
+                    }
+ });
+    
+}
+
+loadfavorite();
+
+function setorgunits(){
+    
+    if($("#clusterlist").val()!=="."){
+    
+    var cn=$("#clusterlist").find(':selected').data("county");
+    var subc=$("#clusterlist").find(':selected').data("subcounty");
+    var facil=$("#clusterlist").find(':selected').data("facil");
+    console.log("sipitali ni "+facil);
+    
+    var scar="";
+    var far="";
+    
+    
+     if(subc!==null && typeof subc !==undefined){scar=subc.split(",");}
+     if(facil!==null && typeof facil !==undefined){far=facil.split(",");}
+    
+    
+
+    
+    console.log("county ni _"+cn);
+    $("#county").val(cn);
+     loadsubcounty2(scar,far);
+     
+    }
+    else{
+        
+        loadcounty();
+        loadsubcounty();
+        loadfacils();
+        
+    }
+   
+    
+    
+}
 
     </script>
    <!-- END JAVASCRIPTS -->   
