@@ -33,7 +33,7 @@ public class DataCleanerClass {
     dbConn conn = new dbConn();
     
     public XSSFWorkbook EIDTST(XSSFSheet worksheetpREV,XSSFWorkbook eid,CellStyle redstyle,CellStyle borderstyle,String start_date,String end_date) throws ParseException, SQLException{
-   
+   SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
       //upload previous errors
       //upload_eid_tst_prev_data(worksheetpREV); 
       //end
@@ -314,18 +314,19 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
               DOB="";
             }
             else{
-               switch (CellDOB.getCellType()) {
-                   case 0:
-                       //numeric
-                       DOB =""+(double)CellDOB.getNumericCellValue();
-                       break;
-                   case 1:
-                       DOB =CellDOB.getStringCellValue();
-                       break;
-                   default:
-                       DOB = CellDOB.getRawValue();
-                       break;
-               }
+                
+               if(CellDOB.getCellType()==1){
+              DOB = CellDOB.getStringCellValue(); 
+            }
+            else{
+                try{
+              DOB = dateformat.format(CellDOB.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 DOB="";   
+                }
+            }
+              
             }
             
             
@@ -402,18 +403,19 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
               Date_Collected="";
             }
             else{
-               switch (CellDate_Collected.getCellType()) {
-                   case 0:
-                       //numeric
-                       Date_Collected =""+(double)CellDate_Collected.getNumericCellValue();
-                       break;
-                   case 1:
-                       Date_Collected =CellDate_Collected.getStringCellValue();
-                       break;
-                   default:
-                       Date_Collected = CellDate_Collected.getRawValue();
-                       break;
-               }
+                
+               if(CellDate_Collected.getCellType()==1){
+              Date_Collected = CellDate_Collected.getStringCellValue(); 
+            }
+            else{
+                try{
+              Date_Collected = dateformat.format(CellDate_Collected.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 Date_Collected="";   
+                }
+            }
+             
             }
             
             
@@ -424,18 +426,19 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
               Date_Received="";
             }
             else{
-               switch (CellDate_Received.getCellType()) {
-                   case 0:
-                       //numeric
-                       Date_Received =""+(double)CellDate_Received.getNumericCellValue();
-                       break;
-                   case 1:
-                       Date_Received =CellDate_Received.getStringCellValue();
-                       break;
-                   default:
-                       Date_Received = CellDate_Received.getRawValue();
-                       break;
-               }
+                 
+               if(CellDate_Received.getCellType()==1){
+              Date_Received = CellDate_Received.getStringCellValue(); 
+            }
+            else{
+                try{
+              Date_Received = dateformat.format(CellDate_Received.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 Date_Received="";   
+                }
+            }
+            
             }
             
             
@@ -446,18 +449,19 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
               Date_Tested="";
             }
             else{
-               switch (CellDate_Tested.getCellType()) {
-                   case 0:
-                       //numeric
-                       Date_Tested =""+(double)CellDate_Tested.getNumericCellValue();
-                       break;
-                   case 1:
-                       Date_Tested =CellDate_Tested.getStringCellValue();
-                       break;
-                   default:
-                       Date_Tested = CellDate_Tested.getRawValue();
-                       break;
-               }
+                
+               if(CellDate_Tested.getCellType()==1){
+              Date_Tested = CellDate_Tested.getStringCellValue(); 
+            }
+            else{
+                try{
+              Date_Tested = dateformat.format(CellDate_Tested.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 Date_Tested="";   
+                }
+            }
+            
             }
             
             
@@ -468,18 +472,19 @@ String  SystemID,Sample_ID,Batch,Lab_Tested_In,County,Sub_County,Partner,Facilty
               Date_Dispatched="";
             }
             else{
-               switch (CellDate_Dispatched.getCellType()) {
-                   case 0:
-                       //numeric
-                       Date_Dispatched =""+(double)CellDate_Dispatched.getNumericCellValue();
-                       break;
-                   case 1:
-                       Date_Dispatched =CellDate_Dispatched.getStringCellValue();
-                       break;
-                   default:
-                       Date_Dispatched = CellDate_Dispatched.getRawValue();
-                       break;
-               }
+                 
+               if(CellDate_Dispatched.getCellType()==1){
+              Date_Dispatched = CellDate_Dispatched.getStringCellValue(); 
+            }
+            else{
+                try{
+              Date_Dispatched = dateformat.format(CellDate_Dispatched.getDateCellValue()); 
+                }
+                catch(Exception e){
+                 Date_Dispatched="";   
+                }
+            }
+              
             }
             
             
