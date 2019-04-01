@@ -1213,6 +1213,10 @@
         <servlet-name>fas_trial</servlet-name>
         <servlet-class>form1a.fas_trial</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>checkduplicateuid</servlet-name>
+        <servlet-class>ppprev.checkduplicateuid</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2424,6 +2428,10 @@
     <servlet-mapping>
         <servlet-name>fas_trial</servlet-name>
         <url-pattern>/fas_trial</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkduplicateuid</servlet-name>
+        <url-pattern>/checkduplicateuid</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
