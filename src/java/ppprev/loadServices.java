@@ -129,8 +129,8 @@ public class loadServices extends HttpServlet {
                     + " other_specific_rec   as other_specific_rec, "
                     + "other_rec_date, "
                     + "ref_by, "
-                    + "rec_by,reason_no_service_rec, "
-                    + "other_reason_not_rec "
+                    + "rec_by,IFNULL(reason_no_service_rec,'') as reason_no_service_rec, "
+                    + "IFNULL(other_reason_not_rec,'') as other_reason_not_rec "
                     + " "
                     + "FROM hc_services where participantid='" + id + "'";
 

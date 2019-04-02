@@ -86,7 +86,7 @@ public class loadParticipantsforServices extends HttpServlet {
             
             String qry=" SELECT  " +
 "    hc_participants.id , ifnull(hc_participants.patient_unique_id,'') as patient_unique_id,   Concat(fname,\" \",mname,\" \",sname) as participant,    age,    sex,    group_name,    hc_participants.enddate,    hc_participants.formid,Concat(first_name,\" \",middle_name,\" \",sur_name) as Facilitator,  ward " +
-",case when hc_services.participantid !='' then 'Yes' else 'No' end as status  " +
+",case when (hc_services.htc_rec is not null or hc_services.ref_by is not null or hc_services.vmmc_rec is not null or hc_services.counselling_rec is not null ) then 'Yes' else 'No' end as status  " +
 " " +
 "FROM " +
 " " +

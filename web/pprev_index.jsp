@@ -2044,12 +2044,12 @@ function getRandomId(min,max){
                     {
                      $("#servicesdiv").html("<form id='servicesf'  >"+data+"</form>");
                     
-        toggle_other_reasons_noservice();
+        
  
     $( ".tarehe3" ).datepicker({dateFormat:"yy-mm-dd",maxDate:  '+0m +0w' ,changeMonth: true,
         changeYear: true});
   
-        
+        toggle_other_reasons_noservice();
 //                     $('.tarehe3').datepicker({
 //                            todayHighlight: false, clearBtn: true, autoHide: true, format: "yy-mm-dd"
 //                        });
@@ -2071,10 +2071,10 @@ function getRandomId(min,max){
         
         var htsrecdate=$("#htc_rec_date").val();
         var htsres=$("#hivresults").val();
-       
+       console.log("matokeo ya HIV"+htsres);
        if(ishtsrefChecked===true && htsrefdate===''){ $("#ujumbe3").html("<font color='red'>Data not saved.Please enter HTC service referral date</font>");}
        else if(ishtsrecChecked===true && htsrecdate===''){ $("#ujumbe3").html("<font color='red'>Data not saved.Please enter HTC service received date</font>");}
-       else if(ishtsrecChecked===true && htsres===''){ $("#ujumbe3").html("<font color='red'>Data not saved.Please enter HIV results</font>");}
+      // else if(ishtsrecChecked===true && htsres===''){ $("#ujumbe3").html("<font color='red'>Data not saved.Please enter HIV results</font>");}
        
       // alert(da);
       else {
