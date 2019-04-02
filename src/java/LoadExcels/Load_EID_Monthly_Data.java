@@ -255,6 +255,26 @@ public class Load_EID_Monthly_Data extends HttpServlet {
          date_initiated_art = cell_6.getStringCellValue().trim();
         }
             }
+          
+              //format gender
+              if(sex.equalsIgnoreCase("Male")){
+                  sex="M";
+              }
+              else if(sex.equalsIgnoreCase("Female")){
+                  sex="F";
+              }
+              
+              //format results
+               if(results.equalsIgnoreCase("Negative")){
+                  results="N";
+              }
+              else if(results.equalsIgnoreCase("Positive")){
+                  results="P";
+              }
+              else if(results.equalsIgnoreCase("Postive")){
+                  results="P";
+              }
+              
               
               
             String  record_issue=""; int num_recs=0;
