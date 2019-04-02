@@ -87,8 +87,13 @@ public class Load_EID_Monthly_Data extends HttpServlet {
         }
         else{
             not_uploaded+="<br><u>File Name:"+fileName+"</u></br>";
-            full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
-
+             if(database.OSValidator.isWindows()){
+          full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+            }
+            else if(database.OSValidator.isUnix()){
+              full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;  
+            }
+             
  System.out.println("the saved file directory is  :  "+full_path);
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
  
