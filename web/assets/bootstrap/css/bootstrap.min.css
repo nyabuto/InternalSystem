@@ -127,9 +127,9 @@
     width: 300px;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1002px) {
   .modal-lg {
-    width: 900px;
+    width: 1070px;
   }
 }
 

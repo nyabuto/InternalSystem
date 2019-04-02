@@ -50,7 +50,7 @@ public class getAttendance extends HttpServlet {
                 if(!request.getParameter("lessons").equals("")){
             lessons=request.getParameter("lessons");
                      }
-            }
+                                                     }
             
             int c=new Integer(lessons);
             dbConn conn = new dbConn();
@@ -63,7 +63,9 @@ public class getAttendance extends HttpServlet {
                       for(int b=1;b<=c;b++){
                      regdata+= "<th>S"+b+"</th>";
                               }
-                      regdata+= "<th></th></tr></thead>"
+                      regdata+= "<th>HIV Status</th>"
+                              //+ "<th>Services given?</th><th>Services</th>"
+                              + "<th></th></tr></thead>"
          + "<tbody>";
    
         String regrows=""; 
@@ -71,9 +73,13 @@ public class getAttendance extends HttpServlet {
             
             
             
-            String qry="select * from hc_participants where group_id='"+groupid+"' ";
+            String qry=" select hivresults, hc_participants.`id` as `id`,concat(`fname`,' ',`mname`,' ',`sname`) as `participant`,`fname`,`mname`,`sname`,`age`,`sex`,`s1`,`s2`,`s3`,`s4`,`s5`,`s6`,`s7`,`patient_unique_id`,`Ward` ,case when hc_services.participantid !='' then 'Yes' else 'No' end as status "
+                    + "from hc_participants"
+                    + " join ward on ward.ward_id=hc_participants.wardid " +
+" left join hc_services on hc_services.participantid=hc_participants.id "
+                    + " where hc_participants.group_id='"+groupid+"' ";
            
-            
+            System.out.println(""+qry);
             conn.rs=conn.st.executeQuery(qry);
             int count=1;
             
@@ -81,6 +87,9 @@ public class getAttendance extends HttpServlet {
             
             while(conn.rs.next()){
              
+                String clas="btn btn-success"; 
+               if(conn.rs.getString("status").equals("No")){ clas="btn btn-danger"; }
+                
                  regrows+="<tr> "
                 + "<td class= 'col-sm-1' >"+count+"</td>"
                 + "<td class= 'col-sm-2' >"+conn.rs.getString("fname")+" "+conn.rs.getString("mname")+" "+conn.rs.getString("sname")+"</td>";
@@ -94,6 +103,12 @@ public class getAttendance extends HttpServlet {
                      regrows+= "<td class= 'col-sm-1'><select onchange='attendanceicon(\""+count+"_"+d+"\");' style='width:100px;'  id='s"+count+"_"+d+"' name='s"+count+"_"+d+"' class= 'form-control' >"+presentAbsent(""+conn.rs.getString("s"+d))+"</select><i class='"+icon+"' id='status"+count+"_"+d+"'></i></td>";
                               } 
                   
+                regrows+="<td class= 'col-sm-1' ><select   name='hivresults"+count+"' id='hivresults"+count+"' style='width:100%;' class='form-control'> " +hivResults(""+conn.rs.getString("hivresults"))+"</select></td>";
+                
+                // regrows+= "<td class= 'col-sm-1 '><span class='"+clas+"' id='status_"+conn.rs.getString("id")+"'>"+conn.rs.getString("status")+"</span></td>";
+                         
+              // regrows+="<td class= 'col-sm-1 '><label class='btn btn-info' onclick=\"launchservices('"+conn.rs.getString("sex")+"','"+conn.rs.getString("id")+"','"+conn.rs.getString("participant").replace("'","")+"','"+conn.rs.getString("age")+"','"+conn.rs.getString("ward").replace("'","")+"');\">Services</label></td>";
+                
                 regrows+="<td class= 'col-sm-1' ><a class= 'deleteRow'></a></td></tr>";
                 
                 
@@ -104,7 +119,7 @@ public class getAttendance extends HttpServlet {
              System.out.println(" qry is "+qry);
                      
                 //read from the db and get the participants for editing
-              
+                String clas="btn btn-danger";
                
                 int a=count;
          regrows+="<tr> "
@@ -116,7 +131,12 @@ public class getAttendance extends HttpServlet {
                      regrows+= "<td '><select onchange='attendanceicon(\""+count+"_"+d+"\");' style='width:100px;'  id='s"+count+"_"+d+"' name='s"+count+"_"+d+"' class='form-control' >"+presentAbsent("1")+" </select> <i class='icon-check' id='status"+count+"_"+d+"'></i></td>";
                               } 
                   
-                regrows+="<td class= 'col-sm-1' ></a></td></tr>";
+                regrows+="<td class= 'col-sm-1' ><select   name='hivresults' id='hivresults' style='width:100%;' class='form-control'> " +hivResults("")+"</select></td>";
+                      
+                       // regrows+= "<td class= 'col-sm-1 '><span class='"+clas+"' id='status_"+conn.rs.getString("id")+"'>No</span></td>";
+                         
+              // regrows+="<td class= 'col-sm-1 '><label class='btn btn-info' onclick=\"launchservices('"+conn.rs.getString("sex")+"','"+conn.rs.getString("id")+"','"+conn.rs.getString("participant").replace("'","")+"','"+conn.rs.getString("age")+"','"+conn.rs.getString("ward").replace("'","")+"');\">Services</label></td>";
+               regrows+= "<td class= 'col-sm-1' ><a class= 'deleteRow'></a></td></tr>";
         count++;
                    
             
@@ -190,7 +210,30 @@ return options;
 
 
 
+ public String hivResults(String curstatus){
 
+ 
+    
+    String allattendance[]={"Negative","Positive","Unknown"};
+    
+  
+    String options="<option value=''>Select Results</option>";
+   // String options="";
+   
+    for(int b=0;b<allattendance.length;b++){
+        String isselected="";
+        //System.out.println(" Compare statuses "+curstatus+"  "+allattendanceid[b]);
+        if(curstatus.equals(allattendance[b])){isselected=" selected ";}
+        
+        
+    options+="<option "+isselected+" value='"+allattendance[b]+"'>"+allattendance[b]+"</option>";
+        
+    
+    }
+    
+
+return options;
+} 
    
 
 

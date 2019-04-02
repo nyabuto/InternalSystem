@@ -545,7 +545,7 @@ input:focus {
 
 
 
-<div class="modal fade" id="hcservicesmodal" >
+<div class="modal fade" id="hcservicesmodal" style='width:100%;' >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -558,7 +558,7 @@ input:focus {
                     
                     
                    
-           <div id="servicesdiv" style='overflow-y:scroll;height:600px;'><label>Loading services</label></div>         
+           <div id="servicesdiv" style='overflow-y:scroll;height:600px;' ><label>Loading services</label></div>         
                     
                     
               
@@ -1154,8 +1154,10 @@ setAttendance();
          }
          
          var gend="";
-         if(defaultsex!==""){gend="<%=gp.getGender("Female")%>";}
-else {
+         if(agegroup==='Young Men' || agegroup==='Older Men' ){gend="<%=gp.getGender("Men")%>";}
+    else if(agegroup==='Young Women' || agegroup==='Older Women' ){gend="<%=gp.getGender("Female")%>";}
+else 
+{
   gend="<%=gp.getGender("")%>";  
     
 }         
@@ -1170,16 +1172,17 @@ else {
             } 
         }
         
-        
+        var rn=getRandomId(10000,90000);
         var newRow = $("<tr id='tablerow"+counter+"'>");
-        var cols = "<td class= 'col-sm-1 '>"+counter+"<input value='"+getRandomId(10000,90000)+"' type='hidden' id='id"+counter+"' name= 'id"+counter+"'  /></td>";
+        var cols = "<td class= 'col-sm-1 '>"+counter+"<input value='"+rn+"' type='hidden' id='id"+counter+"' name= 'id"+counter+"'  /></td>";
         
          cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' type= 'text' id='firstname"+counter+"' name= 'firstname"+counter+"' class= 'form-control' /></td>"
-         cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' placeholder='optional' type= 'text' id='middlename"+counter+"' name='middlename"+counter+"' class= 'form-control' /></td>"
+         cols += "<td class= 'col-sm-1 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' placeholder='optional' type= 'text' id='middlename"+counter+"' name='middlename"+counter+"' class= 'form-control' /></td>"
          cols += "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+counter+"\");' type= 'text' id='lastname"+counter+"' name='lastname"+counter+"' class= 'form-control' /></td>"
-         cols += "<td class= 'col-sm-2 '><input onkeypress='return numbers(event);' maxlength='2' type= 'text' id='age"+counter+"' name='age"+counter+"' class= 'form-control' /></td>"
-         cols += "<td class= 'col-sm-2 '><select  id='sex"+counter+"' name='sex"+counter+"' class= 'form-control' >"+gend+"</select></td>"
-         cols += "<td><input  tabindex='-1' onclick='deleterow(\"tablerow"+counter+"\",\"tableregrow"+counter+"\");' type='button' class='ibtnDel btn btn-md btn-danger' value='Delete'></td>";
+         cols+="<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='isunique(\"patient_unique_id"+counter+"\",\""+rn+"\");'  type= 'text' id='patient_unique_id"+counter+"' name='patient_unique_id"+counter+"' class= 'form-control' /></td>"
+         cols += "<td class= 'col-sm-1 ' style='width:170px;'><input style='width:150px;' onkeypress='return numbers(event);' maxlength='2' type= 'text' id='age"+counter+"' name='age"+counter+"' class= 'form-control' /></td>"
+         cols += "<td class= 'col-sm-2 ' style='width:170px;'><select style='width:150px;'  id='sex"+counter+"' name='sex"+counter+"' class= 'form-control' >"+gend+"</select></td>"
+         cols += "<td><input   tabindex='-1' onclick='deleterow(\"tablerow"+counter+"\",\"tableregrow"+counter+"\");' type='button' class='ibtnDel btn btn-md btn-danger' value='Delete'></td>";
          
         newRow.append(cols);
        // newRow.append("</tr>");
@@ -1195,6 +1198,8 @@ else {
                      regrows+= "<td '><select style='width:100px;' onchange='attendanceicon(\""+counter+"_"+d+"\");'  id='s"+counter+"_"+d+"' name='s"+counter+"_"+d+"' class='form-control' ><%=ga.presentAbsent("1")%></select> <i class='icon-check' id='status"+counter+"_"+d+"'></i></td>";
                               } 
                   
+             
+                regrows+="<td class= 'col-sm-1' ><select   name='hivresults"+counter+"' id='hivresults"+counter+"' style='width:100%;' class='form-control'><%=ga.hivResults("")%></select></td>";
                 regrows+="<td class= 'col-sm-1' ></a></td></tr>"; 
          newregRow.append(regrows);
        // newRow.append("</tr>");
@@ -2039,7 +2044,7 @@ function getRandomId(min,max){
                     {
                      $("#servicesdiv").html("<form id='servicesf'  >"+data+"</form>");
                     
-        
+        toggle_other_reasons_noservice();
  
     $( ".tarehe3" ).datepicker({dateFormat:"yy-mm-dd",maxDate:  '+0m +0w' ,changeMonth: true,
         changeYear: true});
@@ -2161,6 +2166,51 @@ function getreport(){
     
 }
 
+  
+  function isunique(uid,serialno){
+      
+    var val=$("#"+uid).val();
+    
+   $.ajax({
+                    url: 'checkduplicateuid?uid=' + val+"&id="+serialno,
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) 
+                    {
+if(data.trim()==='exists'){
+    
+    //alert("Unique ID is already given to another client.");
+    $("#"+uid).focus();
+    $("#"+uid).css("border-color",'red');
+}
+else{
+     $("#"+uid).css("border-color",'#ccc');
+    
+}
+
+
+
+                    }
+                });  
+      
+      
+  }
+  
+  
+  function toggle_other_reasons_noservice(){
+      
+      var val=$("#reason_no_service_rec").val();
+      
+      if(val.indexOf("11")>=0){
+        $(".other_reason_noservice").show();  
+          
+      }
+      else {
+          
+       $(".other_reason_noservice").hide();    
+      }
+      
+  }
   
   
   </script>

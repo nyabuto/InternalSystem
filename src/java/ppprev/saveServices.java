@@ -40,7 +40,7 @@ public class saveServices extends HttpServlet {
             dbConn conn= new dbConn();
           
             
-            String cols[]={"participantid","clientphone","pregnant","maritalstatus","ref_from","ref_to","hivresults","htc_ref","htc_ref_date","vmmc_ref","vmmc_ref_date","anc_pmtct_ref","anc_pmtct_ref_date","sti_ref","sti_ref_date","tb_ref","tb_ref_date","familyplanning_ref","familyplanning_ref_date","pep_ref","pep_ref_date","care_ref","care_ref_date","psychosocial_ref","psychosocial_ref_date","drugabuse_ref","drugabuse_ref_date","counselling_ref","counselling_ref_date","bcc_ref","bcc_ref_date","other_ref","other_specific_ref","other_ref_date","htc_rec","htc_rec_date","vmmc_rec","vmmc_rec_date","anc_pmtct_rec","anc_pmtct_rec_date","sti_rec","sti_rec_date","tb_rec","tb_rec_date","familyplanning_rec","familyplanning_rec_date","pep_rec","pep_rec_date","care_rec","care_rec_date","psychosocial_rec","psychosocial_rec_date","drugabuse_rec","drugabuse_rec_date","counselling_rec","counselling_rec_date","bcc_rec","bcc_rec_date","other_rec","other_specific_rec","other_rec_date","ref_by","rec_by"};
+            String cols[]={"participantid","clientphone","pregnant","maritalstatus","ref_from","ref_to","hivresults","htc_ref","htc_ref_date","vmmc_ref","vmmc_ref_date","anc_pmtct_ref","anc_pmtct_ref_date","sti_ref","sti_ref_date","tb_ref","tb_ref_date","familyplanning_ref","familyplanning_ref_date","pep_ref","pep_ref_date","care_ref","care_ref_date","psychosocial_ref","psychosocial_ref_date","drugabuse_ref","drugabuse_ref_date","counselling_ref","counselling_ref_date","bcc_ref","bcc_ref_date","other_ref","other_specific_ref","other_ref_date","htc_rec","htc_rec_date","vmmc_rec","vmmc_rec_date","anc_pmtct_rec","anc_pmtct_rec_date","sti_rec","sti_rec_date","tb_rec","tb_rec_date","familyplanning_rec","familyplanning_rec_date","pep_rec","pep_rec_date","care_rec","care_rec_date","psychosocial_rec","psychosocial_rec_date","drugabuse_rec","drugabuse_rec_date","counselling_rec","counselling_rec_date","bcc_rec","bcc_rec_date","other_rec","other_specific_rec","other_rec_date","ref_by","rec_by","reason_no_service_rec","other_reason_not_rec"};
            
             
                         
@@ -67,7 +67,22 @@ conn.pst1=conn.conn.prepareStatement(formdatainsert);
             for (int p = 0; p < cols.length; p++) {
                 
                 String vals = "";
-                if (request.getParameter(cols[p]) != null) 
+                String valsa[] = null;
+                if(cols[p].equals("reason_no_service_rec")){
+                if (request.getParameterValues(cols[p]) != null) 
+                {
+                valsa = request.getParameterValues(cols[p]);
+                conn.pst1.setString(p+1,ArraytoString(valsa));
+                //count++;
+                }
+                else{
+                      vals = "";
+                conn.pst1.setString(p+1,vals);
+                    System.out.println("null request.getParameter("+cols[p]+")");
+                }
+            }
+                else {
+                    if (request.getParameter(cols[p]) != null) 
                 {
                 vals = request.getParameter(cols[p]);
                 conn.pst1.setString(p+1,vals);
@@ -77,6 +92,9 @@ conn.pst1=conn.conn.prepareStatement(formdatainsert);
                       vals = "";
                 conn.pst1.setString(p+1,vals);
                     System.out.println("null request.getParameter("+cols[p]+")");
+                }
+                
+                
                 }
                                                     }
             
@@ -154,5 +172,16 @@ out.println(returnnmsg);
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+public String ArraytoString(String [] array){
+String al=",";
+
+        for (String array1 : array) {
+            al += array1 + ",";
+                                     }
+
+return al;
+}
 
 }

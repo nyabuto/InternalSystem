@@ -47,6 +47,11 @@ int totalrows=1;
             }
           
             
+            String ym="";
+            String ed="";
+            //if(){}
+            
+            System.out.println("total Rows ni" +totalrows);     
 String formdatainsert=" replace into hc_formdata_1 ";
 String formdatacolumns="(";
 String formdatavalues=") values (";
@@ -156,12 +161,38 @@ count=1;
 
  //______________________________save wizard page 3 onwards___________________________________
  
- String section3[]={"yearmonth","wardid","lessons","formid","enddate","group","id","firstname","middlename","lastname","age","sex"};
- String section3data[]={"yearmonth","wardid","expectedsessions","formid","enddate","group_id","id","fname","mname","sname","age","sex"};
+ String section3[]={"yearmonth","wardid","lessons","formid","enddate","group","id","firstname","middlename","lastname","age","sex","patient_unique_id"};
+ String section3data[]={"yearmonth","wardid","expectedsessions","formid","enddate","group_id","id","fname","mname","sname","age","sex","patient_unique_id"};
 //Participant details____________________________________________________
 
 
 for(int a=0;a<totalrows;a++){
+    
+    String res="";
+    String id="";
+    if (request.getParameter("hivresults"+(a+1)) != null)
+    {
+    res = request.getParameter("hivresults"+(a+1));
+    }
+    if (request.getParameter("id"+(a+1)) != null)
+    {
+    id = request.getParameter("id"+(a+1));
+    }
+    
+   String ce="select * from hc_services where participantid='"+id+"' ";
+   conn.rs=conn.st.executeQuery(ce);
+   String svc="";
+   if(conn.rs.next()){
+    svc="update hc_services set hivresults='"+res+"' where participantid='"+id+"' ";
+   }
+   else {
+   
+    svc="insert into hc_services set hivresults='"+res+"' , participantid='"+id+"' ";
+   
+   }
+    
+   conn.st.executeUpdate(svc);
+   
    
     String formdata2insert=" replace into hc_participants ";
 String formdata2columns="(";
@@ -209,9 +240,23 @@ conn.pst1=conn.conn.prepareStatement(formdata2insert);
   if(section3[p].equals("yearmonth") ||section3[p].equals("wardid") || section3[p].equals("group") || section3[p].equals("enddate") || section3[p].equals("formid")|| section3[p].equals("lessons")){
   if (request.getParameter(section3[p]) != null)
     {
-    vals = request.getParameter(section3[p]);
-    conn.pst1.setString(count,""+vals);
+        
+    
+    if(section3[p].equals("yearmonth")){
+    vals = request.getParameter("enddate");
+   
+    if(vals.length()>=6){
+     vals=vals.replace("-", "").substring(0, 6);
+    }
+   
+    }
+    else {
+      vals = request.getParameter(section3[p]);
+    }
+     conn.pst1.setString(count,""+vals);
+  
     count++;
+    
     }
    }
   

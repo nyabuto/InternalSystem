@@ -61,9 +61,10 @@ public class loadParticipantsforServices extends HttpServlet {
             
             
             
-            data = "<table id='participants2table' class= 'table order-list table-bordered'>"
+            data = "<table id='participants2table' class= 'table  table-bordered'>"
                     + "<thead><tr>"
                     + "<th>Serial No</th>"
+                    + "<th>Unique ID</th>"
                     + "<th>Participant Name</th>"
                     + "<th>Age</th>"
                     + "<th>Sex</th>"
@@ -84,7 +85,7 @@ public class loadParticipantsforServices extends HttpServlet {
             
             
             String qry=" SELECT  " +
-"    hc_participants.id ,    Concat(fname,\" \",mname,\" \",sname) as participant,    age,    sex,    group_name,    hc_participants.enddate,    hc_participants.formid,Concat(first_name,\" \",middle_name,\" \",sur_name) as Facilitator,  ward " +
+"    hc_participants.id , ifnull(hc_participants.patient_unique_id,'') as patient_unique_id,   Concat(fname,\" \",mname,\" \",sname) as participant,    age,    sex,    group_name,    hc_participants.enddate,    hc_participants.formid,Concat(first_name,\" \",middle_name,\" \",sur_name) as Facilitator,  ward " +
 ",case when hc_services.participantid !='' then 'Yes' else 'No' end as status  " +
 " " +
 "FROM " +
@@ -112,13 +113,14 @@ public class loadParticipantsforServices extends HttpServlet {
              
                  rows+="<tr> "
                 + "<td class= 'col-sm-1 '>"+count+"<input value='"+conn.rs.getString("id")+"' type='hidden' id='participantid"+count+"' name= 'participantid"+count+"'  /></td>"
+                + "<td class= 'col-sm-1 '>"+conn.rs.getString("patient_unique_id")+"</td>"
                 + "<td class= 'col-sm-2 '>"+conn.rs.getString("participant")+"</td>"
                 + "<td class= 'col-sm-1 '>"+conn.rs.getString("age")+"</td>"
                 + "<td class= 'col-sm-1 '>"+conn.rs.getString("sex")+"</td>"
                 + "<td class= 'col-sm-1 '>"+conn.rs.getString("group_name")+"</td>"
                 + "<td class= 'col-sm-1 '>"+conn.rs.getString("enddate")+"</td>"
                 + "<td class= 'col-sm-1 '>"+conn.rs.getString("formid")+"</td>"
-                + "<td class= 'col-sm-2 '>"+conn.rs.getString("Facilitator")+"</td>"
+                + "<td class= 'col-sm-1 '>"+conn.rs.getString("Facilitator")+"</td>"
                 + "<td class= 'col-sm-1 '>"+conn.rs.getString("ward")+"</td>"
                 + "<td class= 'col-sm-1 '><span class='"+clas+"' id='status_"+conn.rs.getString("id")+"'>"+conn.rs.getString("status")+"</span></td>"
                          
@@ -127,12 +129,12 @@ public class loadParticipantsforServices extends HttpServlet {
                 
                 
            count++;
-           
+            
             }
             
-             System.out.println(" qry is "+qry);
+            System.out.println(" qry is "+qry);
                      
-                //read from the db and get the participants for editing
+            //read from the db and get the participants for editing
               
          
                 
@@ -140,7 +142,9 @@ public class loadParticipantsforServices extends HttpServlet {
         +"<tr>"
            
                     + "<th>Serial No</th>"
+            + "<th>Unique ID</th>"
                     + "<th>Participant Name</th>"
+                    
                     + "<th>Age</th>"
                     + "<th>Sex</th>"
                     + "<th>Group</th>"

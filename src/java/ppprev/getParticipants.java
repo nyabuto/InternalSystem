@@ -62,7 +62,7 @@ public class getParticipants extends HttpServlet {
             
               data="<table id='participantstable' class= 'table order-list table-bordered'>"
    
-         +"<thead><tr><th>Serial No</th><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Age</th><th>Sex</th><th></th></tr></thead>"
+         +"<thead><tr><th>Serial No</th><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>Patient Unique ID</th><th>Age</th><th>Sex</th><th></th></tr></thead>"
          + "<tbody>";
    
         String rows=""; 
@@ -70,7 +70,7 @@ public class getParticipants extends HttpServlet {
             
             
             
-            String qry="select * from hc_participants where group_id='"+groupid+"' order by timestamp asc ";
+            String qry="select id,fname,mname,sname,age,sex,IFNULL(patient_unique_id,'') AS patient_unique_id from hc_participants where group_id='"+groupid+"' order by timestamp asc ";
            
             
             conn.rs=conn.st.executeQuery(qry);
@@ -83,10 +83,11 @@ public class getParticipants extends HttpServlet {
                  rows+="<tr> "
                 + "<td class= 'col-sm-1 '>"+count+"<input value='"+conn.rs.getString("id")+"' type='hidden' id='id"+count+"' name= 'id"+count+"'  /></td>"
                 + "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+count+"\");' value='"+conn.rs.getString("fname")+"' type= 'text' id='firstname"+count+"' name= 'firstname"+count+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+count+"\");' value='"+conn.rs.getString("mname")+"' placeholder='optional' type= 'text' id='middlename"+count+"' name='middlename"+count+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-1 '><input style='text-transform: lowercase;' onblur='appendnames(\""+count+"\");' value='"+conn.rs.getString("mname")+"' placeholder='optional' type= 'text' id='middlename"+count+"' name='middlename"+count+"' class= 'form-control' /></td>"
                 + "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='appendnames(\""+count+"\");' value='"+conn.rs.getString("sname")+"' type= 'text' id='lastname"+count+"' name='lastname"+count+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input onkeypress='return numbers(event);' maxlength='2' value='"+conn.rs.getString("age")+"' type= 'text' id='age"+count+"' name='age"+count+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><select type= 'text' id='sex"+count+"' name='sex"+count+"' class= 'form-control' >"+getGender(""+conn.rs.getString("sex"))+"</select></td>"
+                + "<td class= 'col-sm-2 '><input style='text-transform: lowercase;' onblur='isunique(\"patient_unique_id"+count+"\",\""+conn.rs.getString("id")+"\");' value='"+conn.rs.getString("patient_unique_id")+"' type= 'text' id='patient_unique_id"+count+"' name='patient_unique_id"+count+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-1 ' style='width:170px;'><input style='width:150px;' onkeypress='return numbers(event);' maxlength='2' value='"+conn.rs.getString("age")+"' type= 'text' id='age"+count+"' name='age"+count+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 ' style='width:170px;'><select type= 'text' id='sex"+count+"' name='sex"+count+"' class= 'form-control' style='width:150px;' >"+getGender(""+conn.rs.getString("sex"))+"</select></td>"
                 +"<td class= 'col-sm-1 '><a  tabindex='-1' class= 'deleteRow '></a></td></tr>";
                 
                 
@@ -100,19 +101,21 @@ public class getParticipants extends HttpServlet {
               
                
                 int a=count;
-        rows+="<tr> "
-                + "<td class= 'col-sm-1 '>"+a+"<input value='"+RandomNo(1000, 90000)+"' type='hidden' id='id"+a+"' name= 'id"+a+"'  /></td>"
-                + "<td class= 'col-sm-2 '><input autofocus='autofocus' onblur='appendnames(\""+a+"\");' type= 'text' id='firstname"+a+"' name= 'firstname"+a+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+a+"\");' placeholder='optional' type= 'text' id='middlename"+a+"' name='middlename"+a+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input onblur='appendnames(\""+a+"\");' type= 'text' id='lastname"+a+"' name='lastname"+a+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><input onkeypress='return numbers(event);' maxlength='2' type= 'text' id='age"+a+"' name='age"+a+"' class= 'form-control' /></td>"
-                + "<td class= 'col-sm-2 '><select  id='sex"+a+"' name='sex"+a+"' class= 'form-control' >"+getGender("")+"</select></td>"
-                +"<td class= 'col-sm-1 '><a  tabindex='-1' class= 'deleteRow'></a></td></tr>";
+                int rn=RandomNo(1000, 90000);
+            rows+="<tr> "
+                + "<td class= 'col-sm-1 ' >"+a+"<input value='"+rn+"' type='hidden' id='id"+a+"' name= 'id"+a+"'  /></td>"
+                + "<td class= 'col-sm-2 ' ><input autofocus='autofocus' onblur='appendnames(\""+a+"\");' type= 'text' id='firstname"+a+"' name= 'firstname"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-1 ' ><input onblur='appendnames(\""+a+"\");' placeholder='optional' type= 'text' id='middlename"+a+"' name='middlename"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 ' ><input onblur='appendnames(\""+a+"\");' type= 'text' id='lastname"+a+"' name='lastname"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 ' ><input style='text-transform: lowercase;' onblur='isunique(\"patient_unique_id"+a+"\",\""+rn+"\");'  type= 'text' id='patient_unique_id"+a+"' name='patient_unique_id"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-1 ' style='width:170px;'><input style='width:150px;' onkeypress='return numbers(event);' maxlength='2' type= 'text' id='age"+a+"' name='age"+a+"' class= 'form-control' /></td>"
+                + "<td class= 'col-sm-2 ' style='width:170px;'><select style='width:150px;' id='sex"+a+"' name='sex"+a+"' class= 'form-control' >"+getGender("")+"</select></td>"
+                 +"<td class= 'col-sm-1 ' ><a  tabindex='-1' class= 'deleteRow'></a></td></tr>";
         count++;
                    
             
                 
-    rows+="</tbody><tfoot><tr><td  style= 'text-align: left;' colspan='6'><input type='button' onclick='addrow();' class='btn btn-lg btn-block btn-success' id='ongezarow' value='Add Participant row' /></td></tr>"
+    rows+="</tbody><tfoot><tr><td  style= 'text-align: left;' colspan='7'><input type='button' onclick='addrow();' class='btn btn-lg btn-block btn-success' id='ongezarow' value='Add Participant row' /></td></tr>"
         +"<tr><td ><input type='hidden' value='"+count+"' id='totalrows' name='totalrows'></td></tr></tfoot></table>";
             
             //System.out.println(data+rows);
