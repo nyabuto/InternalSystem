@@ -42,37 +42,14 @@
 <style>
 #notify {
   position: relative;
-  text-transform: uppercase;
-  letter-spacing: 6px;
+  /*text-transform: uppercase;*/
+  letter-spacing: 2px;
   font-weight: 900;
   text-decoration: none;
-  color: white;
+  color: red;
+  font-size: 23px;
   display: inline-block;
-  background-size: 120% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-  -ms-background-clip: text;
-  -ms-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  background-image: linear-gradient(45deg, 
-                    #7794ff, 
-                    #44107A,
-                    #FF1361,
-                    #FFF800);
-  animation: .2s shake infinite alternate;
 }
-
-@keyframes shake {
-  0% { transform: skewX(-15deg); }
-  5% { transform: skewX(15deg); }
-  10% { transform: skewX(-15deg); }
-  15% { transform: skewX(15deg); }
-  20% { transform: skewX(0deg); }
-  100% { transform: skewX(0deg); }  
-} 
     </style>
   
 </head>
@@ -213,16 +190,16 @@
                       </div>
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
-                  <% if(session.getAttribute("warnings")!=null){%>
                   <div id="table_output">
                       <div>
                           <div style="font-weight: bolder; color: red;" id="message">
                               <% if(session.getAttribute("message")!=null){
                               out.println(session.getAttribute("message").toString());
+                              session.removeAttribute("message");
                               }%>
                               </div>
-                          
-                          <%if(!session.getAttribute("warnings").toString().equals("")){%>
+                          <% if(session.getAttribute("warnings")!=null){
+                              if(!session.getAttribute("warnings").toString().equals("")){%>
                           <br>
                           <div>
                               <div style="text-align: center; font-size: 30px; font-family: bolder; text-decoration: underline;">Early Warning Indicators: Data Quality Issues</div>
@@ -234,21 +211,16 @@
                       <tbody id="warnings_details">
                <%
                out.println(session.getAttribute("warnings").toString());
+               session.removeAttribute("warnings");
                    %>
                     
                       </tbody>
                 </table>
                </div>
-                   <%}%>
+                   <%}
+}%>
                    </div>
                   </div>
-               <%
-               }
-               else{ // no session do
-               
-               }
-                session.removeAttribute("warnings");
-               %>
                </div>
             </div>
           

@@ -29,11 +29,13 @@ import org.json.simple.JSONObject;
 public class ValidateExcel {
     dbConn conn = new dbConn();
     int error_count,warning_count,summarypos; 
+    String table_name="";
    
-    public JSONObject validate(String[] facilityids, String period[]) throws SQLException{
+    public JSONObject validate(String[] facilityids, String period[],String table) throws SQLException{
         JSONObject obj = new JSONObject();
         JSONArray jarray = new JSONArray();
         String facility_id,yearmonth;
+        table_name = table;
         
         for(int i=0;i<facilityids.length;i++){
           for( int j=0;j<period.length;j++){
@@ -41,7 +43,7 @@ public class ValidateExcel {
           yearmonth = period[j];   
           
           if(data_exist(facility_id,yearmonth)){
-          JSONObject obj_item = validate(facility_id,yearmonth);
+          JSONObject obj_item = validate(facility_id,yearmonth,table);
           jarray.add(obj_item);
           }
           System.out.println("facility :"+i+" month : "+j);
@@ -53,7 +55,7 @@ public class ValidateExcel {
     
     public boolean data_exist(String facil_id, String yearmonth) throws SQLException{
         boolean status= false;
-     String count_recs = "SELECT COUNT(id) AS no_recs FROM fas_temp WHERE yearmonth="+yearmonth+" AND facility_id="+facil_id+"";
+     String count_recs = "SELECT COUNT(id) AS no_recs FROM "+table_name+" WHERE yearmonth="+yearmonth+" AND facility_id="+facil_id+"";
      conn.rs = conn.st.executeQuery(count_recs);
      if(conn.rs.next()){
          if(conn.rs.getInt(1)>0){
@@ -65,9 +67,10 @@ public class ValidateExcel {
     }
     
     
-    public JSONObject validate(String facility_id,String yearmonth) throws SQLException{
+    public JSONObject validate(String facility_id,String yearmonth, String table) throws SQLException{
            JSONArray jarray = new JSONArray();
-           
+           table_name = table;
+           System.out.println("called to validate");
         int error_counter=0,warnings_counter=0;
         String message_type="",message="";
         String lhs,rhs,sign,query="";
@@ -95,6 +98,7 @@ public class ValidateExcel {
             
             query += "  WHERE yearmonth="+yearmonth+" AND facility_id="+facility_id;  
              }
+//                     System.out.println("query is : "+query);
                 //run the validation query
                 
                 conn.rs1 = conn.st1.executeQuery(query);
@@ -180,24 +184,23 @@ public class ValidateExcel {
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_50 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_50 end,0))) AS '50+ F',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_50 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_50 end,0))) AS '50+ M',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) AS 'Totals'\n" +
-                        "FROM fas_temp ";
+                        "FROM "+table_name+" ";
                 break;
             case 0:// for totals only
                 query="SELECT\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) AS 'Totals'\n" +
-                        "FROM fas_temp ";
+                        "FROM "+table_name+" ";
                 break;
             case 2:
                 //only for under 1's
                 query="SELECT\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_1 end,0))) AS '<1 F',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_1 end,0))) AS '<1 M'\n" +
-                        "FROM fas_temp ";
+                        "FROM "+table_name+" ";
                 break;
             default:
                 break;
         }
-    
     return query;
     }
     private JSONObject getFacilityBasics(String facilityID,String yearmonth,int errors,int warnings,JSONArray jarray) throws SQLException{

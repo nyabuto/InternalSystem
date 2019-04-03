@@ -82,8 +82,9 @@
                </a>
                <ul class="sub">
                 
-                  <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1a Template</a></li>
-                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1 a</a></li>
+                  <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1A Template</a></li>
+                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A</a></li>
+                  <li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>
             </ul>
             </li>
            

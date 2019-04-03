@@ -77,15 +77,18 @@ public class uploadf1a extends HttpServlet {
     private static final String UPLOAD_DIR = "uploads";
     String nextpage = "";
     String facilityName, facilityID, id, county, subcounty;
-    String fullname = "";
+    String fullname = "",email="";
     String user_id = "";
-
+    String periods,mfl_codes;
+    int no_uploads;
+    String failed_reason;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         try {
-            
+            periods=mfl_codes=failed_reason="";
+            no_uploads=0;
             String sessionText = "";
             
             int year = 0, added = 0, updated = 0, islocked = 0;
@@ -110,7 +113,6 @@ public class uploadf1a extends HttpServlet {
             int mailstosent=0;
             
             HashMap<String, String> maildetails= new HashMap<String, String>();
-            
             
             
             
@@ -141,6 +143,15 @@ public class uploadf1a extends HttpServlet {
             
             dbConn conn = new dbConn();
             
+            
+            //GET ALLOWED PERIOD AND FACILITIES
+            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads";
+            conn.rs = conn.st.executeQuery(getinfo);
+            if(conn.rs.next()){
+              periods = conn.rs.getString("periods");
+              mfl_codes = conn.rs.getString("mfl_codes");
+            }
+             
             nextpage = "uploadf1a.jsp";
             String excelfilename = "";
             
@@ -175,7 +186,7 @@ public class uploadf1a extends HttpServlet {
                 //}
                 
                 if (!fileName.endsWith(".xlsx")) {
-
+                    failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
                     nextpage = "uploadf1a.jsp";
                 } else {
                     
@@ -201,8 +212,7 @@ public class uploadf1a extends HttpServlet {
                             String sheetname = workbook.getSheetName(sheetno);
                             
                             boolean hasdata = false;
-                            
-                            
+                           
 //skip instructions page
 if (!sheetname.equals("InstructionsForm1A")) {
     
@@ -249,6 +259,8 @@ if (!sheetname.equals("InstructionsForm1A")) {
     
     yearmonth = year + "" + month;
     
+    if(periods.contains(","+yearmonth+",") && ((mfl_codes.equals("") ||(!mfl_codes.equals("") && mfl_codes.contains(","+mflcode+","))))){
+    no_uploads++;
     //______________________CHECK EXCEL TEMPLATE  VERSION___________________
     String excelversion = "";
     
@@ -537,16 +549,26 @@ while (conn.rs2.next()) {
         {
             uploadstatus+=tx;
         }
-        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"gettemplate.pns\\\">download new template\"";
+        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"gettemplate.jsp\\\">download new template\"";
         if (!msgal.contains(ujumbe)) 
         {
             msgal.add(ujumbe);
         }
         
     }
-    
 }
-
+else{
+  uploadstatus+="The period you are uploading for has been Locked/Blocked i.e Period: "+yearmonth+" and mflcode: "+mflcode+"\n";
+  failed_reason+= "The period you are uploading for has been Locked/Blocked i.e <br><br>Period: "+yearmonth+" and mflcode: "+mflcode+"<br>";
+  String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
+                conn.rs1 = conn.st1.executeQuery(getusername);
+                if (conn.rs1.next())
+                { fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
+                    email = conn.rs1.getString(3);
+                    System.out.println("email:"+email);
+                }
+}
+}
 
     
     //if upload has completed, then sent excel workbook via email
@@ -582,16 +604,19 @@ while (conn.rs2.next()) {
             
             //call the validation method here
             //sample unique_subpartner ,20,234,
+            System.out.println("unique ym: "+unique_ym);
+            
+            if(!unique_ym.equalsIgnoreCase("")){
             unique_ym=removeLast(unique_ym,1);
             unique_subpartner=removeLast(unique_subpartner,1).replaceFirst(",", "");
-            
+            }
             
             System.out.println(""+unique_ym);
             System.out.println(""+unique_subpartner);
             
             JSONObject obj;
             ValidateExcel vExcel = new ValidateExcel();
-            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","));
+            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"fas_temp");
             
             int error_per_sheet,total_errors = 0,warnings;
             String warning;
@@ -653,14 +678,11 @@ while (conn.rs2.next()) {
               }
           }
             
-            
-            
-            
-        
+         
        for(int q=1;q<=mailstosent;q++){
                 try {
                     
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q));
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),email);
                     
                     
                 } catch (MessagingException ex) {
@@ -669,22 +691,29 @@ while (conn.rs2.next()) {
        }
             
             
-            
-            XSSFWorkbook wb1;
-             wb1 = vExcel.generateExcel(obj); // to generate Excel file
-          
-          if(total_errors==0){
+            System.out.println("uploaded : "+no_uploads);
+             
+          if(total_errors==0 && no_uploads>0){
           warning = vExcel.gel_all_warnings(obj);
-              System.out.println(warning);
+          System.out.println(warning);
           session.setAttribute("warnings", warning);
           session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
           
           response.sendRedirect("uploadf1a.jsp");
           }
-          else{
+          
+          else if(no_uploads==0){
+          session.setAttribute("warnings", "");
+          session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
+          response.sendRedirect("uploadf1a.jsp"); 
+          }
+          
+          else if(total_errors>0){
           session.removeAttribute("warnings");
           session.removeAttribute("message");
-            
+                        
+            XSSFWorkbook wb1;
+             wb1 = vExcel.generateExcel(obj); // to generate Excel file
 //          out.println(obj);
     ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
     wb1.write(outByteStream);
@@ -699,11 +728,16 @@ while (conn.rs2.next()) {
     outStream.flush();
      
           } 
+          else{
+              
+          }
            
           //call delete facilities from fas_temp
                     
-                   deletefacilities(conn, removeLast(todeleteymf,1));
-                   
+            System.out.println("to delete : "+todeleteymf);
+            if(!todeleteymf.equalsIgnoreCase("")){
+             deletefacilities(conn, removeLast(todeleteymf,1));
+            }
                    
                    
                    //send mail
@@ -841,7 +875,7 @@ while (conn.rs2.next()) {
         }
     }
 
-    private void SendF1excel(String facility, String status, String path, String finalfilename, String uploadername) throws MessagingException {
+    private void SendF1excel(String facility, String status, String path, String finalfilename, String uploadername,String email) throws MessagingException {
         String toAddress = "";
 
         String filenames = path;
@@ -853,7 +887,7 @@ while (conn.rs2.next()) {
 
         String textBody = "Hi Admin ,\nAttached is a Form 1A data upload for " + facility + " uploaded by " + uploadername + " on date " + gn.toDay() + " .\n"
                 + "\n "+stat+" \n *******This is a system autogenerated message*****";
-        toAddress = "aphiabackup@gmail.com,Ekaunda@fhi360.org,GNyabuto@fhi360.org";
+        toAddress = "aphiabackup@gmail.com,Ekaunda@fhi360.org,GNyabuto@fhi360.org,"+email;
         String host = "smtp.gmail.com";
         String Password = "plusaphia";
         String from = "aphiabackup@gmail.com";
@@ -988,13 +1022,13 @@ boolean iscomplete=true;
      
      
      public void insertAuditTrail( dbConn conn,String indicator_name,String yearmonth, String facname, String id, String userid) throws SQLException{
-     
-     
-                String getusername = "SELECT fname,lname FROM user WHERE userid='" + userid + "'";
+                String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + userid + "'";
                 conn.rs1 = conn.st1.executeQuery(getusername);
                 if (conn.rs1.next())
                 {
                     fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
+                    email = conn.rs1.getString(3);
+                    System.out.println("email:"+email);
                 }
                 
                 

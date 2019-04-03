@@ -103,7 +103,7 @@
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">ALL DATIM OUTPUT REPORTS.</a> 
+                        <a href="#" style="margin-left:40%;">FORM 1A ERRORS AND WARNINGS.</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -124,6 +124,10 @@
                         <!-- BEGIN FORM-->
                         <form action="fas_trial" id="" class="form-horizontal">
                           
+                            
+                           <div class="control-group">
+                              <p><b style="color:red;">NOTE: </b> Fields marked * are mandatory</p>
+                           </div>
                          
                            <div class="control-group">
                               <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
@@ -197,7 +201,7 @@
                             
                             
                            <div class="form-actions">
-                               <button type="submit" class="btn blue" onmouseover="getAction();">Generate Report.</button>
+                               <button type="submit" class="btn blue" onmouseover="getAction();">Generate Errors & Warnings Report</button>
                            </div>
                         </form>
                         <!-- END FORM-->           
