@@ -1217,6 +1217,22 @@
         <servlet-name>checkduplicateuid</servlet-name>
         <servlet-class>ppprev.checkduplicateuid</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Tracker</servlet-name>
+        <servlet-class>form1a.Tracker</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_counties</servlet-name>
+        <servlet-class>loaders.load_counties</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_district</servlet-name>
+        <servlet-class>loaders.load_district</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_facilities</servlet-name>
+        <servlet-class>loaders.load_facilities</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2432,6 +2448,22 @@
     <servlet-mapping>
         <servlet-name>checkduplicateuid</servlet-name>
         <url-pattern>/checkduplicateuid</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Tracker</servlet-name>
+        <url-pattern>/Tracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_counties</servlet-name>
+        <url-pattern>/load_counties</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_district</servlet-name>
+        <url-pattern>/load_district</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_facilities</servlet-name>
+        <url-pattern>/load_facilities</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

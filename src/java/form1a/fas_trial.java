@@ -109,9 +109,8 @@ public class fas_trial extends HttpServlet {
             
         }
          
-        String facililtyids[] = where_location.split(",");
-              
-          
+      String facililtyids[] = where_location.split(",");
+  
       year = Integer.parseInt(request.getParameter("year"));
         reportDuration = request.getParameter("reportDuration");
 
