@@ -118,6 +118,7 @@ public class Load_EID_Monthly_Data extends HttpServlet {
                     //     Converting the data type from any format to excel
                       if(worksheet.getRow(6).getCell(7)!=null){worksheet.getRow(6).getCell(7).setCellType(Cell.CELL_TYPE_STRING);}else{to_skip++; not_uploaded+="Missing Reporting Month<br>";}
                       if(worksheet.getRow(6).getCell(9)!=null){worksheet.getRow(6).getCell(9).setCellType(Cell.CELL_TYPE_STRING);}else{to_skip++; not_uploaded+="Missing Reporting Year<br>";}
+                      
                       if(worksheet.getRow(8).getCell(1)!=null){worksheet.getRow(8).getCell(1).setCellType(Cell.CELL_TYPE_STRING);}else{not_uploaded+="";}
                       if(worksheet.getRow(8).getCell(3)!=null){worksheet.getRow(8).getCell(3).setCellType(Cell.CELL_TYPE_STRING);}else{not_uploaded+="";}
                       if(worksheet.getRow(8).getCell(5)!=null){worksheet.getRow(8).getCell(5).setCellType(Cell.CELL_TYPE_STRING);}else{not_uploaded+="";}
@@ -159,7 +160,9 @@ public class Load_EID_Monthly_Data extends HttpServlet {
                             System.out.println("break here");
                          break;
                         }
-           
+                        if(rowi.getCell((short) 1) !=null){
+              
+           System.out.println("i is:"+i);
            XSSFCell cell_0 = rowi.getCell((short) 0);
            XSSFCell cell_1 = rowi.getCell((short) 1);
            XSSFCell cell_2 = rowi.getCell((short) 2);
@@ -352,6 +355,7 @@ public class Load_EID_Monthly_Data extends HttpServlet {
         session.setAttribute("eid_tested", "<b>"+i+"/"+rowCount+"</b>");
         session.setAttribute("eid_tested_count", (i*100)/rowCount);
                }
+       }
        }
         i++;
          }// end of reading rows

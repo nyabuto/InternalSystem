@@ -70,15 +70,26 @@ public class ValidateExcel {
     public JSONObject validate(String facility_id,String yearmonth, String table) throws SQLException{
            JSONArray jarray = new JSONArray();
            table_name = table;
-           System.out.println("called to validate");
+           
+          String age_groups = "";
+          //age_groups = "<1 F,<1 M,1-4 F,1-4 M,5-9 F,5-9 M,10-14 F,10-14 M,15-19 F,15-19 M,20-24 F,20-24 M,25-29 F,25-29 M,30-34 F,30-34 M,35-39 F,35-39 M,40-44 F,40-44 M,45-49 F,45-49 M,50+ F,50+ M,Totals";
+           
+           
+           
+//           System.out.println("called to validate");
         int error_counter=0,warnings_counter=0;
         String message_type="",message="";
-        String lhs,rhs,sign,query="";
+        String lhs,rhs,sign,query="",final_query="";
         String getRules="SELECT section_name,codes,validation,iscritical,message,fine_age,raw_query FROM fas_validation WHERE active=1 AND source='excel' ";
         //System.out.println("rules :"+getRules);
         conn.rs = conn.st.executeQuery(getRules);
         while(conn.rs.next()){
-            //error indicators
+         
+           
+           String basic_columns = "'"+conn.rs.getString("message")+" i.e ["+conn.rs.getString("codes")+"]' AS message,'"+conn.rs.getString("section_name")+"' AS program_area, "
+                   + ""+conn.rs.getInt("iscritical")+" AS iscritical,"+conn.rs.getString("fine_age")+" AS fine_age, ";
+           
+           //error indicators
              String[] Rules = extract_rule(conn.rs.getString("validation"));  
              lhs = Rules[0];
              rhs = Rules[1];
@@ -88,31 +99,57 @@ public class ValidateExcel {
              query = conn.rs.getString("raw_query"); 
              query = query.replace("YMONTH", yearmonth);
              query = query.replace("FID", facility_id);
+             query = query.replace("TABLE_NAME", table_name);// update the correct table name
              }
              else{
             query = getQuery(conn.rs.getInt("fine_age"));
-             
             query = query.replace("lhs", lhs);
             query = query.replace("rhs", rhs);
             query = query.replace("sign", sign);
-            
             query += "  WHERE yearmonth="+yearmonth+" AND facility_id="+facility_id;  
              }
-//                     System.out.println("query is : "+query);
+             
+             query = query.replace("SELECT", "SELECT "+basic_columns);
+             
+              //System.out.println("query is : "+query);
+              
                 //run the validation query
                 
-                conn.rs1 = conn.st1.executeQuery(query);
-                ResultSetMetaData metaData = conn.rs1.getMetaData();
-                int column_count = metaData.getColumnCount(); //number of column
-                if(conn.rs1.next()){
+                
+              final_query+= query+" UNION ALL "; 
+              
+        }
+        
+        final_query = removeLast(final_query, 10);
+        
+        final_query = "SELECT * FROM ("+final_query+") AS all_data WHERE occurences>0";
+        
+        //System.out.println("final query :"+final_query);
+        conn.rs1 = conn.st1.executeQuery(final_query);
+                
+                while(conn.rs1.next()){
+                    if(conn.rs1.getInt("occurences")>0){
+          if(conn.rs1.getString("fine_age").equals("1")){
+            age_groups = "<1 F,<1 M,1-4 F,1-4 M,5-9 F,5-9 M,10-14 F,10-14 M,15-19 F,15-19 M,20-24 F,20-24 M,25-29 F,25-29 M,30-34 F,30-34 M,35-39 F,35-39 M,40-44 F,40-44 M,45-49 F,45-49 M,50+ F,50+ M,Totals";
+           }
+            else if(conn.rs1.getString("fine_age").equals("2")){
+            age_groups = "<1 F,<1 M";
+           }
+            
+            else if(conn.rs1.getString("fine_age").equals("0")){
+            age_groups = "Totals";
+           }
+            else{}
+           
+           String age_group_titles[] = age_groups.split(",");    
+                        
                    // check and see the columns that have an issue 
-                   int cols=1;
-                   while(cols<=column_count) {
-                          JSONObject objerr = new JSONObject();
-                    if(conn.rs1.getInt(cols)==1) {
+                   for(int i=0;i<age_group_titles.length;i++){
+                   JSONObject objerr = new JSONObject();
+                    if(conn.rs1.getInt(age_group_titles[i])==1){
                         //System.out.println(""+query);
                         //archive this error
-                         if(conn.rs.getInt("iscritical")==1){
+                         if(conn.rs1.getInt("iscritical")==1){
                         message_type = "error";
                         error_counter++;
                         }
@@ -120,22 +157,22 @@ public class ValidateExcel {
                           message_type = "warning";
                           warnings_counter++;
                        }
-                         message = conn.rs.getString("message")+" i.e ["+conn.rs.getString("codes")+"]";
+                        
                          //add error to object
                 
                    objerr.put("message_type", message_type);
-                   objerr.put("message", message);
-                   objerr.put("program", conn.rs.getString("section_name"));
-                   objerr.put("age_group", metaData.getColumnLabel(cols));   
+                   objerr.put("message", conn.rs1.getString("message"));
+                   objerr.put("program", conn.rs1.getString("program_area"));
+                   objerr.put("age_group", age_group_titles[i]);   
                    jarray.add(objerr);
                     }  
                        
-                       cols++;
                    }
-                    
+                   
+                   
+                } 
                 }
            
-        }
         
         return getFacilityBasics(facility_id,yearmonth,error_counter,warnings_counter,jarray);
     }
@@ -154,11 +191,7 @@ public class ValidateExcel {
         
     }
     private String getQuery(int fine_age){
-        String query = "";
-       
-        switch (fine_age) {
-            case 1:// for all age sets
-                query="SELECT\n" +
+                String  query="SELECT\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_1 end,0))) AS '<1 F',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_1 end,0))) AS '<1 M',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_4 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_4 end,0))) AS '1-4 F',\n" +
@@ -183,25 +216,51 @@ public class ValidateExcel {
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_49 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_49 end,0))) AS '45-49 M',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_50 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_50 end,0))) AS '50+ F',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_50 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_50 end,0))) AS '50+ M',\n" +
-                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) AS 'Totals'\n" +
-                        "FROM "+table_name+" ";
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) AS 'Totals',\n";
+                      
+        switch (fine_age) {
+            case 1:
+                query+= "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_1 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_1 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_4 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_4 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_4 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_4 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_9 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_9 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_9 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_9 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_14 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_14 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_14 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_14 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_19 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_19 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_19 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_19 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_24 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_24 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_24 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_24 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_29 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_29 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_29 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_29 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_34 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_34 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_34 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_34 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_39 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_39 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_39 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_39 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_44 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_44 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_44 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_44 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_49 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_49 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_49 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_49 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_50 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_50 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_50 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_50 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) as occurences ";
                 break;
-            case 0:// for totals only
-                query="SELECT\n" +
-                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) AS 'Totals'\n" +
-                        "FROM "+table_name+" ";
+            case 0:
+                query +=" (SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) as occurences ";
                 break;
             case 2:
-                //only for under 1's
-                query="SELECT\n" +
-                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_1 end,0))) AS '<1 F',\n" +
-                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_1 end,0))) AS '<1 M'\n" +
-                        "FROM "+table_name+" ";
+                query+="(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_1 end,0))) + " +
+                        " (SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_1 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_1 end,0))) as occurences ";
                 break;
             default:
                 break;
         }
-    return query;
+                       query+="FROM "+table_name+" ";
+                       
+                       
+                       return query;
+          
     }
     private JSONObject getFacilityBasics(String facilityID,String yearmonth,int errors,int warnings,JSONArray jarray) throws SQLException{
       JSONObject obj = new JSONObject();
@@ -574,5 +633,9 @@ public class ValidateExcel {
     
     public boolean isNumeric(String s) {  
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
+}
+    
+           private static String removeLast(String str, int num) {
+    return str.substring(0, str.length() - num);
 }
 }
