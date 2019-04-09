@@ -51,7 +51,9 @@ public class LoadGaps extends HttpServlet {
         dbConnWeb  conn = new dbConnWeb(); // it uploads gaps to the set web server
         session = request.getSession();
 
+//        select * FROM internal_system.gaps WHERE explanation IS NULL OR explanation='';
         deletedrecords.clear();
+        
         arr_values.clear();
         
          String applicationPath = request.getServletContext().getRealPath("");
@@ -148,13 +150,13 @@ public class LoadGaps extends HttpServlet {
                 month = value;
                 // clear previous gaps data
                 if(!deletedrecords.contains(year+""+month)){ // if the yearmonth has not already been deleted.. do delete
-                String deleter = "DELETE FROM gaps WHERE year=? AND month=? AND status=? AND (explanation=null OR explanation='')";
+                String deleter = "DELETE FROM gaps WHERE year=? AND month=? AND status=? AND (explanation is NULL OR explanation='')";
                 conn.pst = conn.conn.prepareStatement(deleter);
                 conn.pst.setString(1, year);
                 conn.pst.setString(2, month);
                 conn.pst.setInt(3, 0);
                 
-                    System.out.println("deleter: "+conn.pst);
+                System.out.println("deleter: "+conn.pst);
                 conn.pst.executeUpdate();
                 deletedrecords.add(year+""+month);
                 }

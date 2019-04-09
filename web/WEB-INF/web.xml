@@ -1233,6 +1233,10 @@
         <servlet-name>load_facilities</servlet-name>
         <servlet-class>loaders.load_facilities</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Local_to_Online</servlet-name>
+        <servlet-class>form1a.Local_to_Online</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2464,6 +2468,10 @@
     <servlet-mapping>
         <servlet-name>load_facilities</servlet-name>
         <url-pattern>/load_facilities</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Local_to_Online</servlet-name>
+        <url-pattern>/Local_to_Online</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
