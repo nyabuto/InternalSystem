@@ -94,6 +94,8 @@ String smear2_3="";
 String smear5="";
 String smear6_8="";
 String genexpert="";
+String tested_within_facility=""; //60
+String initial_modality="";  //61
 
 //     if(request.getParameter("datacategory")!=null){
 //     datacategory=request.getParameter("datacategory");
@@ -155,7 +157,7 @@ String genexpert="";
  
   FileInputStream fileInputStream = new FileInputStream(full_path);
 			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
-			HSSFSheet worksheet = workbook.getSheetAt(0);
+			HSSFSheet worksheet = workbook.getSheet("TB Register Template");
 			Iterator rowIterator = worksheet.iterator();
                         
                         int i=1,y=0;
@@ -554,6 +556,15 @@ String genexpert="";
                           HSSFCell celltreatmentoutcomedate=rowi.getCell((short)57);
 			  treatmentoutcomedate=""+celltreatmentoutcomedate.getStringCellValue();
                           
+                          //tested within the facility
+                          HSSFCell celltestfacil=rowi.getCell((short)60);
+			  tested_within_facility=""+celltestfacil.getStringCellValue();
+                          
+                          
+                          //Test Modality
+                          HSSFCell modalitycell=rowi.getCell((short)61);
+			  initial_modality=""+modalitycell.getStringCellValue();
+                          
                           
                          
                           //split the date, year and month
@@ -684,8 +695,8 @@ String genexpert="";
 
   
   String inserter="INSERT INTO "+dbname+" (id,SubPartnerID,year,quarter,Mflcode,sex ,age,agebracket,SubPartnerNom,registrationdate,treatmentdate,supporttype,hivstatus,hivtestdate, "
-          + " artstatus,artdate,outcomedate,treatmentoutcome,tbtype,patienttype,smear0,smear2_3,smear5,smear6_8,genexpert) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          + " artstatus,artdate,outcomedate,treatmentoutcome,tbtype,patienttype,smear0,smear2_3,smear5,smear6_8,genexpert,tested_within_facility,initial_modality) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1,id);
                         conn.pst.setString(2,facilityID);
@@ -713,6 +724,8 @@ String genexpert="";
                         conn.pst.setString(23, smear5);
                         conn.pst.setString(24, smear6_8);
                         conn.pst.setString(25, genexpert);
+                        conn.pst.setString(26, tested_within_facility);
+                        conn.pst.setString(27, initial_modality);
                         
                         
                         conn.pst.executeUpdate();
@@ -723,7 +736,7 @@ String genexpert="";
           //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
         String inserter=" UPDATE "+dbname+" SET SubPartnerID=?,year=?,quarter=?,Mflcode=?,sex=? ,age=?,agebracket=?,SubPartnerNom=?,registrationdate=?,treatmentdate=?,supporttype=?,"
                 + " hivstatus=?,hivtestdate=?, "
-          + " artstatus=?,artdate=?,outcomedate=?,treatmentoutcome=? ,tbtype=?,patienttype=?,smear0=?,smear2_3=?,smear5=?,smear6_8=?,genexpert=?"
+          + " artstatus=?,artdate=?,outcomedate=?,treatmentoutcome=? ,tbtype=?,patienttype=?,smear0=?,smear2_3=?,smear5=?,smear6_8=?,genexpert=?,tested_within_facility=?,initial_modality=?"
                 + " WHERE id=?";
 //
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -752,7 +765,9 @@ String genexpert="";
                         conn.pst.setString(22,smear5);
                         conn.pst.setString(23,smear6_8);
                         conn.pst.setString(24,genexpert);
-                        conn.pst.setString(25,id);
+                        conn.pst.setString(25,tested_within_facility);
+                        conn.pst.setString(26,initial_modality);
+                        conn.pst.setString(27,id);
                         
                         conn.pst.executeUpdate();
                        
@@ -877,8 +892,25 @@ finalbracket="15-19";
 else if(age>=20&&age<=24){
 finalbracket="20-24";
                         }
-else if(age>=25&&age<=49){
-finalbracket="25-49";
+
+else if(age>=25&&age<=29){
+finalbracket="25-29";
+                        }
+
+else if(age>=30&&age<=34){
+finalbracket="35-34";
+                        }
+
+else if(age>=35&&age<=39){
+finalbracket="35-39";
+                        }
+
+else if(age>=40&&age<=44){
+finalbracket="45-44";
+                        }
+
+else if(age>=45&&age<=49){
+finalbracket="45-49";
                         }
 
 else if(age>=50){

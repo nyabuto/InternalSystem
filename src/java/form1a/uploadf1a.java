@@ -77,16 +77,20 @@ public class uploadf1a extends HttpServlet {
     private static final String UPLOAD_DIR = "uploads";
     String nextpage = "";
     String facilityName, facilityID, id, county, subcounty;
-    String fullname = "",email="";
+    
     String user_id = "";
     String periods,mfl_codes;
     int no_uploads;
     String failed_reason;
+    
+     String fullname = "",email="";
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         try {
+           
             periods=mfl_codes=failed_reason="";
             no_uploads=0;
             String sessionText = "";
@@ -1026,11 +1030,15 @@ boolean iscomplete=true;
      public void insertAuditTrail( dbConn conn,String indicator_name,String yearmonth, String facname, String id, String userid) throws SQLException{
                 String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + userid + "'";
                 conn.rs1 = conn.st1.executeQuery(getusername);
+                
+               // String fullname="",email="";
+                
                 if (conn.rs1.next())
                 {
-                    fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
+                     fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
                     email = conn.rs1.getString(3);
                     System.out.println("email:"+email);
+                    
                 }
                 
                 
