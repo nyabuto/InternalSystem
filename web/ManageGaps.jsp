@@ -460,9 +460,17 @@ function LoadData(){
      var id = $("#gapid_"+pos).val();    
      var form_data = {"id":id};
      var url = "approvegap";
+     $("#approve_gap"+pos).prop('value', 'Saving ...');
+     $("#approve_gap"+pos).css("color","red");
+     $("#approve_gap"+pos).css("font-weight","900");
+     $("#approve_gap"+pos).css("background-color","yellow");
      $.post(url,form_data , function(data) {
         //notify user on the status
-        LoadData();
+        //LoadData();
+        $("#approve_gap"+pos).css("background-color","plum");
+         $("#approve_gap"+pos).prop('value', 'Explanation Saved');
+         $("#approve_gap"+pos).css("font-weight","900");
+         $("#approve_gap"+pos).css("color","black");
         $.notify(
         {icon: "images/checked.png", 
         message:data},

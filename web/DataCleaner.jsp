@@ -164,7 +164,7 @@ p{
                             
                                  <tr> <td><b>Report Type</b> </td><td><select name="report_type" id="report_type" value="" class="textbox" required>
                                                       <option value="">Report Type</option>
-                                                      <!--<option value="tb">TB</option>-->
+                                                      <option value="tb">TB Data</option>
                                                       <!--<option value="vl">Viral Load</option>-->
                                                       <option value="eidtst" selected="">EID Tested</option>
                                                       <!--<option value="eidpos">EID POS</option>-->

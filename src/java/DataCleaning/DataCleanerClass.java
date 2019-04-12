@@ -1403,8 +1403,8 @@ if(PCR_Type==null){PCR_Type="";}
   public XSSFWorkbook TB(XSSFWorkbook tb,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
     String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility,date_started_treatment,date_of_registration;
         XSSFSheet worksheet;
-        int col_error = 59;
-        int date_format=0,unsupported_site=0;
+        int col_error = 62;
+        int date_format=0,unsupported_site=0,missing_data=0;
 //        XSSFSheet errorSheet = null;
 //        XSSFSheet cleanSheet = null;
         //*Blank Sex (M)(12) --12
@@ -1450,7 +1450,7 @@ if(PCR_Type==null){PCR_Type="";}
         }
        
         //sex
-         XSSFCell cellSex = rowi.getCell((short) 12);
+         XSSFCell cellSex = rowi.getCell((short) 13);
             if(cellSex==null){
                 break;
             }
@@ -1470,7 +1470,7 @@ if(PCR_Type==null){PCR_Type="";}
             }
            
         //age
-         XSSFCell cellAge = rowi.getCell((short) 13);
+         XSSFCell cellAge = rowi.getCell((short) 14);
             if(cellAge==null){
                 break;
             }
@@ -1490,7 +1490,7 @@ if(PCR_Type==null){PCR_Type="";}
             }
            
         //HIVStatus
-         XSSFCell cellHIVStatus = rowi.getCell((short) 45);
+         XSSFCell cellHIVStatus = rowi.getCell((short) 46);
             if(cellHIVStatus==null){
                 break;
             }
@@ -1511,7 +1511,7 @@ if(PCR_Type==null){PCR_Type="";}
            
             
         //HIVTestDate
-         XSSFCell cellHIVTestDate = rowi.getCell((short) 44);
+         XSSFCell cellHIVTestDate = rowi.getCell((short) 45);
             if(cellHIVTestDate==null){
                 break;
             }
@@ -1532,7 +1532,7 @@ if(PCR_Type==null){PCR_Type="";}
            
             
         //ARTStatus
-         XSSFCell cellARTStatus = rowi.getCell((short) 52);
+         XSSFCell cellARTStatus = rowi.getCell((short) 53);
             if(cellARTStatus==null){
                 break;
             }
@@ -1554,7 +1554,7 @@ if(PCR_Type==null){PCR_Type="";}
            
             
         //ARTStartDate
-         XSSFCell cellARTStartDate = rowi.getCell((short) 53);
+         XSSFCell cellARTStartDate = rowi.getCell((short) 54);
             if(cellARTStartDate==null){
                 break;
             }
@@ -1576,7 +1576,7 @@ if(PCR_Type==null){PCR_Type="";}
            
             
         //TreatmentDate
-         XSSFCell cellTreatmentDate = rowi.getCell((short) 40);
+         XSSFCell cellTreatmentDate = rowi.getCell((short) 41);
             if(cellTreatmentDate==null){
                 break;
             }
@@ -1597,7 +1597,7 @@ if(PCR_Type==null){PCR_Type="";}
             
             
         //HealthFacility
-          XSSFCell cellHealthFacility = rowi.getCell((short) 7);
+          XSSFCell cellHealthFacility = rowi.getCell((short) 8);
             if(cellHealthFacility==null){
                 break;
             }
@@ -1649,8 +1649,8 @@ if(PCR_Type==null){PCR_Type="";}
             if(treatment_date==null){treatment_date="";}
             if(date_of_registration==null){date_of_registration="";}
             
-          
-        where = " (tibu_name=? OR SubPartnerNom=?) AND  ART=1 ";
+           if(!health_facility.equals("")){
+        where = " (CentreSanteID=? OR SubPartnerNom=?) AND  ART=1 ";
         String [] where_params = {"1##"+health_facility+"","2##"+health_facility+""};
         if(!issupported(where,where_params)){
           cellHealthFacility.setCellStyle(redstyle);
@@ -1805,6 +1805,15 @@ if(PCR_Type==null){PCR_Type="";}
 //         if(errors.equals("")){
 //           worksheet.removeRow(rowi);
 //         }
+           }
+           else{
+               System.out.println("No facility at position :"+i);
+               missing_data++;
+           }
+           
+           if(missing_data>5){
+               break;
+           }
 System.out.println("at position : "+i);
             i++;
          
@@ -2251,8 +2260,8 @@ System.out.println(" viral load at position : "+i);
   public HSSFWorkbook TB(HSSFWorkbook tb,CellStyle redstyle,String start_date,String end_date) throws ParseException, SQLException{
         String where,errors,sex,age,hiv_status,hiv_test_date,art_status,art_start_date,treatment_date,area,health_facility,date_of_registration;
         HSSFSheet worksheet;
-        int col_error = 59;
-        int date_format=0,unsupported_site=0;
+        int col_error = 62;
+        int date_format=0,unsupported_site=0,missing_data=0;
         HSSFSheet errorSheet = null;
         HSSFSheet cleanSheet = null;
         //*Blank Sex (M)(12) --12
@@ -2298,7 +2307,7 @@ System.out.println(" viral load at position : "+i);
         }
        
         //sex
-         HSSFCell cellSex = rowi.getCell((short) 12);
+         HSSFCell cellSex = rowi.getCell((short) 13);
             if(cellSex==null){
                 break;
             }
@@ -2318,7 +2327,7 @@ System.out.println(" viral load at position : "+i);
             }
            
         //age
-         HSSFCell cellAge = rowi.getCell((short) 13);
+         HSSFCell cellAge = rowi.getCell((short) 14);
             if(cellAge==null){
                 break;
             }
@@ -2338,7 +2347,7 @@ System.out.println(" viral load at position : "+i);
             }
            
         //HIVStatus
-         HSSFCell cellHIVStatus = rowi.getCell((short) 45);
+         HSSFCell cellHIVStatus = rowi.getCell((short) 46);
             if(cellHIVStatus==null){
                 break;
             }
@@ -2359,7 +2368,7 @@ System.out.println(" viral load at position : "+i);
            
             
         //HIVTestDate
-         HSSFCell cellHIVTestDate = rowi.getCell((short) 44);
+         HSSFCell cellHIVTestDate = rowi.getCell((short) 45);
             if(cellHIVTestDate==null){
                 break;
             }
@@ -2380,7 +2389,7 @@ System.out.println(" viral load at position : "+i);
            
             
         //ARTStatus
-         HSSFCell cellARTStatus = rowi.getCell((short) 52);
+         HSSFCell cellARTStatus = rowi.getCell((short) 53);
             if(cellARTStatus==null){
                 break;
             }
@@ -2402,7 +2411,7 @@ System.out.println(" viral load at position : "+i);
            
             
         //ARTStartDate
-         HSSFCell cellARTStartDate = rowi.getCell((short) 53);
+         HSSFCell cellARTStartDate = rowi.getCell((short) 54);
             if(cellARTStartDate==null){
                 break;
             }
@@ -2424,7 +2433,7 @@ System.out.println(" viral load at position : "+i);
            
             
         //TreatmentDate
-         HSSFCell cellTreatmentDate = rowi.getCell((short) 40);
+         HSSFCell cellTreatmentDate = rowi.getCell((short) 41);
             if(cellTreatmentDate==null){
                 break;
             }
@@ -2444,8 +2453,8 @@ System.out.println(" viral load at position : "+i);
             }
             
             
-        //HealthFacility
-          HSSFCell cellHealthFacility = rowi.getCell((short) 7);
+        //MFLCode
+          HSSFCell cellHealthFacility = rowi.getCell((short) 8);
             if(cellHealthFacility==null){
                 break;
             }
@@ -2485,7 +2494,7 @@ System.out.println(" viral load at position : "+i);
             }
             
             
-            
+
             
             if(age==null){age="";}
             if(health_facility==null){health_facility="";}
@@ -2497,8 +2506,9 @@ System.out.println(" viral load at position : "+i);
             if(treatment_date==null){treatment_date="";}
             if(date_of_registration==null){date_of_registration="";}
             
-          
-        where = " (tibu_name=? OR SubPartnerNom=?) AND  ART=1 ";
+                   if(!health_facility.equals("")){
+                       System.out.println("health facility : "+health_facility);
+        where = " (CentreSanteID=? OR SubPartnerNom=?) AND  ART=1 ";
         String [] where_params = {"1##"+health_facility+"","2##"+health_facility+""};
         if(!issupported(where,where_params)){
           cellHealthFacility.setCellStyle(redstyle);
@@ -2650,6 +2660,16 @@ System.out.println(" viral load at position : "+i);
 //           copyRow(tb,rowi,cleanSheet,y);
            //worksheet.removeRow(rowi);
          }
+         
+        }
+        else{
+               System.out.println("No facility at position :"+i);
+               missing_data++;
+           }
+           
+           if(missing_data>5){
+               break;
+           }
 //         if(errors.equals("")){
 //           worksheet.removeRow(rowi);
 //         }
@@ -3120,6 +3140,7 @@ System.out.println(" viral load at position : "+i);
    String checkifsupported="SELECT SubPartnerID FROM subpartnera WHERE active=1 AND ("+where+")";
    conn.pst = conn.conn.prepareStatement(checkifsupported);
    for(String s:where_params){
+       System.out.println("s is : "+s);
        int pos = Integer.parseInt(s.split("##")[0]);
        String value = s.split("##")[1];
        conn.pst.setString(pos, value);
