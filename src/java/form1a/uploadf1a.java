@@ -992,7 +992,17 @@ boolean retvalue=true;
                 //data rows
                 // we are only geting the distinct cols
 // sample qry REPLACE fas_hts SELECT `id`,`facility_id`,`indicator_id`,`yearmonth`,`m_uk`,`f_uk`,`m_1`,`f_1`,`m_4`,`f_4`,`m_9`,`f_9`,`m_14`,`f_14`,`m_19`,`f_19`,`m_24`,`f_24`,`m_29`,`f_29`,`m_34`,`f_34`,`m_39`,`f_39`,`m_44`,`f_44`,`m_49`,`f_49`,`m_50`,`f_50`,`f_total`,`m_total`,`total`,`is_locked`,`user_id`,`user_pc`,`timestamp` FROM fas_temp where destination_table='fas_hts';
-replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from fas_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") ";
+
+//delete the existing data first
+
+String deleteqry=" delete from "+destinationtable+" where concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")";
+
+                System.out.println(" To delete column: "+deleteqry);
+
+                conn.st_1.executeUpdate(deleteqry);
+                
+            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='' ";    
+replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from fas_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
 //System.out.println(""+replaceqry);
 conn.st_1.executeUpdate(replaceqry);
 count++;
