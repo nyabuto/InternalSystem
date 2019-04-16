@@ -73,7 +73,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
         }
         else{
             added=missing=0;
-            full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+             if(OSValidator.isWindows()){
+          full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+            }
+            else if(OSValidator.isUnix()){
+             full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;   
+            }
 
  System.out.println("the saved file directory is  :  "+full_path);
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................

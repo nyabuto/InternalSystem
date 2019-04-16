@@ -96,7 +96,7 @@ public class fas_trial extends HttpServlet {
         where_location="";
          //get mfls
         String getFacilIDS = "SELECT SubpartnerID FROM subpartnera LEFT JOIN district on subpartnera.DistrictID = district.DistrictID LEFT JOIN county ON county.CountyID=district.CountyID"
-            + " WHERE "+all_loc_ids+" AND subpartnera.active=1";
+            + " WHERE "+all_loc_ids+" AND subpartnera.active=1 AND PMTCT=1";
             System.out.println("getmfls : "+getFacilIDS);
         conn.rs = conn.st.executeQuery(getFacilIDS);
         while(conn.rs.next()){
@@ -110,8 +110,8 @@ public class fas_trial extends HttpServlet {
         else{
         where_location="";
          //get mfls
-        String getFacilIDS = "SELECT SubpartnerID FROM subpartnera LEFT JOIN district on subpartnera.DistrictID = district.DistrictID LEFT JOIN county ON county.CountyID=district.CountyID"
-            + " WHERE subpartnera.active=1";
+        String getFacilIDS = "SELECT SubpartnerID FROM subpartnera LEFT JOIN district on subpartnera.DistrictID = district.DistrictID LEFT JOIN county ON county.CountyID=district.CountyID "
+            + " WHERE subpartnera.active=1 AND PMTCT=1";
             System.out.println("getmfls : "+getFacilIDS);
         conn.rs = conn.st.executeQuery(getFacilIDS);
         while(conn.rs.next()){

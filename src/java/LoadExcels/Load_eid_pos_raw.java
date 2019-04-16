@@ -80,7 +80,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose a .xlsx excel file .</font>");   
         }
         else{
+            if(OSValidator.isWindows()){
           full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+            }
+            else if(OSValidator.isUnix()){
+             full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;   
+            }
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
         query=query_update=value="";

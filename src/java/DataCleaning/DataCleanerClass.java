@@ -1617,28 +1617,24 @@ if(PCR_Type==null){PCR_Type="";}
             }
          
         //Date of Registration
-          XSSFCell cellRegistrationDate = rowi.getCell((short) 1);
-            if(cellRegistrationDate==null){
-                break;
-            }
-            else{
-               switch (cellRegistrationDate.getCellType()) {
-                   case 0:
-                       //numeric
-                       date_of_registration =""+(int)cellRegistrationDate.getNumericCellValue();
-                       break;
-                   case 1:
-                       date_of_registration =cellRegistrationDate.getStringCellValue();
-                       break;
-                   default:
-                       date_of_registration = cellRegistrationDate.getRawValue();
-                       break;
-               }
-            }
-            
-            
-            
-            
+//          XSSFCell cellRegistrationDate = rowi.getCell((short) 1);
+//            if(cellRegistrationDate==null){
+//                break;
+//            }
+//            else{
+//               switch (cellRegistrationDate.getCellType()) {
+//                   case 0:
+//                       //numeric
+//                       date_of_registration =""+(int)cellRegistrationDate.getNumericCellValue();
+//                       break;
+//                   case 1:
+//                       date_of_registration =cellRegistrationDate.getStringCellValue();
+//                       break;
+//                   default:
+//                       date_of_registration = cellRegistrationDate.getRawValue();
+//                       break;
+//               }
+//            }
             if(age==null){age="";}
             if(health_facility==null){health_facility="";}
             if(sex==null){sex="";}
@@ -1762,25 +1758,26 @@ if(PCR_Type==null){PCR_Type="";}
      // reporting date within range
    
      
-     if(!date_of_registration.equals("")){
-        try{
-     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
-    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
-    Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration); 
-    if(reg.before(start) || reg.after(end)){
-     cellRegistrationDate.setCellStyle(redstyle);
-     errors+="Date of registration is not within reporting Range.\n";    
-    }
-    }
-        catch(Exception e){
-        cellRegistrationDate.setCellStyle(redstyle);
-         errors+="Wrong date of registration format.\n";      
-       }
-        }
-     else{
-      cellRegistrationDate.setCellStyle(redstyle);
-     errors+="Missing date of registration.\n";       
-     }
+//     if(!date_of_registration.equals("")){
+//        try{
+//     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
+//    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
+//    Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration); 
+//    
+//    if(reg.before(start) || reg.after(end)){
+//     cellRegistrationDate.setCellStyle(redstyle);
+//     errors+="Date of registration is not within reporting Range.\n";    
+//    }
+//    }
+//        catch(Exception e){
+//        cellRegistrationDate.setCellStyle(redstyle);
+//         errors+="Wrong date of registration format.\n";      
+//       }
+//        }
+//     else{
+//      cellRegistrationDate.setCellStyle(redstyle);
+//     errors+="Missing date of registration.\n";       
+//     }
      
      
      
@@ -2474,24 +2471,24 @@ System.out.println(" viral load at position : "+i);
             }
          
         //Date of Registration
-          HSSFCell cellRegistrationDate = rowi.getCell((short) 1);
-            if(cellRegistrationDate==null){
-                break;
-            }
-            else{
-               switch (cellRegistrationDate.getCellType()) {
-                   case 0:
-                       //numeric
-                       date_of_registration =""+(int)cellRegistrationDate.getNumericCellValue();
-                       break;
-                   case 1:
-                       date_of_registration =cellRegistrationDate.getStringCellValue();
-                       break;
-                   default:
-                       date_of_registration = cellRegistrationDate.getStringCellValue();
-                       break;
-               }
-            }
+//          HSSFCell cellRegistrationDate = rowi.getCell((short) 1);
+//            if(cellRegistrationDate==null){
+//                break;
+//            }
+//            else{
+//               switch (cellRegistrationDate.getCellType()) {
+//                   case 0:
+//                       //numeric
+//                       date_of_registration =""+(int)cellRegistrationDate.getNumericCellValue();
+//                       break;
+//                   case 1:
+//                       date_of_registration =cellRegistrationDate.getStringCellValue();
+//                       break;
+//                   default:
+//                       date_of_registration = cellRegistrationDate.getStringCellValue();
+//                       break;
+//               }
+//            }
             
             
 
@@ -2620,25 +2617,25 @@ System.out.println(" viral load at position : "+i);
      // reporting date within range
    
      
-     if(!date_of_registration.equals("")){
-        try{
-     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
-    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
-    Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration); 
-    if(reg.before(start) || reg.after(end)){
-     cellRegistrationDate.setCellStyle(redstyle);
-     errors+="Date of registration is not within reporting Range.\n";    
-    }
-    }
-        catch(Exception e){
-        cellRegistrationDate.setCellStyle(redstyle);
-         errors+="Wrong date of registration format.\n";      
-       }
-        }
-     else{
-      cellRegistrationDate.setCellStyle(redstyle);
-     errors+="Missing date of registration.\n";       
-     }
+//     if(!date_of_registration.equals("")){
+//        try{
+//     Date start = new SimpleDateFormat("yyyy-MM-dd").parse(start_date);  
+//    Date end = new SimpleDateFormat("yyyy-MM-dd").parse(end_date);
+//    Date reg = new SimpleDateFormat("dd MMM yyyy").parse(date_of_registration); 
+//    if(reg.before(start) || reg.after(end)){
+//     cellRegistrationDate.setCellStyle(redstyle);
+//     errors+="Date of registration is not within reporting Range.\n";    
+//    }
+//    }
+//        catch(Exception e){
+//        cellRegistrationDate.setCellStyle(redstyle);
+//         errors+="Wrong date of registration format.\n";      
+//       }
+//        }
+//     else{
+//      cellRegistrationDate.setCellStyle(redstyle);
+//     errors+="Missing date of registration.\n";       
+//     }
      
      
      
