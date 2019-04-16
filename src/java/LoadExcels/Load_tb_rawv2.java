@@ -150,7 +150,7 @@ String initial_modality="";  //61
         else{
             
         
- full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+ full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;
  
  System.out.println("the saved file directory is  :  "+full_path);
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
