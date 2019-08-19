@@ -64,7 +64,8 @@ public class DatimOutput extends HttpServlet {
 
         session = request.getSession();
         dbConn conn = new dbConn();
-
+String validationsheet="";
+        
     filename=""; 
     categoryname=""; 
         
@@ -269,13 +270,14 @@ public class DatimOutput extends HttpServlet {
         System.out.println("start " + start_date + " end date: " + end_date);
 
         // get stored procedures      
-        String get_stored_procedures = "SELECT indicator_code,stored_procedure,headers,merging,filename FROM datim_output WHERE " + where_indicators + " AND (stored_procedure IS NOT NULL AND is_active=1 )";
+        String get_stored_procedures = "SELECT indicator_code,stored_procedure,headers,merging,filename,category FROM datim_output WHERE " + where_indicators + " AND (stored_procedure IS NOT NULL AND is_active=1 )";
         conn.rs2 = conn.st2.executeQuery(get_stored_procedures);
         while (conn.rs2.next()) {
             row = 0;
             XSSFSheet sheet = wb.createSheet(conn.rs2.getString(1));
             stored_procedures = conn.rs2.getString(2) + "('" + start_date + "','" + end_date + "')";
             
+           validationsheet=""+conn.rs2.getString("category")+"";
             filename+=conn.rs2.getString(1)+"_";
             
             if (!categoryname.contains(conn.rs2.getString("filename"))) {
@@ -346,11 +348,12 @@ public class DatimOutput extends HttpServlet {
                     if (isNumeric(value)) {
                         cell.setCellValue(Integer.parseInt(value));
 
-                        if (value.contains("-")) {
-
+                        if (value.contains("-") ) {
+if(!validationsheet.contains("Data Validation")){
                             String errorvalues[] = {conn.rs2.getString(1), conn.rs.getString(1), conn.rs.getString(2), conn.rs.getString(3), conn.rs.getString(4), metaData.getColumnLabel(i + 1), value};
                             errorrows++;
      /* insert error value**/ errorsheet(wb, errorsheet, errorrows, errorvalues, stborder);
+}
 
                             cell.setCellStyle(styleHeader);
                         } else {

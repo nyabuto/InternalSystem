@@ -118,7 +118,7 @@ int row,errors;
         XSSFSheet Sheet = wb.createSheet("Query Output");
         
        // check query
-       if(query.contains("insert") || query.contains("update") || query.contains("replace") || query.contains("into") || query.contains("delete") || query.contains("user") || query.contains("drop") || query.contains("truncate")){
+       if(query.contains("insert") || query.contains("update") || query.contains("replace") || query.contains("into")  || query.contains("user") || query.contains("drop") || query.contains("truncate")){
            System.out.println("This query is not allowed");
            errors++;
            message="Your are running a wrong query. Any query attempting to change data is disabled";
@@ -174,10 +174,18 @@ if(query.contains("select ") || query.contains("call ")){
                 }
 
             }
+          
+          for (int e = 0; e < col_count; e++) {
+                Sheet.autoSizeColumn(e);
+            }
+
+            Sheet.setDisplayGridlines(false);
         
         //get data
         
-        System.out.println("query a success");     
+        System.out.println("query a success"); 
+          
+        
         
     } catch (SQLException ex) {
         Logger.getLogger(RawQuery.class.getName()).log(Level.SEVERE, null, ex);

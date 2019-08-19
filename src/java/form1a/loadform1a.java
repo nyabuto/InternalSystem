@@ -242,7 +242,7 @@ int indic_counter;
             String disabledcolumns_arr[] = disabledcolumnsstring.split("\\$");
             
             //____________________________________________________
-	    String autocalculate_arr[]          = autocalculatestring.split("\\$");
+	    String autocalculate_arr[]= autocalculatestring.split("\\$");
            
             
             
@@ -280,9 +280,7 @@ int indic_counter;
             if(userreadonly.equals("1")){
               isLockedUser = "1";
                 lockUser = " tabindex='-1' readonly='true' ";
-                
-                
-            }
+                                        }
             
             String locked_DATA = "SELECT id FROM locked_data WHERE yearmonth=? AND form1a=?";
             conn.pst = conn.conn.prepareStatement(locked_DATA);

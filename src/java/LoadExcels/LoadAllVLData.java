@@ -75,7 +75,7 @@ public class LoadAllVLData extends HttpServlet {
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose a .xlsx excel file .</font>");   
         }
         else{
-          full_path=fileSaveDir.getAbsolutePath()+"\\"+fileName;
+          full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;
  
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
         query=query_update=value="";
@@ -134,7 +134,7 @@ public class LoadAllVLData extends HttpServlet {
                switch (cell.getCellType()) {
                    case 0:
                        //numeric
-                       value =""+(int)cell.getNumericCellValue();
+                       value =""+cell.getRawValue();
                        break;
                    case 1:
                        value =cell.getStringCellValue();
@@ -143,7 +143,7 @@ public class LoadAllVLData extends HttpServlet {
                        value = cell.getRawValue();
                        break;
                }
-               
+               System.out.println(i+" nowvalue : "+value);
               if(colmnscounter==9){
                  if(value==null){value="";}
                   if(value.trim().equalsIgnoreCase("Male")){
@@ -167,7 +167,7 @@ public class LoadAllVLData extends HttpServlet {
                    }
                query+=label+"='"+value+"',";
                query_update+=label+"='"+value+"',";
-               if(colmnscounter<=3){
+               if(colmnscounter<=1){
                checker_query+=label+"='"+value+"' AND "; 
                }
                }

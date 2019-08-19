@@ -60,7 +60,7 @@ public class loadMultipleFacilities extends HttpServlet {
            
        }
            System.out.println(" array length "+subcountyar.length);
-    }
+       }
        
        //disttrict is same as subcounty
        
