@@ -51,7 +51,7 @@ int totalrows=1;
             String ed="";
             //if(){}
             
-            System.out.println("total Rows ni" +totalrows);     
+            //System.out.println("total Rows ni" +totalrows);     
 String formdatainsert=" replace into hc_formdata_1 ";
 String formdatacolumns="(";
 String formdatavalues=") values (";
@@ -148,7 +148,7 @@ if (request.getParameter(variablessessionname[p]+(a+1)) != null) {
 }
 }
 
-            System.out.println(""+conn.pst1.toString());
+            //System.out.println(""+conn.pst1.toString());
 conn.pst1.executeUpdate();     
             
 /**
@@ -285,14 +285,14 @@ conn.pst1=conn.conn.prepareStatement(formdata2insert);
         
     vals = request.getParameter("s"+(a+1)+"_"+(p+1));
     conn.pst1.setString(count,""+vals);
-        System.out.println("conn.pst1.setString("+count+","+vals+");");
+        //System.out.println("conn.pst1.setString("+count+","+vals+");");
     count++;
     }
    
 
 }
    
-   System.out.println(""+conn.pst1.toString());
+   //System.out.println(""+conn.pst1.toString());
    if(!isblankrow){
 conn.pst1.executeUpdate();
    }
@@ -311,7 +311,7 @@ conn.pst1.executeUpdate();
 //know the name of the last group
 String returnnmsg="";
 String groupname=getGroupName(groupid, conn);
-            System.out.println(" Group Name"+groupname+" Group Id"+groupid);
+            System.out.println(" Group Name: "+groupname+" ");
 if(!groupname.equals("")){
 returnnmsg="<font color=\'green\'><b>Last saved group name is "+groupname+"</b></font>";
 

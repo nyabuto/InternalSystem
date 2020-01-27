@@ -52,7 +52,7 @@ public class loadParticipantsforServices extends HttpServlet {
             agegroup=request.getParameter("agegroup");
             if(agegroup.equalsIgnoreCase("Young Women") || agegroup.equalsIgnoreCase("Older Women")){
             defaultsex="Female";
-                System.out.println(" DEFAULT SEX "+defaultsex);
+               // System.out.println(" DEFAULT SEX "+defaultsex);
             }
             
             }
@@ -98,7 +98,7 @@ public class loadParticipantsforServices extends HttpServlet {
 "    left join (hc_formdata_1 left join hc_facilitator on hc_formdata_1.facilitator=hc_facilitator.facilitator_id) on hc_formdata_1.formid=hc_participants.formid " +
 "    left join hc_services on hc_services.participantid=hc_participants.id " +
 "     " +
-"    group by hc_participants.id ";
+" where hc_groups.group_id='"+groupid+"'   group by hc_participants.id ";
            
             
             conn.rs=conn.st.executeQuery(qry);
@@ -132,7 +132,7 @@ public class loadParticipantsforServices extends HttpServlet {
             
             }
             
-            System.out.println(" qry is "+qry);
+           // System.out.println(" qry is "+qry);
                      
             //read from the db and get the participants for editing
               

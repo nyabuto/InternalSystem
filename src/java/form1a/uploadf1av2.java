@@ -66,7 +66,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1a extends HttpServlet {
+public class uploadf1av2 extends HttpServlet {
 
     String full_path = "";
     String fileName = "";
@@ -83,7 +83,7 @@ public class uploadf1a extends HttpServlet {
     int no_uploads;
     String failed_reason;
     
-     String fullname = " Unknown User",email="";
+     String fullname = "",email="";
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -140,30 +140,13 @@ public class uploadf1a extends HttpServlet {
             int endcol = 27;
             
             String mflcode = "";
-             dbConn conn = new dbConn();
-             
-             
-            String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 3.0.0";
-            conn.rs=conn.st.executeQuery(getVersion);
             
-            while(conn.rs.next()){
-           activeversion=conn.rs.getString(1); 
-            
-                                 }
-            
-            
-            
+            String activeversion = "Form 1A  version 1.0.0";
             
             String dbname = "fas_temp";
             
-           
+            dbConn conn = new dbConn();
             
-            HashMap<String,String> uploaderdetails=getUsers(conn); 
-            
-            
-              fullname = uploaderdetails.get("name");
-                    email =  uploaderdetails.get("email");
             
             //GET ALLOWED PERIOD AND FACILITIES
             String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads";
@@ -173,7 +156,7 @@ public class uploadf1a extends HttpServlet {
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "uploadf1a.jsp";
+            nextpage = "uploadf1av2.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -199,7 +182,7 @@ public class uploadf1a extends HttpServlet {
                     
                     if (!fileName.endsWith(".xlsx")) {
                         
-                        nextpage = "uploadf1a.jsp";
+                        nextpage = "uploadf1av2.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
@@ -208,7 +191,7 @@ public class uploadf1a extends HttpServlet {
                 
                 if (!fileName.endsWith(".xlsx")) {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "uploadf1a.jsp";
+                    nextpage = "uploadf1av2.jsp";
                 } else {
                     
                     //start reading the contents
@@ -330,13 +313,13 @@ colskey.add("f_50");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
-String supported_services = " WHERE (is_active=1 ) && (poi_row_no is not null )  ";
+String supported_services = " WHERE (active_old=1 ) && (poi_row_no_old is not null )  ";
 
 String support_column_name, support_column_value;
 int num_serv_supported = 0;
 // READ FACILITY SUPPORTED SERVICES
 String get_supported_service = "SELECT SubPartnerID, IFNULL(PMTCT,0) AS PMTCT,IFNULL(ART,0) AS ART,IFNULL(VMMC,0) AS VMMC,IFNULL(HTC,0) AS HTC,IFNULL(Gender,0) AS Gender,IFNULL(PNS,0) AS PNS, IFNULL(IPD,0) AS IPD FROM subpartnera WHERE CentresanteID='" + mflcode + "'";
-System.out.println("" + get_supported_service);
+//System.out.println("" + get_supported_service);
 conn.rs = conn.st.executeQuery(get_supported_service);
 ResultSetMetaData metaData = conn.rs.getMetaData();
 int col_count = metaData.getColumnCount(); //number of column
@@ -369,15 +352,15 @@ if (conn.rs.next()) {
 // --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing fas_indicators table
 //--we will fetch a list of the indicators and the respective row no. then use the result set to tell us in which row of the uploaded excel template to get data for each indicator element.
 //--Any time there is a row-wise change in the excel upload file(including insertoing a new row),
-//there is need to update the column poi_row_no in the table fas_indicators accordingly
+//there is need to update the column poi_row_no_old in the table fas_indicators accordingly
 String table = "";
 String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,poi_row_no,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
+String getsections = "SELECT id,database_name,code,poi_row_no_old,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
 
-System.out.println("" + getsections);
+//System.out.println("" + getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
 
 while (conn.rs2.next()) {
@@ -386,7 +369,7 @@ while (conn.rs2.next()) {
     indicatorid = conn.rs2.getString("id");
     code = conn.rs2.getString("code");
     indicator_name = conn.rs2.getString("indicator");
-    poirow = conn.rs2.getInt("poi_row_no");
+    poirow = conn.rs2.getInt("poi_row_no_old");
     //while inside this , now read each indicator from the respective table row
     
     try {
@@ -556,7 +539,7 @@ while (conn.rs2.next()) {
         
     } //end of try
     catch (SQLException ex) {
-        Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
     }
     
     
@@ -564,10 +547,8 @@ while (conn.rs2.next()) {
 
     }//end of correct version
     else {
-        no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 3.0.0 <br>";
-
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 3.0.0 \n " ;
+        
+        String tx="Failed: Wrong template version "+excelversion+" \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -577,30 +558,19 @@ while (conn.rs2.next()) {
         {
             msgal.add(ujumbe);
         }
-        mailstosent++;
-        
-        maildetails.put("fac"+mailstosent, facilityName);
-        maildetails.put("st"+mailstosent, uploadstatus);
-        maildetails.put("fp"+mailstosent, full_path);
-        maildetails.put("fn"+mailstosent, excelfilename);
-        maildetails.put("fulln"+mailstosent, fullname);
-        
         
     }
 }
 else{
   uploadstatus+="The period you are uploading for has been Locked/Blocked i.e Period: "+yearmonth+" and mflcode: "+mflcode+"\n";
   failed_reason+= "The period you are uploading for has been Locked/Blocked i.e <br><br>Period: "+yearmonth+" and mflcode: "+mflcode+"<br>";
-
-  
-                
-                    fullname = uploaderdetails.get("name");
-                    email =  uploaderdetails.get("email");
+  String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
+                conn.rs1 = conn.st1.executeQuery(getusername);
+                if (conn.rs1.next())
+                { fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
+                    email = conn.rs1.getString(3);
                     //System.out.println("email:"+email);
-              
-                
-               
-                
+                }
 }
 }
 
@@ -628,9 +598,9 @@ else{
                         }//end of worksheets loop
                         
                     } catch (InvalidFormatException ex) {
-                        Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (SQLException ex) {
-                        Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                 }
@@ -721,11 +691,10 @@ else{
                     SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,Ekaunda@fhi360.org,DJuma@fhi360.org","Admin");
                     
                     //send to user
-                    if(!email.equals(""))
                     SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),email,maildetails.get("fulln"+q));
                     
                 } catch (MessagingException ex) {
-                    Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
                 }
        }
             
@@ -738,13 +707,13 @@ else{
           session.setAttribute("warnings", warning);
           session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
           
-          response.sendRedirect("uploadf1a.jsp");
+          response.sendRedirect("uploadf1av2.jsp");
           }
           
           else if(no_uploads==0){
           session.setAttribute("warnings", "");
           session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("uploadf1a.jsp"); 
+          response.sendRedirect("uploadf1av2.jsp"); 
           }
           
           else if(total_errors>0){
@@ -802,7 +771,7 @@ else{
                 
                 
             } catch (SQLException ex) {
-                Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             // pullHTS hts= new pullHTS();
@@ -811,7 +780,7 @@ else{
            // response.sendRedirect(nextpage);
             
         } catch (SQLException ex) {
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -894,7 +863,7 @@ else{
                 // To get sheet name, try -> sheet.getSheetName()
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return wb;
@@ -1046,7 +1015,7 @@ count++;
             
            
        } catch (SQLException ex) {
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
             retvalue=false;
         }
          return retvalue;
@@ -1066,14 +1035,25 @@ boolean iscomplete=true;
         } catch (SQLException ex) 
         {
             iscomplete=false;
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadf1av2.class.getName()).log(Level.SEVERE, null, ex);
         }
       return iscomplete;
      }
      
      
      public void insertAuditTrail( dbConn conn,String indicator_name,String yearmonth, String facname, String id, String userid) throws SQLException{
-              
+                String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + userid + "'";
+                conn.rs1 = conn.st1.executeQuery(getusername);
+                
+               // String fullname="",email="";
+                
+                if (conn.rs1.next())
+                {
+                     fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
+                    email = conn.rs1.getString(3);
+                   // System.out.println("email:"+email);
+                    
+                }
                 
                 
                 // update the audit trails table with relevant information
@@ -1105,28 +1085,6 @@ boolean iscomplete=true;
      
      return facility;
      
-     }
-     
-     
-     
-     public HashMap<String,String> getUsers(dbConn conn) throws SQLException{
-     
-     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
-                conn.rs1 = conn.st1.executeQuery(getusername);
-                if (conn.rs1.next())
-                {
-                    fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
-                    email = conn.rs1.getString(3);
-                    //System.out.println("email:"+email);
-                }
-                
-                HashMap<String,String> map= new HashMap<String, String>();
-     String[] details={fullname,email};
-     
-     map.put("email", email);
-     map.put("name", fullname);
-                
-                return map;
      }
      
 }

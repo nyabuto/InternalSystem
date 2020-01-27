@@ -79,7 +79,7 @@ public class getAttendance extends HttpServlet {
 " left join hc_services on hc_services.participantid=hc_participants.id "
                     + " where hc_participants.group_id='"+groupid+"' ";
            
-            System.out.println(""+qry);
+            //System.out.println(""+qry);
             conn.rs=conn.st.executeQuery(qry);
             int count=1;
             
@@ -116,7 +116,7 @@ public class getAttendance extends HttpServlet {
            
             }
             
-             System.out.println(" qry is "+qry);
+             //System.out.println(" qry is "+qry);
                      
                 //read from the db and get the participants for editing
                 String clas="btn btn-danger";
@@ -146,9 +146,10 @@ public class getAttendance extends HttpServlet {
            // System.out.println(regdata+regrows);
     
              out.println(regdata+regrows);
-         if(conn.rs!=null){conn.rs.close(); System.out.println(" resultset closed ");}   
-         if(conn.st!=null){conn.st.close();  System.out.println(" resultset closed ");}   
-         if(conn.conn!=null){conn.conn.close();  System.out.println(" connection closed ");}   
+         if(conn.rs!=null){conn.rs.close(); 
+         }   
+         if(conn.st!=null){conn.st.close(); }   
+         if(conn.conn!=null){conn.conn.close();  }   
             
            
         } finally {

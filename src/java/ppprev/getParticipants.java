@@ -51,7 +51,7 @@ public class getParticipants extends HttpServlet {
             agegroup=request.getParameter("agegroup");
             if(agegroup.equalsIgnoreCase("Young Women") || agegroup.equalsIgnoreCase("Older Women")){
             defaultsex="Female";
-                System.out.println(" DEFAULT SEX "+defaultsex);
+               // System.out.println(" DEFAULT SEX "+defaultsex);
             }
             
             }
@@ -95,7 +95,7 @@ public class getParticipants extends HttpServlet {
            
             }
             
-             System.out.println(" qry is "+qry);
+            // System.out.println(" qry is "+qry);
                      
                 //read from the db and get the participants for editing
               

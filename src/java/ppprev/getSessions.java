@@ -102,7 +102,7 @@ public class getSessions extends HttpServlet {
              
              qry+=" from hc_formdata_1 "+where;
              
-             System.out.println(" looong qry ni "+qry);
+             //System.out.println(" looong qry ni "+qry);
              
              conn.rs=conn.st.executeQuery(qry);
              

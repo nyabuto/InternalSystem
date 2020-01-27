@@ -41,7 +41,7 @@ public class checkduplicateuid extends HttpServlet {
             dbConn conn= new dbConn();
             
             String qr="select * from hc_participants where patient_unique_id ='"+uid+"' and ( patient_unique_id is not null ) and (patient_unique_id!='')  and (id!='"+rn+"') ";
-            System.out.println(""+qr);
+            //System.out.println(""+qr);
             conn.rs=conn.st.executeQuery(qr);
             if(conn.rs.next()){
             

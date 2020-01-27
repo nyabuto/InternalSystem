@@ -155,6 +155,7 @@
                   <li ><a href="upload_tb_raw_data.jsp" Title="Tb raw data"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>
                   <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Data(.xls)</a></li>
                   <li ><a href="UploadVL.jsp"><i class="icon-plus"></i>Viral Load raw (.xlsx)</a></li>
+                  <li ><a href="uploadVL_Surge.jsp"><i class="icon-plus"></i>Viral Load raw Surge(.xlsx)</a></li>
                   <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>NASCOP EID POS (.xlsx)</a></li>
                   <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>NASCOP EID TST (.xlsx)</a></li>
                   <li ><a href="UploadEID.jsp"><i class="icon-plus"></i>EID Data (.xlsx)</a></li>
@@ -173,7 +174,7 @@
                </a>
                 <ul class="sub">
                     
-                  <li ><a href="DataCleaner.jsp" Title="EID Clean data module"><i class="icon-plus"></i>EID Error Checking(.xlsx)</a></li>
+                  <li ><a href="DataCleaner.jsp" Title="EID Clean data module"><i class="icon-plus"></i>EID/TB Error Checking(.xlsx)</a></li>
                   <li ><a href="EIDPrevData.jsp" Title="EID Clean data module"><i class="icon-plus"></i>Load <b>1&#189;</b> Yrs ago data(.xlsx)</a></li>
                </ul>
             </li>
@@ -187,17 +188,17 @@
                </a>
                <ul class="sub">
                   <li ><a href="rawdata.jsp">Facility raw data</a></li>
-                  <li><a href="staticFormData.jsp">Static Reports</a></li>
-                  <li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>
+                  <!--<li><a href="staticFormData.jsp">Static Reports</a></li>-->
+                  <!--<li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>-->
                    <!--<li><a href="datimReport.jsp">Datim Report</a></li>-->
                    <li><a href="DatimOutput.jsp">Datim/Raw Reports [New]</a></li>
                    <li><a href="ewi.jsp">EWI Monthly Data</a></li>
                    <li><a href="RawQuery.jsp">Run Queries</a></li>
-                  <li ><a href="DQA.jsp">DQA per Form</a></li>
+                  <!--<li ><a href="DQA.jsp">DQA per Form</a></li>-->
                   <li ><a href="masterlist.jsp">Master List</a></li>
                   <li ><a href="T1SummaryReports.jsp">Training Report</a></li>
-                  <li ><a href="IMIS_DHIS_Validation.jsp">IMIS DHIS Report</a></li>
-                  <li ><a href="IMIS_DHIS_Variances.jsp">DHIS IMIS Variances</a></li>
+                  <!--<li ><a href="IMIS_DHIS_Validation.jsp">IMIS DHIS Report</a></li>-->
+                  <!--<li ><a href="IMIS_DHIS_Variances.jsp">DHIS IMIS Variances</a></li>-->
                </ul>
             </li>
             <%}}%>

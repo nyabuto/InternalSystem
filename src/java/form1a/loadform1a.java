@@ -91,11 +91,13 @@ int indic_counter;
                 facil = session.getAttribute("facilityid").toString();
             }
             
+            
+            System.out.println(" Form 1A upload for :"+facil+" for period "+year+""+month);
             String support_column_name,support_column_value;
             int num_serv_supported=0;
             // READ FACILITY SUPPORTED SERVICES
             String get_supported_service = "SELECT IFNULL(PMTCT,0) AS PMTCT,IFNULL(ART,0) AS ART,IFNULL(VMMC,0) AS VMMC,IFNULL(HTC,0) AS HTC,IFNULL(Gender,0) AS Gender,IFNULL(PNS,0) AS PNS, IFNULL(IPD,0) AS IPD FROM subpartnera WHERE SubPartnerID='"+facil+"'";
-            System.out.println(""+get_supported_service);
+            //System.out.println(""+get_supported_service);
             conn.rs = conn.st.executeQuery(get_supported_service);
                ResultSetMetaData metaData = conn.rs.getMetaData();
                 int col_count = metaData.getColumnCount(); //number of column
@@ -116,7 +118,7 @@ int indic_counter;
               }
             }
             
-            System.out.println("Supported services : "+supported_services);
+            //System.out.println("Supported services : "+supported_services);
             //From the facility supported services, load the list of indications in the indicators table source
             
             
@@ -149,7 +151,7 @@ int indic_counter;
             String columns[] = {"m_uk", "f_uk", "m_1", "f_1", "m_4", "f_4", "m_9", "f_9", "m_14", "f_14", "m_19", "f_19", "m_24", "f_24", "m_29", "f_29", "m_34", "f_34", "m_39", "f_39", "m_44", "f_44", "m_49", "f_49", "m_50", "f_50","total"};
             //load indicators from the table
             String tbls = "select * from fas_indicators where database_name='" + database_name + "' and is_active='1' AND ("+supported_services.replace("WHERE", "")+") order by order_no asc";
-              System.out.println("indicators per table :"+tbls);
+             // System.out.println("indicators per table :"+tbls);
             conn.rs = conn.st.executeQuery(tbls);
 
             while (conn.rs.next()) {
@@ -292,7 +294,7 @@ int indic_counter;
                 lock = " tabindex='-1' readonly='true' ";
             }
 
-              System.out.println("is indicator locked?"+isLocked);
+              //System.out.println("is indicator locked?"+isLocked);
             enterdby = "";
             
             output += "<div class=\"card\">\n" +
@@ -358,7 +360,7 @@ int indic_counter;
                     String get_data = "SELECT * FROM " + database_name + " WHERE id=?";
                     conn.pst = conn.conn.prepareStatement(get_data);
                     conn.pst.setString(1, tableid);
-                    System.out.println("query: "+conn.pst);
+                    //System.out.println("query: "+conn.pst);
                     conn.rs = conn.pst.executeQuery();
                     if (conn.rs.next()) { // indicator data already exist
                         if(conn.rs.getString("is_locked")!=null){
@@ -375,11 +377,11 @@ int indic_counter;
                             output += "<td rowspan='" + main_indic_rowspan[main_indic_pos] + "'>" + main_indic + "</td>";
                         }
                         output += "<td>" + indicators[main_indic_pos].split(",")[indic_pos] + "<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
-                        System.out.println("column length :"+columns.length);
+                       // System.out.println("column length :"+columns.length);
                         int col_counter=0;
                         for (String column_name : columns) {
                             col_counter++;
-                            System.out.println("column counter : "+col_counter);
+                           // System.out.println("column counter : "+col_counter);
                              if(conn.rs.getString(column_name)!=null){
                                 value = conn.rs.getString(column_name);
 //                                if(isNumeric(value)){
@@ -405,7 +407,7 @@ int indic_counter;
                                 autocalc = " autocalculate("+autocalculate_arr[main_indic_pos].split("%")[indic_pos]+"); ";
                             }
                             
-                            System.out.println("is readonly:-"+isreadonly+"-autocalc:"+autocalc);
+                           // System.out.println("is readonly:-"+isreadonly+"-autocalc:"+autocalc);
                             if(isreadonly.equals("")){
                                 if(col_counter==columns.length){
                              output += "<td><input " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' "+autocalc+"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress='return numbers(event)' ></td>";
@@ -427,7 +429,7 @@ int indic_counter;
                         {
                             output += "<td rowspan='" + main_indic_rowspan[main_indic_pos] + "'>" + main_indic + "</td>";
                         }
-                        System.out.println(indicators[main_indic_pos]+"The indicator is : "+indicators[main_indic_pos].split(",")[indic_pos]);
+                       // System.out.println(indicators[main_indic_pos]+"The indicator is : "+indicators[main_indic_pos].split(",")[indic_pos]);
                         output += "<td>" + indicators[main_indic_pos].split(",")[indic_pos] + "<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
                         int col_counter=0;
                         for (String column_name : columns) {
@@ -471,7 +473,7 @@ int indic_counter;
          output+="<input type=\"hidden\" name=\"num_indicators\" id=\"num_indicators\" value=\""+indic_counter+"\">";
          output+="<input type=\"hidden\" name=\"table_name\" id=\"table_name\" value=\""+database_name+"\">";
 
-              System.out.println("num saved : "+num_saved_elems);
+             // System.out.println("num saved : "+num_saved_elems);
          if(num_saved_elems>0){
           output = output.replace("section_label_button_color", "green");
           output = output.replace("section_label_tick", "<img src=\"images/checked.png\" style=\"\" alt=\"Entered\">");

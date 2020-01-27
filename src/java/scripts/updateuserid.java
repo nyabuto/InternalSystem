@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GapAnalysis;
+package scripts;
 
-import database.dbConnWeb;
+import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,42 +15,58 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author GNyabuto
+ * @author EKaunda
  */
-public class months extends HttpServlet {
-HttpSession session;
-String output,year,query;
+public class updateuserid extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-           session = request.getSession();
-        dbConnWeb conn = new dbConnWeb();
-        
-        year="";
-        if(request.getParameter("year")!=null){
-         if(!request.getParameter("year").equals("")){
-          year = " WHERE year='"+request.getParameter("year")+"'";  
-        }   
-        }
-        
-        output="<option value =\"\">Choose Month</option>";
-        
-        
-        String getmonth = query= "SELECT DISTINCT(month) AS month FROM gaps "+year+" GROUP BY month order by month(str_to_date(month,'%b'))";
-               
-        conn.rs = conn.st.executeQuery(getmonth);
-        while(conn.rs.next()){
-         output+="<option value =\""+conn.rs.getString(1)+"\">"+conn.rs.getString(1)+"</option>";   
-        }   
-            out.println(output);
+            /* TODO output your page here. You may use following sample code. */
+          dbConn conn = new dbConn();
+          
+          String getdata="select * from imis.hc_participants where concat(id,timestamp) not in (select concat(id,timestamp) from internal_system.hc_participants) and imis.hc_participants.id  in ( select id from internal_system.hc_participants) ";
             
+          conn.rs=conn.st.executeQuery(getdata);
+          int count=0;
+          while(conn.rs.next()){
+          count++;
+          
+              String currentid=conn.rs.getString("id");
+              String updatedid="n"+(new Integer(currentid)+28);
+              
+              String update="update imis.hc_participants set id='"+updatedid+"' where id='"+currentid+"'";
+              String update2="update imis.hc_services set participantid='"+updatedid+"' where participantid='"+currentid+"'";
+              
+              //conn.st1.executeUpdate(update);
+              //conn.st1.executeUpdate(update2);
+              
+              System.out.println("line "+count);
+              System.out.println(update);
+              System.out.println(update2+"\n\n");
+              
+          }
+          
+          
+          
+          
+            out.println("</html>");
+        } catch (SQLException ex) {
+            Logger.getLogger(updateuserid.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
@@ -68,11 +84,7 @@ String output,year,query;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
         processRequest(request, response);
-    } catch (SQLException ex) {
-        Logger.getLogger(months.class.getName()).log(Level.SEVERE, null, ex);
-    }
     }
 
     /**
@@ -86,11 +98,7 @@ String output,year,query;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    try {
         processRequest(request, response);
-    } catch (SQLException ex) {
-        Logger.getLogger(months.class.getName()).log(Level.SEVERE, null, ex);
-    }
     }
 
     /**

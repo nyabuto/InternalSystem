@@ -36,7 +36,7 @@ String sessionmonth="";
     
     sessionmonth=session.getAttribute("monthid").toString();
     }
-System.out.println("sessionmonth   "+sessionmonth);
+//System.out.println("sessionmonth   "+sessionmonth);
 
 Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);  
@@ -85,7 +85,7 @@ above10=" and  id <='"+currentmonth+"' ";
             dbConn conn = new dbConn();
 
             String getmonths = "select * from month "+mywhere+" order by mois asc";
-            System.out.println(""+getmonths);
+           // System.out.println(""+getmonths);
             String months = "<option value=''>Select Month </option>";
 
 

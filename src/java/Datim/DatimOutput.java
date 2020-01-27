@@ -292,7 +292,7 @@ String validationsheet="";
                 String headers_array[] = headers.split("@");
 
                 for (String header : headers_array) {
-                    System.out.println("header main:" + header);
+                   // System.out.println("header main:" + header);
                     t_i = 0;
                     XSSFRow RowHeader = sheet.createRow(row);
                     RowHeader.setHeightInPoints(30);
@@ -334,11 +334,11 @@ String validationsheet="";
                 }
                 cell.setCellStyle(stylex);
             }
-            System.out.println("Row pos : " + row);
+            //System.out.println("Row pos : " + row);
             while (conn.rs.next()) {
-                System.out.println("Name : " + conn.rs.getString(3));
+                //System.out.println("Name : " + conn.rs.getString(3));
                 row++;
-                System.out.println("Row pos : .. " + row);
+               // System.out.println("Row pos : .. " + row);
                 XSSFRow RowData = sheet.createRow(row);
 
                 for (int i = 0; i < col_count; i++) { // read and output data
@@ -374,7 +374,7 @@ if(!validationsheet.contains("Data Validation")){
 
                 for (String header : headers_array) {
                     String header_elems_array[] = header.split(",");
-                    System.out.println("header:" + header);
+                    //System.out.println("header:" + header);
                     int row_start = Integer.parseInt(header_elems_array[0]);
                     int row_end = Integer.parseInt(header_elems_array[1]);
                     int col_start = Integer.parseInt(header_elems_array[2]);

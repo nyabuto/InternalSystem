@@ -76,7 +76,8 @@ public class saveGroup extends HttpServlet {
             if(conn.st!=null){conn.st.close();}
             if(conn.pst1!=null){conn.pst1.close();}
             if(conn.pst2!=null){conn.pst2.close();}
-             if(conn.conn!=null){conn.conn.close();  System.out.println(" connection closed ");} 
+             if(conn.conn!=null){conn.conn.close(); // System.out.println(" connection closed ");
+             } 
         } finally {
             out.close();
         }

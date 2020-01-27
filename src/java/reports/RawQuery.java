@@ -147,9 +147,9 @@ if(query.contains("select ") || query.contains("call ")){
         
         
           while (conn.rs.next()) {
-                System.out.println("Name : " + conn.rs.getString(3));
+               // System.out.println("Name : " + conn.rs.getString(3));
                 row++;
-                System.out.println("Row pos : .. " + row);
+                //System.out.println("Row pos : .. " + row);
                 XSSFRow RowData = Sheet.createRow(row);
 
                 for (int i = 0; i < col_count; i++) { // read and output data

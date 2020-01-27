@@ -63,7 +63,7 @@ String districts,output,where,query;
             conn.st.close();
             conn.rs.close();
             
-            System.out.println("district length : "+district_array.length+" and where clause : "+where);
+            //System.out.println("district length : "+district_array.length+" and where clause : "+where);
             
             out.println(output);
         } finally {

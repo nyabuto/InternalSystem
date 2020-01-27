@@ -135,7 +135,7 @@ public class Tracker extends HttpServlet {
         where_location=",";
          //get mfls
         String getfacilis = "SELECT CentreSanteID FROM subpartnera LEFT JOIN district on subpartnera.DistrictID = district.DistrictID LEFT JOIN county ON county.CountyID=district.CountyID"
-            + " WHERE "+all_loc_ids+" AND subpartnera.active=1";
+            + " WHERE "+all_loc_ids+" AND subpartnera.active=1 and ( subpartnera.PMTCT=1 or  subpartnera.ART=1 or  subpartnera.HTC=1) ";
             System.out.println("get facility ids : "+getfacilis);
         conn.rs = conn.st.executeQuery(getfacilis);
         while(conn.rs.next()){
@@ -146,7 +146,7 @@ public class Tracker extends HttpServlet {
             where_location=",";
             
          String getfacilis = "SELECT CentreSanteID FROM subpartnera LEFT JOIN district on subpartnera.DistrictID = district.DistrictID LEFT JOIN county ON county.CountyID=district.CountyID"
-            + "  WHERE subpartnera.active=1";
+            + "  WHERE subpartnera.active=1 and ( subpartnera.PMTCT=1 or  subpartnera.ART=1 or  subpartnera.HTC=1 )";
             System.out.println("get facility ids all : "+getfacilis);
         conn.rs = conn.st.executeQuery(getfacilis);
         while(conn.rs.next()){

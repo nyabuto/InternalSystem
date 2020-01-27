@@ -165,7 +165,7 @@ tr>td {
                       
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
-                        <form action="LoadAllVLData_2020" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                        <form action="LoadAllVLData_surge" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        <input type="file" name="file_name" id="upload" value="" class="textbox" required>   
                        
                         <br><br><br> 

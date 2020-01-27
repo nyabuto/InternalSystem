@@ -113,7 +113,7 @@ public String Group(dbConn conn, String wardid, String curselect) throws SQLExce
           
             
             String data="<option value=''>Select group</option>";
-            String qry="select * from hc_groups "+wherestring;
+            String qry="select * from hc_groups "+wherestring+" order by timestamp desc ";
             
             conn.rs= conn.st.executeQuery(qry);
             while(conn.rs.next()){

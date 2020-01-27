@@ -524,9 +524,19 @@ input:focus {
   
   <h3 style="text-align: center;" id="participantsaccordion"><span class='badge badge-warning'>2</span> PP PPREV SERVICES</h3>
   <div>
-    
       
-      <div id="hcservices"><h3 style="text-align: center;"><img src="images/ajax_loader.gif"/></h3></div>
+      
+       <div class="control-group" >
+                                    
+                                    <div class="controls ">
+                                       <table style='margin-left: 30%;background-color: gainsboro;width:70%;'> <tr><td><label class="col-sm-2"><b><font color="red"><b>*</b></font>Select Group Name</b> </label></td>
+                                        <td><select onchange=' setServiceParticipants();'  name ="gname" id="gname"  class="form-control" >
+                                            <option value=''></option>
+                                        </select></td></tr></table>
+                                    </div>
+                                </div> 
+      
+      <div id="hcservices"><h3 style="text-align: center;color:green;">Select Group name in the groups drop down above to load data</h3></div>
       
       
   </div>
@@ -1303,6 +1313,22 @@ else
             }
 
 
+//gname
+
+
+                $.ajax({
+                    url: 'getGroup',
+                    type: 'post',
+                    dataType: 'html',
+                    success: function (data) {
+                        $("#gname").html(data);
+                       
+                        $("#gname").select2();
+                       
+
+                    }
+                });
+
 
             function setLessons() {
 
@@ -1990,11 +2016,13 @@ function getRandomId(min,max){
   
     function setServiceParticipants() {
 
+              var groupid=$("#gname").val();
               
-
+              
+              $("#hcservices").html('<img src="images/ajax_loader.gif"/>');
 
                 $.ajax({
-                    url: 'loadParticipantsforServices',
+                    url: 'loadParticipantsforServices?groupid='+groupid,
                     type: 'post',
                     dataType: 'html',
                     success: function (data) {
@@ -2006,6 +2034,7 @@ function getRandomId(min,max){
               "paging": true,
               "pagingType": "full",
               "lengthChange": true,
+              "pageLength": 25,
               
               "order": [[1,'desc']]});
           
@@ -2025,11 +2054,14 @@ function getRandomId(min,max){
 //    } );
           
 
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                         $("#hcservices").html(" Error While Loading data <br/> "+errorThrown);
                     }
                 });
             }
   
-  setServiceParticipants();
+ 
   
   function launchservices(sex,participantid,participant,age,ward){
     
