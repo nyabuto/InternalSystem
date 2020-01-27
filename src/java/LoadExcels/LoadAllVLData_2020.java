@@ -36,7 +36,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author GNyabuto
  */
-public class LoadAllVLData extends HttpServlet {
+public class LoadAllVLData_2020 extends HttpServlet {
   String full_path="";
   String fileName="";
   File file_source;
@@ -98,9 +98,9 @@ public class LoadAllVLData extends HttpServlet {
         while(rowIterator.hasNext()){
            
 //            session.removeAttribute("viral_load");
-            query = "INSERT INTO vl_validation SET ";
-            query_update = "UPDATE vl_validation SET ";
-            checker_query="SELECT autokey FROM vl_validation WHERE ";
+            query = "INSERT INTO vl_validation_2020 SET ";
+            query_update = "UPDATE vl_validation_2020 SET ";
+            checker_query="SELECT autokey FROM vl_validation_2020 WHERE ";
              int colmnscounter=0;
         SubPartnerID=mfl_code="";
         XSSFRow rowi = worksheet.getRow(i);
@@ -200,7 +200,7 @@ public class LoadAllVLData extends HttpServlet {
          query+="Suppressed='Y',Valid_Result='Y'";  
          query_update+="Suppressed='Y',Valid_Result='Y'";  
        }
-       else{
+       else {
          if(isNumeric(value_vl.trim())){
             if(Integer.parseInt(value_vl.replace(" ", ""))>1000){
                   query+="Suppressed='N',Valid_Result='Y'"; 
@@ -229,14 +229,16 @@ public class LoadAllVLData extends HttpServlet {
             
 //            check existence
         conn.rs1 = conn.st1.executeQuery(checker_query);
-        if(conn.rs1.next()){
+        if(conn.rs1.next())
+        {
             
 //            System.out.println("record not added : "+mfl_code);
         query_update+=" WHERE autokey='"+conn.rs1.getString(1)+"'";
         conn.st.executeUpdate(query_update);
             updated++;
         }
-        else{
+        else
+        {
          conn.st.executeUpdate(query);
 //            System.out.println("success : "+query);
             added++;

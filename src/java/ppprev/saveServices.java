@@ -59,7 +59,7 @@ formdatainsert+=formdatacolumns+formdatavalues+") ";
 formdatainsert=formdatainsert.replace("?,)", "?)");
 formdatainsert=formdatainsert.replace(",)", ")");
 
-System.out.println(""+formdatainsert); 
+//System.out.println(""+formdatainsert); 
 
 conn.pst1=conn.conn.prepareStatement(formdatainsert);  
 
@@ -78,7 +78,7 @@ conn.pst1=conn.conn.prepareStatement(formdatainsert);
                 else{
                       vals = "";
                 conn.pst1.setString(p+1,vals);
-                    System.out.println("null request.getParameter("+cols[p]+")");
+                    //System.out.println("null request.getParameter("+cols[p]+")");
                 }
             }
                 else {
@@ -91,14 +91,14 @@ conn.pst1=conn.conn.prepareStatement(formdatainsert);
                 else{
                       vals = "";
                 conn.pst1.setString(p+1,vals);
-                    System.out.println("null request.getParameter("+cols[p]+")");
+                    //System.out.println("null request.getParameter("+cols[p]+")");
                 }
                 
                 
                 }
                                                     }
             
-            System.out.println(""+conn.pst1.toString());
+           // System.out.println(""+conn.pst1.toString());
             conn.pst1.executeUpdate();   
 
             /* TODO output your page here. You may use following sample code. */
