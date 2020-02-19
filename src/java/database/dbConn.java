@@ -41,7 +41,7 @@ public  Connection conn = null;
         System.out.println("in here");
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            // Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhc","root", "");
+            
            
             //if the saved host name is less than 2 letters long, then thats not a genuine host name
 
@@ -60,7 +60,7 @@ public  Connection conn = null;
 }
                     else{
                      System.out.println("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1]+","+ dbsetup[2]+","+dbsetup[3]);   
-//                    conn = DriverManager.getConnection("jdbc:mysql://kenmysqlserver1.mysql.database.azure.com:3306/excels?verifyServerCertificate=false&useSSL=true&requireSSL=true","websqladmkn@kenmysqlserver1","P@$$w9rd4$q12Use1nK#K");
+
                     conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
                     }
 
