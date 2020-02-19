@@ -42,7 +42,7 @@ public  Connection conn = null;
     public dbConnWeb() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            // Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhc","root", "");
+           
            
             //if the saved host name is less than 2 letters long, then thats not a genuine host name
 
