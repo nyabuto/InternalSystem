@@ -1,7 +1,7 @@
 <%-- 
-    Document   : RawQuery
-    Created on : Jan 24, 2019, 9:21:50 AM
-    Author     : GNyabuto
+    Document   : datimReport
+    Created on : Jul 14, 2015, 8:09:17 AM
+    Author     : Geofrey Nyabuto
 --%>
 
 <%@page import="database.dbConn"%>
@@ -13,13 +13,12 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Raw Query Module</title>
+   <title>DATIM Entry Screens Download</title>
      <link rel="shortcut icon" href="images/index.JPG"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/progress_bar.css">
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
    <link href="assets/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
@@ -40,40 +39,6 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
-<link rel="stylesheet" href="css/animate.css">
-<link href="linedtextarea/jquery-linedtextarea.css" type="text/css" rel="stylesheet" /> 
-
-                
-                <style>
-                    
-                    [data-notify="progressbar"] {
-	margin-bottom: 0px;
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	width: 100%;
-	height: 5px;
-}
-
-textarea {
-  width: 32%;
-  float: top;
-  min-height: 450px;
-  overflow: scroll;
-  margin: auto;
-  display: inline-block;
-  background: black;
-  color: white;
-  outline: none;
-  font-family: BatangChe,'Book Antiqua';
-  font-size: 14px;
-  width: 98%;
-  border-color: black;
-  font-size: 17px;
-}
-                    
-                </style>
-                
   
 </head>
 <!-- END HEAD -->
@@ -91,8 +56,7 @@ textarea {
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
             <img src="assets/img/menu-toggler.png" alt="" />
-            </a>          
-                      
+            </a>                     
             <ul class="nav pull-right">
           
             </ul>
@@ -136,7 +100,14 @@ textarea {
                     
 <!--                    Internal System-->
                   </h3>
-                  
+                  <ul class="breadcrumb">
+                     <li style="width: 900px;">
+                        <i class="icon-home"></i>
+                        <a href="#" style="margin-left:40%;">DATIM OUTPUT Entry Screens.</a> 
+                        <!--<span class="icon-angle-right"></span>-->
+                     </li>
+           
+                  </ul>
                </div>
             </div>
             <!-- END PAGE HEADER-->
@@ -145,45 +116,74 @@ textarea {
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
-                     <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 30%; color:#ffffff;">Generate Reports from Raw Queries</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"></div>
+                     <div class="portlet-title">
+                        <h4><i class="icon-reorder"></i></h4>
+                       
                      </div>
-                      
-                      
-                   <div  class="portlet-body form" id="progress_area" hidden="true">
-                     <div class="progress"  style="height: 35px;">
-                         <div class="progress-bar progress-bar-striped active" id="progess" role="progressbar" style="width: 0%;  padding-top: 10px; font-weight: 900;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>   
-                    </div> 
-                  
-                      
-                       <div  class="portlet-body form" >
-                           <select name="queryhistory" id="queryhistory" style='width:100%;' onchange="showqry();">
-                               <option value=''>Query History</option>
-                               
-                           </select> 
-                    </div> 
-                      
-                      
-                     <div class="portlet-body form"  id="upload_area">
+                     <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="RawQuery" method="post" class="form-horizontal" >
-                            <textarea name="query" id="query" value="" class="lined" rows="10" cols="60" spellcheck="false" placeholder="Enter your query here" required><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
-                        <br><br><br><br>
-                        
-                        
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn blue" style="font-weight: bolder;">Execute Query</button>
-
+                        <form action="DatimScreens" class="form-horizontal">
+                          
+                         
+                           <div class="control-group">
+                              <label class="control-label">Reporting Year<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select onclick="reportsready();" required data-placeholder="Reporting Year" class="chosen-with-diselect span6" tabindex="-1"  id="year" name="year" style="width: 400px;">
+                                    <option value=""></option>                                 
+                                   
+                                 </select>
+                                  <input type='hidden' name='minmonth' id='minmonth' value='10'>
+                              </div>
                            </div>
-                       <div>
-                           <br>
-                           <h4>Note:</h4>
-                        <ul>
-                            <li>This module is only used to generate reports by Running queries. Please note that we only run stored procedures and select queries. Other commands like insert,update,replace into will NOT be EXECUTED.</li>
-                        </ul>
-                        </div>
+                          
+                             <div class="control-group" id="reportTime">
+                              <label class="control-label">Reporting Period<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select  data-placeholder="Reporting Period" class="span6 m-wrap" tabindex="-1"  id="reportDuration" name="reportDuration" style="width: 400px;">
+                                    <option value="">Choose reporting period</option>                                 
+                                   
+                                 </select>
+                              </div>
+                           </div>
+                            
+                           <div class="control-group" id="reportSemi">
+                              <label class="control-label">Semi-annual<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select  data-placeholder="Semi annual" class="span6 m-wrap"  tabindex="-1"  id="semi_annual" name="semi_annual" style="width: 400px;">
+                                    <option value="">Choose period</option>                                 
+                                   
+                                 </select>
+                              </div>
+                           </div>
+                            
+                            <div class="control-group" id="reportQuarter">
+                              <label class="control-label">Quarter<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select data-placeholder="Reporting Quarter"  class="span6 m-wrap" tabindex="-1"  id="quarter" name="quarter" style="width: 400px;">
+                                    <option value="">Choose Quarter</option>                                 
+                                   
+                                 </select>
+                              </div>
+                           </div>
+                            
+                            
+                            <div class="control-group" id="reportMonth">
+                              <label class="control-label">Month<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                 <select data-placeholder="Reporting Month"  class="span6 m-wrap" tabindex="-1"  id="month" name="month" style="width: 400px;">
+                                    <option value="">Choose month</option>                                 
+                                   
+                                 </select>
+                              </div>
+                           </div>
+                            
+                            
+                            
+                           
+                            
+                           <div class="form-actions">
+                               <input type="submit" class="btn blue" value="Generate Report" />
+                           </div>
                         </form>
                         <!-- END FORM-->           
                      </div>
@@ -191,14 +191,10 @@ textarea {
                   <!-- END SAMPLE FORM PORTLET-->
                </div>
             </div>
-            <div style="color: red; font-weight: bold; font-size: 20px;">
-          <%if (session.getAttribute("errors") != null) {
-            out.println(session.getAttribute("errors"));  
-            session.removeAttribute("errors");
-             }
-         %>
+       
+          
          
-          </div>
+          
            
          
           
@@ -225,12 +221,7 @@ textarea {
    <!-- END FOOTER -->
    <!-- BEGIN JAVASCRIPTS -->    
    <!-- Load javascripts at bottom, this will reduce page load time -->
-   
-<script src="assets/js/jquery-1.8.3.min.js"></script>
-<script src="linedtextarea/jquery-linedtextarea.js"></script>    
-
-<script type="text/javascript" src="js/bootstrap-notify.js"></script>
-
+   <script src="assets/js/jquery-1.8.3.min.js"></script>    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
    <script src="assets/breakpoints/breakpoints.js"></script>       
    <script src="assets/bootstrap/js/bootstrap.min.js"></script>   
@@ -256,64 +247,93 @@ textarea {
    <script type="text/javascript" src="assets/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
    <script src="assets/js/app.js"></script>  
    <script src="select2/js/select2.js"></script>
+  
    
+   <script>
+       
+      jQuery(document).ready(function() {       
 
-<script>
-$(function() {
-
-  // Target all classed with ".lined"
-  $(".lined").linedtextarea(
-    {selectedLine: 1}
-  );
-
-  // Target a single one
-  $("#mytextarea").linedtextarea();
-
+         $("#reportTime").hide();
+         $("#reportSemi").hide();
+//         $("#reportQuarter").hide();
+         $("#reportMonth").hide();
+         
+        
+       
+$.ajax({
+    url:'loadYear',
+    type:'post',
+    dataType:'html',
+    success:function (data){
+        document.getElementById("year").innerHTML=data;
+     var year=$("#year").val();
+     if(year===""){
+         
+     }
+     else{
+    //$("#reportTime").show();  
+  reportingPeriod();     
+     }
+    }
+    
+    
 });
 
 
-function loadqueries(){
   
-        
+$("#year").change(function(){
+  var year=$("#year").val();
+  if(year===""){
+  $("#reportTime").hide();    
+  }
+  else{
+// $("#reportTime").show();  
+  reportingPeriod();
+  }
+    });
+    
+    
+   
+
+});
+ 
+ 
+ //if reports are ready, then upload 
+
       
-        
-         $.ajax({
-            url:'loadQueryHistory',
-            type:'post',
-            dataType:'json',
-            success:function (data){
-                 var qrs="<option value=''>Select Query </value>";
-                for(var as=0;as<data.length;as++){
-               
-            qrs+="<option value=\""+data[as].qry+"\">"+data[as].queryname+"</option>";
-            
-            $("#queryhistory").html(qrs);
-                
-            }
-            }
-
-                                   });
-            
-            
-                                 }
-        
-    loadqueries();
-
-
-function showqry(){
+      
+      function reportingPeriod(){
+          
+   
+//      
+        loadQuarters();
+      
+      }
     
-    var vl1=$("#queryhistory").val();
-    
-   $("#query").html(vl1);
-    
-    
+     
+     function loadQuarters(){
+     var year=$("#year").val();
+       $.ajax({
+url:'loadQuarters?year='+year,
+type:'post',
+dataType:'html',
+success:function (data){
+ $('#quarter').html(data); 
+   
 }
+    });
+          
+      }
+ 
 
-</script>
+   
+     
+      
+      
+   </script>
    
    <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->
 </html>
-
 

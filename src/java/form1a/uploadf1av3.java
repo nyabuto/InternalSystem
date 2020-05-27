@@ -66,42 +66,31 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1a extends HttpServlet {
+public class uploadf1av3 extends HttpServlet {
 
- 
+    String full_path = "";
+    String fileName = "";
+    String fileNameCopy = "";
 
     HttpSession session;
     private static final long serialVersionUID = 205242440643911308L;
     private static final String UPLOAD_DIR = "uploads";
-   
-    
-
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-             String fullname = " Unknown User",email="";
-             
-        
-        try {
-            
-            
-            
-             String nextpage = "";
-   
+    String nextpage = "";
+    String facilityName, facilityID, id, county, subcounty;
     
     String user_id = "";
     String periods,mfl_codes;
     int no_uploads;
     String failed_reason;
-            
-             String facilityName = null, facilityID, id, county, subcounty;
-            
-             String full_path = "";
-             String fileName = "";
-             String fileNameCopy = "";
-            
+    
+     String fullname = " Unknown User",email="";
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+           
             periods=mfl_codes=failed_reason="";
             no_uploads=0;
             String sessionText = "";
@@ -154,20 +143,20 @@ public class uploadf1a extends HttpServlet {
              dbConn conn = new dbConn();
              
              
-            String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 3.0.1";
-            conn.rs=conn.st.executeQuery(getVersion);
+         
+            String activeversion = "Form 1A  version 3.0.0";
+       
             
-            while(conn.rs.next()){
-           //activeversion=conn.rs.getString(1); 
             
-                                 }
+            
+            
+            
             
             String dbname = "fas_temp";
             
            
             
-            HashMap<String,String> uploaderdetails=getUsers(conn, user_id); 
+            HashMap<String,String> uploaderdetails=getUsers(conn); 
             
             
               fullname = uploaderdetails.get("name");
@@ -181,7 +170,7 @@ public class uploadf1a extends HttpServlet {
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "uploadf1a.jsp";
+            nextpage = "uploadf1av3.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -207,7 +196,7 @@ public class uploadf1a extends HttpServlet {
                     
                     if (!fileName.endsWith(".xlsx")) {
                         
-                        nextpage = "uploadf1a.jsp";
+                        nextpage = "uploadf1av3.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
@@ -216,7 +205,7 @@ public class uploadf1a extends HttpServlet {
                 
                 if (!fileName.endsWith(".xlsx")) {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "uploadf1a.jsp";
+                    nextpage = "uploadf1av3.jsp";
                 } else {
                     
                     //start reading the contents
@@ -338,7 +327,7 @@ colskey.add("f_50");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
-String supported_services = " WHERE (is_active=1 ) && (poi_row_no is not null )  ";
+String supported_services = " WHERE (active_old_v3=1 ) && (poi_row_no_v3 is not null )  ";
 
 String support_column_name, support_column_value;
 int num_serv_supported = 0;
@@ -377,13 +366,13 @@ if (conn.rs.next()) {
 // --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing fas_indicators table
 //--we will fetch a list of the indicators and the respective row no. then use the result set to tell us in which row of the uploaded excel template to get data for each indicator element.
 //--Any time there is a row-wise change in the excel upload file(including insertoing a new row),
-//there is need to update the column poi_row_no in the table fas_indicators accordingly
+//there is need to update the column poi_row_no_v3 in the table fas_indicators accordingly
 String table = "";
 String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,poi_row_no,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
+String getsections = "SELECT id,database_name,code,poi_row_no_v3,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
 
 System.out.println("" + getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
@@ -394,7 +383,7 @@ while (conn.rs2.next()) {
     indicatorid = conn.rs2.getString("id");
     code = conn.rs2.getString("code");
     indicator_name = conn.rs2.getString("indicator");
-    poirow = conn.rs2.getInt("poi_row_no");
+    poirow = conn.rs2.getInt("poi_row_no_v3");
     //while inside this , now read each indicator from the respective table row
     
     try {
@@ -406,7 +395,7 @@ while (conn.rs2.next()) {
         }
         
         //put data data values into an excel file
-         id = yearmonth + "_" + subpartnerid + "_" + indicatorid;
+        String id = yearmonth + "_" + subpartnerid + "_" + indicatorid;
         insert += " id='" + id + "',facility_id='" + subpartnerid + "',indicator_id='" + indicatorid + "',yearmonth='" + yearmonth + "',";
         
         for (int d = 0; d < colskey.size(); d++) {
@@ -458,14 +447,12 @@ while (conn.rs2.next()) {
        
         //hasexcecuted variable checks if data for a specific yearmonth is locked on the original yearmonths 
         if (!hasexcecuted) {
-           // conn.rs = conn.st.executeQuery(getindicator);
-            //if (conn.rs.next()) 
-            if (1==2) 
+            conn.rs = conn.st.executeQuery(getindicator);
+            if (conn.rs.next()) 
             {
                 // System.out.println(" data upload locked ");
                 hasexcecuted = true;
-                //uploadlocked = conn.rs.getInt("is_locked");
-                uploadlocked = 0;
+                uploadlocked = conn.rs.getInt("is_locked");
                 msgal.add("Data Upload for " + facilityName + " , year " + year + " and month " + month + " is already locked");
                 String tx="Failed: Data Upload locked for excel sheet "+sheetname+" for  " + year + " ," + month+" \n ";
                 if(!uploadstatus.contains(tx))
@@ -517,11 +504,11 @@ while (conn.rs2.next()) {
                 
                 }
                 
-                //System.out.println("Data inserted into fas_temp:");
+                
                 
                 //____________________________________AUDIT TRAIL______________________________________
                 
-                insertAuditTrail(conn, indicator_name, yearmonth, facilityName, id, user_id,fullname);
+                insertAuditTrail(conn, indicator_name, yearmonth, facilityName, id, user_id);
                 
                 //____________________________________AUDIT TRAIL______________________________________
                 
@@ -575,9 +562,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 3.0.1 <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 3.0.0 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 3.0.1 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 3.0.0 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -1082,7 +1069,7 @@ boolean iscomplete=true;
      }
      
      
-     public void insertAuditTrail( dbConn conn,String indicator_name,String yearmonth, String facname, String id, String userid , String fullname) throws SQLException{
+     public void insertAuditTrail( dbConn conn,String indicator_name,String yearmonth, String facname, String id, String userid) throws SQLException{
               
                 
                 
@@ -1119,25 +1106,22 @@ boolean iscomplete=true;
      
      
      
-     public HashMap<String,String> getUsers(dbConn conn, String user_id) throws SQLException{
+     public HashMap<String,String> getUsers(dbConn conn) throws SQLException{
      
-         String fname="";
-         String mail="";
-         
      String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
                 conn.rs1 = conn.st1.executeQuery(getusername);
                 if (conn.rs1.next())
                 {
-                    fname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
-                    mail = conn.rs1.getString(3);
+                    fullname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
+                    email = conn.rs1.getString(3);
                     //System.out.println("email:"+email);
                 }
                 
                 HashMap<String,String> map= new HashMap<String, String>();
-     String[] details={fname,mail};
+     String[] details={fullname,email};
      
-     map.put("email", mail);
-     map.put("name", fname);
+     map.put("email", email);
+     map.put("name", fullname);
                 
                 return map;
      }

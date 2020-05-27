@@ -45,32 +45,33 @@ public class updatefacilitysession extends HttpServlet {
      String ipt = "";
      String hts = "";
      String form1a="";
+     String checklist="";
      
         conn.rs=conn.st.executeQuery(getfacilname);
         while(conn.rs.next()){
          active=","; 
-        if(conn.rs.getInt("HTC")==1){active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)"; f731new="MOH 731 (New)"; indextesting="Index Testing"; hts="HTS";form1a="Form 1A";}
-        if(conn.rs.getInt("FP")==1){active+="FP,";f711="MOH 711A,";f711new="MOH 711 (New)";form1a="Form 1A";}
-        if(conn.rs.getInt("PMTCT")==1){active+="PMTCT,";f731="MOH 731,";f711="MOH 711A,";f711new="MOH 711 (New)";f731new="MOH 731 (New)";form1a="Form 1A";}
-        if(conn.rs.getInt("EID")==1){active+="EID,";form1a="Form 1A";}
-        if(conn.rs.getInt("ART")==1){active+="ART,";f731="MOH 731,";f731new="MOH 731 (New)"; ipt="IPT,";form1a="Form 1A";}
-        if(conn.rs.getInt("VMMC")==1){active+="VMMC,";form1a="Form 1A";}
-         if(conn.rs.getInt("Nutrition")==1){active+="Nutrition,";form1a="Form 1A";}
-         if(conn.rs.getInt("GSN")==1){active+="GSN,";form1a="Form 1A";}
-         if(conn.rs.getInt("Lab")==1){active+="Lab,";form1a="Form 1A";}
-         if(conn.rs.getInt("FP_Integration")==1){active+="FP_Integration,733B (Nutrition),";form1a="Form 1A";}
-         if(conn.rs.getInt("Care_DSD")==1){active+="Care_DSD,";f731="MOH 731,";f731new="MOH 731 (New)";form1a="Form 1A";}
-         if(conn.rs.getInt("ART_DSD")==1){active+="ART_DSD,";form1a="Form 1A";}
-         if(conn.rs.getInt("Maternity")==1){active+="Maternity,";f711="MOH 711A,";f711new="MOH 711 (New)";form1a="Form 1A";}
+        if(conn.rs.getInt("HTC")==1){ checklist="DQA Checklist"; active+="HTC,";f711="MOH 711A,";f731="MOH 731,"; f711new="MOH 711 (New)"; f731new="MOH 731 (New)"; indextesting="Index Testing"; hts="HTS";form1a="Form 1A";}
+        if(conn.rs.getInt("FP")==1){ checklist="DQA Checklist";active+="FP,";f711="MOH 711A,";f711new="MOH 711 (New)";form1a="Form 1A";}
+        if(conn.rs.getInt("PMTCT")==1){ checklist="DQA Checklist";active+="PMTCT,";f731="MOH 731,";f711="MOH 711A,";f711new="MOH 711 (New)";f731new="MOH 731 (New)";form1a="Form 1A";}
+        if(conn.rs.getInt("EID")==1){ checklist="DQA Checklist";active+="EID,";form1a="Form 1A";}
+        if(conn.rs.getInt("ART")==1){ checklist="DQA Checklist";active+="ART,";f731="MOH 731,";f731new="MOH 731 (New)"; ipt="IPT,";form1a="Form 1A";}
+        if(conn.rs.getInt("VMMC")==1){checklist="DQA Checklist"; active+="VMMC,";form1a="Form 1A";}
+         if(conn.rs.getInt("Nutrition")==1){checklist="DQA Checklist"; active+="Nutrition,";form1a="Form 1A";}
+         if(conn.rs.getInt("GSN")==1){checklist="DQA Checklist"; active+="GSN,";form1a="Form 1A";}
+         if(conn.rs.getInt("Lab")==1){ checklist="DQA Checklist"; active+="Lab,";form1a="Form 1A";}
+         if(conn.rs.getInt("FP_Integration")==1){ checklist="DQA Checklist"; active+="FP_Integration,733B (Nutrition),";form1a="Form 1A";}
+         if(conn.rs.getInt("Care_DSD")==1){ checklist="DQA Checklist"; active+="Care_DSD,";f731="MOH 731,";f731new="MOH 731 (New)";form1a="Form 1A";}
+         if(conn.rs.getInt("ART_DSD")==1){ checklist="DQA Checklist";active+="ART_DSD,";form1a="Form 1A";}
+         if(conn.rs.getInt("Maternity")==1){ checklist="DQA Checklist";active+="Maternity,";f711="MOH 711A,";f711new="MOH 711 (New)";form1a="Form 1A";}
 //         if(conn.rs.getString("ART_Support").equals("")){active+="ART_Support,";}
 //         if(conn.rs.getString("PMTCT_Support").equals("")){active+="PMTCT_Support,";}
 //         if(conn.rs.getString("HTC_Support1").equals("")){active+="HTC_Support1,";}
-         if(conn.rs.getInt("Gender")==1){active+="SGBV,";form1a="Form 1A";}
-         if(conn.rs.getInt("KMMP")==1){active+="KMMP,";form1a="Form 1A";}
-         if(conn.rs.getInt("Gender")==1){active+="Gender,";form1a="Form 1A";}
-         if(conn.rs.getInt("PEP")==1){active+="PEP,";f731="MOH 731,";f731new="MOH 731 (New)";form1a="Form 1A";}
-         if(conn.rs.getInt("Blood_Safety")==1){active+="Blood_Safety,";form1a="Form 1A";}
-         if(conn.rs.getInt("TB")==1){active+="TB,";form1a="Form 1A";}
+         if(conn.rs.getInt("Gender")==1){ checklist="DQA Checklist"; active+="SGBV,";form1a="Form 1A";}
+         if(conn.rs.getInt("KMMP")==1){checklist="DQA Checklist"; active+="KMMP,";form1a="Form 1A";}
+         if(conn.rs.getInt("Gender")==1){checklist="DQA Checklist"; active+="Gender,";form1a="Form 1A";}
+         if(conn.rs.getInt("PEP")==1){ checklist="DQA Checklist"; active+="PEP,";f731="MOH 731,";f731new="MOH 731 (New)";form1a="Form 1A";}
+         if(conn.rs.getInt("Blood_Safety")==1){ checklist="DQA Checklist"; active+="Blood_Safety,";form1a="Form 1A";}
+         if(conn.rs.getInt("TB")==1){ checklist="DQA Checklist";active+="TB,";form1a="Form 1A";}
         
         active+=form1a;
          active+=f731;
@@ -80,6 +81,7 @@ public class updatefacilitysession extends HttpServlet {
          active+=ipt;
          active+=indextesting;
          active+=hts;
+         active+=checklist;
          
         session.setAttribute("forms_holder", active);
         session.setAttribute("facilityname", conn.rs.getString("SubPartnerNom"));

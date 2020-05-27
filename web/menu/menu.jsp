@@ -107,6 +107,13 @@
                </a>
             </li>
             <%}}%>
+              <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",checklist,")){%> 
+            <li class=""  <% if(session.getAttribute("forms_holder")!=null){ if(!session.getAttribute("forms_holder").toString().contains("DQA Checklist")){  %> style="display:none;" <%} } else { %> style="display:none;"<%} %>>
+               <a href="checklist.jsp">
+               <span class="title">DQA Checklist</span>
+               </a>
+            </li>
+            <%}}%>
            
              <% if(session.getAttribute("level")!=null){ %>
                   <li class="has-sub ">
@@ -192,6 +199,7 @@
                   <!--<li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>-->
                    <!--<li><a href="datimReport.jsp">Datim Report</a></li>-->
                    <li><a href="DatimOutput.jsp">Datim/Raw Reports [New]</a></li>
+                   <li><a href="DatimScreens.jsp">Datim Screens [Excel]</a></li>
                    <li><a href="ewi.jsp">EWI Monthly Data</a></li>
                    <li><a href="RawQuery.jsp">Run Queries</a></li>
                   <!--<li ><a href="DQA.jsp">DQA per Form</a></li>-->

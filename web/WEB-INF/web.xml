@@ -1253,6 +1253,46 @@
         <servlet-name>LoadAllVLData_2020</servlet-name>
         <servlet-class>LoadExcels.LoadAllVLData_2020</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadform1av3</servlet-name>
+        <servlet-class>form1a.uploadform1av3</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadf1av3</servlet-name>
+        <servlet-class>form1a.uploadf1av3</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IsSessionActive</servlet-name>
+        <servlet-class>scripts.IsSessionActive</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadchecklist</servlet-name>
+        <servlet-class>checklist.loadchecklist</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>save_cl_data</servlet-name>
+        <servlet-class>checklist.save_cl_data</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DatimScreens</servlet-name>
+        <servlet-class>DatimScreen.DatimScreens</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>savevisitdetails</servlet-name>
+        <servlet-class>checklist.savevisitdetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadvisit_Details</servlet-name>
+        <servlet-class>checklist.loadvisit_Details</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadCLValidation</servlet-name>
+        <servlet-class>checklist.loadCLValidation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadQueryHistory</servlet-name>
+        <servlet-class>scripts.loadQueryHistory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2504,6 +2544,46 @@
     <servlet-mapping>
         <servlet-name>LoadAllVLData_2020</servlet-name>
         <url-pattern>/LoadAllVLData_2020</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadform1av3</servlet-name>
+        <url-pattern>/uploadform1av3</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av3</servlet-name>
+        <url-pattern>/uploadf1av3</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IsSessionActive</servlet-name>
+        <url-pattern>/IsSessionActive</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadchecklist</servlet-name>
+        <url-pattern>/loadchecklist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>save_cl_data</servlet-name>
+        <url-pattern>/save_cl_data</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatimScreens</servlet-name>
+        <url-pattern>/DatimScreens</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>savevisitdetails</servlet-name>
+        <url-pattern>/savevisitdetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadvisit_Details</servlet-name>
+        <url-pattern>/loadvisit_Details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadCLValidation</servlet-name>
+        <url-pattern>/loadCLValidation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadQueryHistory</servlet-name>
+        <url-pattern>/loadQueryHistory</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

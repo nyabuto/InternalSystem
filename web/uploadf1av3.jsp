@@ -39,7 +39,6 @@
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
-<link rel="stylesheet" href="css/animate.css">
 <style>
 #notify {
   position: relative;
@@ -156,19 +155,19 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i>  UPLOAD Form 1A V 1.0.0  (.xlsx)</h4>
+                        <h4><i class="icon-reorder"></i>  UPLOAD Old Form 1A ( version 3.0.0 )   (.xlsx)</h4>
                        
                      </div>
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <form action="uploadf1av3" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <!--<form action="fas_trial" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">-->
                           
                         <div class="control-group " ></div>
                            <div class="control-group col-lg-12" >
                               <label class="control-label col-lg-6">Select Filled Form1A excel file<font color='red'><b>*</b></font></label>
                               <div class="controls col-lg-6">
-                                 <input onMouseOver='checksession();' accept=".xlsx" required type="file" name="file_name" multiple="true" id="upload" value="" class="textbox" required> 
+                                 <input accept=".xlsx" required type="file" name="file_name" multiple="true" id="upload" value="" class="textbox" required> 
                                     
                               </div>
                            </div>  
@@ -766,35 +765,6 @@ success:function (data){
           $("#table_output").hide();
           $("#warnings_details").val("");
       }
-      
-      function checksession(){
-          
-                     $.ajax({
-url:'IsSessionActive',
-type:'post',
-dataType:'html',
-success:function (data){
-console.log(""+data);   
-
-if(data.trim()==='No Active session'){
-    //log user out
-  window.location='index.jsp';  
-    
-}
-
-    
-       //document.getElementById("month").innerHTML=data;
-      // App.init();  
-        
-}
-
-
-});   
-          
-          
-          
-      }
-      
    </script>
    
    <!-- END JAVASCRIPTS -->   

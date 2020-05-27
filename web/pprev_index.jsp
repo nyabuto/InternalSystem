@@ -695,6 +695,7 @@ input:focus {
         <!--[if lt IE 9]>
         <script src="assets/js/excanvas.js"></script>
         <script src="assets/js/respond.js"></script>
+        
         <![endif]-->
         <script type="text/javascript" src="assets/chosen-bootstrap/chosen/chosen.jquery.min.js"></script>
         <!--<script type="text/javascript" src="assets/uniform/jquery.uniform.min.js"></script>-->

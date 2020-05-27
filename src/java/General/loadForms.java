@@ -35,7 +35,8 @@ public class loadForms extends HttpServlet {
    String forms="<option value=''> Select Form</option>"; 
     String getForms="select * from forms where form !='MOH 731'";
     
-    if(session.getAttribute("username").equals("fhi360")){
+    if(session.getAttribute("username").equals("fhi360"))
+    {
      getForms="select * from forms ";
     }
    
@@ -52,9 +53,10 @@ public class loadForms extends HttpServlet {
       if(conn.rs.getString("form").equalsIgnoreCase("MOH 731 (New)")){user_access="moh731";} 
       if(conn.rs.getString("form").equals("VMMC")){user_access="vmmc";}  
       if(conn.rs.getString("form").equals("KMMP")){user_access="kmmp";}    
+      if(conn.rs.getString("form").equals("DQA Checklist")){user_access="checklist";}    
        
         
-        if(form.equals(conn.rs.getString("nextpage"))){
+       if(form.equals(conn.rs.getString("nextpage"))){
        if(session.getAttribute("forms_holder")!=null){ if(session.getAttribute("forms_holder").toString().contains(conn.rs.getString("form"))){     
       if(session.getAttribute("userAccess")!=null){ if(session.getAttribute("userAccess").toString().contains(","+user_access+",")) {  
         forms+="<option selected value='"+conn.rs.getString("nextpage") +"'>"+conn.rs.getString("form")+"</option>";   

@@ -163,6 +163,7 @@
                    <!--<li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>-->
                    <!--<li><a href="datimReport.jsp">Datim Report</a></li>-->
                    <li><a href="DatimOutput.jsp">Datim/Raw Reports [New]</a></li>
+                   <li><a href="DatimScreens.jsp">Datim Screens [Excel]</a></li>
                    <li><a href="ewi.jsp">EWI Monthly Data</a></li>
                    <li><a href="RawQuery.jsp">Run Queries</a></li>
                   <!--<li ><a href="DQA.jsp">DQA per Form</a></li>-->

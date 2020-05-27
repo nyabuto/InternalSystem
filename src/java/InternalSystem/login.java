@@ -8,7 +8,6 @@ package InternalSystem;
 
 import database.dbConn;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -48,13 +47,14 @@ String userAccess;
         System.out.println("username : "+username+" password : "+password);  
         String logger="SELECT userid,fname,mname,lname,level,"
        + "access_reports,access_maintenance,access_moh711,access_moh731,"
-                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct,access_form1a,readonly_form1a " 
+                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct,access_form1a,readonly_form1a,access_checklist " 
                 + " FROM user WHERE username=? && password=?" ;
         conn.pst=conn.conn.prepareStatement(logger);
         conn.pst.setString(1, username);
         conn.pst.setString(2, password);
          conn.rs=conn.pst.executeQuery();
-         if(conn.rs.next()==true){
+         if(conn.rs.next()==true)
+         {
              userid=conn.rs.getString(1);
              fname=conn.rs.getString(2);
              mname=conn.rs.getString(3);
@@ -84,6 +84,7 @@ String userAccess;
              if(conn.rs.getInt("access_art")==1){userAccess+="art,";}
              if(conn.rs.getInt("access_pmtct")==1){userAccess+="pmtct,";}
              if(conn.rs.getInt("access_form1a")==1){userAccess+="form1a,";}
+             if(conn.rs.getInt("access_checklist")==1){userAccess+="checklist,";}
              
              
              session.setAttribute("access_gapanalysis",conn.rs.getInt("gapanalysis"));
@@ -91,12 +92,13 @@ String userAccess;
          
              
            session.setAttribute("userAccess", userAccess);  
-          status="success"; 
-          nextPage="home.jsp";
+           status="success"; 
+           nextPage="home.jsp";
           
-          System.out.println("access rights : "+session.getAttribute("userAccess"));
+           System.out.println("access rights : "+session.getAttribute("userAccess"));
          }
-         else{
+         else
+         {
              status="<font color=\"red\"><b>Failed:</b> Wrong username and password combination.</font>";
              nextPage="index.jsp";
              session.setAttribute("login", status);

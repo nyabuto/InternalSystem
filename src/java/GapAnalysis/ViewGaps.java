@@ -34,6 +34,8 @@ int status,pos,approvesgaps;
             dbConnWeb conn = new dbConnWeb();
             session = request.getSession();
          
+            String approvercoment="";
+            
             if(session.getAttribute("access_gapanalysis")!=null){
                 
             
@@ -43,16 +45,17 @@ int status,pos,approvesgaps;
         + "<tr border=\"1px;\">"
         + "<th class=\"title\" style=\"width:2%\">No.</th>"
 //        + "<th class=\"title\" style=\"width:15%\">Rule</th>"
-        + "<th class=\"title\" style=\"width:13%\">Gap</th>"
+        + "<th class=\"title\" style=\"width:12%\">Gap</th>"
         + "<th class=\"title\" style=\"width:8%\">Program Area</th>"
         + "<th class=\"title\" style=\"width:8%\">County</th>"
         + "<th class=\"title\" style=\"width:8%\">Sub County</th>"
         + "<th class=\"title\" style=\"width:8%\">Ward</th>"
-        + "<th class=\"title\" style=\"width:9%\">Facility</th>"
+        + "<th class=\"title\" style=\"width:8%\">Facility</th>"
         + "<th class=\"title\" style=\"width:4%\">Year</th>"
-        + "<th class=\"title\" style=\"width:5%\">Month</th>"
+        + "<th class=\"title\" style=\"width:3%\">Month</th>"
         + "<th class=\"title\" style=\"width:18%\">Justification</th>"
-        + "<th class=\"title\" style=\"width:6%\">Status</th>"
+        + "<th class=\"title\" style=\"width:10%\">Reviewer Feedback</th>"
+        + "<th class=\"title\" style=\"width:5%\">Status</th>"
         + "<th class=\"title\" style=\"width:6%\">Action</th>"
         + "</tr>"
         + "</thead><tdata>"; 
@@ -129,6 +132,7 @@ int status,pos,approvesgaps;
             latitude = conn.rs.getString("latitude");
             longitude = conn.rs.getString("longitude");
             explanation = conn.rs.getString("explanation");
+            approvercoment=conn.rs.getString("reviewer_comment");
             status = conn.rs.getInt("status");
             if(explanation==null){
             explanation="";
@@ -136,34 +140,47 @@ int status,pos,approvesgaps;
             else if(explanation.equals("null")){
              explanation="";
             }
-                System.out.println("explanation : "+explanation);
+            if(approvercoment==null){
+            approvercoment="";
+            }
+            else if(approvercoment.equals("null")){
+             approvercoment="";
+            }
+                //System.out.println("explanation : "+explanation);
             downloaded = conn.rs.getString("downloaded");
             timestamp = conn.rs.getString("timestamp");    
             
-             if(status==1){
+             if(status==1)
+             {
                  status_label="Approved";
                  Update_btn=""; 
                  lock="disabled";
              }
              
              else{
-                 if(!explanation.equals("")){
+                 if(!explanation.equals(""))
+                 {
                    status_label="Saved. Pending Approval";      
                  }
-                 else{
+                 else
+                 {
                   status_label="No Explanation Given";    
                  }
-                if(approvesgaps==1 && !explanation.equals("")){
+                if(approvesgaps==1 && !explanation.equals(""))
+                {
                 Update_btn="<input type='submit' class='btn green'   style='height:30px;' value='Approve Gap' onclick=\"approve_gap("+pos+");\" name='approve_gap' id='approve_gap"+pos+"'/>";    
                 lock="disabled";
                 }
-                else if(approvesgaps==1 && explanation.equals("")){
+                else if(approvesgaps==1 && explanation.equals(""))
+                {
                 Update_btn="";  
                 lock="disabled";
                 }
                 
-                else if(approvesgaps==0){
-                    if(!explanation.equals("")){
+                else if(approvesgaps==0)
+                {
+                    if(!explanation.equals(""))
+                    {
                      Update_btn="<input type='submit' class='btn blue '  style='height:30px;' value='Update Gap' onclick=\"update_gap("+pos+");\" name='update_gap' id='update_gap"+pos+"'/>";     
                     }
                     else{
@@ -194,6 +211,14 @@ int status,pos,approvesgaps;
                         }
                         else{
                         data+= "<td class=\"title\">"+explanation+"</td>";    
+                        }
+                        if(lock.equals("")){
+                             data+= "<td class=\"title\">"+approvercoment+"</td>"; 
+                       }
+                        else{
+                          
+                         data+= "<td class=\"title\"><textarea style=\"width:95%\" id=\"approvercoment_"+pos+"\" "+lock+" name=\"approvercoment_"+pos+"\">"+approvercoment+"</textarea></td>";
+                       
                         }
                         data+= "<td class=\"title\">"+status_label+"</td>"
                          + "<td class=\"title\">"+Update_btn+"</td>"

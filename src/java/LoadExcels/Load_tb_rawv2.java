@@ -695,8 +695,8 @@ String initial_modality="";  //61
 
   
   String inserter="INSERT INTO "+dbname+" (id,SubPartnerID,year,quarter,Mflcode,sex ,age,agebracket,SubPartnerNom,registrationdate,treatmentdate,supporttype,hivstatus,hivtestdate, "
-          + " artstatus,artdate,outcomedate,treatmentoutcome,tbtype,patienttype,smear0,smear2_3,smear5,smear6_8,genexpert,tested_within_facility,initial_modality) "
-                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          + " artstatus,artdate,outcomedate,treatmentoutcome,tbtype,patienttype,smear0,smear2_3,smear5,smear6_8,genexpert,tested_within_facility,initial_modality,subcounty_regno) "
+                         + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; //distregno
                         conn.pst=conn.conn.prepareStatement(inserter);
                         conn.pst.setString(1,id);
                         conn.pst.setString(2,facilityID);
@@ -726,6 +726,7 @@ String initial_modality="";  //61
                         conn.pst.setString(25, genexpert);
                         conn.pst.setString(26, tested_within_facility);
                         conn.pst.setString(27, initial_modality);
+                        conn.pst.setString(28, distregno);
                         
                         
                         conn.pst.executeUpdate();
@@ -736,7 +737,7 @@ String initial_modality="";  //61
           //id,SubPartnerID,Year,Quarter,Mflcode,Sex ,age,agebracket,SubPartnerNom,dateoftesting,patientccc,batchno,supporttype
         String inserter=" UPDATE "+dbname+" SET SubPartnerID=?,year=?,quarter=?,Mflcode=?,sex=? ,age=?,agebracket=?,SubPartnerNom=?,registrationdate=?,treatmentdate=?,supporttype=?,"
                 + " hivstatus=?,hivtestdate=?, "
-          + " artstatus=?,artdate=?,outcomedate=?,treatmentoutcome=? ,tbtype=?,patienttype=?,smear0=?,smear2_3=?,smear5=?,smear6_8=?,genexpert=?,tested_within_facility=?,initial_modality=?"
+          + " artstatus=?,artdate=?,outcomedate=?,treatmentoutcome=? ,tbtype=?,patienttype=?,smear0=?,smear2_3=?,smear5=?,smear6_8=?,genexpert=?,tested_within_facility=?,initial_modality=?,subcounty_regno=?"
                 + " WHERE id=?";
 //
                         conn.pst=conn.conn.prepareStatement(inserter);
@@ -767,7 +768,8 @@ String initial_modality="";  //61
                         conn.pst.setString(24,genexpert);
                         conn.pst.setString(25,tested_within_facility);
                         conn.pst.setString(26,initial_modality);
-                        conn.pst.setString(27,id);
+                        conn.pst.setString(27,distregno);
+                        conn.pst.setString(28,id);
                         
                         conn.pst.executeUpdate();
                        
