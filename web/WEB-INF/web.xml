@@ -1293,6 +1293,10 @@
         <servlet-name>loadQueryHistory</servlet-name>
         <servlet-class>scripts.loadQueryHistory</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadf1av31</servlet-name>
+        <servlet-class>form1a.uploadf1av31</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2584,6 +2588,10 @@
     <servlet-mapping>
         <servlet-name>loadQueryHistory</servlet-name>
         <url-pattern>/loadQueryHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av31</servlet-name>
+        <url-pattern>/uploadf1av31</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

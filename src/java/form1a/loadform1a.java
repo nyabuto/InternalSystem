@@ -158,7 +158,7 @@ int indic_counter;
                 //the column lastspanrow should be used to determine where the row ends. 
                 //If its that row, use character $ to denote starting of a new range of arrays
                 section_name = conn.rs.getString("section_name");
-                section_code = conn.rs.getString("section");
+                section_code = ""+conn.rs.getString("section");
                 section_label = conn.rs.getString("section_label");
                 if (conn.rs.getString("lastspanrow").equals("1")) {
 
@@ -345,8 +345,8 @@ int indic_counter;
             num_saved_elems=0;
             for (String main_indic : main_indicator) {
                 indic_pos = 0;
-                //System.out.println("main indicator pos = " + main_indic_pos);
-              //System.out.println("main indicator  = " + main_indicator_string);
+//                System.out.println("main indicator pos = " + main_indic_pos);
+//              System.out.println("main indicator  = " + main_indicator_string);
 //                System.out.println("Indicator id string = " + indicator_ids_string);
 //                System.out.println("Indicator id  = " + indicator_ids[main_indic_pos]);
 
@@ -424,12 +424,14 @@ int indic_counter;
                     } else { // new indicator
                         save_data="SAVE ";
                         output += "<tr>";
-
+// System.out.println(indicators[main_indic_pos]+" The indicator in "+main_indic_pos+" is : "+indicators[main_indic_pos].split(",")[indic_pos]);
+                       
                         if (indic_pos == 0) 
                         {
+                            try {
                             output += "<td rowspan='" + main_indic_rowspan[main_indic_pos] + "'>" + main_indic + "</td>";
-                        }
-                       // System.out.println(indicators[main_indic_pos]+"The indicator is : "+indicators[main_indic_pos].split(",")[indic_pos]);
+                            } catch(IndexOutOfBoundsException ex){ System.out.println(" Skipped error");}
+                            }
                         output += "<td>" + indicators[main_indic_pos].split(",")[indic_pos] + "<input type=\"hidden\" id=\"indic_pos_"+indic_counter+"\" name=\"indic_pos_"+indic_counter+"\" value=\""+indic_id+"\"></td>";
                         int col_counter=0;
                         for (String column_name : columns) {

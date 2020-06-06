@@ -54,6 +54,7 @@ public class loadValidation extends HttpServlet {
             conn.rs=conn.st.executeQuery(getList);
             
             while(conn.rs.next()){
+                
                 JSONObject obj=new JSONObject();
                 
             //(valids, message, iscritical, sectionid)

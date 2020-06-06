@@ -66,7 +66,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1a extends HttpServlet {
+public class uploadf1av31 extends HttpServlet {
 
  
 
@@ -155,7 +155,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.2";
+            String activeversion = "Form 1A  version 3.0.1";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -338,7 +338,7 @@ colskey.add("f_50");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
-String supported_services = " WHERE (is_active=1 ) && (poi_row_no is not null )  ";
+String supported_services = " WHERE (active_old_v31=1 ) && (poi_row_no_v31 is not null )  ";
 
 String support_column_name, support_column_value;
 int num_serv_supported = 0;
@@ -377,13 +377,13 @@ if (conn.rs.next()) {
 // --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing fas_indicators table
 //--we will fetch a list of the indicators and the respective row no. then use the result set to tell us in which row of the uploaded excel template to get data for each indicator element.
 //--Any time there is a row-wise change in the excel upload file(including insertoing a new row),
-//there is need to update the column poi_row_no in the table fas_indicators accordingly
+//there is need to update the column poi_row_no_v31 in the table fas_indicators accordingly
 String table = "";
 String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,poi_row_no,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
+String getsections = "SELECT id,database_name,code,poi_row_no_v31,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
 
 System.out.println("" + getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
@@ -394,7 +394,7 @@ while (conn.rs2.next()) {
     indicatorid = conn.rs2.getString("id");
     code = conn.rs2.getString("code");
     indicator_name = conn.rs2.getString("indicator");
-    poirow = conn.rs2.getInt("poi_row_no");
+    poirow = conn.rs2.getInt("poi_row_no_v31");
     //while inside this , now read each indicator from the respective table row
     
     try {
