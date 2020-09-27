@@ -1297,6 +1297,34 @@
         <servlet-name>uploadf1av31</servlet-name>
         <servlet-class>form1a.uploadf1av31</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>downloadDSDTemplate</servlet-name>
+        <servlet-class>DSD.downloadDSDTemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tracker</servlet-name>
+        <servlet-class>checklist.tracker</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DQA_report</servlet-name>
+        <servlet-class>checklist.DQA_report</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vl_txcurr_txpvls</servlet-name>
+        <servlet-class>VL.vl_txcurr_txpvls</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadGBV</servlet-name>
+        <servlet-class>form1a.uploadGBV</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadacamcatemplate</servlet-name>
+        <servlet-class>cohorts.downloadacamcatemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>importacamca</servlet-name>
+        <servlet-class>ACAMCA.importacamca</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2592,6 +2620,34 @@
     <servlet-mapping>
         <servlet-name>uploadf1av31</servlet-name>
         <url-pattern>/uploadf1av31</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadDSDTemplate</servlet-name>
+        <url-pattern>/downloadDSDTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tracker</servlet-name>
+        <url-pattern>/tracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DQA_report</servlet-name>
+        <url-pattern>/DQA_report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vl_txcurr_txpvls</servlet-name>
+        <url-pattern>/vl_txcurr_txpvls</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadGBV</servlet-name>
+        <url-pattern>/uploadGBV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadacamcatemplate</servlet-name>
+        <url-pattern>/downloadacamcatemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>importacamca</servlet-name>
+        <url-pattern>/importacamca</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

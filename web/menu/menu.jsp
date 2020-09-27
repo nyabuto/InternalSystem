@@ -7,6 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -65,12 +66,59 @@
                   
                <li >   <%if(session.getAttribute("userAccess")!=null){%>   
                   <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A</a>
+                  
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
                <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
+            
+            
+            
+            <li class="has-sub ">
+               <a href="#">
+                <i class="icon-share"></i>
+               <span class="title">DSD Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="getDsdTemplate.jsp"><i class="icon-download"></i>Download DSD Template</a></li>
+                  
+               <li >   <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="uploaddsd.jsp"><i class="icon-upload"></i>Upload DSD</a>
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access DSD upload module</b> </a> <%}%></li> 
+               <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+            
+            <li class="has-sub ">
+               <a href="#">
+                <i class="icon-step-forward"></i>
+               <span class="title">ACA/MCA Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                <li> <a href="getCohorts.jsp"><i class="icon-signin"></i>Download ACA/MCA Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="uploadacamca.jsp"><i class="icon-upload"></i>Upload ACA/MCA</a>
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access ACA/MCA upload module</b> </a> <%}%></li> 
+               <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+            
+            
+            
+            
             
             <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("year")!=null){%> 
             <li class="has-sub">
@@ -135,7 +183,7 @@
                   <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                   <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
                   <li ><a href="ManageRatios.jsp"><i class="icon-edit"></i>Manage Ratios</a></li>
-                
+                  <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a>
                 
                   
                   
@@ -202,6 +250,7 @@
                    <li><a href="DatimScreens.jsp">Datim Screens [Excel]</a></li>
                    <li><a href="ewi.jsp">EWI Monthly Data</a></li>
                    <li><a href="RawQuery.jsp">Run Queries</a></li>
+                  <li><a href="DQA_Reports.jsp">Data Verification Reports</a></li>
                   <!--<li ><a href="DQA.jsp">DQA per Form</a></li>-->
                   <li ><a href="masterlist.jsp">Master List</a></li>
                   <li ><a href="T1SummaryReports.jsp">Training Report</a></li>

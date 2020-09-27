@@ -80,7 +80,7 @@ public class ValidateExcel {
         int error_counter=0,warnings_counter=0;
         String message_type="",message="";
         String lhs,rhs,sign,query="",final_query="";
-        String getRules="SELECT section_name,codes,validation,iscritical,message,fine_age,raw_query FROM fas_validation WHERE active=1 AND source='excel' ";
+        String getRules="SELECT section_name,codes,validation,iscritical,message,fine_age,raw_query FROM fas_validation WHERE active=1 AND source='excel'   ";
         //System.out.println("rules :"+getRules);
         conn.rs = conn.st.executeQuery(getRules);
         while(conn.rs.next()){
@@ -124,7 +124,7 @@ public class ValidateExcel {
         
         final_query = "SELECT * FROM ("+final_query+") AS all_data WHERE occurences>0";
         
-        //System.out.println("final query :"+final_query);
+        System.out.println("final query :"+final_query);
         conn.rs1 = conn.st1.executeQuery(final_query);
                 
                 while(conn.rs1.next()){

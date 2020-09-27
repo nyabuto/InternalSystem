@@ -116,9 +116,9 @@
                     
                     var n = noty({text: '<%=session.getAttribute("login")%>',
                         layout: 'center',
-                        type: 'Success',
+                        type: 'Success'
  
-                         timeout: 4800});
+                        });
                     
                 </script> <%
                 session.removeAttribute("login");

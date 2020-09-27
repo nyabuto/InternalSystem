@@ -66,7 +66,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1a extends HttpServlet {
+public class uploadGBV extends HttpServlet {
 
  
 
@@ -155,7 +155,8 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.2";
+            String activeversion = "Form 1A  version 4.0.3";
+            String activeversion2 = "Form 1A  version 4.0.2";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -181,7 +182,9 @@ public class uploadf1a extends HttpServlet {
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "uploadf1a.jsp";
+             periods = ",201910,201911,201912,202001,202002,202003,202004,202005,202006";
+            
+            nextpage = "uploadgbv.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -207,7 +210,7 @@ public class uploadf1a extends HttpServlet {
                     
                     if (!fileName.endsWith(".xlsx")) {
                         
-                        nextpage = "uploadf1a.jsp";
+                        nextpage = "uploadgbv.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
@@ -216,7 +219,7 @@ public class uploadf1a extends HttpServlet {
                 
                 if (!fileName.endsWith(".xlsx")) {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "uploadf1a.jsp";
+                    nextpage = "uploadgbv.jsp";
                 } else {
                     
                     //start reading the contents
@@ -302,7 +305,7 @@ if (!sheetname.equals("InstructionsForm1A")) {
         excelversion = versioncell.getStringCellValue();
     }
     //System.out.println(excelversion + " vs " + activeversion);
-    if (excelversion.equals(activeversion)) {
+    if (excelversion.equals(activeversion) || excelversion.equals(activeversion2) ) {
         
         boolean hasexcecuted = false;
         int uploadlocked = 0;
@@ -340,14 +343,29 @@ colskey.add("total");
 //____________________Supported Areas per Facility and SubpartnerID____________________
 String supported_services = " WHERE (is_active=1 ) && (poi_row_no is not null )  ";
 
+
 String support_column_name, support_column_value;
+
+
 int num_serv_supported = 0;
+
+
 // READ FACILITY SUPPORTED SERVICES
-String get_supported_service = "SELECT SubPartnerID, IFNULL(PMTCT,0) AS PMTCT,IFNULL(ART,0) AS ART,IFNULL(VMMC,0) AS VMMC,IFNULL(HTC,0) AS HTC,IFNULL(Gender,0) AS Gender,IFNULL(PNS,0) AS PNS, IFNULL(IPD,0) AS IPD FROM subpartnera WHERE CentresanteID='" + mflcode + "'";
+String get_supported_service = "SELECT SubPartnerID,IFNULL(Gender,0) AS Gender FROM subpartnera WHERE CentresanteID='" + mflcode + "'";
+
+
 System.out.println("" + get_supported_service);
+
+
 conn.rs = conn.st.executeQuery(get_supported_service);
+
+
 ResultSetMetaData metaData = conn.rs.getMetaData();
+
+
 int col_count = metaData.getColumnCount(); //number of column
+
+
 if (conn.rs.next()) {
     supported_services += " AND (";
     for (int i = 1; i <= col_count; i++) {
@@ -575,9 +593,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 3.0.1 <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.2 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 3.0.1 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.2 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -748,13 +766,13 @@ else{
           session.setAttribute("warnings", warning);
           session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
           
-          response.sendRedirect("uploadf1a.jsp");
+          response.sendRedirect("uploadgbv.jsp");
           }
           
           else if(no_uploads==0){
           session.setAttribute("warnings", "");
           session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("uploadf1a.jsp"); 
+          response.sendRedirect("uploadgbv.jsp"); 
           }
           
           else if(total_errors>0){

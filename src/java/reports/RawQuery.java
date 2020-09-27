@@ -30,6 +30,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 
 /**
  *
@@ -74,6 +75,12 @@ int row,errors;
         styleHeader.setBorderLeft(BorderStyle.THIN);
         styleHeader.setBorderRight(BorderStyle.THIN);
         styleHeader.setAlignment(HorizontalAlignment.CENTER);
+        
+        styleHeader.setBottomBorderColor(HSSFColor.BLUE.index);
+        styleHeader.setTopBorderColor(HSSFColor.BLUE.index);
+        styleHeader.setLeftBorderColor(HSSFColor.BLUE.index);
+        styleHeader.setRightBorderColor(HSSFColor.BLUE.index);
+        
 
         XSSFFont fontHeader = wb.createFont();
         fontHeader.setColor(HSSFColor.BLACK.index);
@@ -92,6 +99,12 @@ int row,errors;
         stylex.setBorderLeft(BorderStyle.THIN);
         stylex.setBorderRight(BorderStyle.THIN);
         stylex.setAlignment(HorizontalAlignment.LEFT);
+        
+        stylex.setBottomBorderColor(HSSFColor.BLUE.index);
+        stylex.setTopBorderColor(HSSFColor.BLUE.index);
+        stylex.setLeftBorderColor(HSSFColor.BLUE.index);
+        stylex.setRightBorderColor(HSSFColor.BLUE.index);
+        
 
         XSSFFont fontx = wb.createFont();
         fontx.setColor(HSSFColor.BLACK.index);
@@ -107,6 +120,11 @@ int row,errors;
         stborder.setBorderLeft(BorderStyle.THIN);
         stborder.setBorderRight(BorderStyle.THIN);
         stborder.setAlignment(HorizontalAlignment.LEFT);
+        
+        stborder.setBottomBorderColor(HSSFColor.BLUE.index);
+        stborder.setTopBorderColor(HSSFColor.BLUE.index);
+        stborder.setLeftBorderColor(HSSFColor.BLUE.index);
+        stborder.setRightBorderColor(HSSFColor.BLUE.index);
 
         XSSFFont font_cell = wb.createFont();
         font_cell.setColor(HSSFColor.BLACK.index);
@@ -115,7 +133,7 @@ int row,errors;
         stborder.setFont(font_cell);
         stborder.setWrapText(true);
 
-        XSSFSheet Sheet = wb.createSheet("Query Output");
+        XSSFSheet Sheet = wb.createSheet("IMIS Adhoc Query Output");
         
        // check query
        if(query.contains("insert") || query.contains("update") || query.contains("replace") || query.contains("into")  || query.contains("user") || query.contains("drop") || query.contains("truncate")){

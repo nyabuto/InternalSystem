@@ -271,6 +271,63 @@ tr > td
       <!-- END PAGE -->  
    </div>
    <!-- END CONTAINER -->
+   
+   
+   <div class="modal fade" id="editor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+        <h4 class="modal-title" id="myModalLabel"><p style="text-align: center; font-weight: bolder;">Edit Participant Details</p></h4>
+      </div>
+      <div class="modal-body" id="toedit" style="font-size: 12px;">
+    <table>
+        <tr>
+            <th>Participant Name : </th>
+            <td> <input type="text" tabindex="13" placeholder="Participant Name" autocomplete="off" name="participant_name_1" list="participant_name_list" required max-length="50" id="participant_name_1" value=""  data-toggle="tooltip"  data-placement="right" style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Gender : </th>
+            <td><select tabindex="14"  placeholder="Choose Gender" name="gender_1" required id="gender_1"  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"></select> </td>
+        </tr>   
+        <tr>
+            <th>Job Title/Profession : </th>
+            <td><input type="text"  placeholder="Job title/Profession" tabindex="15" name="profession_1"  autocomplete="off" id="profession_1"  list="profession_list" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Personal Number : </th>
+            <td><input type="text"  placeholder="Personal Number(MOH Staff only)" tabindex="16"  autocomplete="off" name="personal_no_1" list="personal_no_list" id="personal_no_1" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Name of Organization/Facility : </th>
+            <td><input type="text"  placeholder="Name of organization/facility" tabindex="17"  autocomplete="off" name="organization_1" list="organization_list" id="organization_1" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>District : </th>
+            <td><select tabindex="18"  placeholder="District" name="district_1" required id="district_1"  autocomplete="off" data-toggle="tooltip" data-placement="right"  style="width: 300px;"></select> </td>
+        </tr>   
+        <tr>
+            <th>Telephone Number : </th>
+            <td><input type="text"  placeholder="Telephone No." tabindex="19" name="telephone_1"  autocomplete="off" id="telephone_1" list="telephone_list" value="" onkeypress="return numbers(event)"  data-toggle="tooltip"  data-placement="right"    style="width: 300px;"> </td>
+        </tr>   
+        <tr>
+            <th>Address (Email or Postal) : </th>
+            <td><input type="text"  placeholder="Address (Email/Postal)" tabindex="20" name="address_1"  autocomplete="off" list="address_list" id="address_1" value=""  data-toggle="tooltip"  style="width: 300px;"> </td>
+        </tr>   
+        
+        
+    </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-info" data-dismiss="modal" style="height:30px;" id="update">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+   
+   <input type="hidden" id="tt" value="0"> 
+   
+   
    <!-- BEGIN FOOTER -->
    <div class="footer">
        <%
@@ -279,7 +336,7 @@ tr > td
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; APHIAplus | USAID <%=year%>.
+       &copy; Afya Nyota Ya Bonde | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>
@@ -366,10 +423,34 @@ tr > td
     });
     
     //submit form
-    $('form').submit(function(){
-       var form_data=$("form").serialize();
-       var url='SaveSummary';
-//       alert("data : "+form_data);
+//    $('#summarybtn').click(function(){
+//        alert("called2");
+//       
+//    
+//    
+//    });
+    
+       }); 
+       
+    function subSummary(){
+        var progam_area,districts,cordinator,agency,venue,curriculum_ids,date_range,training_name,s_male,s_female;
+        progam_area = $("#progam_area").val();
+        districts = $("#districts").val();
+        cordinator = $("#cordinator").val();
+        agency = $("#agency").val();
+        venue = $("#venue").val();
+        curriculum_ids = $("#curriculum_ids").val();
+        date_range = $("#date_range").val();
+        training_name = $("#training_name").val();
+        s_male = $("#s_male").val();
+        s_female = $("#s_female").val();
+        if(districts!=null && progam_area!="" && cordinator!="" && agency!="" && venue!="" && curriculum_ids!=null && date_range!="" && training_name!=""){
+        districts = districts+"*";
+        curriculum_ids = curriculum_ids+"*";
+       var form_data={"progam_area":progam_area,"districts":districts,"cordinator":cordinator,"agency":agency,"venue":venue,"curriculum_ids":curriculum_ids,"date_range":date_range,"training_name":training_name,"s_male":s_male,"s_female":s_female};
+      
+        var url='SaveSummary';
+       
        $.post(url,form_data , function(data) {
         loadSummary(data);
         loadMeetings();
@@ -380,7 +461,7 @@ tr > td
         if(data.trim()>0){
             $.notify(
       {icon: "images/checked.png", 
-  message:'<font color="green">Summary Saved sucessfully.</font>'},
+  message:'<font color="green">Summary Saved/Updated sucessfully.</font>'},
       {
 	icon_type: 'image'
       }, 
@@ -394,8 +475,8 @@ tr > td
         }
         else{
         $.notify(
-      {icon: "images/checked.png", 
-  message:'<font color="green">Failed, similar detailed already exist.</font>'},
+      {icon: "images/cross.png", 
+  message:'<font color="red">Failed, similar detailed already exist.</font>'},
       {
 	icon_type: 'image'
       }, 
@@ -408,12 +489,24 @@ tr > td
        );    
         }
         });
+    }
+    else{
+    $.notify(
+      {icon: "images/cross.png", 
+  message:'<font color="red">Error, Enter all required fields.</font>'},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );    
+    }
         return false;
-    });
-    
-    
-    });
-    
+    }
     function loadMeetings(){
         $.ajax({
         url:'loadmeetings',
@@ -529,6 +622,35 @@ $('#date_range').daterangepicker({
     
   }
     
+    function editor(id){
+        $.ajax({
+        url:'load_participant_details?id='+id,
+        type:"post",
+        dataType:"json",
+        success:function(data){
+         var participant_name = data.participant_name;
+         var gender = data.gender;
+         var profession = data.profession;
+         var personal_no = data.personal_no;
+         var organization = data.organization;
+         var telephone = data.telephone;
+         var address = data.address;
+         var district = data.district;
+         
+         $("#participant_name_1").val(participant_name);
+         $("#gender_1").html(gender);
+         $("#profession_1").val(profession);
+         $("#personal_no_1").val(personal_no);
+         $("#organization_1").val(organization);
+         $("#telephone_1").val(telephone);
+         $("#address_1").val(address);
+         $("#district_1").html(district);
+       
+//        
+        // open the pop up window for editing
+    }
+    });
+    }
     
        </script>
        <script>
@@ -538,9 +660,103 @@ $('#date_range').daterangepicker({
 </script>
    <!-- END JAVASCRIPTS -->  
        <script>
-
+        jQuery(document).ready(function(){
+        $("#update").click(function(){
+          var participant_name = $("#participant_name_1").val();
+          var  gender = $("#gender_1").val();
+          var  profession = $("#profession_1").val();
+          var  personal_no = $("#personal_no_1").val();
+          var  organization = $("#organization_1").val();
+          var  telephone = $("#telephone_1").val();
+          var  address = $("#address_1").val();
+          var  district = $("#district_1").val();
+          var jobj={"participant_name":participant_name , "gender": gender, "profession": profession, "personal_no": personal_no, "organization": organization, "telephone": telephone, "address": address, "district": district};
+          var str_data = JSON.stringify(jobj);
+          $.ajax({
+        url:'update_participant_details?participant_name='+participant_name+'&&gender='+gender+'&&profession='+profession+'&&personal_no='+personal_no+'&&organization='+organization+'&&telephone='+telephone+'&&address='+address+'&&district='+district,
+        type:"post",
+        dataType:"html",
+        success:function(data){
+         
+         $.notify(
+      { icon: "images/checked.png", 
+        message:data},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );
+         //reload participnt list  and totals
+         viewT1Details();
+         load_system_totals();
+        }
+          
+        });
+        });
+        
+            });
  
+ function edit_totals(){
+     var tt=$("#tt").val();
+     if(tt=="0"){
+    $("#s_female").prop("disabled", false);
+    $("#s_male").prop("disabled", false);
+    $("#edit_total").prop('src',"images/upload.png");
+    $("#edit_total").prop('title',"Click to save updates.");
+    $("#tt").val("1"); 
+    
+        }
+        else{
+      var male,female;
+      male=$("#s_male").val();
+      female=$("#s_female").val();
+      
+    $("#s_female").prop("disabled", true);
+    $("#s_male").prop("disabled", true);
+    $("#edit_total").prop('src',"images/edit.png");
+    $("#edit_total").prop('title',"click to edit totals.");
+    $("#tt").val("0"); 
+    
+    //update to the server
+    $.ajax({
+        url:'update_static_totals?male='+male+'&&female='+female,
+        type:"post",
+        dataType:"html",
+        success:function(data){
+         
+         $.notify(
+      { icon: "images/checked.png", 
+        message:data},
+      {
+	icon_type: 'image'
+      }, 
+      {
+	offset: {
+		x: 600,
+		y: 300
+	}
+       }
+       );
+        }
+          
+        });
+    
+        }
+     
+     
+ }
     </script>
+    
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
    </div>
 </body>
 <!-- END BODY -->

@@ -132,10 +132,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                    case 0:
                        //numeric
                        if(colmnscounter==11){
-                  value =""+(double)cell.getNumericCellValue();               
+                  value =""+cell.getRawValue();               
                        }
                        else{
-                       value =""+(int)cell.getNumericCellValue();     
+                       value =""+cell.getRawValue(); 
+                       
                        }
                        break;
                    case 1:

@@ -406,7 +406,7 @@ nojustgap++;
          
  //now go to the database and do a query for each section
 
- String getqueries=" Select * from gap_analysis where active=1 and section='"+Sections[a]+"' ";
+ String getqueries=" Select * from gap_analysis where active=1 and section='"+Sections[a]+"'  ";
  
  conn.rs=conn.st.executeQuery(getqueries); 
  while(conn.rs.next()){
@@ -565,6 +565,20 @@ int position = conn.rs.getInt("id");
       
      
       }// end of moh731 vs form1a
+      
+      if(running_query.contains("AS LHS")){//show comparisons
+       value1 = conn.rs1.getInt("LHS");
+       value2 = conn.rs1.getInt("RHS");
+       variance = value1-value2;
+       
+      //lhs vs rhs
+      c13.setCellValue(value1);   
+      c14.setCellValue(value2);   
+      c15.setCellValue(variance);   
+      
+     
+      }
+      
             c13.setCellStyle(style2); 
             c14.setCellStyle(style2); 
             c15.setCellStyle(style2); 

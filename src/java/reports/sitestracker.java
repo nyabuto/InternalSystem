@@ -401,10 +401,7 @@ pathtodelete=filepth;
             XSSFRow rw=null;
        
                    
-//            XSSFRow rw=shet.createRow(0);
-//        XSSFCell cell = rw0.createCell(0);
-//                    cell.setCellValue("");
-//                    cell.setCellStyle(style);
+
                     
                     int count1=0;
                     

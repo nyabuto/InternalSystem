@@ -158,7 +158,7 @@ textarea {
                   
                       
                        <div  class="portlet-body form" >
-                           <select name="queryhistory" id="queryhistory" style='width:100%;' onchange="showqry();">
+                           <select name="queryhistory" id="queryhistory" style='width:80%;' onchange="showqry();">
                                <option value=''>Query History</option>
                                
                            </select> 
@@ -167,8 +167,8 @@ textarea {
                       
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
-                        <form action="RawQuery" method="post" class="form-horizontal" >
-                            <textarea name="query" id="query" value="" class="lined" rows="10" cols="60" spellcheck="false" placeholder="Enter your query here" required><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
+                        <form action="RawQuery" method="post" class="form-horizontal"  >
+                            <textarea  name="query" id="query" value="" class="lined" rows="29" cols="40" spellcheck="false" placeholder="Enter your query here" required><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
                         <br><br><br><br>
                         
                         
