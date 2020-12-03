@@ -286,6 +286,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     //loop through the months
                     //if the user has selected the county alone,then get data for all the facilities in the county
                     
+                    
                     int mwaka=0;
                     month = monthar[a];
                     
@@ -308,7 +309,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     //System.out.println("no of sheets:"+wb.getNumberOfSheets());
                     XSSFSheet shet=wb.getSheetAt(a+1);
                     wb.setSheetName(a+1, monthName(monthar[a]));
-                    
+                    //shet.protectSheet("f1av4");
                     //in here, creata sheets    
                     XSSFRow rw = shet.getRow(0);
                     
@@ -335,7 +336,9 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     yearcl.setCellValue(mwaka);
                     
                     
-                    
+                  lockf1a lf1a= new lockf1a();
+                  
+                 wb= lf1a.lockexcel(shet, wb);
 
                 }
                 //outside here, create workbooks

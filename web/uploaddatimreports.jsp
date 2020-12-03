@@ -14,7 +14,7 @@
 <head>
    <meta charset="utf-8" />
    <title>IMIS-DATIM</title>
-     <link rel="shortcut icon" href="images/index.JPG"/>
+     <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />

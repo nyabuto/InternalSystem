@@ -1206,10 +1206,6 @@
         <servlet-class>DataCleaning.load_prev_data_dates</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>uploadf1a</servlet-name>
-        <servlet-class>form1a.uploadf1a</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>fas_trial</servlet-name>
         <servlet-class>form1a.fas_trial</servlet-class>
     </servlet>
@@ -1244,6 +1240,10 @@
     <servlet>
         <servlet-name>updateuserid</servlet-name>
         <servlet-class>scripts.updateuserid</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadf1a</servlet-name>
+        <servlet-class>form1a.uploadf1a</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>uploadf1av2</servlet-name>
@@ -1324,6 +1324,46 @@
     <servlet>
         <servlet-name>importacamca</servlet-name>
         <servlet-class>ACAMCA.importacamca</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>checkvlresults</servlet-name>
+        <servlet-class>VL.checkvlresults</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getfacilityzote</servlet-name>
+        <servlet-class>VL.getfacilityzote</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>check_mcaaca_status</servlet-name>
+        <servlet-class>ACAMCA.check_mcaaca_status</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadKenyaEMRVl</servlet-name>
+        <servlet-class>LoadExcels.UploadKenyaEMRVl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Pulldata</servlet-name>
+        <servlet-class>DHIS2.Pulldata</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadTxMl</servlet-name>
+        <servlet-class>TX_ML.loadTxMl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>dhis2DataSave</servlet-name>
+        <servlet-class>DHIS2.dhis2DataSave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>lockf1a</servlet-name>
+        <servlet-class>form1a.lockf1a</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadf1av42</servlet-name>
+        <servlet-class>form1a.uploadf1av42</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidateExcelSL</servlet-name>
+        <servlet-class>form1a.ValidateExcelSL</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -2530,10 +2570,6 @@
         <url-pattern>/load_prev_data_dates</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>uploadf1a</servlet-name>
-        <url-pattern>/uploadf1a</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>fas_trial</servlet-name>
         <url-pattern>/fas_trial</url-pattern>
     </servlet-mapping>
@@ -2568,6 +2604,10 @@
     <servlet-mapping>
         <servlet-name>updateuserid</servlet-name>
         <url-pattern>/updateuserid</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1a</servlet-name>
+        <url-pattern>/uploadf1a</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>uploadf1av2</servlet-name>
@@ -2648,6 +2688,46 @@
     <servlet-mapping>
         <servlet-name>importacamca</servlet-name>
         <url-pattern>/importacamca</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkvlresults</servlet-name>
+        <url-pattern>/checkvlresults</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getfacilityzote</servlet-name>
+        <url-pattern>/getfacilityzote</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>check_mcaaca_status</servlet-name>
+        <url-pattern>/check_mcaaca_status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadKenyaEMRVl</servlet-name>
+        <url-pattern>/UploadKenyaEMRVl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pulldata</servlet-name>
+        <url-pattern>/Pulldata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadTxMl</servlet-name>
+        <url-pattern>/loadTxMl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dhis2DataSave</servlet-name>
+        <url-pattern>/dhis2DataSave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>lockf1a</servlet-name>
+        <url-pattern>/lockf1a</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av42</servlet-name>
+        <url-pattern>/uploadf1av42</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateExcelSL</servlet-name>
+        <url-pattern>/ValidateExcelSL</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

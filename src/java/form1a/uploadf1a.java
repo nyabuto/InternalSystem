@@ -7,6 +7,7 @@ package form1a;
 
 import General.IdGenerator;
 import database.dbConn;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -100,6 +101,7 @@ public class uploadf1a extends HttpServlet {
             
              String full_path = "";
              String fileName = "";
+             String partName = "";
              String fileNameCopy = "";
             
             periods=mfl_codes=failed_reason="";
@@ -155,7 +157,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.2";
+            String activeversion = "Form 1A  version 4.0.3";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -165,7 +167,8 @@ public class uploadf1a extends HttpServlet {
             
             String dbname = "fas_temp";
             
-           
+           session.setAttribute("form1a", "<b>Checking F1a Version</b>");
+        session.setAttribute("form1a_count", 1);  
             
             HashMap<String,String> uploaderdetails=getUsers(conn, user_id); 
             
@@ -192,15 +195,18 @@ public class uploadf1a extends HttpServlet {
             if (!fileSaveDir.exists()) {
                 fileSaveDir.mkdirs();
             }
-            System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
+            
             
             added = 0;
             updated = 0;
             for (Part part : request.getParts()) {
-                
-                if (!getFileName(part).equals("")) {
+              System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
+              
+              partName=getFileName(part);
+              
+                if (!partName.equals("")) {
                     
-                    fileName = getFileName(part);
+                    fileName = partName;
                     
                     fileNameCopy += fileName + ",";
                     part.write(uploadFilePath + File.separator + fileName);
@@ -224,11 +230,24 @@ public class uploadf1a extends HttpServlet {
                         boolean issentexcel = false;
                         uploadstatus="";
                         excelfilename = fileName;
-                        
+                        //System.out.println("Tunaanza");
                         full_path = fileSaveDir.getAbsolutePath() + "/" + fileName; //end of checking if excel file is valid
-                        //System.out.println("the saved file directory is  :  " + full_path);
+                        System.out.println("the saved file directory is  :  " + full_path);
+                        session.setAttribute("form1a", "<b>Uploading F1a File</b>");
+                        session.setAttribute("form1a_count", 20);
                         
-                        XSSFWorkbook workbook = (XSSFWorkbook) ReadExcel(full_path);
+                        FileInputStream fileInputStream = new FileInputStream(full_path);
+                        BufferedInputStream bfs = new BufferedInputStream(fileInputStream);
+                        XSSFWorkbook workbook = new XSSFWorkbook(bfs);
+                        int rowCount=245;
+                        
+                        String rn="select count(id) from fas_indicators where is_active=1";
+                        
+                        conn.rs=conn.st.executeQuery(rn);
+                        
+                        if(conn.rs.next()){
+                        rowCount=conn.rs.getInt(1);
+                        }
                         
                         int totalsheets = workbook.getNumberOfSheets();
                         
@@ -236,15 +255,19 @@ public class uploadf1a extends HttpServlet {
                             
                             XSSFSheet worksheet = workbook.getSheetAt(sheetno);
                             
-                           // System.out.println(sheetno + " (" + workbook.getSheetName(sheetno) + ") out of " + totalsheets + " sheets");
+                            System.out.println(sheetno + " (" + workbook.getSheetName(sheetno) + ") out of " + totalsheets + " sheets");
                             
                             String sheetname = workbook.getSheetName(sheetno);
                             
                             boolean hasdata = false;
-                           
+                      
+                        
+                          int tukowapi=6;
+                            
 //skip instructions page
 if (!sheetname.equals("InstructionsForm1A")) {
     
+     
     //get basic period and orgunit details
     XSSFCell facilcell = worksheet.getRow(0).getCell((short) 1);
     
@@ -370,7 +393,7 @@ if (conn.rs.next()) {
         supported_services = removeLast(supported_services, 3) + ")";
     }
 }
-
+//System.out.println("Tuko wapi new:"+tukowapi);
 //System.out.println("Supported services : " + supported_services);
 
 //___________________Read Active and Supported Indicators Only______________________
@@ -385,10 +408,14 @@ int poirow = 0;
 ArrayList insertal=new ArrayList();
 String getsections = "SELECT id,database_name,code,poi_row_no,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
 
-System.out.println("" + getsections);
+System.out.println("__"+getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
 
-while (conn.rs2.next()) {
+while (conn.rs2.next()) {   
+    
+        
+   //System.out.println("Tuko wapi new2:"+tukowapi);
+   
     String insert = " Replace into " + dbname + " Set ";
     table = conn.rs2.getString("database_name");
     indicatorid = conn.rs2.getString("id");
@@ -414,7 +441,7 @@ while (conn.rs2.next()) {
             String val = "";
             
             XSSFCell valcell = worksheet.getRow(poirow).getCell((short) d + startcol);
-            // System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
+            //System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
             
             
             
@@ -487,7 +514,9 @@ while (conn.rs2.next()) {
                 msgal.add(ujumbe);
             }
            // System.out.println("" + insert + ";");
-            
+            session.setAttribute("form1a", "<b>Saving into temp db "+tukowapi+"/"+rowCount+"</b>");
+        session.setAttribute("form1a_count", (tukowapi*100)/rowCount);
+        tukowapi++;
             if (conn.st4.executeUpdate(insert) >= 1) {
                 
                 
@@ -575,9 +604,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 3.0.1 <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.3 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 3.0.1 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.3 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -612,6 +641,8 @@ else{
                
                 
 }
+    
+       
 }
 
     
@@ -632,13 +663,15 @@ else{
         //SendF1excel(facilityName, uploadstatus , full_path, excelfilename, fullname);
     }
     
+        
 
 
-
-                        }//end of worksheets loop
+  }//end of worksheets loop
                         
-                    } catch (InvalidFormatException ex) {
-                        Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+        session.setAttribute("form1a", "<b>Data Saving complete</b>");
+        session.setAttribute("form1a_count", 100);  
+    
+                        
                     } catch (SQLException ex) {
                         Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -661,8 +694,8 @@ else{
             System.out.println(""+unique_subpartner);
             
             JSONObject obj;
-            ValidateExcel vExcel = new ValidateExcel();
-            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"fas_temp");
+            ValidateExcelSL vExcel = new ValidateExcelSL();
+            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"fas_temp",request);
             
             int error_per_sheet,total_errors = 0,warnings;
             String warning;
@@ -727,18 +760,25 @@ else{
          
        for(int q=1;q<=mailstosent;q++){
                 try {
+                    session.setAttribute("form1a", "<b>sending F1a Copy to Server</b>");
+        session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,Ekaunda@fhi360.org,DJuma@fhi360.org,MNderitu@afyanyota.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DJuma@fhi360.org,MNderitu@fhi360.orgEkaunda@fhi360.org","Admin");
                     
                     //send to user
                     if(!email.equals(""))
+                        session.setAttribute("form1a", "<b>sending F1a Copy to System user</b>");
+        session.setAttribute("form1a_count", 99);
                     SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),email,maildetails.get("fulln"+q));
-                    
+                   session.setAttribute("form1a", "<b>Completed upload process</b>");
+        session.setAttribute("form1a_count", 100); 
                 } catch (MessagingException ex) {
                     Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
                 }
        }
             
+        session.removeAttribute("form1a");
+        session.removeAttribute("form1a_count");
             
             System.out.println("uploaded : "+no_uploads);
              
@@ -760,6 +800,9 @@ else{
           else if(total_errors>0){
           session.removeAttribute("warnings");
           session.removeAttribute("message");
+          
+          session.setAttribute("ref_form1a","yes");
+        
                         
             XSSFWorkbook wb1;
              wb1 = vExcel.generateExcel(obj); // to generate Excel file
@@ -874,7 +917,7 @@ else{
     private String getFileName(Part part) {
         String file_name = "";
         String contentDisp = part.getHeader("content-disposition");
-        //System.out.println("content-disposition header= " + contentDisp);
+        System.out.println("content-disposition header= " + contentDisp);
         String[] tokens = contentDisp.split(";");
 
         for (String token : tokens) {
@@ -884,7 +927,7 @@ else{
                 
                 break;
             }
-
+            
         }
         
         return file_name;
@@ -896,13 +939,7 @@ else{
         try {
             inputStream = new FileInputStream(new File(excelpath));
             wb = WorkbookFactory.create(inputStream);
-            int numberOfSheet = wb.getNumberOfSheets();
-
-            for (int i = 0; i < numberOfSheet; i++) {
-                Sheet sheet = wb.getSheetAt(i);
-                //.... Customize your code here
-                // To get sheet name, try -> sheet.getSheetName()
-            }
+           
         } catch (FileNotFoundException ex) {
             Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
         }

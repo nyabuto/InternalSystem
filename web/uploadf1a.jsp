@@ -14,10 +14,11 @@
 <head>
    <meta charset="utf-8" />
    <title>Upload F1A</title>
-     <link rel="shortcut icon" href="images/index.JPG"/>
+     <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
+   <link rel="stylesheet" href="css/progress_bar.css">
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -52,6 +53,26 @@
   display: inline-block;
 }
     </style>
+    
+    <style>
+                    
+                    [data-notify="progressbar"] {
+	margin-bottom: 0px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 5px;
+}
+       div.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
+}  
+tr>td {
+  padding-bottom: 1em;
+  padding-right: 3em;
+}                  
+                </style>
   
 </head>
 <!-- END HEAD -->
@@ -156,16 +177,22 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i>  UPLOAD Form 1A V 1.0.0  (.xlsx)</h4>
+                        <h4><i class="icon-reorder"></i>  UPLOAD Form 1A V 4.0.3  (.xlsx)</h4>
                        
                      </div>
-                     <div class="portlet-body form">
+                      
+                  <div  class="portlet-body form" id="progress_area" hidden="true">
+                     <div class="progress"  style="height: 35px;">
+                     <div class="progress-bar progress-bar-striped active" id="progess" role="progressbar" style="width: 0%;  padding-top: 10px; font-weight: 900;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                     </div>   
+                  </div>
+                     <div id="upload_area" class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <!--<form action="fas_trial" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">-->
                           
                         <div class="control-group " ></div>
-                           <div class="control-group col-lg-12" >
+                           <div  class="control-group col-lg-12" >
                               <label class="control-label col-lg-6">Select Filled Form1A excel file<font color='red'><b>*</b></font></label>
                               <div class="controls col-lg-6">
                                  <input onMouseOver='checksession();' accept=".xlsx" required type="file" name="file_name" multiple="true" id="upload" value="" class="textbox" required> 
@@ -183,8 +210,8 @@
                            <div class="form-actions">
                               <button type="submit" id="run_upload" class="btn blue">Upload</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
-<h3 style="color:green;margin-left: 160px;font-family: cambria;">Note:Ensure by the time of uploading, you have corrected all the displayed errors in the excel template. 
-    <br/><b>Excel file(s) with Errors will not go through the upload process </b>.</h3>
+<h5 id="ujumbe" style="color:green;margin-left: 160px;font-family: sans-serif;font">Note:Ensure by the time of uploading, you have corrected all the displayed errors in the excel template. 
+    <br/><b>Excel file(s) with Errors will not go through the upload process </b>.</h5>
                            </div>
                         </form>
                         <!-- END FORM-->  
@@ -386,24 +413,7 @@ success:function (data){
 
 });     
          
-$.ajax({
-    url:'loadYear',
-    type:'post',
-    dataType:'html',
-    success:function (data){
-        document.getElementById("year").innerHTML=data;
-     var year=$("#year").val();
-     if(year===""){
-         
-     }
-     else{
-    //$("#reportTime").show();  
-  reportingPeriod();     
-     }
-    }
-    
-    
-});
+
 
 $("#reportType").change(function(){
   var report=$("#reportType").val();
@@ -796,6 +806,86 @@ if(data.trim()==='No Active session'){
       }
       
    </script>
+   
+   
+<script > 
+     $(document).ready(function(){
+        $("#progress_area").hide();
+        $("#upload_area").show();
+         
+    $("form").submit(function(){
+        $("#progress_area").show();
+        $("#upload_area").hide();
+//        alert("data submitted");
+     setInterval(function() {
+      load_records();
+      }, 100);  
+    });
+     });
+      $("#ujumbe").html("Note:Ensure by the time of uploading, you have corrected all the displayed errors in the excel template.");
+     function load_records()
+     {
+             $.ajax({
+        url:'check_status?load_type=form1a',
+        type:"post",
+        dataType:"json",
+        success:function(response){
+//            alert("called");
+var per_value = response.count;
+var message = "["+per_value+"%] "+response.message+"";
+
+    $("#progess").html(message);
+    $("#progess").css({'width':per_value+"%"}); 
+
+    if(per_value<30){
+     $("#progess").addClass('progress-bar-danger');  
+     $("#progess").removeClass('progress-bar-success'); 
+    }
+    if(per_value>=30 && per_value<60){
+     $("#progess").addClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');   
+    }
+    if(per_value>=60 && per_value<80){
+     $("#progess").addClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+    if(per_value>=90)
+    {
+     $("#progess").addClass('progress-bar-success'); 
+     $("#progess").removeClass('progress-bar-info'); 
+     $("#progess").removeClass('progress-bar-warning');   
+     $("#progess").removeClass('progress-bar-danger');  
+    }
+   
+    
+    if(response.refreshpage==='yes'){
+      $("#upload_area").show(); 
+      $("#progress_area").hide();
+       
+      $("#ujumbe").html("<font color='red'>Form Completed with a Validation Error. Check the errors sheet on the Data Quality Download</font>");
+      $("#progess").html("Form Completed with a Validation Error. Check the errors sheet on the Data Quality Download");
+      $("#message").html("Form Upload Completed with a Validation Error. Check the errors sheet on the Data Quality Download");
+      $("#progess").css({'width':"99%"});
+      $("#progess").addClass('progress-bar-danger');  
+     //$("#progess").removeClass('progress-bar-success');        
+    }
+    
+    $("#status").html(response);
+    
+    
+        }, 
+        error: function(jqXHR, textStatus, errorThrown) {
+       //error in loading upload status
+       $("#status").html(errorThrown);
+            }
+  });
+     }
+</script>
+ 
+     
+
+
    
    <!-- END JAVASCRIPTS -->   
 </body>

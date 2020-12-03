@@ -26,7 +26,7 @@
   <!--<link href="assets/css/style_responsive.css" rel="stylesheet" />-->
   <!--<link href="assets/css/style_default.css" rel="stylesheet" id="style_color" />-->
   <!--<link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />-->
-  <link rel="shortcut icon" href="images/index.JPG" width="20px" />
+  <link rel="shortcut icon" href="images/imis.png" width="20px" />
   
     <script src="assets/js/jquery-1.8.3.min.js"></script>
     
@@ -41,14 +41,16 @@
 <body class="login" style="background-color: white;">
   <!-- BEGIN LOGO -->
 <!--  <div class="logo" style="height:70px; width:400px; margin-left: 30%; margin-top: 0%">
-      <img src="images/index.JPG" alt="" width="650px"  style="margin-left:12%; margin-top:10px;height:100px;" /> 
+      <img src="images/imis.png" alt="" width="650px"  style="margin-left:12%; margin-top:10px;height:100px;" /> 
   </div><br><br><br><br>-->
   <!-- END LOGO -->
   <!-- BEGIN LOGIN -->
+      <h3 style="color:#4b8df8; ">
+          </h3> 
+      
   <div style="margin-left: 38%;">
       <div style="margin-right:25% ;">
-          <h3 style="color:#4b8df8;font-family: cambria;text-align: left;font-size: 32px; margin-left: -16%;font-weight: bold;"><b>Integrated Management Information System</b></h3> 
-          <h3 style="color:#4b8df8; text-align: left;font-size: 42px; font-family: cambria;margin-left: 25%;font-weight: bold;"><b>( IMIS )</b></h3> 
+          <h3 style="color:#4b8df8;font-family: cambria;text-align: left;font-size: 32px; margin-left: -16%;font-weight: bold;"><b></b></h3> 
       </div>
       <br/>
   <div class="content" style="">
@@ -57,6 +59,10 @@
       
     <!-- BEGIN LOGIN FORM -->
     <form action="login" class="form-vertical login-form" method="post" style="">
+        <div>
+          <img src="images/imis_banner.JPG"  style=" ">
+          
+      </div>
       <h3 class="form-title well">Login to your account.</h3>
       <div class="alert alert-error hide">
         <button class="close" data-dismiss="alert"></button>
@@ -83,10 +89,11 @@
       </div>
       <div class="form-actions">
        
-        <button type="submit" class="btn green pull-right">
+        <button type="submit" class="btn blue pull-right">
         Login <i class="m-icon-swapright m-icon-white"></i>
         </button>            
       </div>
+      
 <!--      <div class="well">
           
           <h4><font color='orange'><b>* Note: </b></font><font color='green'><b>New Moh 711 form (July. 2015) is now active  from 8th June 2016.</b></font></h4>

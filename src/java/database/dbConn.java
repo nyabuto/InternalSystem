@@ -38,7 +38,7 @@ public final class dbConn {
    public  String dbsetup[] = new String[4];
 public  Connection conn = null;
     public dbConn() {
-        System.out.println("in here");
+        //System.out.println("in here");
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             
@@ -59,12 +59,12 @@ public  Connection conn = null;
                         conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],"");
 }
                     else{
-                     System.out.println("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1]+","+ dbsetup[2]+","+dbsetup[3]);   
+                     //System.out.println("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1]+","+ dbsetup[2]+","+dbsetup[3]);   
 
                     conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
                     }
 
-                    System.out.println("connection is : "+conn);
+                    //System.out.println("connection is : "+conn);
 
                 } else {
                     //call the page thats sets up the database

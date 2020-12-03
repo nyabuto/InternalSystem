@@ -33,11 +33,8 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTable;
 
 
 import scripts.copytemplates;
@@ -53,10 +50,7 @@ public class DatimScreens extends HttpServlet {
             throws ServletException, IOException, SQLException, InvalidFormatException {
         response.setContentType("text/html;charset=UTF-8");
         //PrintWriter out = response.getWriter();
-
        
-        
-        
         //______________________________________________________________________________________________
         // Get Variables
         //______________________________________________________________________________________________
@@ -92,7 +86,7 @@ public class DatimScreens extends HttpServlet {
         
                an="'"+PrevYearInt+"-10-01','"+YearInt+"-09-30'";
         String sa1="'"+PrevYearInt+"-10-01','"+YearInt+"-03-31'";
-        String sa2="'"+YearInt+"-04-01','"+YearInt+"-09-31'";
+        String sa2="'"+YearInt+"-04-01','"+YearInt+"-09-30'";
         
         
         String q1="'"+PrevYearInt+"-10-01','"+PrevYearInt+"-12-31'";
@@ -101,21 +95,25 @@ public class DatimScreens extends HttpServlet {
         String q4="'"+YearInt+"-07-01','"+YearInt+"-09-30'";
         
          
-       if(quarterid.equals("1")){ 
+       if(quarterid.equals("1"))
+       { 
        sa=sa1;
        qa=q1;
        }
        
-       else if(quarterid.equals("2")){ 
+       else if(quarterid.equals("2"))
+       { 
        sa=sa1;
        qa=q2;
        }
        
-        else if(quarterid.equals("3")){ 
+        else if(quarterid.equals("3"))
+        { 
        sa=sa2;
        qa=q3;
        }
-        else if(quarterid.equals("4")){ 
+        else if(quarterid.equals("4"))
+        { 
        sa=sa2;
        qa=q4;
        }
@@ -157,7 +155,8 @@ String np=mydrive+":\\HSDSA\\PNS\\MACROS\\";
 String filepath="DatimScreen"+dat2+".xlsx";
 
 
-if(isUnix()){
+if(isUnix())
+{
     np="/HSDSA/PNS/MACROS/";
 }
 
@@ -298,7 +297,7 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
         
         //========Query two====Facility Details==============
         
-        if(frequency.equals("QA")){ currperiod=qa; }
+             if(frequency.equals("QA")){ currperiod=qa; }
         else if(frequency.equals("SA")){ currperiod=sa; }
         else if(frequency.equals("AN")){ currperiod=an; }
         

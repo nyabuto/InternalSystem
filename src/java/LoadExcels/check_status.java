@@ -27,6 +27,9 @@ int pos=0;
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         session = request.getSession();
+        
+        String refresh_page="false";
+        
         try {
          load_type = request.getParameter("load_type");
             JSONObject obj = new JSONObject();
@@ -66,10 +69,39 @@ int pos=0;
             }
          }
          
+         else if(load_type.equalsIgnoreCase("emr_viral_load"))
+         {
+              if(session.getAttribute("emr_viral_load")!=null){
+             message = session.getAttribute("emr_viral_load").toString();
+             if(isNumeric(session.getAttribute("emr_viral_load_count").toString())){
+             pos = Integer.parseInt(session.getAttribute("emr_viral_load_count").toString());
+             }
+            }
+         }
+         else if(load_type.equalsIgnoreCase("form1a"))
+         {
+              if(session.getAttribute("form1a")!=null){
+             message = session.getAttribute("form1a").toString();
+             if(isNumeric(session.getAttribute("form1a_count").toString())){
+             pos = Integer.parseInt(session.getAttribute("form1a_count").toString());
+             }
+            }
+             
+              if(session.getAttribute("ref_form1a")!=null){
+                  refresh_page=session.getAttribute("ref_form1a").toString();
+                  //session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: Form Completed with a Validation Error. Check the errors sheet on the Data Quality Download</b> ");
+              session.removeAttribute("ref_form1a");
+              
+              }
+              
+         }
+         
          obj.put("count", pos);
          obj.put("message", message);
+         obj.put("refreshpage", refresh_page);
          
             out.println(obj);
+            System.out.println("Status"+obj);
         } finally {
             out.close();
         }

@@ -119,7 +119,7 @@
                 <li> <a href="getCohorts.jsp"><i class="icon-signin"></i>Download ACA/MCA Template</a></li>
                   
                <li> <%if(session.getAttribute("userAccess")!=null){%>   
-                  <a href="uploadacamca.jsp"><i class="icon-upload"></i>Upload ACA</a>
+                  <a href="uploadacamca.jsp"><i class="icon-upload"></i>Upload ACA/MCA</a>
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access ACA/MCA upload module</b> </a> <%}%></li> 
                <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
@@ -139,6 +139,7 @@
      <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
      <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%> 
                  <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
+                 <li ><a href="refreshDHIS2.jsp"><i class="icon-plus"></i>DHIS2 Data Refresh</a></li>
                  <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Your Account</a></li>
                  <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
                  <li ><a href="LockData.jsp"><i class="icon-lock"></i>Lock  Data Editing </a></li>                  
@@ -164,13 +165,14 @@
                     
                   <li ><a href="upload_tb_raw_data.jsp" Title="Tb raw data"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>
                   <li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Data(.xls)</a></li>
+                    <li ><a href="uploademrvl.jsp"><i class="icon-plus"></i>Viral Load Kenyaemr(.xlsx)</a></li>
                   <li ><a href="UploadVL.jsp"><i class="icon-plus"></i>Viral Load raw (.xlsx)</a></li>
                   <li ><a href="uploadVL_Surge.jsp"><i class="icon-plus"></i>Viral Load raw Surge(.xlsx)</a></li>
                   <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>NASCOP EID POS (.xlsx)</a></li>
                   <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>NASCOP EID TST (.xlsx)</a></li>
                     <li ><a href="UploadEID.jsp"><i class="icon-plus"></i>EID Data (.xlsx)</a></li>
-                  <li ><a href="Upload_CXCA.jsp"><i class="icon-plus"></i>Cervical Cancer (.xlsx)</a></li>
-                  <li ><a href="Upload_PrePNew.jsp"><i class="icon-plus"></i>Upload PrEP New (.xlsx)</a></li>
+                  <!--<li ><a href="Upload_CXCA.jsp"><i class="icon-plus"></i>Cervical Cancer (.xlsx)</a></li>-->
+                  <!--<li ><a href="Upload_PrePNew.jsp"><i class="icon-plus"></i>Upload PrEP New (.xlsx)</a></li>-->
                   <!--<li ><a href="UploadNewANCData.jsp"><i class="icon-plus"></i>New on ANC [MOH 711] (.xlsx)</a></li>-->
                   <li ><a href="UploadDHISData.jsp"><i class="icon-plus"></i>DHIS Data (.xlsx)</a></li>
                </ul>
@@ -180,13 +182,14 @@
              <li class="has-sub ">
                <a href="#">
                <i class="icon-edit"></i>
-               <span class="title">Data Error Checking</span>
+               <span class="title">Data Cleaning</span>
                <span class="arrow "></span>
                </a>
                 <ul class="sub">
                     
-                  <li ><a href="DataCleaner.jsp" Title="EID Clean data module"><i class="icon-lock"></i>EID/TB Error Checking(.xlsx)</a></li>
-                  <li ><a href="EIDPrevData.jsp" Title="EID Clean data module"><i class="icon-plus"></i>Load <b>1&#189;</b> Yrs ago data(.xlsx)</a></li>
+                  <li ><a href="PullVlResults.jsp" Title="VL Results Checking Module"><i class="icon-lock"></i>VL Results Checking(.xlsx)</a></li>
+                  <!--<li ><a href="DataCleaner.jsp" Title="EID Clean data module"><i class="icon-lock"></i>EID/TB Error Checking(.xlsx)</a></li>-->
+                  <!--<li ><a href="EIDPrevData.jsp" Title="EID Clean data module"><i class="icon-plus"></i>Load <b>1&#189;</b> Yrs ago data(.xlsx)</a></li>-->
                </ul>
             </li>
             
