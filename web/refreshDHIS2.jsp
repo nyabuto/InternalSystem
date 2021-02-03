@@ -190,7 +190,8 @@ tr>td {
                              <option data-saveurl='saveCategoryOptionCombination' value="pullCategoryOptionCombination">Category Option Combination</option>
                              <option data-saveurl='saveDailyArt' value="pullDailyArt">Daily ART</option>
                              <option data-saveurl='saveForm1a' value="pullForm1a">Form 1a</option>
-                             
+                             <option data-saveurl='refreshData' value="migrateData">Data Migration</option>
+                            
                          </select>
                          
                                <label type="submit" class="btn blue" style=" float: left;">Refresh</label>
@@ -435,8 +436,12 @@ var message = "["+per_value+"%] Complete "+msg+" Records Uploaded";
              
              console.log("Ni dataset size "+dt.length+"   "+dt[0].displayName);
              
+var urefu=0;
+var urefuwote=1;
+             
              for(var a=0; a<dt.length;a++)
              {
+
                  
              $.ajax({
         url:'dhis2DataSave?elem=dataSets',
@@ -445,7 +450,13 @@ var message = "["+per_value+"%] Complete "+msg+" Records Uploaded";
         data:dt[a],
         success:function(ujumbe)
         {
-          $("#uploadstatus").html(ujumbe);  
+       
+            urefu++;
+          $("#uploadstatus").html(urefu+". "+ujumbe); 
+          var perc=Math.round(((urefu/urefuwote)*100));
+          refreshpb(ujumbe,perc);
+          if(urefu===parseInt(urefuwote)-1){ $("#uploadstatus").html("<font color='green'> Completed Loading Data Sets!</font>");  }
+			
             
         }
                   });
@@ -463,9 +474,14 @@ var message = "["+per_value+"%] Complete "+msg+" Records Uploaded";
              
              console.log("Ni orgunit group size "+dt.length+"   "+dt[0].displayName);
              
+             
+             var urefu=0;
+                var urefuwote=1;
+                if(dt.length!==null){urefuwote=dt.length;}
              for(var a=0; a<dt.length;a++)
              {
-               
+                 
+                 
              $.ajax({
         url:'dhis2DataSave?elem=organisationUnitGroups',
         type:"post",
@@ -473,7 +489,12 @@ var message = "["+per_value+"%] Complete "+msg+" Records Uploaded";
         data:dt[a],
         success:function(ujumbe)
         {
-          $("#uploadstatus").html(ujumbe);  
+           urefu++;
+          $("#uploadstatus").html(urefu+". "+ujumbe); 
+          var perc=Math.round(((urefu/urefuwote)*100));
+          refreshpb(ujumbe,perc);
+          if(urefu===parseInt(urefuwote)-1){ $("#uploadstatus").html("<font color='green'> Completed Loading Organization Units!</font>");  }
+			 
             
         }
                   });
@@ -490,11 +511,15 @@ var message = "["+per_value+"%] Complete "+msg+" Records Uploaded";
              var urefu=0;
              console.log("Ni orgunit group size "+dt.length+"   "+dt[0].shortName);
              
+           
+             
              for(var a=0; a<dt.length;a++)
              {
 //                   var parid=JSON.parse(dt[a].parent);
                   
-                   
+              var urefu=0;
+                var urefuwote=1;
+                if(dt.length!==null){urefuwote=dt.length;}      
                    
              $.ajax({
         url:'dhis2DataSave?elem=organisationUnits',
@@ -503,9 +528,13 @@ var message = "["+per_value+"%] Complete "+msg+" Records Uploaded";
         data:dt[a],
         success:function(ujumbe)
         {
+           
              urefu++;
-          $("#uploadstatus").html(urefu+". "+ujumbe);  
-          if(urefu===parseInt(dt.length)-1){ $("#uploadstatus").html("<font color='green'> Completed Loading Orgunits!</font>");  }
+          $("#uploadstatus").html(urefu+". "+ujumbe); 
+          var perc=Math.round(((urefu/urefuwote)*100));
+          refreshpb(ujumbe,perc);
+          if(urefu===parseInt(urefuwote)-1){ $("#uploadstatus").html("<font color='green'> Completed Loading Data Elements!</font>");  }
+			
             
         }
                   });

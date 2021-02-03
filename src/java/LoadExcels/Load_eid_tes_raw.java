@@ -381,7 +381,7 @@ finalbracket="no age";
     public String getSubPartnerID(dbConn conn, String code) throws SQLException{
      String subpatID="";
      
-    String gett="SELECT SubPartnerID FROM subpartnera WHERE CentreSanteId=? AND (ART=1 OR PMTCT=1)";
+    String gett="SELECT SubPartnerID FROM subpartnera WHERE CentreSanteId=? AND (ART=1 OR PMTCT=1) and active=1";
         System.out.println(gett);
     conn.pst=conn.conn.prepareStatement(gett);
     conn.pst.setString(1, code);

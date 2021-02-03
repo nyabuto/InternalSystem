@@ -3,10 +3,12 @@ Notes: This raw data is for positive EID. The data doesnt have age and sex
 Age and sex should be gotten from the eid tested raw data during the importing of the raw data positives into the eid_datim_output table.
 
  */
-package form1a;
+package FPT;
 
 import General.IdGenerator;
 import database.dbConn;
+import form1a.ValidateExcelSL;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,7 +68,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1av42 extends HttpServlet {
+public class uploadFPT extends HttpServlet {
 
  
 
@@ -74,7 +76,7 @@ public class uploadf1av42 extends HttpServlet {
     private static final long serialVersionUID = 205242440643911308L;
     private static final String UPLOAD_DIR = "uploads";
    
-    
+    String Poirowname;    
 
     
     @Override
@@ -82,7 +84,13 @@ public class uploadf1av42 extends HttpServlet {
             throws ServletException, IOException {
 
              String fullname = " Unknown User",email="";
+        
              
+        //F01-01 23
+        //poi_row_no_v431
+        Poirowname="poi_row_no";
+        
+        
         
         try {
             
@@ -100,6 +108,7 @@ public class uploadf1av42 extends HttpServlet {
             
              String full_path = "";
              String fileName = "";
+             String partName = "";
              String fileNameCopy = "";
             
             periods=mfl_codes=failed_reason="";
@@ -154,24 +163,25 @@ public class uploadf1av42 extends HttpServlet {
              dbConn conn = new dbConn();
              
              
-            String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.2";
-            conn.rs=conn.st.executeQuery(getVersion);
+            //String getVersion="select version from f1a_version where active=1";
+            String activeversion = "Clinical OVC Index Testing Template  version 2.0.0";
+            //conn.rs=conn.st.executeQuery(getVersion);
             
-            while(conn.rs.next()){
-           //activeversion=conn.rs.getString(1); 
+//            while(conn.rs.next()){
+//           //activeversion=conn.rs.getString(1); 
+//            
+//                                 }
             
-                                 }
+            String dbname = "upload_fpt_temp";
             
-            String dbname = "fas_temp";
-            
-           
+           session.setAttribute("form1a", "<b>Checking FPT Version</b>");
+        session.setAttribute("form1a_count", 1);  
             
             HashMap<String,String> uploaderdetails=getUsers(conn, user_id); 
             
             
               fullname = uploaderdetails.get("name");
-                    email =  uploaderdetails.get("email");
+              email =  uploaderdetails.get("email");
             
             //GET ALLOWED PERIOD AND FACILITIES
             String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads";
@@ -181,7 +191,7 @@ public class uploadf1av42 extends HttpServlet {
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "uploadf1av42.jsp";
+            nextpage = "uploadhts_fpt.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -192,31 +202,36 @@ public class uploadf1av42 extends HttpServlet {
             if (!fileSaveDir.exists()) {
                 fileSaveDir.mkdirs();
             }
-            System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
+            
             
             added = 0;
             updated = 0;
             for (Part part : request.getParts()) {
-                
-                if (!getFileName(part).equals("")) {
+              System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
+              
+              partName=getFileName(part);
+              
+                if (!partName.equals("")) {
                     
-                    fileName = getFileName(part);
+                    fileName = partName;
                     
                     fileNameCopy += fileName + ",";
                     part.write(uploadFilePath + File.separator + fileName);
                     
-                    if (!fileName.endsWith(".xlsx")) {
+                    if (!fileName.endsWith(".xlsx")) 
+                    {
                         
-                        nextpage = "uploadf1av42.jsp";
+                        nextpage = "uploadhts_fpt.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
                 }
                 //}
                 
-                if (!fileName.endsWith(".xlsx")) {
+                if (!fileName.endsWith(".xlsx")) 
+                {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "uploadf1av42.jsp";
+                    nextpage = "uploadhts_fpt.jsp";
                 } else {
                     
                     //start reading the contents
@@ -224,11 +239,24 @@ public class uploadf1av42 extends HttpServlet {
                         boolean issentexcel = false;
                         uploadstatus="";
                         excelfilename = fileName;
-                        
+                        //System.out.println("Tunaanza");
                         full_path = fileSaveDir.getAbsolutePath() + "/" + fileName; //end of checking if excel file is valid
-                        //System.out.println("the saved file directory is  :  " + full_path);
+                        System.out.println("the saved file directory is  :  " + full_path);
+                        session.setAttribute("form1a", "<b>Uploading FPT File</b>");
+                        session.setAttribute("form1a_count", 20);
                         
-                        XSSFWorkbook workbook = (XSSFWorkbook) ReadExcel(full_path);
+                        FileInputStream fileInputStream = new FileInputStream(full_path);
+                        BufferedInputStream bfs = new BufferedInputStream(fileInputStream);
+                        XSSFWorkbook workbook = new XSSFWorkbook(bfs);
+                        int rowCount=245;
+                        
+                        String rn="select count(id) from fpt_indicators where is_active=1 and dataset='fpt'";
+                        
+                        conn.rs=conn.st.executeQuery(rn);
+                        
+                        if(conn.rs.next()){
+                        rowCount=conn.rs.getInt(1);
+                        }
                         
                         int totalsheets = workbook.getNumberOfSheets();
                         
@@ -236,14 +264,31 @@ public class uploadf1av42 extends HttpServlet {
                             
                             XSSFSheet worksheet = workbook.getSheetAt(sheetno);
                             
-                           // System.out.println(sheetno + " (" + workbook.getSheetName(sheetno) + ") out of " + totalsheets + " sheets");
+                            System.out.println(sheetno + " (" + workbook.getSheetName(sheetno) + ") out of " + totalsheets + " sheets");
                             
                             String sheetname = workbook.getSheetName(sheetno);
                             
                             boolean hasdata = false;
-                           
+                      
+                        
+                          int tukowapi=6;
+                            
 //skip instructions page
-if (!sheetname.equals("InstructionsForm1A")) {
+if (!sheetname.equals("FPT_ Instructions")) {
+    
+    //This is a temporary process. there a template that has two additional rows by mistake that should be corrected
+    //we expect for a normal template version 4.0.3, the first cell should start at point 21
+    //F01-01 23
+    
+    String indexcellstarting="";
+    //get basic period and orgunit details
+  //  XSSFCell indexcell = worksheet.getRow(23).getCell((short) 2);
+    
+       
+     Poirowname="poi_row_no";   
+    
+    
+    System.out.println("Poi row cell ni "+Poirowname);
     
     //get basic period and orgunit details
     XSSFCell facilcell = worksheet.getRow(0).getCell((short) 1);
@@ -260,17 +305,17 @@ if (!sheetname.equals("InstructionsForm1A")) {
         mflcode = mflcell.getStringCellValue();
     }
     
-    XSSFCell subcountycell = worksheet.getRow(0).getCell((short) 10);
-    if (subcountycell.getCellType() == 1) {
-        subcounty = subcountycell.getStringCellValue();
-    }
+//    XSSFCell subcountycell = worksheet.getRow(0).getCell((short) 10);
+//    if (subcountycell.getCellType() == 1) {
+//        subcounty = subcountycell.getStringCellValue();
+//    }
     
-    XSSFCell countycell = worksheet.getRow(0).getCell((short) 19);
-    if (countycell.getCellType() == 1) {
-        county = countycell.getStringCellValue();
-    }
+//    XSSFCell countycell = worksheet.getRow(0).getCell((short) 19);
+//    if (countycell.getCellType() == 1) {
+//        county = countycell.getStringCellValue();
+//    }
     
-    XSSFCell monthcell = worksheet.getRow(0).getCell((short) 24);
+    XSSFCell monthcell = worksheet.getRow(0).getCell((short) 12);
     
     if (monthcell.getCellType() == 0) {
         month = "" + (int) monthcell.getNumericCellValue();
@@ -278,7 +323,7 @@ if (!sheetname.equals("InstructionsForm1A")) {
         month = monthcell.getStringCellValue();
     }
     
-    XSSFCell yearcell = worksheet.getRow(0).getCell((short) 26);
+    XSSFCell yearcell = worksheet.getRow(0).getCell((short) 14);
     
     if (yearcell.getCellType() == 0) {
         year = (int) yearcell.getNumericCellValue();
@@ -319,26 +364,14 @@ colskey.add("m_9");
 colskey.add("f_9");
 colskey.add("m_14");
 colskey.add("f_14");
-colskey.add("m_19");
-colskey.add("f_19");
-colskey.add("m_24");
-colskey.add("f_24");
-colskey.add("m_29");
-colskey.add("f_29");
-colskey.add("m_34");
-colskey.add("f_34");
-colskey.add("m_39");
-colskey.add("f_39");
-colskey.add("m_44");
-colskey.add("f_44");
-colskey.add("m_49");
-colskey.add("f_49");
-colskey.add("m_50");
-colskey.add("f_50");
+colskey.add("m_17");
+colskey.add("f_17");
+colskey.add("m_18");
+colskey.add("f_18");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
-String supported_services = " WHERE (is_active=1 ) && (poi_row_no_v42 is not null )  ";
+String supported_services = " WHERE (is_active=1 ) && ("+Poirowname+" is not null )  ";
 
 String support_column_name, support_column_value;
 int num_serv_supported = 0;
@@ -348,7 +381,8 @@ System.out.println("" + get_supported_service);
 conn.rs = conn.st.executeQuery(get_supported_service);
 ResultSetMetaData metaData = conn.rs.getMetaData();
 int col_count = metaData.getColumnCount(); //number of column
-if (conn.rs.next()) {
+if (conn.rs.next()) 
+{
     supported_services += " AND (";
     for (int i = 1; i <= col_count; i++) {
         support_column_name = metaData.getColumnLabel(i);
@@ -370,31 +404,35 @@ if (conn.rs.next()) {
         supported_services = removeLast(supported_services, 3) + ")";
     }
 }
-
+//System.out.println("Tuko wapi new:"+tukowapi);
 //System.out.println("Supported services : " + supported_services);
 
 //___________________Read Active and Supported Indicators Only______________________
-// --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing fas_indicators table
+// --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing fpt_indicators table
 //--we will fetch a list of the indicators and the respective row no. then use the result set to tell us in which row of the uploaded excel template to get data for each indicator element.
 //--Any time there is a row-wise change in the excel upload file(including insertoing a new row),
-//there is need to update the column poi_row_no in the table fas_indicators accordingly
+//there is need to update the column poi_row_no in the table fpt_indicators accordingly
 String table = "";
 String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,poi_row_no_v42,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " and dataset='form1a' order by order_no ";
+String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fpt_indicators " + supported_services + " and dataset='fpt' order by order_no ";
 
-System.out.println("" + getsections);
+System.out.println("__"+getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
 
-while (conn.rs2.next()) {
+while (conn.rs2.next()) {   
+    
+        
+   //System.out.println("Tuko wapi new2:"+tukowapi);
+   
     String insert = " Replace into " + dbname + " Set ";
     table = conn.rs2.getString("database_name");
     indicatorid = conn.rs2.getString("id");
     code = conn.rs2.getString("code");
     indicator_name = conn.rs2.getString("indicator");
-    poirow = conn.rs2.getInt("poi_row_no_v42");
+    poirow = conn.rs2.getInt(Poirowname);
     //while inside this , now read each indicator from the respective table row
     
     try {
@@ -409,12 +447,13 @@ while (conn.rs2.next()) {
          id = yearmonth + "_" + subpartnerid + "_" + indicatorid;
         insert += " id='" + id + "',facility_id='" + subpartnerid + "',indicator_id='" + indicatorid + "',yearmonth='" + yearmonth + "',";
         
-        for (int d = 0; d < colskey.size(); d++) {
+        for (int d = 0; d < colskey.size(); d++) 
+        {
             
             String val = "";
             
             XSSFCell valcell = worksheet.getRow(poirow).getCell((short) d + startcol);
-            // System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
+            //System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
             
             
             
@@ -487,7 +526,9 @@ while (conn.rs2.next()) {
                 msgal.add(ujumbe);
             }
            // System.out.println("" + insert + ";");
-            
+            session.setAttribute("form1a", "<b>Saving into temp db "+tukowapi+"/"+rowCount+"</b>");
+        session.setAttribute("form1a_count", (tukowapi*100)/rowCount);
+        tukowapi++;
             if (conn.st4.executeUpdate(insert) >= 1) {
                 
                 
@@ -566,7 +607,7 @@ while (conn.rs2.next()) {
         
     } //end of try
     catch (SQLException ex) {
-        Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
     }
     
     
@@ -575,14 +616,14 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 3.0.1 <br>";
+        failed_reason+= "Failed: You have used Wrong FPT template version "+excelversion+" . Expected Version is 2.0.0 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 3.0.1 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 1.0.0 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
         }
-        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"gettemplate.jsp\\\">download new template\"";
+        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"getFPTTemplate.jsp\\\">download new template\"";
         if (!msgal.contains(ujumbe)) 
         {
             msgal.add(ujumbe);
@@ -612,6 +653,8 @@ else{
                
                 
 }
+    
+       
 }
 
     
@@ -626,21 +669,23 @@ else{
         maildetails.put("fn"+mailstosent, excelfilename);
         maildetails.put("fulln"+mailstosent, fullname);
         
-        System.out.println("F1 file upload for  : "+facilityName+" Status: "+uploadstatus);
+        System.out.println("FPT file upload for  : "+facilityName+" Status: "+uploadstatus);
         
         issentexcel = true;
         //SendF1excel(facilityName, uploadstatus , full_path, excelfilename, fullname);
     }
     
+        
 
 
-
-                        }//end of worksheets loop
+  }//end of worksheets loop
                         
-                    } catch (InvalidFormatException ex) {
-                        Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+        session.setAttribute("form1a", "<b>Data Saving complete</b>");
+        session.setAttribute("form1a_count", 100);  
+    
+                        
                     } catch (SQLException ex) {
-                        Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                 }
@@ -661,8 +706,8 @@ else{
             System.out.println(""+unique_subpartner);
             
             JSONObject obj;
-            ValidateExcel vExcel = new ValidateExcel();
-            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"fas_temp");
+            ValidateExcelFPT vExcel = new ValidateExcelFPT();
+            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"upload_fpt_temp",request);
             
             int error_per_sheet,total_errors = 0,warnings;
             String warning;
@@ -727,18 +772,25 @@ else{
          
        for(int q=1;q<=mailstosent;q++){
                 try {
+                    session.setAttribute("form1a", "<b>sending FPT Copy to Server</b>");
+        session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,Ekaunda@fhi360.org,DJuma@fhi360.org,MNderitu@afyanyota.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,EOloo@fhi360.org,DJuma@fhi360.org,Ekaunda@fhi360.org","Admin");
                     
                     //send to user
                     if(!email.equals(""))
+                        session.setAttribute("form1a", "<b>sending FPT Copy to System user</b>");
+        session.setAttribute("form1a_count", 99);
                     SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),email,maildetails.get("fulln"+q));
-                    
+                   session.setAttribute("form1a", "<b>Completed upload process</b>");
+        session.setAttribute("form1a_count", 100); 
                 } catch (MessagingException ex) {
-                    Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
                 }
        }
             
+        session.removeAttribute("form1a");
+        session.removeAttribute("form1a_count");
             
             System.out.println("uploaded : "+no_uploads);
              
@@ -748,18 +800,21 @@ else{
           session.setAttribute("warnings", warning);
           session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
           
-          response.sendRedirect("uploadf1av42.jsp");
+          response.sendRedirect("uploadhts_fpt.jsp");
           }
           
           else if(no_uploads==0){
           session.setAttribute("warnings", "");
           session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("uploadf1av42.jsp"); 
+          response.sendRedirect("uploadhts_fpt.jsp"); 
           }
           
           else if(total_errors>0){
           session.removeAttribute("warnings");
           session.removeAttribute("message");
+          
+          session.setAttribute("ref_form1a","yes");
+        
                         
             XSSFWorkbook wb1;
              wb1 = vExcel.generateExcel(obj); // to generate Excel file
@@ -771,7 +826,7 @@ else{
     response.setContentLength(outArray.length);
     response.setHeader("Expires:", "0"); // eliminates browser caching
     response.setHeader("Set-Cookie:", "fileDownload=true; path=/"); // set cookie header
-    response.setHeader("Content-Disposition", "attachment; filename=Data_Quality_Errors.xlsx");
+    response.setHeader("Content-Disposition", "attachment; filename=FPT_Data_Quality_Errors.xlsx");
     OutputStream outStream = response.getOutputStream();
     outStream.write(outArray);
     outStream.flush();
@@ -812,7 +867,7 @@ else{
                 
                 
             } catch (SQLException ex) {
-                Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             // pullHTS hts= new pullHTS();
@@ -821,7 +876,7 @@ else{
            // response.sendRedirect(nextpage);
             
         } catch (SQLException ex) {
-            Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -874,7 +929,7 @@ else{
     private String getFileName(Part part) {
         String file_name = "";
         String contentDisp = part.getHeader("content-disposition");
-        //System.out.println("content-disposition header= " + contentDisp);
+        System.out.println("content-disposition header= " + contentDisp);
         String[] tokens = contentDisp.split(";");
 
         for (String token : tokens) {
@@ -884,7 +939,7 @@ else{
                 
                 break;
             }
-
+            
         }
         
         return file_name;
@@ -896,15 +951,9 @@ else{
         try {
             inputStream = new FileInputStream(new File(excelpath));
             wb = WorkbookFactory.create(inputStream);
-            int numberOfSheet = wb.getNumberOfSheets();
-
-            for (int i = 0; i < numberOfSheet; i++) {
-                Sheet sheet = wb.getSheetAt(i);
-                //.... Customize your code here
-                // To get sheet name, try -> sheet.getSheetName()
-            }
+           
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return wb;
@@ -936,8 +985,9 @@ else{
 
         IdGenerator gn = new IdGenerator();
 
-        String textBody = "Hi "+username+",\nAttached is a Form 1A data upload for " + facility + " uploaded by " + uploadername + " on date " + gn.toDay() + " .\n"
-                + "\n "+stat+" \n *******This is a system autogenerated message*****";
+        String textBody = "Hi "+username+",\nAttached is a FPT data upload for " + facility + " uploaded by " + uploadername + " on date " + gn.toDay() + " .\n"
+                + "\n "+stat+" \n Click here to access the reporting rates http://hsdsacluster2.fhi360.org:8080/InternalSystem/fptwebtracker.jsp "
+                + "\n *******This is a system autogenerated message*****";
         toAddress = email;
         String host = "smtp.gmail.com";
         String Password = "plusaphia";
@@ -957,7 +1007,7 @@ else{
 
         message.setRecipients(Message.RecipientType.TO, toAddress);
 
-        message.setSubject(facility + " F1A data Upload by " + uploadername);
+        message.setSubject(facility + " FPT data Upload by " + uploadername);
 
         BodyPart messageBodyPart = new MimeBodyPart();
 
@@ -998,7 +1048,7 @@ boolean retvalue=true;
         try {
             //sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
             
-            String qry = "select * from fas_temp where concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") group by destination_table";
+            String qry = "select * from upload_fpt_temp where concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") group by destination_table";
             conn.rs3 = conn.st3.executeQuery(qry);
             
             String destinationtable = "";
@@ -1046,17 +1096,22 @@ String deleteqry=" delete from "+destinationtable+" where concat(yearmonth,'_',f
 
                 conn.st_1.executeUpdate(deleteqry);
                 
-            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='' ";    
-replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from fas_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
-//System.out.println(""+replaceqry);
-conn.st_1.executeUpdate(replaceqry);
-count++;
+   String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_17,f_17,m_18,f_18,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_17,f_17,m_18,f_18,total) !='' ";    
+   
+   replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from upload_fpt_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
+   
+   System.out.println(""+replaceqry);
+
+   conn.st_1.executeUpdate(replaceqry);
+
+   
+   count++;
 
             }
             
            
        } catch (SQLException ex) {
-            Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
             retvalue=false;
         }
          return retvalue;
@@ -1071,12 +1126,12 @@ boolean iscomplete=true;
             
             //delete the updated data
             //select * from fas_temp where concat(yearmonth,'_',facility_id) in ('201901_226','201901_377','201902_377','201902_226','201903_226')
-            String deleteqry = "delete from fas_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
+            String deleteqry = "delete from upload_fpt_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
             conn.st_1.executeUpdate(deleteqry);
         } catch (SQLException ex) 
         {
             iscomplete=false;
-            Logger.getLogger(uploadf1av42.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadFPT.class.getName()).log(Level.SEVERE, null, ex);
         }
       return iscomplete;
      }
@@ -1090,13 +1145,13 @@ boolean iscomplete=true;
                 String insert_audit_trails = "INSERT INTO fas_audit_trails (entry_id,table_name,fullname,facility,indicator,yearmonth,user_pc) VALUES(?,?,?,?,?,?,?)";
                 conn.pst = conn.conn.prepareStatement(insert_audit_trails);
                 conn.pst.setString(1, id);
-                conn.pst.setString(2, "fas_temp");
+                conn.pst.setString(2, "upload_fpt_temp");
                 conn.pst.setString(3, fullname);
                 conn.pst.setString(4, facname);
                 conn.pst.setString(5, indicator_name);
                 conn.pst.setString(6, yearmonth);
                 conn.pst.setString(7, getComputerName());
-                
+                System.out.println(""+conn.pst);
                 conn.pst.executeUpdate();
                 
                 //____________________________________END AUDIT TRAIL______________________________________

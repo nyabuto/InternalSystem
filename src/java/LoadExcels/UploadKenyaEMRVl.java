@@ -10,6 +10,7 @@ import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -128,7 +129,9 @@ public class UploadKenyaEMRVl extends HttpServlet {
                switch (cell.getCellType()) {
                    case 0:
                        //numeric
-                       value =""+cell.getRawValue();
+                       value =""+new BigDecimal(cell.getNumericCellValue()).toPlainString();
+                       
+                         System.out.println(i+" nowvalue : "+value+" cell type:"+cell.getCellType());
                        break;
                    case 1:
                        value =cell.getStringCellValue();
@@ -137,7 +140,7 @@ public class UploadKenyaEMRVl extends HttpServlet {
                        value = cell.getRawValue();
                        break;
                }
-               System.out.println(i+" nowvalue : "+value);
+             
               
              }  
                

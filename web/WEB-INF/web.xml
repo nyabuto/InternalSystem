@@ -1246,6 +1246,10 @@
         <servlet-class>form1a.uploadf1a</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>upload_hts_screening</servlet-name>
+        <servlet-class>HTS_Screening.upload_hts_screening</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>uploadf1av2</servlet-name>
         <servlet-class>form1a.uploadf1av2</servlet-class>
     </servlet>
@@ -1364,6 +1368,58 @@
     <servlet>
         <servlet-name>ValidateExcelSL</servlet-name>
         <servlet-class>form1a.ValidateExcelSL</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadtx_ml</servlet-name>
+        <servlet-class>TX_ML.downloadtx_ml</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>DHIS2.test</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadHTSTemplate</servlet-name>
+        <servlet-class>HTS_Screening.downloadHTSTemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadLastMontofQuarter</servlet-name>
+        <servlet-class>General.loadLastMontofQuarter</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadFPTTemplate</servlet-name>
+        <servlet-class>FPT.downloadFPTTemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadtxml</servlet-name>
+        <servlet-class>TX_ML.uploadtxml</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadFPT</servlet-name>
+        <servlet-class>FPT.uploadFPT</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidateExcelFPT</servlet-name>
+        <servlet-class>FPT.ValidateExcelFPT</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getsubcounty</servlet-name>
+        <servlet-class>loaders.getsubcounty</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getfacility</servlet-name>
+        <servlet-class>loaders.getfacility</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReportsTracker</servlet-name>
+        <servlet-class>FPT.ReportsTracker</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FPT_excel_tracker</servlet-name>
+        <servlet-class>FPT.FPT_excel_tracker</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>update_vl_results</servlet-name>
+        <servlet-class>VL.update_vl_results</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -2610,6 +2666,10 @@
         <url-pattern>/uploadf1a</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>upload_hts_screening</servlet-name>
+        <url-pattern>/upload_hts_screening</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>uploadf1av2</servlet-name>
         <url-pattern>/uploadf1av2</url-pattern>
     </servlet-mapping>
@@ -2728,6 +2788,58 @@
     <servlet-mapping>
         <servlet-name>ValidateExcelSL</servlet-name>
         <url-pattern>/ValidateExcelSL</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadtx_ml</servlet-name>
+        <url-pattern>/downloadtx_ml</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadHTSTemplate</servlet-name>
+        <url-pattern>/downloadHTSTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadLastMontofQuarter</servlet-name>
+        <url-pattern>/loadLastMontofQuarter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadFPTTemplate</servlet-name>
+        <url-pattern>/downloadFPTTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadtxml</servlet-name>
+        <url-pattern>/uploadtxml</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadFPT</servlet-name>
+        <url-pattern>/uploadFPT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateExcelFPT</servlet-name>
+        <url-pattern>/ValidateExcelFPT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getsubcounty</servlet-name>
+        <url-pattern>/getsubcounty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getfacility</servlet-name>
+        <url-pattern>/getfacility</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportsTracker</servlet-name>
+        <url-pattern>/ReportsTracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FPT_excel_tracker</servlet-name>
+        <url-pattern>/FPT_excel_tracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>update_vl_results</servlet-name>
+        <url-pattern>/update_vl_results</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

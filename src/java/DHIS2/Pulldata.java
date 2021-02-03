@@ -110,6 +110,10 @@ public class Pulldata extends HttpServlet {
                 out.println(dp.pullDailyArt(conn, dc, urm));
             }
           
+            else if (datarequest.equals("migrateData")) {
+                out.println("[migrateData:{'a':''}]");
+            }
+          
         
             
             

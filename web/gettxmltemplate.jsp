@@ -17,7 +17,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Download Template</title>
+   <title>Download TXML Template</title>
      
     <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -141,7 +141,7 @@ legend.formatter {
 <!-- Modal -->
 
                          <!--<i class="icon-home"></i>-->
-                        <b >Download Form 1a Template</b>
+                        <b >Download TX_ML Template</b>
                       
                   </h3>
            
@@ -173,9 +173,9 @@ legend.formatter {
 <!--                 <div class=\"notifications top-left"><a href="#" class="close" data-dismiss="alert"></a> here we are</div>
                  -->
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
-                  <form action="downloadTemplate" method="post" class="form-horizontal" style="min-height: 450px;">
+                  <form action="downloadtx_ml" method="post" class="form-horizontal" style="min-height: 450px;">
                       <br/>
-                      <h4 class='btn-block btn-info btn-lg' style='text-align:center;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional.   &nbsp;&nbsp;&nbsp;&nbsp;   <a class="btn-danger btn-lg" href="F1aUserGuide.pptx">User Guide</a>  <a class="btn-success btn-lg" href="Printable_F1v4.xlsx">Printable F1a</a></h4>
+                      <h4 style='background:#4b8df8;' class='btn-block btn-info btn-lg' style='text-align:center;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional.   &nbsp;&nbsp;&nbsp;&nbsp;   </h4>
                       <br/>
                     <%if(session.getAttribute("userAccess")!=null){} else {%>   <h4 class='btn-block btn-warning btn-lg' style='text-align:center;color:black;'> Please <a href="index.jsp" class="btn-info btn-lg "><b>Login</b></a> using your IMIS Credentials in order to access the Upload module </h4>
                       <br/>
@@ -239,7 +239,7 @@ legend.formatter {
                                <tr><td> 
                                 <b>Month</b> <font color="red">*</font>
                                    </td><td>
-                                  <select  multiple placeholder="Month" required="true" class="span4 m-wrap" style="width: 300px;" size="12" tabindex="-1"  id="month" name="month" onchange="">
+                                  <select   placeholder="Month" required="true" class="span4 m-wrap" style="width: 300px;" size="1" tabindex="-1"  id="month" name="month" onchange="">
                                     
                                  </select>
                                   </td></tr>
@@ -284,7 +284,7 @@ legend.formatter {
                          <!--<p style="margin-left: 450px; margin-top: 200px;">  Management module here....</p>-->
 
                 <tr><td> </td><td> 
-                              <button style='width:230px;' type="submit" id="submit"  class="btn-info btn-large "> Download Template(s)</button>
+                              <button style='width:230px;background:#4b8df8;color:white;' type="submit" id="submit"  class="btn btn-info btn-large "> Download Template(s)</button>
 <!--                              <button type="button" class="btn">Cancel</button>-->
 </td></tr>
                 <tr><td>.</td><td></td></tr>
@@ -455,13 +455,13 @@ function loadmonths(){
       var yr=document.getElementById("year").value;
 //      alert(yr);
               $.ajax({
-url:'loadMonth?year='+yr,
+url:'loadLastMontofQuarter?year='+yr,
 type:'post',
 dataType:'html',
 success:function (data){
     $("#month").html(data.replace("<option value=''>Select Month </option>",""));
-    var select = document.getElementById('month');
-                    select.size = select.length;
+//    var select = document.getElementById('month');
+//                    select.size = select.length;
     
 }
 });  
@@ -602,7 +602,7 @@ success:function (data){
  loadcounty();
   
    </script>
-   <script type="text/javascript" src="js/form731Totals.js"></script>
+   
 <script type="text/javascript" src="js/val731.js"></script>
 <script type="text/javascript">
     

@@ -75,7 +75,7 @@ public class uploadf1a extends HttpServlet {
     private static final long serialVersionUID = 205242440643911308L;
     private static final String UPLOAD_DIR = "uploads";
    
-    
+    String Poirowname;    
 
     
     @Override
@@ -83,7 +83,13 @@ public class uploadf1a extends HttpServlet {
             throws ServletException, IOException {
 
              String fullname = " Unknown User",email="";
+        
              
+        //F01-01 23
+        //poi_row_no_v431
+        Poirowname="poi_row_no";
+        
+        
         
         try {
             
@@ -241,7 +247,7 @@ public class uploadf1a extends HttpServlet {
                         XSSFWorkbook workbook = new XSSFWorkbook(bfs);
                         int rowCount=245;
                         
-                        String rn="select count(id) from fas_indicators where is_active=1";
+                        String rn="select count(id) from fas_indicators where is_active=1 and dataset='form1a'";
                         
                         conn.rs=conn.st.executeQuery(rn);
                         
@@ -267,7 +273,32 @@ public class uploadf1a extends HttpServlet {
 //skip instructions page
 if (!sheetname.equals("InstructionsForm1A")) {
     
-     
+    //This is a temporary process. there a template that has two additional rows by mistake that should be corrected
+    //we expect for a normal template version 4.0.3, the first cell should start at point 21
+    //F01-01 23
+    
+    String indexcellstarting="";
+    //get basic period and orgunit details
+    XSSFCell indexcell = worksheet.getRow(23).getCell((short) 2);
+    
+    if (indexcell.getCellType() == 1) {
+        indexcellstarting = indexcell.getStringCellValue();
+    }
+    
+    if(indexcellstarting!=null){
+    if(indexcellstarting.equals("F01-01"))
+    {
+    Poirowname="poi_row_no_v431";
+    }
+    else 
+    {    
+     Poirowname="poi_row_no";   
+    }
+    
+    }
+    
+    System.out.println("Poi row cell ni "+Poirowname);
+    
     //get basic period and orgunit details
     XSSFCell facilcell = worksheet.getRow(0).getCell((short) 1);
     
@@ -361,7 +392,7 @@ colskey.add("f_50");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
-String supported_services = " WHERE (is_active=1 ) && (poi_row_no is not null )  ";
+String supported_services = " WHERE (is_active=1 ) && ("+Poirowname+" is not null )  ";
 
 String support_column_name, support_column_value;
 int num_serv_supported = 0;
@@ -406,7 +437,7 @@ String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,poi_row_no,concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " order by order_no ";
+String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " and dataset='form1a' order by order_no ";
 
 System.out.println("__"+getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
@@ -421,7 +452,7 @@ while (conn.rs2.next()) {
     indicatorid = conn.rs2.getString("id");
     code = conn.rs2.getString("code");
     indicator_name = conn.rs2.getString("indicator");
-    poirow = conn.rs2.getInt("poi_row_no");
+    poirow = conn.rs2.getInt(Poirowname);
     //while inside this , now read each indicator from the respective table row
     
     try {
@@ -763,7 +794,7 @@ else{
                     session.setAttribute("form1a", "<b>sending F1a Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DJuma@fhi360.org,MNderitu@fhi360.orgEkaunda@fhi360.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DJuma@fhi360.org,MNderitu@fhi360.org,Ekaunda@fhi360.org","Admin");
                     
                     //send to user
                     if(!email.equals(""))

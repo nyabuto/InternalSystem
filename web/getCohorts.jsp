@@ -239,7 +239,7 @@ legend.formatter {
                                <tr><td> 
                                 <b>Month</b> <font color="red">*</font>
                                    </td><td>
-                                  <select   placeholder="Month" required="true" class="span4 m-wrap" style="width: 300px;" size="12" tabindex="-1"  id="month" name="month" onchange="">
+                                  <select   placeholder="Month" required="true" class="span4 m-wrap" style="width: 300px;" size="1" tabindex="-1"  id="month" name="month" onchange="">
                                     
                                  </select>
                                   </td></tr>
@@ -461,7 +461,7 @@ dataType:'html',
 success:function (data){
     $("#month").html(data.replace("<option value=''>Select Month </option>",""));
     var select = document.getElementById('month');
-                    select.size = select.length;
+                   // select.size = select.length;
     
 }
 });  

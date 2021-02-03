@@ -17,7 +17,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Download Template</title>
+   <title>Download FPT Template</title>
      
     <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -141,7 +141,7 @@ legend.formatter {
 <!-- Modal -->
 
                          <!--<i class="icon-home"></i>-->
-                        <b >Download Form 1a Template</b>
+                        <b >Download FPT Monthy reporting Template</b>
                       
                   </h3>
            
@@ -173,9 +173,9 @@ legend.formatter {
 <!--                 <div class=\"notifications top-left"><a href="#" class="close" data-dismiss="alert"></a> here we are</div>
                  -->
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
-                  <form action="downloadTemplate" method="post" class="form-horizontal" style="min-height: 450px;">
+                  <form action="downloadFPTTemplate" method="post" class="form-horizontal" style="min-height: 450px;">
                       <br/>
-                      <h4 class='btn-block btn-info btn-lg' style='text-align:center;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional.   &nbsp;&nbsp;&nbsp;&nbsp;   <a class="btn-danger btn-lg" href="F1aUserGuide.pptx">User Guide</a>  <a class="btn-success btn-lg" href="Printable_F1v4.xlsx">Printable F1a</a></h4>
+                      <h4 class='btn-block btn-info btn-lg' style='text-align:center;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional.   &nbsp;&nbsp;&nbsp;&nbsp;     </h4>
                       <br/>
                     <%if(session.getAttribute("userAccess")!=null){} else {%>   <h4 class='btn-block btn-warning btn-lg' style='text-align:center;color:black;'> Please <a href="index.jsp" class="btn-info btn-lg "><b>Login</b></a> using your IMIS Credentials in order to access the Upload module </h4>
                       <br/>
@@ -239,7 +239,7 @@ legend.formatter {
                                <tr><td> 
                                 <b>Month</b> <font color="red">*</font>
                                    </td><td>
-                                  <select  multiple placeholder="Month" required="true" class="span4 m-wrap" style="width: 300px;" size="12" tabindex="-1"  id="month" name="month" onchange="">
+                                  <select   placeholder="Month" required="true" class="span4 m-wrap" style="width: 300px;" size="1" tabindex="-1"  id="month" name="month" onchange="">
                                     
                                  </select>
                                   </td></tr>
@@ -461,7 +461,7 @@ dataType:'html',
 success:function (data){
     $("#month").html(data.replace("<option value=''>Select Month </option>",""));
     var select = document.getElementById('month');
-                    select.size = select.length;
+                    //select.size = select.length;
     
 }
 });  

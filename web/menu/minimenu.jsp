@@ -90,6 +90,67 @@
                 
             </ul>
             </li>
+            <li class="has-sub ">
+               <a href="#">
+                <i class="icon-search"></i>
+               <span class="title">FPT Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="getFPTTemplate.jsp"><i class="icon-download"></i>Download FPT Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="uploadhts_fpt.jsp"><i class="icon-upload"></i>Upload FPT Data</a>
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access FPT upload module</b> </a> <%}%></li> 
+                <li >  <a href="FPT_Excel_Tracker.jsp"><i class="icon-upload"></i>FPT Excel Tracker</a></li>
+                <li >  <a href="fptwebtracker.jsp"><i class="icon-upload"></i>FPT Web Tracker</a></li>
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+            
+              <li class="has-sub ">
+               <a href="#">
+                <i class="icon-search"></i>
+               <span class="title">HTS Screening Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="getHTSScreeningTemplate.jsp"><i class="icon-download"></i>Download HTS SCreening Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="uploadhts_screening.jsp"><i class="icon-upload"></i>Upload HTS Screening Template</a>
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access HTS Screening upload module</b> </a> <%}%></li> 
+               <li >  <a href="HTS_Screening_Tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+             <li class="has-sub ">
+               <a href="#">
+                <i class="icon-search"></i>
+               <span class="title">TX_ML Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="gettxmltemplate.jsp"><i class="icon-download"></i>Download TX_ML Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="uploadtxml.jsp"><i class="icon-upload"></i>Upload TX_ML</a>
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access TxML upload module</b> </a> <%}%></li> 
+               <li >  <a href="TXML_Tracker.jsp"><i class="icon-upload"></i>TX_ML Tracker</a></li>
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
             
               <li class="has-sub ">
                <a href="#">

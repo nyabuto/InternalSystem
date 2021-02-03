@@ -101,7 +101,7 @@ int pos=0;
          obj.put("refreshpage", refresh_page);
          
             out.println(obj);
-            System.out.println("Status"+obj);
+          //  System.out.println("Status"+obj);
         } finally {
             out.close();
         }

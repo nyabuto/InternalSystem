@@ -48,8 +48,8 @@ public class vl_txcurr_txpvls extends HttpServlet {
     
              String sexs[]={"M","F"};
              String sexmysql[]={"M","F"};
-             String end_date="2020-09-30";
-             String eligibledate="2020-09-30";
+             String end_date="2020-12-31";
+             String eligibledate="2020-12-31";
              String ym=end_date.replace("-","").substring(0, 6);
              
              String eligibleym=eligibledate.replace("-","").substring(0, 6);

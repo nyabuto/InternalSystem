@@ -3,45 +3,81 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package form1a;
+package loaders;
 
+import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
  * @author EKaunda
  */
-public class lockf1a extends HttpServlet {
+public class getsubcounty extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-           
-            out.println("</html>");
-        } finally {
-            out.close();
+           response.setContentType("text/html;charset=UTF-8");
+    
+
+    
+    String county_id,current_districts;
+    
+     county_id=request.getParameter("county");
+ 
+       System.out.println(" County:"+ county_id); 
+       current_districts="";
+       
+       String districts="Select DistrictID,DistrictNom from district where CountyID='"+county_id+"' and active=1;";
+       
+       dbConn conn=new dbConn();
+       
+       conn.rs=conn.st.executeQuery(districts);
+       
+       current_districts="";
+       
+       while(conn.rs.next()){
+
+
+current_districts=current_districts+"<option value=\""+conn.rs.getString(1)+"\">"+conn.rs.getString(2)+"</option>";
+
+
+
+
+
+       }
+    
+    
+
+    
+    
+    
+    
+    
+    try {
+        out.println(current_districts);
+       
+    } finally {   
+          if(conn.conn!=null){ conn.conn.close();}
+               if(conn.rs!=null){ conn.rs.close();}
+               if(conn.st!=null){ conn.st.close();}
+        out.close();
+    }
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(getsubcounty.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -83,40 +119,5 @@ public class lockf1a extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-
- public  XSSFWorkbook lockexcel(Sheet s, XSSFWorkbook workbookx){
-    String password= "f1";
-    byte[] pwdBytes = null;
-    try {
-        pwdBytes  = Hex.decodeHex(password.toCharArray());
-    } catch (DecoderException e) 
-    {
-        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-    }
-     System.out.println("Password:"+password+" converted to:"+pwdBytes);
-    XSSFSheet sheet = ((XSSFSheet)s);
-    //removePivot(s,workbookx);
-    sheet.lockDeleteColumns();
-    sheet.lockDeleteRows();
-    sheet.lockFormatCells();
-    sheet.lockFormatColumns();
-    sheet.lockFormatRows();
-    sheet.lockInsertColumns();
-    sheet.lockInsertRows();
-    sheet.lockSelectLockedCells();
-//    sheet.protectSheet("f1av4");
-    sheet.getCTWorksheet().getSheetProtection().setPassword(pwdBytes);
-    for(byte pwdChar :pwdBytes)
-    {
-        System.out.println(">>> Sheet protected with '" + pwdChar + "'");
-    }
-    sheet.enableLocking();
-
-    workbookx.lockStructure();
-
-    return workbookx;
-}
-
 
 }
