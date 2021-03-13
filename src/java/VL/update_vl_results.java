@@ -39,6 +39,34 @@ public class update_vl_results extends HttpServlet {
             dbConn conn= new dbConn();
             //select * from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null) and yearmonth='202012' and length(Uniquecccno(cccno))=10 ;
 
+            String qry="";
+            
+            if (request.getParameter("qry") != null && !request.getParameter("qry").equals("")) {
+
+                qry = request.getParameter("qry");
+
+            }
+
+            if (request.getParameter("sdate") != null) {
+                sdate = request.getParameter("sdate");
+            }
+
+            if (request.getParameter("edate") != null) {
+                edate = request.getParameter("edate");
+            }
+            
+            if(qry.equals("updateEMRResults"))
+            {
+             out.println(updateEMRResults(conn, sdate, edate, ""));   
+            }
+            else if(qry.equals("updatePMTCT"))
+            {
+              out.println(updatePMTCT(conn, sdate, edate, ""));
+            }
+            else if(qry.equals("updateNonEMRResults"))
+            {
+              out.println(updateNonEMRResults(conn, sdate, edate, ""));  
+            }
             
            //updateEMRResults(conn, sdate, edate, "");
            //updatePMTCT(conn, sdate, edate, "");
@@ -146,7 +174,7 @@ public class update_vl_results extends HttpServlet {
     
     }
     
-return "complete";
+return "completed updating PMTCT";
 }
     
     
@@ -223,7 +251,7 @@ String origmfl="";
       
         
     
-    return "complete";
+    return "Completed EMR Results ";
     }
     
 public String updateNonEMRResults(dbConn conn,String sdate,String edate,String mflcodes) throws SQLException{
@@ -317,6 +345,6 @@ if(!mflcodes.equals(""))
     
     
 
-return "complete";
+return "Completed running Non EMR Results";
 }
 }

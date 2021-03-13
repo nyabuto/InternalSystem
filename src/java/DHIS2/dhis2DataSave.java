@@ -189,19 +189,17 @@ value: "1"
             try {
                 
                 
-               if(conn.conn!=null){ conn.conn.close(); }
-               if(conn.st!=null){ conn.st.close(); }
-               if(conn.pst!=null){ conn.pst.close(); }
-                 if(conn.rs!=null){ conn.rs.close(); }
+                if(conn.rs!=null){ conn.rs.close(); }
                  if(conn.rs1!=null){ conn.rs1.close(); }
-                 if(conn.st1!=null){ conn.st1.close(); }
-                 
-                  if(conn.rs2!=null){ conn.rs2.close(); }
-                 if(conn.st2!=null){ conn.st2.close(); }
-                 
+                 if(conn.rs2!=null){ conn.rs2.close(); }
                  if(conn.rs3!=null){ conn.rs3.close(); }
                  if(conn.rs_6!=null){ conn.rs_6.close(); }
+               if(conn.st!=null){ conn.st.close(); }
+               if(conn.pst!=null){ conn.pst.close(); }
+                 if(conn.st1!=null){ conn.st1.close(); }
+                 if(conn.st2!=null){ conn.st2.close(); }
                  if(conn.st3!=null){ conn.st3.close(); }
+                  if(conn.conn!=null){ conn.conn.close(); }
                 
             } catch (SQLException ex) {
                 Logger.getLogger(dhis2DataSave.class.getName()).log(Level.SEVERE, null, ex);

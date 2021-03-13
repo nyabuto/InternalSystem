@@ -5,6 +5,8 @@ Age and sex should be gotten from the eid tested raw data during the importing o
  */
 package form1a;
 
+import DHIS2.dhisconfig;
+import DHIS2.pushDataToDHIS2;
 import General.IdGenerator;
 import database.dbConn;
 import java.io.BufferedInputStream;
@@ -15,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -752,9 +755,31 @@ else{
       {
       //last row
       totransferymf+="'"+yearm+"_"+facilid+"'";
-      //System.out.println("to transfer ni: "+totransferymf);
-       
+      
       transferdata(conn, totransferymf);
+      
+      pushDataToDHIS2 pd= new pushDataToDHIS2();      
+      //System.out.println("to transfer ni: "+totransferymf);
+     ArrayList cols=pd.getDistinctF1aColumns(conn,"Form 1 A");      
+              
+      ResultSet f1adata=pd.GetForm1aData(conn, yearm, facilid, cols);
+       
+      dhisconfig dc = new dhisconfig();
+          
+     //get username and password for DHIS2 here
+     session.setAttribute("form1a", "<b>Uploading F1a Copy to ANYB DHIS2</b>");
+     String dn =  uploaderdetails.get("dhis_username");
+     String dp =  uploaderdetails.get("dhis_password");
+     
+            dc.setDhis2_username(dn);
+            dc.setDhis2_Password(dp);
+     
+            org.json.JSONObject jo=pd.toJsonString(conn,f1adata, cols, dc.getDhis2_username());
+            System.out.println("uploading to DHIS2");
+            pd.UploadF1aToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password() );            
+       
+            
+      
       }
       else 
       {
@@ -818,6 +843,8 @@ else{
           System.out.println(warning);
           session.setAttribute("warnings", warning);
           session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
+          
+          
           
           response.sendRedirect("uploadf1a.jsp");
           }
@@ -1192,12 +1219,18 @@ boolean iscomplete=true;
          String fname="";
          String mail="";
          
-     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
+         String duname="";
+         String dpword="";
+         
+         
+     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email , dhis2_uname, dhis2_pword FROM user WHERE userid='" + user_id + "'";
                 conn.rs1 = conn.st1.executeQuery(getusername);
                 if (conn.rs1.next())
                 {
                     fname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
                     mail = conn.rs1.getString(3);
+                    duname = conn.rs1.getString(4);
+                    dpword = conn.rs1.getString(5);
                     //System.out.println("email:"+email);
                 }
                 
@@ -1206,6 +1239,8 @@ boolean iscomplete=true;
      
      map.put("email", mail);
      map.put("name", fname);
+     map.put("dhis_username", duname);
+     map.put("dhis_password", dpword);
                 
                 return map;
      }

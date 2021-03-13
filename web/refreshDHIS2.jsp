@@ -376,7 +376,7 @@ var message = "["+per_value+"%] Complete "+msg+" Records Uploaded";
         
         $(".img_status").show();
              
-             $.ajax({
+        $.ajax({
         url:'Pulldata?datarequest='+dr,
         type:"post",
         dataType:"json",

@@ -31,6 +31,13 @@ public class vl_txcurr_txpvls extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             
             
+            String tx_curr_date="2020-12-31";
+            
+            if(request.getParameter("weekend")!=null)
+            {
+            tx_curr_date=request.getParameter("weekend");
+            }
+            
             
             dbConn conn = new dbConn();
             
