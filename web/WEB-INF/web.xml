@@ -1421,6 +1421,38 @@
         <servlet-name>update_vl_results</servlet-name>
         <servlet-class>VL.update_vl_results</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadKenyaEMRVlv1</servlet-name>
+        <servlet-class>LoadExcels.UploadKenyaEMRVlv1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pushDataToDHIS2</servlet-name>
+        <servlet-class>DHIS2.pushDataToDHIS2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HTSRRI</servlet-name>
+        <servlet-class>HTSRRI</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>htsrrilogin</servlet-name>
+        <servlet-class>HTSRRI.htsrrilogin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadMonthlyF1a</servlet-name>
+        <servlet-class>DHIS2.UploadMonthlyF1a</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Missing_VL_KenyaEMR</servlet-name>
+        <servlet-class>VL.Missing_VL_KenyaEMR</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Sync_to_vl_etl</servlet-name>
+        <servlet-class>VL.Sync_to_vl_etl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadf1av43</servlet-name>
+        <servlet-class>form1a.uploadf1av43</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2840,6 +2872,38 @@
     <servlet-mapping>
         <servlet-name>update_vl_results</servlet-name>
         <url-pattern>/update_vl_results</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadKenyaEMRVlv1</servlet-name>
+        <url-pattern>/UploadKenyaEMRVlv1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pushDataToDHIS2</servlet-name>
+        <url-pattern>/pushDataToDHIS2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HTSRRI</servlet-name>
+        <url-pattern>/HTSRRI</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>htsrrilogin</servlet-name>
+        <url-pattern>/htsrrilogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadMonthlyF1a</servlet-name>
+        <url-pattern>/UploadMonthlyF1a</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Missing_VL_KenyaEMR</servlet-name>
+        <url-pattern>/Missing_VL_KenyaEMR</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Sync_to_vl_etl</servlet-name>
+        <url-pattern>/Sync_to_vl_etl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av43</servlet-name>
+        <url-pattern>/uploadf1av43</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

@@ -70,7 +70,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1a extends HttpServlet {
+public class uploadf1av43 extends HttpServlet {
 
  
 
@@ -166,7 +166,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.4";
+            String activeversion = "Form 1A  version 4.0.3";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -250,7 +250,7 @@ public class uploadf1a extends HttpServlet {
                         XSSFWorkbook workbook = new XSSFWorkbook(bfs);
                         int rowCount=245;
                         
-                        String rn="select count(id) from fas_indicators where is_active=1 and dataset='form1a'";
+                        String rn="select count(id) from fas_indicators where active_old_v43=1 and dataset='form1a'";
                         
                         conn.rs=conn.st.executeQuery(rn);
                         
@@ -277,7 +277,7 @@ public class uploadf1a extends HttpServlet {
 if (!sheetname.equals("InstructionsForm1A")) {
     
     //This is a temporary process. there a template that has two additional rows by mistake that should be corrected
-    //we expect for a normal template version 4.0.4, the first cell should start at point 21
+    //we expect for a normal template version 4.0.3, the first cell should start at point 21
     //F01-01 23
     
     String indexcellstarting="";
@@ -295,7 +295,7 @@ if (!sheetname.equals("InstructionsForm1A")) {
     }
     else 
     {    
-     Poirowname="poi_row_no";   
+     Poirowname="poi_row_no_v432";   
     }
     
     }
@@ -395,7 +395,7 @@ colskey.add("f_50");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
-String supported_services = " WHERE (is_active=1 ) && ("+Poirowname+" is not null )  ";
+String supported_services = " WHERE (active_old_v43=1 ) && ("+Poirowname+" is not null )  ";
 
 String support_column_name, support_column_value;
 int num_serv_supported = 0;
@@ -638,9 +638,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.4 <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.3 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.4 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.3 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;

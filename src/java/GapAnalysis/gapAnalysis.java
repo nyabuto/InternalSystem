@@ -406,7 +406,7 @@ nojustgap++;
          
  //now go to the database and do a query for each section
 
- String getqueries=" Select * from gap_analysis where active=1 and section='"+Sections[a]+"'  ";
+ String getqueries="Select * from gap_analysis where active=1 and section='"+Sections[a]+"'  ";
  
  conn.rs=conn.st.executeQuery(getqueries); 
  while(conn.rs.next()){
@@ -479,14 +479,14 @@ int position = conn.rs.getInt("id");
     
     //check on accounted for gaps
     
-    String checkifaccounted = "SELECT id FROM gaps WHERE year=? AND month=? AND gap=? AND program_area=? AND facility=? AND status=? ";
+    String checkifaccounted = "SELECT id FROM gaps WHERE year=? AND month=? AND gap=? AND program_area=? AND facility=? ";
     conn.pst3 = conn.conn.prepareStatement(checkifaccounted);
     conn.pst3.setInt(1, yr);
     conn.pst3.setString(2, mn_name);
     conn.pst3.setString(3, gap);
     conn.pst3.setString(4, section);
     conn.pst3.setString(5, facility);
-    conn.pst3.setInt(6, 1);
+    //conn.pst3.setInt(6, 1);
     conn.rs3 = conn.pst3.executeQuery();
     if(conn.rs3.next()){
         
@@ -621,6 +621,7 @@ if(!periods.contains(current_year)){
   String mn_name = dets[1];
   
   String getjustified = "SELECT * FROM gaps WHERE year=? AND month=? AND status=?";
+  
   conn.pst3 = conn.conn.prepareStatement(getjustified);
   conn.pst3.setString(1, yr);
   conn.pst3.setString(2, mn_name);
