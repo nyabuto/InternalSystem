@@ -71,7 +71,7 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h2 style="text-align:center;font-size: 20px;color:white;padding-bottom:16px ;font-weight: bolder;">Sync VL Results</h2><br/>
+            <h2 style="text-align:center;font-size: 20px;color:white;padding-bottom:16px ;font-weight: bolder;">Update De-duplicated VL Results from website to EMR </h2><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->

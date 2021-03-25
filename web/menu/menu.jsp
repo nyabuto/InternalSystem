@@ -65,10 +65,18 @@
                   <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1A Template</a></li>
                   
                <li >   <%if(session.getAttribute("userAccess")!=null){%>   
-                  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A</a>
+                  <a title="latest_version" href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A</a>
+                  
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
+                <li >   <%if(session.getAttribute("userAccess")!=null){%>   
+                  <li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>
+                  
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
+               
                <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>

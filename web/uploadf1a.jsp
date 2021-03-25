@@ -177,8 +177,7 @@ tr>td {
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i>  UPLOAD Form 1A V 4.0.3  (.xlsx)</h4>
-                       
+                        <h4><i class="icon-reorder"></i>  UPLOAD Form 1A V 4.0.4 (.xlsx)</h4>
                      </div>
                       
                   <div  class="portlet-body form" id="progress_area" hidden="true">
@@ -196,7 +195,6 @@ tr>td {
                               <label class="control-label col-lg-6">Select Filled Form1A excel file<font color='red'><b>*</b></font></label>
                               <div class="controls col-lg-6">
                                  <input onMouseOver='checksession();' accept=".xlsx" required type="file" name="file_name" multiple="true" id="upload" value="" class="textbox" required> 
-                                    
                               </div>
                            </div>  
                            <div class="control-group" style="display:none;">

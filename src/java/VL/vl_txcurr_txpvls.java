@@ -121,6 +121,9 @@ public class vl_txcurr_txpvls extends HttpServlet {
         } finally {
             out.close();
         }
+        
+        response.sendRedirect("Sync_VL_Results.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

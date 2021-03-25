@@ -638,9 +638,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.4 <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.4 <a href='uploadf1av43.jsp'>Upload Version 4.0.3 here</href> <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.4 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.4. <a href='uploadf1av43.jsp'>Upload Version 4.0.3 here</href> \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
