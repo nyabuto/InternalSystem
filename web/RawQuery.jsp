@@ -41,7 +41,7 @@
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
 <link rel="stylesheet" href="css/animate.css">
-<link href="linedtextarea/jquery-linedtextarea.css" type="text/css" rel="stylesheet" /> 
+<!--<link href="linedtextarea/jquery-linedtextarea.css" type="text/css" rel="stylesheet" />--> 
 
                 
                 <style>
@@ -227,7 +227,7 @@ textarea {
    <!-- Load javascripts at bottom, this will reduce page load time -->
    
 <script src="assets/js/jquery-1.8.3.min.js"></script>
-<script src="linedtextarea/jquery-linedtextarea.js"></script>    
+<!--<script src="linedtextarea/jquery-linedtextarea.js"></script>-->    
 
 <script type="text/javascript" src="js/bootstrap-notify.js"></script>
 
@@ -259,17 +259,17 @@ textarea {
    
 
 <script>
-$(function() {
+//$(function() {
 
-  // Target all classed with ".lined"
-  $(".lined").linedtextarea(
-    {selectedLine: 1}
-  );
-
-  // Target a single one
-  $("#mytextarea").linedtextarea();
-
-});
+//  // Target all classed with ".lined"
+//  $(".lined").linedtextarea(
+//    {selectedLine: 1}
+//  );
+//
+//  // Target a single one
+//  $("#mytextarea").linedtextarea();
+//
+//});
 
 
 function loadqueries(){
@@ -288,6 +288,7 @@ function loadqueries(){
             qrs+="<option value=\""+data[as].qry+"\">"+data[as].queryname+"</option>";
             
             $("#queryhistory").html(qrs);
+            $("#queryhistory").select2();
                 
             }
             }
