@@ -176,6 +176,15 @@
                                  </select>
                               </div>
                            </div>
+                            <div class="control-group" id="Datim Users">
+                              <label class="control-label">Choose User</label>
+                              <div class="controls">
+                                 <select multiple="true" data-placeholder="Datim User"  class="span6 m-wrap" tabindex="-1"  id="datimuser" name="datimuser" style="width: 400px;">
+                                    <option value="">Choose User</option>                                 
+                                   
+                                 </select>
+                              </div>
+                           </div>
                             
                             
                             
@@ -326,9 +335,23 @@ success:function (data){
       }
  
 
+  function loadDatimUsers(){
    
+       $.ajax({
+url:'loadDatimUsers',
+type:'post',
+dataType:'html',
+success:function (data)
+{
+ $('#datimuser').html(data); 
+    var select = document.getElementById('datimuser');
+                    select.size = select.length;
+}
+    });
+          
+      }  
      
-      
+      loadDatimUsers();
       
    </script>
    

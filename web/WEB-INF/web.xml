@@ -1453,6 +1453,10 @@
         <servlet-name>uploadf1av43</servlet-name>
         <servlet-class>form1a.uploadf1av43</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadDatimUsers</servlet-name>
+        <servlet-class>DatimScreen.loadDatimUsers</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2904,6 +2908,10 @@
     <servlet-mapping>
         <servlet-name>uploadf1av43</servlet-name>
         <url-pattern>/uploadf1av43</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadDatimUsers</servlet-name>
+        <url-pattern>/loadDatimUsers</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

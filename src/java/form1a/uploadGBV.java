@@ -182,7 +182,7 @@ public class uploadGBV extends HttpServlet {
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-             periods = ",201910,201911,201912,202001,202002,202003,202004,202005,202006";
+             periods = ",201910,201911,201912,202001,202002,202003,202004,202005,202006,202010,202011,202012";
             
             nextpage = "uploadgbv.jsp";
             String excelfilename = "";

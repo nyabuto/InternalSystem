@@ -31,7 +31,7 @@ public class vl_txcurr_txpvls extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             
             
-            String tx_curr_date="2020-12-31";
+            String tx_curr_date="2021-03-31";
             
             if(request.getParameter("weekend")!=null)
             {
@@ -55,8 +55,8 @@ public class vl_txcurr_txpvls extends HttpServlet {
     
              String sexs[]={"M","F"};
              String sexmysql[]={"M","F"};
-             String end_date="2020-12-31";
-             String eligibledate="2020-12-31";
+             String end_date=tx_curr_date;
+             String eligibledate=tx_curr_date;
              String ym=end_date.replace("-","").substring(0, 6);
              
              String eligibleym=eligibledate.replace("-","").substring(0, 6);

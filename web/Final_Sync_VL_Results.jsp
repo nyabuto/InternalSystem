@@ -164,7 +164,7 @@
                               <div class="control-group" >
                               <label class="control-label">Specify Output:<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="output" id="output" >
+                                  <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="outiput" id="outiput" >
                                       
                                      
                                      
@@ -348,7 +348,7 @@ function getReport()
       
                 $('.loading').show();
                 $('#generaterpt').hide();
-               var urel=$("#output").val();
+               var urel=$("#outiput").val();
                 //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
              
                 var ur="Sync_to_vl_etl?sp="+urel+"&enddate=" + enddate;
@@ -378,7 +378,7 @@ function getReport()
 function selectoutput(){
     
     
-    var outputii=$("#output").val();
+    var outputii=$("#outiput").val();
     
    
     

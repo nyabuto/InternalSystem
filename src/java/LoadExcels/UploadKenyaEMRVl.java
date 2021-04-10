@@ -212,11 +212,14 @@ public class UploadKenyaEMRVl extends HttpServlet {
         session.removeAttribute("emr_viral_load_count");
         
         // end of removing county attributes
-        
+        if(conn.rs!=null){
         conn.rs.close();
-        
+        }
         
         session.setAttribute("emr_vl_loaded", "Upload complete. <b style=\"color:green\">"+added+"</b> records were added and <b style=\"color:red\">"+updated+"</b> records were updated.");
+       
+        
+        
         response.sendRedirect("uploademrvl.jsp");
         
       
