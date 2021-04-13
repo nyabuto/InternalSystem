@@ -177,9 +177,9 @@
                               </div>
                            </div>
                             <div class="control-group" id="Datim Users">
-                              <label class="control-label">Choose User</label>
+                              <label class="control-label">Choose User<br/> <i>Leave blank <br/>to select all<br/> sites</i></label>
                               <div class="controls">
-                                 <select multiple="true" data-placeholder="Datim User"  class="span6 m-wrap" tabindex="-1"  id="datimuser" name="datimuser" style="width: 400px;">
+                                 <select  data-placeholder="Datim User"  class="span6 m-wrap" tabindex="-1"  id="datimuser" name="datimuser" style="width: 400px;">
                                     <option value="">Choose User</option>                                 
                                    
                                  </select>

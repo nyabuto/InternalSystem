@@ -9,9 +9,10 @@ package DatimScreen;
 import General.IdGenerator;
 import static LoadExcels.OSValidator.isUnix;
 import database.dbConn;
-
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.ResultSetMetaData;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +70,12 @@ public class DatimScreens extends HttpServlet {
         if(request.getParameter("quarter")!=null)
         {
          quarterid=request.getParameter("quarter"); 
+        }
+        
+        String datimuser="";
+        if(request.getParameter("datimuser")!=null)
+        {
+         datimuser=request.getParameter("datimuser"); 
         }
         
        
@@ -301,9 +310,19 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
         else if(frequency.equals("SA")){ currperiod=sa; }
         else if(frequency.equals("AN")){ currperiod=an; }
         
-     
+    
         
          String qry = "call "+storedprocedure+"("+currperiod+");";
+         
+         //updating the facility worksheet
+         
+         
+         
+          if(storedprocedure.equals("sp_des_get_facility_user")){
+              
+     qry = "call "+storedprocedure+"('"+datimuser+"');";
+     
+     }
         
         System.out.println(qry);
         
@@ -403,7 +422,9 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
        wb.setForceFormulaRecalculation(true); 
        
 
-        System.out.println("" + "DatimSCreens" + createdOn.trim() + ".xlsx");
+        System.out.println("" + "DatimSCreens_" +datimuser+"_"+ createdOn.trim() + ".xlsx");
+        
+        datimuser=datimuser.toUpperCase();
 
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
@@ -411,7 +432,7 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=" + "DatimScrn_"+qa.replace("'", "").replace(",","_").replace("-", "")+"_gen_" + createdOn.trim() + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "DatimScrn_"+datimuser+"_"+qa.replace("'", "").replace(",","_").replace("-", "")+"_gen_" + createdOn.trim() + ".xlsx");
          response.setHeader("Set-Cookie","fileDownload=true; path=/");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
@@ -451,6 +472,45 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
     public boolean isNumeric(String s) {
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");
     } 
+
+    
+    // private byte[] zipFiles(File directory, String[] files) throws IOException {
+     private byte[] zipFiles(String[] files) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream(baos);
+        byte bytes[] = new byte[2048];
+
+        for (String fileName : files) 
+        {
+            //FileInputStream fis = new FileInputStream(directory.getPath() + downloadTemplate.FILE_SEPARATOR + fileName);
+            File srcFile = new File(fileName);
+ 
+                //FileInputStream fis = new FileInputStream(srcFile);
+            
+            FileInputStream fis = new FileInputStream(srcFile);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+
+            zos.putNextEntry(new ZipEntry(srcFile.getName()));
+
+            int bytesRead;
+            while ((bytesRead = bis.read(bytes)) != -1) 
+            {
+                zos.write(bytes, 0, bytesRead);
+            }
+            zos.closeEntry();
+            bis.close();
+            fis.close();
+        }
+        zos.flush();
+        baos.flush();
+        zos.close();
+        baos.close();
+
+        return baos.toByteArray();
+    }
+    
     
 
 }
+
+
