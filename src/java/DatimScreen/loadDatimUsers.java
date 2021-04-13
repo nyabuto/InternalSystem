@@ -41,14 +41,14 @@ public class loadDatimUsers extends HttpServlet {
             dbConn conn = new dbConn();
            
             String opt="<option value=''></option>";
-String getData=" select distinct datim_userid from subpartnera where active='1' ";            
+String getData=" select  datim_userid, count(datim_userid) as sites from subpartnera where active='1' group by datim_userid ";            
             
 conn.rs=conn.st.executeQuery(getData);
 
 while(conn.rs.next())
 {
 
-opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"</option>";
+opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"       ["+conn.rs.getString(2)+" sites]"+"</option>";
     
 }
         
@@ -104,5 +104,11 @@ opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"</option>
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
+
+
+
+
 
 }

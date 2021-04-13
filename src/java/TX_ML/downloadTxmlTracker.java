@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package VL;
+package TX_ML;
 
 
 import General.IdGenerator;
@@ -37,7 +37,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author EKaunda
  */
-public class Missing_VL_KenyaEMR extends HttpServlet {
+public class downloadTxmlTracker extends HttpServlet {
 
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -131,7 +131,7 @@ public class Missing_VL_KenyaEMR extends HttpServlet {
         
         HashMap<Integer , String> sps= new HashMap<Integer, String>();
         
-        sps.put(1, "Missing_VL_KenyaEMR@vl_kenyaemr_tracker");
+        sps.put(1, "TXML_Tracker@sp_TX_ML_reportingrates");
         //sps.put(2, "Raw Data@sp_nonemr_raw_data");
 
 //        HSSFSheet acashet = wb.createSheet("ACA raw Data");
@@ -141,7 +141,7 @@ public class Missing_VL_KenyaEMR extends HttpServlet {
 
  String year="";
        IdGenerator dats= new IdGenerator();
-String startdate="2020-04-01";
+String startdate="2021-03-12";
         String enddate=dats.toDay();
         String subcounty="";
         String county="";
@@ -176,7 +176,7 @@ String startdate="2020-04-01";
         
         XSSFRow rw0=shet.createRow(1);
         XSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(shet.getSheetName()+" for Period "+startdate+" and "+enddate);
+                    cell.setCellValue(shet.getSheetName()+" for Period  "+enddate);
                     cell.setCellStyle(style);
         shet.addMergedRegion(new CellRangeAddress(1, 1, 0,10));
                     
@@ -186,13 +186,13 @@ String startdate="2020-04-01";
               
                 String storedprocedure="";
                 
-        String ym=enddate.replace("-", "").substring(0, 6);
+        String ym=enddate;
                 
                 storedprocedure=sps.get(sheetno).split("@")[1];
                 
         //========Query two====Facility Details==============
         
-        String qry = "call "+storedprocedure+" ('"+ym+"')";
+        String qry = "call "+storedprocedure+" ('"+ym+"','')";
          System.out.println(qry);
         conn.rs = conn.st.executeQuery(qry);
         
@@ -314,7 +314,7 @@ rw.setHeightInPoints(32);
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(Missing_VL_KenyaEMR.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadTxmlTracker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -324,7 +324,7 @@ rw.setHeightInPoints(32);
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(Missing_VL_KenyaEMR.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadTxmlTracker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

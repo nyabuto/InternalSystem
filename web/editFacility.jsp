@@ -307,6 +307,28 @@ success:function (data){
 }
 }); 
    });
+   
+   
+   
+   
+   function updateDatimUser(fieldpos,facilityid){
+       //updateDatimUser
+       var uname=$("#datimuser_"+fieldpos).val();
+       
+       var faci=$("#id_"+fieldpos).value;
+       
+     $.ajax({
+        url:"saveEditedFacilities?facilityID="+facilityid+"&&columnName=datim_userid&&data="+uname,
+        type:"post",
+        dataType:"html",
+        success:function(){
+     $("#saver").html("<font color=\"green\">Saved</font>");
+    }
+        });
+              
+       
+   }
+   
    </script>
    <!-- END JAVASCRIPTS -->   
 </body>

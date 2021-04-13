@@ -30,10 +30,10 @@ String data;
 String [] ones={"0","1"};
 String [] dsd_ta={"DSD","TA"};
 String data_htc,data_fp,data_pmtct,data_eid,data_art,data_vmmc,data_nutrition,data_gsn,data_lab,data_fp_integration,
-        data_care_dsd,data_art_dsd,data_maternity,data_art_support,data_pmtct_support,data_htc_support1,data_kmmp,data_gender,data_pep,data_blood_safety,data_tb,data_art_hv,data_htc_hv,data_pmtct_hv,data_active;
+        data_care_dsd,data_art_dsd,data_maternity,data_art_support,data_pmtct_support,data_htc_support1,data_kmmp,data_gender,data_pep,data_blood_safety,data_tb,data_art_hv,data_htc_hv,data_pmtct_hv,data_active,datimuser_data;
 
 String htc_checker,fp_checker,pmtct_checker,eid_checker,art_checker,vmmc_checker,nutrition_checker,gsn_checker,lab_checker,fp_integration_checker,
-        care_dsd_checker,art_dsd_checker,maternity_checker,art_support_checker,pmtct_support_checker,htc_support1_checker,kmmp_checker,gender_checker,pep_checker,blood_safety_checker,tb_checker,art_hv_checker,htc_hv_checker,pmtct_hv_checker,active_checker;
+        care_dsd_checker,art_dsd_checker,maternity_checker,art_support_checker,pmtct_support_checker,htc_support1_checker,kmmp_checker,gender_checker,pep_checker,blood_safety_checker,tb_checker,art_hv_checker,htc_hv_checker,pmtct_hv_checker,active_checker,datimuser;
 
 String oneslabel;
 int position;
@@ -46,7 +46,7 @@ int position;
           dbConn conn = new dbConn();
           
           data="<table>";position=0;
-          
+        
           
 data+="<thead><tr>"
 + "<th>NO</th>"
@@ -58,17 +58,17 @@ data+="<thead><tr>"
 + "<th>HTC</th>"
 + "<th>FP</th>"
 + "<th>PMTCT</th>"
-+ "<th>EID</th>"
+//+ "<th>EID</th>"
 + "<th>ART</th>"
-+ "<th>VMMC</th>"
+//+ "<th>VMMC</th>"
 + "<th>Nutrition</th>"
 + "<th>Care DSD</th>"
 + "<th>ART DSD</th>"
-+ "<th>KMMP</th>"
+//+ "<th>KMMP</th>"
 + "<th>Gender</th>"
 + "<th>PEP</th>"
 //+ "<th>Blood Safety</th>"
-+ "<th>TB</th>"
+//+ "<th>TB</th>"
 + "<th>GSN</th>"
 + "<th>Lab</th>"
 + "<th>FP Integ<br>ration</th>"
@@ -80,6 +80,7 @@ data+="<thead><tr>"
 + "<th>HTC_highvolume</th>"
 + "<th>PMTCT_highvolume</th>"
 + "<th>active</th>"
++ "<th>Datim User</th>"
         
         + "</tr></thead>";
           
@@ -87,10 +88,10 @@ data+="<thead><tr>"
           
           
           String getFacilities="SELECT county.County,district.DistrictNom,subpartnera.SubPartnerID,subpartnera.subPartnerNom,subpartnera.CentreSanteId,"
-  + "subpartnera.SP_ID,subpartnera.HTC,subpartnera.FP,subpartnera.PMTCT,subpartnera.EID,subpartnera.ART,subpartnera.VMMC,"
+  + " ifnull(subpartnera.SP_ID,0) as SP_ID ,subpartnera.HTC,subpartnera.FP,subpartnera.PMTCT,subpartnera.EID,subpartnera.ART,subpartnera.VMMC,"
   + "subpartnera.Nutrition,subpartnera.GSN,subpartnera.Lab,subpartnera.FP_Integration,subpartnera.Care_DSD,subpartnera.ART_DSD,"
   + "subpartnera.Maternity,subpartnera.ART_Support,subpartnera.PMTCT_Support,subpartnera.HTC_Support1,subpartnera.KMMP,"
-  + "subpartnera.Gender,subpartnera.PEP,subpartnera.Blood_Safety,subpartnera.TB,ART_highvolume,HTC_highvolume,PMTCT_highvolume,subpartnera.active"
+  + "subpartnera.Gender,subpartnera.PEP,subpartnera.Blood_Safety,subpartnera.TB,ART_highvolume,HTC_highvolume,PMTCT_highvolume,subpartnera.active, ifnull(datim_userid,'') as datim_userid "
                   + ""
                   + ""
 + " FROM subpartnera JOIN district ON subpartnera.DistrictID=district.DistrictID JOIN county ON district.countyID=county.CountyID "
@@ -98,12 +99,13 @@ data+="<thead><tr>"
             
  conn.rs=conn.st.executeQuery(getFacilities);
  while(conn.rs.next()){
+     
   htc_checker=fp_checker=pmtct_checker=eid_checker=art_checker=vmmc_checker=nutrition_checker=gsn_checker=lab_checker=fp_integration_checker=
-        care_dsd_checker=art_dsd_checker=maternity_checker=kmmp_checker=gender_checker=pep_checker=blood_safety_checker=tb_checker="";
+        care_dsd_checker=art_dsd_checker=maternity_checker=kmmp_checker=gender_checker=pep_checker=blood_safety_checker=tb_checker=datimuser_data="";
      
   data_htc=data_fp=data_pmtct=data_eid=data_art=data_vmmc=data_nutrition=data_gsn=data_lab=data_fp_integration=
         data_care_dsd=data_art_dsd=data_maternity=data_art_support=data_pmtct_support=data_htc_support1=
-        data_kmmp=data_gender=data_pep=data_blood_safety=data_tb=data_art_hv=data_htc_hv=data_pmtct_hv=data_active="";
+        data_kmmp=data_gender=data_pep=data_blood_safety=data_tb=data_art_hv=data_htc_hv=data_pmtct_hv=data_active=datimuser="";
   position++;   
 county=conn.rs.getString(1);
 sub_county=conn.rs.getString(2);
@@ -136,6 +138,9 @@ ART_HV=conn.rs.getString(28);
 HTC_HV=conn.rs.getString(29);
 PMTCT_HV=conn.rs.getString(30);
 ACTIVE=conn.rs.getString(31);
+datimuser=conn.rs.getString("datim_userid");
+
+
 
  if(htc!=null && htc.equals("1")){htc_checker="checked";} else{htc_checker="";}
 data_htc+="<input type=\"checkbox\" onchange=\"return updator('htc##"+position+"');\" name=\"htc_"+position+"\" id=\"htc##"+position+"\" style=\"width:20px;\" "+htc_checker+" >"; 
@@ -146,14 +151,14 @@ data_fp+="<input type=\"checkbox\" name=\"fp_"+position+"\" onchange=\"return up
  if(pmtct!=null && pmtct.equals("1")){pmtct_checker="checked";} else{pmtct_checker="";}
 data_pmtct+="<input type=\"checkbox\" name=\"pmtct_"+position+"\" onchange=\"return updator('pmtct##"+position+"');\" id=\"pmtct##"+position+"\" style=\"width:20px;\" "+pmtct_checker+" >"; 
 
- if(eid!=null && eid.equals("1")){eid_checker="checked";} else{eid_checker="";}
-data_eid+="<input type=\"checkbox\" name=\"eid_"+position+"\" onchange=\"return updator('eid##"+position+"');\" id=\"eid##"+position+"\" style=\"width:20px;\" "+eid_checker+" >"; 
+// if(eid!=null && eid.equals("1")){eid_checker="checked";} else{eid_checker="";}
+//data_eid+="<input type=\"checkbox\" name=\"eid_"+position+"\" onchange=\"return updator('eid##"+position+"');\" id=\"eid##"+position+"\" style=\"width:20px;\" "+eid_checker+" >"; 
 
  if(art!=null && art.equals("1")){art_checker="checked";} else{art_checker="";}
 data_art+="<input type=\"checkbox\" name=\"art_"+position+"\" onchange=\"return updator('art##"+position+"');\" id=\"art##"+position+"\" style=\"width:20px;\" "+art_checker+" >"; 
 
- if(vmmc!=null && vmmc.equals("1")){vmmc_checker="checked";} else{vmmc_checker="";}
-data_vmmc+="<input type=\"checkbox\" name=\"vmmc_"+position+"\" onchange=\"return updator('vmmc##"+position+"');\" id=\"vmmc##"+position+"\" style=\"width:20px;\" "+vmmc_checker+" >"; 
+// if(vmmc!=null && vmmc.equals("1")){vmmc_checker="checked";} else{vmmc_checker="";}
+//data_vmmc+="<input type=\"checkbox\" name=\"vmmc_"+position+"\" onchange=\"return updator('vmmc##"+position+"');\" id=\"vmmc##"+position+"\" style=\"width:20px;\" "+vmmc_checker+" >"; 
 
  if(nutrition!=null && nutrition.equals("1")){nutrition_checker="checked";} else{nutrition_checker="";}
 data_nutrition+="<input type=\"checkbox\" name=\"nutrition_"+position+"\" onchange=\"return updator('nutrition##"+position+"');\" id=\"nutrition##"+position+"\" style=\"width:20px;\"  "+nutrition_checker+" >"; 
@@ -176,8 +181,8 @@ data_art_dsd+="<input type=\"checkbox\" name=\"art_dsd_"+position+"\" onchange=\
  if(maternity!=null && maternity.equals("1")){maternity_checker="checked";} else{maternity_checker="";}
 data_maternity+="<input type=\"checkbox\" name=\"maternity_"+position+"\" onchange=\"return updator('maternity##"+position+"');\" style=\"width:20px;\" id=\"maternity##"+position+"\" "+maternity_checker+" >"; 
 
- if(kmmp!=null && kmmp.equals("1")){kmmp_checker="checked";} else{kmmp_checker="";}
-data_kmmp+="<input type=\"checkbox\" name=\"kmmp_"+position+"\" onchange=\"return updator('kmmp##"+position+"');\" style=\"width:20px;\" id=\"kmmp##"+position+"\" "+kmmp_checker+" >"; 
+// if(kmmp!=null && kmmp.equals("1")){kmmp_checker="checked";} else{kmmp_checker="";}
+//data_kmmp+="<input type=\"checkbox\" name=\"kmmp_"+position+"\" onchange=\"return updator('kmmp##"+position+"');\" style=\"width:20px;\" id=\"kmmp##"+position+"\" "+kmmp_checker+" >"; 
 
  if(gender!=null && gender.equals("1")){gender_checker="checked";} else{gender_checker="";}
 data_gender+="<input type=\"checkbox\" name=\"gender_"+position+"\" onchange=\"return updator('gender##"+position+"');\" style=\"width:20px;\" id=\"gender##"+position+"\" "+gender_checker+" >"; 
@@ -185,11 +190,11 @@ data_gender+="<input type=\"checkbox\" name=\"gender_"+position+"\" onchange=\"r
  if(pep!=null && pep.equals("1")){pep_checker="checked";} else{pep_checker="";}
 data_pep+="<input type=\"checkbox\" name=\"pep_"+position+"\" onchange=\"return updator('pep##"+position+"');\" style=\"width:20px;\" id=\"pep##"+position+"\" "+pep_checker+" >"; 
 
- if(blood_safety!=null && blood_safety.equals("1")){blood_safety_checker="checked";} else{blood_safety_checker="";}
-data_blood_safety+="<input type=\"checkbox\" name=\"blood_safety_"+position+"\" onchange=\"return updator('blood_safety##"+position+"');\" style=\"width:20px;\" id=\"blood_safety##"+position+"\" "+blood_safety_checker+" >"; 
+// if(blood_safety!=null && blood_safety.equals("1")){blood_safety_checker="checked";} else{blood_safety_checker="";}
+//data_blood_safety+="<input type=\"checkbox\" name=\"blood_safety_"+position+"\" onchange=\"return updator('blood_safety##"+position+"');\" style=\"width:20px;\" id=\"blood_safety##"+position+"\" "+blood_safety_checker+" >"; 
 
- if(tb!=null && tb.equals("1")){tb_checker="checked";} else{tb_checker="";}
-data_tb+="<input type=\"checkbox\" name=\"tb_"+position+"\" onchange=\"return updator('tb##"+position+"');\" id=\"tb##"+position+"\" style=\"width:20px;\" "+tb_checker+" >"; 
+// if(tb!=null && tb.equals("1")){tb_checker="checked";} else{tb_checker="";}
+//data_tb+="<input type=\"checkbox\" name=\"tb_"+position+"\" onchange=\"return updator('tb##"+position+"');\" id=\"tb##"+position+"\" style=\"width:20px;\" "+tb_checker+" >"; 
 
  if(ART_HV!=null && ART_HV.equals("1")){art_hv_checker="checked";} else{art_hv_checker="";}
 data_art_hv+="<input type=\"checkbox\" name=\"ART_highvolume_"+position+"\" onchange=\"return updator('ART_highvolume##"+position+"');\" id=\"ART_highvolume##"+position+"\" style=\"width:20px;\" "+art_hv_checker+" >"; 
@@ -202,6 +207,7 @@ data_pmtct_hv+="<input type=\"checkbox\" name=\"PMTCT_highvolume_"+position+"\" 
 
  if(ACTIVE!=null && ACTIVE.equals("1")){active_checker="checked";} else{active_checker="";}
 data_active+="<input type=\"checkbox\" name=\"active_"+position+"\" onchange=\"return updator('active##"+position+"');\" id=\"active##"+position+"\" style=\"width:20px;\" "+active_checker+" >"; 
+datimuser_data+="<input type=\"text\" style='width:60px;' name=\"datimuser_"+position+"\" onblur=\"updateDatimUser('"+position+"','"+id+"');\" id=\"datimuser_"+position+"\" style=\"width:20px;\" value="+datimuser+" >"; 
 
 
  data_art_support="<select style=\"width:65px;\" name=\"art_support_"+position+"\" id=\"art_support##"+position+"\" onchange=\"return updatorSelect('art_support##"+position+"');\">";
@@ -245,6 +251,7 @@ data_htc_support1+="<option value=\""+onesvalue+"\">"+onesvalue+"</option>";
  data_pmtct_support+="</select>";
  data_htc_support1+="</select>";
  
+   //eid,vmmc,kmmp,blood safety,tb
  
 data+="<tr id=\""+id+"\">"
 + "<td>"+position+"</td>"
@@ -256,17 +263,17 @@ data+="<tr id=\""+id+"\">"
 + "<td>"+data_htc+"</td>"
 + "<td>"+data_fp+"</td>"
 + "<td>"+data_pmtct+"</td>"
-+ "<td>"+data_eid+"</td>"
+//+ "<td>"+data_eid+"</td>"
 + "<td>"+data_art+"</td>"
-+ "<td>"+data_vmmc+"</td>"
+//``+ "<td>"+data_vmmc+"</td>"
 + "<td>"+data_nutrition+"</td>"
 + "<td>"+data_care_dsd+"</td>"
 + "<td>"+data_art_dsd+"</td>"
-+ "<td>"+data_kmmp+"</td>"
+//+ "<td>"+data_kmmp+"</td>"
 + "<td>"+data_gender+"</td>"
 + "<td>"+data_pep+"</td>"
 //+ "<td>"+data_blood_safety+"</td>"
-+ "<td>"+data_tb+"</td>"
+//+ "<td>"+data_tb+"</td>"
 + "<td>"+data_gsn+"</td>"
 + "<td>"+data_lab+"</td>"
 + "<td>"+data_fp_integration+"</td>"
@@ -278,6 +285,7 @@ data+="<tr id=\""+id+"\">"
 + "<td>"+data_htc_hv+"</td>"
 + "<td>"+data_pmtct_hv+"</td>"
 + "<td>"+data_active+"</td>"
++ "<td>"+datimuser_data+"</td>"
 
         + "</tr>";
 

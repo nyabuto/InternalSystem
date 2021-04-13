@@ -274,8 +274,8 @@ public ResultSet GetForm1aData(dbConn conn, String Yearmonth_coma_separated, Str
                     + "attributeoptioncomboname "
                     + " from "+maintablename+" mt "
                     + " join subpartnera sp on sp.SubPartnerID = mt.facility_id"
-                   + "  left join dhis2_businessrule br on br.producerdeid=mt.indicator_id  "
-                    + "where sp.active=1  "+where+" and dataset='Form 1 A' and producerdeid is not null   group by datarecordid ";
+                    +" left join dhis2_businessrule br on br.producerdeid=mt.indicator_id  "
+                    +"   where sp.active=1  "+where+" and dataset='Form 1 A' and producerdeid is not null   group by datarecordid ";
             
                 System.out.println(""+qry);
             
@@ -369,6 +369,7 @@ public JSONObject toJsonString (dbConn conn,ResultSet datavaluesres, ArrayList c
                     
                     colpos++;
                     //loop each row
+                    //categres is an arraylist containing both imis column name and DHIS2 category option combo 
                     String[] cols=categres.get(x).toString().split(" ");
                     
                     String deid=conn.rs1.getString("consumerdeid");
