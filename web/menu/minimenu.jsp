@@ -27,6 +27,18 @@
       $(this).addClass("active");
     });
    });
+   
+  
+    var elem =$('#emrstatus');
+    setInterval(function() {
+        if (elem.css('visibility') === 'hidden') {
+            elem.css('visibility', 'visible');
+        } else {
+            elem.css('visibility', 'hidden');
+        }    
+    }, 500);
+
+
             
         </script>
         
@@ -318,12 +330,20 @@
                <span class="title">Training Module</span>
                </a>
             </li>
-             <li class="has-sub">
+            
+            <li  class="has-sub">
+                <a id="emrstatus" href="EMR.jsp">
+                <i class="icon-align-justify"></i>
+               <span class="title"><font color="red"><b>EMR Status</b></font></span>
+               </a>
+            </li>
+            
+<!--             <li class="has-sub">
                 <a href="pprev_index.jsp">
                 <i class="icon-stop"></i>
                <span class="title">PP PREV</span>
                </a>
-            </li>
+            </li>-->
             <li class="">
                <a href="logout.jsp">
                <i class="icon-user"></i> 

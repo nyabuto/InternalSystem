@@ -1461,6 +1461,22 @@
         <servlet-name>downloadTxmlTracker</servlet-name>
         <servlet-class>TX_ML.downloadTxmlTracker</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getPeriod</servlet-name>
+        <servlet-class>EMR.getPeriod</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadEMRFacilities</servlet-name>
+        <servlet-class>EMR.loadEMRFacilities</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveEmrStatus</servlet-name>
+        <servlet-class>EMR.saveEmrStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>retrieveSavedData</servlet-name>
+        <servlet-class>EMR.retrieveSavedData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2920,6 +2936,22 @@
     <servlet-mapping>
         <servlet-name>downloadTxmlTracker</servlet-name>
         <url-pattern>/downloadTxmlTracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getPeriod</servlet-name>
+        <url-pattern>/getPeriod</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadEMRFacilities</servlet-name>
+        <url-pattern>/loadEMRFacilities</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveEmrStatus</servlet-name>
+        <url-pattern>/saveEmrStatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>retrieveSavedData</servlet-name>
+        <url-pattern>/retrieveSavedData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
