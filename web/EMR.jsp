@@ -12,10 +12,11 @@
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
 
-<!-- BEGIN HEAD -->
-<head>
+   <html>
+
+   <!-- BEGIN HEAD -->
+   <head>
    <meta charset="utf-8" />
    <title>EMR Status</title>
    <link rel="shortcut icon" href="images/imis.png"/>
@@ -42,23 +43,24 @@
    <link rel="stylesheet" href="assets/data-tables/DT_bootstrap.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-daterangepicker/daterangepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
-<link rel="stylesheet" href="select2/css/select2.css">
-<link rel="stylesheet" href="css/animate.css">
+   <link rel="stylesheet" href="select2/css/select2.css">
+   <link rel="stylesheet" href="css/animate.css">
 
 
                 
-                <style>
+<style>
                     
-                    [data-notify="progressbar"] {
+        [data-notify="progressbar"] 
+        {
 	margin-bottom: 0px;
 	position: absolute;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
 	height: 5px;
-}
+        }
                     
-                </style>
+</style>
                 
   
 </head>
@@ -689,7 +691,8 @@ selectoutput();
 
 
 
-function getFacilities()  {
+function getFacilities()  
+{
     var ym=202003;
      
      //.find(":selected").text();
