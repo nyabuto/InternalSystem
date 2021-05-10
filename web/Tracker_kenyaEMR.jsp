@@ -253,7 +253,7 @@
     <div class="footer">
     
      
-     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; Afya Nyota Ya Bonde | USAID  Host Name :<b><i> </i></b> &nbsp;   Database Name :<i> </i></h4>
+     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; USAID Tujenge Jamii | USAID  Host Name :<b><i> </i></b> &nbsp;   Database Name :<i> </i></h4>
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>

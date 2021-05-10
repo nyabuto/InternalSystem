@@ -233,7 +233,7 @@ dbConn conn = new dbConn();
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; Afya Nyota Ya Bonde | USAID <%=year%>.
+       &copy; USAID Tujenge Jamii | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>

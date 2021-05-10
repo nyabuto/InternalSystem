@@ -328,7 +328,7 @@ legend.formatter {
 int year= cal.get(Calendar.YEAR);              
 
 %>
-               <p align="center" style=" font-size: 18px;"> &copyInternal System, Afya Nyota ya Bonde | USAID <%=year%>.</p>
+               <p align="center" style=" font-size: 18px;"> &copyInternal System, USAID Tujenge Jamii | USAID <%=year%>.</p>
            
  
 

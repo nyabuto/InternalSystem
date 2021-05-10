@@ -158,7 +158,7 @@ int year= cal.get(Calendar.YEAR);
 
 %>
 <br><br>
-               <p align="center" style=" font-size: 18px;"> &copy IMIS - Afya Nyota Ya Bonde | USAID <%=year%></p>
+               <p align="center" style=" font-size: 18px;"> &copy IMIS - USAID Tujenge Jamii | USAID <%=year%></p>
             </div>
   </div>
   <!-- END COPYRIGHT -->
