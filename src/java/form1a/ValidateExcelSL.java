@@ -171,7 +171,7 @@ public class ValidateExcelSL extends HttpServlet {
         //System.out.println("rules :"+getRules);
         conn.rs = conn.st.executeQuery(getRules);
         while(conn.rs.next()){
-            System.out.println("Tuko wapi value ni "+tukowapi);
+            //System.out.println("Tuko wapi value ni "+tukowapi);
          tukowapi++;
             session.setAttribute("form1a", "<b>Validating: "+conn.rs.getString("section_name")+" "+tukowapi+"/"+rowCount+"</b>");
         session.setAttribute("form1a_count", ((tukowapi)/rowCount)*100);
@@ -263,7 +263,7 @@ public class ValidateExcelSL extends HttpServlet {
                 } 
                 }
            
-        
+        System.out.println("get Facility Basics:::"+yearmonth);
         return getFacilityBasics(facility_id,yearmonth,error_counter,warnings_counter,jarray);
     }
     
@@ -357,9 +357,11 @@ public class ValidateExcelSL extends HttpServlet {
       
       String query = 
         "SELECT county.County AS County, district.DistrictNom AS SubCounty, subpartnera.SubPartnerNom AS HealthFacility, subpartnera.CentreSanteId AS MFLCode,\n" +
-        "substr('"+yearmonth+"',1,4) AS Year,monthname(str_to_date(substr('"+yearmonth+"',5,6),'%m')) as Month \n" +
+        "substr('"+yearmonth+"',1,4) AS Year,ifnull(monthname(str_to_date(substr('"+yearmonth+"',5,6),'%m')),'"+yearmonth+"') as Month \n" +
         "FROM subpartnera LEFT JOIN district ON subpartnera.DistrictID=district.DistrictID LEFT JOIN county ON district.CountyID=county.CountyID " +
         "WHERE SubPartnerID="+facilityID;
+        System.out.println(""+query);
+      
       conn.rs = conn.st.executeQuery(query);
       ResultSetMetaData metaData = conn.rs.getMetaData();
       int column_count = metaData.getColumnCount(); //number of column
