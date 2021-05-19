@@ -775,7 +775,7 @@ else{
                     session.setAttribute("form1a", "<b>sending FPT Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,EOloo@fhi360.org,DJuma@fhi360.org,Ekaunda@fhi360.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,EOloo@fhi360.org,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke","Admin");
                     
                     //send to user
                     if(!email.equals(""))
