@@ -1477,6 +1477,14 @@
         <servlet-name>retrieveSavedData</servlet-name>
         <servlet-class>EMR.retrieveSavedData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadperiods</servlet-name>
+        <servlet-class>Management.loadperiods</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadLockedPeriod</servlet-name>
+        <servlet-class>Management.UploadLockedPeriod</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2952,6 +2960,14 @@
     <servlet-mapping>
         <servlet-name>retrieveSavedData</servlet-name>
         <url-pattern>/retrieveSavedData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadperiods</servlet-name>
+        <url-pattern>/loadperiods</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadLockedPeriod</servlet-name>
+        <url-pattern>/UploadLockedPeriod</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

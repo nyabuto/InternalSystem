@@ -216,7 +216,7 @@
                  <li ><a href="refreshDHIS2.jsp"><i class="icon-plus"></i>DHIS2 Data Refresh</a></li>
                  <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Your Account</a></li>
                  <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
-                 <li ><a href="LockData.jsp"><i class="icon-lock"></i>Lock  Data Editing </a></li>                  
+                 <li ><a href="datalock.jsp"><i class="icon-lock"></i>Lock  Data Editing </a></li>                  
                  <li ><a href="editFacility.jsp"><i class="icon-hospital"></i>Facility management</a></li>
                  <li ><a href="ManageRatios.jsp"><i class="icon-edit"></i>Manage Ratios</a></li>
                  <li> <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a> </li>

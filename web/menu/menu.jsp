@@ -248,7 +248,7 @@
                   
                   <li ><a href="refreshDHIS2.jsp"><i class="icon-plus"></i>DHIS2 Data Refresh</a></li>
                   <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
-                  <li ><a href="LockData.jsp"><i class="icon-plus"></i>Lock / Un lock Editing </a></li>
+                  <li ><a href="datalock.jsp"><i class="icon-plus"></i>Lock / Un lock Editing </a></li>
                   <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                   <li ><a href="editFacility.jsp"><i class="icon-edit"></i>facility management</a></li>
                   <li ><a href="ManageRatios.jsp"><i class="icon-edit"></i>Manage Ratios</a></li>

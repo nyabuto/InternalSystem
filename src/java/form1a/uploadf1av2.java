@@ -149,7 +149,7 @@ public class uploadf1av2 extends HttpServlet {
             
             
             //GET ALLOWED PERIOD AND FACILITIES
-            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads";
+            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads where form='form1a'";
             conn.rs = conn.st.executeQuery(getinfo);
             if(conn.rs.next()){
               periods = conn.rs.getString("periods");
