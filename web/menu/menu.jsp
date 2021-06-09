@@ -71,7 +71,7 @@
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
                 <li >   <%if(session.getAttribute("userAccess")!=null){%>   
-                  <li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>
+                  <!--<li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>-->
                   
                   
                    <%} else {%> 
@@ -363,10 +363,18 @@
                </a>
             </li>
 <li  class="has-sub">
-                <a id="emrstatus" href="EMR.jsp">
+                <a id="emrstatus" href="#">
                 <i class="icon-align-justify"></i>
-               <span class="title"><font color="red"><b>EMR Status</b></font></span>
+               <span class="title"><font color="green"><b>EMR Status</b></font></span>
                </a>
+     <ul class="sub">
+                             
+   <li > <a href="EMR.jsp"><i class="icon-align-justify"></i>EMR Status Entry Form</a></li>                 
+   <li > <a href="emr_status_report.jsp"><i class="icon-filter"></i>EMR Status Submitted Reports</a></li> 
+   <li > <a href="emr_status_tracker.jsp"><i class="icon-flag"></i>EMR Status Missing Reports</a></li> 
+   
+</ul>
+    
             </li>
             <li class="">
                <a href="logout.jsp">

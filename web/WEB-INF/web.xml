@@ -1485,6 +1485,14 @@
         <servlet-name>UploadLockedPeriod</servlet-name>
         <servlet-class>Management.UploadLockedPeriod</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>reportEmrStatus</servlet-name>
+        <servlet-class>EMR.reportEmrStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Missng_EMR_status</servlet-name>
+        <servlet-class>EMR.Missng_EMR_status</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2968,6 +2976,14 @@
     <servlet-mapping>
         <servlet-name>UploadLockedPeriod</servlet-name>
         <url-pattern>/UploadLockedPeriod</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reportEmrStatus</servlet-name>
+        <url-pattern>/reportEmrStatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Missng_EMR_status</servlet-name>
+        <url-pattern>/Missng_EMR_status</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
