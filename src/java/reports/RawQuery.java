@@ -5,6 +5,7 @@
  */
 package reports;
 
+import General.IdGenerator2;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,12 +19,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -56,25 +63,28 @@ int row,errors;
        row=errors=0;
        message = "";
        
-       XSSFWorkbook wb = new XSSFWorkbook();
+       //XSSFWorkbook wb = new XSSFWorkbook();
+       
+       SXSSFWorkbook wb = new SXSSFWorkbook(1000);
+       
 
-        XSSFFont font = wb.createFont();
-        font.setFontHeightInPoints((short) 16);
-        font.setFontName("Cambria");
+        Font font = wb.createFont();
+        //font.setFontHeightInPoints((short) 16);
+        font.setFontName("Daytona");
         font.setColor((short) 0000);
 
         CellStyle style = wb.createCellStyle();
         style.setFont(font);
         style.setAlignment(XSSFCellStyle.ALIGN_CENTER);
 
-        XSSFCellStyle styleHeader = wb.createCellStyle();
+        CellStyle styleHeader = wb.createCellStyle();
         styleHeader.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
-        styleHeader.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        styleHeader.setBorderTop(BorderStyle.THIN);
-        styleHeader.setBorderBottom(BorderStyle.THIN);
-        styleHeader.setBorderLeft(BorderStyle.THIN);
-        styleHeader.setBorderRight(BorderStyle.THIN);
-        styleHeader.setAlignment(HorizontalAlignment.CENTER);
+        styleHeader.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        styleHeader.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        styleHeader.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        styleHeader.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        styleHeader.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        styleHeader.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
         
         styleHeader.setBottomBorderColor(HSSFColor.BLUE.index);
         styleHeader.setTopBorderColor(HSSFColor.BLUE.index);
@@ -82,58 +92,58 @@ int row,errors;
         styleHeader.setRightBorderColor(HSSFColor.BLUE.index);
         
 
-        XSSFFont fontHeader = wb.createFont();
+        Font fontHeader = wb.createFont();
         fontHeader.setColor(HSSFColor.BLACK.index);
-        fontHeader.setBold(true);
-        fontHeader.setFamily(FontFamily.MODERN);
-        fontHeader.setFontName("Cambria");
-        fontHeader.setFontHeight(13);
+        fontHeader.setBoldweight((short)3);
+        //fontHeader.setFamily(FontFamily.MODERN);
+        fontHeader.setFontName("Daytona");
+        //fontHeader.setFontHeight((short)12);
         styleHeader.setFont(fontHeader);
         styleHeader.setWrapText(true);
 
-        XSSFCellStyle stylex = wb.createCellStyle();
+        CellStyle stylex = wb.createCellStyle();
         stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylex.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        stylex.setBorderTop(BorderStyle.THIN);
-        stylex.setBorderBottom(BorderStyle.THIN);
-        stylex.setBorderLeft(BorderStyle.THIN);
-        stylex.setBorderRight(BorderStyle.THIN);
-        stylex.setAlignment(HorizontalAlignment.LEFT);
+        stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stylex.setAlignment(HSSFCellStyle.ALIGN_LEFT);
         
-        stylex.setBottomBorderColor(HSSFColor.BLUE.index);
-        stylex.setTopBorderColor(HSSFColor.BLUE.index);
-        stylex.setLeftBorderColor(HSSFColor.BLUE.index);
-        stylex.setRightBorderColor(HSSFColor.BLUE.index);
+        stylex.setBottomBorderColor(HSSFColor.GREEN.index);
+        stylex.setTopBorderColor(HSSFColor.GREEN.index);
+        stylex.setLeftBorderColor(HSSFColor.GREEN.index);
+        stylex.setRightBorderColor(HSSFColor.GREEN.index);
         
 
-        XSSFFont fontx = wb.createFont();
+       Font fontx = wb.createFont();
         fontx.setColor(HSSFColor.BLACK.index);
-        fontx.setBold(true);
-        fontx.setFamily(FontFamily.MODERN);
-        fontx.setFontName("Cambria");
+       // fontx.setBoldweight(true);
+        //fontx.setFamily(FontFamily.MODERN);
+        fontx.setFontName("Daytona");
         stylex.setFont(fontx);
         stylex.setWrapText(true);
 
-        XSSFCellStyle stborder = wb.createCellStyle();
-        stborder.setBorderTop(BorderStyle.THIN);
-        stborder.setBorderBottom(BorderStyle.THIN);
-        stborder.setBorderLeft(BorderStyle.THIN);
-        stborder.setBorderRight(BorderStyle.THIN);
-        stborder.setAlignment(HorizontalAlignment.LEFT);
+       CellStyle stborder = wb.createCellStyle();
+        stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        stborder.setAlignment(HSSFCellStyle.ALIGN_LEFT);
         
-        stborder.setBottomBorderColor(HSSFColor.BLUE.index);
-        stborder.setTopBorderColor(HSSFColor.BLUE.index);
-        stborder.setLeftBorderColor(HSSFColor.BLUE.index);
-        stborder.setRightBorderColor(HSSFColor.BLUE.index);
+        stborder.setBottomBorderColor(HSSFColor.GREEN.index);
+        stborder.setTopBorderColor(HSSFColor.GREEN.index);
+        stborder.setLeftBorderColor(HSSFColor.GREEN.index);
+        stborder.setRightBorderColor(HSSFColor.GREEN.index);
 
-        XSSFFont font_cell = wb.createFont();
+        Font font_cell = wb.createFont();
         font_cell.setColor(HSSFColor.BLACK.index);
-        font_cell.setFamily(FontFamily.MODERN);
-        font_cell.setFontName("Cambria");
+       // font_cell.setFamily(FontFamily.MODERN);
+        font_cell.setFontName("Daytona");
         stborder.setFont(font_cell);
-        stborder.setWrapText(true);
+        stborder.setWrapText(false);
 
-        XSSFSheet Sheet = wb.createSheet("IMIS Adhoc Query Output");
+        Sheet Sheet = wb.createSheet("IMIS Adhoc Query Output");
         
        // check query
        if(query.contains("insert") || query.contains("update") || query.contains("replace") || query.contains("into")  || query.contains("user") || query.contains("drop") || query.contains("truncate")){
@@ -143,7 +153,7 @@ int row,errors;
        }
        else{
 if(query.contains("select ") || query.contains("call ")){
-  XSSFRow RowTitles = Sheet.createRow(row);  
+  Row RowTitles = Sheet.createRow(row);  
     try {
         conn.rs = conn.st.executeQuery(query);
        String value;
@@ -154,7 +164,7 @@ if(query.contains("select ") || query.contains("call ")){
             for (int i = 0; i < col_count; i++) {
                 Sheet.setColumnWidth(col_count, 5000);
                 value = metaData.getColumnLabel(i + 1);
-                XSSFCell cell = RowTitles.createCell(i);
+                Cell cell = RowTitles.createCell(i);
                 if (isNumeric(value)) {
                     cell.setCellValue(Integer.parseInt(value));
                 } else {
@@ -168,11 +178,11 @@ if(query.contains("select ") || query.contains("call ")){
                // System.out.println("Name : " + conn.rs.getString(3));
                 row++;
                 //System.out.println("Row pos : .. " + row);
-                XSSFRow RowData = Sheet.createRow(row);
+                Row RowData = Sheet.createRow(row);
 
                 for (int i = 0; i < col_count; i++) { // read and output data
                     value = conn.rs.getString(i + 1);
-                    XSSFCell cell = RowData.createCell(i);
+                    Cell cell = RowData.createCell(i);
 
                     if (isNumeric(value)) {
                         try{
@@ -194,15 +204,20 @@ if(query.contains("select ") || query.contains("call ")){
             }
           
           for (int e = 0; e < col_count; e++) {
-                Sheet.autoSizeColumn(e);
+                //Sheet.autoSizeColumn(e,false);
             }
 
             Sheet.setDisplayGridlines(false);
         
         //get data
         
-        System.out.println("query a success"); 
-          
+        System.out.println("Imis Adhoc query:: "+query_original); 
+         
+        if(session.getAttribute("username")!=null)
+        {           
+          System.out.println("Query run by : "+session.getAttribute("username").toString());
+        
+        }
         
         
     } catch (SQLException ex) {
@@ -226,13 +241,17 @@ message="There is nothing to be executed in this query. Review it and try execut
     if(errors==0){
        session.removeAttribute("errors");
      
+        IdGenerator2 ig= new IdGenerator2();
+        
+        String dt=ig.timestamp().replace(":","_").replace(" ","").replace("-","_").replace(".","_");
+       
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
         byte[] outArray = outByteStream.toByteArray();
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=Query_Output.xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=IMIS_Adhoc_Query_"+dt+".xlsx");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
         outStream.flush();     

@@ -176,7 +176,7 @@ String startdate="2020-04-01";
         
         XSSFRow rw0=shet.createRow(1);
         XSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(shet.getSheetName()+" for Period "+startdate+" and "+enddate);
+                    cell.setCellValue(shet.getSheetName()+" for Period "+enddate);
                     cell.setCellStyle(style);
         shet.addMergedRegion(new CellRangeAddress(1, 1, 0,10));
                     
@@ -292,7 +292,7 @@ rw.setHeightInPoints(32);
         IdGenerator IG = new IdGenerator();
         String createdOn = IG.CreatedOn();
 
-        System.out.println("" + "KenyaEMRTracker_reports_Gen_" + createdOn.trim() + ".xlsx");
+        System.out.println("" + "EMR_Status_Tracker_reports_Gen_" + createdOn.trim() + ".xlsx");
 
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
@@ -300,7 +300,7 @@ rw.setHeightInPoints(32);
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=" + "KenyaEMR_Tracker_rpt_from_"+startdate+"_to_"+enddate+"__gen_" + createdOn.trim() + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "EMRStatus_Tracker_rpt_for_"+enddate+"__gen_" + createdOn.trim() + ".xlsx");
          response.setHeader("Set-Cookie","fileDownload=true; path=/");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);

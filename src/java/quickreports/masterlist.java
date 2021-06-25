@@ -120,22 +120,33 @@ public class masterlist extends HttpServlet {
         }
         dbConn conn = new dbConn();
         //========Query 1=================
-        String mflistname="Afya Nyota ya Bonde ";
+        String mflistname="USAID Tujenge Jamii ";
         String detailedprocedurename="rpt_masterlist";
         String summaryprocedurename="rpt_masterlist_summary";
          mergerow="14";
-         if(year.equals("")){
-         mflistname=" Afya Nyota ya Bonde ";
+         if(year.equals(""))
+         {
+         mflistname=" USAID Tujenge Jamii ";
          }
          else
         //APHIAPLUS facility Details
-        if(new Integer(year)<2018){
+        if(new Integer(year)<2018)
+        {
          mflistname="APHIAPLUS Nuru Ya Bonde";
          detailedprocedurename="rpt_masterlist_aphia ";
          summaryprocedurename="rpt_masterlist_summary_aphia";
-         mergerow="12";
+         mergerow="12";        
+        }
+         
+        else if(new Integer(year)>=2019 && new Integer(year)<2021)
+        {
+         mflistname="Afya Nyota Ya Bonde";
+          detailedprocedurename="rpt_masterlist";
+         summaryprocedurename="rpt_masterlist_summary";
+         //mergerow="12";
         
         }
+         
         HSSFRow rw0=shet.createRow(1);
         HSSFCell cell = rw0.createCell(0);
                     cell.setCellValue(mflistname+" Supported Sites Summary  and Distribution "+year);

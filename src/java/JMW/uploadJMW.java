@@ -3,12 +3,11 @@ Notes: This raw data is for positive EID. The data doesnt have age and sex
 Age and sex should be gotten from the eid tested raw data during the importing of the raw data positives into the eid_datim_output table.
 
  */
-package form1a;
+package JMW;
 
-import DHIS2.dhisconfig;
-import DHIS2.pushDataToDHIS2;
 import General.IdGenerator;
 import database.dbConn;
+import form1a.ValidateExcelSL;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -17,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -70,7 +68,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1av43 extends HttpServlet {
+public class uploadJMW extends HttpServlet {
 
  
 
@@ -165,35 +163,36 @@ public class uploadf1av43 extends HttpServlet {
              dbConn conn = new dbConn();
              
              
-            String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.3";
-            conn.rs=conn.st.executeQuery(getVersion);
+            //String getVersion="select version from f1a_version where active=1";
+            String activeversion = "Jua Mtoto Wako Reporting Template  version 1.0.0";
+                                    
+            //conn.rs=conn.st.executeQuery(getVersion);
             
-            while(conn.rs.next()){
-           //activeversion=conn.rs.getString(1); 
+//            while(conn.rs.next()){
+//           //activeversion=conn.rs.getString(1); 
+//            
+//                                 }
             
-                                 }
+            String dbname = "upload_jmw_temp";
             
-            String dbname = "fas_temp";
-            
-           session.setAttribute("form1a", "<b>Checking F1a Version</b>");
+           session.setAttribute("form1a", "<b>Checking JMW Version</b>");
         session.setAttribute("form1a_count", 1);  
             
             HashMap<String,String> uploaderdetails=getUsers(conn, user_id); 
             
             
               fullname = uploaderdetails.get("name");
-                    email =  uploaderdetails.get("email");
+              email =  uploaderdetails.get("email");
             
             //GET ALLOWED PERIOD AND FACILITIES
-            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads where form='form1a'";
+            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads where form='fpt'";
             conn.rs = conn.st.executeQuery(getinfo);
             if(conn.rs.next()){
               periods = conn.rs.getString("periods");
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "uploadf1a.jsp";
+            nextpage = "jmw_upload.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -220,18 +219,20 @@ public class uploadf1av43 extends HttpServlet {
                     fileNameCopy += fileName + ",";
                     part.write(uploadFilePath + File.separator + fileName);
                     
-                    if (!fileName.endsWith(".xlsx")) {
+                    if (!fileName.endsWith(".xlsx")) 
+                    {
                         
-                        nextpage = "uploadf1a.jsp";
+                        nextpage = "jmw_upload.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
                 }
                 //}
                 
-                if (!fileName.endsWith(".xlsx")) {
+                if (!fileName.endsWith(".xlsx")) 
+                {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "uploadf1a.jsp";
+                    nextpage = "jmw_upload.jsp";
                 } else {
                     
                     //start reading the contents
@@ -242,7 +243,7 @@ public class uploadf1av43 extends HttpServlet {
                         //System.out.println("Tunaanza");
                         full_path = fileSaveDir.getAbsolutePath() + "/" + fileName; //end of checking if excel file is valid
                         System.out.println("the saved file directory is  :  " + full_path);
-                        session.setAttribute("form1a", "<b>Uploading F1a File</b>");
+                        session.setAttribute("form1a", "<b>Uploading JMW File</b>");
                         session.setAttribute("form1a_count", 20);
                         
                         FileInputStream fileInputStream = new FileInputStream(full_path);
@@ -250,7 +251,7 @@ public class uploadf1av43 extends HttpServlet {
                         XSSFWorkbook workbook = new XSSFWorkbook(bfs);
                         int rowCount=245;
                         
-                        String rn="select count(id) from fas_indicators where active_old_v43=1 and dataset='form1a'";
+                        String rn="select count(id) from jmw_indicators where is_active=1 and dataset='jmw'";
                         
                         conn.rs=conn.st.executeQuery(rn);
                         
@@ -274,7 +275,7 @@ public class uploadf1av43 extends HttpServlet {
                           int tukowapi=6;
                             
 //skip instructions page
-if (!sheetname.equals("InstructionsForm1A")) {
+if (!sheetname.equals("Instructions")) {
     
     //This is a temporary process. there a template that has two additional rows by mistake that should be corrected
     //we expect for a normal template version 4.0.3, the first cell should start at point 21
@@ -282,23 +283,11 @@ if (!sheetname.equals("InstructionsForm1A")) {
     
     String indexcellstarting="";
     //get basic period and orgunit details
-    XSSFCell indexcell = worksheet.getRow(23).getCell((short) 2);
+  //  XSSFCell indexcell = worksheet.getRow(23).getCell((short) 2);
     
-    if (indexcell.getCellType() == 1) {
-        indexcellstarting = indexcell.getStringCellValue();
-    }
+       
+     Poirowname="poi_row_no";   
     
-    if(indexcellstarting!=null){
-    if(indexcellstarting.equals("F01-01"))
-    {
-    Poirowname="poi_row_no_v431";
-    }
-    else 
-    {    
-     Poirowname="poi_row_no_v432";   
-    }
-    
-    }
     
     System.out.println("Poi row cell ni "+Poirowname);
     
@@ -317,17 +306,17 @@ if (!sheetname.equals("InstructionsForm1A")) {
         mflcode = mflcell.getStringCellValue();
     }
     
-    XSSFCell subcountycell = worksheet.getRow(0).getCell((short) 10);
-    if (subcountycell.getCellType() == 1) {
-        subcounty = subcountycell.getStringCellValue();
-    }
+//    XSSFCell subcountycell = worksheet.getRow(0).getCell((short) 10);
+//    if (subcountycell.getCellType() == 1) {
+//        subcounty = subcountycell.getStringCellValue();
+//    }
     
-    XSSFCell countycell = worksheet.getRow(0).getCell((short) 19);
-    if (countycell.getCellType() == 1) {
-        county = countycell.getStringCellValue();
-    }
+//    XSSFCell countycell = worksheet.getRow(0).getCell((short) 19);
+//    if (countycell.getCellType() == 1) {
+//        county = countycell.getStringCellValue();
+//    }
     
-    XSSFCell monthcell = worksheet.getRow(0).getCell((short) 24);
+    XSSFCell monthcell = worksheet.getRow(0).getCell((short) 12);
     
     if (monthcell.getCellType() == 0) {
         month = "" + (int) monthcell.getNumericCellValue();
@@ -335,7 +324,7 @@ if (!sheetname.equals("InstructionsForm1A")) {
         month = monthcell.getStringCellValue();
     }
     
-    XSSFCell yearcell = worksheet.getRow(0).getCell((short) 26);
+    XSSFCell yearcell = worksheet.getRow(0).getCell((short) 14);
     
     if (yearcell.getCellType() == 0) {
         year = (int) yearcell.getNumericCellValue();
@@ -378,24 +367,10 @@ colskey.add("m_14");
 colskey.add("f_14");
 colskey.add("m_19");
 colskey.add("f_19");
-colskey.add("m_24");
-colskey.add("f_24");
-colskey.add("m_29");
-colskey.add("f_29");
-colskey.add("m_34");
-colskey.add("f_34");
-colskey.add("m_39");
-colskey.add("f_39");
-colskey.add("m_44");
-colskey.add("f_44");
-colskey.add("m_49");
-colskey.add("f_49");
-colskey.add("m_50");
-colskey.add("f_50");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
-String supported_services = " WHERE (active_old_v43=1 ) && ("+Poirowname+" is not null )  ";
+String supported_services = " WHERE (is_active=1 ) && ("+Poirowname+" is not null )  ";
 
 String support_column_name, support_column_value;
 int num_serv_supported = 0;
@@ -405,7 +380,8 @@ System.out.println("" + get_supported_service);
 conn.rs = conn.st.executeQuery(get_supported_service);
 ResultSetMetaData metaData = conn.rs.getMetaData();
 int col_count = metaData.getColumnCount(); //number of column
-if (conn.rs.next()) {
+if (conn.rs.next()) 
+{
     supported_services += " AND (";
     for (int i = 1; i <= col_count; i++) {
         support_column_name = metaData.getColumnLabel(i);
@@ -431,16 +407,16 @@ if (conn.rs.next()) {
 //System.out.println("Supported services : " + supported_services);
 
 //___________________Read Active and Supported Indicators Only______________________
-// --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing fas_indicators table
+// --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing jmw_indicators table
 //--we will fetch a list of the indicators and the respective row no. then use the result set to tell us in which row of the uploaded excel template to get data for each indicator element.
 //--Any time there is a row-wise change in the excel upload file(including insertoing a new row),
-//there is need to update the column poi_row_no in the table fas_indicators accordingly
+//there is need to update the column poi_row_no in the table jmw_indicators accordingly
 String table = "";
 String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " and dataset='form1a' order by order_no ";
+String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM jmw_indicators " + supported_services + " and dataset='jmw' order by order_no ";
 
 System.out.println("__"+getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
@@ -470,7 +446,8 @@ while (conn.rs2.next()) {
          id = yearmonth + "_" + subpartnerid + "_" + indicatorid;
         insert += " id='" + id + "',facility_id='" + subpartnerid + "',indicator_id='" + indicatorid + "',yearmonth='" + yearmonth + "',";
         
-        for (int d = 0; d < colskey.size(); d++) {
+        for (int d = 0; d < colskey.size(); d++) 
+        {
             
             String val = "";
             
@@ -629,7 +606,7 @@ while (conn.rs2.next()) {
         
     } //end of try
     catch (SQLException ex) {
-        Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
     }
     
     
@@ -638,14 +615,14 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.3 <br>";
+        failed_reason+= "Failed: You have used Wrong JMW template version "+excelversion+" . Expected Version is 1.0.0 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.3 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 1.0.0 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
         }
-        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"gettemplate.jsp\\\">download new template\"";
+        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"jmw_getTemplates.jsp\\\">download new template\"";
         if (!msgal.contains(ujumbe)) 
         {
             msgal.add(ujumbe);
@@ -691,7 +668,7 @@ else{
         maildetails.put("fn"+mailstosent, excelfilename);
         maildetails.put("fulln"+mailstosent, fullname);
         
-        System.out.println("F1 file upload for  : "+facilityName+" Status: "+uploadstatus);
+        System.out.println("FPT file upload for  : "+facilityName+" Status: "+uploadstatus);
         
         issentexcel = true;
         //SendF1excel(facilityName, uploadstatus , full_path, excelfilename, fullname);
@@ -707,7 +684,7 @@ else{
     
                         
                     } catch (SQLException ex) {
-                        Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                 }
@@ -728,8 +705,8 @@ else{
             System.out.println(""+unique_subpartner);
             
             JSONObject obj;
-            ValidateExcelSL vExcel = new ValidateExcelSL();
-            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"fas_temp",request);
+            ValidateExcelJMW vExcel = new ValidateExcelJMW();
+            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"upload_jmw_temp",request);
             
             int error_per_sheet,total_errors = 0,warnings;
             String warning;
@@ -755,31 +732,9 @@ else{
       {
       //last row
       totransferymf+="'"+yearm+"_"+facilid+"'";
-      
-      transferdata(conn, totransferymf);
-      
-      pushDataToDHIS2 pd= new pushDataToDHIS2();      
       //System.out.println("to transfer ni: "+totransferymf);
-     ArrayList cols=pd.getDistinctF1aColumns(conn,"Form 1 A");      
-              
-      ResultSet f1adata=pd.GetForm1aData(conn, yearm, facilid, cols);
        
-      dhisconfig dc = new dhisconfig();
-          
-     //get username and password for DHIS2 here
-     session.setAttribute("form1a", "<b>Uploading F1a Copy to ANYB DHIS2</b>");
-     String dn =  uploaderdetails.get("dhis_username");
-     String dp =  uploaderdetails.get("dhis_password");
-     
-            dc.setDhis2_username(dn);
-            dc.setDhis2_Password(dp);
-     
-            org.json.JSONObject jo=pd.toJsonString(conn,f1adata, cols, dc.getDhis2_username());
-            System.out.println("uploading to DHIS2");
-          //  pd.UploadF1aToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password() );            
-       
-            
-      
+      transferdata(conn, totransferymf);
       }
       else 
       {
@@ -816,20 +771,20 @@ else{
          
        for(int q=1;q<=mailstosent;q++){
                 try {
-                    session.setAttribute("form1a", "<b>sending F1a Copy to Server</b>");
+                    session.setAttribute("form1a", "<b>sending JMW Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DJuma@fhi360.org,MNderitu@fhi360.org,Ekaunda@fhi360.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke","Admin");
                     
                     //send to user
                     if(!email.equals(""))
-                        session.setAttribute("form1a", "<b>sending F1a Copy to System user</b>");
+                        session.setAttribute("form1a", "<b>sending JMW Copy to System user</b>");
         session.setAttribute("form1a_count", 99);
                     SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),email,maildetails.get("fulln"+q));
                    session.setAttribute("form1a", "<b>Completed upload process</b>");
         session.setAttribute("form1a_count", 100); 
                 } catch (MessagingException ex) {
-                    Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
                 }
        }
             
@@ -844,15 +799,13 @@ else{
           session.setAttribute("warnings", warning);
           session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
           
-          
-          
-          response.sendRedirect("uploadf1a.jsp");
+          response.sendRedirect("jmw_upload.jsp");
           }
           
           else if(no_uploads==0){
           session.setAttribute("warnings", "");
           session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("uploadf1a.jsp"); 
+          response.sendRedirect("jmw_upload.jsp"); 
           }
           
           else if(total_errors>0){
@@ -872,7 +825,7 @@ else{
     response.setContentLength(outArray.length);
     response.setHeader("Expires:", "0"); // eliminates browser caching
     response.setHeader("Set-Cookie:", "fileDownload=true; path=/"); // set cookie header
-    response.setHeader("Content-Disposition", "attachment; filename=Data_Quality_Errors.xlsx");
+    response.setHeader("Content-Disposition", "attachment; filename=JMW_Data_Quality_Errors.xlsx");
     OutputStream outStream = response.getOutputStream();
     outStream.write(outArray);
     outStream.flush();
@@ -913,7 +866,7 @@ else{
                 
                 
             } catch (SQLException ex) {
-                Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             // pullHTS hts= new pullHTS();
@@ -922,7 +875,7 @@ else{
            // response.sendRedirect(nextpage);
             
         } catch (SQLException ex) {
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -999,7 +952,7 @@ else{
             wb = WorkbookFactory.create(inputStream);
            
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return wb;
@@ -1031,8 +984,9 @@ else{
 
         IdGenerator gn = new IdGenerator();
 
-        String textBody = "Hi "+username+",\nAttached is a Form 1A data upload for " + facility + " uploaded by " + uploadername + " on date " + gn.toDay() + " .\n"
-                + "\n "+stat+" \n *******This is a system autogenerated message*****";
+        String textBody = "Hi "+username+",\nAttached is a JMW data upload for " + facility + " uploaded by " + uploadername + " on date " + gn.toDay() + " .\n"
+                + "\n "+stat+" \n  "
+                + "\n *******This is a system autogenerated message*****";
         toAddress = email;
         String host = "smtp.gmail.com";
         String Password = "plusaphia";
@@ -1052,7 +1006,7 @@ else{
 
         message.setRecipients(Message.RecipientType.TO, toAddress);
 
-        message.setSubject(facility + " F1A data Upload by " + uploadername);
+        message.setSubject(facility + " JMW data Upload by " + uploadername);
 
         BodyPart messageBodyPart = new MimeBodyPart();
 
@@ -1093,7 +1047,7 @@ boolean retvalue=true;
         try {
             //sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
             
-            String qry = "select * from fas_temp where concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") group by destination_table";
+            String qry = "select * from upload_jmw_temp where concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") group by destination_table";
             conn.rs3 = conn.st3.executeQuery(qry);
             
             String destinationtable = "";
@@ -1141,17 +1095,22 @@ String deleteqry=" delete from "+destinationtable+" where concat(yearmonth,'_',f
 
                 conn.st_1.executeUpdate(deleteqry);
                 
-            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='' ";    
-replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from fas_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
-//System.out.println(""+replaceqry);
-conn.st_1.executeUpdate(replaceqry);
-count++;
+   String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,total) !='' ";    
+   
+   replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from upload_jmw_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
+   
+   System.out.println(""+replaceqry);
+
+   conn.st_1.executeUpdate(replaceqry);
+
+   
+   count++;
 
             }
             
            
        } catch (SQLException ex) {
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
             retvalue=false;
         }
          return retvalue;
@@ -1166,12 +1125,12 @@ boolean iscomplete=true;
             
             //delete the updated data
             //select * from fas_temp where concat(yearmonth,'_',facility_id) in ('201901_226','201901_377','201902_377','201902_226','201903_226')
-            String deleteqry = "delete from fas_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
+            String deleteqry = "delete from upload_jmw_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
             conn.st_1.executeUpdate(deleteqry);
         } catch (SQLException ex) 
         {
             iscomplete=false;
-            Logger.getLogger(uploadf1a.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadJMW.class.getName()).log(Level.SEVERE, null, ex);
         }
       return iscomplete;
      }
@@ -1185,13 +1144,13 @@ boolean iscomplete=true;
                 String insert_audit_trails = "INSERT INTO fas_audit_trails (entry_id,table_name,fullname,facility,indicator,yearmonth,user_pc) VALUES(?,?,?,?,?,?,?)";
                 conn.pst = conn.conn.prepareStatement(insert_audit_trails);
                 conn.pst.setString(1, id);
-                conn.pst.setString(2, "fas_temp");
+                conn.pst.setString(2, "upload_jmw_temp");
                 conn.pst.setString(3, fullname);
                 conn.pst.setString(4, facname);
                 conn.pst.setString(5, indicator_name);
                 conn.pst.setString(6, yearmonth);
                 conn.pst.setString(7, getComputerName());
-                
+                System.out.println(""+conn.pst);
                 conn.pst.executeUpdate();
                 
                 //____________________________________END AUDIT TRAIL______________________________________
@@ -1219,18 +1178,12 @@ boolean iscomplete=true;
          String fname="";
          String mail="";
          
-         String duname="";
-         String dpword="";
-         
-         
-     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email , dhis2_uname, dhis2_pword FROM user WHERE userid='" + user_id + "'";
+     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
                 conn.rs1 = conn.st1.executeQuery(getusername);
                 if (conn.rs1.next())
                 {
                     fname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
                     mail = conn.rs1.getString(3);
-                    duname = conn.rs1.getString(4);
-                    dpword = conn.rs1.getString(5);
                     //System.out.println("email:"+email);
                 }
                 
@@ -1239,8 +1192,6 @@ boolean iscomplete=true;
      
      map.put("email", mail);
      map.put("name", fname);
-     map.put("dhis_username", duname);
-     map.put("dhis_password", dpword);
                 
                 return map;
      }

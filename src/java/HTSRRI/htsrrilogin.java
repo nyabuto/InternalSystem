@@ -94,7 +94,7 @@ String userAccess;
            session.setAttribute("access_gapanalysis",conn.rs.getInt("gapanalysis"));
            session.setAttribute("userAccess", userAccess);  
            status="success"; 
-           nextPage="http://hsdsacluster2.fhi360.org:8080/htsrri/live_edit.jsp?user="+fullname;          
+           nextPage="https://usaidtujengejamii.org:8443/htsrri/live_edit.jsp?user="+fullname;          
            System.out.println("access rights : "+session.getAttribute("userAccess"));
              session.setAttribute("username", username); 
          }

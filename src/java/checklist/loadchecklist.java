@@ -152,7 +152,8 @@ int indic_counter;
             section_label="";
 //            				
 
-            String columns[] = {"recounted_register_emr","moh731","form1a","concordance","khis"};
+            //String columns[] = {"recounted_register_emr","emr","moh731","form1a","concordance","khis","gaps","action_taken","timeline","status"};
+            String columns[] = {"recounted_register_emr","emr","moh731","khis","form1a","gaps","action_taken","timeline","responsible","status"};
             //load indicators from the table
             String tbls = "select * from mne_cl_indicators where database_name='" + database_name + "' and is_active='1' AND ("+supported_services.replace("WHERE", "")+") order by order_no asc";
              // System.out.println("indicators per table :"+tbls);
@@ -264,10 +265,7 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
 
             //   tableid="2018_10_331";
             lock = "";
-
             validity = "<b><font color='#4b8df8'>New Entry</font></b>";
-
-
 
             int Programareadone = 0;
             int Programareaundone = 0;
@@ -275,7 +273,8 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
             int facilssupporting = 0;
             String distid = "";
 
-            if (session.getAttribute("subcountyid") != null) {
+            if (session.getAttribute("subcountyid") != null) 
+            {
                 distid = session.getAttribute("subcountyid").toString();
             }
             yearmonth = "";
@@ -308,6 +307,7 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
 
               //System.out.println("is indicator locked?"+isLocked);
             enterdby = "";
+              String progress_status="<datalist id='staaatus'><option value='Pending'><option value='Complete'><option value='In progress'></datalist>";
             
             output += "<div class=\"card\">\n" +
             "    <div class=\"card-header\" id=\"headingART\">\n" +
@@ -327,21 +327,21 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
             output += "<tr style=\"font-weight:bold; background:#a9c7e4;\">"
                     + "<td rowspan='2'>Program Area</td>"
                     + "<td rowspan='2'>Indicator</td>"
-                    + "<td colspan='1' >Recounted Data</td>"
-                    + "<td colspan='2' rowspan='1'>Data In Monthly Report</td>"
-                    + "<td colspan='1' rowspan='2'>% Variance</td>"
-                    + "<td colspan='1' rowspan='2'>Data in KHIS</td>"
+                    + "<td colspan='2' >Recounted Data</td>"
+                    + "<td colspan='3' rowspan='1'>Data In Monthly Report</td>"
+//                    + "<td colspan='1' rowspan='2'>% Variance</td>"
+                    + "<td colspan='5' rowspan='1'>Work Plan</td>"
+                 
                     
                     + "</tr>";
             output += "<tr  style=\"font-weight:bold; background:#a9c7e4;\">"
-                    + "<td>Register/EMR</td><td>MOH 731</td><td>Form 1a / Datim</td>"
-                   
-                    + "</tr>";
+                    + "<td>Register</td><td>EMR</td><td>MOH 731</td><td>KHIS</td><td>Form 1A (IMIS)</td><td> Identified Gaps</td><td>Action Taken</td><td>Timeline</td><td>Responsible</td><td>Status</td></tr>"+progress_status;
 
             main_indic_pos = 0;
             indic_counter = 0;
             num_saved_elems=0;
-            for (String main_indic : main_indicator) {
+            for (String main_indic : main_indicator) 
+            {
                 indic_pos = 0;
                 //System.out.println("main indicator pos = " + main_indic_pos);
               //System.out.println("main indicator  = " + main_indicator_string);
@@ -403,7 +403,8 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
                             //String autocalc = "";
                            
                             
-                            if (disabledcolumns_arr[main_indic_pos].split("%")[indic_pos].contains("," + column_name + ",")) {
+                            if (disabledcolumns_arr[main_indic_pos].split("%")[indic_pos].contains("," + column_name + ",")) 
+                            {
                                 isreadonly = " tabindex='-1' readonly='true' ";
                             }
                             
@@ -424,17 +425,36 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
 //                           }
                             //System.out.println(" tunacheckcheck "+autocalc);
                            // System.out.println("is readonly:-"+isreadonly+"-autocalc:"+autocalc);
-                            if(isreadonly.equals("")){
-                                if(col_counter==columns.length){
-                             output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
+                           
+                           
+                           String no_numbers="onkeypress=\"return numbers(event);\" maxLength='" + max_length + "'   ";
+                           
+                         
+                           String list_implementor="";
+                                    
+                                    if(column_name.equals("gaps") || column_name.equals("action_taken") || column_name.equals("timeline") || column_name.equals("responsible") || column_name.equals("status") )
+                                    {no_numbers="";
+                                    }
+                                    if (column_name.equals("status")){list_implementor="list='staaatus'";}
+                                    
+                           
+                           
+                            if(isreadonly.equals(""))
+                                {
+                                    
+                                    
+                                    
+                                if(col_counter==columns.length)
+                                {
+                             output += "<td><input "+list_implementor+" "+no_numbers+" onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off'   ></td>";
                                 }
-                                else{
-                            output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" onkeyup=\"\" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
-                                }
+                             else{
+                            output += "<td><input "+list_implementor+" "+no_numbers+" onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \"  class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off'  ></td>";
+                                 }
                                 }
                             else{
-                            output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
-                            }
+                            output += "<td><input "+list_implementor+" "+no_numbers+" onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text'  name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='" + value + "' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off'  ></td>";
+                                }
                             }
                         output += "<p id='" + indic_id + "'></p></tr>";
                     } else { // new indicator
@@ -489,11 +509,13 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
                                 if(col_counter==columns.length){
                                    output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value=''  onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
                                 }
-                                else{
+                                else
+                                {
                                 output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" onkeyup=\" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
                                 }
                                 }
-                            else{
+                            else
+                            {
                                  output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\"  " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' \" onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
                             }
                                                            }
@@ -514,10 +536,11 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
           output = output.replace("section_label_tick", "<img src=\"images/checked.png\" style=\"\" alt=\"Entered\">");
          }
          else{
+             
            output = output.replace("section_label_button_color", "#0394ff");
            output = output.replace("section_label_tick", "");
 //           output = output.replace("section_label_button_color", "red");
-         }
+            }
          
          
 //         output+="<p id=\"submit_name\">"+submit_button_name+"</p>";
@@ -591,6 +614,20 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
 }
        
 
+       public String buildSelect(String selectedval){
+       
+       String elem="<select >";
+       
+       String [] val={"","Pending","Ongoing","Complete"};
+       
+       for(String vl:val){
+       
+           
+       
+       }
+       
+       return elem;
+       }
  
  
  

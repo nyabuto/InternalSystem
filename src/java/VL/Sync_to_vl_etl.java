@@ -46,7 +46,7 @@ public class Sync_to_vl_etl extends HttpServlet {
         
         dbConn conn = new dbConn();
          
-        String sp="call "+Strodeproc+"("+tarehe+");";
+        String sp="call "+Strodeproc+"('"+tarehe+"');";
         
         conn.st.executeQuery(sp);
             

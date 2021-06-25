@@ -7,6 +7,7 @@
 
 
 
+<%@page import="General.IdGenerator2"%>
 <%@page import="database.dbConn"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -156,7 +157,8 @@
                              <div class="control-group">
                               <label class="control-label">Report End date:<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <input required type="text" title="this is the date that the week ended" value="" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
+                                  <% IdGenerator2 ig = new IdGenerator2(); %>
+                                  <input required type="text" title="this is the date that the week ended" value="<%=ig.LastMonthDate()%>" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
                               </div>
                            </div>
                             

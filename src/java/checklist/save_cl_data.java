@@ -31,7 +31,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        String columns[] = {"recounted_register_emr","moh731","form1a","concordance","khis"};
+        String columns[] = {"recounted_register_emr","emr","moh731","khis","form1a","gaps","action_taken","timeline","responsible","status"};
 String query="",query_insert,query_update;
 int num_indicators,columns_counter;
 String year = null,month = null,facil = null,yearmonth,tableid;

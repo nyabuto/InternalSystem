@@ -1493,6 +1493,14 @@
         <servlet-name>Missng_EMR_status</servlet-name>
         <servlet-class>EMR.Missng_EMR_status</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>downloadJMWTemplate</servlet-name>
+        <servlet-class>JMW.downloadJMWTemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadJMW</servlet-name>
+        <servlet-class>JMW.uploadJMW</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -2984,6 +2992,14 @@
     <servlet-mapping>
         <servlet-name>Missng_EMR_status</servlet-name>
         <url-pattern>/Missng_EMR_status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadJMWTemplate</servlet-name>
+        <url-pattern>/downloadJMWTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadJMW</servlet-name>
+        <url-pattern>/uploadJMW</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

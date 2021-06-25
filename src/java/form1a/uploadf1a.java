@@ -776,7 +776,7 @@ else{
      
             org.json.JSONObject jo=pd.toJsonString(conn,f1adata, cols, dc.getDhis2_username());
             System.out.println("uploading to DHIS2");
-            pd.UploadF1aToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password() );            
+           // pd.UploadF1aToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password() );            
        
             
       

@@ -185,6 +185,24 @@
             
             
             
+            <li class="has-sub ">
+               <a href="#" style='color:red;'>
+                <i class="icon-step-forward"></i>
+               <span class="title" >JMW Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                <li> <a href="jmw_getTemplates.jsp"><i class="icon-signin"></i>Download JMW Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="jmw_upload.jsp"><i class="icon-upload"></i>Upload JMW</a>
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access JMW upload module</b> </a> <%}%></li> 
+               <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
             
             
             
@@ -317,7 +335,7 @@
                <span class="arrow "></span>
                </a>
                <ul class="sub">
-                  <li ><a href="rawdata.jsp">Facility raw data</a></li>
+                <!-- <li ><a href="rawdata.jsp">Facility raw data</a></li>-->
                   <!--<li><a href="staticFormData.jsp">Static Reports</a></li>-->
                   <!--<li ><a href="sitestracker.jsp">Reports Tracker <i class="icon-star"></i></a></li>-->
                    <!--<li><a href="datimReport.jsp">Datim Report</a></li>-->
