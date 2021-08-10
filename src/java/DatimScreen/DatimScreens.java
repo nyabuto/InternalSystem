@@ -284,7 +284,7 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
         
         
             Sheet shet = wb.getSheet(sheetname);
-        
+            System.out.println("sheetname:"+sheetname);
         
         
        
@@ -354,7 +354,8 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
                 }//end of for loop
                 count++;
             }//end of if
-            //data rows     
+            //data rows  
+             //System.out.println("Create row in position:"+count);
             Row rw = shet.createRow(count);
 
             for (int a = 0; a < columnCount; a++) 

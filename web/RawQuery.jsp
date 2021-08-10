@@ -146,7 +146,9 @@ textarea {
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 30%; color:#ffffff;">Generate Reports from Raw Queries</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"></div>
+                         <div style="float: left; font-size: 30px; margin-left: 30%; color:#ffffff;">
+                             
+Generate Reports from Raw Queries</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"></div>
                      </div>
                       
                       
@@ -156,18 +158,18 @@ textarea {
                       </div>   
                     </div> 
                   
-                      
+                      <form action="RawQuery" method="post" class="form-horizontal"  >
                        <div  class="portlet-body form" >
                            <select name="queryhistory" id="queryhistory" style='width:80%;' onchange="showqry();">
                                <option value=''>Query History</option>
                                
-                           </select> 
+                           </select> <button type="submit" class="btn green" style="font-weight: bolder;">Execute Query</button>
                     </div> 
                       
                       
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
-                        <form action="RawQuery" method="post" class="form-horizontal"  >
+                        
                             <textarea  name="query" id="query" value="" class="lined" rows="29" cols="40" spellcheck="false" placeholder="Enter your query here" required><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
                         <br><br><br><br>
                         
@@ -184,9 +186,10 @@ textarea {
                             <li>This module is only used to generate reports by Running queries. Please note that we only run stored procedures and select queries. Other commands like insert,update,replace into will NOT be EXECUTED.</li>
                         </ul>
                         </div>
+                        </div>
                         </form>
                         <!-- END FORM-->           
-                     </div>
+                     
                   </div>
                   <!-- END SAMPLE FORM PORTLET-->
                </div>

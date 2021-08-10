@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DatimScreen;
+package VL;
 
 import database.dbConn;
 import java.io.IOException;
@@ -18,51 +18,68 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author EKaunda
+ * @author Administrator
  */
-public class loadDatimUsers extends HttpServlet {
+public class updateNewRecords extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            
-            dbConn conn = new dbConn();
            
-            String opt="<option value=''></option>";
-String getData=" select  datim_userid, count(datim_userid) as sites from subpartnera where active='1' group by datim_userid"
-        + " union all "
-        + " select  datim_userid,  count(datim_userid) as sites from   internal_system.dic where active='1' group by datim_userid ";            
+            dbConn conn = new dbConn();            
             
-conn.rs=conn.st.executeQuery(getData);
-
-while(conn.rs.next())
-{
-
-opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"       ["+conn.rs.getString(2)+" sites]"+"</option>";
-    
-}
+            String Msg="";
+                
+            String updatepart="";
+            //Update CCC mnumber
+             if(request.getParameter("ccc")!=null)
+            {
+          
+              String system_id=request.getParameter("sid");
+              String ccc=request.getParameter("ccc"); 
+              
+              updatepart+=", new_cccno='"+ccc+"'"; 
+              String qry=" update vl_for_cleaning set status=1 "+updatepart+" where system_id='"+system_id+"' ";
+                System.out.println(""+qry);
+            conn.st.executeUpdate(qry);
+            Msg=" CCC Number "+ccc+" updated successfully!!";
+            
+            }
+            
+             //Update PMTCT
+             if(request.getParameter("pmtct")!=null)
+            {
+                
+                String system_id=request.getParameter("sid");
+                String pmtct=request.getParameter("pmtct");
+                
+            updatepart+=",new_pmtct='"+pmtct+"'";  
+            String qry=" update vl_for_cleaning set status=1 "+updatepart+" where system_id='"+system_id+"' ";
+             System.out.println(""+qry);
+             conn.st.executeUpdate(qry);
+               Msg=" PMTCT type "+pmtct+" updated successfully!!";
+            
+            }
+            
+            
+             out.print(Msg);
+             
+             
+             
+         if(conn.rs!=null){conn.rs.close();}  
+         if(conn.st!=null){conn.st.close();}  
         
-         out.println(opt);
-            
-            
-            if(conn.rs!=null){conn.rs.close();}
-            if(conn.st!=null){conn.st.close();}
+         if(conn.pst1!=null){conn.pst1.close();}  
+         if(conn.conn!=null){conn.conn.close();}  
+             
             
             
         } catch (SQLException ex) {
-            Logger.getLogger(loadDatimUsers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(updateNewRecords.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
@@ -106,11 +123,5 @@ opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"       ["
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-
-
-
-
-
 
 }

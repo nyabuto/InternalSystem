@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,10 +23,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class update_vl_results extends HttpServlet {
 
+    
+    HttpSession session;
   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        session=request.getSession();
+        
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
@@ -136,215 +142,242 @@ public class update_vl_results extends HttpServlet {
     }// </editor-fold>
     
     
-    public String updatePMTCT(dbConn conn,String sdate,String edate,String mflcodes) throws SQLException{
+    public String updatePMTCT(dbConn conn,String sdate,String edate,String mflcodes){
     
-         String ym=edate.replace("-","").substring(0,6);
-        
-        String mflwhere=" ";
-        if(!mflcodes.equals("")){
-        
-             mflwhere=" and MFL_Code in ('"+mflcodes+"')";
-        
+        try {
+            String ym=edate.replace("-","").substring(0,6);
+            
+            String mflwhere=" ";
+            if(!mflcodes.equals("")){
+                
+                mflwhere=" and MFL_Code in ('"+mflcodes+"')";
+                
+            }
+            int no_of_rows=0;   
+            
+            String getpmtcts="select Uniquecccno(Patient_CCC_No) as cccno,Patient_CCC_No as origcccno, Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name ,MFL_Code  from vl_surge where pmtct in ('Breast Feeding','Pregnant') and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample' "+mflwhere+" order by Date_collected DESC  ";
+            
+            conn.rs1=conn.st1.executeQuery(getpmtcts);
+            
+            while(conn.rs1.next()){
+                
+                no_of_rows++;
+                
+                String res=conn.rs1.getString("VL_result");
+                String jus=conn.rs1.getString("Justification");
+                String cdate=conn.rs1.getString("Date_Collected");
+                String pmtct=conn.rs1.getString("PMTCT");
+                String facili=conn.rs1.getString("Facility_Name");
+                String cc=conn.rs1.getString("cccno");
+                String origicc=conn.rs1.getString("origcccno");
+                String mfl=conn.rs1.getString("MFL_Code");
+                
+                String updaterecord="update vl_kenyaemr set  PMTCT='"+pmtct+"'  where cccno='"+cc+"' and replace(MFL_Code,'.0','') = '"+mfl+"' and yearmonth='"+ym+"'  ";
+                session.setAttribute("vlquery",updaterecord);
+                System.out.println(no_of_rows+" "+" update query: "+updaterecord+"\n");
+                 session.setAttribute("vlcount",no_of_rows);
+                
+                
+                conn.st3.executeUpdate(updaterecord);
+                
+                
+            }
+            
+          
+        } catch (SQLException ex) {
+             session.setAttribute("vlerror",ex);
+            Logger.getLogger(update_vl_results.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int no_of_rows=0;
-        
-      String getpmtcts="select Uniquecccno(Patient_CCC_No) as cccno,Patient_CCC_No as origcccno, Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name ,MFL_Code  from vl_surge where pmtct in ('Breast Feeding','Pregnant') and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample' "+mflwhere+" order by Date_collected DESC  ";
-               
-    conn.rs1=conn.st1.executeQuery(getpmtcts);
-              
-    while(conn.rs1.next()){
-            
-            no_of_rows++;
-        
-            String res=conn.rs1.getString("VL_result");    
-            String jus=conn.rs1.getString("Justification");   
-            String cdate=conn.rs1.getString("Date_Collected");   
-            String pmtct=conn.rs1.getString("PMTCT");   
-            String facili=conn.rs1.getString("Facility_Name");   
-            String cc=conn.rs1.getString("cccno");   
-            String origicc=conn.rs1.getString("origcccno");   
-            String mfl=conn.rs1.getString("MFL_Code");   
-            
-     String updaterecord="update vl_kenyaemr set  PMTCT='"+pmtct+"'  where cccno='"+cc+"' and replace(MFL_Code,'.0','') = '"+mfl+"' and yearmonth='"+ym+"'  ";
-               System.out.println(no_of_rows+" "+" update query: "+updaterecord+"\n");
-         
-            
-            conn.st3.executeUpdate(updaterecord);
-            
-    
-    }
-    
-return "completed updating PMTCT";
+          return "completed updating PMTCT";
 }
     
     
     
     
     
-    public String updateEMRResults(dbConn conn,String sdate,String edate,String mflcodes) throws SQLException{
+    public String updateEMRResults(dbConn conn,String sdate,String edate,String mflcodes) {
     
+        try {
             int updatedrows=0;
             int searchcount=0;
             String ym=edate.replace("-","").substring(0,6);
-              
-String mfl="";
-String facil="";
-String cccno="";
-String origmfl="";
-
- String mflwhere=" ";
-        if(!mflcodes.equals("")){
-        
-             mflwhere=" and MFL_Code in ('"+mflcodes+"')";
-        
-        }
-
-    String getemrmissingresults="select vl_kenyaemr_id, cccno,replace(MFL_Code,'.0','') as MFL_Code,MFL_Code as origmfl ,Facility_Name from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null) and yearmonth='"+ym+"' and length(Uniquecccno(cccno))=10  "+mflwhere+"";
+            
+            String mfl="";
+            String facil="";
+            String cccno="";
+            String origmfl="";
+            
+            String mflwhere=" ";
+            if(!mflcodes.equals("")){
+                
+                mflwhere=" and MFL_Code in ('"+mflcodes+"')";
+                
+            }
+            
+            String getemrmissingresults="select vl_kenyaemr_id, cccno,replace(MFL_Code,'.0','') as MFL_Code,MFL_Code as origmfl ,Facility_Name from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null) and yearmonth='"+ym+"' and length(Uniquecccno(cccno))=10  "+mflwhere+"";
             
             System.out.println("Missing vls:"+getemrmissingresults);
             conn.rs=conn.st.executeQuery(getemrmissingresults);
             
             while(conn.rs.next()){
-            
-           searchcount++;
                 
-              mfl=conn.rs.getString("MFL_Code");
-              origmfl=conn.rs.getString("origmfl");
-              cccno=conn.rs.getString("cccno");
-              facil=conn.rs.getString("Facility_Name");
-             
-            String getmax_res="select Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name  from vl_surge where Uniquecccno(Patient_CCC_No) = '"+cccno+"' and MFL_Code='"+mfl+"' and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample'  order by Date_collected DESC limit 1 ";
+                searchcount++;
+                
+                mfl=conn.rs.getString("MFL_Code");
+                origmfl=conn.rs.getString("origmfl");
+                cccno=conn.rs.getString("cccno");
+                facil=conn.rs.getString("Facility_Name");
+                
+                String getmax_res="select Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name  from vl_surge where Uniquecccno(Patient_CCC_No) = '"+cccno+"' and MFL_Code='"+mfl+"' and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample'  order by Date_collected DESC limit 1 ";
                 System.out.println("count number:"+searchcount);
-            conn.rs1=conn.st1.executeQuery(getmax_res);
-              
-            if(conn.rs1.next()){
-            
-            String res=conn.rs1.getString("VL_result");    
-            String jus=conn.rs1.getString("Justification");   
-            String cdate=conn.rs1.getString("Date_Collected");   
-            String pmtct=conn.rs1.getString("PMTCT");   
-            String facili=conn.rs1.getString("Facility_Name");   
-            
-            if(jus.equals("No Data"))
-            {            
-            jus="Routine VL";
+                conn.rs1=conn.st1.executeQuery(getmax_res);
+                
+                if(conn.rs1.next()){
+                    
+                    String res=conn.rs1.getString("VL_result");
+                    String jus=conn.rs1.getString("Justification");
+                    String cdate=conn.rs1.getString("Date_Collected");
+                    String pmtct=conn.rs1.getString("PMTCT");
+                    String facili=conn.rs1.getString("Facility_Name");
+                    
+                    if(jus.equals("No Data"))
+                    {
+                        jus="Routine VL";
+                    }
+                    
+                    res=res.replace(" copies/ml","");
+                    res=res.replace(" Copies/ mL","");
+                    res=res.replace("<","");
+                    res=res.replace(" ","");
+                    
+                    String updaterecord="update vl_kenyaemr set Justification='"+jus+"', PMTCT='"+pmtct+"',Last_VL='"+res+"',Last_VL_Date='"+cdate+"' , missing_from_source='Yes' where cccno='"+cccno+"' and MFL_Code='"+origmfl+"' and yearmonth='"+ym+"'  ";
+                    
+                    System.out.println(" update query: "+updaterecord+"\n");
+                    
+                    updatedrows++;
+                    
+                     session.setAttribute("vlquery",updaterecord);
+                     session.setAttribute("vlcount",updatedrows);
+                    
+                    System.out.println(updatedrows+": Records updated "+facili+"\n");
+                    
+                    System.out.println("Update Status "+conn.st3.executeUpdate(updaterecord));
+                   
+                    
+                }
+                
+                
             }
             
-            res=res.replace(" copies/ml","");
-            res=res.replace(" Copies/ mL","");
-            res=res.replace("<","");
-            res=res.replace(" ","");
-            
-            String updaterecord="update vl_kenyaemr set Justification='"+jus+"', PMTCT='"+pmtct+"',Last_VL='"+res+"',Last_VL_Date='"+cdate+"' , missing_from_source='Yes' where cccno='"+cccno+"' and MFL_Code='"+origmfl+"' and yearmonth='"+ym+"'  ";
-               System.out.println(" update query: "+updaterecord+"\n");
-            updatedrows++;
-            
-            conn.st3.executeUpdate(updaterecord);
-            
-                System.out.println(updatedrows+": Records updated "+facili+"\n");
-            
-            }
             
             
-            }
             
-      
-        
-    
-    return "Completed EMR Results ";
+            
+        } catch (SQLException ex) {
+            System.out.println("Error while updating VL Resuts:"+ex);
+            session.setAttribute("vlerror",ex);
+            Logger.getLogger(update_vl_results.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Completed EMR Results ";
     }
     
-public String updateNonEMRResults(dbConn conn,String sdate,String edate,String mflcodes) throws SQLException{
+public String updateNonEMRResults(dbConn conn,String sdate,String edate,String mflcodes) {
 
 
     
+        try {
             int updatedrows=0;
             int searchcount=0;
             String ym=edate.replace("-","").substring(0,6);
-              
-String mfl="";
-String facil="";
-String cccno="";
-String origmfl="";
-
-String mflwhere="1=1";
-       
-if(!mflcodes.equals(""))
-        {
-        
-             mflwhere=" and  mflcode in ('"+mflcodes+"')";
-        
-        }
-
-
-    String getemrmissingresults="call sp_nonemr_missingvl_raw_data ('"+sdate+"','"+edate+"','"+mflwhere+"')";
+            
+            String mfl="";
+            String facil="";
+            String cccno="";
+            String origmfl="";
+            
+            String mflwhere="1=1";
+            
+            if(!mflcodes.equals(""))
+            {
+                
+                mflwhere=" and  mflcode in ('"+mflcodes+"')";
+                
+            }
+            
+            
+            String getemrmissingresults="call sp_nonemr_missingvl_raw_data ('"+sdate+"','"+edate+"','"+mflwhere+"')";
             
             System.out.println("Missing vls:"+getemrmissingresults);
             conn.rs=conn.st.executeQuery(getemrmissingresults);
             
             while(conn.rs.next()){
-            
-              searchcount++;
                 
-              mfl=conn.rs.getString("mflcode");
-        
-              cccno=conn.rs.getString("ccc_number");
-              facil=conn.rs.getString("facility");
-             
-            String getmax_res="select Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name  from vl_surge where Uniquecccno(Patient_CCC_No) = '"+cccno+"' and MFL_Code='"+mfl+"' and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample'  order by Date_collected DESC limit 1 ";
+                searchcount++;
+                
+                mfl=conn.rs.getString("mflcode");
+                
+                cccno=conn.rs.getString("ccc_number");
+                facil=conn.rs.getString("facility");
+                
+                String getmax_res="select Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name  from vl_surge where Uniquecccno(Patient_CCC_No) = '"+cccno+"' and MFL_Code='"+mfl+"' and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample'  order by Date_collected DESC limit 1 ";
                 System.out.println("vlmis count number:"+searchcount);
-            conn.rs1=conn.st1.executeQuery(getmax_res);
-              
-            if(conn.rs1.next()){
-            
-            String res=conn.rs1.getString("VL_result");    
-            String jus=conn.rs1.getString("Justification");   
-            String cdate=conn.rs1.getString("Date_Collected");   
-            String pmtct=conn.rs1.getString("PMTCT");   
-            String facili=conn.rs1.getString("Facility_Name");   
-            
-            if(jus.equals("No Data"))
-            {            
-            jus="Routine VL";
+                conn.rs1=conn.st1.executeQuery(getmax_res);
+                
+                if(conn.rs1.next()){
+                    
+                    String res=conn.rs1.getString("VL_result");
+                    String jus=conn.rs1.getString("Justification");
+                    String cdate=conn.rs1.getString("Date_Collected");
+                    String pmtct=conn.rs1.getString("PMTCT");
+                    String facili=conn.rs1.getString("Facility_Name");
+                    
+                    if(jus.equals("No Data"))
+                    {
+                        jus="Routine VL";
+                    }
+                    
+                    //res=res.replace(" copies/ml","");
+                    res=res.replace("< 40 Copies/ mL","40");
+                    // res=res.replace("<","");
+                    //res=res.replace(" ","");
+                    
+                    String updaterecord="update nonemr_all set Justification='"+jus+"', PMTCT_Status='"+pmtct+"',VL_Results='"+res+"',Date_Last_VL_Conducted='"+cdate+"' where ccc_number='"+cccno+"' and mflcode='"+mfl+"'   ";
+                    
+                    System.out.println(" update query: "+updaterecord+"\n");
+                    
+                    updatedrows++;
+                    
+                    conn.st3.executeUpdate(updaterecord);
+                    
+                    System.out.println(updatedrows+": Records updated "+facili+"\n");
+                     session.setAttribute("vlcount",updatedrows);
+                    //id=10056_1005600001_2020-05-08
+                    
+                    //do an insert to nonemr_vl
+                    
+                    String id=mfl+"_"+cccno+"_"+cdate;
+                    
+                    String replaceqry="Replace into nonemr_vl (id,ccc_number,visitdate,First_Viral_Load_Date,Date_Last_VL_Conducted,Justification,PMTCT_Status,VL_Results,user_id,device,mflcode,eligible) "
+                            + " values ('"+id+"','"+cccno+"','','','"+cdate+"','"+jus+"','"+pmtct+"','"+res+"','system generated','lenovo','"+mflcodes+"','Yes'); ";
+                    session.setAttribute("vlquery",replaceqry);
+                    conn.st3.executeUpdate(replaceqry);
+                    
+                }
+                
+                
             }
             
-            //res=res.replace(" copies/ml","");
-             res=res.replace("< 40 Copies/ mL","40");
-           // res=res.replace("<","");
-            //res=res.replace(" ","");
             
-            String updaterecord="update nonemr_all set Justification='"+jus+"', PMTCT_Status='"+pmtct+"',VL_Results='"+res+"',Date_Last_VL_Conducted='"+cdate+"' where ccc_number='"+cccno+"' and mflcode='"+mfl+"'   ";
-              
-            System.out.println(" update query: "+updaterecord+"\n");
-               
-            updatedrows++;
             
-            conn.st3.executeUpdate(updaterecord);
             
-            System.out.println(updatedrows+": Records updated "+facili+"\n");
             
-            //id=10056_1005600001_2020-05-08
             
-            //do an insert to nonemr_vl
             
-            String id=mfl+"_"+cccno+"_"+cdate;
-            
-       String replaceqry="Replace into nonemr_vl (id,ccc_number,visitdate,First_Viral_Load_Date,Date_Last_VL_Conducted,Justification,PMTCT_Status,VL_Results,user_id,device,mflcode,eligible) "
-               + " values ('"+id+"','"+cccno+"','','','"+cdate+"','"+jus+"','"+pmtct+"','"+res+"','system generated','lenovo','"+mflcodes+"','Yes'); ";
-       
-            conn.st3.executeUpdate(replaceqry);
            
-            }
-            
-            
-            }
-            
-      
-        
-    
-    
-    
-
-return "Completed running Non EMR Results";
+        } catch (SQLException ex) {
+            session.setAttribute("vlerror",ex);
+            Logger.getLogger(update_vl_results.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return "Completed running Non EMR Results";
 }
 }

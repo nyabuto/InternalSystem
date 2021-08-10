@@ -1501,6 +1501,42 @@
         <servlet-name>uploadJMW</servlet-name>
         <servlet-class>JMW.uploadJMW</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>JMW_Missing</servlet-name>
+        <servlet-class>JMW.JMW_Missing</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>jmw_report</servlet-name>
+        <servlet-class>JMW.jmw_report</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>checkvlsession</servlet-name>
+        <servlet-class>VL.checkvlsession</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>load_unclean_data</servlet-name>
+        <servlet-class>VL.load_unclean_data</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getSitesWithNonStandardCccNos</servlet-name>
+        <servlet-class>VL.getSitesWithNonStandardCccNos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateNewRecords</servlet-name>
+        <servlet-class>VL.updateNewRecords</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getVlNonStandardOutput</servlet-name>
+        <servlet-class>VL.getVlNonStandardOutput</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadHCATemplate</servlet-name>
+        <servlet-class>HCA.downloadHCATemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadHCAModule</servlet-name>
+        <servlet-class>HCA.uploadHCAModule</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3000,6 +3036,42 @@
     <servlet-mapping>
         <servlet-name>uploadJMW</servlet-name>
         <url-pattern>/uploadJMW</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JMW_Missing</servlet-name>
+        <url-pattern>/JMW_Missing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>jmw_report</servlet-name>
+        <url-pattern>/jmw_report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkvlsession</servlet-name>
+        <url-pattern>/checkvlsession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_unclean_data</servlet-name>
+        <url-pattern>/load_unclean_data</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getSitesWithNonStandardCccNos</servlet-name>
+        <url-pattern>/getSitesWithNonStandardCccNos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateNewRecords</servlet-name>
+        <url-pattern>/updateNewRecords</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getVlNonStandardOutput</servlet-name>
+        <url-pattern>/getVlNonStandardOutput</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadHCATemplate</servlet-name>
+        <url-pattern>/downloadHCATemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadHCAModule</servlet-name>
+        <url-pattern>/uploadHCAModule</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

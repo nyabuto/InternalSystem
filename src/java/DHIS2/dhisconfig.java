@@ -37,9 +37,9 @@ String  dhis2_API_URL_UploadF1a=null;
   
   dhis2_Name ="Afya Nyota Ya Bonde";
   dhis2_Home_URL ="https://dhis-afyanyota.fhi360.org/";
-  //dhis2_Home_URL ="https://hiskenya.org/";
-  dhis2_username="ekaunda";
-  dhis2_Password="Plusaphia2013!";
+  dhis2_Home_URL ="https://indextestingapp.uonbi.ac.ke/";
+  dhis2_username="tujengejamii";
+  dhis2_Password="Usaidtujengejamii21!";
   //dhis2_Password="Otenyo27108382";
   dhis2_API_URL="api/";
   

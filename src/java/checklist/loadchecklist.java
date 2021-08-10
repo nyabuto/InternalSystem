@@ -493,7 +493,17 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
                              if(!lockUser.equals("")){isreadonly=lockUser;}
                              
                                
-                             
+                           
+                               String no_numbers="onkeypress=\"return numbers(event);\" maxLength='" + max_length + "'   ";
+                           
+                         
+                           String list_implementor="";
+                                    
+                                    if(column_name.equals("gaps") || column_name.equals("action_taken") || column_name.equals("timeline") || column_name.equals("responsible") || column_name.equals("status") )
+                                    {no_numbers="";
+                                    }
+                                    if (column_name.equals("status")){list_implementor="list='staaatus'";}
+                                    
                              
 //                       if (!autocalculatestring.trim().equals("") ) 
 //                       {
@@ -507,16 +517,16 @@ if(conn.rs.getString("code")!=null){code="["+conn.rs.getString("code")+"]";}
                             if(isreadonly.equals(""))
                                {
                                 if(col_counter==columns.length){
-                                   output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value=''  onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
+                                   output += "<td><input "+list_implementor+" "+no_numbers+" onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value=''  onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off'   ></td>";
                                 }
                                 else
                                 {
-                                output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" onkeyup=\" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
+                                output += "<td><input "+list_implementor+" "+no_numbers+" onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\" " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" onkeyup=\" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off'   ></td>";
                                 }
                                 }
                             else
                             {
-                                 output += "<td><input onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\"  " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' \" onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off' maxLength='" + max_length + "' onkeypress=\"return numbers(event);\" ></td>";
+                                 output += "<td><input "+list_implementor+" "+no_numbers+" onkeyup=\"removeFirstZero('" + column_name + "_" + indic_id + "');\"  " + isreadonly + " type='text' name='" + column_name + "_" + indic_id + "' id='" + column_name + "_" + indic_id + "' value='' \" onblur=\"indicate_changed('" + column_name + "_" + indic_id + "'); section_changed('"+section_code+"'); "+autocalc+" \" class='data-cell' data-toggle='tooltip'  " + lock + "  data-placement='right' autocomplete='off'   ></td>";
                             }
                                                            }
                         output += "<p id='" + indic_id + "'></p></tr>";

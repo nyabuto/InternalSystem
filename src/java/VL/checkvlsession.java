@@ -3,66 +3,47 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DatimScreen;
+package VL;
 
-import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
 
 /**
  *
- * @author EKaunda
+ * @author Administrator
  */
-public class loadDatimUsers extends HttpServlet {
+public class checkvlsession extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    HttpSession session;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        session= request.getSession();
+        
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            
-            dbConn conn = new dbConn();
            
-            String opt="<option value=''></option>";
-String getData=" select  datim_userid, count(datim_userid) as sites from subpartnera where active='1' group by datim_userid"
-        + " union all "
-        + " select  datim_userid,  count(datim_userid) as sites from   internal_system.dic where active='1' group by datim_userid ";            
+          String vq="";
+          String ve="";
+          String vc="";
+            if(session.getAttribute("vlquery")!=null){vq=session.getAttribute("vlquery").toString();}
+            if(session.getAttribute("vlerror")!=null){ve=session.getAttribute("vlerror").toString();}
+            if(session.getAttribute("vlcount")!=null){ve=session.getAttribute("vlcount").toString();}
+            JSONObject jo = new JSONObject();
+         
+            jo.put("vlquery", vq);
+            jo.put("vlerror", ve);
+            jo.put("vlcount", vc);
+            out.println(jo);
             
-conn.rs=conn.st.executeQuery(getData);
-
-while(conn.rs.next())
-{
-
-opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"       ["+conn.rs.getString(2)+" sites]"+"</option>";
-    
-}
-        
-         out.println(opt);
-            
-            
-            if(conn.rs!=null){conn.rs.close();}
-            if(conn.st!=null){conn.st.close();}
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(loadDatimUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
@@ -106,11 +87,5 @@ opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"       ["
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-
-
-
-
-
 
 }

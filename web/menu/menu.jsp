@@ -84,7 +84,7 @@
             <li class="has-sub ">
                <a href="#">
                 <i class="icon-search"></i>
-               <span class="title">FPT Excel</span>
+               <span class="title">FPT</span>
                <span class="arrow "></span>
                </a>
                <ul class="sub">
@@ -105,7 +105,7 @@
             <li class="has-sub ">
                <a href="#">
                 <i class="icon-search"></i>
-               <span class="title">HTS Screening Excel</span>
+               <span class="title">HTS Screening</span>
                <span class="arrow "></span>
                </a>
                <ul class="sub">
@@ -125,7 +125,7 @@
              <li class="has-sub ">
                <a href="#">
                 <i class="icon-search"></i>
-               <span class="title">TX_ML Excel</span>
+               <span class="title">TX_ML</span>
                <span class="arrow "></span>
                </a>
                <ul class="sub">
@@ -145,19 +145,19 @@
             
             
             <li class="has-sub ">
-               <a href="#">
+               <a href="#" style='color:red;'>
                 <i class="icon-share"></i>
-               <span class="title">DSD Excel</span>
+               <span class="title">HCA</span>
                <span class="arrow "></span>
                </a>
                <ul class="sub">
                 
-                  <li > <a href="getDsdTemplate.jsp"><i class="icon-download"></i>Download DSD Template</a></li>
+                  <li > <a href="hcaDownloadTemplate.jsp"><i class="icon-download"></i>Download HCA Template</a></li>
                   
                <li >   <%if(session.getAttribute("userAccess")!=null){%>   
-                  <a href="uploaddsd.jsp"><i class="icon-upload"></i>Upload DSD</a>
+                  <a href="uploadhca.jsp"><i class="icon-upload"></i>Upload HCA Template</a>
                    <%} else {%> 
-                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access DSD upload module</b> </a> <%}%></li> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access HCA upload module</b> </a> <%}%></li> 
                <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
@@ -186,9 +186,9 @@
             
             
             <li class="has-sub ">
-               <a href="#" style='color:red;'>
+               <a href="#" >
                 <i class="icon-step-forward"></i>
-               <span class="title" >JMW Excel</span>
+               <span class="title" >Jua Mtoto Wako</span>
                <span class="arrow "></span>
                </a>
                <ul class="sub">
@@ -197,9 +197,11 @@
                   
                <li> <%if(session.getAttribute("userAccess")!=null){%>   
                   <a href="jmw_upload.jsp"><i class="icon-upload"></i>Upload JMW</a>
+                  <li >  <a href="jmw_tracker.jsp"><i class="icon-upload"></i>JMW Tracker</a></li>
+               <li >  <a href="jmw_reports.jsp"><i class="icon-upload"></i>JMW Submitted Reports</a></li>
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access JMW upload module</b> </a> <%}%></li> 
-               <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
+               
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
@@ -322,6 +324,7 @@
                     <li ><a href="uploademrvl.jsp"><i class="icon-plus"></i>Upload Viral Load Kenyaemr(.xlsx)</a></li>  
                     <li><a href="Tracker_kenyaEMR.jsp"><i class="icon-download"></i>VL Reports Tracker</a></li>
                    <li ><a href="PullVlResults.jsp" Title="Clean VL data"><i class="icon-plus"></i>Check VL Results(.xlsx)</a></li>
+                   <li ><a href="cleanvldata.jsp" Title="Clean VL data"><i class="icon-edit"></i>CCC Nos Standardization</a></li>
                   <!--<li ><a href="DataCleaner.jsp" Title="EID Clean data module"><i class="icon-plus"></i>EID/TB Error Checking(.xlsx)</a></li>-->
                   <!--<li ><a href="EIDPrevData.jsp" Title="EID Clean data module"><i class="icon-plus"></i>Load <b>1&#189;</b> Yrs ago data(.xlsx)</a></li>-->
                </ul>
@@ -383,7 +386,7 @@
 <li  class="has-sub">
                 <a id="emrstatus" href="#">
                 <i class="icon-align-justify"></i>
-               <span class="title"><font color="green"><b>EMR Status</b></font></span>
+               <span class="title">EMR Status</span>
                </a>
      <ul class="sub">
                              

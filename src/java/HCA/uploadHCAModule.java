@@ -3,14 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DatimScreen;
+package HCA;
 
-import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author EKaunda
+ * @author Administrator
  */
-public class loadDatimUsers extends HttpServlet {
+public class uploadHCAModule extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,32 +33,15 @@ public class loadDatimUsers extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            
-            dbConn conn = new dbConn();
-           
-            String opt="<option value=''></option>";
-String getData=" select  datim_userid, count(datim_userid) as sites from subpartnera where active='1' group by datim_userid"
-        + " union all "
-        + " select  datim_userid,  count(datim_userid) as sites from   internal_system.dic where active='1' group by datim_userid ";            
-            
-conn.rs=conn.st.executeQuery(getData);
-
-while(conn.rs.next())
-{
-
-opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"       ["+conn.rs.getString(2)+" sites]"+"</option>";
-    
-}
-        
-         out.println(opt);
-            
-            
-            if(conn.rs!=null){conn.rs.close();}
-            if(conn.st!=null){conn.st.close();}
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(loadDatimUsers.class.getName()).log(Level.SEVERE, null, ex);
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet uploadHCAModule</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet uploadHCAModule at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         } finally {
             out.close();
         }
@@ -106,11 +85,5 @@ opt+="<option value='"+conn.rs.getString(1)+"'>"+conn.rs.getString(1)+"       ["
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-
-
-
-
-
 
 }

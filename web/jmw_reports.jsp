@@ -17,8 +17,8 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>TX ML Tracker</title>
-   <link rel="shortcut icon" href="images/imis.png"/>
+   <title>JMW Status Reports</title>
+   <link rel="shortcut icon" href="images/logo.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
@@ -71,7 +71,7 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h2 style="text-align:center;font-size: 20px;color:white;padding-bottom:16px ;font-weight: bolder;">Download Sites with Missing/Incomplete  TX_ML Tracker </h2><br/>
+            <h2 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">JMW Monthly Report</h2><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -130,7 +130,7 @@
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Download TX_ML Tracker</a> 
+                        <a href="#" style="margin-left:40%;">Download Data value reports</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -148,38 +148,44 @@
                        
                      </div>
                      <div class="portlet-body form">
+                          <% IdGenerator2 ig= new IdGenerator2(); %>
                         <!-- BEGIN FORM-->
-                        <form action="downloadTxmlTracker" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                        <form action="reportEmrStatus" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        
-                           
+                            
+                            
+                            <div class="control-group">
+                              <label class="control-label">Report Start date:<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <input required type="text" title="this is the date that the week started" value="<%=ig.LastMonthDate()%>" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="weekstart">
+                              </div>
+                           </div>
                             <%
-                            Calendar cal= Calendar.getInstance();                            
+                            Calendar cal= Calendar.getInstance();
+                            
                             %>
                             
                              <div class="control-group">
                               <label class="control-label">Report End date:<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                       
-                                        <% IdGenerator2 ig= new IdGenerator2(); %>
-                                  
-                                  <input required type="text" title="this is the date that the week ended" value="<%=ig.LastMonthDate()%>" class="form-control input-lg tarehe" name="enddate" id="enddate" autocomplete="off">
-                            </div>
+                                  <input required type="text" title="this is the date that the week ended" value="<%=ig.LastMonthDate()%>" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
+                              </div>
                            </div>
                             
                               
-<!--                              <div class="control-group" >
+                              <div style="display:none;" class="control-group" >
                               <label class="control-label">Specify Output:<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                   <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="output" id="output" >
                                       
                                      
-                                      <option value='tracker'>Tracker</option>
-                                       <option value='DQA_report'>Raw Data</option>
+<!--                                      <option value='Missng_EMR_status'>Tracker</option>-->
+                                       <option value='jmw_report'>Raw Data</option>
                                       
                                              
                                       </select>
                               </div>
-                           </div>-->
+                           </div>
                               
                               
                               
@@ -214,7 +220,7 @@
                              
                          
                               
-                               <input type="submit" id="generaterpt" name='generaterpt' class="btn green" value='Generate report' />
+  <label id="generaterpt" class="btn green" onclick="getReport();">Generate report</label>
                           
 
                          
@@ -320,25 +326,35 @@ function getReport()
 {
     
     
-  
+   var exelstart=$("#weekstart").val();
    var exelend=$("#weekend").val();
-  
+   var year=$("#year").val();
         
-        
+        if (exelstart==='')
+     {
+         
+     alert('Select report begining date');
+   $("#startdaterpt").focus();    
+     }    
    //end date
-       if (exelend==='')
+      else if (exelend==='')
      {
          
      alert('Select report ending date');
    $("#enddaterpt").focus();    
      } 
-
+     
+      else  if(Date.parse(exelstart) > Date.parse(exelend))
+      {
+                    alert(" Report Start date cannot be greater than end date.");   
+                    $("#enddaterpt").focus();  
+                }
                 
                   
                 
                 else {
                     //call the report generation page
-                 downloadrpt(exelend) ;  
+                 downloadrpt(exelstart,exelend) ;  
                     
                 }
         
@@ -347,15 +363,15 @@ function getReport()
 
 
 
-  function downloadrpt(enddate){
+  function downloadrpt(startdate,enddate){
       
                 $('.loading').show();
                 $('#generaterpt').hide();
-               var urel="Missing_VL_KenyaEMR";
+               var urel=$("#output").val();
                 //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
              
-                var ur=urel+"?enddate=" + enddate;
-                  console.log(ur);
+                var ur=urel+"?startdate=" + startdate + "&enddate=" + enddate;
+ console.log(ur);
                 $.fileDownload(ur).done(function () { $('.loading').hide(); $('#generaterpt').show(); $('#generaterpt').html("<i class='glyphicon glyphicon-ok'></i> Report Generated"); }).fail(function () { alert('Report generation failed, kindly try again!'); $('.loading').hide(); $('#generaterpt').show(); });
  
                 //$('.loading').hide();

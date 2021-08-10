@@ -8,7 +8,6 @@ package HTSRRI;
 
 import database.dbConn;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -94,7 +93,7 @@ String userAccess;
            session.setAttribute("access_gapanalysis",conn.rs.getInt("gapanalysis"));
            session.setAttribute("userAccess", userAccess);  
            status="success"; 
-           nextPage="https://usaidtujengejamii.org:8443/htsrri/live_edit.jsp?user="+fullname;          
+           nextPage="https://usaidtujengejamii.org:8443/htslive/live_edit.jsp?user="+fullname;          
            System.out.println("access rights : "+session.getAttribute("userAccess"));
              session.setAttribute("username", username); 
          }

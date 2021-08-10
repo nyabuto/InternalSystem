@@ -258,6 +258,9 @@
                         <div class="form-actions">
                             
                         </div>
+                            <div id="msg1"></div>
+                            <div id="msg2"></div>
+                            <div id="msg3"></div>
                         </form>
                         <!-- END FORM-->           
                      </div>
@@ -323,7 +326,17 @@
 
 <script>
       
-   
+    $(document).ready(function(){
+      
+         
+    $("#generaterpt").click(function(){
+       
+//        alert("data submitted");
+     setInterval(function() {
+      refreshLables();
+      }, 100);  
+    });
+     });
   
       
       $(".tarehe").datepicker({
@@ -411,6 +424,26 @@ function getReport(){
               
              
             }
+
+function refreshLables()
+{
+     $.ajax({
+                  url:'checkvlsession',
+                  type:"post",
+                  dataType:"json",
+                  success:function(dat)
+                  {
+                      var ct=dat.vlcount;
+                  $("#msg1").html(dat.vlerror);
+                  $("#msg2").html(dat.vlquery);
+                  if(ct!==''){
+                  $("#msg3").html("<b> Updated rows: "+ct+"</b>");
+                      }
+                      
+                  }
+                  
+              });
+}
 
 
  function patasubcounty(){

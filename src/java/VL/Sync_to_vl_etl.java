@@ -31,11 +31,11 @@ public class Sync_to_vl_etl extends HttpServlet {
            String tarehe="";
             IdGenerator2 ig= new IdGenerator2();
            
-           tarehe=ig.LastMonthDate();
+          tarehe=ig.LastMonthDate();
          String  Strodeproc=""; 
            
-            if(request.getParameter("sp")!=null){
-                
+            if(request.getParameter("sp")!=null)
+            {                
             Strodeproc=request.getParameter("sp");
             }
             
@@ -53,7 +53,8 @@ public class Sync_to_vl_etl extends HttpServlet {
             
         out.println(" Refreshed successfully "+sp);
             
-        } catch (SQLException ex) {
+        } catch (SQLException ex) 
+        {
             out.println(" Refreshed ended with error "+ex);
         } finally {
             out.close();

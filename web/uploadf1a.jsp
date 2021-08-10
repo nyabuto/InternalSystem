@@ -310,72 +310,7 @@ tr>td {
    
    <script>
       
-     function getAction(){
-      var reportFormat="",form="",formActions=""; 
-
-    var formActions=$("#formActions").val();
-    var reportFormat=$("#reportFormat").val();
-    var form=$("#form").val();
-//    alert("format : "+reportFormat+" form : "+form);
-    
-    if(reportFormat==="" || form===""){
-        
-    }
-    else{
-    if( reportFormat==="pdf" && form==="MOH 731") {
-   document.getElementById("formActions").action = "pdf731";
-    }
-    else if( reportFormat==="excel" && form==="MOH 731") {
- document.getElementById("formActions").action = "staticReportExcel731";
-    }
-    else if( reportFormat==="excel" && form==="MOH 711A") {
- document.getElementById("formActions").action = "moh711_excelReport";
-    }
-  else if(reportFormat==="pdf" &&form==="MOH 711A") {
-document.getElementById("formActions").action = "moh711_StaticReport";
-   }
-   else if(reportFormat==="pdf" &&form==="TB") {
-document.getElementById("formActions").action = "tbpdf";
    
-    }
-     else if(reportFormat==="excel" &&form==="TB") {
-document.getElementById("formActions").action = "tb_excelReport";
-   
-    }
-     else if(reportFormat==="pdf" && form==="KMMP") {
- document.getElementById("formActions").action = "kmmppdf";
-    }
-    else if(reportFormat==="excel" && form==="KMMP") {
- document.getElementById("formActions").action = "kmmpexcel";
-    }
-    else if(reportFormat==="pdf" && form==="VMMC") {
- document.getElementById("formActions").action = "Vmmcpdf";
-    }
-      else if(reportFormat==="excel" && form==="VMMC") {
- document.getElementById("formActions").action = "vmmcexcel";
-    }
-     else if(reportFormat==="pdf" && form==="Gender") {
- document.getElementById("formActions").action = "genderpdf";
-    }
-    
-      else if(reportFormat==="excel" && form==="Gender") {
- document.getElementById("formActions").action = "genderexcel";
-      }
-       else if(reportFormat==="pdf" && form==="Nutrition") {
- document.getElementById("formActions").action = "nutritionpdf";
-    }
-    else if(reportFormat==="excel" && form==="Nutrition") {
- document.getElementById("formActions").action = "nutritionexcel";
-      }
-    
-else {
- document.getElementById("formActions").action =  "allStaticReports";
-}
-
-
-     }  
-       
-    }
        
       jQuery(document).ready(function() {       
          // initiate layout and plugins

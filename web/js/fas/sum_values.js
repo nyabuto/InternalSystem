@@ -42,6 +42,9 @@ document.getElementById("total_"+indicator_id).value = total;
     }
 //eg function sum_multipleindicators('1+2+3-1','4'){
 
+
+
+
 function autocalculate(sourceindicators,destination_indicator){
     console.log(sourceindicators+" = source indicators");
     console.log(destination_indicator+" = destination indicators");
