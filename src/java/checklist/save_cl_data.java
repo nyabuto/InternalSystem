@@ -115,7 +115,7 @@ boolean has_prev_data;
             if(value!=null){
             if(!value.equals("") && !(counted_values==0 && columns_counter==columns.length && value.equals("0"))){
              counted_values++;
-             query+=" "+column_name+"="+value+",";  
+             query+=" "+column_name+"='"+value+"',";  
            }
             else{
            query+=" "+column_name+"=NULL,";       

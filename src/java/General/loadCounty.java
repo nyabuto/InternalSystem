@@ -41,7 +41,7 @@ HttpSession session=null;
     
     dbConn conn= new dbConn();
 county="<option value=\"\">Select County</option>";
-String qr="select * from county";
+String qr="select * from county where isactive=1";
 conn.rs=conn.st.executeQuery(qr);
 while(conn.rs.next()){
 if(sessioncounty.equalsIgnoreCase(conn.rs.getString(1))){

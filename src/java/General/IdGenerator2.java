@@ -114,6 +114,14 @@ String last_reporting_month=ReportingEndDate(prevmonth, year);
        return  mwaka+"-"+last_reporting_month;
     }
     
+    public String LastMonth(){
+       
+      
+ 
+
+       return  ""+prevmonth;
+    }
+   
   public String ReportingEndDate(int prevmont, int Year){
   
       String month_dates;

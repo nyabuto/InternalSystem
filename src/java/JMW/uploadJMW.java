@@ -774,7 +774,7 @@ else{
                     session.setAttribute("form1a", "<b>sending JMW Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke,EMaingi@usaidtujengejamii.org","Admin");
                     
                     //send to user
                     if(!email.equals(""))

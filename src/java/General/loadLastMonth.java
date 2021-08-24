@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  * @author Geofrey Nyabuto
  */
 
-public class loadMonth extends HttpServlet {
+public class loadLastMonth extends HttpServlet {
 HttpSession session;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -96,10 +96,7 @@ above10=" and  id <='"+currentmonth+"' ";
 
                 String selectedopt="";
                 
-                if(conn.rs.getString("prevmonth").equals(""+pmonth)){
-                    selectedopt="";
-                    //selectedopt="selected";
-                }
+                if(conn.rs.getString("prevmonth").equals(""+pmonth)){ selectedopt="selected";}
                 else{ selectedopt="";}
                 
                if(sessionmonth.equalsIgnoreCase(conn.rs.getString("id"))){

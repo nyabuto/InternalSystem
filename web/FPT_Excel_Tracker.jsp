@@ -585,7 +585,7 @@ success:function (data){
       var yr=document.getElementById("year").value;
       
               $.ajax({
-url:'loadMonth?year='+yr,
+url:'loadLastMonth?year='+yr,
 type:'post',
 dataType:'html',
 success:function (data){

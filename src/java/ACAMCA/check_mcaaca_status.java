@@ -56,6 +56,19 @@ int pos=0;
              }
          }
          
+         
+          if(load_type.equalsIgnoreCase("hca"))
+         {
+             if(session.getAttribute("hcapos")!=null)
+             {
+             message = session.getAttribute("hcapos").toString();
+             if(isNumeric(session.getAttribute("hcapos_count").toString()))
+             {
+             pos = Integer.parseInt(session.getAttribute("hcapos_count").toString());
+             }
+             }
+         }
+         
 //        if(load_type.equalsIgnoreCase("covid"))
 //        {
 //             if(session.getAttribute("covidpos")!=null){

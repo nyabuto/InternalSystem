@@ -155,7 +155,7 @@
                   <li > <a href="hcaDownloadTemplate.jsp"><i class="icon-download"></i>Download HCA Template</a></li>
                   
                <li >   <%if(session.getAttribute("userAccess")!=null){%>   
-                  <a href="uploadhca.jsp"><i class="icon-upload"></i>Upload HCA Template</a>
+                  <a href="hcaupload.jsp"><i class="icon-upload"></i>Upload HCA Template</a>
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access HCA upload module</b> </a> <%}%></li> 
                <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->

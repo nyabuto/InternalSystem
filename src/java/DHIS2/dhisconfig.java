@@ -36,7 +36,7 @@ String  dhis2_API_URL_UploadF1a=null;
   {
   
   dhis2_Name ="Afya Nyota Ya Bonde";
-  dhis2_Home_URL ="https://dhis-afyanyota.fhi360.org/";
+  //dhis2_Home_URL ="https://dhis-afyanyota.fhi360.org/";
   dhis2_Home_URL ="https://indextestingapp.uonbi.ac.ke/";
   dhis2_username="tujengejamii";
   dhis2_Password="Usaidtujengejamii21!";
@@ -49,7 +49,8 @@ String  dhis2_API_URL_UploadF1a=null;
   dhis2_API_URL_Dataset="dataSets.json?paging=false&links=false";  
   dhis2_API_URL_OrgunitGroup="organisationUnitGroups.json?paging=false&links=false";  
   dhis2_API_URL_F1a="dataValueSets.json?dataSet=kwoxlVdwR8d&orgUnitGroup=lWgRU0sXJ87&links=false&paging=false&startDate=2020-03-01&endDate=2020-03-31";
-  dhis2_API_URL_DailyART="dataValueSets.json?dataSet=LFO4FCdCY4g&orgUnitGroup=lWgRU0sXJ87&links=false&paging=false&startDate=2020-03-01&endDate=2020-03-31";
+  //dhis2_API_URL_DailyART="dataValueSets.json?dataSet=LFO4FCdCY4g&orgUnitGroup=lWgRU0sXJ87&links=false&paging=false&startDate=2020-03-01&endDate=2020-03-31";
+  dhis2_API_URL_DailyART="dataValueSets.json?dataSet=veM8P1BF9Yq&orgUnit=HfVjCurKxh2&links=false&paging=false&startDate=2020-03-01&endDate=2021-07-31";
   dhis2_API_URL_UploadF1a="dataValueSets";
   
   }  

@@ -150,7 +150,7 @@ public class downloadFPTTemplate extends HttpServlet {
             //do a loop with all the parameters above considered
             String finalpath = "";
 
-            String where = " and subpartnera.active=1";
+            String where = " and subpartnera.active=1 and FPT=1";
 
             if (!subcounty.equals("(")) {
                 where += " and district.districtid in  " + subcounty;

@@ -56,7 +56,7 @@ public class loadSubcounty extends HttpServlet {
     //   System.out.println(" County:"+ county_name); 
        current_districts="";
        
-       String districts="Select * from district where CountyID='"+county_id+"'";
+       String districts="Select * from district where CountyID='"+county_id+"' and DistrictID in (select DistrictID from subpartnera where active=1 )";
        
        dbConn conn=new dbConn();
        

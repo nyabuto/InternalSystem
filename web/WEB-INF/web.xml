@@ -1323,7 +1323,7 @@
     </servlet>
     <servlet>
         <servlet-name>downloadacamcatemplate</servlet-name>
-        <servlet-class>cohorts.downloadacamcatemplate</servlet-class>
+        <servlet-class>ACAMCA.downloadacamcatemplate</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>importacamca</servlet-name>
@@ -1536,6 +1536,18 @@
     <servlet>
         <servlet-name>uploadHCAModule</servlet-name>
         <servlet-class>HCA.uploadHCAModule</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadLastMonth</servlet-name>
+        <servlet-class>General.loadLastMonth</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pushFPTToIndexTestingApp</servlet-name>
+        <servlet-class>DHIS2.pushFPTToIndexTestingApp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadMonthlyFPT</servlet-name>
+        <servlet-class>DHIS2.UploadMonthlyFPT</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -3072,6 +3084,18 @@
     <servlet-mapping>
         <servlet-name>uploadHCAModule</servlet-name>
         <url-pattern>/uploadHCAModule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadLastMonth</servlet-name>
+        <url-pattern>/loadLastMonth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pushFPTToIndexTestingApp</servlet-name>
+        <url-pattern>/pushFPTToIndexTestingApp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadMonthlyFPT</servlet-name>
+        <url-pattern>/UploadMonthlyFPT</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

@@ -149,7 +149,7 @@ public class downloadHCATemplate extends HttpServlet {
             //do a loop with all the parameters above considered
             String finalpath = "";
 
-            String where = " and subpartnera.active=1";
+            String where = " and subpartnera.active=1 and PMTCT=1";
 
             if (!subcounty.equals("(")) {
                 where += " and district.districtid in  " + subcounty;

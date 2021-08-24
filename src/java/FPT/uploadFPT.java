@@ -5,6 +5,9 @@ Age and sex should be gotten from the eid tested raw data during the importing o
  */
 package FPT;
 
+import DHIS2.dhisconfig;
+import DHIS2.pushDataToDHIS2;
+import DHIS2.pushFPTToIndexTestingApp;
 import General.IdGenerator;
 import database.dbConn;
 import form1a.ValidateExcelSL;
@@ -16,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -661,16 +665,14 @@ else{
     //if upload has completed, then sent excel workbook via email
     if (sheetno == totalsheets-1 && issentexcel == false) 
     {
-        mailstosent++;
-        
+        mailstosent++;        
         maildetails.put("fac"+mailstosent, facilityName);
         maildetails.put("st"+mailstosent, uploadstatus);
         maildetails.put("fp"+mailstosent, full_path);
         maildetails.put("fn"+mailstosent, excelfilename);
         maildetails.put("fulln"+mailstosent, fullname);
         
-        System.out.println("FPT file upload for  : "+facilityName+" Status: "+uploadstatus);
-        
+        System.out.println("FPT file upload for  : "+facilityName+" Status: "+uploadstatus);        
         issentexcel = true;
         //SendF1excel(facilityName, uploadstatus , full_path, excelfilename, fullname);
     }
@@ -736,6 +738,31 @@ else{
       //System.out.println("to transfer ni: "+totransferymf);
        
       transferdata(conn, totransferymf);
+      
+      //_______________________________________________________________________________________________________
+      dhisconfig dc = new dhisconfig();
+      String dn =  uploaderdetails.get("dhis_username");
+     String dp =  uploaderdetails.get("dhis_password");
+     
+            dc.setDhis2_username(dn);
+            dc.setDhis2_Password(dp);
+      
+        
+    pushFPTToIndexTestingApp pda= new pushFPTToIndexTestingApp();
+        //getDistinctColumns(conn,"Form 1a");
+       ResultSet f1adata=pda.GetForm1aData(conn, yearm, facilid);
+        
+    
+            org.json.JSONObject jo=pda.toJsonString(conn,f1adata, dc.getDhis2_username());
+             System.out.println("uploading to Data to index Testing App");
+            pda.UploadFPTToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password());            
+            
+       
+      
+      
+      //_______________________________________________________________________________________________________
+      
+     
       }
       else 
       {
@@ -775,7 +802,7 @@ else{
                     session.setAttribute("form1a", "<b>sending FPT Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,EOloo@fhi360.org,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke,EMaingi@usaidtujengejamii.org","Admin");
                     
                     //send to user
                     if(!email.equals(""))
@@ -1178,13 +1205,17 @@ boolean iscomplete=true;
      
          String fname="";
          String mail="";
+         String dun="";
+         String dpw="";
          
-     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
+     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email,indextest_app_uname as dhis2_un,indextest_app_pword as dhis2_pw FROM user WHERE userid='" + user_id + "'";
                 conn.rs1 = conn.st1.executeQuery(getusername);
                 if (conn.rs1.next())
                 {
                     fname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
                     mail = conn.rs1.getString(3);
+                    dun = conn.rs1.getString("dhis2_un");
+                    dpw = conn.rs1.getString("dhis2_pw");
                     //System.out.println("email:"+email);
                 }
                 
@@ -1193,6 +1224,8 @@ boolean iscomplete=true;
      
      map.put("email", mail);
      map.put("name", fname);
+     map.put("dhis_username", dun);
+     map.put("dhis_password", dpw);
                 
                 return map;
      }
