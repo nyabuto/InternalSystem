@@ -174,6 +174,14 @@ return true;
        <td style="padding-left: 200px;"><input type="text" name="lname" id="lname" class="textbox" placeholder="" autocomplete="off" maxlength="30" style="height:25px;" required> </td>
       </tr>
       <tr style="height: 10px;"></tr>
+      
+      <tr>
+       <td><p style="font-family: lucida calligraphy">Enter Email <font color="red">*</font> : </p> </td>  
+         
+       <td style="padding-left: 200px;"><input type="email" name="email" id="email" class="textbox" placeholder="" autocomplete="off" maxlength="30" style="height:25px;" required> </td>
+      </tr>
+      
+      
       <tr>
        <td><p style="font-family: lucida calligraphy">Enter username <font color="red">*</font> : </p> </td>  
          
@@ -240,7 +248,7 @@ Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);              
 
 %>
-               <p align="center" style=" font-size: 18px;"> &copyInternal System, Aphia Plus | USAID <%=year%>.</p>
+               <p align="center" style=" font-size: 18px;"> &copyInternal System, UTJ | USAID <%=year%>.</p>
             </div>
 
     

@@ -95,7 +95,8 @@
                <ul class="sub">
                 
                   <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1A Template</a></li>
-                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A</a></li>
+                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A v 4.0.5 (Aug)</a></li>
+                  <li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(July)</a></li>
                    <!--<li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>-->
                   <!--<li > <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a> </li>-->
                   <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
@@ -224,6 +225,24 @@
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access JMW upload module</b> </a> <%}%></li> 
                
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+             <li class="has-sub ">
+               <a href="#" style='color:red;'>
+                <i class="icon-share"></i>
+               <span class="title">FMATT</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="fmatt_downloadtemplate.jsp"><i class="icon-download"></i>Download FMATT/FIIT Template</a></li>
+                  
+               <li >   <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="fmattupload.jsp"><i class="icon-upload"></i>Upload FMATT Template</a>
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access FMATT upload module</b> </a> <%}%></li> 
+               <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>

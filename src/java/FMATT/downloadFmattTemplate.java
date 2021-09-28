@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package HCA;
+package FMATT;
 
 import database.OSValidator;
 import database.dbConn;
@@ -32,7 +32,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -42,7 +44,7 @@ import scripts.copytemplates;
  *
  * @author EKaunda
  */
-public class downloadHCATemplate extends HttpServlet {
+public class downloadFmattTemplate extends HttpServlet {
 
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     
@@ -60,7 +62,7 @@ public class downloadHCATemplate extends HttpServlet {
 
            
 
-            String allpath = getServletContext().getRealPath("/hca.xlsx");
+            String allpath = getServletContext().getRealPath("/fmatt.xlsx");
 
          
 
@@ -147,7 +149,7 @@ public class downloadHCATemplate extends HttpServlet {
             //do a loop with all the parameters above considered
             String finalpath = "";
 
-            String where = " and subpartnera.active=1 and PMTCT=1";
+            String where = " and subpartnera.active=1 and ART=1";
 
             if (!subcounty.equals("(")) {
                 where += " and district.districtid in  " + subcounty;
@@ -218,16 +220,16 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             String zippath="";
             if (OSValidator.isWindows()) 
             {
-                np = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\HCA_" + dat2 +generateRandomNumber(100, 2000)+ ".xlsx";
+                np = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\FMATT_" + dat2 +generateRandomNumber(100, 2000)+ ".xlsx";
                  if(curworkbook==1){//if the workbooks are more than 1
-                 zippath = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\HCA_Zip_" + county.replace(" ", "_")+"_"+year +"_"+mwezi+ ".zip";
+                 zippath = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\FMATT_Zip_" + county.replace(" ", "_")+"_"+year +"_"+mwezi+ ".zip";
                                    }
             }
             else if (OSValidator.isUnix()) 
             {
-                np = "/HSDSA/InternalSystem/F1a/Templates/HCA_" + dat2+generateRandomNumber(100, 2000) + ".xlsx";
+                np = "/HSDSA/InternalSystem/F1a/Templates/FMATT_" + dat2+generateRandomNumber(100, 2000) + ".xlsx";
                 if(curworkbook==1){ //if the workbooks are more than 1
-                 zippath = "/HSDSA/InternalSystem/F1a/Templates/HCA_Zip_" + county.replace(" ", "_")+"_"+year+"_"+mwezi+ ".zip";
+                 zippath = "/HSDSA/InternalSystem/F1a/Templates/FMATT_Zip_" + county.replace(" ", "_")+"_"+year+"_"+mwezi+ ".zip";
                                   }
                 
             }
@@ -238,7 +240,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             
             
            
-            String sr = getServletContext().getRealPath("/hca.xlsx");
+            String sr = getServletContext().getRealPath("/fmatt.xlsx");
             //check if file exists
 
             //first time , it should create those folders that host the macro file
@@ -285,7 +287,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                 
 
 
-                for (int a = 0; a < monthar.length; a++) {
+                for (int a = 0; a < 2; a++) {
 
 
                     //each workbook here should have all the months 
@@ -294,7 +296,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     
                     
                     int mwaka=0;
-                    month = monthar[a];
+                    month = monthar[0];
                     
                     if(month.length()==1){month="0"+month;}
                     
@@ -331,15 +333,15 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     }
                     System.out.println("no of sheets:"+wb.getNumberOfSheets());
                     XSSFSheet shet=wb.getSheetAt(a+1);
-                    wb.setSheetName(a+1, monthName(monthar[a]));
+                    //wb.setSheetName(a+1, monthName(monthar[a]));
                     //shet.protectSheet("f1av4");
                     //in here, creata sheets    
-                    XSSFRow rw = shet.getRow(0);
+                    XSSFRow rw = shet.getRow(2);
                     
-                    XSSFCell facilcl= rw.getCell(2);
+                    XSSFCell facilcl= rw.getCell(11);
                     facilcl.setCellValue(facilityname);
                     
-                    XSSFCell mflcl= rw.getCell(4);
+                    XSSFCell mflcl= rw.getCell(20);
                     mflcl.setCellValue(mflcode);
                     
                     
@@ -347,15 +349,15 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     //distcl.setCellValue(subcountyname);
                     
                     
-                    //XSSFCell countycl= rw.getCell(19);
-                    //countycl.setCellValue(county);
+                    XSSFCell countycl= rw.getCell(3);
+                    countycl.setCellValue(county);
                     
                     
-                    XSSFCell monthcl= rw.getCell(6);
+                    XSSFCell monthcl= rw.getCell(32);
                     monthcl.setCellValue(month);
                     
                     
-                    XSSFCell yearcl= rw.getCell(8);
+                    XSSFCell yearcl= rw.getCell(27);
                     yearcl.setCellValue(mwaka);
                     
                     
@@ -425,11 +427,11 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                   
             if (OSValidator.isWindows()) 
             {
-                npt = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\HCA_" + facilityname.replace(" ", "_")+"_"+year +"_"+mwezi+ ".xlsx";
+                npt = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\FMATT_" + facilityname.replace(" ", "_")+"_"+year +"_"+mwezi+ ".xlsx";
             }
             else if (OSValidator.isUnix()) 
             {
-                npt = "/HSDSA/InternalSystem/F1a/Templates/HCA_" + facilityname.replace(" ", "_")+"_"+year+"_"+mwezi+ ".xlsx";
+                npt = "/HSDSA/InternalSystem/F1a/Templates/FMATT_" + facilityname.replace(" ", "_")+"_"+year+"_"+mwezi+ ".xlsx";
             }
                 
 
@@ -460,7 +462,7 @@ byte[] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=" + "HCA_"+workbookidentifier.replace(" ", "_") + ".xlsx");
+response.setHeader("Content-Disposition", "attachment; filename=" + "FMATT_"+workbookidentifier.replace(" ", "_") + ".xlsx");
 response.setHeader("Set-Cookie","fileDownload=true; path=/");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
@@ -517,7 +519,7 @@ byte[] outArray = zipFiles(files);
 response.setContentType("application/zip");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=HCA_"+filename+".zip");
+response.setHeader("Content-Disposition", "attachment; filename=FMATT_"+filename+".zip");
 response.setHeader("Set-Cookie","fileDownload=true; path=/");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
@@ -578,10 +580,10 @@ outStream.flush();
             try {
                 processRequest(request, response);
             } catch (InvalidFormatException ex) {
-                Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(downloadFmattTemplate.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadFmattTemplate.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -592,10 +594,10 @@ outStream.flush();
             try {
                 processRequest(request, response);
             } catch (InvalidFormatException ex) {
-                Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(downloadFmattTemplate.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadFmattTemplate.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

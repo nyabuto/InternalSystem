@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
  */
 public class updateProfile extends HttpServlet {
 HttpSession session;
-String fname,mname,lname,username,password,pass,level,userid,fullname;
+String fname,mname,lname,username,password,pass,level,userid,fullname,email;
 String found;
 MessageDigest m;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -41,6 +41,7 @@ MessageDigest m;
     fname=request.getParameter("fname").toUpperCase();
     mname=request.getParameter("mname").toUpperCase();
     lname=request.getParameter("lname").toUpperCase();
+    email=request.getParameter("email");
     username=request.getParameter("username");
     pass=request.getParameter("password");
 
@@ -66,7 +67,7 @@ MessageDigest m;
     
     else{
 //     ADD THE USER
-        String inserter="UPDATE user SET fname=?,mname=?,lname=?,username=?,password=? WHERE userid=?";
+        String inserter="UPDATE user SET fname=?,mname=?,lname=?,username=?,password=?,email=? WHERE userid=?";
         conn.pst=conn.conn.prepareStatement(inserter);
         conn.pst.setString(1, fname);
         conn.pst.setString(2, mname);
@@ -74,6 +75,7 @@ MessageDigest m;
         conn.pst.setString(4, username);
         conn.pst.setString(5, password);
         conn.pst.setString(6, userid);
+        conn.pst.setString(7, email);
     
         conn.pst.executeUpdate();
         
@@ -85,6 +87,7 @@ MessageDigest m;
              session.setAttribute("fname", fname);
              session.setAttribute("mname", mname);
              session.setAttribute("lname", lname);
+             session.setAttribute("email", email);
      session.setAttribute("editProfile", "<font color=\"black\">"+fullname+"</font> <font color=\"green\"> Details edited successfully.</font>");
     }
     

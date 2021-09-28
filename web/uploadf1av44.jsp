@@ -177,7 +177,7 @@ tr>td {
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i>  UPLOAD Form 1A V 4.0.5 (.xlsx)</h4>
+                        <h4><i class="icon-reorder"></i>  UPLOAD Form 1A V 4.0.4 (.xlsx)</h4>
                      </div>
                       
                   <div  class="portlet-body form" id="progress_area" hidden="true">
@@ -187,7 +187,7 @@ tr>td {
                   </div>
                      <div id="upload_area" class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="uploadf1a" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <form action="uploadf1av44" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <!--<form action="fas_trial" id="formActions" method="post" enctype="multipart/form-data" class="form-horizontal">-->
                           
                         <div class="control-group " ></div>

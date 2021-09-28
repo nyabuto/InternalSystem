@@ -68,6 +68,17 @@ int pos=0;
              }
              }
          }
+          if(load_type.equalsIgnoreCase("fmatt"))
+         {
+             if(session.getAttribute("fmattpos")!=null)
+             {
+             message = session.getAttribute("fmattpos").toString();
+             if(isNumeric(session.getAttribute("fmattpos_count").toString()))
+             {
+             pos = Integer.parseInt(session.getAttribute("fmattpos_count").toString());
+             }
+             }
+         }
          
 //        if(load_type.equalsIgnoreCase("covid"))
 //        {

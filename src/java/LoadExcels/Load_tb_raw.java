@@ -476,12 +476,14 @@ String genexpert="";
                                 //this is a string
 			   genexpert = (String)cellgenexpert.getStringCellValue();
                             }
-                            else if(cellgenexpert.getCellType()==0){
+                            else if(cellgenexpert.getCellType()==0)
+                            {
                            //this is a numeric value     
                            genexpert =""+(int)cellgenexpert.getNumericCellValue();
                             
                             }
-                            else {
+                            else 
+                            {
                            genexpert = ""+cellgenexpert.getDateCellValue();
                         
                             }

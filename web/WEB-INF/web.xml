@@ -1549,6 +1549,18 @@
         <servlet-name>UploadMonthlyFPT</servlet-name>
         <servlet-class>DHIS2.UploadMonthlyFPT</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadf1av44</servlet-name>
+        <servlet-class>form1a.uploadf1av44</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadFmattTemplate</servlet-name>
+        <servlet-class>FMATT.downloadFmattTemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadFmattFile</servlet-name>
+        <servlet-class>FMATT.uploadFmattFile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3096,6 +3108,18 @@
     <servlet-mapping>
         <servlet-name>UploadMonthlyFPT</servlet-name>
         <url-pattern>/UploadMonthlyFPT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av44</servlet-name>
+        <url-pattern>/uploadf1av44</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadFmattTemplate</servlet-name>
+        <url-pattern>/downloadFmattTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadFmattFile</servlet-name>
+        <url-pattern>/uploadFmattFile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

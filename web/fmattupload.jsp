@@ -15,7 +15,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Upload HCA</title>
+   <title>Upload Fmatt/IIT</title>
      <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -154,7 +154,7 @@ tr>td {
                  
                   <div class="portlet box blue">
                      <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload HCA Summary data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"> </div>
+                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload FMatt Summary data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"> </div>
                      </div>
                       
                       <div  class="portlet-body form" id="progress_area" hidden="true">
@@ -165,7 +165,7 @@ tr>td {
                       
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
-                        <form action="uploadHCAModule" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                        <form action="uploadFmattFile" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        <input type="file" name="file_name" id="upload" multiple="true" value="" class="textbox" required>   
                        <input type="hidden" name="filesngapi" id="filesngapi"  class="textbox" required>   
                        
@@ -277,7 +277,7 @@ tr>td {
          var idadi=$("#filesngapi").val();
          
              $.ajax({
-        url:'check_mcaaca_status?load_type=hca&idadiyafiles='+idadi,
+        url:'check_mcaaca_status?load_type=fmatt&idadiyafiles='+idadi,
         type:"post",
         dataType:"json",
         success:function(response){

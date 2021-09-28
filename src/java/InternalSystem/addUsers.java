@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 public class addUsers extends HttpServlet {
 HttpSession session;
-String fname,mname,lname,username,password,pass,level,userid,fullname;
+String fname,mname,lname,username,password,pass,level,userid,fullname,email;
 String found;
 MessageDigest m;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +42,7 @@ MessageDigest m;
     username=request.getParameter("username");
     pass=request.getParameter("password");
     level=request.getParameter("level");
+    email=request.getParameter("email");
     
         IdGenerator IG = new IdGenerator();
     
@@ -69,8 +70,8 @@ MessageDigest m;
     
     else {
 //     ADD THE USER
-        String inserter="INSERT INTO user(userid,fname,mname,lname,username,password,level) "
-                + "VALUES(?,?,?,?,?,?,?)";
+        String inserter="INSERT INTO user(userid,fname,mname,lname,username,password,level,email) "
+                + "VALUES(?,?,?,?,?,?,?,?)";
         conn.pst=conn.conn.prepareStatement(inserter);
         conn.pst.setString(1, userid);
         conn.pst.setString(2, fname);
@@ -79,6 +80,7 @@ MessageDigest m;
         conn.pst.setString(5, username);
         conn.pst.setString(6, password);
         conn.pst.setString(7, level);
+        conn.pst.setString(8, email);
         
         conn.pst.executeUpdate();
         

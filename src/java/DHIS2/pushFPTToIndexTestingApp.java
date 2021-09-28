@@ -222,7 +222,7 @@ public ResultSet GetForm1aData(dbConn conn, String Yearmonth_coma_separated, Str
     //in this phase, we are pulling data from three main tables namely fpt (which has all the data for fpt) subpartnera (which has data including orgunit names in ANYB KHIS instance and)
     
     
-            String maintablename="fpt";
+            String maintablename="fpt_baseline";
     
             try {
             String where = "";
@@ -274,11 +274,11 @@ public ResultSet GetForm1aData(dbConn conn, String Yearmonth_coma_separated, Str
                     + "sp.HTC,"
                     + "sp.PMTCT, "
                     + "sp.ART,"
-                    + "ward, "
+                   // + "ward, "
                     + "active, "
-                    + "datimward, "
-                    + "datimid, "
-                    + "datimname, "
+                   // + "datimward, "
+                   // + "datimid, "
+                  //  + "datimname, "
                     + "khisid, "
                     + "khisname, "
                     // Business Rule table begins here                    
@@ -291,10 +291,10 @@ public ResultSet GetForm1aData(dbConn conn, String Yearmonth_coma_separated, Str
                     + "attributeoptioncomboid, "
                     + "attributeoptioncomboname , producercatcomboname ,consumercatcomboid"
                     + " from "+maintablename+" mt "
-                    + " join subpartnera sp on sp.SubPartnerID = mt.facility_id"
+                    + " join subpartnera_vw sp on sp.SubPartnerID = mt.facility_id"
                     +" left join dhis2_businessrule_hit br on br.producerdeid=mt.indicator_id  "
                     + " left join fpt_indicators fpi on fpi.id=mt.indicator_id "
-                    +"   where sp.active=1  "+where+" and br.dataset='Clinical & OVC Index Testing Reporting' and producerdeid is not null   group by mt.indicator_id,consumercatcomboid ";
+                    +"   where sp.active>=1  "+where+" and br.dataset='Clinical & OVC Index Testing Reporting' and producerdeid is not null   group by mt.indicator_id,consumercatcomboid ";
             
                 System.out.println(""+qry);
             

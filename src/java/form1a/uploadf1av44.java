@@ -70,7 +70,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1a extends HttpServlet {
+public class uploadf1av44 extends HttpServlet {
 
  
 
@@ -90,7 +90,7 @@ public class uploadf1a extends HttpServlet {
              
         //F01-01 23
         //poi_row_no_v431
-        Poirowname="poi_row_no";
+        Poirowname="poi_row_no_v44";
         
         
         
@@ -166,7 +166,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.5";
+            String activeversion = "Form 1A  version 4.0.4";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -193,7 +193,7 @@ public class uploadf1a extends HttpServlet {
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "uploadf1a.jsp";
+            nextpage = "uploadf1av44.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -222,7 +222,7 @@ public class uploadf1a extends HttpServlet {
                     
                     if (!fileName.endsWith(".xlsx")) {
                         
-                        nextpage = "uploadf1a.jsp";
+                        nextpage = "uploadf1av44.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
@@ -231,7 +231,7 @@ public class uploadf1a extends HttpServlet {
                 
                 if (!fileName.endsWith(".xlsx")) {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "uploadf1a.jsp";
+                    nextpage = "uploadf1av44.jsp";
                 } else {
                     
                     //start reading the contents
@@ -250,7 +250,7 @@ public class uploadf1a extends HttpServlet {
                         XSSFWorkbook workbook = new XSSFWorkbook(bfs);
                         int rowCount=245;
                         
-                        String rn="select count(id) from fas_indicators where is_active=1 and dataset='form1a'";
+                        String rn="select count(id) from fas_indicators where active_old_v44=1 and dataset='form1a'";
                         
                         conn.rs=conn.st.executeQuery(rn);
                         
@@ -295,7 +295,7 @@ if (!sheetname.equals("InstructionsForm1A")) {
     }
     else 
     {    
-     Poirowname="poi_row_no";   
+     Poirowname="poi_row_no_v44";   
     }
     
     }
@@ -638,9 +638,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.5 <a href='uploadf1av44.jsp'>Upload Version 4.0.4 here</href> <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.4 <a href='uploadf1av44.jsp'>Upload Version 4.0.3 here</href> <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.5. <a href='uploadf1av44.jsp'>Upload Version 4.0.4 here</href> \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.4. <a href='uploadf1av44.jsp'>Upload Version 4.0.3 here</href> \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -846,13 +846,13 @@ else{
           
           
           
-          response.sendRedirect("uploadf1a.jsp");
+          response.sendRedirect("uploadf1av44.jsp");
           }
           
           else if(no_uploads==0){
           session.setAttribute("warnings", "");
           session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("uploadf1a.jsp"); 
+          response.sendRedirect("uploadf1av44.jsp"); 
           }
           
           else if(total_errors>0){

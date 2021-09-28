@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
  */
 public class login extends HttpServlet {
 HttpSession session;
-String username,password,fname,mname,lname,userid,level,pass,fullname,status,nextPage;
+String username,password,fname,mname,lname,userid,level,pass,fullname,status,nextPage,email;
 MessageDigest m;
 String userAccess;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -47,7 +47,7 @@ String userAccess;
         System.out.println("username : "+username+" password : "+password);  
         String logger="SELECT userid,fname,mname,lname,level,"
        + "access_reports,access_maintenance,access_moh711,access_moh731,"
-                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct,access_form1a,readonly_form1a,access_checklist " 
+                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct,access_form1a,readonly_form1a,access_checklist,email " 
                 + " FROM user WHERE username=? && password=?" ;
         conn.pst=conn.conn.prepareStatement(logger);
         conn.pst.setString(1, username);
@@ -60,6 +60,7 @@ String userAccess;
              mname=conn.rs.getString(3);
              lname=conn.rs.getString(4);
              level=conn.rs.getString(5);
+             email=conn.rs.getString("email");
              fullname=fname+" "+mname+" "+lname;
              session.setAttribute("userid", userid);
              session.setAttribute("fullname", fullname);
@@ -69,6 +70,7 @@ String userAccess;
              session.setAttribute("fname", fname);
              session.setAttribute("mname", mname);
              session.setAttribute("lname", lname);
+             session.setAttribute("email", email);
              
              if(conn.rs.getInt("access_reports")==1){userAccess+="reports,";}
              if(conn.rs.getInt("access_maintenance")==1){userAccess+="maintenance,";}

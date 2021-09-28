@@ -97,7 +97,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
                         }
                             System.out.println("added is : "+added);
                             
-            query = "INSERT INTO "+dbname+" SET ";
+            query = "REPLACE INTO "+dbname+" SET ";
             query_update = "UPDATE "+dbname+" SET ";
              int colmnscounter=0;
         SubPartnerID=mfl_code=date_tested=samplecode="";            
@@ -211,7 +211,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
         if(conn.rs1.next()){
             
-        conn.st.executeUpdate(query_update);
+        conn.st.executeUpdate(query);
             updated++;
         }
         else{

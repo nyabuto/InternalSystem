@@ -179,6 +179,11 @@ return true;
          
        <td style="padding-left: 200px;"><input type="text" name="username" id="username" class="textbox" placeholder="" value="<%if(session.getAttribute("username")!=null){out.println(session.getAttribute("username").toString());}%>" autocomplete="off" maxlength="30" style="height:25px;" required> </td>
       </tr>
+      <tr>
+       <td><p style="font-family: lucida calligraphy">Enter email <font color="red">*</font> : </p> </td>  
+         
+       <td style="padding-left: 200px;"><input type="email" name="email" id="email" class="textbox" placeholder="" value="<%if(session.getAttribute("email")!=null){out.println(session.getAttribute("email").toString());}%>" autocomplete="off" maxlength="30" style="height:25px;" required> </td>
+      </tr>
       <tr style="height: 10px;"></tr>
       <tr>
        <td><p style="font-family: lucida calligraphy">Enter password <font color="red">*</font> : </p> </td>  

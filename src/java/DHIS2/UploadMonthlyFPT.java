@@ -46,11 +46,11 @@ public class UploadMonthlyFPT extends HttpServlet {
            String uniquefacils="select distinct(facility_id) as facilid, "
                    + " 'tujengejamii' as dhis_uname ,"
                    + " 'Usaidtujengejamii21!' as dhis2_pword "
-                   + " from fpt "
-                   + " join subpartnera sp on sp.subpartnerid=fpt.facility_id "
+                   + " from fpt_baseline ft "
+                   + " join subpartnera_vw sp on sp.subpartnerid=ft.facility_id "
                    + " join district dis on dis.DistrictID=sp.DistrictID"
                    + " join county ct on ct.CountyID=dis.CountyID"
-                   + " where yearmonth='"+yearmonth+"'  ";
+                   + " where yearmonth='"+yearmonth+"'   ";
           
            dhisconfig dc = new dhisconfig();
            conn.rs=conn.st.executeQuery(uniquefacils);

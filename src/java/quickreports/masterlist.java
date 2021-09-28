@@ -123,7 +123,7 @@ public class masterlist extends HttpServlet {
         String mflistname="USAID Tujenge Jamii ";
         String detailedprocedurename="rpt_masterlist";
         String summaryprocedurename="rpt_masterlist_summary";
-         mergerow="14";
+         mergerow="11";
          if(year.equals(""))
          {
          mflistname=" USAID Tujenge Jamii ";
