@@ -1561,6 +1561,14 @@
         <servlet-name>uploadFmattFile</servlet-name>
         <servlet-class>FMATT.uploadFmattFile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ACA_MCA_Rawdata</servlet-name>
+        <servlet-class>ACAMCA.ACA_MCA_Rawdata</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ACA_MCA_tracker</servlet-name>
+        <servlet-class>ACAMCA.ACA_MCA_tracker</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3120,6 +3128,14 @@
     <servlet-mapping>
         <servlet-name>uploadFmattFile</servlet-name>
         <url-pattern>/uploadFmattFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACA_MCA_Rawdata</servlet-name>
+        <url-pattern>/ACA_MCA_Rawdata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ACA_MCA_tracker</servlet-name>
+        <url-pattern>/ACA_MCA_tracker</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

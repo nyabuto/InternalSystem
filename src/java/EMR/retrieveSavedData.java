@@ -5,7 +5,7 @@
  */
 package EMR;
 
-import com.mysql.jdbc.ResultSetMetaData;
+import java.sql.ResultSetMetaData;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;

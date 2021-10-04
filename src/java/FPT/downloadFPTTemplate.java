@@ -807,7 +807,7 @@ ResultSetMetaData md = rs.getMetaData();
                  
                  System.out.println(" Value ya "+fullkey+" ni "+data_to_populatedatahm.get(fullkey));
                  
-               cl.setCellValue( new Integer(data_to_populatedatahm.get(fullkey).toString()));
+               cl.setCellValue( new Double(data_to_populatedatahm.get(fullkey).toString()));
                
                 //System.out.println("Populated as Integer");  
              }

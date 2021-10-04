@@ -100,6 +100,7 @@
                    <!--<li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>-->
                   <!--<li > <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a> </li>-->
                   <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
+                  <li > <a href="F1aUserGuide.pptx"><i class="icon-download"></i>Form 1a User Guide</a></li>
                   <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
                 
             </ul>
@@ -167,7 +168,7 @@
             </li>
             
              <li class="has-sub ">
-               <a href="#" style='color:red;'>
+               <a href="#" >
                 <i class="icon-share"></i>
                <span class="title">HCA</span>
                <span class="arrow "></span>
@@ -211,7 +212,7 @@
             <li class="has-sub ">
                <a href="#" >
                 <i class="icon-step-forward"></i>
-               <span class="title" ><b>Jua Mtoto Wako</b></span>
+               <span class="title" >Jua Mtoto Wako</span>
                <span class="arrow "></span>
                </a>
                <ul class="sub">
@@ -388,6 +389,11 @@
    <li > <a href="emr_status_tracker.jsp"><i class="icon-flag"></i>EMR Status Missing Reports</a></li> 
    
 </ul>
+            </li>
+            
+            
+            <li class="">
+               <a href="https://usaidtujengejamii.org/" target="_blank"><i class="icon-plus"></i>More Reporting Modules</a>
             </li>
             
 <!--             <li class="has-sub">

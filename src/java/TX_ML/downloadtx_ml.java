@@ -875,7 +875,7 @@ ResultSetMetaData md = rs.getMetaData();
              if(data_to_populatedatahm.get(fullkey)!=null){
              if(isNumeric(data_to_populatedatahm.get(fullkey))){
                  
-               cl.setCellValue( new Integer(data_to_populatedatahm.get(fullkey)));
+               cl.setCellValue( new Double(data_to_populatedatahm.get(fullkey)));
                
                 //System.out.println("Populated as Integer");  
              }

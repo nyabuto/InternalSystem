@@ -78,6 +78,7 @@
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
                
                <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
+               <li > <a href="F1aUserGuide.pptx"><i class="icon-download"></i>Form 1a User Guide</a></li>
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
@@ -178,6 +179,7 @@
                   <a href="uploadacamca.jsp"><i class="icon-upload"></i>Upload ACA/MCA</a>
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access ACA/MCA upload module</b> </a> <%}%></li> 
+                 <li> <a href="aca_mca_reports.jsp"><i class="icon-signin"></i>ACA/MCA Reports</a></li>
                <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
@@ -401,7 +403,7 @@
                <span class="title">Training Module</span>
                </a>
             </li>
-<li  class="has-sub">
+         <li  class="has-sub">
                 <a id="emrstatus" href="#">
                 <i class="icon-align-justify"></i>
                <span class="title">EMR Status</span>
@@ -411,6 +413,19 @@
    <li > <a href="EMR.jsp"><i class="icon-align-justify"></i>EMR Status Entry Form</a></li>                 
    <li > <a href="emr_status_report.jsp"><i class="icon-filter"></i>EMR Status Submitted Reports</a></li> 
    <li > <a href="emr_status_tracker.jsp"><i class="icon-flag"></i>EMR Status Missing Reports</a></li> 
+   
+</ul>
+    
+            </li>
+            <li  class="has-sub">
+                <a id="emrstatus" href="#">
+                <i class="icon-align-justify"></i>
+               <span class="title">Other Reporting Modules</span>
+               </a>
+     <ul class="sub">
+                             
+   <li > <a href="https://usaidtujengejamii.org/"><i class="icon-align-justify"></i>Other Reporting Modules</a></li>                 
+   
    
 </ul>
     

@@ -186,11 +186,11 @@ if(query.contains("select ") || query.contains("call ")){
 
                     if (isNumeric(value)) {
                         try{
-                        cell.setCellValue(Integer.parseInt(value));
+                        cell.setCellValue(Double.parseDouble(value));
                         cell.setCellStyle(stborder); 
                         }
                         catch(NumberFormatException nfe){ // output it as a string
-                        cell.setCellValue(value);
+                        cell.setCellValue(Double.parseDouble(value));
                         cell.setCellStyle(stborder);  
                         }
                     } 
@@ -306,9 +306,21 @@ message="There is nothing to be executed in this query. Review it and try execut
     }// </editor-fold>
 
     
-    public boolean isNumeric(String s) {
-        return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+//    public boolean isNumeric(String s) {
+//        return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+//    }
+    
+     public static boolean isNumeric(String strNum) {
+      
+    
+    try {
+        double d = Double.parseDouble(strNum);
+    } catch (NumberFormatException | NullPointerException nfe) {
+        return false;
     }
+    return true;
+      
+}
 
     private static String removeLast(String str, int num) {
         return str.substring(0, str.length() - num);

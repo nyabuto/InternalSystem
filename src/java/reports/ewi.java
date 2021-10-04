@@ -5,7 +5,7 @@
  */
 package reports;
 
-import com.mysql.jdbc.CallableStatement;
+import java.sql.CallableStatement;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -5,7 +5,7 @@
  */
 package Datim;
 
-import com.mysql.jdbc.CallableStatement;
+import java.sql.CallableStatement;
 import database.dbConn;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,14 +27,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.ComparisonOperator;
-import org.apache.poi.ss.usermodel.ConditionalFormattingRule;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.PatternFormatting;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.Region;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -346,7 +342,7 @@ String validationsheet="";
                     XSSFCell cell = RowData.createCell(i);
 
                     if (isNumeric(value)) {
-                        cell.setCellValue(Integer.parseInt(value));
+                        cell.setCellValue(Double.parseDouble(value));
 
                         if (value.contains("-") ) {
 if(!validationsheet.contains("Data Validation")){
@@ -493,7 +489,7 @@ if(!validationsheet.contains("Data Validation")){
             XSSFCell cell = Rw.createCell(a);
             String val = valuearray[a];
             if (isNumeric(val)) {
-                cell.setCellValue(new Integer(val));
+                cell.setCellValue(new Double(val));
             } else {
                 cell.setCellValue(val);
             }
