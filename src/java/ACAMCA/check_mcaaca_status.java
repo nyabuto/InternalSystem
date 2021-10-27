@@ -80,6 +80,18 @@ int pos=0;
              }
          }
          
+          if(load_type.equalsIgnoreCase("dvt"))
+         {
+             if(session.getAttribute("dvtpos")!=null)
+             {
+             message = session.getAttribute("fdvtpos").toString();
+             if(isNumeric(session.getAttribute("dvtpos_count").toString()))
+             {
+             pos = Integer.parseInt(session.getAttribute("dvtpos_count").toString());
+             }
+             }
+         }
+          
 //        if(load_type.equalsIgnoreCase("covid"))
 //        {
 //             if(session.getAttribute("covidpos")!=null){

@@ -229,7 +229,7 @@ public class update_vl_results extends HttpServlet {
                 facil=conn.rs.getString("Facility_Name");
                 
                 String getmax_res="select Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name  from vl_surge where Uniquecccno(Patient_CCC_No) = '"+cccno+"' and MFL_Code='"+mfl+"' and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample'  order by Date_collected DESC limit 1 ";
-                System.out.println("count number:"+searchcount);
+                //System.out.println("count number:"+searchcount);
                 conn.rs1=conn.st1.executeQuery(getmax_res);
                 
                 if(conn.rs1.next()){
@@ -259,9 +259,9 @@ public class update_vl_results extends HttpServlet {
                      session.setAttribute("vlquery",updaterecord);
                      session.setAttribute("vlcount",updatedrows);
                     
-                    System.out.println(updatedrows+": Records updated "+facili+"\n");
+                   // System.out.println(updatedrows+": Records updated "+facili+"\n");
                     
-                    System.out.println("Update Status "+conn.st3.executeUpdate(updaterecord));
+                   // System.out.println("Update Status "+conn.st3.executeUpdate(updaterecord));
                    
                     
                 }

@@ -1569,6 +1569,42 @@
         <servlet-name>ACA_MCA_tracker</servlet-name>
         <servlet-class>ACAMCA.ACA_MCA_tracker</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getReportingDates</servlet-name>
+        <servlet-class>COURSES.getReportingDates</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSites</servlet-name>
+        <servlet-class>COURSES.loadSites</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadCourseNames</servlet-name>
+        <servlet-class>COURSES.loadCourseNames</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getParameterData</servlet-name>
+        <servlet-class>COURSES.getParameterData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveCourseData</servlet-name>
+        <servlet-class>COURSES.saveCourseData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>coursesreported</servlet-name>
+        <servlet-class>COURSES.coursesreported</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadDVTemplate</servlet-name>
+        <servlet-class>checklist.downloadDVTemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>syncBaselineTable</servlet-name>
+        <servlet-class>FPT.syncBaselineTable</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>mne_upload_template</servlet-name>
+        <servlet-class>mne_upload_template</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3136,6 +3172,42 @@
     <servlet-mapping>
         <servlet-name>ACA_MCA_tracker</servlet-name>
         <url-pattern>/ACA_MCA_tracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getReportingDates</servlet-name>
+        <url-pattern>/getReportingDates</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSites</servlet-name>
+        <url-pattern>/loadSites</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadCourseNames</servlet-name>
+        <url-pattern>/loadCourseNames</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getParameterData</servlet-name>
+        <url-pattern>/getParameterData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveCourseData</servlet-name>
+        <url-pattern>/saveCourseData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>coursesreported</servlet-name>
+        <url-pattern>/coursesreported</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadDVTemplate</servlet-name>
+        <url-pattern>/downloadDVTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>syncBaselineTable</servlet-name>
+        <url-pattern>/syncBaselineTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mne_upload_template</servlet-name>
+        <url-pattern>/mne_upload_template</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

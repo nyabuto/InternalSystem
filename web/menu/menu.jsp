@@ -65,13 +65,13 @@
                   <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1A Template</a></li>
                   
                <li >   <%if(session.getAttribute("userAccess")!=null){%>   
-                  <a title="latest_version" href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A (Aug)</a>
+                  <a title="latest_version" href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A</a>
                   
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
                 <li >   <%if(session.getAttribute("userAccess")!=null){%>   
-                  <li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4 (Jul)</a></li>
+                  <li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(july)</a></li>
                   
                   
                    <%} else {%> 
@@ -208,8 +208,30 @@
             </ul>
             </li>
             
+            
             <li class="has-sub ">
                <a href="#" style='color:red;'>
+                <i class="icon-search"></i>
+               <span class="title">Data Verification Excel</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="mne_cl_getTemplate.jsp"><i class="icon-download"></i>Download Verification Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="mne_upload_template.jsp"><i class="icon-upload"></i>Upload Data Verification Template</a>
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Data Verification upload module</b> </a> <%}%></li> 
+               <!--<li >  <a href="HTS_Screening_Tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>-->
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+            
+            <li class="has-sub ">
+               <a href="#" >
                 <i class="icon-share"></i>
                <span class="title">FMATT</span>
                <span class="arrow "></span>
@@ -296,6 +318,9 @@
                  <li> <a href="VL_autoupdate_results.jsp"><i class="icon-upload"></i>Autoupdate VL Results</a></li>
                  <li> <a href="Sync_VL_Results.jsp"><i class="icon-upload"></i>Sync VL Results</a></li>
                  <li> <a href="Final_Sync_VL_Results.jsp"><i class="icon-upload"></i>Final Sync VL Results</a></li>
+                 <li> <a href="Final_Sync_VL_Results.jsp"><i class="icon-upload"></i>FPT Refresh baselines table </a></li>
+                 <li> <a href="fpt_tobaselines_refresh.jsp"><i class="icon-upload"></i>FPT Refresh baselines table </a></li>
+                 <li> <a href="fpt_sendDataToDHIS.jsp"><i class="icon-upload"></i>Fpt - Push to DHIS2 HIT </a></li>
                 
                   
                   

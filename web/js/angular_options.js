@@ -33,7 +33,7 @@ appl.controller('emrcont', function($scope , $http) {
  var _yesno=["Yes","No"];
  var _emrstatus=["POC","RDE","Stalled"];
  var _emrversion=["18.0.1","17.5.1","17.3.4","17.3.3","17.3.2","17.3.1","17.2.1","17.2.0"];
- var _adtversion=["4.0.0","3.4.2","3.4.1","3.4.0"];
+ var _adtversion=["4.0.1","4.0.0","3.4.2","3.4.1","3.4.0"];
 
  
  var mns=[{id:'01',val:'January'},{id:'02',val:'February'},{id:'03',val:'March'},{id:'04',val:'April'},{id:'05',val:'May'},{id:'06',val:'June'},{id:'07',val:'July'},{id:'08',val:'August'},{id:'09',val:'September'},{id:'10',val:'October'},{id:'11',val:'November'},{id:'12',val:'December'}];

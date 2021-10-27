@@ -113,6 +113,8 @@ String last_reporting_month=ReportingEndDate(prevmonth, year);
 
        return  mwaka+"-"+last_reporting_month;
     }
+   
+   
     
     public String LastMonth(){
        
@@ -141,7 +143,29 @@ String last_reporting_month=ReportingEndDate(prevmonth, year);
   }
   
   
+    public String LastMonthStartDate(){
+       
+       int mwaka=currentYear();
+       
+if(prevmonth==0){mwaka=mwaka-1;}     
+
+String last_reporting_month=ReportingStartDate(prevmonth, year);
+
+       return  mwaka+"-"+last_reporting_month;
+    }
   
+    
+    public String LastMonthEndDate(){
+       
+       int mwaka=currentYear();
+       
+if(prevmonth==0){mwaka=mwaka-1;}     
+
+String last_reporting_month=ReportingEndDate(prevmonth, year);
+
+       return  mwaka+"-"+last_reporting_month;
+    }
+    
   
   public int getNumberOfDays(int Year, int monthid ){
   
@@ -214,6 +238,20 @@ String last_reporting_month=ReportingEndDate(prevmonth, year);
   
   }
   
+  
+    public String ReportingStartDate(int prevmont, int Year){
+  
+     
+      
+      String mwezini=""+prevmont;
+      
+      if(prevmont==0){mwezini="12";}
+      else if(prevmont>=1 && prevmont<=9){mwezini="0"+mwezini;}
+      
+      
+  
+     return mwezini+"-01";
+  }
   
   
 }

@@ -95,7 +95,7 @@
                <ul class="sub">
                 
                   <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1A Template</a></li>
-                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A v 4.0.5 (Aug)</a></li>
+                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A v 4.0.5</a></li>
                   <li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(July)</a></li>
                    <!--<li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>-->
                   <!--<li > <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a> </li>-->
@@ -229,8 +229,31 @@
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
+            
+            
              <li class="has-sub ">
                <a href="#" style='color:red;'>
+                <i class="icon-search"></i>
+               <span class="title"><b>Data Verification Excel</b></span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="mne_cl_getTemplate.jsp"><i class="icon-download"></i>Download Verification Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="mne_upload_template.jsp"><i class="icon-upload"></i>Upload Data Verification Template</a>
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Data Verification upload module</b> </a> <%}%></li> 
+               <!--<li >  <a href="HTS_Screening_Tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>-->
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+            
+             <li class="has-sub ">
+               <a href="#" >
                 <i class="icon-share"></i>
                <span class="title">FMATT</span>
                <span class="arrow "></span>
@@ -268,6 +291,9 @@
                  <li> <a href="VL_autoupdate_results.jsp"><i class="icon-upload"></i>Autoupdate VL Results</a></li>
                  <li> <a href="Sync_VL_Results.jsp"><i class="icon-upload"></i>Sync VL Results</a></li>
                  <li> <a href="Final_Sync_VL_Results.jsp"><i class="icon-upload"></i>Final VL Results Refresh</a></li>
+                 <li> <a href="fpt_tobaselines_refresh.jsp"><i class="icon-upload"></i>FPT Refresh baselines table </a></li>
+                 <li> <a href="fpt_sendDataToDHIS.jsp"><i class="icon-upload"></i>Fpt - Push to DHIS2 HIT </a></li>
+                
                  <%}}}else{}}%>
                    <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Profile</a></li>
                </ul>
