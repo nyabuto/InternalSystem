@@ -331,12 +331,12 @@ $('input[type=file]').change(function () {
      
 </script>
    
- <%if (session.getAttribute("hca_loaded") != null) { %>
+ <%if (session.getAttribute("uploadedhca") != null) { %>
    <script type="text/javascript"> 
                     
          $.notify(
-      {icon: "images/validated.jpg", 
-  message:'<%=session.getAttribute("hca_loaded")%>'},
+      { 
+  message:'<%=session.getAttribute("uploadedhca")%>'},
       {
 	icon_type: 'image'
       }, 
@@ -352,7 +352,7 @@ $('input[type=file]').change(function () {
                 </script>
                 
                 <%
-                session.removeAttribute("hca_loaded");
+                session.removeAttribute("uploadedhca");
                             }
 
                         %>

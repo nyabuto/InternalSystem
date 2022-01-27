@@ -10,22 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.SendFailedException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -148,7 +134,7 @@ int indic_counter;
             section_name = "No Section";
             section_code="0";
             section_label="";
-            String columns[] = {"m_uk", "f_uk", "m_1", "f_1", "m_4", "f_4", "m_9", "f_9", "m_14", "f_14", "m_19", "f_19", "m_24", "f_24", "m_29", "f_29", "m_34", "f_34", "m_39", "f_39", "m_44", "f_44", "m_49", "f_49", "m_50", "f_50","total"};
+            String columns[] = {"m_uk", "f_uk", "m_1", "f_1", "m_4", "f_4", "m_9", "f_9", "m_14", "f_14", "m_19", "f_19", "m_24", "f_24", "m_29", "f_29", "m_34", "f_34", "m_39", "f_39", "m_44", "f_44", "m_49", "f_49","m_50","f_50","m_54","f_54","m_59","f_59","m_60","f_60","m_65","f_65","total"};
             //load indicators from the table
             String tbls = "select * from fas_indicators where database_name='" + database_name + "' and is_active='1' AND ("+supported_services.replace("WHERE", "")+") order by order_no asc";
              // System.out.println("indicators per table :"+tbls);
@@ -328,9 +314,15 @@ int indic_counter;
                     + "<td colspan='2'>40-44</td>"
                     + "<td colspan='2'>45-49</td>"
                     + "<td colspan='2'>50+</td>"
+                    + "<td colspan='2'>50-54</td>"
+                    + "<td colspan='2'>55-59</td>"
+                    + "<td colspan='2'>60-64</td>"
+                    + "<td colspan='2'>65+</td>"
                     + "<td>Total</td>"
                     + "</tr>";
             output += "<tr  style=\"font-weight:bold; background:#a9c7e4;\"><td>M</td><td>F</td>"
+                    + "<td>M</td><td>F</td><td>M</td><td>F</td>"
+                    + "<td>M</td><td>F</td><td>M</td><td>F</td>"
                     + "<td>M</td><td>F</td><td>M</td><td>F</td>"
                     + "<td>M</td><td>F</td><td>M</td><td>F</td>"
                     + "<td>M</td><td>F</td><td>M</td><td>F</td>"

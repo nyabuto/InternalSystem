@@ -13,7 +13,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Upload F1A</title>
+   <title>Upload TXML</title>
      <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -171,13 +171,13 @@ tr>td {
                </div>
             </div>
             <!-- END PAGE HEADER-->
-            <!-- BEGIN PAGE CONTENT-->
+            <!-- BEGIN PAGE CONTENT-->a
             <div class="row-fluid">
                <div class="span12">
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i>  UPLOAD TX ML V 1.0.0  (.xlsx)</h4>
+                        <h4><i class="icon-reorder"></i>  UPLOAD TX ML V 1.0.1  (.xlsx)</h4>
                        
                      </div>
                       

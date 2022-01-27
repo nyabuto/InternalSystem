@@ -84,7 +84,7 @@ int pos=0;
          {
              if(session.getAttribute("dvtpos")!=null)
              {
-             message = session.getAttribute("fdvtpos").toString();
+             message = session.getAttribute("dvtpos").toString();
              if(isNumeric(session.getAttribute("dvtpos_count").toString()))
              {
              pos = Integer.parseInt(session.getAttribute("dvtpos_count").toString());

@@ -57,7 +57,7 @@ public class downloadTemplate extends HttpServlet {
 
            
 
-            String allpath = getServletContext().getRealPath("/F1v45.xlsx");
+            String allpath = getServletContext().getRealPath("/F1v5.xlsx");
 
          
 
@@ -233,7 +233,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             
             
            
-            String sr = getServletContext().getRealPath("/F1v45.xlsx");
+            String sr = getServletContext().getRealPath("/F1v5.xlsx");
             //check if file exists
 
             //first time , it should create those folders that host the macro file
@@ -338,7 +338,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                      wb.setForceFormulaRecalculation(true);
                   lockf1a lf1a= new lockf1a();
                   
-                 wb= lf1a.lockexcel(shet, wb);
+                // wb= lf1a.lockexcel(shet, wb);
 
                 }
                 //outside here, create workbooks

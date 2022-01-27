@@ -95,8 +95,8 @@
                <ul class="sub">
                 
                   <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1A Template</a></li>
-                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A v 4.0.5</a></li>
-                  <li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(July)</a></li>
+                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A (v 5.0.0)</a></li>
+                  <!--<li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(July)</a></li>-->
                    <!--<li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>-->
                   <!--<li > <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a> </li>-->
                   <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
@@ -142,7 +142,7 @@
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access HTS Screening upload module</b> </a> <%}%></li> 
-               <!--<li >  <a href="HTS_Screening_Tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>-->
+               <li >  <a href="htsscreening_tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
@@ -202,6 +202,7 @@
                   <a href="uploadacamca.jsp"><i class="icon-upload"></i>Upload ACA/MCA</a>
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access ACA/MCA upload module</b> </a> <%}%></li> 
+                    <li> <a href="aca_mca_reports.jsp"><i class="icon-signin"></i>ACA/MCA Reports</a></li>
                <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
@@ -246,6 +247,7 @@
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Data Verification upload module</b> </a> <%}%></li> 
+               <li><a href="DQA_Reports.jsp">Data Verification Reports</a></li>
                <!--<li >  <a href="HTS_Screening_Tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>-->
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
@@ -266,7 +268,7 @@
                   <a href="fmattupload.jsp"><i class="icon-upload"></i>Upload FMATT Template</a>
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access FMATT upload module</b> </a> <%}%></li> 
-               <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
+                <li >  <a href="fmatt_reports.jsp"><i class="icon-upload"></i>FMATT Report & Tracker</a></li>
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>

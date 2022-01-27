@@ -6,6 +6,7 @@ Age and sex should be gotten from the eid tested raw data during the importing o
 
 package FMATT;
 
+import General.AttachFileOnEmail;
 import database.dbConn;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -51,7 +53,7 @@ import org.json.simple.JSONObject;
   private static final long serialVersionUID = 205242440643911308L;
   private static final String UPLOAD_DIR = "uploads";
   String nextpage="";
-  String quarterName,facilityName,facilityID,missingFacility;
+  String quarterName,facilityName,facilityID,missingFacility,mfl;
           
   String fileNames="";
 
@@ -164,10 +166,12 @@ int filescount=0;
          
          
          }
+         
+         ArrayList uploadedfiles=new ArrayList();
+         
           if(!fileName.endsWith(".xlsx"))
-          {          
+          {        
        
-          
           nextpage="fmattupload.jsp";
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose a .xlsx excel file .</font>");
           
@@ -175,221 +179,268 @@ int filescount=0;
           
           else {
            
-                
-              
-         fileNames+=fileName+", ";
-         
-         full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;
-         
-         System.out.println("the saved file directory is  :  "+full_path);
+             try {
+                 rowgani=1;
+                 rowCount=217;
+                 
+                 fileNames+=fileName+",<br/> ";
+                 
+                 full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;
+                 
+                 System.out.println("the saved file directory is  :  "+full_path);
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
          
-         FileInputStream fileInputStream = new FileInputStream(full_path);
-         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-         
-         int totalsheets=workbook.getNumberOfSheets();
-     
-        
-         for(int a=0;a<totalsheets;a++)
-         {
-         
-             
-         XSSFSheet worksheet = workbook.getSheetAt(a);
-         
-         
-          System.out.println( a+" ("+workbook.getSheetName(a)+") out of "+totalsheets+" sheets");
-         
-            
-//______________________________________________________________________
-         
-//======================================================================DB Sheet======================================================================================                 
-//import data from the db sheet             
-if(workbook.getSheetName(a).equals("db")) 
+//
+
+
+
+
+
+
+
+FileInputStream fileInputStream = new FileInputStream(full_path);
+XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+
+int totalsheets=workbook.getNumberOfSheets();
+
+
+for(int a=0;a<totalsheets;a++)
 {
-System.out.println("Inside loop");
-       
+    
+    
+    XSSFSheet worksheet = workbook.getSheetAt(a);
+    
+    
+    System.out.println( a+" ("+workbook.getSheetName(a)+") out of "+totalsheets+" sheets");
+    
+    
+//______________________________________________________________________
 
-      
-       String version="";
-      XSSFCell cellversion = worksheet.getRow(4).getCell((short) 1);
-                 
-      
-         if(cellversion.getCellType()==0)
-                     {   //numeric
-                         version =""+(int)cellversion.getNumericCellValue();
-                     }
-                     else if(cellversion.getCellType()==1)
-                     {
-                         version =cellversion.getStringCellValue();
-                     }
-      
-         
-                    System.out.println("Version"+version);
-       
-      
-
+//======================================================================DB Sheet======================================================================================
+//import data from the db sheet
+if(workbook.getSheetName(a).equals("db"))
+{
+    System.out.println("Inside loop");
+    
+    
+    
+    String version="";
+    XSSFCell cellversion = worksheet.getRow(4).getCell((short) 1);
+    
+    
+    if(cellversion.getCellType()==0)
+    {   //numeric
+        version =""+(int)cellversion.getNumericCellValue();
+    }
+    else if(cellversion.getCellType()==1)
+    {
+        version =cellversion.getStringCellValue();
+    }
+    
+    
+    System.out.println("Version"+version);
+    
+    
+    
     boolean haserror=false;
     String haserrorvalue="";
-  
-          
-  if(1==1 ){
-       
-       System.out.println(" No HCA error value or version ");
+    
+    
+    if(1==1 ){
         
-      
-                 
-         
-         Iterator rowIterator = worksheet.rowIterator();
-         
-         
-         int i=1,y=0;
-         
-         //static number of rows
-         while(i<=216){
-             
-              String insertqr_parta= "replace into fmatt_data (";  // finish with )
-         String insertqr_partb= " values ("; // finish with )
-             
-             try {
-                 
-                 rowgani++;
-        session.setAttribute("fmattpos", "<b>"+rowgani+"/"+rowCount+"</b>");
-        session.setAttribute("fmattpos_count", (rowgani*100)/rowCount);
-                 
-                 System.out.println(" row number "+i);
-                 
-                 XSSFRow rowi = worksheet.getRow(i);
-                 if( rowi==null )
-                 {
-                     
-                     break;
-                 }
-                 
-                 if(i>=1 && i<=217) {
-                     
-           
-              HashMap<String,String> dvhm=new HashMap<String, String>();
-                     
-              String val="";
-              
-                for(int cl=0;cl<dv.length;cl++){
-                     
-                     XSSFCell custcell = rowi.getCell((short) cl);
-                     if(custcell!=null){
-                     switch (custcell.getCellType()) 
-                     {
-                         case 0:
-                             //numeric
-                             val =""+(int)custcell.getNumericCellValue();
-                             break;
-                         case 1:
-                             //string
-                             val =custcell.getStringCellValue();
-                             break;
-                              case 2:
-                             //String
-                             val =""+custcell.getRawValue();
-                             break;
-                         default:
-                             val =custcell.getRawValue();
-                             break;
-                     }
+        System.out.println(" No HCA error value or version ");
+        
+        
+        
+        
+        Iterator rowIterator = worksheet.rowIterator();
+        
+        
+        int i=1,y=0;
+        
+        //static number of rows
+        while(i<=216){
+            
+            String insertqr_parta= "replace into fmatt_data (";  // finish with )
+            String insertqr_partb= " values ("; // finish with )
+            
+            try {
+                
+                rowgani++;
+                session.setAttribute("fmattpos", "<b>"+rowgani+"/"+rowCount+"</b>");
+                session.setAttribute("fmattpos_count", (rowgani*100)/rowCount);
+                
+                System.out.println(" row number "+i);
+                
+                XSSFRow rowi = worksheet.getRow(i);
+                if( rowi==null )
+                {
+                    
+                    break;
                 }
-              
-                     if(val==null){val="";}
-                            System.out.println("Value ni "+val);
-                     //if(val.trim().equals("")){val="";}
-                     dvhm.put(dv[cl], val);
-
+                
+                if(i>=1 && i<=217) {
+                    
+                    
+                    HashMap<String,String> dvhm=new HashMap<String, String>();
+                    
+                    String val="";
+                    
+                    for(int cl=0;cl<dv.length;cl++){
+                        
+                        XSSFCell custcell = rowi.getCell((short) cl);
+                        if(custcell!=null){
+                            switch (custcell.getCellType())
+                            {
+                                case 0:
+                                    //numeric
+                                    val =""+(int)custcell.getNumericCellValue();
+                                    break;
+                                case 1:
+                                    //string
+                                    val =custcell.getStringCellValue();
+                                    break;
+                                case 2:
+                                    //String
+                                    val =""+custcell.getRawValue();
+                                    break;
+                                default:
+                                    val =custcell.getRawValue();
+                                    break;
+                            }
+                        }
+                        
+                        if(val==null){val="";}
+                        System.out.println("Value ni "+val);
+                        //if(val.trim().equals("")){val="";}
+                        dvhm.put(dv[cl], val);
+                        
 //build an inster qry
-    if(cl==dv.length-1){
-     insertqr_parta+=dv[cl]+")";
-     insertqr_partb+="?)"; 
-         //last section
+if(cl==dv.length-1){
+    insertqr_parta+=dv[cl]+")";
+    insertqr_partb+="?)";
+    //last section
 //insertqr_parta+=")";
 //insertqr_partb+=")";
-                      }
-    else {
-     insertqr_parta+=dv[cl]+",";
-     insertqr_partb+="?,";
-    }
-
-    
-                  //dvs.add(val);
-    
-    }//end of for looop
-                
-String insertqry=insertqr_parta+insertqr_partb;
-
-    System.out.println(""+insertqry);
-
-    //conn.st_2.executeUpdate(updateqr);
-    conn.pst1=conn.conn.prepareStatement(insertqry);
-    //now append the values
-    int rc=1;
-            for(int cl=0;cl<dv.length;cl++)
-{
-           
-String data=dvhm.get(dv[cl]);
-    
-conn.pst1.setString(rc,data);
-
-rc++;
-                
-}     
-            
-            if(conn.pst1.executeUpdate()==1)
-{
-   System.out.println("FMATT Data Saved succesfully ");
 }
 else {
-System.out.println(" Data Not saved ");
-
+    insertqr_parta+=dv[cl]+",";
+    insertqr_partb+="?,";
 }
-  
 
-                     
-                 }//end of while 1 to 215 cell values
-                 
-               
-                 
-             
-                 //================================continue from here========================================
-                 
+
+//dvs.add(val);
+
+                    }//end of for looop
+                    
+                    String insertqry=insertqr_parta+insertqr_partb;
+                    
+                    System.out.println(""+insertqry);
+                    
+                    //conn.st_2.executeUpdate(updateqr);
+                    conn.pst1=conn.conn.prepareStatement(insertqry);
+                    //now append the values
+                    int rc=1;
+                    for(int cl=0;cl<dv.length;cl++)
+                    {
+                        
+                        String data=dvhm.get(dv[cl]);
+                        
+                        conn.pst1.setString(rc,data);
+                        
+                        rc++;
+                        
+                    }
+                    
+                    if(conn.pst1.executeUpdate()==1)
+                    {
+                        System.out.println("FMATT Data Saved succesfully ");
+                    }
+                    else {
+                        System.out.println(" Data Not saved ");
+                        
+                    }
+                    
+                    
+                    
+                }//end of while 1 to 215 cell values
+                
+                
+                
+                
+                //================================continue from here========================================
+                
+                
+                
+                facilityID="";
+                
+                checker=0;
+                
+                
+                
+                i++;
+            } //end of iterator
+            catch (SQLException ex) {
+                Logger.getLogger(uploadFmattFile.class.getName()).log(Level.SEVERE, null, ex);
+                break;
+            }
             
-                
-      facilityID="";
-      
-                 checker=0;
-             
-                   
-                
-                 i++;
-                 } //end of iterator
-             catch (SQLException ex) {
-                 Logger.getLogger(uploadFmattFile.class.getName()).log(Level.SEVERE, null, ex);
-                 break;
-             }
-             
-         }//end of while
-         
-         
-         
-        }
-      
-                 
-                 } //end of DB WORKSHEET       
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-         }//end of worksheets loop
+        }//end of while
+        
+        
+        
+    }
+    
+    
+} //end of DB WORKSHEET
 
+
+
+
+
+
+
+
+
+}//end of worksheets loop
+
+
+//Send the file via mail
+AttachFileOnEmail sf = new AttachFileOnEmail();
+
+XSSFCell facilmfl = workbook.getSheet("db").getRow(2).getCell((short) 1);
+String Facii=getFacilityName(facilmfl.getRawValue(), conn);
+
+String Uploader="Not Captured";
+String em="";
+String usern="";
+
+if(session.getAttribute("email")!=null){
+em=","+session.getAttribute("email").toString();
+}
+if(session.getAttribute("fullname")!=null){
+usern=session.getAttribute("fullname").toString();
+}
+if(session.getAttribute("username")!=null){
+Uploader=session.getAttribute("username").toString();
+}
+
+
+
+if(!uploadedfiles.contains(full_path)){
+sf.SendEmail("FMatt", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,sajuoga@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+}   
+ uploadedfiles.add(full_path);       
+        
+        
+        } catch (SQLException ex) {
+                 Logger.getLogger(uploadFmattFile.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (MessagingException ex) {
+                 Logger.getLogger(uploadFmattFile.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         
+         
+         
      
           }
      
@@ -423,15 +474,19 @@ System.out.println(" Data Not saved ");
 }
       
        String nomflcode="";
-      if(!nomflsheets.equals("")){
+      if(!nomflsheets.equals(""))
+      {
       
       nomflcode="<b> "+nomflsheets+"</b> have no mflcodes ";
+      
       }
       
-     String sessionText="<br/><b> "+added+ "</b> New data added <br/> <b> "+updated+"</b> updated facilities<br> <br> <b>"+nomflcode+"</b>";    
-     session.setAttribute("uploadedFmatt"," Workbooks: "+fileNames+". "+ sessionText);
+     String sessionText="<br/><b> "+added+ "</b> New data added <br/> <b> "+updated+"</b> updated facilities<br> <br> <b>"+nomflcode+"</b>";
+     
+     session.setAttribute("uploadedFmatt"," Data for Workbooks: <br/>"+fileNames+". Uploaded Successfully! ");
     
- 
+        session.setAttribute("fmattpos", "<b>0/1</b>");
+        session.setAttribute("fmattpos_count", (0*100)/1);
   
     
     response.sendRedirect(nextpage);  
@@ -562,7 +617,21 @@ else if(monthno.equals("06")){
     }
     return mn;
     }
-    
+   
+       public String getFacilityName(String mflcode, dbConn conn ) throws SQLException 
+    {
+        String id = "";
+
+        String getindicator = "SELECT SubPartnerNom FROM subpartnera where CentreSanteId = '" +mflcode+"'";
+             
+        conn.rs = conn.st.executeQuery(getindicator);
+        while (conn.rs.next()) 
+        {
+            id = conn.rs.getString("SubPartnerNom");
+        }
+        return id;
+
+    }
     
      
     

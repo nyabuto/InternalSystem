@@ -176,7 +176,8 @@
                                   <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="output" id="output" >
                                       
                                      
-                                      <option value='tracker'>Tracker</option>
+                                      <option value='tracker'>Submitted Reports</option>
+                                       <option value='reports_pivot'>Analysis File</option>
                                        <option value='DQA_report'>Raw Data</option>
                                       
                                              

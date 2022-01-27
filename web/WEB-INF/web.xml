@@ -1605,6 +1605,50 @@
         <servlet-name>mne_upload_template</servlet-name>
         <servlet-class>mne_upload_template</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadf1av45</servlet-name>
+        <servlet-class>form1a.uploadf1av45</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>upload_data_verification</servlet-name>
+        <servlet-class>checklist.upload_data_verification</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getIndicators</servlet-name>
+        <servlet-class>RAMCAH.getIndicators</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getReportingDatesRamcah</servlet-name>
+        <servlet-class>RAMCAH.getReportingDatesRamcah</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>reports_pivot</servlet-name>
+        <servlet-class>checklist.reports_pivot</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>fmatt_report</servlet-name>
+        <servlet-class>FMATT.fmatt_report</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>fmatttracker</servlet-name>
+        <servlet-class>FMATT.fmatttracker</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttachFileOnEmail</servlet-name>
+        <servlet-class>General.AttachFileOnEmail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetFacilityDetails</servlet-name>
+        <servlet-class>General.GetFacilityDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadtxml100</servlet-name>
+        <servlet-class>TX_ML.uploadtxml100</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadHTSScreeningTracker</servlet-name>
+        <servlet-class>HTS_Screening.downloadHTSScreeningTracker</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3208,6 +3252,50 @@
     <servlet-mapping>
         <servlet-name>mne_upload_template</servlet-name>
         <url-pattern>/mne_upload_template</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av45</servlet-name>
+        <url-pattern>/uploadf1av45</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>upload_data_verification</servlet-name>
+        <url-pattern>/upload_data_verification</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getIndicators</servlet-name>
+        <url-pattern>/getIndicators</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getReportingDatesRamcah</servlet-name>
+        <url-pattern>/getReportingDatesRamcah</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reports_pivot</servlet-name>
+        <url-pattern>/reports_pivot</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fmatt_report</servlet-name>
+        <url-pattern>/fmatt_report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fmatttracker</servlet-name>
+        <url-pattern>/fmatttracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttachFileOnEmail</servlet-name>
+        <url-pattern>/AttachFileOnEmail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetFacilityDetails</servlet-name>
+        <url-pattern>/GetFacilityDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadtxml100</servlet-name>
+        <url-pattern>/uploadtxml100</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadHTSScreeningTracker</servlet-name>
+        <url-pattern>/downloadHTSScreeningTracker</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

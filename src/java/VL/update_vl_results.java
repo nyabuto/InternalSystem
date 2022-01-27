@@ -210,11 +210,11 @@ public class update_vl_results extends HttpServlet {
             String mflwhere=" ";
             if(!mflcodes.equals("")){
                 
-                mflwhere=" and MFL_Code in ('"+mflcodes+"')";
+                mflwhere=" and MFL_Code in ('"+mflcodes+"')  ";
                 
             }
             
-            String getemrmissingresults="select vl_kenyaemr_id, cccno,replace(MFL_Code,'.0','') as MFL_Code,MFL_Code as origmfl ,Facility_Name from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null) and yearmonth='"+ym+"' and length(Uniquecccno(cccno))=10  "+mflwhere+"";
+            String getemrmissingresults="select vl_kenyaemr_id, cccno,replace(MFL_Code,'.0','') as MFL_Code,MFL_Code as origmfl ,Facility_Name from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null) and yearmonth='"+ym+"' and length(Uniquecccno(cccno))=10  "+mflwhere+"  order by rand()";
             
             System.out.println("Missing vls:"+getemrmissingresults);
             conn.rs=conn.st.executeQuery(getemrmissingresults);
@@ -250,7 +250,18 @@ public class update_vl_results extends HttpServlet {
                     res=res.replace("<","");
                     res=res.replace(" ","");
                     
-                    String updaterecord="update vl_kenyaemr set Justification='"+jus+"', PMTCT='"+pmtct+"',Last_VL='"+res+"',Last_VL_Date='"+cdate+"' , missing_from_source='Yes' where cccno='"+cccno+"' and MFL_Code='"+origmfl+"' and yearmonth='"+ym+"'  ";
+                    String updaterecord="update  vl_kenyaemr set Justification='"+jus+"', PMTCT='"+pmtct+"',Last_VL='"+res+"',Last_VL_Date='"+cdate+"' , missing_from_source='Yes' where cccno='"+cccno+"' and MFL_Code='"+origmfl+"' and yearmonth='"+ym+"'  ";
+                    String updaterecordps="update ignore vl_kenyaemr set Justification=? , PMTCT=? , Last_VL=? , Last_VL_Date=? , missing_from_source=? where cccno=? and MFL_Code=? and yearmonth=?  ";
+                    
+                    conn.pst=conn.conn.prepareStatement(updaterecordps);
+    conn.pst.setString(1,jus);
+    conn.pst.setString(2,pmtct);
+    conn.pst.setString(3,res);
+    conn.pst.setString(4,cdate);
+    conn.pst.setString(5,"Yes");
+    conn.pst.setString(6,cccno);
+    conn.pst.setString(7,origmfl);
+    conn.pst.setInt(8,new Integer(ym));
                     
                     System.out.println(" update query: "+updaterecord+"\n");
                     
@@ -259,9 +270,10 @@ public class update_vl_results extends HttpServlet {
                      session.setAttribute("vlquery",updaterecord);
                      session.setAttribute("vlcount",updatedrows);
                     
-                   // System.out.println(updatedrows+": Records updated "+facili+"\n");
+                    System.out.println(updatedrows+": Records updated "+facili+"\n");
                     
-                   // System.out.println("Update Status "+conn.st3.executeUpdate(updaterecord));
+                    
+                    System.out.println("Update Status "+conn.pst.executeUpdate());
                    
                     
                 }

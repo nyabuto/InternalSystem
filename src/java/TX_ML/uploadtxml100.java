@@ -68,7 +68,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadtxml extends HttpServlet {
+public class uploadtxml100 extends HttpServlet {
 
  
 
@@ -119,7 +119,7 @@ public class uploadtxml extends HttpServlet {
             String subpartnerid = "", yearmonth = "", month = "";
             
             String uploadstatus="";
-            String lastexcelid="439";
+            String lastexcelid="135";
             
             session = request.getSession();
             if (session.getAttribute("userid") != null) {
@@ -164,7 +164,7 @@ public class uploadtxml extends HttpServlet {
              
              
             //String getVersion="select version from f1a_version where active=1";
-            String activeversion = "TX_ML  Data 1.0.2";
+            String activeversion = "TX_ML  Data 1.0.0";
             //conn.rs=conn.st.executeQuery(getVersion);
             
 //            while(conn.rs.next()){
@@ -624,9 +624,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong TX_ML template version "+excelversion+" . Expected Version is 1.0.2 <br>";
+        failed_reason+= "Failed: You have used Wrong TX_ML template version "+excelversion+" . Expected Version is 1.0.0 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 1.0.2 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 1.0.0 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;

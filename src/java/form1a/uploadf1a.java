@@ -121,7 +121,7 @@ public class uploadf1a extends HttpServlet {
             String subpartnerid = "", yearmonth = "", month = "";
             
             String uploadstatus="";
-            String lastexcelid="135";
+            String lastexcelid="284";
             
             session = request.getSession();
             if (session.getAttribute("userid") != null) {
@@ -159,14 +159,14 @@ public class uploadf1a extends HttpServlet {
             ArrayList msgal = new ArrayList();
             
             int startcol = 3;
-            int endcol = 27;
+            int endcol = 33;
             
             String mflcode = "";
              dbConn conn = new dbConn();
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 4.0.5";
+            String activeversion = "Form 1A  version 5.0.0";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -392,6 +392,12 @@ colskey.add("m_49");
 colskey.add("f_49");
 colskey.add("m_50");
 colskey.add("f_50");
+colskey.add("m_54");
+colskey.add("f_54");
+colskey.add("m_59");
+colskey.add("f_59");
+colskey.add("m_60");
+colskey.add("f_60");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
@@ -638,9 +644,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 4.0.5 <a href='uploadf1av44.jsp'>Upload Version 4.0.4 here</href> <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 5.0.0 <a href='uploadf1a.jsp'>Upload Version 5.0.0 here</href> <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 4.0.5. <a href='uploadf1av44.jsp'>Upload Version 4.0.4 here</href> \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 5.0.0. <a href='uploadf1a.jsp'>Upload Version 5.0.0 here</href> \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -767,7 +773,7 @@ else{
       dhisconfig dc = new dhisconfig();
           
      //get username and password for DHIS2 here
-     session.setAttribute("form1a", "<b>Uploading F1a Copy to ANYB DHIS2</b>");
+    // session.setAttribute("form1a", "<b>Uploading F1a Copy to ANYB DHIS2</b>");
      String dn =  uploaderdetails.get("dhis_username");
      String dp =  uploaderdetails.get("dhis_password");
      
@@ -775,7 +781,7 @@ else{
             dc.setDhis2_Password(dp);
      
             org.json.JSONObject jo=pd.toJsonString(conn,f1adata, cols, dc.getDhis2_username());
-            System.out.println("uploading to DHIS2");
+            //System.out.println("uploading to DHIS2");
            // pd.UploadF1aToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password() );            
        
             
@@ -1141,7 +1147,7 @@ String deleteqry=" delete from "+destinationtable+" where concat(yearmonth,'_',f
 
                 conn.st_1.executeUpdate(deleteqry);
                 
-            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='' ";    
+            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,total) !='' ";    
 replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from fas_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
 //System.out.println(""+replaceqry);
 conn.st_1.executeUpdate(replaceqry);

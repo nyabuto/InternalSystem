@@ -25,7 +25,7 @@ import org.json.simple.JSONObject;
  */
 public class save_data extends HttpServlet {
 HttpSession session;
-String columns[] = {"m_uk","f_uk","m_1","f_1","m_4","f_4","m_9","f_9","m_14","f_14","m_19","f_19","m_24","f_24","m_29","f_29","m_34","f_34","m_39","f_39","m_44","f_44","m_49","f_49","m_50","f_50","total"};
+String columns[] = {"m_uk","f_uk","m_1","f_1","m_4","f_4","m_9","f_9","m_14","f_14","m_19","f_19","m_24","f_24","m_29","f_29","m_34","f_34","m_39","f_39","m_44","f_44","m_49","f_49","m_50","f_50","m_54","f_54","m_59","f_59","m_60","f_60","m_65","f_65","total"};
 String query="",query_insert,query_update;
 int num_indicators,columns_counter;
 String year,month,facil,yearmonth,tableid;

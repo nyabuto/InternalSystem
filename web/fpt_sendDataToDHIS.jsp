@@ -321,7 +321,7 @@ function getReport()
    var exelend=$("#weekend").val();
    
    exelend=exelend.replace("-","");
-   exelend=exelend.substring(0,7);
+   exelend=exelend.substring(0,6);
    
    var year=$("#year").val();
         
@@ -356,7 +356,7 @@ function getReport()
                var urel=$("#outiput").val();
                 //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
              
-                var ur="UploadMonthlyFPT?yearmonth="+ enddate;
+                var ur="UploadMonthlyFPT?yearmonth="+enddate;
  console.log(ur);
  
  $.ajax({

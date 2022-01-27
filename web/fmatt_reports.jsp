@@ -1,8 +1,9 @@
 <%-- 
-    Document   : UploadVL
-    Created on : Mar 16, 2018, 8:37:33 AM
-    Author     : GNyabuto
+    Document   : loadTBExcel
+    Created on : Jul 27, 2015, 2:41:29 PM
+    Author     : Maureen
 --%>
+
 
 
 
@@ -15,12 +16,11 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Upload Fmatt/IIT</title>
-     <link rel="shortcut icon" href="images/imis.png"/>
+   <title>Fmatt Reports</title>
+   <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
    <meta content="" name="author" />
-   <link rel="stylesheet" href="css/progress_bar.css">
    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
    <link href="assets/css/metro.css" rel="stylesheet" />
    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -34,7 +34,7 @@
    <link rel="stylesheet" type="text/css" href="assets/jquery-tags-input/jquery.tagsinput.css" />
    <link rel="stylesheet" type="text/css" href="assets/clockface/css/clockface.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
-   <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
+   <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker1.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-timepicker/compiled/timepicker.css" />
    <link rel="stylesheet" type="text/css" href="assets/bootstrap-colorpicker/css/colorpicker.css" />
    <link rel="stylesheet" href="assets/bootstrap-toggle-buttons/static/stylesheets/bootstrap-toggle-buttons.css" />
@@ -44,9 +44,6 @@
 <link rel="stylesheet" href="select2/css/select2.css">
 <link rel="stylesheet" href="css/animate.css">
 
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
-  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
                 
                 <style>
@@ -59,14 +56,7 @@
 	width: 100%;
 	height: 5px;
 }
-       div.scrollmenu {
-    overflow: auto;
-    white-space: nowrap;
-}  
-tr>td {
-  padding-bottom: 1em;
-  padding-right: 3em;
-}                  
+                    
                 </style>
                 
   
@@ -80,7 +70,7 @@ tr>td {
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">IMIS</h1><br/>
+            <h2 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">FMATT Reports & tracker</h2><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -102,7 +92,7 @@ tr>td {
       <!-- BEGIN SIDEBAR -->
       <div class="page-sidebar nav-collapse collapse">
          <!-- BEGIN SIDEBAR MENU -->         
-       <%@include file="/menu/minimenu.jsp"%>
+         <%@include file="menu/menu.jsp" %>
          <!-- END SIDEBAR MENU -->
       </div>
       <!-- END SIDEBAR -->
@@ -139,7 +129,7 @@ tr>td {
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                         <a href="DataCleaner.jsp" style="margin-left:40%;"></a> 
+                        <a href="#" style="margin-left:40%;">Generate FMATT Tracker and Reports</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -150,38 +140,97 @@ tr>td {
             <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
                <div class="span12">
-                  <!-- BEGIN SAMPLE FORM PORTLET--> 
-                 
+                  <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
-                     <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload FMatt Summary data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"> </div>
-                     </div>
-                      
-                      <div  class="portlet-body form" id="progress_area" hidden="true">
-                     <div class="progress"  style="height: 35px;">
-                         <div class="progress-bar progress-bar-striped active" id="progess" role="progressbar" style="width: 0%;  padding-top: 10px; font-weight: 900;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>   
-                  </div> 
-                      
-                     <div class="portlet-body form"  id="upload_area">
-                        <!-- BEGIN FORM-->
-                        <form action="uploadFmattFile" method="post" enctype="multipart/form-data" class="form-horizontal" >
-                       <input type="file" name="file_name" id="upload" multiple="true" value="" class="textbox" required>   
-                       <input type="hidden" name="filesngapi" id="filesngapi"  class="textbox" required>   
+                     <div class="portlet-title">
+                        <h4><i class="icon-reorder"></i></h4>
                        
-                        <br><br><br> 
-                    <br>
-
-                     <div class="form-actions scrollmenu">
-                               <button type="submit" class="btn blue" style=" float: left;">Load Excel.</button>
+                     </div>
+                     <div class="portlet-body form">
+                        <!-- BEGIN FORM-->
+                        <form action="importpns" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                       
+                            
+                            <div class="control-group">
+                              <label class="control-label">Report Start date:<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <input required type="text" title="this is the date that the week started" value="" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="weekstart">
+                              </div>
                            </div>
-                        <div class="form-actions scrollmenu">
+                            <%
+                            Calendar cal= Calendar.getInstance();
+                            
+                            %>
+                            
+                             <div class="control-group">
+                              <label class="control-label">Report End date:<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <input required type="text" title="this is the date that the week ended" value="" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
+                              </div>
+                           </div>
+                            
+                              
+                              <div class="control-group" >
+                              <label class="control-label">Specify Output:<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="output" id="output" >
+                                      
+                                     
+                                      <option value='fmatttracker'>Submitted Reports</option>
+                                       <option value='fmatt_report'>Analysis File</option>
+                                      
+                                      
+                                             
+                                      </select>
+                              </div>
+                           </div>
+                              
+                              
+                              
+                            
+                              
+                            
+<!--                             <div class="control-group">
+                              <label class="control-label">Excel file<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <input required type="file" name="file_name" id="upload" value="" class="textbox" required>  
+                              </div>
+                           </div>-->
+                          
                            
-                            
-                         <h4 style="text-align: center; color:red;font-family: cambria;">Note: Kindly ensure the excel file containing the data is of format <b>[.xlsx]. You can upload one or multiple files.</b> </h4>
-                            
+                        <br><br><br><br>
+
+
+
+                         
+                          
+                        <table style="width: 100%;">
+                           <tr>
+<!--                               <td class="col-xs-2">
+                            <div class="form-actions">
+                              <button type="submit" class="btn blue">Generate Report Excel.</button>
+
+                           </div>
+                                   </td>-->
+                                   
+                                   <td class="col-xs-10">
+                           <div class="form-actions">
                              
-                           
+                         
+                              
+  <label id="generaterpt" class="btn green" onclick="getReport();">Generate report</label>
+                          
+
+                         
+                           </div>
+                                   </td>
+                            </tr> 
+                         </table>
+                        <img src='images/ajax_loader.gif' alt='loading' style="display:none; margin-left:30% ;" class='loading'/>
+                                        
+                        <div class="form-actions" id="matokeo">
+                        <div class="form-actions">
+                            
                         </div>
                         </form>
                         <!-- END FORM-->           
@@ -205,14 +254,10 @@ tr>td {
    </div>
    <!-- END CONTAINER -->
    <!-- BEGIN FOOTER -->
-   <div class="footer">
-       <%
-
-              Calendar cal = Calendar.getInstance();
-                    int year = cal.get(Calendar.YEAR);       
-%>
-       
-       &copy; USAID Tujenge Jamii | USAID <%=year%>.
+    <div class="footer">
+    
+     
+     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; USAID Tujenge Jamii | USAID  Host Name :<b><i> </i></b> &nbsp;   Database Name :<i> </i></h4>
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>
@@ -226,7 +271,7 @@ tr>td {
 
 <script type="text/javascript" src="js/bootstrap-notify.js"></script>
 
-
+ <script type="text/javascript" src="js/jquery.fileDownload.js"></script>
       
    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  
@@ -258,112 +303,103 @@ tr>td {
      
 
 <script > 
-     $(document).ready(function()
-     {
-        $("#progress_area").hide();
-        $("#upload_area").show();
-         
-    $("form").submit(function(){
-        $("#progress_area").show();
-        $("#upload_area").hide();
-//        alert("data submitted");
-     setInterval(function() {
-      load_records();
-      }, 100);  
-    });
-     });
-     
-     function load_records(){
-         var idadi=$("#filesngapi").val();
-         
-             $.ajax({
-        url:'check_mcaaca_status?load_type=fmatt&idadiyafiles='+idadi,
-        type:"post",
-        dataType:"json",
-        success:function(response){
-//            alert("called");
-var per_value = response.count;
-var message = "["+per_value+"%] Complete "+response.message+" Rows uploaded";
-
-    $("#progess").html(message);
-    $("#progess").css({'width':per_value+"%"}); 
-
-    if(per_value<30){
-     $("#progess").addClass('progress-bar-danger');  
-     $("#progess").removeClass('progress-bar-success'); 
-    }
-    if(per_value>=30 && per_value<60){
-     $("#progess").addClass('progress-bar-warning');   
-     $("#progess").removeClass('progress-bar-danger');   
-    }
-    if(per_value>=60 && per_value<80){
-     $("#progess").addClass('progress-bar-info'); 
-     $("#progess").removeClass('progress-bar-warning');   
-     $("#progess").removeClass('progress-bar-danger');  
-    }
-    if(per_value>=90)
-    {
-     $("#progess").addClass('progress-bar-success'); 
-     $("#progess").removeClass('progress-bar-info'); 
-     $("#progess").removeClass('progress-bar-warning');   
-     $("#progess").removeClass('progress-bar-danger');  
-    }
-    $("#status").html(response);
-        }, 
-        error: function(jqXHR, textStatus, errorThrown) 
-        {
-        //error in loading upload status
-        $("#status").html(errorThrown);
-        
-        }
-  });
-     }
-     
-     
-   
-
-$('input[type=file]').change(function () {
-    var fileCount = this.files.length;
-    $(this).prev().text(fileCount + 'Selected');
-    $("#filesngapi").val(fileCount);
-});
-     
-     
-</script>
-   
- <%if (session.getAttribute("uploadedFmatt") != null) { %>
-   <script type="text/javascript"> 
-                    
-         $.notify(
-      { 
-  message:'<%=session.getAttribute("uploadedFmatt")%>'},
-      {
-	icon_type: 'image'
-      }, 
-      {
-	offset: {
-		x: 200,
-		y: 120
-	}
-       }
-       
-            ); 
-                    
-                </script>
                 
-                <%
-                session.removeAttribute("uploadedFmatt");
-                            }
+</script>
 
-                        %>
+<script>
+      
+   
+  
+      
+      $(".tarehe").datepicker({
+    clearBtn: true,format: "yyyy-mm-dd"
+}).on('changeDate', function(ev){
+    $(this).datepicker('hide');
+});
+      
+      
+      
+     
+function getReport()
+{
+    
+    
+   var exelstart=$("#weekstart").val();
+   var exelend=$("#weekend").val();
+   var year=$("#year").val();
+        
+        if (exelstart==='')
+     {
+         
+     alert('Select report begining date');
+   $("#startdaterpt").focus();    
+     }    
+   //end date
+      else if (exelend==='')
+     {
+         
+     alert('Select report ending date');
+   $("#enddaterpt").focus();    
+     } 
+     
+      else  if(Date.parse(exelstart) > Date.parse(exelend))
+      {
+                    alert(" Report Start date cannot be greater than end date.");   
+                    $("#enddaterpt").focus();  
+                }
+                
+                  
+                
+                else {
+                    //call the report generation page
+                 downloadrpt(exelstart,exelend) ;  
+                    
+                }
+        
+    
+}
+
+
+
+  function downloadrpt(startdate,enddate){
+      
+                $('.loading').show();
+                $('#generaterpt').hide();
+               var urel=$("#output").val();
+                //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
+             
+                var ur=urel+"?startdate=" + startdate + "&enddate=" + enddate;
+ console.log(ur);
+                $.fileDownload(ur).done(function () { $('.loading').hide(); $('#generaterpt').show(); $('#generaterpt').html("<i class='glyphicon glyphicon-ok'></i> Report Generated"); }).fail(function () { alert('Report generation failed, kindly try again!'); $('.loading').hide(); $('#generaterpt').show(); });
+ 
+                //$('.loading').hide();
+            }
+
+
+
+
+function selectoutput(){
+    
+    
+    var outputii=$("#output").val();
+    
+   
+    
+}
+selectoutput();
+      
+   </script>
+
+                  
+ 
+
      
 
-                        
-                        
-   <script>
-   </script>
+  
    
    <!-- END JAVASCRIPTS -->   
 </body>
 <!-- END BODY -->
 </html>
+
+

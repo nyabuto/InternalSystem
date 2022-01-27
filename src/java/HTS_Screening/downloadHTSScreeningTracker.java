@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TX_ML;
+package HTS_Screening;
 
 
 import General.IdGenerator;
@@ -37,7 +37,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author EKaunda
  */
-public class downloadTxmlTracker extends HttpServlet {
+public class downloadHTSScreeningTracker extends HttpServlet {
 
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -131,7 +131,7 @@ public class downloadTxmlTracker extends HttpServlet {
         
         HashMap<Integer , String> sps= new HashMap<Integer, String>();
         
-        sps.put(1, "TXML_Tracker@sp_TX_ML_reportingrates");
+        sps.put(1, "HTSSC_Tracker@sp_HTSScreeningtx_reportingrates");
         //sps.put(2, "Raw Data@sp_nonemr_raw_data");
 
 //        HSSFSheet acashet = wb.createSheet("ACA raw Data");
@@ -148,7 +148,12 @@ String startdate="2021-03-12";
         String facil="";
         
         
-       
+       if(request.getParameter("startdate")!=null)
+        {
+        
+            startdate=request.getParameter("startdate");
+        
+        }
         if(request.getParameter("enddate")!=null)
         {
         
@@ -192,7 +197,7 @@ String startdate="2021-03-12";
                 
         //========Query two====Facility Details==============
         
-        String qry = "call "+storedprocedure+" ('"+ym+"','')";
+        String qry = "call "+storedprocedure+" ('"+startdate+"','"+enddate+"')";
          System.out.println(qry);
         conn.rs = conn.st.executeQuery(qry);
         
@@ -292,7 +297,7 @@ rw.setHeightInPoints(32);
         IdGenerator IG = new IdGenerator();
         String createdOn = IG.CreatedOn();
 
-        System.out.println("" + "TXMLTracker_reports_Gen_" + createdOn.trim() + ".xlsx");
+        System.out.println("" + "HTSScreeningTracker_reports_Gen_" + createdOn.trim() + ".xlsx");
 
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
@@ -300,7 +305,7 @@ rw.setHeightInPoints(32);
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=" + "TXML_Tracker_rpt_from_"+startdate+"_to_"+enddate+"__gen_" + createdOn.trim() + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "HTSScreening_Tracker_rpt_from_"+startdate+"_to_"+enddate+"__gen_" + createdOn.trim() + ".xlsx");
          response.setHeader("Set-Cookie","fileDownload=true; path=/");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
@@ -314,7 +319,7 @@ rw.setHeightInPoints(32);
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(downloadTxmlTracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadHTSScreeningTracker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -324,7 +329,7 @@ rw.setHeightInPoints(32);
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(downloadTxmlTracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadHTSScreeningTracker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -331,12 +331,12 @@ $('input[type=file]').change(function () {
      
 </script>
    
- <%if (session.getAttribute("acamca_loaded") != null) { %>
+ <%if (session.getAttribute("uploadedart") != null) { %>
    <script type="text/javascript"> 
                     
          $.notify(
-      {icon: "images/validated.jpg", 
-  message:'<%=session.getAttribute("acamca_loaded")%>'},
+      { 
+  message:'<%=session.getAttribute("uploadedart")%>'},
       {
 	icon_type: 'image'
       }, 
@@ -352,7 +352,7 @@ $('input[type=file]').change(function () {
                 </script>
                 
                 <%
-                session.removeAttribute("acamca_loaded");
+                session.removeAttribute("uploadedart");
                             }
 
                         %>

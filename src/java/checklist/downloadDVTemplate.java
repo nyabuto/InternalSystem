@@ -90,7 +90,12 @@ public class downloadDVTemplate extends HttpServlet {
             String subcountyar[] = null;
             String facilityarr[] = null;
             String facility = "(";
+            String storedprocedure = "sp_pull_data_dataverification_new";
 
+            if (request.getParameter("sp") != null) 
+            {
+                storedprocedure = request.getParameter("sp");
+            }
             if (request.getParameter("year") != null) 
             {
                 year = request.getParameter("year");
@@ -318,7 +323,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     
                    //if(runhashmap==1)
                    //{
-                       String sp="call internal_system.sp_pull_data_dataverification('"+anzalini+"','"+malizalini+"')";
+                       String sp="call internal_system."+storedprocedure+"('"+anzalini+"','"+malizalini+"')";
                     
                     System.out.println("Stored Procedure: "+sp);
                     // hm= convertResultSetToMap(conn.st1.executeQuery(sp));

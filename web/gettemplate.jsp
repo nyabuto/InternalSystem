@@ -17,7 +17,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Download F1 Template</title>
+   <title>Download F1A Template</title>
      
     <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -185,7 +185,7 @@ legend.formatter {
                        <table style="margin-left:20%;">
                           <div style="float:right;"> 
                              <tr><td style="padding-right: 200px;"> 
-	                      <b>Year</b> <font color="red">*</font>  
+	                      <b>PEPFAR Year</b> <font color="red">*</font>  
                                
                                  </td><td>
                                 <select required="true" data-placeholder="Reporting Year" class="span4 m-wrap" style="width: 300px;" tabindex="-1" onchange="loadmonths();"  id="year" name="year">

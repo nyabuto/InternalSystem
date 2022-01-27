@@ -272,6 +272,15 @@ legend.formatter {
                                     <option value=""></option>
                                  </select></div>  
                            </td></tr>
+                       
+                                   <tr><td> 
+                                <b>KHIS- MOH 731 HTS Reporting</b> <font color="red"></font>
+                               </td><td>
+                                 <select  style="width:300px;float:right;color:black;" data-placeholder="Facility" class="span6" tabindex="-1"  id="sp" name="sp">
+                                    <option title="choose this option if sites included pmtct in HTS" value="sp_pull_data_dataverification_new">PMTCT data INCLUDED in HTS (New guide)</option>
+                                    <option title="choose this option if sites did not include pmtct in HTS" value="sp_pull_data_dataverification">PMTCT data EXCLUDED from HTS (old guide)</option>
+                                 </select></div>  
+                           </td></tr>
                    
                    <tr><td><br></td></tr>
                                    

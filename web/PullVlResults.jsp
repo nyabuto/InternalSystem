@@ -274,7 +274,7 @@ out.println("<br/><font color='red'> <i> Last date VL records downloaded from th
                     int year = cal.get(Calendar.YEAR);       
 %>
      <%  %>  
-     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; HSDSA | USAID <%=year%>. Host Name :<b><i> </i></b> &nbsp;   </h4>
+     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; USAID Tujenge Jamii | USAID <%=year%>. Host Name :<b><i> </i></b> &nbsp;   </h4>
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>

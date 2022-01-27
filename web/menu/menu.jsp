@@ -70,12 +70,7 @@
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
-                <li >   <%if(session.getAttribute("userAccess")!=null){%>   
-                  <li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(july)</a></li>
-                  
-                  
-                   <%} else {%> 
-                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
+             
                
                <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
                <li > <a href="F1aUserGuide.pptx"><i class="icon-download"></i>Form 1a User Guide</a></li>
@@ -118,7 +113,7 @@
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access HTS Screening upload module</b> </a> <%}%></li> 
-               <!--<li >  <a href="HTS_Screening_Tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>-->
+               <li >  <a href="htsscreening_tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
@@ -224,6 +219,7 @@
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Data Verification upload module</b> </a> <%}%></li> 
+               <li><a href="DQA_Reports.jsp">Data Verification Reports</a></li>
                <!--<li >  <a href="HTS_Screening_Tracker.jsp"><i class="icon-upload"></i>HTS Screening Tracker</a></li>-->
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
@@ -244,7 +240,7 @@
                   <a href="fmattupload.jsp"><i class="icon-upload"></i>Upload FMATT Template</a>
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access FMATT upload module</b> </a> <%}%></li> 
-               <!--<li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>DSD Tracker</a></li>-->
+               <li >  <a href="fmatt_reports.jsp"><i class="icon-upload"></i>FMATT Report & Tracker</a></li>
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
@@ -391,7 +387,7 @@
                    <li><a href="DatimScreens.jsp">Datim Screens [Excel]</a></li>
                    <!--<li><a href="ewi.jsp">EWI Monthly Data</a></li>-->
                    <li><a href="RawQuery.jsp">Run Queries</a></li>
-                  <li><a href="DQA_Reports.jsp">Data Verification Reports</a></li>
+                  
                   <!--<li ><a href="DQA.jsp">DQA per Form</a></li>-->
                   <li ><a href="masterlist.jsp">Master List</a></li>
                   <li ><a href="T1SummaryReports.jsp">Training Report</a></li>

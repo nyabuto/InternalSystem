@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TX_ML;
+package FMATT;
 
 
 import General.IdGenerator;
@@ -37,7 +37,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author EKaunda
  */
-public class downloadTxmlTracker extends HttpServlet {
+public class fmatttracker extends HttpServlet {
 
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -69,10 +69,10 @@ public class downloadTxmlTracker extends HttpServlet {
         style2.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         style2.setBorderRight(XSSFCellStyle.BORDER_THIN);
         style2.setAlignment(XSSFCellStyle.ALIGN_LEFT);
-        style2.setBottomBorderColor(HSSFColor.GREEN.index);
-        style2.setTopBorderColor(HSSFColor.GREEN.index);
-        style2.setLeftBorderColor(HSSFColor.GREEN.index);
-        style2.setRightBorderColor(HSSFColor.GREEN.index);
+        style2.setBottomBorderColor(HSSFColor.BLUE.index);
+        style2.setTopBorderColor(HSSFColor.BLUE.index);
+        style2.setLeftBorderColor(HSSFColor.BLUE.index);
+        style2.setRightBorderColor(HSSFColor.BLUE.index);
         
 
         XSSFCellStyle stborder = wb.createCellStyle();
@@ -80,28 +80,28 @@ public class downloadTxmlTracker extends HttpServlet {
         stborder.setBorderBottom(XSSFCellStyle.BORDER_THIN);
         stborder.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         stborder.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        stborder.setBottomBorderColor(HSSFColor.GREEN.index);
-        stborder.setTopBorderColor(HSSFColor.GREEN.index);
-        stborder.setLeftBorderColor(HSSFColor.GREEN.index);
-        stborder.setRightBorderColor(HSSFColor.GREEN.index);
+        stborder.setBottomBorderColor(HSSFColor.BLUE.index);
+        stborder.setTopBorderColor(HSSFColor.BLUE.index);
+        stborder.setLeftBorderColor(HSSFColor.BLUE.index);
+        stborder.setRightBorderColor(HSSFColor.BLUE.index);
         stborder.setAlignment(XSSFCellStyle.ALIGN_CENTER);
 
         XSSFCellStyle stylex = wb.createCellStyle();
-        stylex.setFillForegroundColor(HSSFColor.GREEN.index);
+        stylex.setFillForegroundColor(HSSFColor.BLUE.index);
         stylex.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
         stylex.setBorderTop(XSSFCellStyle.BORDER_THIN);
         stylex.setBorderBottom(XSSFCellStyle.BORDER_THIN);
         stylex.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         stylex.setBorderRight(XSSFCellStyle.BORDER_THIN);
-        stylex.setBottomBorderColor(HSSFColor.GREEN.index);
-        stylex.setTopBorderColor(HSSFColor.GREEN.index);
-        stylex.setLeftBorderColor(HSSFColor.GREEN.index);
-        stylex.setRightBorderColor(HSSFColor.GREEN.index);
+        stylex.setBottomBorderColor(HSSFColor.BLUE.index);
+        stylex.setTopBorderColor(HSSFColor.BLUE.index);
+        stylex.setLeftBorderColor(HSSFColor.BLUE.index);
+        stylex.setRightBorderColor(HSSFColor.BLUE.index);
         
         stylex.setAlignment(XSSFCellStyle.ALIGN_LEFT);
 
         XSSFCellStyle stylesum = wb.createCellStyle();
-        stylesum.setFillForegroundColor(HSSFColor.GREEN.index);
+        stylesum.setFillForegroundColor(HSSFColor.BLUE.index);
         stylesum.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
         stylesum.setBorderTop(XSSFCellStyle.BORDER_THIN);
         stylesum.setBorderBottom(XSSFCellStyle.BORDER_THIN);
@@ -109,10 +109,10 @@ public class downloadTxmlTracker extends HttpServlet {
         stylesum.setBorderRight(XSSFCellStyle.BORDER_THIN);
         stylesum.setAlignment(XSSFCellStyle.ALIGN_CENTER);
         
-        stylesum.setBottomBorderColor(HSSFColor.GREEN.index);
-        stylesum.setTopBorderColor(HSSFColor.GREEN.index);
-        stylesum.setLeftBorderColor(HSSFColor.GREEN.index);
-        stylesum.setRightBorderColor(HSSFColor.GREEN.index);
+        stylesum.setBottomBorderColor(HSSFColor.BLUE.index);
+        stylesum.setTopBorderColor(HSSFColor.BLUE.index);
+        stylesum.setLeftBorderColor(HSSFColor.BLUE.index);
+        stylesum.setRightBorderColor(HSSFColor.BLUE.index);
 
         XSSFFont fontx = wb.createFont();
         fontx.setColor(HSSFColor.BLACK.index);
@@ -131,7 +131,7 @@ public class downloadTxmlTracker extends HttpServlet {
         
         HashMap<Integer , String> sps= new HashMap<Integer, String>();
         
-        sps.put(1, "TXML_Tracker@sp_TX_ML_reportingrates");
+        sps.put(1, "FMATT Tracker@sp_fmatt_reported_sites");
         //sps.put(2, "Raw Data@sp_nonemr_raw_data");
 
 //        HSSFSheet acashet = wb.createSheet("ACA raw Data");
@@ -141,24 +141,56 @@ public class downloadTxmlTracker extends HttpServlet {
 
  String year="";
        IdGenerator dats= new IdGenerator();
-String startdate="2021-03-12";
+String startdate="2020-04-01";
         String enddate=dats.toDay();
         String subcounty="";
         String county="";
         String facil="";
         
         
-       
+        if(request.getParameter("startdate")!=null)
+        {
+        
+            startdate=request.getParameter("startdate");
+        
+        }
         if(request.getParameter("enddate")!=null)
         {
         
             enddate=request.getParameter("enddate");
         
         }
+        //subcounty
+        if(request.getParameter("rpt_subcounty")!=null)
+        {
+            subcounty=request.getParameter("rpt_subcounty");
+        }
+        //county
+        if(request.getParameter("rpt_county")!=null)
+        {
+         county=request.getParameter("rpt_county");
+        }
+        
+     String [] facilityarr=null;   
        
-        
-        
-  
+         if (request.getParameterValues("facil") != null ) {
+                facilityarr = request.getParameterValues("facil");
+          facil="(";
+                for (int a = 0; a < facilityarr.length; a++) 
+                {
+
+                    if (a == facilityarr.length - 1) 
+                    {
+
+                        facil += facilityarr[a] + ")";
+
+                    } else {
+
+                        facil += facilityarr[a] + ",";
+
+                            }
+                }
+            }
         
         
         
@@ -168,15 +200,31 @@ String startdate="2021-03-12";
         
         //========Query 1=================
         
-        for(int sheetno=1;sheetno <= sps.size();sheetno++)
-               {
+        String orgunits="1=1 ";
+        
+        if(!county.equals("")){
+        orgunits+=" and County like '"+county+"' ";
+        }
+        if(!subcounty.equals("") ){
+            
+         orgunits+=" and `Sub-County` like '"+subcounty+"' ";
+        
+        }
+         if(!facil.equals("") && !facil.equals("()"))
+         {
+            
+         orgunits+=" and `MFLCode` in "+facil+" ";
+        
+        }
+        
+        for(int sheetno=1;sheetno <= sps.size();sheetno++){
         //for(HSSFSheet shet:Sheetnames){
         
         XSSFSheet shet = wb.createSheet(sps.get(sheetno).split("@")[0]);
         
         XSSFRow rw0=shet.createRow(1);
         XSSFCell cell = rw0.createCell(0);
-                    cell.setCellValue(shet.getSheetName()+" for Period  "+enddate);
+                    cell.setCellValue(shet.getSheetName()+" for Period "+startdate+" and "+enddate);
                     cell.setCellStyle(style);
         shet.addMergedRegion(new CellRangeAddress(1, 1, 0,10));
                     
@@ -186,13 +234,13 @@ String startdate="2021-03-12";
               
                 String storedprocedure="";
                 
-        String ym=enddate;
+        
                 
                 storedprocedure=sps.get(sheetno).split("@")[1];
                 
         //========Query two====Facility Details==============
         
-        String qry = "call "+storedprocedure+" ('"+ym+"','')";
+        String qry = "call "+storedprocedure+" ('"+startdate+"','"+enddate+"')";
          System.out.println(qry);
         conn.rs = conn.st.executeQuery(qry);
         
@@ -264,7 +312,7 @@ rw.setHeightInPoints(32);
         }
 
         shet.setDisplayGridlines(false);
-        shet.createFreezePane(4, 4);
+        shet.createFreezePane(6, 4);
 
     }
         
@@ -292,7 +340,7 @@ rw.setHeightInPoints(32);
         IdGenerator IG = new IdGenerator();
         String createdOn = IG.CreatedOn();
 
-        System.out.println("" + "TXMLTracker_reports_Gen_" + createdOn.trim() + ".xlsx");
+        System.out.println("" + "FMATTTracker_reports_Gen_" + createdOn.trim() + ".xlsx");
 
         ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
         wb.write(outByteStream);
@@ -300,7 +348,7 @@ rw.setHeightInPoints(32);
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=" + "TXML_Tracker_rpt_from_"+startdate+"_to_"+enddate+"__gen_" + createdOn.trim() + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "FMATT_rpt_from_"+startdate+"_to_"+enddate+"__gen_" + createdOn.trim() + ".xlsx");
          response.setHeader("Set-Cookie","fileDownload=true; path=/");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
@@ -314,7 +362,7 @@ rw.setHeightInPoints(32);
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(downloadTxmlTracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(fmatttracker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -324,7 +372,7 @@ rw.setHeightInPoints(32);
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(downloadTxmlTracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(fmatttracker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

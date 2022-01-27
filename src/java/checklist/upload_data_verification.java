@@ -40,7 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 
 
-  public class mne_upload_template extends HttpServlet {
+  public class upload_data_verification extends HttpServlet {
    
  
   
@@ -82,7 +82,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
-     int rowCount=217;
+     int rowCount=67;
      
 
 
@@ -165,8 +165,8 @@ int filescount=0;
          
          
          }
+              ArrayList uploadedfiles=new ArrayList();
          
-           ArrayList uploadedfiles=new ArrayList();
          
           if(!fileName.endsWith(".xlsx"))
           {          
@@ -181,13 +181,20 @@ int filescount=0;
            
                 
               
-              fileNames+=fileName+", ";
-              full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;
-              System.out.println("the saved file directory is  :  "+full_path);
+             try {
+                 fileNames+=fileName+",<br/> ";
+                 
+                 full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;
+                 
+                 System.out.println("the saved file directory is  :  "+full_path);
 // GET DATA FROM THE EXCEL AND AND OUTPUT IT ON THE CONSOLE..................................
+
 FileInputStream fileInputStream = new FileInputStream(full_path);
 XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+
 int totalsheets=workbook.getNumberOfSheets();
+
+
 for(int a=0;a<totalsheets;a++)
 {
     
@@ -387,8 +394,45 @@ else {
 
 
 }//end of worksheets loop
-      
+
+
+
+//Send the file via mail
+AttachFileOnEmail sf = new AttachFileOnEmail();
+GetFacilityDetails fd= new GetFacilityDetails();
+
+XSSFCell facilmfl = workbook.getSheet("db").getRow(2).getCell((short) 1);
+String Facii=fd.getFacilityNameUsingID(facilmfl.getRawValue(), conn);
+
+String Uploader="Not Captured";
+String em="";
+String usern="";
+
+if(session.getAttribute("email")!=null){
+    em=","+session.getAttribute("email").toString();
+}
+if(session.getAttribute("fullname")!=null){
+    usern=session.getAttribute("fullname").toString();
+}
+if(session.getAttribute("username")!=null){
+    Uploader=session.getAttribute("username").toString();
+}
+
+
+
+if(!uploadedfiles.contains(full_path))
+{
+    sf.SendEmail("Data Verification", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+}
+uploadedfiles.add(full_path);       
+             } catch (SQLException | MessagingException ex) {
+                 Logger.getLogger(upload_data_verification.class.getName()).log(Level.SEVERE, null, ex);
+             }
+             
+            
          
+         
+     
           }
      
          
@@ -427,9 +471,10 @@ else {
       }
       
      String sessionText="<br/><b> "+added+ "</b> New data added <br/> <b> "+updated+"</b> updated facilities<br> <br> <b>"+nomflcode+"</b>";    
-     session.setAttribute("uploadedDVT"," Workbooks: "+fileNames+". "+ sessionText);
+     session.setAttribute("uploadedDVT"," Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ");
     
- 
+        session.setAttribute("dvtpos", "<b>0/1</b>");
+        session.setAttribute("dvtpos_count", (0*100)/1);
   
     
     response.sendRedirect(nextpage);  

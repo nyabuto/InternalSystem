@@ -165,7 +165,7 @@ tr>td {
                       
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
-                        <form action="mne_upload_template" method="post" enctype="multipart/form-data" class="form-horizontal" >
+                        <form action="upload_data_verification" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        <input type="file" name="file_name" id="upload" multiple="true" value="" class="textbox" required>   
                        <input type="hidden" name="filesngapi" id="filesngapi"  class="textbox" required>   
                        
@@ -331,12 +331,12 @@ $('input[type=file]').change(function () {
      
 </script>
    
- <%if (session.getAttribute("dvt_loaded") != null) { %>
+ <%if (session.getAttribute("uploadedDVT") != null) { %>
    <script type="text/javascript"> 
                     
          $.notify(
-      {icon: "images/validated.jpg", 
-  message:'<%=session.getAttribute("dvt_loaded")%>'},
+      {
+  message:'<%=session.getAttribute("uploadedDVT")%>'},
       {
 	icon_type: 'image'
       }, 
@@ -352,7 +352,7 @@ $('input[type=file]').change(function () {
                 </script>
                 
                 <%
-                session.removeAttribute("dvt_loaded");
+                session.removeAttribute("uploadedDVT");
                             }
 
                         %>

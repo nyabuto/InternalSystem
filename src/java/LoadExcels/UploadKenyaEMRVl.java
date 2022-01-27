@@ -5,6 +5,8 @@
  */
 package LoadExcels;
 
+import General.AttachFileOnEmail;
+import General.GetFacilityDetails;
 import dashboards.PushDataSet2;
 import database.dbConn;
 import java.io.File;
@@ -13,11 +15,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -75,7 +79,7 @@ public class UploadKenyaEMRVl extends HttpServlet {
            fileName = getFileName(part);
             part.write(uploadFilePath + File.separator + fileName);
             }
-        
+         ArrayList uploadedfiles=new ArrayList();
         if(!fileName.endsWith(".xlsx")){
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose a .xlsx excel file .</font>");   
         }
@@ -200,8 +204,53 @@ public class UploadKenyaEMRVl extends HttpServlet {
         }
         
         j++;
-        } 
         }
+        
+        
+        
+//Send the file via mail
+AttachFileOnEmail sf = new AttachFileOnEmail();
+GetFacilityDetails fd= new GetFacilityDetails();
+
+XSSFCell facilmfl = workbook.getSheetAt(0).getRow(1).getCell((short) 9);
+String Facii=fd.getFacilityName(facilmfl.getRawValue(), conn);
+
+String Uploader="Not Captured";
+String em="";
+String usern="";
+
+if(session.getAttribute("email")!=null){
+    em=","+session.getAttribute("email").toString();
+}
+if(session.getAttribute("fullname")!=null){
+    usern=session.getAttribute("fullname").toString();
+}
+if(session.getAttribute("username")!=null){
+    Uploader=session.getAttribute("username").toString();
+}
+
+
+
+if(!uploadedfiles.contains(full_path))
+{
+  try {
+                  sf.SendEmail("VL_KENYAEMR", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,cbonde@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+      } catch (MessagingException ex) {
+                  Logger.getLogger(UploadKenyaEMRVl.class.getName()).log(Level.SEVERE, null, ex);
+              }
+}
+uploadedfiles.add(full_path);       
+             
+
+        
+        }//end of worksheet
+        
+      
+			   
+        
+        
+        
+        
         }
         
         session.setAttribute("emr_viral_load", "<b>Upload complete</b>");
