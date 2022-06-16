@@ -810,7 +810,10 @@ cmts
                     dataType: 'html',  
                     success: function(data)
                     {
-                     $("#facility").html(data);
+                        
+                        
+                        
+                     $("#facility").html("<option value='0'>Not applicable</option>"+data);
                    $(document).ready(function() {
           
               $('#facility').select2(); 

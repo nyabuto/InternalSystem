@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+        <link href="../assets/css/style_light.css" rel="stylesheet" />
         <script src="assets/js/jquery-1.8.3.min.js"></script>  
         <title></title>
         
@@ -40,14 +40,14 @@
             <li>
             
             </li>
-            <li class="start " style="background-color: #69a4e0;">
+            <li  style="background-color: #a3b0c9;">
                <a href="#">
               <%if(session.getAttribute("userid")!=null){out.println("<span><b>Hi ,"+session.getAttribute("fullname").toString()+"</span>");} else {%><a href="index.jsp" class="btn-info">Log in</a><%}%></b></span>
                </a>
                 </li>
                 <%if(session.getAttribute("userAccess")!=null){%>  
                 <li>
-                <a href="home.jsp">
+                <a class="start" href="home.jsp">
                <i class="icon-home"></i> 
                <span class="title">Home</span>
                </a>
@@ -77,6 +77,31 @@
                <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
             </ul>
             </li>
+            
+            
+            <li class="has-sub ">
+               <a href="#">
+                <i class="icon-filter"></i>
+               <span class="title"><font color='green'>Consolidated Prep</font></span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="preptemplate.jsp"><i class="icon-download"></i>Download Prep Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="prepupload.jsp"><i class="icon-upload"></i>Upload Prep Data File</a>
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Prep upload module</b> </a> <%}%></li> 
+               <li >  <a href="Prep_Excel_Tracker.jsp"><i class="icon-upload"></i>Prep Reports& Tracker</a></li>
+               
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+            
+            
             <li class="has-sub ">
                <a href="#">
                 <i class="icon-search"></i>
@@ -141,7 +166,7 @@
             
             
             <li class="has-sub ">
-               <a href="#" style='color:red;'>
+               <a href="#" style=''>
                 <i class="icon-share"></i>
                <span class="title">HCA</span>
                <span class="arrow "></span>
@@ -205,7 +230,7 @@
             
             
             <li class="has-sub ">
-               <a href="#" style='color:red;'>
+               <a href="#" >
                 <i class="icon-search"></i>
                <span class="title">Data Verification Excel</span>
                <span class="arrow "></span>

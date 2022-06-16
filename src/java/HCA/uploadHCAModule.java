@@ -356,43 +356,25 @@ if(!workbook.getSheetName(a).equals("Instructions"))
     String haserrorvalue="";
     
     if(1==2){
-        for(int rq=19;rq<=24;rq++)
-        {
-            
-            XSSFCell cellacaerrorval = worksheet.getRow(rq).getCell((short) 14);
-            
-            XSSFCell cellacaerrorlabel = worksheet.getRow(rq).getCell((short) 0);
-            
+       
             String errorvalue="";
             String errorlabel="";
+          
             
-            //_____error label______
-            if(cellacaerrorlabel.getCellType()==0)
-            {   //numeric
-                errorlabel =""+(int)cellacaerrorlabel.getNumericCellValue();
-            }
-            else if(cellacaerrorlabel.getCellType()==1)
-            {
-                errorlabel =cellacaerrorlabel.getStringCellValue();
-            }
+//             XSSFCell cellversion = worksheet.getRow(4).getCell((short) 1);
+//    
+//    
+//    if(cellversion.getCellType()==0)
+//    {   //numeric
+//        version =""+(int)cellversion.getNumericCellValue();
+//    }
+//    else if(cellversion.getCellType()==1)
+//    {
+//        version =cellversion.getStringCellValue();
+//    }
+//    
             
             
-            //_____error value______
-            switch (cellacaerrorval.getCellType()) {
-                case 0:
-                    //numeric
-                    System.out.println(" error value is Numeric ");
-                    errorvalue =""+(int)cellacaerrorval.getNumericCellValue();
-                    break;
-                case 1:
-                    System.out.println(" error value is String ");
-                    errorvalue =cellacaerrorval.getStringCellValue();
-                    break;
-                default:
-                    errorvalue =cellacaerrorval.getRawValue();
-                    System.out.println(" error value is raw value ");
-                    break;
-            }
             
             if(errorvalue.equals("0"))
             {
@@ -402,7 +384,7 @@ if(!workbook.getSheetName(a).equals("Instructions"))
                 haserrorvalue+=errorlabel+" detected ";
             }
             
-        }
+        
     }
 
     

@@ -117,7 +117,7 @@ public class ValidateExcelJMW extends HttpServlet {
           JSONObject obj_item = validate(facility_id,yearmonth,table,request);
           jarray.add(obj_item);
           }
-          System.out.println("facility :"+i+" month : "+j);
+          //System.out.println("facility :"+i+" month : "+j);
           }
           }
       obj.put("output", jarray);
@@ -141,7 +141,7 @@ public class ValidateExcelJMW extends HttpServlet {
      
      String count_recs = "SELECT COUNT(id) AS no_recs FROM "+table_name+" WHERE yearmonth="+yearmonth+" AND facility_id="+facil_id+"";
      
-        System.out.println("Total Roows_____"+count_recs);
+        //System.out.println("Total Roows_____"+count_recs);
         conn.rs = conn.st.executeQuery(count_recs);
      if(conn.rs.next()){
          if(conn.rs.getInt(1)>0){
@@ -173,7 +173,7 @@ public class ValidateExcelJMW extends HttpServlet {
         //System.out.println("rules :"+getRules);
         conn.rs = conn.st.executeQuery(getRules);
         while(conn.rs.next()){
-            System.out.println("Tuko wapi value ni "+tukowapi);
+           // System.out.println("Tuko wapi value ni "+tukowapi);
          tukowapi++;
             session.setAttribute("form1a", "<b>Validating: "+conn.rs.getString("section_name")+" "+tukowapi+"/"+rowCount+"</b>");
         session.setAttribute("form1a_count", ((tukowapi)/rowCount)*100);
@@ -216,7 +216,7 @@ public class ValidateExcelJMW extends HttpServlet {
         
         final_query = "SELECT * FROM ("+final_query+") AS all_data WHERE occurences>0";
         
-        System.out.println("final query :"+final_query);
+       // System.out.println("final query :"+final_query);
         
         conn.rs1 = conn.st1.executeQuery(final_query);
                 
@@ -510,7 +510,7 @@ public class ValidateExcelJMW extends HttpServlet {
         String age_group,message_type,program,message,upload_status;
         
         
-             System.out.println("facil:"+facil_info);
+            // System.out.println("facil:"+facil_info);
              month = facil_info.get("Month").toString();  
              facility = facil_info.get("HealthFacility").toString();
              subcounty = facil_info.get("SubCounty").toString();
@@ -623,7 +623,7 @@ public class ValidateExcelJMW extends HttpServlet {
         
         
         
-             System.out.println("facil:"+facil_info);
+            // System.out.println("facil:"+facil_info);
              month = facil_info.get("Month").toString();  
              facility = facil_info.get("HealthFacility").toString();
              subcounty = facil_info.get("SubCounty").toString();

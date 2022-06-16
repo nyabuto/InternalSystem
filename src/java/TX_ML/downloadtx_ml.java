@@ -758,7 +758,9 @@ else if(monthno.equals("6")){
 }
  
   
+
  
+  
       
       
       public HashMap<String,String> convertResultSetToMap(ResultSet rs) throws SQLException{
@@ -807,7 +809,7 @@ ResultSetMetaData md = rs.getMetaData();
            String indicid=rs.getString("indicid");
                for(int a=1;a<=columns;a++)
                {
-                   String colname=md.getColumnName(a);
+                String colname=md.getColumnName(a);
                    
                if(allin.contains(colname))
                {
@@ -957,7 +959,17 @@ else if(monthno.equals("06")){
     }
     return mn;
     }
+     
+    
+    public ResultSet getAnyDataFromDb(dbConn conn, String query) throws SQLException{
+    
+        return conn.st.executeQuery(query);
         
+        
+    }
+    
+    
+    
 }
 
 

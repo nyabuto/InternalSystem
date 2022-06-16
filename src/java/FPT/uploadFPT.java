@@ -6,11 +6,9 @@ Age and sex should be gotten from the eid tested raw data during the importing o
 package FPT;
 
 import DHIS2.dhisconfig;
-import DHIS2.pushDataToDHIS2;
 import DHIS2.pushFPTToIndexTestingApp;
 import General.IdGenerator;
 import database.dbConn;
-import form1a.ValidateExcelSL;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,7 +47,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCell;

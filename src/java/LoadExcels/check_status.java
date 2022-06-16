@@ -96,6 +96,24 @@ int pos=0;
               
          }
          
+          else if(load_type.equalsIgnoreCase("prep"))
+         {
+              if(session.getAttribute("prep")!=null){
+             message = session.getAttribute("prep").toString();
+             if(isNumeric(session.getAttribute("prep_count").toString())){
+             pos = Integer.parseInt(session.getAttribute("prep_count").toString());
+             }
+            }
+             
+              if(session.getAttribute("ref_prep")!=null){
+                  refresh_page=session.getAttribute("ref_prep").toString();
+                  //session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: Form Completed with a Validation Error. Check the errors sheet on the Data Quality Download</b> ");
+              session.removeAttribute("ref_prep");
+              
+              }
+              
+         }
+         
          obj.put("count", pos);
          obj.put("message", message);
          obj.put("refreshpage", refresh_page);

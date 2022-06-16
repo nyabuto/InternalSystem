@@ -11,7 +11,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>T1 Form</title>
+   <title>Training Form</title>
   <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -211,7 +211,7 @@ tr > td
                         
                      </li>-->
            <li style="margin-left:40%; font-size:20px;">
-                    <p>T1 FORM</p>
+                    <p>Training Form</p>
                     </li>
                                       </ul>
                </div>
@@ -226,7 +226,7 @@ tr > td
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="#" method="post" class="form-horizontal">
-                            <h5 style='text-align: center;color: black;'> <b>APHIAPlus Nuru Ya Bonde Training Registration Form (T1)</b></h5>  
+                            <h5 style='text-align: center;color: black;'> <b>USAID Tujenge Jamii Training Registration Form</b></h5>  
                          <br>
                          <div style="margin-left: 5%;">
                        
@@ -303,8 +303,8 @@ tr > td
             <td><input type="text"  placeholder="Name of organization/facility" tabindex="17"  autocomplete="off" name="organization_1" list="organization_list" id="organization_1" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
         </tr>   
         <tr>
-            <th>District : </th>
-            <td><select tabindex="18"  placeholder="District" name="district_1" required id="district_1"  autocomplete="off" data-toggle="tooltip" data-placement="right"  style="width: 300px;"></select> </td>
+            <th>Sub-county : </th>
+            <td><select tabindex="18"  placeholder="Sub-county" name="district_1" required id="district_1"  autocomplete="off" data-toggle="tooltip" data-placement="right"  style="width: 300px;"></select> </td>
         </tr>   
         <tr>
             <th>Telephone Number : </th>
@@ -579,7 +579,7 @@ $('#date_range').daterangepicker({
 
      function  viewT1Details(){
          
-      $("#detailed_existing").html("<fieldset class=\"formatter\" style=\"\"><legend class=\"formatter\"><b style=\"text-align:center;\">B. Participant's Details</b></legend><div class=\"tabbable tabbable-custom boxless\"><table cellpadding='4px' cellspacing='4px' style='padding-top: 1px; width:100%' border='0' class='display' id='T1Form'></table></div></fieldset>");
+      $("#detailed_existing").html("<fieldset class=\"formatter\" style=\"\"><legend class=\"formatter\"><b style=\"text-align:center;\">B. Participant's Details (optional)</b></legend><div class=\"tabbable tabbable-custom boxless\"><table cellpadding='4px' cellspacing='4px' style='padding-top: 1px; width:100%' border='0' class='display' id='T1Form'></table></div></fieldset>");
 //      $("#detailed_existing").html("<table cellpadding='4px' cellspacing='4px' style='padding-top: 1px;' border='0' class='display' id='T1Form'><tr><td>Loading Participants...<img src='images/utube.gif' alt='.'></td></tr></table>");
       
         $.ajax({

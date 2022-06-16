@@ -11,7 +11,7 @@
         
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+        <link href="../assets/css/style.css" rel="stylesheet" />
         <script src="assets/js/jquery-1.8.3.min.js"></script>  
         <title></title>
         
@@ -67,18 +67,12 @@
             <li>
             
             </li>
-            <li class="start " style="background-color: #4b8df8;">
+            <li class="start " style="background-color:#a3b0c9;">
                <a href="#">
-             <span class="title" ><b>Hi, <%if(session.getAttribute("userid")!=null){out.println(session.getAttribute("fullname").toString());}%></b></span>
+             <span  ><b>Hi, <%if(session.getAttribute("userid")!=null){out.println(session.getAttribute("fullname").toString());}%></b></span>
                </a>
                 </li>
-                <br/>
-                 <br/>
-                 <br/>
-                 <br/>
-                  <br/>
-                 <br/>
-                
+                             
                 <li class="active" style="border-top: 1px solid #e2e2e2 !important;">
                 <a href="home.jsp">
                <i class="icon-home"></i> 
@@ -95,7 +89,7 @@
                <ul class="sub">
                 
                   <li > <a href="gettemplate.jsp"><i class="icon-download"></i>Download F1A Template</a></li>
-                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A (v 5.0.0)</a></li>
+                  <li >  <a href="uploadf1a.jsp"><i class="icon-upload"></i>Upload Form 1A (v 5.0.1)</a></li>
                   <!--<li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(July)</a></li>-->
                    <!--<li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>-->
                   <!--<li > <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a> </li>-->
@@ -105,6 +99,31 @@
                 
             </ul>
             </li>
+            
+            
+            <li class="has-sub ">
+               <a href="#">
+                <i class="icon-filter"></i>
+               <span class="title"><font color='green'>Consolidated Prep</font></span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub">
+                
+                  <li > <a href="preptemplate.jsp"><i class="icon-download"></i>Download Prep Template</a></li>
+                  
+               <li> <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a href="prepupload.jsp"><i class="icon-upload"></i>Upload Prep Data File</a>
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Prep upload module</b> </a> <%}%></li> 
+               <li >  <a href="Prep_Excel_Tracker.jsp"><i class="icon-upload"></i>Prep Reports& Tracker</a></li>
+               
+               <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
+            </ul>
+            </li>
+            
+            
+            
             <li class="has-sub ">
                <a href="#">
                 <i class="icon-search"></i>
@@ -233,9 +252,9 @@
             
             
              <li class="has-sub ">
-               <a href="#" style='color:red;'>
+               <a href="#" >
                 <i class="icon-search"></i>
-               <span class="title"><b>Data Verification Excel</b></span>
+               <span class="title">Data Verification Excel</span>
                <span class="arrow "></span>
                </a>
                <ul class="sub">

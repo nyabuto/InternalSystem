@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Random;
@@ -23,7 +22,6 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +55,7 @@ public class downloadTemplate extends HttpServlet {
 
            
 
-            String allpath = getServletContext().getRealPath("/F1v5.xlsx");
+            String allpath = getServletContext().getRealPath("/F1v51.xlsx");
 
          
 
@@ -233,7 +231,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             
             
            
-            String sr = getServletContext().getRealPath("/F1v5.xlsx");
+            String sr = getServletContext().getRealPath("/F1v51.xlsx");
             //check if file exists
 
             //first time , it should create those folders that host the macro file
@@ -310,6 +308,22 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     XSSFSheet shet=wb.getSheetAt(a+1);
                     wb.setSheetName(a+1, monthName(monthar[a]));
                     //shet.protectSheet("f1av4");
+                    //hide prep ct indicators
+                    if(!monthar[a].equals("12") && !monthar[a].equals("3") && !monthar[a].equals("6") && !monthar[a].equals("09")){
+                    int fstart=126;
+                    int fend=138;
+                  
+                    
+                    for(int ef=fstart;ef<=fend;ef++)
+                        {
+                        
+                       XSSFRow rwx = shet.getRow(ef);
+                       rwx.setZeroHeight(true);
+                        
+                        }
+                    }
+                    
+                    
                     //in here, creata sheets    
                     XSSFRow rw = shet.getRow(0);
                     
@@ -338,7 +352,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                      wb.setForceFormulaRecalculation(true);
                   lockf1a lf1a= new lockf1a();
                   
-                // wb= lf1a.lockexcel(shet, wb);
+                 wb= lf1a.lockexcel(shet, wb);
 
                 }
                 //outside here, create workbooks

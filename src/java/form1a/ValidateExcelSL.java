@@ -220,7 +220,7 @@ public class ValidateExcelSL extends HttpServlet {
                 while(conn.rs1.next()){
                     if(conn.rs1.getInt("occurences")>0){
           if(conn.rs1.getString("fine_age").equals("1")){
-            age_groups = "<1 F,<1 M,1-4 F,1-4 M,5-9 F,5-9 M,10-14 F,10-14 M,15-19 F,15-19 M,20-24 F,20-24 M,25-29 F,25-29 M,30-34 F,30-34 M,35-39 F,35-39 M,40-44 F,40-44 M,45-49 F,45-49 M,50+ F,50+ M,50-54 F,50-54 M,55-59 F,55-59 M,60+ F,60+ M,Totals";
+            age_groups = "<1 F,<1 M,1-4 F,1-4 M,5-9 F,5-9 M,10-14 F,10-14 M,15-19 F,15-19 M,20-24 F,20-24 M,25-29 F,25-29 M,30-34 F,30-34 M,35-39 F,35-39 M,40-44 F,40-44 M,45-49 F,45-49 M,50+ F,50+ M,50-54 F,50-54 M,55-59 F,55-59 M,60-64 F,60-64 M,65+ F,65+ M,Totals";
            }
             else if(conn.rs1.getString("fine_age").equals("2")){
             age_groups = "<1 F,<1 M";
@@ -236,8 +236,10 @@ public class ValidateExcelSL extends HttpServlet {
                    // check and see the columns that have an issue 
                    for(int i=0;i<age_group_titles.length;i++){
                    JSONObject objerr = new JSONObject();
+                       System.out.println("Ageband:"+age_group_titles[i]);
+                   
                     if(conn.rs1.getInt(age_group_titles[i])==1){
-                        //System.out.println(""+query);
+                        System.out.println(""+query);
                         //archive this error
                          if(conn.rs1.getInt("iscritical")==1){
                         message_type = "error";
@@ -310,8 +312,10 @@ public class ValidateExcelSL extends HttpServlet {
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_54 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_54 end,0))) AS '50-54 M',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_59 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_59 end,0))) AS '55-59 F',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_59 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_59 end,0))) AS '55-59 M',\n" +
-                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_60 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_60 end,0))) AS '60+ F',\n" +
-                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_60 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_60 end,0))) AS '60+ M',\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_60 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_60 end,0))) AS '60-64 F',\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_60 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_60 end,0))) AS '60-64 M',\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_65 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_65 end,0))) AS '65+ F',\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_65 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_65 end,0))) AS '65+ M',\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) AS 'Totals',\n";
                       
         switch (fine_age) {
@@ -346,6 +350,8 @@ public class ValidateExcelSL extends HttpServlet {
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_59 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_59 end,0))) +\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_60 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_60 end,0))) +\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_60 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_60 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN f_65 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN f_65 end,0))) +\n" +
+                        "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN m_65 END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN m_65 end,0))) +\n" +
                         "(SUM(IFNULL(CASE WHEN indicator_id IN(lhs) THEN total END,0)) sign SUM(IFNULL(CASE WHEN  indicator_id IN(rhs) THEN total end,0))) as occurences ";
                 break;
             case 0:

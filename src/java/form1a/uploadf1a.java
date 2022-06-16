@@ -166,7 +166,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 5.0.0";
+            String activeversion = "Form 1A  version 5.0.1";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -398,6 +398,8 @@ colskey.add("m_59");
 colskey.add("f_59");
 colskey.add("m_60");
 colskey.add("f_60");
+colskey.add("m_65");
+colskey.add("f_65");
 colskey.add("total");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
@@ -494,6 +496,7 @@ while (conn.rs2.next()) {
                     val = valcell.getStringCellValue();//string
                     break;
                 case 2:
+                   // System.out.println(" Check completeness"+valcell.getRawValue());
                     val = "" + (int) valcell.getNumericCellValue(); //formula
                     
                     break;
@@ -644,9 +647,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 5.0.0 <a href='uploadf1a.jsp'>Upload Version 5.0.0 here</href> <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 5.0.1 <a href='uploadf1a.jsp'>Upload Version 5.0.1 here</href> <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 5.0.0. <a href='uploadf1a.jsp'>Upload Version 5.0.0 here</href> \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 5.0.1. <a href='uploadf1a.jsp'>Upload Version 5.0.1 here</href> \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -1147,7 +1150,7 @@ String deleteqry=" delete from "+destinationtable+" where concat(yearmonth,'_',f
 
                 conn.st_1.executeUpdate(deleteqry);
                 
-            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,total) !='' ";    
+            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,m_65,f_65,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,m_65,f_65,total) !='' ";    
 replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from fas_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
 //System.out.println(""+replaceqry);
 conn.st_1.executeUpdate(replaceqry);

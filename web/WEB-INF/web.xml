@@ -1649,6 +1649,42 @@
         <servlet-name>downloadHTSScreeningTracker</servlet-name>
         <servlet-class>HTS_Screening.downloadHTSScreeningTracker</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadf1av50</servlet-name>
+        <servlet-class>form1a.uploadf1av50</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidateExcelSL_50</servlet-name>
+        <servlet-class>form1a.ValidateExcelSL_50</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>courses_login</servlet-name>
+        <servlet-class>COURSES.courses_login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>emr_login</servlet-name>
+        <servlet-class>EMR.emr_login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadPrepTemplate</servlet-name>
+        <servlet-class>Prep.downloadPrepTemplate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadPrep</servlet-name>
+        <servlet-class>Prep.uploadPrep</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidateExcelPrep</servlet-name>
+        <servlet-class>Prep.ValidateExcelPrep</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>prep_analysis_report</servlet-name>
+        <servlet-class>Prep.prep_analysis_report</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>prepmissingtracker</servlet-name>
+        <servlet-class>Prep.prepmissingtracker</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3296,6 +3332,42 @@
     <servlet-mapping>
         <servlet-name>downloadHTSScreeningTracker</servlet-name>
         <url-pattern>/downloadHTSScreeningTracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av50</servlet-name>
+        <url-pattern>/uploadf1av50</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateExcelSL_50</servlet-name>
+        <url-pattern>/ValidateExcelSL_50</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>courses_login</servlet-name>
+        <url-pattern>/courses_login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>emr_login</servlet-name>
+        <url-pattern>/emr_login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadPrepTemplate</servlet-name>
+        <url-pattern>/downloadPrepTemplate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadPrep</servlet-name>
+        <url-pattern>/uploadPrep</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateExcelPrep</servlet-name>
+        <url-pattern>/ValidateExcelPrep</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>prep_analysis_report</servlet-name>
+        <url-pattern>/prep_analysis_report</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>prepmissingtracker</servlet-name>
+        <url-pattern>/prepmissingtracker</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
