@@ -1,13 +1,4 @@
-<%-- 
-    Document   : LockData
-    Created on : Aug 3, 2015, 9:08:52 AM
-    Author     : Geofrey Nyabuto
---%>
-<%-- 
-    Document   : Form731
-    Created on : May 11, 2015, 10:09:28 AM
-    Author     : Maureen
---%>
+
 
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

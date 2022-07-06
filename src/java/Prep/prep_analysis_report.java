@@ -365,7 +365,7 @@ SXSSFWorkbook wb = new SXSSFWorkbook(wb1, 100);
         
         //========Query two====Facility Details==============
         
-        String qry = "SELECT * FROM internal_system.vw_fas_consolidated_prep where yearmonth between '"+sym+"' and '"+eym+"';";
+        String qry = "SELECT * FROM internal_system.vw_fas_consolidated_prep where yearmonth between '"+sym+"' and '"+eym+"' UNION ALL select * from internal_system.vw_fas_consolidated_prep_basic;";
         System.out.println(qry);
         conn.rs = conn.st.executeQuery(qry);
         
@@ -446,13 +446,15 @@ SXSSFWorkbook wb = new SXSSFWorkbook(wb1, 100);
    if(1==1){
      Sheet sheet= wb.getXSSFWorkbook().getSheet("rawdata");
         // tell your xssfsheet where its content begins and where it ends
-((XSSFSheet)shet).getCTWorksheet().getDimension().setRef("A1:AO" + (shet.getLastRowNum() + 1));
+((XSSFSheet)sheet).getCTWorksheet().getDimension().setRef("A1:AO" + (shet.getLastRowNum() + 1));
 
-CTTable ctTable = ((XSSFSheet)shet).getTables().get(0).getCTTable();
+CTTable ctTable = ((XSSFSheet)sheet).getTables().get(0).getCTTable();
 
 ctTable.setRef("A1:AO" + (shet.getLastRowNum() + 1)); // adjust reference as needed
 
 }
+   
+ 
  
      
      

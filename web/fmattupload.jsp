@@ -102,7 +102,7 @@ tr>td {
       <!-- BEGIN SIDEBAR -->
       <div class="page-sidebar nav-collapse collapse">
          <!-- BEGIN SIDEBAR MENU -->         
-       <%@include file="/menu/minimenu.jsp"%>
+       <%--<%@include file="/menu/minimenu.jsp"%>--%>
          <!-- END SIDEBAR MENU -->
       </div>
       <!-- END SIDEBAR -->
@@ -127,8 +127,8 @@ tr>td {
                   <!-- BEGIN STYLE CUSTOMIZER -->
                
                   <!-- END BEGIN STYLE CUSTOMIZER -->   
-                  <h3 class="page-title" style="text-align: center;">
-                    
+                  <h3 class="page-title" style="text-align: left;">
+                     <a class="btn btn-success" target="_blank" href="fmatt_downloadtemplate.jsp" style="margin-left:10%;background-color:orange; color:white;">Click here to Download A blank FMatt Template</a> 
 <!--                    Internal System-->
                   </h3>
                   
@@ -139,7 +139,7 @@ tr>td {
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                         <a href="DataCleaner.jsp" style="margin-left:40%;"></a> 
+                        
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -154,7 +154,7 @@ tr>td {
                  
                   <div class="portlet box blue">
                      <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload FMatt Summary data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"> </div>
+                         <div style="float: left; font-size: 30px; margin-left: 5%; color:#ffffff;">Upload FMatt Summary data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;"> </div>
                      </div>
                       
                       <div  class="portlet-body form" id="progress_area" hidden="true">
