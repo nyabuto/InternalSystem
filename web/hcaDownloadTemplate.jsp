@@ -173,7 +173,7 @@ legend.formatter {
 <!--                 <div class=\"notifications top-left"><a href="#" class="close" data-dismiss="alert"></a> here we are</div>
                  -->
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
-                  <form action="downloadHCATemplate" method="post" class="form-horizontal" style="min-height: 450px;">
+                  <form action="downloadHCATemplatedata" method="post" class="form-horizontal" style="min-height: 450px;">
                       <br/>
                       <h4 class='btn-block btn-info btn-lg' style='text-align:center;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional.   &nbsp;&nbsp;&nbsp;&nbsp;     </h4>
                       <br/>

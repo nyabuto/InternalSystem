@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package JMW;
+package HCA;
 
 import database.OSValidator;
 import database.dbConn;
@@ -43,7 +43,7 @@ import scripts.copytemplates;
  *
  * @author EKaunda
  */
-public class downloadJMWTemplate extends HttpServlet {
+public class downloadHCATemplatedata extends HttpServlet {
 
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     
@@ -59,9 +59,9 @@ public class downloadJMWTemplate extends HttpServlet {
 
             XSSFWorkbook wb = null;
 
-           
+            HashMap<String, String> hmd= new HashMap<>();
 
-            String allpath = getServletContext().getRealPath("/JMW_Final.xlsx");
+            String allpath = getServletContext().getRealPath("/hca.xlsx");
 
          
 
@@ -148,7 +148,7 @@ public class downloadJMWTemplate extends HttpServlet {
             //do a loop with all the parameters above considered
             String finalpath = "";
 
-            String where = " and subpartnera.active=1 and JMW=1";
+            String where = " and subpartnera.active=1 and PMTCT=1";
 
             if (!subcounty.equals("(")) {
                 where += " and district.districtid in  " + subcounty;
@@ -219,16 +219,16 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             String zippath="";
             if (OSValidator.isWindows()) 
             {
-                np = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\JMW_" + dat2 +generateRandomNumber(100, 2000)+ ".xlsx";
+                np = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\HCA_" + dat2 +generateRandomNumber(100, 2000)+ ".xlsx";
                  if(curworkbook==1){//if the workbooks are more than 1
-                 zippath = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\JMW_Zip_" + county.replace(" ", "_")+"_"+year +"_"+mwezi+ ".zip";
+                 zippath = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\HCA_Zip_" + county.replace(" ", "_")+"_"+year +"_"+mwezi+ ".zip";
                                    }
             }
             else if (OSValidator.isUnix()) 
             {
-                np = "/HSDSA/InternalSystem/F1a/Templates/JMW_" + dat2+generateRandomNumber(100, 2000) + ".xlsx";
+                np = "/HSDSA/InternalSystem/F1a/Templates/HCA_" + dat2+generateRandomNumber(100, 2000) + ".xlsx";
                 if(curworkbook==1){ //if the workbooks are more than 1
-                 zippath = "/HSDSA/InternalSystem/F1a/Templates/JMW_Zip_" + county.replace(" ", "_")+"_"+year+"_"+mwezi+ ".zip";
+                 zippath = "/HSDSA/InternalSystem/F1a/Templates/HCA_Zip_" + county.replace(" ", "_")+"_"+year+"_"+mwezi+ ".zip";
                                   }
                 
             }
@@ -239,7 +239,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             
             
            
-            String sr = getServletContext().getRealPath("/JMW_Final.xlsx");
+            String sr = getServletContext().getRealPath("/hca.xlsx");
             //check if file exists
 
             //first time , it should create those folders that host the macro file
@@ -315,33 +315,13 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     
                     
                     
-                   //if(runhashmap==1)
-                   if(1==1)
+                   if(runhashmap==1)
                    {
-                      // String sp="call internal_system.sp_pull_data_JMW('"+lini+"','')";
-                       String sp="call internal_system.sp_pull_data_jmw_cumulative_previous_month('"+mwakamwezi+"', '"+facilityid+"');";
-                     //
+                      // String sp="call internal_system.sp_pull_data_HCA('"+lini+"','')";
+                       String sp="call internal_system.sp_pull_data_FPT('2010-10-01','')";
+                    
                     System.out.println("Stored Procedure: "+sp);
-                    
-                   // conn.st1.executeQuery(sp);
-                    
-                    
-                    
                      hm= convertResultSetToMap(conn.st1.executeQuery(sp));
-                     
-                     /***
-                      * 
-                      * 
-382	202103	5604	2
-382	202103	5608	2
-382	202103	5614	2
-
-                      * 
-                      * 
-                      */
-                     
-                     
-                     
                    }
               
                     //if(month.equals(npt))
@@ -350,17 +330,17 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     {
                     wb.cloneSheet(1);
                     }
-                    //System.out.println("no of sheets:"+wb.getNumberOfSheets());
+                    System.out.println("no of sheets:"+wb.getNumberOfSheets());
                     XSSFSheet shet=wb.getSheetAt(a+1);
                     wb.setSheetName(a+1, monthName(monthar[a]));
                     //shet.protectSheet("f1av4");
                     //in here, creata sheets    
                     XSSFRow rw = shet.getRow(0);
                     
-                    XSSFCell facilcl= rw.getCell(1);
+                    XSSFCell facilcl= rw.getCell(2);
                     facilcl.setCellValue(facilityname);
                     
-                    XSSFCell mflcl= rw.getCell(5);
+                    XSSFCell mflcl= rw.getCell(4);
                     mflcl.setCellValue(mflcode);
                     
                     
@@ -372,36 +352,12 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     //countycl.setCellValue(county);
                     
                     
-                    XSSFCell monthcl= rw.getCell(12);
+                    XSSFCell monthcl= rw.getCell(6);
                     monthcl.setCellValue(month);
                     
                     
-                    XSSFCell yearcl= rw.getCell(14);
+                    XSSFCell yearcl= rw.getCell(8);
                     yearcl.setCellValue(mwaka);
-                    
-                    
-                    
-                    
-                    String indics[]={"5604_total_"+facilityid,"5608_total_"+facilityid,"5614_total_"+facilityid};
-                     int indic_cell_pos[]={9,10,11};
-                     
-                     
-                    
-                    facilcl.setCellValue(facilityname);
-                     
-                     for (a=0;a<indics.length;a++)
-                     {
-                      XSSFRow rwi = shet.getRow(indic_cell_pos[a]);
-                    
-                    XSSFCell dcl= rwi.getCell(24);
-                    
-                    int vl=0;
-                    
-                    if(isNumeric(hm.get(indics[a]))){vl=new Integer(hm.get(indics[a]));}
-                    else{vl=0;}
-                      dcl.setCellValue(vl);
-                     
-                     }
                     
                     
                   lockf1a lf1a= new lockf1a();
@@ -419,44 +375,32 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                          
                          String rw_suffix =facilityid+"_"+mwakamwezi;
                     
-                    String [] required_rows={"7:wlhiv_"+rw_suffix,"8:mlhiv_"+rw_suffix,"9:calhiv_"+rw_suffix};
+                   // String [] required_rows={"7:wlhiv_"+rw_suffix,"8:mlhiv_"+rw_suffix,"9:calhiv_"+rw_suffix};
                  
+                     ArrayList requiredrows= new ArrayList();
+        
+                                
+        requiredrows= convertResultSetToArrayList(getAnyDataFromDb(conn, "call hei.sp_pull_data_hei_keys('"+mwakamwezi+"','"+facilityid+"');"));
+        hmd=convertResultSetToMap(getAnyDataFromDb(conn, "call hei.sp_pull_data_hei('"+mwakamwezi+"');"));
+                    System.out.println("Query run is "+"call hei.sp_pull_data_hei('"+mwakamwezi+"');");       
+        ArrayList allin = new ArrayList();
                     
                     
-                    
-                    
-          ArrayList allin = new ArrayList();
+             //indicid	Yearmonth	poi_row_no	Indicator	facid	numerator	denominator
+       
           
-//allin.add("muk");
-//allin.add("fuk");
-//allin.add("m1");
-//allin.add("f1");
-//allin.add("m4");
-//allin.add("f4");
-//allin.add("m9");
-//allin.add("f9");
-//allin.add("m14");
-//allin.add("f14");
-//allin.add("m19");
-//allin.add("f19");
-//allin.add("m24");
-//allin.add("f24");
-//allin.add("m29");
-//allin.add("f29");
-//allin.add("m34");
-//allin.add("f34");
-//allin.add("m39");
-//allin.add("f39");
-//allin.add("m44");
-//allin.add("f44");
-//allin.add("m49");
-//allin.add("f49");
-//allin.add("m50");
-//allin.add("f50");
-//allin.add("total");
+          
+//allin.add("indicid");
+//allin.add("Yearmonth");
+//allin.add("poi_row_no");
+//allin.add("Indicator");
+//allin.add("facid");
+allin.add("numerator");
+allin.add("denominator");
+
                     
                     
-                  wb=  populatejmw(wb, required_rows, allin, hm);
+                  wb=  populatehca(wb, requiredrows, allin, hmd);
                   //wb=  populatejmw(wb, null, allin, hm);
                  
 
@@ -470,11 +414,11 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                   
             if (OSValidator.isWindows()) 
             {
-                npt = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\JMW_" + facilityname.replace(" ", "_")+"_"+year +"_"+mwezi+ ".xlsx";
+                npt = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\HCA_" + facilityname.replace(" ", "_")+"_"+year +"_"+mwezi+ ".xlsx";
             }
             else if (OSValidator.isUnix()) 
             {
-                npt = "/HSDSA/InternalSystem/F1a/Templates/JMW_" + facilityname.replace(" ", "_")+"_"+year+"_"+mwezi+ ".xlsx";
+                npt = "/HSDSA/InternalSystem/F1a/Templates/HCA_" + facilityname.replace(" ", "_")+"_"+year+"_"+mwezi+ ".xlsx";
             }
                 
 
@@ -505,7 +449,7 @@ byte[] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=" + "JMW_"+workbookidentifier.replace(" ", "_") + ".xlsx");
+response.setHeader("Content-Disposition", "attachment; filename=" + "HCA_"+workbookidentifier.replace(" ", "_") + ".xlsx");
 response.setHeader("Set-Cookie","fileDownload=true; path=/");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
@@ -562,7 +506,7 @@ byte[] outArray = zipFiles(files);
 response.setContentType("application/zip");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=JMW_"+filename+".zip");
+response.setHeader("Content-Disposition", "attachment; filename=HCA_"+filename+".zip");
 response.setHeader("Set-Cookie","fileDownload=true; path=/");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
@@ -623,10 +567,10 @@ outStream.flush();
             try {
                 processRequest(request, response);
             } catch (InvalidFormatException ex) {
-                Logger.getLogger(downloadJMWTemplate.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(downloadJMWTemplate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -637,10 +581,10 @@ outStream.flush();
             try {
                 processRequest(request, response);
             } catch (InvalidFormatException ex) {
-                Logger.getLogger(downloadJMWTemplate.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(downloadJMWTemplate.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(downloadHCATemplate.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -745,33 +689,13 @@ else if(monthno.equals("6")){
           
           ArrayList allin = new ArrayList();
           
-//allin.add("muk");
-////allin.add("fuk");
-//allin.add("m1");
-//allin.add("f1");
-//allin.add("m4");
-//allin.add("f4");
-//allin.add("m9");
-//allin.add("f9");
-//allin.add("m14");
-//allin.add("f14");
-//allin.add("m19");
-//allin.add("f19");
-//allin.add("m24");
-//allin.add("f24");
-//allin.add("m29");
-//allin.add("f29");
-//allin.add("m34");
-//allin.add("f34");
-//allin.add("m39");
-//allin.add("f39");
-//allin.add("m44");
-//allin.add("f44");
-//allin.add("m49");
-//allin.add("f49");
-//allin.add("m50");
-//allin.add("f50");
-allin.add("total");
+//allin.add("indicid");
+//allin.add("Yearmonth");
+//allin.add("poi_row_no");
+//allin.add("Indicator");
+//allin.add("facid");
+allin.add("numerator");
+allin.add("denominator");
 
       
 HashMap<String,String> hm = new HashMap<String,String>();
@@ -780,9 +704,9 @@ ResultSetMetaData md = rs.getMetaData();
           
            int columns = md.getColumnCount();
            
-           while (rs.next()){
-           String indicid=rs.getString("indicator_id");
-           String fcid=rs.getString("facility_id");
+           while (rs.next())
+           {
+           String indicid=rs.getString("indicid");
                for(int a=1;a<=columns;a++)
                {
                    String colname=md.getColumnName(a);
@@ -790,8 +714,8 @@ ResultSetMetaData md = rs.getMetaData();
                if(allin.contains(colname))
                {
                    
-                hm.put(indicid+"_"+colname+"_"+fcid, rs.getString(colname));
-                   
+                hm.put(indicid+"_"+colname, rs.getString(colname));
+                   //System.out.println("column added:"+indicid+"_"+colname+"_value is :"+rs.getString(colname));
                }
                }               
                 
@@ -805,9 +729,10 @@ ResultSetMetaData md = rs.getMetaData();
       }
        
       
-      public XSSFWorkbook populatejmw(XSSFWorkbook wb, String[] RowstoUpdate,ArrayList ColstoUpdate, HashMap<String, String > data_to_populatedatahm  )
+       public XSSFWorkbook populatehca(XSSFWorkbook wb, ArrayList RowstoUpdate, ArrayList ColstoUpdate, HashMap<String, String > data_to_populatedatahm  )
       {
-          //System.out.println(" Hash map is "+data_to_populatedatahm);
+          System.out.println(" Hash map is size"+data_to_populatedatahm.size());
+          int poi_column[]={3,4};
           
           int sheetcount=wb.getNumberOfSheets();
           
@@ -827,9 +752,9 @@ ResultSetMetaData md = rs.getMetaData();
           {
           
             XSSFSheet sht = wb.getSheet(sheetsAL.get(a).toString());
-            for(int b=0; b<RowstoUpdate.length; b++)
+            for(int b=0; b<RowstoUpdate.size(); b++)
             {
-             String [] row_key=RowstoUpdate[b].split(":");   
+             String [] row_key=RowstoUpdate.get(b).toString().split(":");   
              //data is saved as row:Indicator eg 4:tx_new
              
                 System.out.println("sheet is "+sheetsAL.get(a).toString());
@@ -838,12 +763,11 @@ ResultSetMetaData md = rs.getMetaData();
              //loop through all the rows while updating data
              
              
-             
              XSSFRow rw=sht.getRow(new Integer(row_key[0]));
-            for(int c=0; c<ColstoUpdate.size(); c++)
+            for(int c=0; c<poi_column.length; c++)
             {
             
-             XSSFCell cl=rw.getCell(15);
+             XSSFCell cl=rw.getCell(c+3);
              //txcurr_113_202007
              
              String fullkey=row_key[1]+"_"+ColstoUpdate.get(c);
@@ -852,10 +776,11 @@ ResultSetMetaData md = rs.getMetaData();
              if(data_to_populatedatahm.get(fullkey)!=null){
              if(isNumeric(data_to_populatedatahm.get(fullkey))){
                  
-                 System.out.println(" Value ya "+fullkey+" ni "+data_to_populatedatahm.get(fullkey));
-                 
-               cl.setCellValue( new Integer(data_to_populatedatahm.get(fullkey).toString()));
-               
+                 Double dv=new Double(data_to_populatedatahm.get(fullkey));
+                 if(dv>0)
+                 {
+               cl.setCellValue( new Double(data_to_populatedatahm.get(fullkey)));
+                 }
                 //System.out.println("Populated as Integer");  
              }
              else {
@@ -867,7 +792,7 @@ ResultSetMetaData md = rs.getMetaData();
              }
              else {
              
-                 //System.out.println(" Hash map is null ");
+                 System.out.println(" Hash map is null ");
              }
             
             }
@@ -877,7 +802,7 @@ ResultSetMetaData md = rs.getMetaData();
           }
          
          //XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);  
-      //call internal_system.sp_pull_data_jmw_cumulative_previous_month('202103', '382');
+      wb.setForceFormulaRecalculation(true);
       return wb;
       }
       
@@ -937,5 +862,32 @@ else if(monthno.equals("06")){
     return mn;
     }
       
-      
+    
+    
+     public ResultSet getAnyDataFromDb(dbConn conn, String query) throws SQLException{
+    
+        return conn.st2.executeQuery(query);
+        
+        
+    }
+     
+            public ArrayList convertResultSetToArrayList(ResultSet rs) throws SQLException 
+ {
+    ResultSetMetaData md = rs.getMetaData();
+    int columns = md.getColumnCount();
+    ArrayList al = new ArrayList();
+
+    while (rs.next()) 
+    {
+         
+        for(int i=1; i<=columns; ++i) {
+            String colname=md.getColumnName(i);
+            al.add(rs.getString(colname));
+        }
+        
+    }
+
+    return al;
+}
+    
 }

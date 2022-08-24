@@ -50,7 +50,7 @@ public class UploadKenyaEMRVl extends HttpServlet {
   private static final String UPLOAD_DIR = "uploads";
   String query="",query_update="",value,checker_query;
   String SubPartnerID,mfl_code,year,month,yearmonth,id;
-  String[] columns =  {"vl_kenyaemr_id","AgeYrs","Sex","cccno","HIV_Enrollment_Date","ART_Start_Date","Last_VL","Last_VL_Date","Facility_Name","MFL_Code","Justification","PMTCT","Yearmonth","Next_appointment_date","Last_Visit_Date","Indicator","regimen_name","regimen_line","uzito","Patient_stable","Differentiated_care","Population_Type","key_population_type","pregnancy_status","expected_delivery_date","family_planning_status","family_planning_method","Screened_for_Cervical_Cancer","VisitScheduled","cxca_Screened_last6Months","pregnant_last12months"};
+  String[] columns =  {"vl_kenyaemr_id","AgeYrs","Sex","cccno","HIV_Enrollment_Date","ART_Start_Date","Last_VL","Last_VL_Date","Facility_Name","MFL_Code","Justification","PMTCT","Yearmonth","Next_appointment_date","Last_Visit_Date","Indicator","regimen_name","regimen_line","uzito","Patient_stable","Differentiated_care","Population_Type","key_population_type","pregnancy_status","expected_delivery_date","family_planning_status","family_planning_method","Screened_for_Cervical_Cancer","VisitScheduled","cxca_Screened_last6Months","pregnant_last12months","mch"};
   int updated,added;
   String min_date="",max_date="",date_tested="";
   String value_vl="";

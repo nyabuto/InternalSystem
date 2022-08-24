@@ -453,7 +453,8 @@ public JSONObject toJsonString (dbConn conn,ResultSet datavaluesres, String send
                      mainjo.put("completeDate",compdate);
                      mainjo.put("period",ym);
                      mainjo.put("orgUnit",orgunitid);
-                     mainjo.put("attributeOptionCombo","ffOSsK1od9t");
+                   //mainjo.put("attributeOptionCombo","ffOSsK1od9t");
+                     mainjo.put("attributeOptionCombo","F61aytoeI2h");
                      
                  
                 }
@@ -509,7 +510,7 @@ public JSONObject UploadFPTToServer( JSONObject jd, String user,String password 
     System.out.println("Password ni:"+password);
         try {           
             
-            URL url = new URL ("https://indextestingapp.uonbi.ac.ke/api/dataValueSets");
+            URL url = new URL ("https://partnermanagementsystem.uonbi.ac.ke/api/dataValueSets");
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json; utf-8");
