@@ -11,7 +11,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Training Form</title>
+   <title>UTJ Training Form</title>
   <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -291,8 +291,8 @@ tr > td
             <td><select tabindex="14"  placeholder="Choose Gender" name="gender_1" required id="gender_1"  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"></select> </td>
         </tr>   
         <tr>
-            <th>Job Title/Profession : </th>
-            <td><input type="text"  placeholder="Job title/Profession" tabindex="15" name="profession_1"  autocomplete="off" id="profession_1"  list="profession_list" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
+            <th>Cadre : </th>
+            <td><input type="text"  placeholder="Cadre" tabindex="15" name="profession_1"  autocomplete="off" id="profession_1"  list="profession_list" value=""  data-toggle="tooltip"  data-placement="right"  style="width: 300px;"> </td>
         </tr>   
         <tr>
             <th>Personal Number : </th>

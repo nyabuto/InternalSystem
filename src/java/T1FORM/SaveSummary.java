@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  */
 public class SaveSummary extends HttpServlet {
 HttpSession session;
-String program_area_id,cordinator,districts,agency,venue,curriculum_id,start_date,end_date,training_name,year,month,year_month,s_male,s_female,user_id,date_range;
+String program_area_id,cordinator,districts,agency,venue,curriculum_id,start_date,end_date,training_name,year,month,year_month,s_male,s_female,user_id,date_range,nurse,rco,hrio,dclerk,pharmtec,labtec,mo,couns,hts_screener,acouns,linkdesk,mmother,mfather,expclient,chv,sto,to,tio,meo,mea,hro,dma,otherc;
 String output;
 int summary_id;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -49,6 +49,31 @@ int summary_id;
            s_male = request.getParameter("s_male");
            s_female = request.getParameter("s_female");
            
+nurse = request.getParameter("nurse");
+rco = request.getParameter("rco");
+hrio = request.getParameter("hrio");
+dclerk = request.getParameter("dclerk");
+pharmtec = request.getParameter("pharmtec");
+labtec = request.getParameter("labtec");
+mo = request.getParameter("mo");
+couns = request.getParameter("couns");
+hts_screener = request.getParameter("hts_screener");
+acouns = request.getParameter("acouns");
+linkdesk = request.getParameter("linkdesk");
+mmother = request.getParameter("mmother");
+mfather = request.getParameter("mfather");
+expclient = request.getParameter("expclient");
+chv = request.getParameter("chv");
+sto = request.getParameter("sto");
+to = request.getParameter("to");
+tio = request.getParameter("tio");
+meo = request.getParameter("meo");
+mea = request.getParameter("mea");
+hro = request.getParameter("hro");
+dma = request.getParameter("dma");
+otherc = request.getParameter("otherc");
+
+           
            String[] date_range_array=date_range.split("-");
            
            start_date=date_range_array[0].replace("/", "-");
@@ -64,7 +89,7 @@ int summary_id;
            user_id = "1";
            
            
-           String resout = program_area_id+","+cordinator+","+districts+","+agency+","+venue+","+curriculum_id+","+start_date+","+end_date+","+training_name+","+year+","+month+","+year_month+","+s_male+","+s_female+","+user_id;
+           String resout = program_area_id+","+cordinator+","+districts+","+agency+","+venue+","+curriculum_id+","+start_date+","+end_date+","+training_name+","+year+","+month+","+year_month+","+s_male+","+s_female+","+user_id+","+nurse+","+rco+","+hrio+","+dclerk+","+pharmtec+","+labtec+","+mo+","+couns+","+hts_screener+","+acouns+","+linkdesk+","+mmother+","+mfather+","+expclient+","+chv+","+sto+","+to+","+tio+","+meo+","+mea+","+hro+","+dma+","+otherc;
             System.out.println(" data : "+resout);
            if(session.getAttribute("summary_id")==null){
            if(s_male.equals("")){s_male="0";}
@@ -87,7 +112,7 @@ int summary_id;
            else{
                String inserter="REPLACE INTO t1_summary SET program_area_id=?,cordinator=?,"
                     + "districts=?,agency=?,venue=?,curriculum_id=?,start_date=?,end_date=?,"
-                    + "training_name=?,year=?,month=?,s_male=?,s_female=?,ym=?,user_id=? ";
+                    + "training_name=?,year=?,month=?,s_male=?,s_female=?,ym=?,user_id=? ,nurse=?,rco=?,hrio=?,dclerk=?,pharmtec=?,labtec=?,mo=?,couns=?,hts_screener=?,acouns=?,linkdesk=?,mmother=?,mfather=?,expclient=?,chv=?,sto=?,to=?,tio=?,meo=?,mea=?,hro=?,dma=?,otherc=?";
                conn.pst=conn.conn.prepareStatement(inserter);
                conn.pst.setString(1, program_area_id);
                conn.pst.setString(2, cordinator);
@@ -104,7 +129,30 @@ int summary_id;
                conn.pst.setString(13, s_female);
                conn.pst.setString(14, year_month);
                conn.pst.setString(15, user_id);
-              
+              conn.pst.setString(16, nurse);
+conn.pst.setString(17, rco);
+conn.pst.setString(18, hrio);
+conn.pst.setString(19, dclerk);
+conn.pst.setString(20, pharmtec);
+conn.pst.setString(21, labtec);
+conn.pst.setString(22, mo);
+conn.pst.setString(23, couns);
+conn.pst.setString(24, hts_screener);
+conn.pst.setString(25, acouns);
+conn.pst.setString(26, linkdesk);
+conn.pst.setString(27, mmother);
+conn.pst.setString(28, mfather);
+conn.pst.setString(29, expclient);
+conn.pst.setString(30, chv);
+conn.pst.setString(31, sto);
+conn.pst.setString(32, to);
+conn.pst.setString(33, tio);
+conn.pst.setString(34, meo);
+conn.pst.setString(35, mea);
+conn.pst.setString(36, hro);
+conn.pst.setString(37, dma);
+conn.pst.setString(38, otherc);
+
                conn.pst.executeUpdate();
            output="Summary saved successfully.";
            
@@ -119,7 +167,7 @@ int summary_id;
                summary_id = Integer.parseInt(session.getAttribute("summary_id").toString());
                 String updator="UPDATE t1_summary SET program_area_id=?,cordinator=?,"
                     + "districts=?,agency=?,venue=?,curriculum_id=?,start_date=?,end_date=?,"
-                    + "training_name=?,year=?,month=?,s_male=?,s_female=?,ym=?,user_id=? WHERE id=?";
+                    + "training_name=?,year=?,month=?,s_male=?,s_female=?,ym=?,user_id=?, ,nurse=?,rco=?,hrio=?,dclerk=?,pharmtec=?,labtec=?,mo=?,couns=?,hts_screener=?,acouns=?,linkdesk=?,mmother=?,mfather=?,expclient=?,chv=?,sto=?,to=?,tio=?,meo=?,mea=?,hro=?,dma=?,otherc=? WHERE id=?";
                conn.pst=conn.conn.prepareStatement(updator);
                conn.pst.setString(1, program_area_id);
                conn.pst.setString(2, cordinator);
@@ -136,7 +184,31 @@ int summary_id;
                conn.pst.setString(13, s_female);
                conn.pst.setString(14, year_month);
                conn.pst.setString(15, user_id);
-               conn.pst.setInt(16, summary_id);
+               conn.pst.setString(16, nurse);
+conn.pst.setString(17, rco);
+conn.pst.setString(18, hrio);
+conn.pst.setString(19, dclerk);
+conn.pst.setString(20, pharmtec);
+conn.pst.setString(21, labtec);
+conn.pst.setString(22, mo);
+conn.pst.setString(23, couns);
+conn.pst.setString(24, hts_screener);
+conn.pst.setString(25, acouns);
+conn.pst.setString(26, linkdesk);
+conn.pst.setString(27, mmother);
+conn.pst.setString(28, mfather);
+conn.pst.setString(29, expclient);
+conn.pst.setString(30, chv);
+conn.pst.setString(31, sto);
+conn.pst.setString(32, to);
+conn.pst.setString(33, tio);
+conn.pst.setString(34, meo);
+conn.pst.setString(35, mea);
+conn.pst.setString(36, hro);
+conn.pst.setString(37, dma);
+conn.pst.setString(38, otherc);
+
+               conn.pst.setInt(39, summary_id);
               
                conn.pst.executeUpdate();
                

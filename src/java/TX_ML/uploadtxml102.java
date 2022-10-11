@@ -3,12 +3,11 @@ Notes: This raw data is for positive EID. The data doesnt have age and sex
 Age and sex should be gotten from the eid tested raw data during the importing of the raw data positives into the eid_datim_output table.
 
  */
-package Prep;
+package TX_ML;
 
-import DHIS2.dhisconfig;
-import DHIS2.pushDataToDHIS2;
 import General.IdGenerator;
 import database.dbConn;
+import form1a.ValidateExcelSL;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -17,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -70,7 +68,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadPrep extends HttpServlet {
+public class uploadtxml102 extends HttpServlet {
 
  
 
@@ -91,7 +89,6 @@ public class uploadPrep extends HttpServlet {
         //F01-01 23
         //poi_row_no_v431
         Poirowname="poi_row_no";
-      
         
         
         
@@ -122,7 +119,7 @@ public class uploadPrep extends HttpServlet {
             String subpartnerid = "", yearmonth = "", month = "";
             
             String uploadstatus="";
-            String lastexcelid="284";
+            String lastexcelid="439";
             
             session = request.getSession();
             if (session.getAttribute("userid") != null) {
@@ -159,21 +156,26 @@ public class uploadPrep extends HttpServlet {
             
             ArrayList msgal = new ArrayList();
             
-            int startcol = 8;
-            int endcol = 40;
+            int startcol = 3;
+            int endcol = 27;
             
             String mflcode = "";
              dbConn conn = new dbConn();
              
              
-   
-            String activeversion = "PrEP Partner Performance Tool version 2.0.0";
+            //String getVersion="select version from f1a_version where active=1";
+            String activeversion = "TX_ML  Data 1.0.2";
+            //conn.rs=conn.st.executeQuery(getVersion);
             
+//            while(conn.rs.next()){
+//           //activeversion=conn.rs.getString(1); 
+//            
+//                                 }
             
-            String dbname = "prep_temp";
+            String dbname = "upload_txml_temp";
             
-           session.setAttribute("prep", "<b>Checking Prep From Version</b>");
-        session.setAttribute("prep_count", 1);  
+           session.setAttribute("form1a", "<b>Checking TXML Version</b>");
+        session.setAttribute("form1a_count", 1);  
             
             HashMap<String,String> uploaderdetails=getUsers(conn, user_id); 
             
@@ -182,14 +184,14 @@ public class uploadPrep extends HttpServlet {
                     email =  uploaderdetails.get("email");
             
             //GET ALLOWED PERIOD AND FACILITIES
-            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads where form='consolidated_prep'";
+            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads where form='txml' ";
             conn.rs = conn.st.executeQuery(getinfo);
             if(conn.rs.next()){
               periods = conn.rs.getString("periods");
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "prepupload.jsp";
+            nextpage = "uploadtxml.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -218,7 +220,7 @@ public class uploadPrep extends HttpServlet {
                     
                     if (!fileName.endsWith(".xlsx")) {
                         
-                        nextpage = "prepupload.jsp";
+                        nextpage = "uploadtxml.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
@@ -227,7 +229,7 @@ public class uploadPrep extends HttpServlet {
                 
                 if (!fileName.endsWith(".xlsx")) {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "prepupload.jsp";
+                    nextpage = "uploadtxml.jsp";
                 } else {
                     
                     //start reading the contents
@@ -238,15 +240,15 @@ public class uploadPrep extends HttpServlet {
                         //System.out.println("Tunaanza");
                         full_path = fileSaveDir.getAbsolutePath() + "/" + fileName; //end of checking if excel file is valid
                         System.out.println("the saved file directory is  :  " + full_path);
-                        session.setAttribute("prep", "<b>Uploading Prep File</b>");
-                        session.setAttribute("prep_count", 20);
+                        session.setAttribute("form1a", "<b>Uploading TXML File</b>");
+                        session.setAttribute("form1a_count", 20);
                         
                         FileInputStream fileInputStream = new FileInputStream(full_path);
                         BufferedInputStream bfs = new BufferedInputStream(fileInputStream);
                         XSSFWorkbook workbook = new XSSFWorkbook(bfs);
                         int rowCount=245;
                         
-                        String rn="select count(id) from prep_indicators where is_active=1 and dataset='prep'";
+                        String rn="select count(id) from fas_indicators where is_active=1 and dataset='txml'";
                         
                         conn.rs=conn.st.executeQuery(rn);
                         
@@ -256,120 +258,85 @@ public class uploadPrep extends HttpServlet {
                         
                         int totalsheets = workbook.getNumberOfSheets();
                         
-//                        for (int sheetno = 0; sheetno < totalsheets; sheetno++) {
-                        for (int sheetno = 0; sheetno < 1; sheetno++) {
+                        for (int sheetno = 0; sheetno < totalsheets; sheetno++) {
                             
-                            XSSFSheet worksheet = workbook.getSheet("datafile");
+                            XSSFSheet worksheet = workbook.getSheetAt(sheetno);
                             
-                           // System.out.println(sheetno + " (" + workbook.getSheetName(sheetno) + ") out of " + totalsheets + " sheets");
+                            System.out.println(sheetno + " (" + workbook.getSheetName(sheetno) + ") out of " + totalsheets + " sheets");
                             
-                            String sheetname = "datafile";
+                            String sheetname = workbook.getSheetName(sheetno);
                             
                             boolean hasdata = false;
                       
                         
-                          int tukowapi=1;
+                          int tukowapi=6;
                             
 //skip instructions page
-if (sheetname.equals("datafile")) {
+if (!sheetname.equals("Instructions")) {
     
     //This is a temporary process. there a template that has two additional rows by mistake that should be corrected
-    //we expect for a normal template version 4.0.4, the first cell should start at point 21
+    //we expect for a normal template version 4.0.3, the first cell should start at point 21
     //F01-01 23
     
-    String  powrowval="";
-    
- XSSFCell poicell = worksheet.getRow(315).getCell((short) 7);    
-                                switch (poicell.getCellType()) {
-                                    case 1:
-                                        powrowval = poicell.getStringCellValue();
-                                        break;
-                                    case 0:
-                                        powrowval = "" + (int) poicell.getNumericCellValue();
-                                        break;
-                                    default:
-                                        powrowval = poicell.getRawValue();
-                                        break;
-                                }
-     
-
-     if(powrowval.equals("PRP01-031"))
-     {
-         Poirowname="poi_row_no"; 
-         
-     }
-     else {
-     Poirowname="old_poi_row_no"; 
-     }
-    
-    System.out.println("Inside the Loop, Poi Row name is "+Poirowname);
-      
-  
+    String indexcellstarting="";
     //get basic period and orgunit details
-    XSSFCell facilcell = worksheet.getRow(1).getCell((short) 4);
+    XSSFCell indexcell = worksheet.getRow(23).getCell((short) 2);
     
-    if (facilcell.getCellType() == 1) 
-    {
+       
+     Poirowname="poi_row_no";   
+    
+    
+    System.out.println("Poi row cell ni "+Poirowname);
+    
+    //get basic period and orgunit details
+    XSSFCell facilcell = worksheet.getRow(0).getCell((short) 1);
+    
+    if (facilcell.getCellType() == 1) {
         facilityName = facilcell.getStringCellValue();
     }
-    else {
-    facilityName = facilcell.getRawValue();
     
-    }
-    
-    XSSFCell mflcell = worksheet.getRow(1).getCell((short) 3);
+    XSSFCell mflcell = worksheet.getRow(0).getCell((short) 5);
     
     if (mflcell.getCellType() == 0) {
         mflcode = "" + (int) mflcell.getNumericCellValue();
     } else if (mflcell.getCellType() == 1) {
         mflcode = mflcell.getStringCellValue();
     }
-    else {
-    mflcode = mflcell.getRawValue();
     
+    XSSFCell subcountycell = worksheet.getRow(0).getCell((short) 10);
+    if (subcountycell.getCellType() == 1) {
+        subcounty = subcountycell.getStringCellValue();
     }
     
-//    XSSFCell subcountycell = worksheet.getRow(1).getCell((short) 10);
-//    if (subcountycell.getCellType() == 1) {
-//        subcounty = subcountycell.getStringCellValue();
-//    }
+    XSSFCell countycell = worksheet.getRow(0).getCell((short) 19);
+    if (countycell.getCellType() == 1) {
+        county = countycell.getStringCellValue();
+    }
     
-//    XSSFCell countycell = worksheet.getRow(0).getCell((short) 19);
-//    if (countycell.getCellType() == 1) {
-//        county = countycell.getStringCellValue();
-//    }
-    
-    XSSFCell monthcell = worksheet.getRow(1).getCell((short) 2);
+    XSSFCell monthcell = worksheet.getRow(0).getCell((short) 24);
     
     if (monthcell.getCellType() == 0) {
         month = "" + (int) monthcell.getNumericCellValue();
     } else if (monthcell.getCellType() == 1) {
         month = monthcell.getStringCellValue();
-    } else {
-    month = monthcell.getRawValue();
-    
     }
     
-    XSSFCell yearcell = worksheet.getRow(1).getCell((short) 1);
+    XSSFCell yearcell = worksheet.getRow(0).getCell((short) 26);
     
     if (yearcell.getCellType() == 0) {
         year = (int) yearcell.getNumericCellValue();
     } else if (yearcell.getCellType() == 1) {
         year = new Integer(yearcell.getStringCellValue());
     }
-    else {
-    year = new Integer(yearcell.getRawValue());
-    
-    }
     
     yearmonth = year + "" + month;
-    System.out.println("Mwaka Mwezi"+yearmonth);
+    
     if(periods.contains(","+yearmonth+",") && ((mfl_codes.equals("") ||(!mfl_codes.equals("") && mfl_codes.contains(","+mflcode+","))))){
     no_uploads++;
     //______________________CHECK EXCEL TEMPLATE  VERSION___________________
     String excelversion = "";
     
-    XSSFCell versioncell = worksheet.getRow(1).getCell((short) 39);
+    XSSFCell versioncell = worksheet.getRow(3).getCell((short) 0);
     
     if (versioncell.getCellType() == 0) {
         //numeric
@@ -377,12 +344,7 @@ if (sheetname.equals("datafile")) {
     } else if (versioncell.getCellType() == 1) {
         excelversion = versioncell.getStringCellValue();
     }
-     else 
-    {
-    excelversion = versioncell.getRawValue();
-    
-    }
-    System.out.println(excelversion + " vs " + activeversion);
+    //System.out.println(excelversion + " vs " + activeversion);
     if (excelversion.equals(activeversion)) {
         
         boolean hasexcecuted = false;
@@ -416,17 +378,7 @@ colskey.add("m_49");
 colskey.add("f_49");
 colskey.add("m_50");
 colskey.add("f_50");
-colskey.add("m_54");
-colskey.add("f_54");
-colskey.add("m_59");
-colskey.add("f_59");
-colskey.add("m_60");
-colskey.add("f_60");
-//colskey.add("m_65");
-//colskey.add("f_65");
 colskey.add("total");
-colskey.add("tool_version");
-colskey.add("errors_noted");
 
 //____________________Supported Areas per Facility and SubpartnerID____________________
 String supported_services = " WHERE (is_active=1 ) && ("+Poirowname+" is not null )  ";
@@ -465,16 +417,16 @@ if (conn.rs.next()) {
 //System.out.println("Supported services : " + supported_services);
 
 //___________________Read Active and Supported Indicators Only______________________
-// --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing prep_indicators table
+// --Here, we have already mapped each element/indicator's row no as per the excel upload module into an existing fas_indicators table
 //--we will fetch a list of the indicators and the respective row no. then use the result set to tell us in which row of the uploaded excel template to get data for each indicator element.
 //--Any time there is a row-wise change in the excel upload file(including insertoing a new row),
-//there is need to update the column poi_row_no in the table prep_indicators accordingly
+//there is need to update the column poi_row_no in the table fas_indicators accordingly
 String table = "";
 String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM prep_indicators " + supported_services + " and dataset='prep' order by poi_row_no ";
+String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " and dataset='txml' order by order_no ";
 
 System.out.println("__"+getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
@@ -507,14 +459,13 @@ while (conn.rs2.next()) {
         for (int d = 0; d < colskey.size(); d++) {
             
             String val = "";
-            //System.out.println("We are on Col:"+(d + startcol));
+            
             XSSFCell valcell = worksheet.getRow(poirow).getCell((short) d + startcol);
-           // System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
+            //System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
             
             
             
-            switch (valcell.getCellType()) 
-            {
+            switch (valcell.getCellType()) {
                 case 0:
                     val = "" + (int) valcell.getNumericCellValue(); //integer
                     hasdata = true;//if there is a typed numeric value then the excel should be uploaded
@@ -523,9 +474,8 @@ while (conn.rs2.next()) {
                     val = valcell.getStringCellValue();//string
                     break;
                 case 2:
-                    //System.out.println(" Check completeness"+valcell.getRawValue());
-                    val = "" + valcell.getRawValue(); //formula
-                    hasdata = true;
+                    val = "" + (int) valcell.getNumericCellValue(); //formula
+                    
                     break;
                 case 3:
                     val = valcell.getStringCellValue();//blank
@@ -535,7 +485,7 @@ while (conn.rs2.next()) {
                     
                     break;
             }
-            //System.out.println(indicator_name+" ni Value "+val+" na Ni cell type "+valcell.getCellType()+" na ni color "+valcell.getCellStyle().getFillBackgroundColorColor());
+           // System.out.println(indicator_name+" ni Value "+val+" na Ni cell type "+valcell.getCellType()+" na ni color "+valcell.getCellStyle().getFillBackgroundColorColor());
             //put the values into a hash table
             //for blanks, insert null instead of a blank
             if (valcell.getCellType() == 3) 
@@ -583,9 +533,9 @@ while (conn.rs2.next()) {
             if (!msgal.contains(ujumbe)) {
                 msgal.add(ujumbe);
             }
-           //System.out.println("aaaaya " + insert + ";");
-            session.setAttribute("prep", "<b>Saving into temp db "+tukowapi+"/"+rowCount+"</b>");
-        session.setAttribute("prep_count", (tukowapi*100)/rowCount);
+           // System.out.println("" + insert + ";");
+            session.setAttribute("form1a", "<b>Saving into temp db "+tukowapi+"/"+rowCount+"</b>");
+        session.setAttribute("form1a_count", (tukowapi*100)/rowCount);
         tukowapi++;
             if (conn.st4.executeUpdate(insert) >= 1) {
                 
@@ -665,7 +615,7 @@ while (conn.rs2.next()) {
         
     } //end of try
     catch (SQLException ex) {
-        Logger.getLogger(uploadPrep.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
     }
     
     
@@ -674,14 +624,14 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong Prep template version "+excelversion+" . Expected Version is 2.0.0 <a href='prepupload.jsp'>Upload Version 2.0.0 here</href> <br>";
+        failed_reason+= "Failed: You have used Wrong TX_ML template version "+excelversion+" . Expected Version is 1.0.2 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 2.0.0. <a href='prepupload.jsp'>Upload Version 2.0.0 here</href> \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 1.0.2 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
         }
-        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"preptemplate.jsp\\\">download new template\"";
+        String ujumbe = "Note: Data for " + facilityName + " was uploaded using Wrong Templete version. Click here to <a class=\\\"btn btn-success\\\" href=\\\"gettxmltemplate.jsp\\\">download new template\"";
         if (!msgal.contains(ujumbe)) 
         {
             msgal.add(ujumbe);
@@ -727,7 +677,7 @@ else{
         maildetails.put("fn"+mailstosent, excelfilename);
         maildetails.put("fulln"+mailstosent, fullname);
         
-        System.out.println("Prep file upload for  : "+facilityName+" Status: "+uploadstatus);
+        System.out.println("TXML file upload for  : "+facilityName+" Status: "+uploadstatus);
         
         issentexcel = true;
         //SendF1excel(facilityName, uploadstatus , full_path, excelfilename, fullname);
@@ -738,12 +688,12 @@ else{
 
   }//end of worksheets loop
                         
-        session.setAttribute("prep", "<b>Data Saving complete</b>");
-        session.setAttribute("prep_count", 100);  
+        session.setAttribute("form1a", "<b>Data Saving complete</b>");
+        session.setAttribute("form1a_count", 100);  
     
                         
                     } catch (SQLException ex) {
-                        Logger.getLogger(uploadPrep.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
                 }
@@ -763,19 +713,14 @@ else{
             System.out.println(""+unique_ym);
             System.out.println(""+unique_subpartner);
             
-            
-            
-            
-            
             JSONObject obj;
-            ValidateExcelPrep vExcel = new ValidateExcelPrep();
-            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"prep_temp",request);
+            ValidateExcelSL vExcel = new ValidateExcelSL();
+            obj = vExcel.validate(unique_subpartner.split(","), unique_ym.split(","),"upload_txml_temp",request);
             
             int error_per_sheet,total_errors = 0,warnings;
             String warning;
             warning = "";
             
-            int excelerrors=0;
             
             if(obj.containsKey("output")){
                 
@@ -796,93 +741,9 @@ else{
       {
       //last row
       totransferymf+="'"+yearm+"_"+facilid+"'";
-      
-      
-      
-      //here, check for errors from excel
-      
-      JSONObject jo=RunExcelBasedValidation(conn, totransferymf);
-      
-      String tbl=RunExcelBasedValidationToHTML(conn, totransferymf);
-      
-      
-      excelerrors=(int) jo.get("errorscount");
-      
-          System.out.println("Excel errors are "+excelerrors);
-      
-      if(excelerrors>0)
-      {
-      
-          JSONArray ja=new JSONArray();
-          ja=(JSONArray)jo.get("output");
-          
-          
-          
-         for(int x=0;x<ja.size();x++)
-         {
-      //if there is an error
-             
-             String faciilid=((JSONObject)ja.get(x)).get("facility_id").toString();
-             String yearm1=((JSONObject)ja.get(x)).get("yearmonth").toString();
-             
-              
-                  String tx = "Failed: Failed Validation for Facility "+getFacilityname(conn,faciilid)+" " + yearm1.substring(0, 4) + " , " + yearm1.substring(4) + " \n ";
-                                  System.out.println(""+tx);
-                  if (!uploadstatus.contains(tx)) 
-                {
-                    uploadstatus += tx;
-                }
-                   maildetails.put("st"+mailstosent, uploadstatus);
-                   
-        }
-         
-//         JSONArray jaa=(JSONArray) jo.get("output");
-//         
-//         JSONObject jocp= new JSONObject();
-//         jocp.put("output", jaa);        
-           
-          //warning = vExcel.gel_all_warnings(jocp);
-          ////System.out.println(warning);
-          session.setAttribute("warnings", tbl);
-          session.setAttribute("message", " <img style=\"height:40px;\" src=\"images/failed.png\"> <b id=\"notify\"></b> ");
-          
-          //response.sendRedirect("prepupload.jsp");
-          
-         
-      }
-      
-      else {
-      
-      transferdata(conn, totransferymf);
-      
-      session.setAttribute("message", " <img  src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
-          
-      }
-      
-      
-      
-     // pushDataToDHIS2 pd= new pushDataToDHIS2();      
       //System.out.println("to transfer ni: "+totransferymf);
-     //ArrayList cols=pd.getDistinctF1aColumns(conn,"Form 1 A");      
-              
-     // ResultSet f1adata=pd.GetForm1aData(conn, yearm, facilid, cols);
        
-    //  dhisconfig dc = new dhisconfig();
-          
-     //get username and password for DHIS2 here
-    // session.setAttribute("prep", "<b>Uploading F1a Copy to ANYB DHIS2</b>");
-     //String dn =  uploaderdetails.get("dhis_username");
-    // String dp =  uploaderdetails.get("dhis_password");
-     
-           // dc.setDhis2_username(dn);
-            //dc.setDhis2_Password(dp);
-     
-            //org.json.JSONObject jo=pd.toJsonString(conn,f1adata, cols, dc.getDhis2_username());
-            //System.out.println("uploading to DHIS2");
-           // pd.UploadF1aToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password() );            
-       
-            
-      
+      transferdata(conn, totransferymf);
       }
       else 
       {
@@ -919,58 +780,48 @@ else{
          
        for(int q=1;q<=mailstosent;q++){
                 try {
-                    session.setAttribute("prep", "<b>sending Prep Copy to Server</b>");
-        session.setAttribute("prep_count", 99); 
+                    session.setAttribute("form1a", "<b>sending TX_ML Copy to Server</b>");
+        session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"DeJuma@deloitte.co.ke,MaNderitu@deloitte.co.ke,EMaingi@usaidtujengejamii.org,sminyata@usaidtujengejamii.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DJuma@usaidtujengejamii.org,EMaingi@deloitte.co.ke","Admin");
                     
                     //send to user
                     if(!email.equals(""))
-                        session.setAttribute("prep", "<b>sending Prep Copy to System user</b>");
-        session.setAttribute("prep_count", 99);
+                        session.setAttribute("form1a", "<b>sending tx_ml Copy to System user</b>");
+        session.setAttribute("form1a_count", 99);
                     SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),email,maildetails.get("fulln"+q));
-                   session.setAttribute("prep", "<b>Completed upload process</b>");
-        session.setAttribute("prep_count", 100); 
+                   session.setAttribute("form1a", "<b>Completed upload process</b>");
+        session.setAttribute("form1a_count", 100); 
                 } catch (MessagingException ex) {
-                    Logger.getLogger(uploadPrep.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
                 }
        }
             
-        session.removeAttribute("prep");
-        session.removeAttribute("prep_count");
+        session.removeAttribute("form1a");
+        session.removeAttribute("form1a_count");
             
-           // System.out.println("uploaded : "+no_uploads);
+            System.out.println("uploaded : "+no_uploads);
              
           if(total_errors==0 && no_uploads>0){
           warning = vExcel.gel_all_warnings(obj);
           System.out.println(warning);
-          //session.setAttribute("warnings", warning);
-          session.setAttribute("message", " <img  src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
+          session.setAttribute("warnings", warning);
+          session.setAttribute("message", " <img src=\"images/uploaded.png\"> <b id=\"notify\"></b> ");
           
-          
-          
-          response.sendRedirect("prepupload.jsp");
-          }
-           else if(excelerrors>0){
-               
-               System.out.println("Kii nicho kitumi");
-               
-          //session.setAttribute("warnings", "");
-          session.setAttribute("message", " <img style=\"height:40px;\" src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("prepupload.jsp"); 
+          response.sendRedirect("uploadtxml.jsp");
           }
           
           else if(no_uploads==0){
-          //session.setAttribute("warnings", "");
-          session.setAttribute("message", " <img style=\"height:20px;\" src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("prepupload.jsp"); 
+          session.setAttribute("warnings", "");
+          session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
+          response.sendRedirect("uploadtxml.jsp"); 
           }
           
           else if(total_errors>0){
-          //session.removeAttribute("warnings");
-          //session.removeAttribute("message");
+          session.removeAttribute("warnings");
+          session.removeAttribute("message");
           
-          session.setAttribute("ref_prep","yes");
+          session.setAttribute("ref_form1a","yes");
         
                         
             XSSFWorkbook wb1;
@@ -983,7 +834,7 @@ else{
     response.setContentLength(outArray.length);
     response.setHeader("Expires:", "0"); // eliminates browser caching
     response.setHeader("Set-Cookie:", "fileDownload=true; path=/"); // set cookie header
-    response.setHeader("Content-Disposition", "attachment; filename=Prep_Data_Quality_Errors.xlsx");
+    response.setHeader("Content-Disposition", "attachment; filename=TXML_Data_Quality_Errors.xlsx");
     OutputStream outStream = response.getOutputStream();
     outStream.write(outArray);
     outStream.flush();
@@ -1024,7 +875,7 @@ else{
                 
                 
             } catch (SQLException ex) {
-                Logger.getLogger(uploadPrep.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             // pullHTS hts= new pullHTS();
@@ -1033,7 +884,7 @@ else{
            // response.sendRedirect(nextpage);
             
         } catch (SQLException ex) {
-            Logger.getLogger(uploadPrep.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -1110,7 +961,7 @@ else{
             wb = WorkbookFactory.create(inputStream);
            
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(uploadPrep.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return wb;
@@ -1142,7 +993,7 @@ else{
 
         IdGenerator gn = new IdGenerator();
 
-        String textBody = "Hi "+username+",\nAttached is a Consolidated Prep data upload for " + facility + " uploaded by " + uploadername + " on date " + gn.toDay() + " .\n"
+        String textBody = "Hi "+username+",\nAttached is a TXML data upload for " + facility + " uploaded by " + uploadername + " on date " + gn.toDay() + " .\n"
                 + "\n "+stat+" \n *******This is a system autogenerated message*****";
         toAddress = email;
         String host = "smtp.gmail.com";
@@ -1163,7 +1014,7 @@ else{
 
         message.setRecipients(Message.RecipientType.TO, toAddress);
 
-        message.setSubject(facility + " Prep data Upload by " + uploadername);
+        message.setSubject(facility + " TX_ML data Upload by " + uploadername);
 
         BodyPart messageBodyPart = new MimeBodyPart();
 
@@ -1204,54 +1055,7 @@ boolean retvalue=true;
         try {
             //sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
             
-            String qry = "select `id`,\n" +
-"    `facility_id`,\n" +
-"    `indicator_id`,\n" +
-"    `yearmonth`,\n" +
-"    `m_uk`,\n" +
-"    `f_uk`,\n" +
-"    `m_1`,\n" +
-"    `f_1`,\n" +
-"    `m_4`,\n" +
-"    `f_4`,\n" +
-"    `m_9`,\n" +
-"    `f_9`,\n" +
-"    `m_14`,\n" +
-"    `f_14`,\n" +
-"    `m_19`,\n" +
-"    `f_19`,\n" +
-"    `m_24`,\n" +
-"    `f_24`,\n" +
-"    `m_29`,\n" +
-"    `f_29`,\n" +
-"    `m_34`,\n" +
-"    `f_34`,\n" +
-"    `m_39`,\n" +
-"    `f_39`,\n" +
-"    `m_44`,\n" +
-"    `f_44`,\n" +
-"    `m_49`,\n" +
-"    `f_49`,\n" +
-"    `m_50`,\n" +
-"    `f_50`,\n" +
-"    `f_total`,\n" +
-"    `m_total`,\n" +
-"    `total`,\n" +
-"    `is_locked`,\n" +
-"    `user_id`,\n" +
-"    `user_pc`,\n" +
-"    `timestamp`,\n" +
-"    `m_54`,\n" +
-"    `f_54`,\n" +
-"    `m_59`,\n" +
-"    `f_59`,\n" +
-"    `m_60`,\n" +
-"    `f_60`,\n" +
-"    `m_64`,\n" +
-"    `f_64`,\n" +
-"    `m_65`,\n" +
-"    `f_65`,\n" +
-"    `destination_table` from prep_temp where concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") group by destination_table";
+            String qry = "select * from upload_txml_temp where concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ") group by destination_table";
             conn.rs3 = conn.st3.executeQuery(qry);
             
             String destinationtable = "";
@@ -1299,9 +1103,9 @@ String deleteqry=" delete from "+destinationtable+" where concat(yearmonth,'_',f
 
                 conn.st_1.executeUpdate(deleteqry);
                 
-            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,m_65,f_65,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,m_54,f_54,m_59,f_59,m_60,f_60,m_65,f_65,total) !='' ";    
-replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from prep_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
-System.out.println(""+replaceqry);
+            String skipblanks=" and concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='0' && concat_ws(',',m_uk,f_uk,m_1,f_1,m_4,f_4,m_9,f_9,m_14,f_14,m_19,f_19,m_24,f_24,m_29,f_29,m_34,f_34,m_39,f_39,m_44,f_44,m_49,f_49,m_50,f_50,total) !='' ";    
+replaceqry = "Replace  " + destinationtable + " select " + colstomigrate + " from upload_txml_temp where destination_table='" + destinationtable + "' and concat(yearmonth,'_',facility_id) in (" + yearmonth_subpartnerid + ")  "+skipblanks+" ";
+//System.out.println(""+replaceqry);
 conn.st_1.executeUpdate(replaceqry);
 count++;
 
@@ -1309,22 +1113,28 @@ count++;
             
            
        } catch (SQLException ex) {
-            Logger.getLogger(uploadPrep.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
             retvalue=false;
         }
          return retvalue;
     }
     
-     public boolean deletefacilities(dbConn conn, String yearmonth_subpartnerid) throws SQLException  
+     public boolean deletefacilities(dbConn conn, String yearmonth_subpartnerid)  
      {
 boolean iscomplete=true;
         
-//sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
-
-//delete the updated data
-//select * from fas_temp where concat(yearmonth,'_',facility_id) in ('201901_226','201901_377','201902_377','201902_226','201903_226')
-String deleteqry = "delete from prep_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
-        conn.st_1.executeUpdate(deleteqry);
+        try {
+            //sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
+            
+            //delete the updated data
+            //select * from fas_temp where concat(yearmonth,'_',facility_id) in ('201901_226','201901_377','201902_377','201902_226','201903_226')
+            String deleteqry = "delete from upload_txml_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
+            conn.st_1.executeUpdate(deleteqry);
+        } catch (SQLException ex) 
+        {
+            iscomplete=false;
+            Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
+        }
       return iscomplete;
      }
      
@@ -1337,7 +1147,7 @@ String deleteqry = "delete from prep_temp where concat(yearmonth,'_',facility_id
                 String insert_audit_trails = "INSERT INTO fas_audit_trails (entry_id,table_name,fullname,facility,indicator,yearmonth,user_pc) VALUES(?,?,?,?,?,?,?)";
                 conn.pst = conn.conn.prepareStatement(insert_audit_trails);
                 conn.pst.setString(1, id);
-                conn.pst.setString(2, "prep_temp");
+                conn.pst.setString(2, "upload_txml_temp");
                 conn.pst.setString(3, fullname);
                 conn.pst.setString(4, facname);
                 conn.pst.setString(5, indicator_name);
@@ -1371,18 +1181,12 @@ String deleteqry = "delete from prep_temp where concat(yearmonth,'_',facility_id
          String fname="";
          String mail="";
          
-         String duname="";
-         String dpword="";
-         
-         
-     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email , dhis2_uname, dhis2_pword FROM user WHERE userid='" + user_id + "'";
+     String getusername = "SELECT fname,lname,IFNULL(email,'aphiabackup@gmail.com') AS email FROM user WHERE userid='" + user_id + "'";
                 conn.rs1 = conn.st1.executeQuery(getusername);
                 if (conn.rs1.next())
                 {
                     fname = conn.rs1.getString(1) + " " + conn.rs1.getString(2);
                     mail = conn.rs1.getString(3);
-                    duname = conn.rs1.getString(4);
-                    dpword = conn.rs1.getString(5);
                     //System.out.println("email:"+email);
                 }
                 
@@ -1391,116 +1195,8 @@ String deleteqry = "delete from prep_temp where concat(yearmonth,'_',facility_id
      
      map.put("email", mail);
      map.put("name", fname);
-     map.put("dhis_username", duname);
-     map.put("dhis_password", dpword);
                 
                 return map;
      }
-     
-     
-     public JSONObject RunExcelBasedValidation(dbConn conn,  String yearmonth_subpartnerid) throws SQLException{
-     
-     
-     
-     
-     
-     int count=0;
-     
-    String qry="select id,facility_id,yearmonth,tool_version,errors_noted,SubPartnerNom as facility,CentreSanteId as mfl,DistrictNom as subcounty,County as county   from prep_temp pt join subpartnera sa on sa.SubPartnerID=pt.facility_id join district ds on ds.DistrictID=sa.DistrictID join county ct on ct.CountyID=ds.CountyID  where length(errors_noted)>1 and concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+")";
-         System.out.println("cheki:"+qry);
-    conn.rs_6=conn.st_6.executeQuery(qry);
-    
-    JSONArray jaouter=new JSONArray();
-    
-    while(conn.rs_6.next())
-    {
-      JSONObject objerr = new JSONObject();
-      count++; 
-      JSONArray ja= new JSONArray();
-      JSONObject objouter = new JSONObject();   
-        
-     objerr.put("message_type", "error");
-     objerr.put("message", conn.rs_6.getString("errors_noted"));
-     objerr.put("program", conn.rs_6.getString("tool_version"));
-     objerr.put("age_group", "total");
-     ja.add(objerr);
-   
-     objouter.put("Month", conn.rs_6.getString("yearmonth").substring(4));
-     objouter.put("HealthFacility", conn.rs_6.getString("facility"));
-     objouter.put("SubCounty", conn.rs_6.getString("subcounty"));
-     objouter.put("County", conn.rs_6.getString("county"));
-     objouter.put("MFLCode", conn.rs_6.getString("mfl"));
-     objouter.put("Year", conn.rs_6.getString("yearmonth").substring(0,4));
-     objouter.put("yearmonth", conn.rs_6.getString("yearmonth"));
-     objouter.put("facility_id", conn.rs_6.getString("facility_id"));
-     objouter.put("errors", 1);
-     objouter.put("warnings", 0);
-     objouter.put("details", ja);
-     jaouter.add(objouter);   
-    }
-    
-    JSONObject finalobj = new JSONObject();
-    finalobj.put("output",jaouter);
-    finalobj.put("errorscount",count);
-    return finalobj;
-     
-     }
- 
-     
-     public String RunExcelBasedValidationToHTML(dbConn conn,  String yearmonth_subpartnerid) throws SQLException{
-     
-     
-     String table="";
-     
-     
-     int count=0;
-     
-    String qry="select id,facility_id,yearmonth,tool_version,errors_noted,SubPartnerNom as facility,CentreSanteId as mfl,DistrictNom as subcounty,County as county   from prep_temp pt join subpartnera sa on sa.SubPartnerID=pt.facility_id join district ds on ds.DistrictID=sa.DistrictID join county ct on ct.CountyID=ds.CountyID  where length(errors_noted)>1 and concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+")";
-         System.out.println("cheki:"+qry);
-    conn.rs_6=conn.st_6.executeQuery(qry);
-    
-    JSONArray jaouter=new JSONArray();
-    
-    while(conn.rs_6.next())
-    {
-      
-      count++; 
-      
-       
-     String message_type="error";
-     String message=conn.rs_6.getString("errors_noted");
-     String program=conn.rs_6.getString("tool_version");
-     String age_group="total";    
-   
-     String Month=conn.rs_6.getString("yearmonth").substring(4);
-     String HealthFacility=conn.rs_6.getString("facility");
-     String SubCounty=conn.rs_6.getString("subcounty");
-     String County=conn.rs_6.getString("county");
-     String MFLCode=conn.rs_6.getString("mfl");
-     String Year =conn.rs_6.getString("yearmonth").substring(0,4);
-     String  yearmonth=conn.rs_6.getString("yearmonth");
-     String facility_id=conn.rs_6.getString("facility_id");
-     String  errors= "1";
-     String warnings="0";
-     
-      table+="<tr><th>"+County+"</th>"
-              + "<th>"+SubCounty+"</th>"
-              + "<th>"+HealthFacility+"</th>"
-              + "<th>"+MFLCode+"</th>"
-              + "<th>"+Year+"</th>"
-              + "<th>"+Month+"</th>"
-              + "<th>"+yearmonth+"</th>"
-              + "<th>"+program+"</th>"
-              + "<th>"+message+"</th>"
-              + "<th>"+age_group+"</th>"
-              + "</tr>";
-        
-    }
-    
-    
-    return table;
-     
-     }
-     
      
 }

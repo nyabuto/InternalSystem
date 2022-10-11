@@ -337,7 +337,7 @@ else if(cellversion.getCellType()==1)
 */
 boolean haserror=false;
 String haserrorvalue="";
-if(1==2) {
+if(1==1) {
     for(int rq=19;rq<=24;rq++)
     {
         
@@ -357,6 +357,9 @@ if(1==2) {
         {
             errorlabel=cellacaerrorlabel.getStringCellValue();
         }
+        else {
+         errorlabel=cellacaerrorlabel.getRawValue();
+        }
         
         
         //_____error value______
@@ -371,7 +374,12 @@ if(1==2) {
         {
             errorvalue =cellacaerrorval.getStringCellValue();
         }
+        else {
+        {
+            errorvalue =cellacaerrorval.getRawValue();
+        }
         
+        }
         if(errorvalue.equals("0") || errorvalue.equals("") )
         {
             
@@ -910,7 +918,7 @@ else if(workbook.getSheetName(a).equals("MCA"))  {
     boolean haserror=false;
     String haserrorvalue="";
     
-    if(1==2){
+    if(1==1){
         for(int rq=19;rq<=24;rq++)
         {
             
@@ -929,6 +937,9 @@ else if(workbook.getSheetName(a).equals("MCA"))  {
             else if(cellacaerrorlabel.getCellType()==1)
             {
                 errorlabel =cellacaerrorlabel.getStringCellValue();
+            }
+            else{
+            errorlabel =cellacaerrorlabel.getRawValue();
             }
             
             
@@ -966,9 +977,7 @@ else if(workbook.getSheetName(a).equals("MCA"))  {
         
         System.out.println(" No MCA error value or version ");
         
-        
-        
-        
+       
         Iterator rowIterator = worksheet.rowIterator();
         
         

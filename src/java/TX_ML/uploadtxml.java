@@ -164,7 +164,7 @@ public class uploadtxml extends HttpServlet {
              
              
             //String getVersion="select version from f1a_version where active=1";
-            String activeversion = "TX_ML  Data 1.0.2";
+            String activeversion = "TX_ML  Data 2.0.0";
             //conn.rs=conn.st.executeQuery(getVersion);
             
 //            while(conn.rs.next()){
@@ -246,7 +246,7 @@ public class uploadtxml extends HttpServlet {
                         FileInputStream fileInputStream = new FileInputStream(full_path);
                         BufferedInputStream bfs = new BufferedInputStream(fileInputStream);
                         XSSFWorkbook workbook = new XSSFWorkbook(bfs);
-                        int rowCount=245;
+                        int rowCount=44;
                         
                         String rn="select count(id) from fas_indicators where is_active=1 and dataset='txml'";
                         
@@ -278,9 +278,6 @@ if (!sheetname.equals("Instructions")) {
     //we expect for a normal template version 4.0.3, the first cell should start at point 21
     //F01-01 23
     
-    String indexcellstarting="";
-    //get basic period and orgunit details
-    XSSFCell indexcell = worksheet.getRow(23).getCell((short) 2);
     
        
      Poirowname="poi_row_no";   

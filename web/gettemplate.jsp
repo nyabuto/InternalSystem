@@ -272,6 +272,16 @@ legend.formatter {
                                     <option value=""></option>
                                  </select></div>  
                            </td></tr>
+                       
+                       <tr><td> 
+                                <b>Action</b> <font color="red"></font>
+                               </td><td>
+                                 <select  style="width:300px;float:right;color:black;" data-placeholder="Facility" class="span6" tabindex="-1"  id="correction_form" name="correction_form">
+                                    <option value="F1v6">Full Form 1a</option>
+                                    <option value="F1v6_linkage">Linkage Section Only</option>
+                                    <!--<option value="F1v6_prev">Form 1a without Prep New Subpopulation</option>-->
+                                 </select></div>  
+                           </td></tr>
                    
                    <tr><td><br></td></tr>
                                    

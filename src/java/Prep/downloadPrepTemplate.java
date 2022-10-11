@@ -182,6 +182,7 @@ public class downloadPrepTemplate extends HttpServlet {
             
              int runhashmap=0;
               HashMap<String, String> hm= null;
+              HashMap<String, String> hm_pn= null;
             conn.rs = conn.st.executeQuery(fetchqry);
           
             int curworkbook = 0;
@@ -318,9 +319,12 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                    if(runhashmap==1)
                    {
                        String sp="call internal_system.sp_pull_data_prep('"+lini+"','')";
+                       String sp_pn="call internal_system.sp_pull_data_prepnew('"+lini+"','')";
                     
                     System.out.println("Stored Procedure: "+sp);
+                    System.out.println("Stored Procedure: "+sp_pn);
                      hm= convertResultSetToMap(conn.st1.executeQuery(sp));
+                     hm_pn= convertResultSetToMap_PrepNew(conn.st1.executeQuery(sp_pn));
                    }
               
                    
@@ -393,7 +397,7 @@ prep_12month_ago    -6
                          String rw_suffix =facilityid+"_"+mwakamwezi;
                     
                     String [] required_rows={"1:prep_1month_ago_"+rw_suffix,"2:prep_3month_ago_"+rw_suffix,"3:prep_6month_ago_"+rw_suffix,"4:prep_9month_ago_"+rw_suffix,"5:prep_12month_ago_"+rw_suffix};
-                 
+                  
                     
                     
                     
@@ -437,7 +441,21 @@ allin.add("total");
                     
                   wb=  populatePrep(wb, required_rows, allin, hm);
                  
-
+  String [] required_rows_prepnew={"1:528_"+rw_suffix,"2:530_"+rw_suffix,"3:527_"+rw_suffix,"4:531_"+rw_suffix,"5:529_"+rw_suffix,"6:526_"+rw_suffix,"7:532_"+rw_suffix,"8:525_"+rw_suffix,"9:533_"+rw_suffix};
+                 
+                  
+                  
+ArrayList allin_pn = new ArrayList();
+allin_pn.add("m19");
+allin_pn.add("f19");
+allin_pn.add("m24");
+allin_pn.add("f24");
+allin_pn.add("m25");
+allin_pn.add("f25");
+allin_pn.add("total");
+                  
+ wb=  populatePrepnew(wb, required_rows_prepnew, allin_pn, hm_pn);
+                  
                 }
                 //outside here, create workbooks
                 
@@ -787,6 +805,57 @@ ResultSetMetaData md = rs.getMetaData();
       return hm;
       }
        
+      public HashMap<String,String> convertResultSetToMap_PrepNew(ResultSet rs) throws SQLException{
+          
+          
+          //Create an arraylist for all the indicators
+          
+ArrayList allin = new ArrayList();
+          
+//allin.add("muk");
+//allin.add("fuk");
+
+allin.add("m19");
+allin.add("f19");
+
+allin.add("m24");
+allin.add("f24");
+
+allin.add("m25");
+allin.add("f25");
+
+allin.add("total");
+
+      
+HashMap<String,String> hm1 = new HashMap<String,String>();
+          
+ResultSetMetaData md = rs.getMetaData();
+          
+           int columns = md.getColumnCount();
+           
+           while (rs.next()){
+           String indicid=rs.getString("indicid");
+               for(int a=1;a<=columns;a++)
+               {
+                   String colname=md.getColumnName(a);
+                   
+               if(allin.contains(colname))
+               {
+                   
+                hm1.put(indicid+"_"+colname, rs.getString(colname));
+                   
+               }
+               }               
+                
+                   
+           
+           }          
+          
+          
+      
+      return hm1;
+      }
+       
       
       public XSSFWorkbook populatePrep(XSSFWorkbook wb, String[] RowstoUpdate,ArrayList ColstoUpdate, HashMap<String, String > data_to_populatedatahm  )
       {
@@ -838,6 +907,80 @@ ResultSetMetaData md = rs.getMetaData();
                  System.out.println(" Value ya "+fullkey+" ni "+data_to_populatedatahm.get(fullkey));
                  
                cl.setCellValue( new Double(data_to_populatedatahm.get(fullkey).toString()));
+               
+                //System.out.println("Populated as Integer");  
+             }
+             else {
+                 //System.out.println("Not Populated as Integer");
+                cl.setCellValue(data_to_populatedatahm.get(fullkey));
+             }
+             
+           
+             }
+             else {
+             
+                 //System.out.println(" Hash map is null ");
+             }
+            
+            }
+            }
+         
+              
+          }
+         
+        // XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);  
+      wb.setForceFormulaRecalculation(true);
+      return wb;
+      }
+      
+      public XSSFWorkbook populatePrepnew(XSSFWorkbook wb, String[] RowstoUpdate,ArrayList ColstoUpdate, HashMap<String, String > data_to_populatedatahm  )
+      {
+          //System.out.println(" Hash map is "+data_to_populatedatahm);
+          
+          int sheetcount=wb.getNumberOfSheets();
+          
+          ArrayList sheetsAL= new ArrayList();
+         
+          for(int p=0;p<sheetcount;p++){
+          if(wb.getSheetName(p).equals("prep_new_f1a")){
+              
+              sheetsAL.add(wb.getSheetName(p));
+          
+          }
+          
+          }
+          
+          
+          for(int a=0;a<sheetsAL.size(); a++)
+          {
+          
+            XSSFSheet sht = wb.getSheet(sheetsAL.get(a).toString());
+            for(int b=0; b<RowstoUpdate.length; b++)
+            {
+             String [] row_key=RowstoUpdate[b].split(":");   
+             //data is saved as row:Indicator eg 4:tx_new
+             
+                System.out.println("sheet is "+sheetsAL.get(a).toString());
+                System.out.println("row is "+row_key[0]);
+                
+             //loop through all the rows while updating data
+             
+             XSSFRow rw=sht.getRow(new Integer(row_key[0]));
+            for(int c=0; c<ColstoUpdate.size(); c++)
+            {
+                System.out.println("Row is "+row_key[0]+"c is: "+c+" and thus cell is "+(c+2));
+             XSSFCell cl=rw.getCell(c+2);
+             //txcurr_113_202007
+             
+             String fullkey=row_key[1]+"_"+ColstoUpdate.get(c);
+                System.out.println("Key to search for:"+fullkey);
+             
+             if(data_to_populatedatahm.get(fullkey)!=null){
+             if(isNumeric(data_to_populatedatahm.get(fullkey))){
+                 
+                 System.out.println(" Value ya "+fullkey+" ni "+data_to_populatedatahm.get(fullkey));
+                 
+               cl.setCellValue(new Double(data_to_populatedatahm.get(fullkey).toString()));
                
                 //System.out.println("Populated as Integer");  
              }

@@ -1689,6 +1689,14 @@
         <servlet-name>downloadHCATemplatedata</servlet-name>
         <servlet-class>HCA.downloadHCATemplatedata</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadf1av51</servlet-name>
+        <servlet-class>form1a.uploadf1av51</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadtxml102</servlet-name>
+        <servlet-class>TX_ML.uploadtxml102</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3376,6 +3384,14 @@
     <servlet-mapping>
         <servlet-name>downloadHCATemplatedata</servlet-name>
         <url-pattern>/downloadHCATemplatedata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1av51</servlet-name>
+        <url-pattern>/uploadf1av51</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadtxml102</servlet-name>
+        <url-pattern>/uploadtxml102</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

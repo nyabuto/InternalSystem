@@ -14,8 +14,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -53,10 +59,11 @@ public class downloadTemplate extends HttpServlet {
 
             XSSFWorkbook wb = null;
 
-           
+           HashMap<String, Integer[]> hm= new HashMap< >();
+            HashMap<String, String> hmd= new HashMap< >();
 
-            String allpath = getServletContext().getRealPath("/F1v51.xlsx");
-
+            String allpath = getServletContext().getRealPath("/F1v6.xlsx");
+            String allpath_beforeaug = getServletContext().getRealPath("/F1v6_prev.xlsx");
          
 
         
@@ -83,7 +90,7 @@ public class downloadTemplate extends HttpServlet {
             String subcountyar[] = null;
             String facilityarr[] = null;
             String facility = "(";
-
+             String correction_form="";
             if (request.getParameter("year") != null) 
             {
                 year = request.getParameter("year");
@@ -97,6 +104,11 @@ public class downloadTemplate extends HttpServlet {
             if (request.getParameter("county") != null) 
             {
                 county = request.getParameter("county");
+
+            }
+            if (request.getParameter("correction_form") != null) 
+            {
+                correction_form = request.getParameter("correction_form");
 
             }
 
@@ -231,9 +243,24 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             
             
            
-            String sr = getServletContext().getRealPath("/F1v51.xlsx");
+           
+            String sr_afteraug = getServletContext().getRealPath("/F1v6.xlsx");
+            String sr_beforeaug = getServletContext().getRealPath("/F1v6_prev.xlsx");
+            String sr_linkage = getServletContext().getRealPath("/F1v6_linkage.xlsx");
             //check if file exists
-
+ String sr = "";
+ String fullmonth="";
+ 
+ if(smonth.length()==1){fullmonth="0"+smonth;}else {fullmonth=smonth;}
+ 
+ //___Decide whether to download a full form 1a or a partial one
+ if(correction_form.equals("F1v6_linkage")){sr=sr_linkage;} 
+ else {
+            if(new Integer(year+""+fullmonth)<=202207){sr=sr_beforeaug;}else {sr=sr_afteraug;}
+ }
+ 
+            
+            
             //first time , it should create those folders that host the macro file
             File f = new File(np);
             if (!f.exists() && !f.isDirectory()) 
@@ -309,7 +336,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     wb.setSheetName(a+1, monthName(monthar[a]));
                     //shet.protectSheet("f1av4");
                     //hide prep ct indicators
-                    if(!monthar[a].equals("12") && !monthar[a].equals("3") && !monthar[a].equals("6") && !monthar[a].equals("09")){
+                    if(!monthar[a].equals("12") && !monthar[a].equals("3") && !monthar[a].equals("6") && !monthar[a].equals("9")){
                     int fstart=126;
                     int fend=138;
                   
@@ -348,9 +375,66 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     
                     XSSFCell yearcl= rw.getCell(26);
                     yearcl.setCellValue(mwaka);
+                    String mwakamwezi=mwaka+month;
                     
-                     wb.setForceFormulaRecalculation(true);
-                  lockf1a lf1a= new lockf1a();
+                 
+                 
+                 
+                 
+                 
+                        //per each facility, get available data
+        ArrayList requiredrows= new ArrayList();
+        
+                                
+        requiredrows= convertResultSetToArrayList(getAnyDataFromDb(conn, "call internal_system.sp_pull_data_F1a_keys('"+mwakamwezi+"','"+mflcode+"');"));
+        hmd=convertResultSetToMap(getAnyDataFromDb(conn, "call internal_system.sp_pull_data_F1a('"+mwakamwezi+"');"));
+        
+                    System.out.println("call internal_system.sp_pull_data_F1a_keys('"+mwakamwezi+"','"+mflcode+"');");
+                    System.out.println("call internal_system.sp_pull_data_F1a('"+mwakamwezi+"');");
+                    
+        ArrayList allin = new ArrayList();
+          
+allin.add("m1");
+allin.add("f1");
+allin.add("m4");
+allin.add("f4");
+allin.add("m9");
+allin.add("f9");
+allin.add("m14");
+allin.add("f14");
+allin.add("m19");
+allin.add("f19");
+allin.add("m24");
+allin.add("f24");
+allin.add("m29");
+allin.add("f29");
+allin.add("m34");
+allin.add("f34");
+allin.add("m39");
+allin.add("f39");
+allin.add("m44");
+allin.add("f44");
+allin.add("m49");
+allin.add("f49");
+allin.add("m50");
+allin.add("f50");
+allin.add("m54");
+allin.add("f54");
+allin.add("m59");
+allin.add("f59");
+allin.add("m60");
+allin.add("f60");
+allin.add("m65");
+allin.add("f65");
+allin.add("total");
+                    
+                    
+                  wb=  populateF1a(wb, requiredrows,allin,  hmd);
+              
+                  
+                   wb.setForceFormulaRecalculation(true);
+                  XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);
+                   lockf1a lf1a= new lockf1a();
                   
                  wb= lf1a.lockexcel(shet, wb);
 
@@ -631,5 +715,206 @@ else if(monthno.equals("6")){
         long fraction = (long) ((end - start + 1 ) * random.nextDouble());
         return ((int)(fraction + start));
     }
+      
+          
+      public ResultSet getAnyDataFromDb(dbConn conn, String query) throws SQLException{
     
+        return conn.st2.executeQuery(query);
+        
+        
+    }
+      
+       public ArrayList convertResultSetToArrayList(ResultSet rs) throws SQLException 
+ {
+    ResultSetMetaData md = rs.getMetaData();
+    int columns = md.getColumnCount();
+    ArrayList al = new ArrayList();
+
+    while (rs.next()) 
+    {
+         
+        for(int i=1; i<=columns; ++i) {
+            String colname=md.getColumnName(i);
+            al.add(rs.getString(colname));
+        }
+        
+    }
+
+    return al;
+}
+     
+  public XSSFWorkbook populateF1a(XSSFWorkbook wb, ArrayList RowstoUpdate, ArrayList ColstoUpdate, HashMap<String, String > data_to_populatedatahm  )
+      {
+          //System.out.println(" Hash map is "+data_to_populatedatahm);
+          int poi_column[]={3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35};
+          
+          int sheetcount=wb.getNumberOfSheets();
+          
+          ArrayList sheetsAL= new ArrayList();
+         
+          for(int p=0;p<sheetcount;p++){
+          if(!wb.getSheetName(p).equals("InstructionsForm1A")){
+              
+              sheetsAL.add(wb.getSheetName(p));
+          
+          }
+          
+          }
+          
+          
+          for(int a=0;a<sheetsAL.size(); a++)
+          {
+          
+            XSSFSheet sht = wb.getSheet(sheetsAL.get(a).toString());
+            for(int b=0; b<RowstoUpdate.size(); b++)
+            {
+             String [] row_key=RowstoUpdate.get(b).toString().split(":");   
+             //data is saved as row:Indicator eg 4:tx_new
+             
+                System.out.println("sheet is "+sheetsAL.get(a).toString());
+                System.out.println("row is "+row_key[0]);
+                
+             //loop through all the rows while updating data
+             
+             
+             
+             XSSFRow rw=sht.getRow(new Integer(row_key[0]));
+            for(int c=0; c<poi_column.length; c++)
+            {
+            
+             XSSFCell cl=rw.getCell(poi_column[c]);
+             //txcurr_113_202007
+             
+             String fullkey=row_key[1]+"_"+ColstoUpdate.get(c);
+                System.out.println("Key to search for:"+fullkey);
+             
+             if(data_to_populatedatahm.get(fullkey)!=null){
+             if(isNumeric(data_to_populatedatahm.get(fullkey))){
+                 
+                 Integer dv=new Integer(data_to_populatedatahm.get(fullkey));
+                 if(isNumeric(data_to_populatedatahm.get(fullkey)))
+                 {
+                     if(dv>0){
+               cl.setCellValue(new Integer(data_to_populatedatahm.get(fullkey)));
+                     }
+               //
+                 }
+                System.out.println("Populated as Integer");  
+             }
+             else {
+                 //System.out.println("Not Populated as Integer");
+                cl.setCellValue(data_to_populatedatahm.get(fullkey));
+             }
+             
+           
+             }
+             else {
+             
+                 //System.out.println(" Hash map is null ");
+             }
+            
+            }
+            }
+         
+              
+          }
+         
+         XSSFFormulaEvaluator.evaluateAllFormulaCells(wb);  
+      
+      return wb;
+      }
+     public boolean isNumeric(String s) {
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+    }
+     
+       public HashMap<String,String> convertResultSetToMap(ResultSet rs) throws SQLException{
+          
+          
+          //Create an arraylist for all the indicators
+          
+          ArrayList allin = new ArrayList();
+          
+//allin.add("muk");
+//allin.add("fuk");
+allin.add("m1");
+allin.add("f1");
+allin.add("m4");
+allin.add("f4");
+allin.add("m9");
+allin.add("f9");
+allin.add("m14");
+allin.add("f14");
+allin.add("m19");
+allin.add("f19");
+allin.add("m24");
+allin.add("f24");
+allin.add("m29");
+allin.add("f29");
+allin.add("m34");
+allin.add("f34");
+allin.add("m39");
+allin.add("f39");
+allin.add("m44");
+allin.add("f44");
+allin.add("m49");
+allin.add("f49");
+allin.add("m50");
+allin.add("f50");
+allin.add("m54");
+allin.add("f54");
+allin.add("m59");
+allin.add("f59");
+allin.add("m60");
+allin.add("f60");
+allin.add("m65");
+allin.add("f65");
+allin.add("total");
+
+      
+HashMap<String,String> hm = new HashMap<String,String>();
+          
+ResultSetMetaData md = rs.getMetaData();
+          
+           int columns = md.getColumnCount();
+           
+           while (rs.next()){
+           String indicid=rs.getString("indicid");
+               for(int a=1;a<=columns;a++)
+               {
+                   String colname=md.getColumnName(a);
+                   
+               if(allin.contains(colname))
+               {
+                   
+                hm.put(indicid+"_"+colname, rs.getString(colname));
+                   
+               }
+               }               
+                
+                   
+           
+           }          
+          
+          
+      
+      return hm;
+      }
+      
+             public List<HashMap<String,Object>> convertResultSetToList(ResultSet rs) throws SQLException 
+ {
+    ResultSetMetaData md = rs.getMetaData();
+    int columns = md.getColumnCount();
+    List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+
+    while (rs.next()) 
+    {
+        HashMap<String,Object> row = new HashMap<String, Object>(columns);
+        for(int i=1; i<=columns; ++i) {
+            row.put(md.getColumnName(i),rs.getObject(i));
+        }
+        list.add(row);
+    }
+
+    return list;
+}
 }

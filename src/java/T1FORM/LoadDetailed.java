@@ -34,7 +34,7 @@ int counter;
         try {
             dbConn conn = new dbConn();
             session=request.getSession();
-          output="<thead><th>No.</th><th>Name</th><th>Sex</th><th>Job title/Profession</th><th>Personal Number</th><th>Name of Organization/ Facility</th><th>Sub-county</th><th>Telephone Number</th><th>Address (Email or Postal)</th><th>Edit</th> </thead><tbody>";
+          output="<thead><th>No.</th><th>Name</th><th>Sex</th><th>Cadre</th><th>Personal Number</th><th>Name of Organization/ Facility</th><th>Sub-county</th><th>Telephone Number</th><th>Address (Email or Postal)</th><th>Edit</th> </thead><tbody>";
           
           id=participant_name=gender=profession=personal_no=organization=district=telephone=address="";  
           if(session.getAttribute("summary_id")!=null){

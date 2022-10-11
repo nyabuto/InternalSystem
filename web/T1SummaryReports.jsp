@@ -244,7 +244,7 @@ tr > td
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="DatimReport" method="post" class="form-horizontal">
-                            <h5 style='text-align: center;color: black;'> <b>APHIAPlus Nuru Ya Bonde Training Registration Form (T1)</b></h5>  
+                            <h5 style='text-align: center;color: black;'> <b>Training Registration Form (T1)</b></h5>  
                          <br>
                         
                          <div id="summary" style="clear: both; margin-left: 10%; margin-top: 5%;">
