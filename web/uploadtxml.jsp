@@ -177,7 +177,7 @@ tr>td {
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <h4><i class="icon-reorder"></i>  UPLOAD TX ML V 1.0.1  (.xlsx)</h4>
+                        <h4><i class="icon-reorder"></i>  UPLOAD TX ML V 2.0.0 (.xlsx)</h4>
                        
                      </div>
                       

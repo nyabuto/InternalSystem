@@ -45,6 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -456,33 +457,46 @@ while (conn.rs2.next()) {
         for (int d = 0; d < colskey.size(); d++) {
             
             String val = "";
+            int cellp=(short)d + startcol;
+            XSSFCell valcell = worksheet.getRow(poirow).getCell(cellp);
+            System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => cell type : "+valcell.getCellType()+" column :"+cellp);
             
-            XSSFCell valcell = worksheet.getRow(poirow).getCell((short) d + startcol);
-            //System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
-            
-            
+            FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
             
             switch (valcell.getCellType()) {
                 case 0:
                     val = "" + (int) valcell.getNumericCellValue(); //integer
                     hasdata = true;//if there is a typed numeric value then the excel should be uploaded
+                     System.out.println("Val for "+indicatorid+" Integer age"+colskey.get(d)+"="+val);
+                    
                     break;
                 case 1:
                     val = valcell.getStringCellValue();//string
+                     System.out.println("Val for "+indicatorid+" String age"+colskey.get(d)+"="+val);
+                    
+                    
                     break;
                 case 2:
-                    val = "" + (int) valcell.getNumericCellValue(); //formula
+                   //
+                    val = "" +  valcell.getNumericCellValue(); //formula
+                    
+                    System.out.println("Val for "+indicatorid+" formula age"+colskey.get(d)+"="+val);
+                    if(!val.contains("-")){val=""+valcell.getRawValue();}
                     
                     break;
                 case 3:
+                     
                     val = valcell.getStringCellValue();//blank
-                    break;
-                default:
-                    val = "" + (int) valcell.getNumericCellValue();
+                    System.out.println("Val for "+indicatorid+" blank age"+colskey.get(d)+"="+val);
+                    
                     
                     break;
+                default:
+                    val = "" +  valcell.getRawValue();
+                    System.out.println("Val for "+indicatorid+" default age"+colskey.get(d)+"="+val);
+                    break;
             }
-           // System.out.println(indicator_name+" ni Value "+val+" na Ni cell type "+valcell.getCellType()+" na ni color "+valcell.getCellStyle().getFillBackgroundColorColor());
+            //System.out.println(indicator_name+" ni Value "+val+" na Ni cell type "+valcell.getCellType()+" na ni color "+valcell.getCellStyle().getFillBackgroundColorColor());
             //put the values into a hash table
             //for blanks, insert null instead of a blank
             if (valcell.getCellType() == 3) 
@@ -780,7 +794,7 @@ else{
                     session.setAttribute("form1a", "<b>sending TX_ML Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DJuma@usaidtujengejamii.org,EMaingi@deloitte.co.ke","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DJuma@usaidtujengejamii.org,EMaingi@deloitte.co.ke,EMaingi@usaidtujengejamii.org","Admin");
                     
                     //send to user
                     if(!email.equals(""))
@@ -1116,22 +1130,16 @@ count++;
          return retvalue;
     }
     
-     public boolean deletefacilities(dbConn conn, String yearmonth_subpartnerid)  
+     public boolean deletefacilities(dbConn conn, String yearmonth_subpartnerid) throws SQLException  
      {
 boolean iscomplete=true;
         
-        try {
-            //sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
-            
-            //delete the updated data
-            //select * from fas_temp where concat(yearmonth,'_',facility_id) in ('201901_226','201901_377','201902_377','201902_226','201903_226')
-            String deleteqry = "delete from upload_txml_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
-            conn.st_1.executeUpdate(deleteqry);
-        } catch (SQLException ex) 
-        {
-            iscomplete=false;
-            Logger.getLogger(uploadtxml.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
+
+//delete the updated data
+//select * from fas_temp where concat(yearmonth,'_',facility_id) in ('201901_226','201901_377','201902_377','201902_226','201903_226')
+String deleteqry = "delete from upload_txml_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
+conn.st_1.executeUpdate(deleteqry);
       return iscomplete;
      }
      

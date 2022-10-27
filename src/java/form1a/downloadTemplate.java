@@ -247,6 +247,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
             String sr_afteraug = getServletContext().getRealPath("/F1v6.xlsx");
             String sr_beforeaug = getServletContext().getRealPath("/F1v6_prev.xlsx");
             String sr_linkage = getServletContext().getRealPath("/F1v6_linkage.xlsx");
+            String sr_cxca = getServletContext().getRealPath("/F1v6_cxca.xlsx");
             //check if file exists
  String sr = "";
  String fullmonth="";
@@ -255,6 +256,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
  
  //___Decide whether to download a full form 1a or a partial one
  if(correction_form.equals("F1v6_linkage")){sr=sr_linkage;} 
+ else if(correction_form.equals("F1v6_cxca")){sr=sr_cxca;} 
  else {
             if(new Integer(year+""+fullmonth)<=202207){sr=sr_beforeaug;}else {sr=sr_afteraug;}
  }
