@@ -3,7 +3,11 @@
     Created on : Aug 3, 2015, 9:08:52 AM
     Author     : Geofrey Nyabuto
 --%>
-
+<%-- 
+    Document   : Form731
+    Created on : May 11, 2015, 10:09:28 AM
+    Author     : Maureen
+--%>
 
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -273,9 +277,9 @@ legend.formatter {
                                 <b>Action</b> <font color="red"></font>
                                </td><td>
                                  <select  style="width:300px;float:right;color:black;" data-placeholder="Facility" class="span6" tabindex="-1"  id="correction_form" name="correction_form">
-                                    <option value="F1v7">Full Form 1a</option>
-                                    <option value="F1v7_linkage">Linkage Section Only</option>
-                                    <option value="F1v7_cxca">CXCA Section Only</option>
+                                    <option value="F1v6">Full Form 1a</option>
+                                    <option value="F1v6_linkage">Linkage Section Only</option>
+                                    <option value="F1v6_cxca">CXCA Section Only</option>
                                     <!--<option value="F1v6_prev">Form 1a without Prep New Subpopulation</option>-->
                                  </select></div>  
                            </td></tr>

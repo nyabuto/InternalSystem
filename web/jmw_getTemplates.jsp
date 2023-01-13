@@ -198,7 +198,7 @@ legend.formatter {
                                                 String selected="";
                                                 if(curmn>=10){curyear=curyear+1;}
                                                 
-                                            for(int a=curyear-1;a<=curyear;a++)
+                                            for(int a=curyear-3;a<=curyear;a++)
                                             {
                                                if(a==curyear){selected=" selected ";} else { selected=" ";   }
                                                 

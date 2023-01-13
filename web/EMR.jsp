@@ -206,7 +206,7 @@
 
                             
                              <div class="control-group">
-                              <label class="control-label">Hard Disk for EMR data backup available?<required-field></required-field></label>
+                              <label class="control-label">is Flash/Hard Disk for EMR data backup available?<required-field></required-field></label>
                               <div class="controls">
                        
                                   <select id="has_backup_disk" name="has_backup_disk" required="true" >
@@ -222,7 +222,7 @@
                             
                             
                               <div class="control-group">
-                              <label class="control-label"># of computers used for EMR & ADT<required-field></required-field></label>
+                              <label class="control-label">Number of computers used for EMR & ADT<required-field></required-field></label>
                               <div class="controls">
                        
                                   <input onkeypress="return numbers(event);" maxlength="2" type='text' id="no_of_emr_adt_comps" name="no_of_emr_adt_comps" required="true" />
@@ -233,7 +233,7 @@
                             
                      
                             <div class="control-group">
-                              <label class="control-label">Is ADT Installed?<required-field></required-field></label>
+                              <label class="control-label">Is Web ADT Installed?<required-field></required-field></label>
                               <div class="controls">
                        
                                   <select onchange="adt_version_status();" id="has_adt" name="has_adt" required="true" >
@@ -245,7 +245,7 @@
                             
                            
                             <div class="control-group adt_version" style="display:none;">
-                              <label  class="control-label ">ADT Version<required-field></required-field></label>
+                              <label  class="control-label ">Web ADT Version<required-field></required-field></label>
                               <div class="controls">
                        
                                   <select id="adt_version" name="adt_version"  >
@@ -369,7 +369,7 @@
                             </div>
                            </div>
                              
-                                <div class="control-group">
+                            <div class="control-group">
                               <label class="control-label">HIV / TB Services<font color='red'><b>*</b></font></label>
                               <div class="controls">
                        
@@ -382,8 +382,28 @@
                             
 
                             
+                  <ul class="breadcrumb" style="background:#4b8df8;color:white;">
+                     <li >
+                        
+                      Last DQA Scores on Below areas
+                        <!--<span class="icon-angle-right"></span>-->
+                     </li>
+           
+                  </ul>  
                             
+                           <div class="control-group">
+                              <label class="control-label">EMR Accuracy Score (%)<font color='red'><b>*</b></font></label>
+                            <div class="controls">
+                                  <input onkeypress="return numbers(event);" maxlength="3" placeholder="e.g 10" id="emr_accuracy" name="emr_accuracy" required="true" />
+                            </div>
+                           </div>   
                             
+                            <div class="control-group">
+                              <label class="control-label">EMR Completeness Score (%)<font color='red'><b>*</b></font></label>
+                            <div class="controls">
+                                  <input type="number" placeholder="e.g 10" id="emr_completeness" name="emr_completeness" required="true" />
+                            </div>
+                           </div> 
                             
                             
                              <div class="control-group">

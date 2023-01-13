@@ -166,7 +166,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 6.0.0";
+            String activeversion = "Form 1A  version 7.0.1";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){

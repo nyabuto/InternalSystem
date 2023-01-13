@@ -83,7 +83,7 @@ import org.json.simple.JSONObject;
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
-     int rowCount=219;
+     int rowCount=222;
      
 
 
@@ -181,7 +181,7 @@ int filescount=0;
            
              try {
                  rowgani=1;
-                 rowCount=219;
+                 rowCount=222;
                  
                  fileNames+=fileName+",<br/> ";
                  
@@ -279,7 +279,7 @@ if(workbook.getSheetName(a).equals("db"))
                     break;
                 }
                 
-                if(i>=1 && i<=219) {
+                if(i>=1 && i<=222) {
                     
                     
                     HashMap<String,String> dvhm=new HashMap<String, String>();
@@ -428,7 +428,7 @@ Uploader=session.getAttribute("username").toString();
 
 
 if(!uploadedfiles.contains(full_path)){
-sf.SendEmail("FMatt", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,sajuoga@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+sf.SendEmail("FMatt", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
 }   
  uploadedfiles.add(full_path);       
         

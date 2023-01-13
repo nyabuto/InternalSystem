@@ -447,6 +447,14 @@ allin.add("m49");
 allin.add("f49");
 allin.add("m50");
 allin.add("f50");
+allin.add("m54");
+allin.add("f54");
+allin.add("m59");
+allin.add("f59");
+allin.add("m60");
+allin.add("f60");
+allin.add("m65");
+allin.add("f65");
 allin.add("total");
                     
                     
@@ -796,6 +804,14 @@ allin.add("m49");
 allin.add("f49");
 allin.add("m50");
 allin.add("f50");
+allin.add("m54");
+allin.add("f54");
+allin.add("m59");
+allin.add("f59");
+allin.add("m60");
+allin.add("f60");
+allin.add("m65");
+allin.add("f65");
 allin.add("total");
 
       
