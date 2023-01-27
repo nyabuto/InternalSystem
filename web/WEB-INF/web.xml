@@ -1705,6 +1705,18 @@
         <servlet-name>uploadf1av6</servlet-name>
         <servlet-class>form1a.uploadf1av6</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load_unclean_calhiv</servlet-name>
+        <servlet-class>VL.load_unclean_calhiv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getSitesWithUncleanCalhiv</servlet-name>
+        <servlet-class>VL.getSitesWithUncleanCalhiv</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateNewCalhivValues</servlet-name>
+        <servlet-class>VL.updateNewCalhivValues</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3408,6 +3420,18 @@
     <servlet-mapping>
         <servlet-name>uploadf1av6</servlet-name>
         <url-pattern>/uploadf1av6</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_unclean_calhiv</servlet-name>
+        <url-pattern>/load_unclean_calhiv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getSitesWithUncleanCalhiv</servlet-name>
+        <url-pattern>/getSitesWithUncleanCalhiv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateNewCalhivValues</servlet-name>
+        <url-pattern>/updateNewCalhivValues</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>
