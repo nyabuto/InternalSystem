@@ -46,7 +46,7 @@ public class UploadMonthlyFPT extends HttpServlet {
            String uniquefacils="select distinct(facility_id) as facilid, "
                    + " 'tujengejamii' as dhis_uname ,"
                    + " 'Usaidtujengejamii21!' as dhis2_pword "
-                   + " from fpt_baseline ft "
+                   + " from fpt_latest ft "
                    + " join subpartnera_vw sp on sp.subpartnerid=ft.facility_id "
                    + " join district dis on dis.DistrictID=sp.DistrictID"
                    + " join county ct on ct.CountyID=dis.CountyID"

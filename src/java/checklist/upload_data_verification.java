@@ -60,6 +60,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
  
+          String sessionText="Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ";  
+     
      String nomflsheets="";
     
       int year,quarter,checker,missing = 0,added = 0,updated = 0;
@@ -78,16 +80,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      
      HashMap<String, String> versions= new HashMap<String, String>();
      
-     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 1.0.0");
+     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
-     int rowCount=67;
+     int rowCount=39;
      
 
 
 
-String dv[]={"id","facility_id","indicator_id","yearmonth","verificationdate","recounted_register_emr","moh731","form1a","concordance","khis","emr","gaps","action_taken","responsible","timeline","status","value_before_correction","value_after_correction","correction_reason","correction_action","staff","tool_version"};
+String dv[]={"id","facility_id","indicator_id","yearmonth","verificationdate","recounted_register_emr","moh731","form1a","concordance","khis","fmaps_adt","gaps","action_taken","responsible","timeline","status","value_before_correction","value_after_correction","correction_reason","correction_action","staff","tool_version"};
 
 //___________________________________________________________________________________________________________
 
@@ -237,7 +239,7 @@ if(workbook.getSheetName(a).equals("db"))
     String haserrorvalue="";
     
     
-    if(1==1 ){
+    if(version.equals(versions.get("DVT")) ){
         
         System.out.println(" No DVC error value or version ");
         
@@ -270,7 +272,7 @@ if(workbook.getSheetName(a).equals("db"))
                     break;
                 }
                 
-                if(i>=1 && i<=32) {
+                if(i>=1 && i<=39) {
                     
                     
                     HashMap<String,String> dvhm=new HashMap<String, String>();
@@ -381,6 +383,12 @@ else {
         
         
     }
+    else {
+    
+    
+    sessionText=" You are using a wrong version of the data verification template. ";
+    
+    }
     
     
 } //end of DB WORKSHEET
@@ -470,8 +478,8 @@ uploadedfiles.add(full_path);
       nomflcode="<b> "+nomflsheets+"</b> have no mflcodes ";
       }
       
-     String sessionText="<br/><b> "+added+ "</b> New data added <br/> <b> "+updated+"</b> updated facilities<br> <br> <b>"+nomflcode+"</b>";    
-     session.setAttribute("uploadedDVT"," Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ");
+      sessionText="Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ";    
+     session.setAttribute("uploadedDVT",sessionText);
     
         session.setAttribute("dvtpos", "<b>0/1</b>");
         session.setAttribute("dvtpos_count", (0*100)/1);

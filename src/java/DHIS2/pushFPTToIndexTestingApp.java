@@ -222,7 +222,7 @@ public ResultSet GetForm1aData(dbConn conn, String Yearmonth_coma_separated, Str
     //in this phase, we are pulling data from three main tables namely fpt (which has all the data for fpt) subpartnera (which has data including orgunit names in ANYB KHIS instance and)
     
     
-            String maintablename="fpt_baseline";
+            String maintablename="fpt_latest";
     
             try {
             String where = "";
@@ -454,7 +454,7 @@ public JSONObject toJsonString (dbConn conn,ResultSet datavaluesres, String send
                      mainjo.put("period",ym);
                      mainjo.put("orgUnit",orgunitid);
                    //mainjo.put("attributeOptionCombo","ffOSsK1od9t");
-                     mainjo.put("attributeOptionCombo","F61aytoeI2h");
+                     mainjo.put("attributeOptionCombo","ffOSsK1od9t");
                      
                  
                 }

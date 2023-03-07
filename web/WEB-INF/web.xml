@@ -1717,6 +1717,18 @@
         <servlet-name>updateNewCalhivValues</servlet-name>
         <servlet-class>VL.updateNewCalhivValues</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SharePointFileUploader</servlet-name>
+        <servlet-class>EMR.SharePointFileUploader</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadDataFiles</servlet-name>
+        <servlet-class>EMR.UploadDataFiles</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>correctbirthmonth</servlet-name>
+        <servlet-class>HCA.correctbirthmonth</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3432,6 +3444,18 @@
     <servlet-mapping>
         <servlet-name>updateNewCalhivValues</servlet-name>
         <url-pattern>/updateNewCalhivValues</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SharePointFileUploader</servlet-name>
+        <url-pattern>/SharePointFileUploader</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadDataFiles</servlet-name>
+        <url-pattern>/UploadDataFiles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>correctbirthmonth</servlet-name>
+        <url-pattern>/correctbirthmonth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

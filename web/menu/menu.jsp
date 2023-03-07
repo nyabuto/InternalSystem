@@ -42,7 +42,7 @@
             </li>
             <li  style="background-color: #a3b0c9;">
                <a href="#">
-              <%if(session.getAttribute("userid")!=null){out.println("<span><b>Hi ,"+session.getAttribute("fullname").toString()+"</span>");} else {%><a href="index.jsp" class="btn-info">Log in</a><%}%></b></span>
+              <%if(session.getAttribute("userid")!=null){ out.println("<span><b>Hi ,"+session.getAttribute("fullname").toString()+"</b></span>");} else {%><a href="index.jsp" class="btn-info">Log in</a><%}%></b></span>
                </a>
                 </li>
                 <%if(session.getAttribute("userAccess")!=null){%>  

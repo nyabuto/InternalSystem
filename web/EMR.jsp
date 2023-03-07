@@ -218,6 +218,31 @@
                                   </select>      
                             </div>
                            </div>
+                            
+                            <div class="control-group">
+                              <label class="control-label">When was the last time EMR data backup was done?<required-field></required-field></label>
+                              <div class="controls">
+                       
+                                  <select id="emr_last_backup_date" name="emr_last_backup_date" required="true" >
+                                      <option value="">Select Status</option>
+                                      <option value="this week">This Week</option>
+                                      <option value="1 week ago">1 Week ago</option>
+                                      <option value="2 weeks ago">2 Weeks ago </option>
+                                      <option value="1 Month ago">1 Month ago</option>
+                                      <option value="2 Months ago">2 Months ago</option>
+                                      <option value="6 Months ago">2 Months ago</option>
+                                      <option value="Never">Never conducted a Backup</option>
+                                  </select>      
+                            </div>
+                           </div>
+                            <div class="control-group">
+                              <label class="control-label">Upload Latest EMR database backup File<required-field></required-field></label>
+                              <div class="controls">
+                       
+                                  <input title='note: The latest backup file will always have the most recent date on the name of the file. eg if today is on 15th Feb 2023, the most recent backup will have the name  openmrs_2023_02_15' type="file"  accept=".gz" id="emr_backup_file" name="emr_backup_file" required="true"  />
+                                           
+                            </div>
+                           </div>
 
                             
                             
@@ -510,7 +535,6 @@
    <script src="js/angular.js"></script>
    <script src="js/angular_options.js"></script>
   
-     
 
 
 <script>
@@ -867,6 +891,14 @@ if(item!=='id' && item!=='facility_id' && item!=='yearmonth') {
     
     
 }
+
+
+
+
+
+
+
+
 
 
 //console.log(get_all_data_elements());

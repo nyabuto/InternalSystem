@@ -5,7 +5,10 @@
  */
 package EMR;
 
+import database.OSValidator;
 import database.dbConn;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -13,39 +16,137 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import static jdk.nashorn.internal.objects.NativeError.getFileName;
+import scripts.copytemplates;
 
+
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 20, // 20 MB 
+        maxFileSize = 1024 * 1024 * 500, // 500 MB
+        maxRequestSize = 1024 * 1024 * 500)
 /**
  *
  * @author EKaunda
  */
+
+
 public class saveEmrStatus extends HttpServlet {
 
+  String full_path="";
+  String fileName="";
+  File file_source;
+    private static final long serialVersionUID = 205242440643911308L;
+  private static final String UPLOAD_DIR = "emrfiles";
     
     HttpSession session=null;
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
                 
         session=request.getSession();
         
         String msg="EMR status Data Saved succesfully ";
                 
-        try {
+   String ym="";
+   String facil="";
+   
+    dbConn conn = new dbConn();
+   
+   if(request.getParameter("yearmonth")!=null){ym=request.getParameter("yearmonth");}
+   if(request.getParameter("facility_id")!=null){facil=getFacilitynameGivenId(conn,request.getParameter("facility_id")).replace(" ","_").replace("'","");}
+   
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             //list of all data elements to be saved
-            String dataelementsarr[]={"id","yearmonth","facility_id","emr","emr_version","emr_status","has_backup_disk","no_of_emr_adt_comps","has_adt","adt_version","has_power_backup","is_tx_curr_emr","tx_curr_paper","tx_curr_emr","site_dropped_ccc_dar","comments","hts_emr","art_emr","anc_emr","eid_emr","tb_emr","emr_accuracy","emr_completeness"};
+            String dataelementsarr[]={"id","yearmonth","facility_id","emr","emr_version","emr_status","has_backup_disk","no_of_emr_adt_comps","has_adt","adt_version","has_power_backup","is_tx_curr_emr","tx_curr_paper","tx_curr_emr","site_dropped_ccc_dar","comments","hts_emr","art_emr","anc_emr","eid_emr","tb_emr","emr_accuracy","emr_completeness","emr_last_backup_date"};
             /* TODO output your page here. You may use following sample code. */
             
             
+            
+            
+            
+               String applicationPath = request.getServletContext().getRealPath("");
+         String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+         session=request.getSession();
+          File fileSaveDir = new File(uploadFilePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdirs();
+        }
+        
+        for (Part part : request.getParts()) {
+            if(!getFileName(part).equals("")){
+           fileName = (String) getFileName(part);
+            part.write(uploadFilePath + File.separator + fileName);
+            }
+         ArrayList uploadedfiles=new ArrayList();
+        if(!fileName.endsWith(".gz")){
+          session.setAttribute("upload_success", "<font color=\"red\">Failed to save backup file.</font>");   
+        }
+        else {
+            
+            
+            full_path=fileSaveDir.getAbsolutePath()+"/"+fileName;
+            
+            System.out.println("Full path ni__"+full_path);
+
+  FileInputStream fileInputStream = new FileInputStream(full_path);
+            
+  
+  
+  
+  
+  String allpath = getServletContext().getRealPath("/F1av7.xlsx");
+   String mydrive = allpath.substring(0, 1);
+  
+  
+  String np = "";
+            
+            if (OSValidator.isWindows()) 
+            {
+                np = mydrive + ":\\HSDSA\\EMR_Files\\EMR_" + facil +"_"+ym+ ".gz";
+                 
+            }
+            else if (OSValidator.isUnix()) 
+            {
+                np = "/HSDSA/EMR_Files/EMR_" + facil+"_"+ym + ".gz";
+             
+                
+            }
+            
+        String sr = full_path;
+            
+             File f = new File(np);
+            if (!f.exists() && !f.isDirectory()) 
+            {
+                /* do something */
+                copytemplates ct = new copytemplates();
+                ct.transfermacros(sr, np);
+                //rem np is the destination file name  
+
+                System.out.println("Copying  template..");
+
+            } 
+            
+            else //copy the file alone  
+            {
+                copytemplates ct = new copytemplates();
+
+                ct.copymacros(sr, np);
+
+            }
+  
+            
+             }//end of file upload
+        }//end of for loop
             //sample query being constructed
             
             
-            dbConn conn = new dbConn();
+           
             String table=" emr_status ";
             
             String mfl="";
@@ -134,10 +235,8 @@ if(conn.rs1!=null){conn.rs1.close();}
 if(conn.st!=null){conn.st.close();}
 if(conn.st1!=null){conn.st1.close();}
 if(conn.conn!=null){conn.conn.close();}
-        } catch (SQLException ex) {
-            Logger.getLogger(saveEmrStatus.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+       
+      
        
         
     response.sendRedirect("EMR.jsp");
@@ -156,7 +255,11 @@ if(conn.conn!=null){conn.conn.close();}
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+      try {
+          processRequest(request, response);
+      } catch (SQLException ex) {
+          Logger.getLogger(saveEmrStatus.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }
 
     /**
@@ -170,7 +273,11 @@ if(conn.conn!=null){conn.conn.close();}
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+      try {
+          processRequest(request, response);
+      } catch (SQLException ex) {
+          Logger.getLogger(saveEmrStatus.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }
 
     /**
@@ -182,5 +289,40 @@ if(conn.conn!=null){conn.conn.close();}
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+     private String getFileName(Part part) {
+            String file_name="";
+        String contentDisp = part.getHeader("content-disposition");
+        System.out.println("content-disposition header= "+contentDisp);
+        String[] tokens = contentDisp.split(";");
+      
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                file_name = token.substring(token.indexOf("=") + 2, token.length()-1);
+              break;  
+            }
+            
+        }
+         System.out.println("content-disposition final : "+file_name);
+        return file_name;
+    }
+     
+     
+      public String getFacilitynameGivenId(dbConn conn, String facilityid) throws SQLException{
+     String facility="unkown";
+     
+     
+     String qry="select concat(subpartnernom,'_',CentreSanteID) as facil from subpartnera where CentreSanteID='"+facilityid+"'";
+          System.out.println("_____Queryni:"+qry);
+     conn.rs_6=conn.st_6.executeQuery(qry);
+     
+     while(conn.rs_6.next())
+     {
+     facility=conn.rs_6.getString(1);
+     }
+     
+     return facility;
+     
+     }
 
 }
