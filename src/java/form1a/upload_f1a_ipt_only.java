@@ -70,7 +70,7 @@ import org.json.simple.JSONObject;
 
 
 **/
-public class uploadf1av51 extends HttpServlet {
+public class upload_f1a_ipt_only extends HttpServlet {
 
  
 
@@ -166,7 +166,7 @@ public class uploadf1av51 extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 5.0.1";
+            String activeversion = "Form 1A  version 7.0.1";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -193,7 +193,7 @@ public class uploadf1av51 extends HttpServlet {
               mfl_codes = conn.rs.getString("mfl_codes");
             }
              
-            nextpage = "uploadf1av51.jsp";
+            nextpage = "uploadf1a.jsp";
             String excelfilename = "";
             
             String applicationPath = request.getServletContext().getRealPath("");
@@ -222,7 +222,7 @@ public class uploadf1av51 extends HttpServlet {
                     
                     if (!fileName.endsWith(".xlsx")) {
                         
-                        nextpage = "uploadf1av51.jsp";
+                        nextpage = "uploadf1a.jsp";
                         sessionText = "<font color=\"red\">Failed to load a .xls excel file. Please open the file, go to file> options > save as , then save as .xlsx </font>";
                     }
                     
@@ -231,7 +231,7 @@ public class uploadf1av51 extends HttpServlet {
                 
                 if (!fileName.endsWith(".xlsx")) {
                     failed_reason+= "Wrong File Uploaded. We only allow upload of the template you downloaded.<br>";
-                    nextpage = "uploadf1av51.jsp";
+                    nextpage = "uploadf1a.jsp";
                 } else {
                     
                     //start reading the contents
@@ -448,7 +448,7 @@ String code = "";
 String indicator_name = "";
 int poirow = 0;
 ArrayList insertal=new ArrayList();
-String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " and dataset='form1a' order by order_no ";
+String getsections = "SELECT id,database_name,code,"+Poirowname+",concat('Uploaded: ',main_indicator,' , ',indicator) as indicator FROM fas_indicators " + supported_services + " and dataset='form1a' and database_name='fas_ipt' order by order_no ";
 
 System.out.println("__"+getsections);
 conn.rs2 = conn.st2.executeQuery(getsections);
@@ -647,9 +647,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 5.0.1 <a href='uploadf1av51.jsp'>Upload Version 5.0.1 here</href> <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 6.0.0 <a href='uploadf1a.jsp'>Upload Version 6.0.0 here</href> <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 5.0.1. <a href='uploadf1av51.jsp'>Upload Version 5.0.1 here</href> \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 6.0.0. <a href='uploadf1a.jsp'>Upload Version 6.0.0 here</href> \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -855,13 +855,13 @@ else{
           
           
           
-          response.sendRedirect("uploadf1av51.jsp");
+          response.sendRedirect("uploadf1a.jsp");
           }
           
           else if(no_uploads==0){
           session.setAttribute("warnings", "");
           session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("uploadf1av51.jsp"); 
+          response.sendRedirect("uploadf1a.jsp"); 
           }
           
           else if(total_errors>0){

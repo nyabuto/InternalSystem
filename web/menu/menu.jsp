@@ -70,6 +70,12 @@
                   
                    <%} else {%> 
                    <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access Form 1a upload module</b> </a> <%}%></li> 
+               <li >   <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a title="latest_version" href="uploadcxca.jsp"><i class="icon-upload"></i>Upload CXCA Section Only</a>
+                  
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access CXCA section upload module</b> </a> <%}%></li> 
              
                
                <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>

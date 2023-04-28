@@ -361,6 +361,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     monthcl.setCellValue(month);
                     
                     
+                    
                     XSSFCell yearcl= rw.getCell(10);
                     yearcl.setCellValue(mwaka);
                     

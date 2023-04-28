@@ -3240,142 +3240,142 @@ int counter=0;
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
         
         
-                v1_60d = conn.rs.getString("v1_60d");
+                v1_60d = ""+conn.rs.getInt("v1_60d");
                 if (v1_60d == null) {
                     v1_60d = "0";
                 }
                 
-                v1_4y = conn.rs.getString("v1_4y");
+                v1_4y = ""+conn.rs.getInt("v1_4y");
                 if (v1_4y == null) {
                     v1_4y = "0";
                 }
 
-                v1_9y = conn.rs.getString("v1_9y");
+                v1_9y = ""+conn.rs.getInt("v1_9y");
                 if (v1_9y == null) {
                     v1_9y = "0";
                 }
 
-                v1_14y = conn.rs.getString("v1_14y");
+                v1_14y = ""+conn.rs.getInt("v1_14y");
                 if (v1_14y == null) {
                     v1_14y = "0";
                 }
 
-                v1_19y = conn.rs.getString("v1_19y");
+                v1_19y = ""+conn.rs.getInt("v1_19y");
                 if (v1_19y == null) {
                     v1_19y = "0";
                 }
 
-                v1_24y = conn.rs.getString("v1_24y");
+                v1_24y = ""+conn.rs.getInt("v1_24y");
                 if (v1_24y == null) {
                     v1_24y = "0";
                 }
 
-                 v1_29y = conn.rs.getString("v1_29y");
+                 v1_29y = ""+conn.rs.getInt("v1_29y");
                 if (v1_29y == null) {
                     v1_29y = "0";
                 }
 
-                 v1_34y = conn.rs.getString("v1_34y");
+                 v1_34y = ""+conn.rs.getInt("v1_34y");
                 if (v1_34y == null) {
                     v1_34y = "0";
                 }
 
-                 v1_39y = conn.rs.getString("v1_39y");
+                 v1_39y = ""+conn.rs.getInt("v1_39y");
                 if (v1_39y == null) {
                     v1_39y = "0";
                 }
                 
-                v1_49y = conn.rs.getString("v1_49y");
+                v1_49y = ""+conn.rs.getInt("v1_49y");
                 if (v1_49y == null) {
                     v1_49y = "0";
                 }
 
-                v1_50y = conn.rs.getString("v1_50y");
+                v1_50y = ""+conn.rs.getInt("v1_50y");
                 if (v1_50y == null) {
                     v1_50y = "0";
                 }
 
-                v1_total = conn.rs.getString("v1_total");
+                v1_total = ""+conn.rs.getInt("v1_total");
                 if (v1_total == null) {
                     v1_total = "0";
                 }
                 
-                v2_dc_m_total = conn.rs.getString("v2_dc_m_total");
+                v2_dc_m_total = ""+conn.rs.getInt("v2_dc_m_total");
                 if (v2_dc_m_total == null) {
                     v2_dc_m_total = "0";
                 }
-                v2_dc_s_total = conn.rs.getString("v2_dc_s_total");
+                v2_dc_s_total = ""+conn.rs.getInt("v2_dc_s_total");
                 if (v2_dc_s_total == null) {
                     v2_dc_s_total = "0";
                 }
-                v2_pc_m_total = conn.rs.getString("v2_pc_m_total");
+                v2_pc_m_total = ""+conn.rs.getInt("v2_pc_m_total");
                 if (v2_pc_m_total == null) {
                     v2_pc_m_total = "0";
                 }
-                v2_pc_s_total = conn.rs.getString("v2_pc_s_total");
+                v2_pc_s_total = ""+conn.rs.getInt("v2_pc_s_total");
                 if (v2_pc_s_total == null) {
                     v2_pc_s_total = "0";
                 }
 
                 
                 
-                tp = conn.rs.getString("v3_tp_total");
+                tp = ""+conn.rs.getInt("v3_tp_total");
                 if (tp == null) {
                     tp = "0";
                 }
 //
-                srp = conn.rs.getString("v3_srp_total");
+                srp = ""+conn.rs.getInt("v3_srp_total");
                 if (srp == null) {
                     srp = "0";
                 }
 //
-                tn = conn.rs.getString("v3_tn_total");
+                tn = ""+conn.rs.getInt("v3_tn_total");
                 if (tn == null) {
                     tn = "0";
                 }
 
-                not_tested = conn.rs.getString("v3_nt_total");
+                not_tested = ""+conn.rs.getInt("v3_nt_total");
                 if (not_tested == null) {
                     not_tested = "0";
                 }
 //
-                unknown_status = conn.rs.getString("v3_us_total");
+                unknown_status = ""+conn.rs.getInt("v3_us_total");
                 if (unknown_status == null) {
                     unknown_status = "0";
                 }
 //
-                srn = conn.rs.getString("v3_srn_total");
+                srn = ""+conn.rs.getInt("v3_srn_total");
                 if (srn == null) {
                     srn = "0";
                 }
 
-                surgical_vmmc = conn.rs.getString("v4_s_vmmc_total");
+                surgical_vmmc = ""+conn.rs.getInt("v4_s_vmmc_total");
                 if (surgical_vmmc == null) {
                     surgical_vmmc = "0";
                 }
 //
 //
-                device_based_vmmc = conn.rs.getString("v4_db_vmmc_total");
+                device_based_vmmc = ""+conn.rs.getInt("v4_db_vmmc_total");
                 if (device_based_vmmc == null) {
                     device_based_vmmc = "0";
                 }
 
-                surgical_follow_up = conn.rs.getString("v5_followup_total");
+                surgical_follow_up = ""+conn.rs.getInt("v5_followup_total");
                 if (surgical_follow_up == null) {
                     surgical_follow_up = "0";
                 }
 //
-                surgical_no_follow_up = conn.rs.getString("v6_nofollowup_total");
+                surgical_no_follow_up = ""+conn.rs.getInt("v6_nofollowup_total");
                 if (surgical_no_follow_up == null) {
                     surgical_no_follow_up = "0";
                 }
                 
-                db_follow_up = conn.rs.getString("db_followup");
+                db_follow_up = ""+conn.rs.getInt("db_followup");
                 if (db_follow_up == null) {
                     db_follow_up = "0";
                 }
 //
-                db_no_follow_up = conn.rs.getString("db_no_followup");
+                db_no_follow_up = ""+conn.rs.getInt("db_no_followup");
                 if (db_no_follow_up == null) {
                     db_no_follow_up = "0";
                 }
@@ -11235,7 +11235,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
         "IFNULL(ART_highvolume,0) AS ART_highvolume, IFNULL(HTC_highvolume,0) AS HTC_highvolume,IFNULL(PMTCT_highvolume,0) AS PMTCT_highvolume\n" +
         "\n" +
         " FROM internal_system.cxca\n" +
-        "join subpartnera ON cxca.SubPartnerID="+facilitiestable+".SubPartnerID  \n" +
+        "join subpartnera2018 ON cxca.SubPartnerID="+facilitiestable+".SubPartnerID  \n" +
         "join district on "+facilitiestable+".DistrictID=district.DistrictID \n" +
         "join county on county.CountyID=district.CountyID \n" +
         "WHERE "+facilitiestable+".active=1 AND "+facilityIds1+" "+duration1+"  GROUP BY MFLCode";
@@ -11256,7 +11256,7 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
         for(int i=0;i<totalcolumns;i++){
            clx = rwx.createCell(colpos);
              if(isNumeric(conn.rs.getString(colpos+1))){
-               clx.setCellValue(Integer.parseInt(conn.rs.getString(colpos+1)));    
+               clx.setCellValue(conn.rs.getInt(colpos+1));    
            }else{
               clx.setCellValue(conn.rs.getString(colpos+1));      
            }
@@ -11577,13 +11577,13 @@ String facilityName,countyName,districtName,facilityIds,facilityId;
      }
     
     String query = "SELECT \n" +
-        "county.County AS County, DistrictNom AS 'Sub County',subpartnera.SubPartnerNom AS 'Health Facility',CentreSanteId AS MFLCode,\n" +
+        "county.County AS County, DistrictNom AS 'Sub County',"+facilitiestable+".SubPartnerNom AS 'Health Facility',CentreSanteId AS MFLCode,\n" +
         "'DSD' AS support_type,SUM(IFNULL(f_15_19,0)+IFNULL(f_20_24,0)+IFNULL(f_25_29,0)+IFNULL(f_30_34,0)+IFNULL(f_35_39,0)+IFNULL(f_40_49,0)+IFNULL(f_50,0)+IFNULL(m_15_19,0)+IFNULL(m_20_24,0)+IFNULL(m_25_29,0)+IFNULL(m_30_34,0)+IFNULL(m_35_39,0)+IFNULL(m_40_49,0)+IFNULL(m_50,0)) AS Numerator,\n" +
         "SUM(IFNULL(f_15_19,0)) AS '15-19 F',SUM(IFNULL(f_20_24,0)) AS '20-24 F',SUM(IFNULL(f_25_29,0)) AS '25-29 F',SUM(IFNULL(f_30_34,0)) AS '30-34 F',SUM(IFNULL(f_35_39,0)) AS '35-39 F',SUM(IFNULL(f_40_49,0)) AS '40-49 F',SUM(IFNULL(f_50,0)) AS '50+ F',\n" +
         "SUM(IFNULL(m_15_19,0)) AS '15-19 M',SUM(IFNULL(m_20_24,0)) AS '20-24 M',SUM(IFNULL(m_25_29,0)) AS '25-29 M',SUM(IFNULL(m_30_34,0)) AS '30-34 M',SUM(IFNULL(m_35_39,0)) AS '35-39 M',SUM(IFNULL(m_40_49,0)) AS '40-49 M',SUM(IFNULL(m_50,0)) AS '50+ M', \n" +
         "IFNULL(ART_highvolume,0) AS ART_highvolume, IFNULL(HTC_highvolume,0) AS HTC_highvolume,IFNULL(PMTCT_highvolume,0) AS PMTCT_highvolume " +
         "FROM internal_system.prep_new " +
-        "join subpartnera ON prep_new.SubPartnerID="+facilitiestable+".SubPartnerID  \n" +
+        "join "+facilitiestable+" ON prep_new.SubPartnerID="+facilitiestable+".SubPartnerID  \n" +
         "join district on "+facilitiestable+".DistrictID=district.DistrictID \n" +
         "join county on county.CountyID=district.CountyID \n" +
         "WHERE "+facilitiestable+".active=1 AND "+facilityIds1+" "+duration1+"  GROUP BY MFLCode";

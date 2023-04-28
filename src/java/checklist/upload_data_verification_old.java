@@ -1,8 +1,3 @@
-/*
-Notes: This raw data is for positive EID. The data doesnt have age and sex
-Age and sex should be gotten from the eid tested raw data during the importing of the raw data positives into the eid_datim_output table.
-
- */
 
 package checklist;
 
@@ -27,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -41,7 +35,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 
 
-  public class upload_data_verification extends HttpServlet {
+  public class upload_data_verification_old extends HttpServlet {
    
  
   
@@ -61,8 +55,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
  
-          String sessionText="Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ";  
-     
      String nomflsheets="";
     
       int year,quarter,checker,missing = 0,added = 0,updated = 0;
@@ -81,16 +73,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      
      HashMap<String, String> versions= new HashMap<String, String>();
      
-     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
+     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 1.0.0");
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
-     int rowCount=39;
+     int rowCount=67;
      
 
 
 
-String dv[]={"id","facility_id","indicator_id","yearmonth","verificationdate","recounted_register_emr","moh731","form1a","concordance","khis","fmaps_adt","gaps","action_taken","responsible","timeline","status","value_before_correction","value_after_correction","correction_reason","correction_action","staff","tool_version"};
+String dv[]={"id","facility_id","indicator_id","yearmonth","verificationdate","recounted_register_emr","moh731","form1a","concordance","khis","emr","gaps","action_taken","responsible","timeline","status","value_before_correction","value_after_correction","correction_reason","correction_action","staff","tool_version"};
 
 //___________________________________________________________________________________________________________
 
@@ -133,7 +125,7 @@ int filescount=0;
      
      dbConn conn = new dbConn();
      
-     nextpage="mne_upload_template.jsp";
+     nextpage="mne_upload_template_old.jsp";
      
      
      String applicationPath = request.getServletContext().getRealPath("");
@@ -175,7 +167,7 @@ int filescount=0;
           {          
        
           
-          nextpage="mne_upload_template.jsp";
+          nextpage="mne_upload_template_old.jsp";
           session.setAttribute("upload_success", "<font color=\"red\">Failed to load the excel file. Please choose a .xlsx excel file .</font>");
           
           }
@@ -207,55 +199,11 @@ for(int a=0;a<totalsheets;a++)
     
     System.out.println( a+" ("+workbook.getSheetName(a)+") out of "+totalsheets+" sheets");
     
-    //if()
+    
 //______________________________________________________________________
 
 //======================================================================DB Sheet======================================================================================
 //import data from the db sheet
-if(workbook.getSheetName(a).equals("3_Data Verification")){
-
-     XSSFCell correctyearcell = worksheet.getRow(4).getCell((short) 9);
-     XSSFCell wrongyearcell = worksheet.getRow(4).getCell((short) 10);
-
-     
-     
-     String cyc="";
-     String  wyc="";
-     
-     
-     
-      if(correctyearcell.getCellType()==0)
-    {   //numeric
-        cyc =""+(int)correctyearcell.getNumericCellValue();
-    }
-    else if(correctyearcell.getCellType()==1)
-    {
-        cyc =correctyearcell.getStringCellValue();
-    }
-      
-      
-      
-        if(wrongyearcell.getCellType()==0)
-    {   
-    wyc =""+(int)wrongyearcell.getNumericCellValue();
-    }
-    else if(wrongyearcell.getCellType()==1)
-    {
-   wyc =wrongyearcell.getStringCellValue();
-    }
-     
-     
-     if(wyc.length()>0 || wyc.equals("2023"))
-     { 
-     
-               
-                    
- correctyearcell.setCellValue(wyc);
-     
-     }
-     
-     XSSFFormulaEvaluator.evaluateAllFormulaCells(workbook);
-}
 if(workbook.getSheetName(a).equals("db"))
 {
     System.out.println("Inside loop");
@@ -263,8 +211,7 @@ if(workbook.getSheetName(a).equals("db"))
     
     
     String version="";
-    
-     XSSFCell cellversion = worksheet.getRow(4).getCell((short) 21);
+    XSSFCell cellversion = worksheet.getRow(4).getCell((short) 1);
     
     
     if(cellversion.getCellType()==0)
@@ -274,10 +221,6 @@ if(workbook.getSheetName(a).equals("db"))
     else if(cellversion.getCellType()==1)
     {
         version =cellversion.getStringCellValue();
-    }
-    else {
-     version =cellversion.getRawValue();
-    
     }
     
     
@@ -289,7 +232,7 @@ if(workbook.getSheetName(a).equals("db"))
     String haserrorvalue="";
     
     
-    if(version.equals(versions.get("DVT")) ){
+    if(1==1 ){
         
         System.out.println(" No DVC error value or version ");
         
@@ -322,7 +265,7 @@ if(workbook.getSheetName(a).equals("db"))
                     break;
                 }
                 
-                if(i>=1 && i<=39) {
+                if(i>=1 && i<=32) {
                     
                     
                     HashMap<String,String> dvhm=new HashMap<String, String>();
@@ -354,7 +297,6 @@ if(workbook.getSheetName(a).equals("db"))
                         }
                         
                         if(val==null){val="";}
-                        if(val.endsWith(".0")){val=val.replace(".0", "");}
                         System.out.println("Value ni "+val);
                         //if(val.trim().equals("")){val="";}
                         dvhm.put(dv[cl], val);
@@ -396,8 +338,6 @@ else {
                         
                     }
                     
-                    
-                    System.out.println("____"+conn.pst1);
                     if(conn.pst1.executeUpdate()==1)
                     {
                         System.out.println("Data Verification Data Saved succesfully ");
@@ -435,12 +375,6 @@ else {
         
         
         
-    }
-    else {
-    
-    
-    sessionText=" You are using a wrong version of the data verification template. ";
-    
     }
     
     
@@ -483,7 +417,7 @@ if(session.getAttribute("username")!=null){
 
 if(!uploadedfiles.contains(full_path))
 {
-    sf.SendEmail("Data Verification", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+    sf.SendEmail("Data Verification", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org"+em,usern);
 }
 uploadedfiles.add(full_path);       
              } catch (SQLException | MessagingException ex) {
@@ -531,8 +465,8 @@ uploadedfiles.add(full_path);
       nomflcode="<b> "+nomflsheets+"</b> have no mflcodes ";
       }
       
-      sessionText="Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ";    
-     session.setAttribute("uploadedDVT",sessionText);
+     String sessionText="<br/><b> "+added+ "</b> New data added <br/> <b> "+updated+"</b> updated facilities<br> <br> <b>"+nomflcode+"</b>";    
+     session.setAttribute("uploadedDVT"," Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ");
     
         session.setAttribute("dvtpos", "<b>0/1</b>");
         session.setAttribute("dvtpos_count", (0*100)/1);

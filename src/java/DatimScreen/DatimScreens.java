@@ -356,8 +356,16 @@ wb = new XSSFWorkbook( OPCPackage.open(allpath) );
             }//end of if
             //data rows  
              //System.out.println("Create row in position:"+count);
-            Row rw = shet.createRow(count);
+             Row rw = null;
+             if(shet.getRow(count)!=null){
+             rw = shet.getRow(count);
+             }
+             else {
+             rw = shet.createRow(count);
+             }
+            
 
+            
             for (int a = 0; a < columnCount; a++) 
             {
                 //System.out.print(mycolumns.get(a) + ":" + conn.rs.getString("" + mycolumns.get(a)));

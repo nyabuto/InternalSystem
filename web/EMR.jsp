@@ -192,13 +192,13 @@
                            </div>
 
                      <div class="control-group">
-                              <label class="control-label">EMR Status<required-field></required-field></label>
+                              <label class="control-label">EMR Mode of Use<required-field></required-field></label>
                               <div class="controls">
                        
                                   <select onchange="is_tx_curr_emr_status();tx_curr_paper_status();" id="emr_status" name="emr_status" required="true" >
                                     <option value="">Select Status</option>
-                                    <option ng-repeat="b in emrstatus" value="{{b}}">{{b}}</option>
-                                     
+                                    
+                                     <option ng-repeat="b in emrstatus" value="{{b.id}}">{{b.val}}</option>
                                       
                                   </select>      
                             </div>

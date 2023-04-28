@@ -1729,6 +1729,18 @@
         <servlet-name>correctbirthmonth</servlet-name>
         <servlet-class>HCA.correctbirthmonth</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>upload_data_verification_old</servlet-name>
+        <servlet-class>checklist.upload_data_verification_old</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>upload_f1a_cxca_only</servlet-name>
+        <servlet-class>form1a.upload_f1a_cxca_only</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>upload_f1a_ipt_only</servlet-name>
+        <servlet-class>form1a.upload_f1a_ipt_only</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3456,6 +3468,18 @@
     <servlet-mapping>
         <servlet-name>correctbirthmonth</servlet-name>
         <url-pattern>/correctbirthmonth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>upload_data_verification_old</servlet-name>
+        <url-pattern>/upload_data_verification_old</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>upload_f1a_cxca_only</servlet-name>
+        <url-pattern>/upload_f1a_cxca_only</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>upload_f1a_ipt_only</servlet-name>
+        <url-pattern>/upload_f1a_ipt_only</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

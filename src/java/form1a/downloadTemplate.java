@@ -64,6 +64,7 @@ public class downloadTemplate extends HttpServlet {
 
             String allpath = getServletContext().getRealPath("/F1av7.xlsx");
             String allpath_beforeaug = getServletContext().getRealPath("/F1av7_prev.xlsx");
+            String allpath_cxca_v7 = getServletContext().getRealPath("/F1av7_cxca.xlsx");
          
 
         
@@ -256,7 +257,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
  
  //___Decide whether to download a full form 1a or a partial one
  if(correction_form.equals("F1av7_linkage")){sr=sr_linkage;} 
- else if(correction_form.equals("F1av7_cxca")){sr=sr_cxca;} 
+ else if(correction_form.equals("F1v7_cxca")){sr=sr_cxca;} 
  else {
             if(new Integer(year+""+fullmonth)<=202207){sr=sr_beforeaug;}else {sr=sr_afteraug;}
  }

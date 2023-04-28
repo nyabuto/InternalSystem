@@ -2390,57 +2390,57 @@ int counter=0;
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPLEMENT STATIC FACILITY LIST METHOD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
         
         
-                P51D1 = conn.rs.getString("P51D1");
+                P51D1 = ""+conn.rs.getInt("P51D1");
                 if (P51D1 == null) {
                     P51D1 = "0";
                 }
 
-                P51D9 = conn.rs.getString("P51D9");
+                P51D9 = ""+conn.rs.getInt("P51D9");
                 if (P51D9 == null) {
                     P51D9 = "0";
                 }
 
-                P51D10 = conn.rs.getString("P51D10");
+                P51D10 = ""+conn.rs.getInt("P51D10");
                 if (P51D10 == null) {
                     P51D10 = "0";
                 }
 
-                P51D19 = conn.rs.getString("P51D19");
+                P51D19 = ""+conn.rs.getInt("P51D19");
                 if (P51D19 == null) {
                     P51D19 = "0";
                 }
 
-                P51D24 = conn.rs.getString("P51D24");
+                P51D24 = ""+conn.rs.getInt("P51D24");
                 if (P51D24 == null) {
                     P51D24 = "0";
                 }
 
-                 P51D29 = conn.rs.getString("P51D29");
+                 P51D29 = ""+conn.rs.getInt("P51D29");
                 if (P51D29 == null) {
                     P51D29 = "0";
                 }
                 
-                P51D49 = conn.rs.getString("P51D49");
+                P51D49 = ""+conn.rs.getInt("P51D49");
                 if (P51D49 == null) {
                     P51D49 = "0";
                 }
 
-                P51D50 = conn.rs.getString("P51D50");
+                P51D50 = ""+conn.rs.getInt("P51D50");
                 if (P51D50 == null) {
                     P51D50 = "0";
                 }
 
-                P51DT = conn.rs.getString("P51DT");
+                P51DT = ""+conn.rs.getInt("P51DT");
                 if (P51DT == null) {
                     P51DT = "0";
                 }
 
-                P521DM = conn.rs.getString("P521DM");
+                P521DM = ""+conn.rs.getInt("P521DM");
                 if (P521DM == null) {
                     P521DM = "0";
                 }
 //
-                P521DS = conn.rs.getString("P521DS");
+                P521DS = ""+conn.rs.getInt("P521DS");
                 if (P521DS == null) {
                     P521DS = "0";
                 }
@@ -2452,12 +2452,12 @@ int counter=0;
 //
 //
 //
-                P522DM = conn.rs.getString("P522DM");
+                P522DM = ""+conn.rs.getInt("P522DM");
                 if (P522DM == null) {
                     P522DM = "0";
                 }
 //
-                P522DS = conn.rs.getString("P522DS");
+                P522DS = ""+conn.rs.getInt("P522DS");
                 if (P522DS == null) {
                     P522DS = "0";
                 }
@@ -2486,29 +2486,29 @@ int counter=0;
 //                }
 //
 //
-                P511KP = conn.rs.getString("P511KP");
+                P511KP = ""+conn.rs.getInt("P511KP");
                 if (P511KP == null) {
                     P511KP = "0";
                 }
 //
 //
-                P511KN = conn.rs.getString("P511KN");
+                P511KN = ""+conn.rs.getInt("P511KN");
                 if (P511KN == null) {
                     P511KN = "0";
                 }
 
-                P511KU = conn.rs.getString("P511KU");
+                P511KU = ""+conn.rs.getInt("P511KU");
                 if (P511KU == null) {
                     P511KU = "0";
                 }
 //
-                P511Surg = conn.rs.getString("P511Surg");
+                P511Surg = ""+conn.rs.getInt("P511Surg");
                 if (P511Surg == null) {
                     P511Surg = "0";
                 }
 //
 //
-                P511Dev = conn.rs.getString("P511Dev");
+                P511Dev = ""+conn.rs.getInt("P511Dev");
                 if (P511Dev == null) {
                     P511Dev = "0";
                 }
@@ -2533,7 +2533,7 @@ int counter=0;
 //                    P53D = "";
 //                }
 //
-                P54D = conn.rs.getString("P54D");
+                P54D = ""+conn.rs.getInt("P54D");
                 if (P54D == null) {
                     P54D = "0";
                 }

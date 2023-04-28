@@ -35,10 +35,11 @@ String  dhis2_API_URL_UploadF1a=null;
   public dhisconfig()
   {
   
-  dhis2_Name ="Afya Nyota Ya Bonde";
+  dhis2_Name ="USAID Tujenge Jamii";
   //dhis2_Home_URL ="https://dhis-afyanyota.fhi360.org/";
   //dhis2_Home_URL ="https://hiskenya.org/";
   dhis2_Home_URL ="https://partnermanagementsystem.uonbi.ac.ke/";
+  
   dhis2_username="tujengejamii";
   dhis2_Password="Usaidtujengejamii21!";
   //dhis2_username="emmanuelkaunda";

@@ -78,7 +78,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      
      HashMap<String, String> versions= new HashMap<String, String>();
      
-     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 1.0.0");
+     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
@@ -209,7 +209,7 @@ if(workbook.getSheetName(a).equals("db"))
     
     
     String version="";
-    XSSFCell cellversion = worksheet.getRow(4).getCell((short) 1);
+    XSSFCell cellversion = worksheet.getRow(4).getCell((short) 21);
     
     
     if(cellversion.getCellType()==0)
@@ -243,7 +243,7 @@ if(workbook.getSheetName(a).equals("db"))
         int i=1,y=0;
         
         //static number of rows
-        while(i<=216){
+        while(i<=40){
             
             String insertqr_parta= "replace into mne_cl_all (";  // finish with )
             String insertqr_partb= " values ("; // finish with )
@@ -263,7 +263,7 @@ if(workbook.getSheetName(a).equals("db"))
                     break;
                 }
                 
-                if(i>=1 && i<=32) {
+                if(i>=1 && i<=39) {
                     
                     
                     HashMap<String,String> dvhm=new HashMap<String, String>();
@@ -335,7 +335,7 @@ else {
                         rc++;
                         
                     }
-                    
+                    System.out.println("___"+conn.pst1);
                     if(conn.pst1.executeUpdate()==1)
                     {
                         System.out.println("Data Verification Data Saved succesfully ");

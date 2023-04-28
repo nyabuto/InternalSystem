@@ -94,6 +94,12 @@
                   <!--<li ><a href="uploadf1av44.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.4(July)</a></li>-->
                    <!--<li ><a href="uploadf1av43.jsp"><i class="icon-upload"></i>Upload Form 1A V 4.0.3</a></li>-->
                   <!--<li > <a href="uploadgbv.jsp"><i class="icon-upload"></i>Upload GBV</a> </li>-->
+                  <li >   <%if(session.getAttribute("userAccess")!=null){%>   
+                  <a title="latest_version" href="uploadcxca.jsp"><i class="icon-upload"></i>Upload CXCA Section Only</a>
+                  
+                  
+                   <%} else {%> 
+                   <a style="color:red;" href="index.jsp"><i class="icon-upload"></i><b>Login to access CXCA section upload module</b> </a> <%}%></li> 
                   <li >  <a href="Form1A_Tracker.jsp"><i class="icon-upload"></i>Form 1A Tracker</a></li>
                   <li > <a href="F1aUserGuide.pptx"><i class="icon-download"></i>Form 1a User Guide</a></li>
                   <!--<li >  <a href="form1agaps.jsp"><i class="icon-upload"></i>F1A Errors&Warnings</a></li>-->
