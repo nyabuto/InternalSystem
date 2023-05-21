@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -39,6 +40,12 @@ String userAccess;
           userAccess=",";
           username=request.getParameter("username").trim();
           pass=request.getParameter("password").trim();
+          
+          
+           HashMap<String, String> kd= new HashMap<>();
+
+
+
          
           System.out.println("username : "+username+" password : "+pass);
           m = MessageDigest.getInstance("MD5");
@@ -72,6 +79,20 @@ String userAccess;
              session.setAttribute("lname", lname);
              session.setAttribute("email", email);
              
+             
+             
+              kd.put("userid", userid);
+             kd.put("fullname", fullname);
+             kd.put("level", level);
+             kd.put("username", username);
+             kd.put("fname", fname);
+             kd.put("mname", mname);
+             kd.put("lname", lname);
+             kd.put("email", email);
+             
+           session.setAttribute("kd_session", kd); 
+             
+             
              if(conn.rs.getInt("access_reports")==1){userAccess+="reports,";}
              if(conn.rs.getInt("access_maintenance")==1){userAccess+="maintenance,";}
              if(conn.rs.getInt("access_moh711")==1){userAccess+="moh711,";}
@@ -95,7 +116,9 @@ String userAccess;
              
            session.setAttribute("userAccess", userAccess);  
            status="success"; 
+           if(level.equals("4")){nextPage="ramcahhome.jsp";} else {           
            nextPage="home.jsp";
+           }
           
            System.out.println("access rights : "+session.getAttribute("userAccess"));
          }

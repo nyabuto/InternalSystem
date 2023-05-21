@@ -209,6 +209,7 @@ return true;
        <option value="1">User</option>
        <option value="2">M&E Officer</option>
        <option value="3">Administrator</option>
+       <option value="4">Rmcah users</option>
        <!--<option value=""></option>-->
        </select>
        </td>
