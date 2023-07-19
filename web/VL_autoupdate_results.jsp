@@ -7,6 +7,8 @@
 
 
 
+<%@page import="General.IdGenerator2"%>
+<%@page import="General.IdGenerator"%>
 <%@page import="database.dbConn"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -156,7 +158,7 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box ">
                      <div class="portlet-title">
-                     
+                         <% IdGenerator2 ig = new IdGenerator2();  %>
                      </div>
                       
                      <div class="portlet-body form">
@@ -208,7 +210,7 @@
                               </td>
                               <td class="col-xs-4">
                               <div class="controls">
-                                  <input data-date-end-date="0d" required type="text" title="this is the date that the week started" value="2020-10-01" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="weekstart">
+                                  <input data-date-end-date="0d" required type="text" title="this is the date that the week started" value="2022-06-01" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="weekstart">
                               </div>
                            </td>
                            </tr>
@@ -223,7 +225,7 @@
                       </td>
                       <td class="col-xs-4">
                               <div class="controls">
-                                  <input data-date-end-date="0d" required type="text" value='' title="this is the date that the week ended" value="<%if (session.getAttribute("weekend") != null) {out.println(session.getAttribute("weekend")); }%>" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
+                                  <input data-date-end-date="0d" required type="text"  title="this is the date that the week ended" value="<%=ig.LastMonthEndDate() %>" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
                               </div>
                            </div>
                               </td>
@@ -231,7 +233,24 @@
                            
                     <tr><td></td></tr>
                   
-
+<tr class="col-xs-8">
+                      <td class="col-xs-4">
+                            <div class="control-group">
+                                   
+                             <div class="controls">
+                              <label ><b>Year month</b><font color='red'><b>*</b></font></label>
+                              
+                              </div> </div>
+                      </td>
+                      <td class="col-xs-4">
+                              <div class="controls">
+                                  <input  required type="text"  title="this is the yearmonth" value="<%=ig.currentYear()+ig.CurrentMonth()%>" class="form-control input-lg" name="ym" id="ym" autocomplete="off">
+                              </div>
+                           </div>
+                              </td>
+                            </tr>
+                           
+                    <tr><td></td></tr>
 
 </table>
                          
@@ -355,6 +374,7 @@ function getReport(){
     
     var exelstart=$("#weekstart").val();
     var exelend=$("#weekend").val();
+    var ym=$("#ym").val();
    
   
         
@@ -378,7 +398,7 @@ function getReport(){
                 }
                 else {
                     //call the report generation page
-                 downloadrpt(exelstart,exelend) ;  
+                 downloadrpt(exelstart,exelend,ym) ;  
                     
                 }
         
@@ -387,7 +407,7 @@ function getReport(){
 
 
 
-  function downloadrpt(startdate,enddate){
+  function downloadrpt(startdate,enddate,ym){
       
       var url=$("#report").val();
      
@@ -407,7 +427,7 @@ function getReport(){
                
                 //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
              
-                var ur="update_vl_results?qry="+url+"&sdate=" + startdate + "&edate=" + enddate;
+                var ur="update_vl_results?qry="+url+"&sdate=" + startdate + "&edate=" + enddate+ "&ym=" + ym;
               
               $.ajax({
                   url:ur,

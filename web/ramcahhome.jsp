@@ -67,102 +67,158 @@
 			<div class="col-xl-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-4">
-						<h5>Grants Information</h5>
+						<h5>Indicators Summary</h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
-								<h5 class="card-title">Manage Grants</h5>
-								<p class="card-text">This section helps to manage grants details. Here you can add, edit or delete Grants details</p>
+								<h5 class="card-title">Indicators Summary</h5>
+								<p class="card-text"></p>
+                                                               
                                                                 <br/>
-                                                                <br/>
-                                                                <br/>
-								<a href="grants.jsp" class="btn  btn-primary">Manage Grants</a>
+								<a href="rmc_indicatorssummary.jsp" class="btn  btn-primary">Data Entry</a>
+								
 								
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-4">
-						<h5>Solicitation </h5>
+						<h5>Trainings</h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
-								<h5 class="card-title">Manage Solicitations</h5>
-								<p class="card-text">This is a module to capture data about various NOFOs that the activity may share publicly for interested parties to apply. Here you can add, edit or delete Solicitation details</p>
+								<h5 class="card-title">Participants list</h5>
+								<p class="card-text"></p>
 								<br/>
-                                                                <a href="solicitation.jsp" class="btn  btn-primary">Manage Solicitation</a>
+                                                                <a href="T1FORM.jsp" class="btn  btn-primary">Data Entry</a>
 								
 							</div>
 						</div>
 					</div>
                                     
                                     <div class="col-sm-12 col-md-4">
-						<h5>Applicants </h5>
+						<h5>Wash Summary</h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
-								<h5 class="card-title">Manage Applicants</h5>
-								<p class="card-text">Here we are capturing the applicants details and as well Evaluating them.The sections also helps manage mandatory Requirements Check.Here you can add, edit or delete Applicant details</p>
+								<h5 class="card-title">Manage Forms</h5>
+								<p class="card-text"></p>
 														
 								<br/>
 								
-                                                                <a href="applicants.jsp" class="btn  btn-primary">Manage Applicants</a>
+                                                                <a href="applicants.jsp" class="btn  btn-primary">Data Entry</a>
 								
 							</div>
 						</div>
 					</div>
+                                    
+                                   
 					
 				</div>
 			</div>
                         
-			<div class="col-xl-12">
+                      
+                        <div class="col-xl-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-4">
-						<h5>Evaluation</h5>
+						<h5>Emonc (ODK)</h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
-								<h5 class="card-title">Conduct Evaluations</h5>
-								<p class="card-text">Here we are evaluating the various applicants and scoring/rating them on various sections/criteria. Here you can add, edit or delete Evaluation details</p>
+								<h5 class="card-title">EMonc Monthly Assignment Signal</h5>
+								<p class="card-text"></p>
+                                                               
                                                                 <br/>
-                                                                
-                                                                <br/>
-								<a href="evaluation.jsp" class="btn  btn-primary">Manage Evaluations</a>
+								<a href="https://enketo.ona.io/x/d9VLmDP4" target="_blank" class="btn  btn-primary">Data Entry</a>
+								
 								
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-4">
-						<h5>Pre-Award Assessment</h5>
+						<h5>BFCI</h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
-								<h5 class="card-title">Update Assessments</h5>
-								<p class="card-text">From the selected applicants above, overall risk rating will be done and recommendations done on whether to issue a sub award or not. Here you can add, edit or delete Solicitation details</p>
+								<h5 class="card-title">BFCI Form</h5>
+								<p class="card-text"></p>
 								<br/>
-                                                                <a href="pre_award_assessment.jsp" class="btn  btn-primary">Manage Assessments</a>
+                                                                <a href="T1FORM.jsp" class="btn  btn-primary">Data Entry</a>
 								
 							</div>
 						</div>
 					</div>
                                     
                                     <div class="col-sm-12 col-md-4">
-						<h5>Sub Recipients</h5>
+						<h5>Outreach Data Reporting Tool</h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
-								<h5 class="card-title">Manage Sub-recipients</h5>
-								<p class="card-text">Here we are updating the sub-recipient details from the already existing data captured on Applicants section. Here you can add, edit or delete sub-recipients details</p>
-								<br/>						
+								<h5 class="card-title">Manage Forms</h5>
+								<p class="card-text"></p>
+														
 								<br/>
 								
-                                                                <a href="subrecipients.jsp" class="btn  btn-primary">Manage Recipients</a>
+                                                                <a href="applicants.jsp" class="btn  btn-primary">Data Entry</a>
 								
 							</div>
 						</div>
 					</div>
+                                    
+                                   
 					
 				</div>
 			</div>
+                        <div class="col-xl-12">
+				<div class="row">
+					<div class="col-sm-12 col-md-4">
+						<h5>Data Verification</h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								<h5 class="card-title">Indicators Summary</h5>
+								<p class="card-text"></p>
+                                                               
+                                                                <br/>
+								<a href="grants.jsp" class="btn  btn-primary">Download Forms</a>
+								<a href="grants.jsp" class="btn  btn-primary">Reports</a>
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-4">
+						<h5>Binti Shujaa</h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								<h5 class="card-title">Manage Forms</h5>
+								<p class="card-text"></p>
+								<br/>
+                                                                <a href="binti shujaa.jsp" class="btn  btn-primary">Data Entry</a>
+								
+							</div>
+						</div>
+					</div>
+                                    
+                                    <div class="col-sm-12 col-md-4">
+						<h5>Functionality Score Card</h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								<h5 class="card-title">Manage Forms</h5>
+								<p class="card-text"></p>
+														
+								<br/>
+								
+                                                                <a href="applicants.jsp" class="btn  btn-primary">Data Entry</a>
+								
+							</div>
+						</div>
+					</div>
+                                    
+					
+				</div>
+			</div>
+		
 			<!-- [ card ] end -->
 		</div>
 		<!-- [ Main Content ] end -->

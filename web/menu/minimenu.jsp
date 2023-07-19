@@ -308,6 +308,7 @@
                <ul class="sub">
      <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
      <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%> 
+                 <li ><a href="DatimEntryAuto.jsp"><i class="icon-plus"></i>Datim Data Push</a></li>
                  <li ><a href="addUsers.jsp"><i class="icon-plus"></i>Add Users</a></li>
                  <li ><a href="refreshDHIS2.jsp"><i class="icon-plus"></i>DHIS2 Data Refresh</a></li>
                  <li ><a href="editProfile.jsp"><i class="icon-edit"></i>Edit Your Account</a></li>
@@ -342,8 +343,8 @@
                   <!--<li ><a href="upload_tb_raw_data.jsp" Title="Tb raw data"><i class="icon-plus"></i>Tb Raw Data (.xls)</a></li>-->
                   <!--<li ><a href="loadExcel.jsp"><i class="icon-plus"></i>PMTCT Data(.xls)</a></li>-->
                    
-                  <li ><a href="UploadVL.jsp"><i class="icon-plus"></i>Viral Load raw (.xlsx)</a></li>
-                  <li ><a href="uploadVL_Surge.jsp"><i class="icon-plus"></i>Viral Load raw Surge(.xlsx)</a></li>
+                  <!--<li ><a href="UploadVL.jsp"><i class="icon-plus"></i>Viral Load raw (.xlsx)</a></li>-->
+                  <li ><a href="uploadVL_Surge.jsp"><i class="icon-plus"></i>Viral Load raw- Nascop Website</a></li>
                   <li ><a href="load_eid_positive.jsp"><i class="icon-plus"></i>NASCOP EID POS (.xlsx)</a></li>
                   <li ><a href="load_eid_tested.jsp"><i class="icon-plus"></i>NASCOP EID TST (.xlsx)</a></li>
                     <!--<li ><a href="UploadEID.jsp"><i class="icon-plus"></i>EID Data (.xlsx)</a></li>-->

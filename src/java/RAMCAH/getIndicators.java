@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,20 +34,41 @@ public class getIndicators extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
            
-            String dt="";
+            String ym="";
             
             String fc="";
+          
+            String scid="";
+            String ds="";
             
             if(request.getParameter("fc")!=null){fc=request.getParameter("fc");}
-            if(request.getParameter("dt")!=null){dt=request.getParameter("dt");}
+            if(request.getParameter("ym")!=null){ym=request.getParameter("ym");}
+            if(request.getParameter("scid")!=null){scid=request.getParameter("scid");}
+            if(request.getParameter("ds")!=null){ds=request.getParameter("ds");}
+  
             
             
+            
+            
+            HashMap params = new HashMap<String, String>();
+            
+            params.put("yearmonth", ym);
+            params.put("facility", fc);
+            params.put("orgunit", ds);
+           
             
            dbConn conn = new dbConn();
-           if(!fc.equals("")&&!dt.equals("")){
+           if(!fc.equals("")&&!ym.equals("")&&!ds.equals("")){
            //return tables
-           out.println(getHtmlTable(conn,dt,fc));
+           out.println(getHtmlTable(conn,params));
            
+           }
+            else if(!scid.equals("")) {
+           //return indicators
+           ResultSet r=pullIndicatorsBySection(conn,scid);
+           
+           out.println(toJson(r));
+          
            }
            else {
            //return indicators
@@ -55,8 +77,9 @@ public class getIndicators extends HttpServlet {
            out.println(toJson(r));
           
            }
+          
            
-           if(conn.rs!=null){conn.rs.close();}
+        if(conn.rs!=null){conn.rs.close();}
         if(conn.rs1!=null){conn.rs1.close();}
         if(conn.st!=null){conn.st.close();}
         if(conn.st1!=null){conn.st1.close();}
@@ -111,39 +134,80 @@ public class getIndicators extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-public String getHtmlTable(dbConn conn, String reportingdate, String facility) throws SQLException{
-String indicators="<thead><tr><th>Indicator</th><th>Age_(Yrs)</th><th>Male</th><th>Female</th></tr></thead><tbody>";
+public String getHtmlTable(dbConn conn, HashMap pms) throws SQLException{
 
     
-
- JSONObject jo= getData(conn, reportingdate, facility);
     
+String indicators="";
+       
+
+ JSONObject jo= getData(conn, pms);
+    //Get a resultset of all th e indicators and loop through each as you check if the same data has been entered
+    String orgunit=pms.get("orgunit").toString();
 int count=1;
-ResultSet r=pullIndicators(conn);
+ResultSet r=pullIndicators(conn,orgunit);
+
+
+String id="";
+String scn="";
+String scnid="";
+String scnidcopy="";
+
+String ind="";
+String cd="";
+String lv1="";
+String lv2="";
+String rdo="";
+String dtp="";
+String ac="";
+String ov="";
+String os="";
+String lsr="";
+String dbn="";
+String ord="";
+
+String clsp="";
+String eos="";
+String scncode="";
 
 while(r.next()){
-   
-//  System.out.println("__"+jo.toString());  
-    String indic=r.getString("indicatorname");
-    String id=r.getString("id");
     
-    String bl15m="";
-    String bl15f="";
-    String ab15m="";
-    String ab15f="";
-     try{ 
+    
+    //check if indicator has changed
+id=r.getString("id");
+scnid=r.getString("section");
+scn=r.getString("section_name");
+ind=r.getString("indicator");
+cd=r.getString("code");
+lv1=r.getString("level1");
+lv2=r.getString("level2");
+rdo=r.getString("readonl");
+dtp=r.getString("datatp");
+ac=r.getString("Auto_Calculate");
+ov=r.getString("options_value");
+os=r.getString("options_show");
+lsr=r.getString("lastspanrow");
+dbn=r.getString("database_name");
+ord=r.getString("orodha");
+clsp=r.getString("colspan");
+eos=r.getString("endofsection");
+scncode=r.getString("section_code");
+
+ String value="";
+ String prd="";
+    
+     try
+     { 
     //if length is greater than 0
     if(!jo.get("length").toString().equals("0")){
       
+    //pull data by column
+   if(jo.get(id)!=null)
+   {
         
-   if(jo.get(id)!=null){
-        
-       JSONObject joage=(JSONObject) jo.get(id);
-        
-         bl15m=joage.get("bl15_Male").toString();
-         bl15f=joage.get("bl15_Female").toString();
-         ab15m=joage.get("ab15_Male").toString();
-         ab15f=joage.get("ab15_Female").toString();
+         JSONObject joage=(JSONObject) jo.get(id);
+         value=joage.get("value").toString();
+         prd=joage.get("period").toString();
    }
         
     
@@ -152,75 +216,159 @@ while(r.next()){
         catch(NoSuchElementException ex){
         
         }
-     
-     String readonly_b15_m="";
-     String readonly_b15_f="";
-     String readonly_ab15_m="";
-     String readonly_ab15_f="";
-     
-     if(id.contains("VMMC")){
-       readonly_ab15_f="readonly='true' style='background-color:#bcc6cc;'  tabindex='-1'";
-       readonly_b15_f="readonly='true' style='background-color:#bcc6cc;' tabindex='-1'";
-     }
-     else  if(id.contains("PMTCT")){
-       readonly_ab15_m="readonly='true' style='background-color:#bcc6cc;'  tabindex='-1'";
-       readonly_b15_m="readonly='true' style='background-color:#bcc6cc;' tabindex='-1'";
-     }
-     
-     
-     String inputb15_M="<input "+readonly_b15_m+" value='"+bl15m+"'  onkeypress='return numbers(event);' placeholder='male < 15 yrs'  type='tel' maxlength='4' min='0' max='9999' name='"+id+"_bl15_Male' id='"+id+"_bl15_Male' class='form-control inputs'>"; 
-     String inputb15_F="<input "+readonly_b15_f+" value='"+bl15f+"'  onkeypress='return numbers(event);' placeholder='female < 15 yrs'  type='tel' maxlength='4' min='0' max='9999' name='"+id+"_bl15_Female' id='"+id+"_bl15_Female' class='form-control inputs'>"; 
-     String inputab15_M="<input "+readonly_ab15_m+" value='"+ab15m+"'  onkeypress='return numbers(event);' placeholder='male 15 yrs +'  type='tel' maxlength='4' min='0' max='9999' name='"+id+"_ab15_Male' id='"+id+"_ab15_Male' class='form-control inputs'>"; 
-     String inputab15_F="<input "+readonly_ab15_f+" value='"+ab15f+"'  onkeypress='return numbers(event);' placeholder='female' type='tel' maxlength='4' min='0' max='9999' name='"+id+"_ab15_Female' id='"+id+"_ab15_Female' class='form-control inputs'>";
-     
-    
-indicators+="<tr>"
-        + "<td style='vertical-align: middle;' rowspan='2'> <span class='badge'>"+count+"  </span><b> "+indic+"</b></td><td style='background-color:#bcc6cc;'><b>< 15 Yrs</b></td>"
-        + "<td>"+inputb15_M+"</td>"
-        + "<td>"+inputb15_F+"</td>"
-        + "</tr>"
-        + "<tr>"
-        + "<td><b>15 + Yrs</b></td>"
-        + "<td>"+inputab15_M+"</td>"
-        + "<td>"+inputab15_F+"</td>"
-        + "</tr>";
+
+
+if(!scnid.equals(scnidcopy))
+    {
+        scnidcopy=scnid;
         
+        
+        //if(scnid.equals("")){}
+        
+        //String showsection="style='display:none;'";
+        String showsection="";
+        String hasdata="style='color:red;width:100%;text-align:left;'";
+        
+        if(!value.equals("")){showsection="";hasdata="style='display:none;'";}
+        
+    //create the card
+    indicators+= ""
+            //+ "<h4 class='btn grey' "+hasdata+" id='hasdata"+scnid+"'><i class='glyphicon glyphicon-close'></i><b>No Gaps to account under "+scn+"</b></h4>"
+            + "<div "+showsection+" class='card'>";
+    indicators+= "<div class='card-header' >"
+    +"<h5 class='mb-0' style='width:100%;'>";
+    indicators+="<button class='btn btn-primary collapsed' id='section"+scnid+"' type='button' data-toggle='collapse' data-target='#collapse"+scnid+"' aria-expanded='false' aria-controls='collapse"+scnid+"' style='width:100%; text-align:left;background-color:#0394ff;font-weight: bolder;color:white;'>" +
+"["+scnid+"]. "+" "+scn.toUpperCase()+
+"</button>" +
+"</h5>" +
+"</div>"
++ "<div id='collapse"+scnid+"' class='collapse' aria-labelledby='heading"+scnid+"' data-parent='#form1a_accordion'>" +
+"<div class='card-body'>" +
+"<div class='table table-stripped' style='margin-right:0%'>" +
+"<fieldset class='formatter' style='margin:20px; color:black;'>" +
+"<legend class='formatter'>" +
+"<b style='text-align:center;color:#0394ff;'>"+scn+"</b>" +
 
-count++;
-                     }
+"</legend>" +
+"<form action='#' id='"+dbn+"' method='post' >"
++ " <table style='width;90%;' border='1px;' class='table table-responsive'>" +
+"<thead>" +
+"<tr style='font-weight:bold; background:#40454a;color:white;'>" +
+//"<th>#</th>" +
+"<th>Indicator Code</th>" +
+"<th>Sub-Section</th>" +
+"<th>Indicator</th>" +
+"<th>Value</th>" +
+"</tr>" +
+"</thead>"+
+ "<tbody>";
+   }
+    
+   
+// ___________________Now inside the other rows____________
 
+indicators+="<tr>" +
+        "<td style='width:5%;'>"+cd+"<input type='hidden' id='indic_pos_"+id+"' name='indic_pos_"+id+"' value='"+id+"'/></td>" ;
 
-return indicators+"</tbody>";
-
+if(!clsp.equals("0"))
+{
+indicators+="<td style='width:40%; ' rowspan='"+clsp+"'><label style='word-wrap:break-word;'>"+lv1+"<label></td>";
 }
 
 
-public JSONObject getData( dbConn conn, String reportingdate, String facilitymfl) throws SQLException{
+  String finalprd="";
+  
+  if(!prd.equals("") && !prd.equals("null") ){finalprd="<br/><font color='orange'><b>["+prd+"]</b></font>";}
+     
+indicators+="<td style='width:40%;'>"+ind+" "+finalprd+"</td>";
+
+
+
+// build autocalculate
+
+String hasautocalc="";
+
+if(ac!=null && !ac.equals("") && !ac.equals("null") ){
+
+hasautocalc="buildAutocalculate('"+ac+"','"+scnid+"');";
+
+}
+
+        
+   //create a data input field or select field
+  if(dtp.equals("select"))
+  {
+  indicators+="<td style='width:40%;'><select class='form-control' onblur=\"indicate_changed('"+id+"');section_changed('"+scnid+"');\" id='"+id+"' name='"+id+"'>"+buildSelectOptions(os, ov, value)+"</select></td>";
+  }   
+    
+  else {
+indicators+="<td style='width:15%;'><input  "+rdo+" onkeyup=\"removeFirstZero('"+id+"');"+hasautocalc+"\" type='text' name='"+id+"' id='"+id+"' value='"+value+"' onblur=\"indicate_changed('"+id+"');section_changed('"+scnid+"');\"  class='data-cell form-control' data-toggle='tooltip' data-placement='right' autocomplete='off' maxlength='5' onkeypress='return numbers(event);'></td>" ;
+  }
+indicators+="</tr>";
+
+    if(eos.equals("1") )
+    {
+        //System.out.println(scnid+" vs "+scnidcopy2);
+        
+
+ indicators+="</tbody></table><input type='hidden' name='num_indicators' id='num_indicators' value='"+count+"'>" +
+"<input type='hidden' name='table_name' id='table_name' value='"+dbn+"'>" +
+"<div class='form-actions' style='text-align:right;'>" +
+"<label id='msg"+scnid+"' class='feedback' style='text-align:left;color:red;'></label>" +
+"<button  type='button' class='btn btn-primary' data-save_1='SAVE' onclick=\"loadValidation('"+dbn+"','"+scnid+"');\" name='validate_"+scnid+"' id='validate_"+scnid+"' style=' font-size:14px; width:20%;'>Save "+scncode+"</button>" +
+"</div>" +
+"</form>" +
+"</fieldset>" +
+"</div>" +
+"</div>" +
+"</div>"+
+"</div>";
+    }
+     
+ String readonly_value="";
+
+
+        
+
+count++;
+
+                     }
+
+
+   // System.out.println(""+indicators);
+
+return indicators;
+
+}
+
+//get data values for editing purpose
+public JSONObject getData( dbConn conn, HashMap par) throws SQLException {
     JSONArray ja= new JSONArray();
     
 
-
 int hasdata=0;
 
-String getdata=" select * from pews.hfr_table_20 where date='"+reportingdate+"' and facility_mfl_code ='"+facilitymfl+"'";
+String getdata=" select * from internal_system.ramcah where yearmonth='"+par.get("yearmonth")+"' and facility_id='"+par.get("facility")+"' ;";
+  
 
 conn.rs1=conn.st1.executeQuery(getdata);
 
-   JSONObject lengthobject= new JSONObject();
+JSONObject lengthobject= new JSONObject();
+
 JSONObject hm= new JSONObject();
-        while (conn.rs1.next()) 
-        {
- 
- JSONObject hm2= new JSONObject();
+
+while (conn.rs1.next()) 
+{
+JSONObject hm2= new JSONObject();
+
 hasdata++;
-  //we want something like this {"HTS_TST":{"bl15_Male":0,"bl15_Female":1,"ab15_Male":2,"ab15_Female":1}}
-hm2.put("bl15_Male", conn.rs1.getString("bl15_Male"));
-hm2.put("bl15_Female", conn.rs1.getString("bl15_Female"));
-hm2.put("ab15_Male", conn.rs1.getString("ab15_Male"));
-hm2.put("ab15_Female", conn.rs1.getString("ab15_Female"));
- hm.put(conn.rs1.getString("indicator"), hm2);
+//we want something like this {"KITS Assisted":{"value":0}}
+hm2.put("value", conn.rs1.getString("value"));
+hm2.put("period", conn.rs1.getString("period"));
+
+hm.put(conn.rs1.getString("indicator_id"), hm2);
 //ja.put(hm);
-      }
+}
         hm.put("length", hasdata);
         //lengthobject.put("length", hasdata);
         
@@ -233,12 +381,22 @@ return hm;
 
 
 
+//getIndicators done
+public ResultSet pullIndicators(dbConn conn) throws SQLException {
 
-public ResultSet pullIndicators(dbConn conn) throws SQLException 
-{
+String qry="select * from internal_system.ramcah_sum_indicators where is_active='1'  order by orodha asc";
+    System.out.println(""+qry);
 
-String qry="select * from pews.indicators where active='1' order by orodha asc";
+conn.rs=conn.st.executeQuery(qry);
 
+
+return conn.rs;
+
+}
+public ResultSet pullIndicators(dbConn conn, String orgunit) throws SQLException {
+
+String qry="select * from internal_system.ramcah_sum_indicators where is_active='1' and  orgunit='"+orgunit+"' order by orodha asc";
+    System.out.println(""+qry);
 
 conn.rs=conn.st.executeQuery(qry);
 
@@ -247,7 +405,19 @@ return conn.rs;
 
 }
 
+public ResultSet pullIndicatorsBySection(dbConn conn, String Section) throws SQLException {
 
+String qry="select * from internal_system.ramcah_sum_indicators where is_active='1' and  section='"+Section+"' order by orodha asc";
+    System.out.println(""+qry);
+
+conn.rs=conn.st.executeQuery(qry);
+
+
+return conn.rs;
+
+}
+
+//done
 public JSONArray toJson(ResultSet res) throws SQLException{
 
     
@@ -259,21 +429,66 @@ while(res.next())
 {
     
 JSONObject jo = new JSONObject(); 
+
 String id="";
-String indicator_code="";
-String active="";
-String indicatorname="";
+String section_name="";
+String section="";
+String indicator="";
+String code="";
+String level1="";
+String level2="";
+String readonl="";
+String datatp="";
+String Auto_Calculate="";
+String options_value="";
+String options_show="";
+String is_active="";
+String lastspanrow="";
+String database_name="";
 String orodha="";
+String colspan="";
+String endofsection="";
+String section_code="";
 
     id =res.getString("id");
-    indicator_code =res.getString("indicator_code");
-    indicatorname =res.getString("indicatorname");
+    section_name =res.getString("section_name");
+    section =res.getString("section");
+    indicator =res.getString("indicator");
+    code =res.getString("code");
+    level1 =res.getString("level1");
+    level2 =res.getString("level2");
+    readonl =res.getString("readonl");
+    datatp =res.getString("datatp");
+    Auto_Calculate =res.getString("Auto_Calculate");
+    options_value =res.getString("options_value");
+    options_show =res.getString("options_show");
+    is_active =res.getString("is_active");
+    lastspanrow =res.getString("lastspanrow");
+    database_name =res.getString("database_name");
     orodha =res.getString("orodha");
+    colspan =res.getString("colspan");
+    endofsection =res.getString("endofsection");
+    section_code =res.getString("section_code");
 
     jo.put("id",id);
-    jo.put("indicator_code",indicator_code);
-    jo.put("indicatorname",indicatorname);
+    jo.put("section_name",section_name);
+    jo.put("section",section);
+    jo.put("indicator",indicator);
+    jo.put("code",code);
+    jo.put("level1",level1);
+    jo.put("level2",level2);
+    jo.put("readonl",readonl);
+    jo.put("datatp",datatp);
+    jo.put("Auto_Calculate",Auto_Calculate);
+    jo.put("options_value",options_value);
+    jo.put("options_show",options_show);
+    jo.put("is_active",is_active);
+    jo.put("lastspanrow",lastspanrow);
+    jo.put("database_name",database_name);
     jo.put("orodha",orodha);
+    jo.put("colspan",colspan);
+    jo.put("endofsection",endofsection);
+    jo.put("section_code",section_code);
     jo2.put(jo);
     
     count++;
@@ -286,5 +501,27 @@ String orodha="";
 return jo2;    
 }
 
+
+public String buildSelectOptions(String opt, String val, String selected){
+   
+    String optsarr[]=opt.split(",");
+    String valsarr[]=val.split(",");
+
+    String fin="<option value=''>--option--</option>";
+    
+    for(int a=0;a<optsarr.length;a++){
+        String selectedval="";
+        // System.out.println("selected ni:"+selected+": vs "+valsarr[a]);
+        if(valsarr[a].equals(selected))
+        {
+        selectedval="selected";
+        }
+        
+    fin+="<option "+selectedval+" value='"+valsarr[a]+"'>"+optsarr[a]+"</option>";
+    
+    }
+    
+return fin;
+}
 
 }

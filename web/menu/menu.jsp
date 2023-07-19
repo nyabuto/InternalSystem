@@ -335,6 +335,7 @@
           
                     
                   
+                  <li ><a href="DatimEntryAuto.jsp"><i class="icon-plus"></i>Datim Data Push</a></li>
                   <li ><a href="refreshDHIS2.jsp"><i class="icon-plus"></i>DHIS2 Data Refresh</a></li>
                   <li ><a href="Access_Rights.jsp"><i class="icon-plus"></i>Access Rights</a></li>
                   <li ><a href="datalock.jsp"><i class="icon-plus"></i>Lock / Un lock Editing </a></li>
@@ -345,7 +346,7 @@
                  <li> <a href="VL_autoupdate_results.jsp"><i class="icon-upload"></i>Autoupdate VL Results</a></li>
                  <li> <a href="Sync_VL_Results.jsp"><i class="icon-upload"></i>Sync VL Results</a></li>
                  <li> <a href="Final_Sync_VL_Results.jsp"><i class="icon-upload"></i>Final Sync VL Results</a></li>
-                 <li> <a href="Final_Sync_VL_Results.jsp"><i class="icon-upload"></i>FPT Refresh baselines table </a></li>
+                 <!--<li> <a href="Final_Sync_VL_Results.jsp"><i class="icon-upload"></i>FPT Refresh baselines table </a></li>-->
                  <li> <a href="fpt_tobaselines_refresh.jsp"><i class="icon-upload"></i>FPT Refresh baselines table </a></li>
                  <li> <a href="fpt_sendDataToDHIS.jsp"><i class="icon-upload"></i>Fpt - Push to DHIS2 HIT </a></li>
                 

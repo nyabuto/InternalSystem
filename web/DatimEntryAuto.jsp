@@ -17,7 +17,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>Final Sync Reports</title>
+   <title>Push Data to Datim</title>
    <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -71,7 +71,7 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h2 style="text-align:center;font-size: 30px;color:white;padding-bottom:16px ;font-weight: bolder;">VL Refresh</h2><br/>
+            <h2 style="text-align:center;font-size: 30px;color:white;padding-bottom:16px ;font-weight: bolder;">Datim Data Entry </h2><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -130,7 +130,7 @@
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Send Data to VL_ETL Table</a> 
+                        <a href="#" style="margin-left:40%;">Run Scripts For Entering Data into Datim</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            
@@ -152,29 +152,41 @@
                         <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal" >
                        
                         
+                             <div class="control-group">
+                              <label class="control-label">Facilities<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <select multiple required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="sites" id="sites" >
+                                    <option value='All'>All Sites</option>
+                                     
+                                    </select>
+                                  <input type="checkbox" id="select_all" name="select_all" >Select All Sites
+                             </div>
+                           </div>
+                            
                          
                             
                              <div class="control-group">
-                              <label class="control-label">Report End date:<font color='red'><b>*</b></font></label>
+                              <label class="control-label">Reporting Period<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <% IdGenerator2 ig = new IdGenerator2(); %>
-                                  <input required type="text" title="this is the date that the week ended" value="<%=ig.LastMonthDate()%>" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
-                              </div>
+                                  <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="quarter" id="quarter" >
+                                    <option value=''>Select Period</option>  
+                                    
+                                     
+                                    </select>
+                             </div>
                            </div>
                             
                               
                               <div class="control-group" >
-                              <label class="control-label">Specify Output:<font color='red'><b>*</b></font></label>
+                              <label class="control-label">Specify Data Section<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                   <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="outiput" id="outiput" >
                                       
-                                     
-                                     
-                                       <option value='sp_vl_insertkenyaemr_weekly'>Refresh KenyaEMR- Weekly</option>
-                                       <option value='sp_vl_insertkenyaemr'>Refresh KenyaEMR- Monthly</option>
-                                       <!--<option value='sp_vl_insert_nonemrvl'>Refresh VLMIS-Weekly</option>-->
-                                       <option value='sp_vl_insert_nonemrvl'>Refresh VLMIS-Monthly</option>
-                                       <option value='sp_vl_insertwebsite_deduplicated'>Refresh VL Website-Monthly</option>
+                                       <option value=''>Select DataSet</option>
+                                       <option value='prv'>Prevention</option>
+                                       <option value='vls'>VL Supression</option>
+                                       
+                                       
                                       
                                              
                                       </select>
@@ -214,7 +226,7 @@
                              
                          
                               
-  <label id="generaterpt" class="btn green" onclick="getReport();">Generate report</label>
+  <label id="generaterpt" class="btn green" onclick="getReport();">Start Entries</label>
                           
 
                          
@@ -321,16 +333,16 @@ function getReport()
     
     
  
-   var exelend=$("#weekend").val();
-   var year=$("#year").val();
+   var prd=$("#quarter").val();
+
         
          
    //end date
-       if (exelend==='')
+       if (prd==='')
      {
          
-     alert('Select report ending date');
-   $("#enddaterpt").focus();    
+     alert('Select reporting Period');
+   $("#quarter").focus();    
      } 
      
      
@@ -339,7 +351,7 @@ function getReport()
                 
                 else {
                     //call the report generation page
-                 downloadrpt(exelend) ;  
+                 downloadrpt(prd) ;  
                     
                 }
         
@@ -348,20 +360,23 @@ function getReport()
 
 
 
-  function downloadrpt(enddate){
+  function downloadrpt(period){
       
                 $('.loading').show();
                 $('#generaterpt').hide();
                var urel=$("#outiput").val();
+               var sts=$("#sites").val();
+              
                 //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
              
-                var ur="Sync_to_vl_etl?sp="+urel+"&enddate=" + enddate;
+                var ur="AutoDataEntry?sp="+urel+"&prd=" + period;
  console.log(ur);
  
  $.ajax({
      url: ur,
+     type:'post',
      dataType: 'html',
-     data: '',
+     data: {ds:urel,prd:period,sts:sts},
      success: function (data) {
          $('.loading').hide(); 
          $('#generaterpt').show();
@@ -369,7 +384,7 @@ function getReport()
          //$('#generaterpt').html("<i class='glyphicon glyphicon-ok'></i> Report Generated");
                         
                     }
- })
+ });
  
                 //$.fileDownload(ur).done(function () { $('.loading').hide(); $('#generaterpt').show(); $('#generaterpt').html("<i class='glyphicon glyphicon-ok'></i> Report Generated"); }).fail(function () { alert('Report generation failed, kindly try again!'); $('.loading').hide(); $('#generaterpt').show(); });
  
@@ -388,7 +403,40 @@ function selectoutput(){
     
 }
 selectoutput();
-      
+
+
+
+function loadDataToElement(act,element,issearchselect,firstoption)
+{
+    
+   $.ajax({
+     url: 'dataPulls',
+     dataType: 'html',
+     data: {act:act},
+     success: function (data) 
+     {                
+         $("#"+element).html(firstoption+data);
+         //$('#generaterpt').html("<i class='glyphicon glyphicon-ok'></i> Report Generated");
+        if(issearchselect==='yes'){
+         $("#"+element).select2();   
+            
+        }                
+     }
+ }) ; 
+     
+    
+}
+
+  loadDataToElement('getDatimPeriod','quarter','no','');
+  loadDataToElement('getDatimSites','sites','yes','');
+     
+    
+    
+    $('#select_all').click(function() {
+   $('#sites option').prop('selected', true);
+                                        });
+    
+    
    </script>
 
                   

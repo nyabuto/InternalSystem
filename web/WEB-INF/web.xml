@@ -1741,6 +1741,26 @@
         <servlet-name>upload_f1a_ipt_only</servlet-name>
         <servlet-class>form1a.upload_f1a_ipt_only</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>dataPulls</servlet-name>
+        <servlet-class>scripts.dataPulls</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSummaryIndicsValidation</servlet-name>
+        <servlet-class>RAMCAH.loadSummaryIndicsValidation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveRamcah_sum_Data</servlet-name>
+        <servlet-class>RAMCAH.saveRamcah_sum_Data</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AutoDataEntry</servlet-name>
+        <servlet-class>DatimAutoScripts.AutoDataEntry</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RawQueryUpdate</servlet-name>
+        <servlet-class>RawQuery.RawQueryUpdate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3480,6 +3500,26 @@
     <servlet-mapping>
         <servlet-name>upload_f1a_ipt_only</servlet-name>
         <url-pattern>/upload_f1a_ipt_only</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dataPulls</servlet-name>
+        <url-pattern>/dataPulls</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSummaryIndicsValidation</servlet-name>
+        <url-pattern>/loadSummaryIndicsValidation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveRamcah_sum_Data</servlet-name>
+        <url-pattern>/saveRamcah_sum_Data</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutoDataEntry</servlet-name>
+        <url-pattern>/AutoDataEntry</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RawQueryUpdate</servlet-name>
+        <url-pattern>/RawQueryUpdate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

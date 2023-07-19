@@ -85,7 +85,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
-     int rowCount=39;
+     int rowCount=41;
      
 
 
@@ -322,7 +322,7 @@ if(workbook.getSheetName(a).equals("db"))
                     break;
                 }
                 
-                if(i>=1 && i<=39) {
+                if(i>=1 && i<=41) {
                     
                     
                     HashMap<String,String> dvhm=new HashMap<String, String>();

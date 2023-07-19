@@ -38,6 +38,7 @@ public class update_vl_results extends HttpServlet {
        
             String sdate="2020-01-01";
             String edate="2020-12-31";
+            String ym="0";
             
            
             out.println("</html>");
@@ -60,10 +61,13 @@ public class update_vl_results extends HttpServlet {
             if (request.getParameter("edate") != null) {
                 edate = request.getParameter("edate");
             }
+            if (request.getParameter("ym") != null) {
+                ym = request.getParameter("ym");
+            }
             
             if(qry.equals("updateEMRResults"))
             {
-             out.println(updateEMRResults(conn, sdate, edate, ""));   
+             out.println(updateEMRResults(conn, sdate, edate, "",ym));   
             }
             else if(qry.equals("updatePMTCT"))
             {
@@ -195,12 +199,12 @@ public class update_vl_results extends HttpServlet {
     
     
     
-    public String updateEMRResults(dbConn conn,String sdate,String edate,String mflcodes) {
+    public String updateEMRResults(dbConn conn,String sdate,String edate,String mflcodes,String ym) {
     
         try {
             int updatedrows=0;
             int searchcount=0;
-            String ym=edate.replace("-","").substring(0,6);
+            //String ym=edate.replace("-","").substring(0,6);
             
             String mfl="";
             String facil="";
@@ -250,8 +254,8 @@ public class update_vl_results extends HttpServlet {
                     res=res.replace("<","");
                     res=res.replace(" ","");
                     
-                    String updaterecord="update  vl_kenyaemr set Justification='"+jus+"', PMTCT='"+pmtct+"',Last_VL='"+res+"',Last_VL_Date='"+cdate+"' , missing_from_source='Yes' where cccno='"+cccno+"' and MFL_Code='"+origmfl+"' and yearmonth='"+ym+"'  ";
-                    String updaterecordps="update ignore vl_kenyaemr set Justification=? , PMTCT=? , Last_VL=? , Last_VL_Date=? , missing_from_source=? where cccno=? and MFL_Code=? and yearmonth=?  ";
+                    String updaterecord="update  vl_kenyaemr set Justification='"+jus+"', PMTCT='"+pmtct+"',Last_VL='"+res+"',Last_VL_Date='"+cdate+"' , missing_from_source='Yes',rri_is_late_vl_results='1' where cccno='"+cccno+"' and MFL_Code='"+origmfl+"' and yearmonth='"+ym+"'  ";
+                    String updaterecordps="update ignore vl_kenyaemr set Justification=? , PMTCT=? , Last_VL=? , Last_VL_Date=? , missing_from_source=? , rri_is_late_vl_results=? where cccno=? and MFL_Code=? and yearmonth=?  ";
                     
                     conn.pst=conn.conn.prepareStatement(updaterecordps);
     conn.pst.setString(1,jus);
@@ -259,9 +263,10 @@ public class update_vl_results extends HttpServlet {
     conn.pst.setString(3,res);
     conn.pst.setString(4,cdate);
     conn.pst.setString(5,"Yes");
-    conn.pst.setString(6,cccno);
-    conn.pst.setString(7,origmfl);
-    conn.pst.setInt(8,new Integer(ym));
+    conn.pst.setString(6,"1");
+    conn.pst.setString(7,cccno);
+    conn.pst.setString(8,origmfl);
+       conn.pst.setInt(9,new Integer(ym));
                     
                     System.out.println(" update query: "+updaterecord+"\n");
                     
@@ -353,7 +358,7 @@ public String updateNonEMRResults(dbConn conn,String sdate,String edate,String m
                     // res=res.replace("<","");
                     //res=res.replace(" ","");
                     
-                    String updaterecord="update nonemr_all set Justification='"+jus+"', PMTCT_Status='"+pmtct+"',VL_Results='"+res+"',Date_Last_VL_Conducted='"+cdate+"' where ccc_number='"+cccno+"' and mflcode='"+mfl+"'   ";
+                    String updaterecord="update nonemr_all set rri_is_late_vl_results='1' , Justification='"+jus+"', PMTCT_Status='"+pmtct+"',VL_Results='"+res+"',Date_Last_VL_Conducted='"+cdate+"' where ccc_number='"+cccno+"' and mflcode='"+mfl+"'   ";
                     
                     System.out.println(" update query: "+updaterecord+"\n");
                     
@@ -369,8 +374,8 @@ public String updateNonEMRResults(dbConn conn,String sdate,String edate,String m
                     
                     String id=mfl+"_"+cccno+"_"+cdate;
                     
-                    String replaceqry="Replace into nonemr_vl (id,ccc_number,visitdate,First_Viral_Load_Date,Date_Last_VL_Conducted,Justification,PMTCT_Status,VL_Results,user_id,device,mflcode,eligible) "
-                            + " values ('"+id+"','"+cccno+"','','','"+cdate+"','"+jus+"','"+pmtct+"','"+res+"','system generated','lenovo','"+mflcodes+"','Yes'); ";
+                    String replaceqry="Replace into nonemr_vl (id,ccc_number,visitdate,First_Viral_Load_Date,Date_Last_VL_Conducted,Justification,PMTCT_Status,VL_Results,user_id,device,mflcode,eligible,rri_is_late_vl_results) "
+                            + " values ('"+id+"','"+cccno+"','','','"+cdate+"','"+jus+"','"+pmtct+"','"+res+"','system generated','lenovo','"+mflcodes+"','Yes','1'); ";
                     session.setAttribute("vlquery",replaceqry);
                     conn.st3.executeUpdate(replaceqry);
                     

@@ -51,7 +51,7 @@
 					    <a href="indicatorssummary.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-award"></i></span><span class="pcoded-mtext">Indicators summary</span></a>
 					</li>
                                          <li class="nav-item">
-					    <a href="emonc.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-airplay"></i></span><span class="pcoded-mtext">EMonc</span></a>
+					    <a target="blank" href="https://enketo.ona.io/x/d9VLmDP4" class="nav-link "><span class="pcoded-micon"><i class="feather icon-airplay"></i></span><span class="pcoded-mtext">EMonc</span></a>
 					</li>
                                          <li class="nav-item">
 					    <a href="wash.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-thumbs-up"></i></span><span class="pcoded-mtext">Wash Summary</span></a>
@@ -60,16 +60,19 @@
 					    <a href="bintishujaa.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-award"></i></span><span class="pcoded-mtext">Binti Shujaa</span></a>
 					</li>
                                          <li class="nav-item">
-					    <a href="training.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Trainings</span></a>
+					    <a href="training.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">User Training</span></a>
+					</li>
+                                         <li class="nav-item">
+					    <a target="blank" href="https://enketo.ona.io/x/s9YihzRE" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Participants List</span></a>
 					</li>
                                          <li class="nav-item">
 					    <a href="training.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">BFCI Form</span></a>
 					</li>
                                          <li class="nav-item">
-					    <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-activity"></i></span><span class="pcoded-mtext">Outreach data reporting tool</span></a>
+					    <a target="blank" href="https://enketo.ona.io/x/qaE18hpo" class="nav-link "><span class="pcoded-micon"><i class="feather icon-activity"></i></span><span class="pcoded-mtext">Outreach data reporting tool</span></a>
 					</li>
                                          <li class="nav-item">
-					    <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Functionality Score Card</span></a>
+					    <a target="blank" href="https://enketo.ona.io/x/c6dCGXCY" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Functionality Score Card</span></a>
 					</li>
                                          <li class="nav-item">
 					    <a href="#" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Data Verification</span></a>
