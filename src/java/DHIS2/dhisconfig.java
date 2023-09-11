@@ -40,11 +40,11 @@ String  dhis2_API_URL_UploadF1a=null;
   //dhis2_Home_URL ="https://hiskenya.org/";
   dhis2_Home_URL ="https://partnermanagementsystem.uonbi.ac.ke/";
   
-  dhis2_username="tujengejamii";
-  dhis2_Password="Usaidtujengejamii21!";
-  //dhis2_username="emmanuelkaunda";
+  dhis2_username="";
+  dhis2_Password="!";
+  //dhis2_username="";
   
-  //dhis2_Password="P@ssw0rd";
+  //dhis2_Password="";
   dhis2_API_URL="api/";
   
   dhis2_API_URL_orgUnits="organisationUnits.json?fields=id,name,level,parent,path,shortName&paging=false&links=false";  
