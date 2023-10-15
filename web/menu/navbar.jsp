@@ -12,7 +12,7 @@
 						<li class="nav-item">
 							<div class="dropdown">
 								<a class="dropdown-toggle h-drop" href="#" data-toggle="dropdown">
-									Dropdown
+									..
 								</a>
 								<div class="dropdown-menu profile-notification ">
 									<ul class="pro-body">
@@ -26,7 +26,7 @@
 						<li class="nav-item">
 							<div class="dropdown mega-menu">
 								<a class="dropdown-toggle h-drop" href="#" data-toggle="dropdown">
-									Mega
+									..
 								</a>
 								<div class="dropdown-menu profile-notification ">
 									<div class="row no-gutters">
@@ -82,7 +82,7 @@
 							<div class="dropdown">
 								<a class="dropdown-toggle" href="#" data-toggle="dropdown">
 									<i class="icon feather icon-bell"></i>
-									<span class="badge badge-pill badge-danger">5</span>
+									<span class="badge badge-pill badge-danger"></span>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right notification">
 									<div class="noti-head">

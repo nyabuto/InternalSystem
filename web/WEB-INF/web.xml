@@ -1761,6 +1761,18 @@
         <servlet-name>RawQueryUpdate</servlet-name>
         <servlet-class>RawQuery.RawQueryUpdate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>runStoredProcedure</servlet-name>
+        <servlet-class>emrDataVerification.runStoredProcedure</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pulldata</servlet-name>
+        <servlet-class>Analytics.pulldata</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>bfci_tracker</servlet-name>
+        <servlet-class>RAMCAH.bfci_tracker</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3520,6 +3532,18 @@
     <servlet-mapping>
         <servlet-name>RawQueryUpdate</servlet-name>
         <url-pattern>/RawQueryUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>runStoredProcedure</servlet-name>
+        <url-pattern>/runStoredProcedure</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pulldata</servlet-name>
+        <url-pattern>/pulldata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>bfci_tracker</servlet-name>
+        <url-pattern>/bfci_tracker</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

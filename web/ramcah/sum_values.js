@@ -98,11 +98,37 @@ function buildAutocalculate(dataelements,savebtn)
             }
          
      }
+     else  if(lftside.indexOf("/")>=0){
+         
+         
+            devide_and_return(innerdems[0],innerdems[1],savebtn);
+     }
      else {
         autocalculate(innerdems[0],innerdems[1],savebtn);
     }
   }
 }
+
+
+function devide_and_return(sourceindicators,destination_indicator,save_button){
+     var qt=0;
+     
+     var vals=sourceindicators.split('/');
+    
+    var num=document.getElementById(vals[0]).value;
+    var den=document.getElementById(vals[1]).value;
+    
+    
+   if(isNumber(num) && isNumber(den))
+   {
+       var ans=Math.round(((num/den)*100));
+       document.getElementById(destination_indicator).value=ans;
+       
+   }
+    
+    
+}
+
 
 function autocalculate_and_return(sourceindicators)
 {

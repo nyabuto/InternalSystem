@@ -196,7 +196,7 @@ legend.formatter {
                                                 int curyear=cal.get(Calendar.YEAR);
                                                  int curmn=cal.get(Calendar.MONTH)+1;
                                                 String selected="";
-                                                if(curmn>=10){curyear=curyear+1;}
+                                                if(curmn>=11){curyear=curyear+1;}
                                                 
                                             for(int a=curyear-3;a<=curyear;a++)
                                             {

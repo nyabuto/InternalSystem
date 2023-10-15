@@ -7,6 +7,7 @@
 
 
 
+<%@page import="General.IdGenerator2"%>
 <%@page import="database.dbConn"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -140,7 +141,7 @@
                      <div class="portlet-title">
                         <h4><i class="icon-reorder"></i> Upload a .xlsx excel file list containing Patient ccc numbers. The system will check the results from Vl Website and give you the results.
                         
-                            
+                            <% IdGenerator2 ig = new IdGenerator2();  %>
                             
                         </h4>
                        
@@ -155,9 +156,9 @@
                             <div class="control-group">
                               <label class="control-label"><b>VL Results Date:</b><font color='red'><b>*</b></font></label>
                            <div class="controls">
-                                  <input readonly required type="text" title="This is the date that the results were submitted" value="2019-10-01" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="dateVLDone">
+                                  <input readonly required type="text" title="This is the date that the results were submitted" value="2022-10-01" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="dateVLDone">
                              
-                            and  <input readonly  required type="text" title="this is the date that the week ended" value="" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
+                            and  <input readonly  required type="text" title="this is the date that the week ended" value="<%=ig.LastMonthEndDate() %>" class="form-control input-lg tarehe" name="weekend" id="weekend" autocomplete="off">
                              
                            </div>
                            </div>
@@ -505,7 +506,7 @@ $("#matokeo").html('<%=session.getAttribute("uploadedpns")%>');
     
     var leo = "" + currentdate.getFullYear() + "-"+ mn + "-"+ dt;
       
-        $("#weekend").val(leo);
+       // $("#weekend").val(leo);
         
     return leo;
     }  

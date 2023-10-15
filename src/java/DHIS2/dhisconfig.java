@@ -31,6 +31,7 @@ String  dhis2_API_URL_OrgunitGroup=null;
 String  dhis2_API_URL_F1a=null;  
 String  dhis2_API_URL_DailyART=null;  
 String  dhis2_API_URL_UploadF1a=null;  
+String  gmail_pass=null;  
 
   public dhisconfig()
   {
@@ -40,9 +41,16 @@ String  dhis2_API_URL_UploadF1a=null;
   //dhis2_Home_URL ="https://hiskenya.org/";
   dhis2_Home_URL ="https://partnermanagementsystem.uonbi.ac.ke/";
   
+
   dhis2_username="";
   dhis2_Password="!";
   //dhis2_username="";
+
+  dhis2_username="tujengejamii";
+  dhis2_Password="Usaidtujengejamii21!";
+  gmail_pass="jndhardsfmnmgfmx";
+  //dhis2_username="emmanuelkaunda";
+
   
   //dhis2_Password="";
   dhis2_API_URL="api/";
@@ -73,6 +81,14 @@ public String getDhis2_username() {
 
     public void setDhis2_Password(String dhis2_Password) {
         this.dhis2_Password = dhis2_Password;
+    }
+
+    public String getGmail_pass() {
+        return gmail_pass;
+    }
+
+    public void setGmail_pass(String gmail_pass) {
+        this.gmail_pass = gmail_pass;
     }
   
 }

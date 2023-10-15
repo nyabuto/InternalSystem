@@ -117,7 +117,7 @@ String userAccess;
            session.setAttribute("userAccess", userAccess);  
            status="success"; 
            if(level.equals("4")){nextPage="ramcahhome.jsp";} else {           
-           nextPage="home.jsp";
+           nextPage="imishome.jsp";
            }
           
            System.out.println("access rights : "+session.getAttribute("userAccess"));

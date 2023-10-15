@@ -389,6 +389,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                         //per each facility, get available data
         ArrayList requiredrows= new ArrayList();
         
+        
                                 
         requiredrows= convertResultSetToArrayList(getAnyDataFromDb(conn, "call internal_system.sp_pull_data_F1a_keys('"+mwakamwezi+"','"+mflcode+"');"));
         hmd=convertResultSetToMap(getAnyDataFromDb(conn, "call internal_system.sp_pull_data_F1a('"+mwakamwezi+"');"));

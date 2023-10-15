@@ -40,11 +40,13 @@ public class getIndicators extends HttpServlet {
           
             String scid="";
             String ds="";
+            String fg="";
             
             if(request.getParameter("fc")!=null){fc=request.getParameter("fc");}
             if(request.getParameter("ym")!=null){ym=request.getParameter("ym");}
             if(request.getParameter("scid")!=null){scid=request.getParameter("scid");}
             if(request.getParameter("ds")!=null){ds=request.getParameter("ds");}
+            if(request.getParameter("fg")!=null){fg=request.getParameter("fg");}
   
             
             
@@ -55,10 +57,11 @@ public class getIndicators extends HttpServlet {
             params.put("yearmonth", ym);
             params.put("facility", fc);
             params.put("orgunit", ds);
+            params.put("formgroup", fg);
            
             
            dbConn conn = new dbConn();
-           if(!fc.equals("")&&!ym.equals("")&&!ds.equals("")){
+           if(!fc.equals("")&&!ym.equals("")&&!ds.equals("")&&!fg.equals("")){
            //return tables
            out.println(getHtmlTable(conn,params));
            
@@ -144,8 +147,9 @@ String indicators="";
  JSONObject jo= getData(conn, pms);
     //Get a resultset of all th e indicators and loop through each as you check if the same data has been entered
     String orgunit=pms.get("orgunit").toString();
+    String formgroup=pms.get("formgroup").toString();
 int count=1;
-ResultSet r=pullIndicators(conn,orgunit);
+ResultSet r=pullIndicators(conn,orgunit,formgroup);
 
 
 String id="";
@@ -393,9 +397,9 @@ conn.rs=conn.st.executeQuery(qry);
 return conn.rs;
 
 }
-public ResultSet pullIndicators(dbConn conn, String orgunit) throws SQLException {
+public ResultSet pullIndicators(dbConn conn, String orgunit, String formgroup) throws SQLException {
 
-String qry="select * from internal_system.ramcah_sum_indicators where is_active='1' and  orgunit='"+orgunit+"' order by orodha asc";
+String qry="select * from internal_system.ramcah_sum_indicators where is_active='1' and  orgunit='"+orgunit+"' and formgroup='"+formgroup+"' order by orodha asc";
     System.out.println(""+qry);
 
 conn.rs=conn.st.executeQuery(qry);
@@ -407,7 +411,7 @@ return conn.rs;
 
 public ResultSet pullIndicatorsBySection(dbConn conn, String Section) throws SQLException {
 
-String qry="select * from internal_system.ramcah_sum_indicators where is_active='1' and  section='"+Section+"' order by orodha asc";
+String qry="select * from internal_system.ramcah_sum_indicators where is_active='1' and  section in ('"+Section+"') order by orodha asc";
     System.out.println(""+qry);
 
 conn.rs=conn.st.executeQuery(qry);

@@ -1,0 +1,220 @@
+<div class="row">
+			<!-- [ card ] start -->
+			
+                        
+                        <head>
+                            
+                            <style>
+                                
+                                .formcss{                                    
+                                    text-align: center;
+                                    color:#4b8df8;
+                                    border-color:#4b8df8;
+                                }
+                            </style>
+                            
+                        </head>
+                        
+			<div class="col-xl-12">
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<h5 class="formcss"><b>DATIM</b></h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								
+							
+								<%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
+                                                                
+                                                                <a target="_blank" href="DatimOutput.jsp" class="btn btn-light"><i class="feather icon-step-forward"></i>Datim Raw Reports</a>
+                                                                <a target="_blank" href="DatimScreens.jsp" class="btn btn-light"><i class="feather icon-clipboard"></i>DATIM Entry Screen (Excel)</a>
+                                                                
+                                                               
+	
+                                                                
+                                                                  <%}}%>
+								
+							</div>
+						</div>
+					</div>
+					
+                                  	
+				
+					<div class="col-sm-12 col-md-6">
+						<h5 class="formcss"><b>Query Reports</b></h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								
+							
+								<%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%>  
+                                                                <a target="_blank" href="RawQuery.jsp" class="btn btn-light"><i class="feather icon-cloud-upload"></i>Query Reports (Excel)</a>
+                                                                
+                                                               
+	 
+     
+                                                                
+                                                                
+                                                                  <%}}%>
+								
+							</div>
+						</div>
+					</div>
+					
+                                  	
+				</div>
+                                                                  
+                                                             
+                                              
+                         
+                                                                
+ 
+                                                                
+                                                             
+       
+                                                                
+                                                                
+                                                                
+ 
+                                                                
+                                                                
+			</div>
+			<div class="col-xl-12">
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<h5 class="formcss"><b>Master Facility List</b></h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								
+							
+								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
+                                                               
+                                                                <a target="_blank" href="masterlist.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Master Facility List</a>
+                                                                
+                                                                
+                                                                  <%}}%>
+								
+							</div>
+						</div>
+					</div>
+					
+                                  	
+				
+					<div class="col-sm-12 col-md-6">
+						<h5 class="formcss"><b>Training Reports</b></h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								
+							
+								  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
+                                                                <a target="_blank" href="T1SummaryReports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>Training Summary Report</a>
+                                                               
+       
+                                                                
+                                                                
+                                                                  <%}}%>
+								
+							</div>
+						</div>
+					</div>
+					
+                                  	
+				</div>
+                                                                  
+                            
+                                                                
+			</div>
+                        
+                      
+                                                                  
+        <div class="col-xl-12">
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<h5 class="formcss"><b>Surge Reports</b></h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								
+							
+								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
+                                                               
+                                                                <a target="_blank" href="../Cohorts/surgereports.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Surge Reports</a>
+                                                                
+                                                                
+                                                                  <%}}%>
+								
+							</div>
+						</div>
+					</div>
+					
+                                  	
+				
+					<div class="col-sm-12 col-md-6">
+						<h5 class="formcss"><b>HFR Reports</b></h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								
+							
+								  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
+                                                                <a target="_blank" href="../Cohorts/hfrreports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>HFR Reports</a>
+                                                               
+       
+                                                                
+                                                                
+                                                                  <%}}%>
+								
+							</div>
+						</div>
+					</div>
+					
+                                  	
+				</div>
+                                                                  
+                            
+                                                                
+			</div>
+                                                                  
+                                                                   <div class="col-xl-12">
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<h5 class="formcss"><b>Other Reports</b></h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								
+							
+								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
+                                                               
+                                                                <a target="_blank" href="../Cohorts/rri_gaps_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Service Gap Reports</a>
+                                                                <a target="_blank" href="../Cohorts/retention.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Retention Audit Reports</a>
+                                                                <a target="_blank" href="../Cohorts/otz_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>OTZ Reports</a>
+                                                                <a target="_blank" href="../Cohorts/ahd_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>AHD Reports</a>
+                                                                <a target="_blank" href="../Cohorts/hei_weekly_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>HEI Weekly Reports</a>
+                                                                <a target="_blank" href="../Cohorts/me_matrix_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>M&E Matrix Reports</a>
+                                                                <a target="_blank" href="../Cohorts/stockverification.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Stock Verification Reports</a>
+                                                                <a target="_blank" href="../Cohorts/upi_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>NUPI & Covid Reports</a>
+                                                                
+                                                                
+                                                                  <%}}%>
+								
+							</div>
+						</div>
+					</div>
+					
+                                  	
+				
+					
+                                  	
+				</div>
+                                                                  
+                            
+                                                                
+			</div>
+          
+                        
+		
+			<!-- [ card ] end -->
+		</div>
