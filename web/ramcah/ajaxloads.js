@@ -31,6 +31,7 @@
        if(ot==="facility"){act="getNakuruSites"; $("#ou").html("<font color='red'>*</font> <b>Facility Name</b>");}
        else if(ot==="ward"){act="getNakuruWards"; $("#ou").html("<font color='red'>*</font> <b>Ward Name</b>");}
        else if(ot==="subcounty"){act="getNakuruDistricts"; $("#ou").html("<font color='red'>*</font> <b>Sub-County Name</b>");}
+       else if(ot==="cu"){act="getNakuruCus"; $("#ou").html("<font color='red'>*</font> <b>Community Unit Name</b>");}
       if(ot!==''){
        loadSelectOptionsFromDb('facility',act);
               $('#facility').select2(); 

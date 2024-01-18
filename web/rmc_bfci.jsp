@@ -197,9 +197,8 @@ input[readonly]{
 
 <div class='form-group col-md-4'>
 <label for='donor_name'><b>Organisation Type<font color='red'>*</font></b></label>
-<select required="true" type='select' onchange="getFacilitiesJson();isdisplayindicators();" class='form-control' id='dataset' name='dataset'  ><option value='facility'>Facility</option></select>
+<select required="true" type='select' onchange="getFacilitiesJson();isdisplayindicators();" class='form-control' id='dataset' name='dataset'  ><option value='cu'>Community Unit</option></select>
 <input type="hidden" value="bfci" name="formgroup" id="formgroup">
-
 </div>
 
 <div class='form-group col-md-4'>

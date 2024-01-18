@@ -121,7 +121,7 @@ public class uploadf1a extends HttpServlet {
             String subpartnerid = "", yearmonth = "", month = "";
             
             String uploadstatus="";
-            String lastexcelid="284";
+            String lastexcelid="502";
             
             session = request.getSession();
             if (session.getAttribute("userid") != null) {
@@ -166,7 +166,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 7.0.1";
+            String activeversion = "Form 1A  version 8.0.0";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -483,10 +483,16 @@ while (conn.rs2.next()) {
             String val = "";
             
             XSSFCell valcell = worksheet.getRow(poirow).getCell((short) d + startcol);
-            //System.out.println("For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
+           // System.out.println("___For indicator => "+indicatorid+", age=> "+colskey.get(d)+" => color : "+valcell.getCellStyle().getFillBackgroundColorColor());
             
-            
-            
+           
+           
+            if(valcell==null){
+            val ="";
+                  insert += colskey.get(d).toString() + "=null, ";
+                
+            }
+            else {
             switch (valcell.getCellType()) {
                 case 0:
                     val = "" + (int) valcell.getNumericCellValue(); //integer
@@ -517,6 +523,7 @@ while (conn.rs2.next()) {
             } else {
             insert += colskey.get(d).toString() + "='" + val + "', ";
                    }
+        }
             
         }
         
@@ -647,9 +654,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 6.0.0 <a href='uploadf1a.jsp'>Upload Version 6.0.0 here</href> <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 8.0.0 <a href='uploadf1a.jsp'>Upload Version 8.0.0 here</href> <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 6.0.0. <a href='uploadf1a.jsp'>Upload Version 6.0.0 here</href> \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 8.0.0. <a href='uploadf1a.jsp'>Upload Version 8.0.0 here</href> \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
@@ -1172,13 +1179,16 @@ count++;
      {
 boolean iscomplete=true;
         
-        try {
+        try 
+        {
             //sample yearmonth_subpartnerid   '201901_226','201902_226','201903_226'
             
             //delete the updated data
             //select * from fas_temp where concat(yearmonth,'_',facility_id) in ('201901_226','201901_377','201902_377','201902_226','201903_226')
             String deleteqry = "delete from fas_temp where concat(yearmonth,'_',facility_id) in ("+yearmonth_subpartnerid+") ";
+            
             conn.st_1.executeUpdate(deleteqry);
+        
         } catch (SQLException ex) 
         {
             iscomplete=false;

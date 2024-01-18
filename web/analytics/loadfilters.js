@@ -6,6 +6,7 @@
 
 
 
+
 function loadmonths(){
     
     var dt=new Date();
@@ -43,8 +44,9 @@ success:function (data){
             dataType:'html',
             success:function (data){
                 $("#county").html(data);
-                loadsubcounty();
-                loadfacils();
+                 $('#county').select2();  
+               
+                //loadfacils();
               //  App.init();   
             }
             
@@ -53,23 +55,24 @@ success:function (data){
         
     }
     
+   
     
        function loadsubcounty(){
            
            
            
         
-        var county=document.getElementById("county").value;
+        var mdt=document.getElementById("mdt").value;
         $.ajax({
-            url:'loadSubcounty?county='+county,
+            url:'loadSubcountymdt?mdt='+mdt,
             type:'post',
             dataType:'html',
             success:function (data)
             {
                 $("#subcounty").html(data.replace("<option value=''>Select sub-county</option>",""));
                 var select = document.getElementById('subcounty');
-                    select.size = select.length;
-                
+                    //select.size = select.length;
+                 $('#subcounty').select2();  
               //  App.init();   
             }
             
@@ -78,34 +81,37 @@ success:function (data){
       return true;  
     }
     
+    loadsubcounty();
     
-       function loadsubcounty2(arr,far){
+    
+    
+     function loadmdt(){
            
            
            
         
         var county=document.getElementById("county").value;
         $.ajax({
-            url:'loadSubcounty?county='+county,
+            url:'loadMdt?county='+county,
             type:'post',
             dataType:'html',
             success:function (data)
             {
-                $("#subcounty").html(data.replace("<option value=''>Select sub-county</option>",""));
-                var select = document.getElementById('subcounty');
-                select.size = select.length;
-                 $("#subcounty").val(arr);  
-                 
-                 loadfacil2(far);
+                $("#mdt").html(data.replace("<option value=''>Select Mdt</option>",""));
+                var select = document.getElementById('mdt');
+                    //select.size = select.length;
+                 $('#mdt').select2();  
               //  App.init();   
             }
             
             
         });
-       
+      return true;  
     }
     
+     $('#mdt').select2();  
     
+     
     
     
     
@@ -133,7 +139,7 @@ success:function (data){
 
 }); 
 }
-    
+    loadfacils();
  
     
     
@@ -165,5 +171,93 @@ success:function (data){
 }
     
  
- loadcounty();
+ 
 
+
+function getPeriod(){
+       
+ 
+       
+       
+              $.ajax({
+                         url:'loadyearmonth',                            
+                    type:'post',  
+                    dataType: 'json',  
+                    success: function(data) {                        
+                       
+        var dat=data.periods;
+        
+      
+        var o="";
+                        
+                        for(var a=0;a<dat.length;a++)
+                        {                           
+                     
+                          o+="<option value='"+dat[a].id+"'>"+dat[a].year+" "+dat[a].month+"</option>";   
+                        }
+                        
+                   $("#startdate").html(o);
+                   $("#enddate").html(o);
+                   $(document).ready(function() {
+                    $('#startdate').select2(); 
+                    $('#enddate').select2(); 
+             
+                                 } ); 
+                        
+                        
+                    }});
+   
+   }
+   
+
+getPeriod();
+
+
+
+function loadact(act){
+     
+     
+     
+   
+     var ct=$("#county").val();
+     var mdt=$("#mdt").val();
+     var sct=$("#subcounty").val();
+     var fac=$("#facility").val();
+     
+            //now load the data
+          $.ajax({
+                    url:'pulldata',                            
+                    type:'post',  
+                    dataType: 'json',  
+                    data:{act:act,ct:ct,mdt:mdt,sct:sct,fc:fac},
+                    success: function(data) 
+                    {
+                        var dt = data;
+       
+        console.log(data);
+        $("#Total_Sites").html(data[0].Total_Sites);
+        $("#HTS").html(data[0].HTS);
+        $("#ART").html(data[0].ART);
+        $("#PMTCT").html(data[0].PMTCT);
+        $("#EMR").html(data[0].EMR);
+        $("#poc").html(data[0].poc);
+        $("#ehts").html(data[0].ehts);
+        $("#labmanifest").html(data[0].labmanifest);
+        $("#Ushauri").html(data[0].Ushauri);
+        $("#districts").html(data[0].districts);
+        $("#counties").html(data[0].county);
+                        
+                    }});    
+           
+              
+}
+
+loadact('getSitesSummary');
+
+
+function updt(){
+ loadact('getSitesSummary');   
+    
+}
+
+  

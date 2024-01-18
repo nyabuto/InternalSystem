@@ -26,8 +26,8 @@
 							
 								<%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
                                                                 
-                                                                <a target="_blank" href="DatimOutput.jsp" class="btn btn-light"><i class="feather icon-step-forward"></i>Datim Raw Reports</a>
-                                                                <a target="_blank" href="DatimScreens.jsp" class="btn btn-light"><i class="feather icon-clipboard"></i>DATIM Entry Screen (Excel)</a>
+                                                                <a  href="DatimOutput.jsp" class="btn btn-light"><i class="feather icon-step-forward"></i>Datim Raw Reports</a>
+                                                                <a  href="DatimScreens.jsp" class="btn btn-light"><i class="feather icon-clipboard"></i>DATIM Entry Screen (Excel)</a>
                                                                 
                                                                
 	
@@ -48,7 +48,7 @@
 								
 							
 								<%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%>  
-                                                                <a target="_blank" href="RawQuery.jsp" class="btn btn-light"><i class="feather icon-cloud-upload"></i>Query Reports (Excel)</a>
+                                                                <a  href="RawQuery.jsp" class="btn btn-light"><i class="feather icon-cloud-upload"></i>Query Reports (Excel)</a>
                                                                 
                                                                
 	 
@@ -90,7 +90,7 @@
 							
 								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
                                                                
-                                                                <a target="_blank" href="masterlist.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Master Facility List</a>
+                                                                <a  href="masterlist.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Master Facility List</a>
                                                                 
                                                                 
                                                                   <%}}%>
@@ -109,7 +109,7 @@
 								
 							
 								  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
-                                                                <a target="_blank" href="T1SummaryReports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>Training Summary Report</a>
+                                                                <a  href="T1SummaryReports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>Training Summary Report</a>
                                                                
        
                                                                 
@@ -140,7 +140,7 @@
 							
 								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
                                                                
-                                                                <a target="_blank" href="../Cohorts/surgereports.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Surge Reports</a>
+                                                                <a  href="../Cohorts/surgereports.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Surge Reports</a>
                                                                 
                                                                 
                                                                   <%}}%>
@@ -159,7 +159,7 @@
 								
 							
 								  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
-                                                                <a target="_blank" href="../Cohorts/hfrreports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>HFR Reports</a>
+                                                                <a  href="../Cohorts/hfrreports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>HFR Reports</a>
                                                                
        
                                                                 
@@ -188,14 +188,14 @@
 							
 								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
                                                                
-                                                                <a target="_blank" href="../Cohorts/rri_gaps_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Service Gap Reports</a>
-                                                                <a target="_blank" href="../Cohorts/retention.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Retention Audit Reports</a>
-                                                                <a target="_blank" href="../Cohorts/otz_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>OTZ Reports</a>
-                                                                <a target="_blank" href="../Cohorts/ahd_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>AHD Reports</a>
-                                                                <a target="_blank" href="../Cohorts/hei_weekly_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>HEI Weekly Reports</a>
-                                                                <a target="_blank" href="../Cohorts/me_matrix_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>M&E Matrix Reports</a>
-                                                                <a target="_blank" href="../Cohorts/stockverification.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Stock Verification Reports</a>
-                                                                <a target="_blank" href="../Cohorts/upi_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>NUPI & Covid Reports</a>
+                                                                <a  href="../Cohorts/rri_gaps_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Service Gap Reports</a>
+                                                                <a  href="../Cohorts/retention.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Retention Audit Reports</a>
+                                                                <a  href="../Cohorts/otz_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>OTZ Reports</a>
+                                                                <a  href="../Cohorts/ahd_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>AHD Reports</a>
+                                                                <a  href="../Cohorts/hei_weekly_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>HEI Weekly Reports</a>
+                                                                <a  href="../Cohorts/me_matrix_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>M&E Matrix Reports</a>
+                                                                <a  href="../Cohorts/stockverification.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Stock Verification Reports</a>
+                                                                <a  href="../Cohorts/upi_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>NUPI & Covid Reports</a>
                                                                 
                                                                 
                                                                   <%}}%>

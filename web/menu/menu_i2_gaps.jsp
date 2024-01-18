@@ -23,11 +23,17 @@
 						<div class="card text-left">
 							<div class="card-body">
 								
-								<a href="gapanalysis.jsp" class="btn btn-light"><i class="feather icon-save"></i>Export Gaps ( Excel)</a>
+			    <a href="gapanalysis.jsp" class="btn btn-light"><img style="width:150px;" src="./images/icons/download.png" class="img img-circle" />Export Gaps ( Excel)</a>
+                                                                
+                                                             
+                                                                
+                            <a style="margin: 5px;" href="ManageGaps.jsp" class="btn btn-light"><img style="width:150px;" src="./images/icons/manage_gap.png" class="img img-circle" /> Account for / Approve Gaps</a>
+                            
+                            <a  style="margin: 5px;" href="../Cohorts/rri_gaps_main.jsp" class="btn btn-light"><img style="width:150px;" src="./images/icons/service_gap.png" class="img img-circle" /> RRI Service Gaps</a>
+                                                                
 								<%if(session.getAttribute("access_gapanalysis")!=null){if(session.getAttribute("access_gapanalysis").toString().equals("1")){%>
-                                                                <a href="uploadf1a.jsp" class="btn btn-light"><i class="feather icon-upload"></i>Upload Gaps</a>
-                                                                <a style="margin: 5px;" href="ManageGaps.jsp" class="btn btn-light"><i class="feather icon-settings"></i> Account for / Approve Gaps</a>
-                                                                <a target="_blank" style="margin: 5px;" href="../Cohorts/rri_gaps_main.jsp" class="btn btn-light"><i class="feather icon-align-justify"></i> RRI Service Gaps</a>
+                                                                <a href="UploadGaps.jsp" class="btn btn-light"><img style="width:150px;" src="./images/icons/export.png" class="img img-circle" />Upload Gaps</a>
+                                                                <a style="margin: 5px;" href="ManageGaps.jsp" class="btn btn-light"><img style="width:150px;" src="./images/icons/manage_gap.png" class="img img-circle" /> Account for / Approve Gaps</a>
                                                                 
                                                                 
                                                                 <%}}%>

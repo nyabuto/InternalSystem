@@ -60,13 +60,13 @@
 							<div class="tab-pane fade show active" id="pills-summary" role="tabpanel" aria-labelledby="pills-summary-tab">
 								<!----Summary---->
                                                             
-                                                                <%@include file="../imisdashboards.jsp" %> 
+                                                                <%@include file="../analytics/imisdashboards.jsp" %> 
                                                             
                                                             
 							</div>
 							<div class="tab-pane fade" id="pills-prevention" role="tabpanel" aria-labelledby="pills-prevention-tab">
 								                           <!----Prevention---->
-                                                           <%@include file="../imischarts.jsp" %> 
+                                                                                           <%@include file="../analytics/imischarts.jsp" %> 
                                                             
                                                             
 							</div>

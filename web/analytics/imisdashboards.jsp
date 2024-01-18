@@ -60,7 +60,7 @@
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="floating-label" for="county">County</label>
-                                        <select required='true' class='form-control' id='county' name='county'  ></select>
+                                        <select onchange="loadmdt(); updt()" required='true' class='form-control' id='county' name='county'  ></select>
                                     </div>
                                 </div>
                                 
@@ -68,7 +68,7 @@
                                   <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="floating-label" for="mdt">MDT Region</label>
-                                        <select required='true' class='form-control' id='mdt' name='mdt'  ></select>
+                                        <select onchange="loadsubcounty();updt();" required='true' class='form-control' id='mdt' name='mdt'  ></select>
                                     </div>
                                 </div>
                                 
@@ -76,25 +76,25 @@
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="floating-label" for="subcounty">Sub-County</label>
-                                        <select required='true' class='form-control' id='subcounty' name='subcounty'  ></select>
+                                        <select onchange="loadfacils();updt();" required='true' class='form-control' id='subcounty' name='subcounty'  ></select>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="floating-label" for="facility">Facility</label>
-                                         <select required='true' class='form-control' id='facility' name='facility'  ></select>
+                                         <select onchange="updt();" required='true' class='form-control' id='facility' name='facility'  ></select>
                                     </div>
                                 </div>
                                  <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="floating-label" for="startyearmonth">Start Period</label>
-                                        <select required='true' class='form-control' id='startyearmonth' name='startyearmonth'  ></select>
+                                        <select required='true' class='form-control' id='startdate' name='startdate'  ></select>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="floating-label" for="facility">End Period</label>
-                                         <select required='true' class='form-control' id='endyearmonth' name='endyearmonth'  ></select>
+                                         <select required='true' class='form-control' id='enddate' name='enddate'  ></select>
                                     </div>
                                 </div>
                             </div>
@@ -124,12 +124,19 @@
                     <!-- widget primary card start -->
                 <div class="card flat-card widget-profile-card">
                     <div class="row-table">
-                        <div class="col-sm-3 card-body">
+                        <div class="col-sm-2 card-body">
                             <i class="feather text-c-red icon-map"></i>
                         </div>
-                        <div class="col-sm-9">
-                            <h4>4</h4>
+                        <div class="col-sm-4">
+                            <h4 id="counties">4</h4>
                             <label>Supported Counties</label>
+                        </div>
+                        <div class="col-sm-2 card-body">
+                            <i class="feather text-c-red icon-map"></i>
+                        </div>
+                        <div class="col-sm-4">
+                            <h4 id="districts">4</h4>
+                            <label>Supported sub-counties</label>
                         </div>
                     </div>
                 </div>
@@ -260,7 +267,7 @@
                                     <i class="icon feather icon-smartphone text-c-red mb-1 d-block"></i>
                                 </div>
                                 <div class="col-sm-8 text-md-center">
-                                    <h5 id="PMTCT">36</h5>
+                                    <h5 id="Ushauri">36</h5>
                                      <label >Ushauri Sites</label>
                                 </div>
                             </div>

@@ -30,18 +30,19 @@
 		 <% if(!session.getAttribute("level").toString().equals("1")){  %>  
                  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>
                                                                
-                                                                <a target="_blank" href="refreshDHIS2.jsp" class="btn btn-light"><i class="feather icon-refresh-cw"></i>Refresh PPMS Data Sets</a>
-                                                                <a target="_blank" href="addUsers.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Create User Accounts</a>
-                                                                <a target="_blank" href="Access_Rights.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Manage User Rights</a>
-                                                                <a target="_blank" href="editFacility.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Facility Management</a>
-                                                                <a target="_blank" href="datalock.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Lock/Unlock Data Entry</a>
+                                                                <a  href="refreshDHIS2.jsp" class="btn btn-light"><i class="feather icon-refresh-cw"></i>Refresh PPMS Data Sets</a>
+                                                                <a  href="addUsers.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Create User Accounts</a>
+                                                                <a  href="Access_Rights.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Manage User Rights</a>
+                                                                <a  href="editFacility.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Facility Management</a>
+                                                                <a  href="datalock.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Lock/Unlock Data Entry</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/rri_gaps_load_baselines.jsp" class="btn btn-light"><i class="feather icon-refresh-cw"></i>Refresh Service Gaps Baselines</a>
                                                                
                                                                
                                                                 
                                                                 
                                                                   <%}}%>
                                                                   
-                                                              <a target="_blank" href="editProfile.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Edit Profile</a>     
+                                                              <a  href="editProfile.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Edit Profile</a>     
 
 <%}%>
 								

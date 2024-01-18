@@ -39,7 +39,7 @@ String  gmail_pass=null;
   dhis2_Name ="USAID Tujenge Jamii";
   //dhis2_Home_URL ="https://dhis-afyanyota.fhi360.org/";
   //dhis2_Home_URL ="https://hiskenya.org/";
-  dhis2_Home_URL ="https://partnermanagementsystem.uonbi.ac.ke/";
+ dhis2_Home_URL ="https://partnermanagementsystem.uonbi.ac.ke/";
   
 
   dhis2_username="";
@@ -52,7 +52,7 @@ String  gmail_pass=null;
   //dhis2_username="emmanuelkaunda";
 
   
-  //dhis2_Password="";
+ // dhis2_Password="P@ssw0rd";
   dhis2_API_URL="api/";
   
   dhis2_API_URL_orgUnits="organisationUnits.json?fields=id,name,level,parent,path,shortName&paging=false&links=false";  

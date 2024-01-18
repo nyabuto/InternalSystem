@@ -13,7 +13,7 @@
 				
 				<div class="">
 					<div class="main-menu-header">
-						<img class="img-radius" src="rmc_assets/images/user/avatar.png" alt="User-Profile-Image">
+                                            <img class="img-radius" src="images/imis.png" alt="User-Profile-Image">
 						<div class="user-details">
                                                    <%if(session.getAttribute("kd_session")!=null){
                                                        
@@ -68,8 +68,8 @@
 <!--					<li class="nav-item pcoded-hasmenu">
 					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Page layouts</span></a>
 					    <ul class="pcoded-submenu">
-					        <li><a href="layout-vertical.html" target="_blank">Vertical</a></li>
-					        <li><a href="layout-horizontal.html" target="_blank">Horizontal</a></li>
+					        <li><a href="layout-vertical.html" >Vertical</a></li>
+					        <li><a href="layout-horizontal.html" >Horizontal</a></li>
 					    </ul>
 					</li>-->
 					
@@ -77,8 +77,8 @@
 <!--					<li class="nav-item pcoded-hasmenu">
 					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Excel Based Reports</span></a>
 					    <ul class="pcoded-submenu">
-					        <li><a href="auth-signup.html" target="_blank">Sign up</a></li>
-					        <li><a href="auth-signin.html" target="_blank">Sign in</a></li>
+					        <li><a href="auth-signup.html" >Sign up</a></li>
+					        <li><a href="auth-signin.html" >Sign in</a></li>
 					    </ul>
 					</li>-->
                                         

@@ -48,10 +48,10 @@
                             <div class="form-inline">
                             
                                     
-                                        <label class="form-group col-md-1 floating-label" for="facility"> Queries </label>
+                                        <label class="form-group col-md-1 floating-label" for="facility"> <b>Queries</b> </label>
                                         
                                         
-                                         <select style="width:70%;" required='true' class='form-group  col-md-4' name="queryhistory" id="queryhistory"  onchange="showqry();"  ></select>
+                                         <select style="width:70%;"  class='form-group  col-md-4' name="queryhistory" id="queryhistory"  onchange="showqry();"  ></select>
                                    
                                 
                                 

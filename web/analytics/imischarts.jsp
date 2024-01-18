@@ -44,7 +44,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Basic line chart</h5>
+                        <h5>Prep Initiation Trendline</h5>
                     </div>
                     <div class="card-body">
                         <div id="line-chart-1"></div>
@@ -54,7 +54,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Area chart</h5>
+                        <h5>PrEP_New vs PREP_CT</h5>
                     </div>
                     <div class="card-body">
                         <div id="area-chart-1"></div>
@@ -64,7 +64,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Bar chart</h5>
+                        <h5>PrEP Initiation Trend</h5>
                     </div>
                     <div class="card-body">
                         <div id="bar-chart-1"></div>
@@ -74,7 +74,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Bar chart stacked</h5>
+                        <h5>Prep Initiation and Retention</h5>
                     </div>
                     <div class="card-body">
                         <div id="bar-chart-2"></div>

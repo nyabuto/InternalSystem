@@ -70,6 +70,7 @@ textarea {
   width: 98%;
   border-color: black;
   font-size: 17px;
+  border-radius:5px ;
 }
                     
                 </style>
@@ -308,7 +309,7 @@ function showqry(){
     
     var vl1=$("#queryhistory").val();
     
-   $("#query").html(vl1);
+   $("#query").val(vl1);
     
     
 }

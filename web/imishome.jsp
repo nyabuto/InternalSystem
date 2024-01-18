@@ -22,7 +22,7 @@
 	<link rel="stylesheet" href="rmc_assets/css/style.css">
 	
 	   <link rel="stylesheet" href="select2/css/select2.css"/>
-
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
 </head>
 <body class="">
 	<!-- [ Pre-loader ] start -->
@@ -111,30 +111,39 @@
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-								
-                                                            
+			<h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-bar-chart-2"></i> Dashboards</h4>	
+                                                            <hr>
+                                                            <div style="overflow-y:scroll; height:90vh;overflow-x:hidden ;">
                                                             <%@include file="menu/menu_i2_charts.jsp" %> 
                                                             
+                                                            </div>
                                                             
 							</div>
 							<div class="tab-pane fade" id="pills-forms" role="tabpanel" aria-labelledby="pills-forms-tab">
-								<div style="overflow-y:scroll; height:90vh;overflow-x:hidden ;">
+		<h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-clipboard"></i> Forms</h4>	
+                        
+                                                            <div style="overflow-y:scroll; height:90vh;overflow-x:hidden ;">
+                                                                
                                                             <%@include file="menu/menu_i2_forms.jsp" %> 
                                                             </div>
                                                             
 							</div>
 							<div class="tab-pane fade" id="pills-gapanalysis" role="tabpanel" aria-labelledby="pills-gapanalysis-tab">
+                                                            
+                                                           <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-activity"></i>GAP Analysis</h4>
+                                                            
                                                            <%@include file="menu/menu_i2_gaps.jsp" %> 
 							</div>
                                                             
                                                         <div class="tab-pane fade" id="pills-reprates" role="tabpanel" aria-labelledby="pills-reprates-tab">
+                                                            <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-watch"></i>Reporting Rates</h4>
                                                             <!----Reporting Rates---->
                                                             <%@include file="menu/menu_i2_missingreps.jsp"  %>
 							</div>
                                                         <div class="tab-pane fade" id="pills-queries" role="tabpanel" aria-labelledby="pills-queries-tab">
                                                             <!----Queries---->
                                                            
-                   <%@include file="queries/menu_i2_queries.jsp" %>                                           
+                                                        <%@include file="queries/menu_i2_queries.jsp" %>                                           
                                                             
                                                             
 
@@ -142,23 +151,31 @@
 							</div>
                                                          <div class="tab-pane fade" id="pills-dataexchange" role="tabpanel" aria-labelledby="pills-dataexchange-tab">
                                                             <!----Data Exchange---->
-                                                            
+                                                            <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-disc"></i> Data Import/Export </h4>
                                                             <%@include file="menu/menu_i2_dataexchange.jsp" %> 
                                                             
 							</div>  
-                                                            <div class="tab-pane fade" id="pills-emr" role="tabpanel" aria-labelledby="pills-emr-tab">
+                                                    <div class="tab-pane fade" id="pills-emr" role="tabpanel" aria-labelledby="pills-emr-tab">
+                                                        
                                                             <!----EMR---->
+                    <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-clipboard"></i> EMR</h4>
                                                             <%@include file="menu/menu_i2_emr.jsp" %> 
 							</div> 
                                                         <div class="tab-pane fade" id="pills-reports" role="tabpanel" aria-labelledby="pills-reports-tab">
+                            <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-clipboard"></i>Report Outputs</h4>
                                                             <!----Excel Reports---->
                                                             <%@include file="menu/menu_i2_reports.jsp" %> 
 							</div> 
                                                         <div class="tab-pane fade" id="pills-moremodules" role="tabpanel" aria-labelledby="pills-moremodules-tab">
+                          <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-clipboard"></i> More Reporting Modules</h4>
                                                             <!----More Modules---->
+                                                            
+                                                            <%@include file="menu/menu_i2_extras.jsp" %> 
+                                                            
 							</div> 
                                                             
                                                         <div class="tab-pane fade" id="pills-management" role="tabpanel" aria-labelledby="pills-management-tab">
+                           <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-settings"></i>System Management</h4>
                                                             <!----Manaegements---->
                                                             
                                                             <%@include file="menu/menu_i2_management.jsp" %>
@@ -183,8 +200,8 @@
     <script src="rmc_assets/js/vendor-all.min.js"></script>
     <script src="rmc_assets/js/plugins/bootstrap.min.js"></script>
     <script src="rmc_assets/js/pcoded.min.js"></script>
-
-                                                           
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>                                    -->
 <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->  
                                                            
 <script src="select2/js/select2.js"></script>         
@@ -206,6 +223,9 @@ success:function (data){
 }
 });
 
+ loadcounty();
+
+//$('#county').select2();
 
 });
                                                                

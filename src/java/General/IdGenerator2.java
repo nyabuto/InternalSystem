@@ -115,6 +115,16 @@ String last_reporting_month=ReportingEndDate(prevmonth, year);
     }
    
    
+     public String CurrentMonthEndDate(){
+       
+       int mwaka=currentYear();
+        
+
+String last_reporting_month=ReportingEndDate(month, year);
+
+       return  mwaka+"-"+last_reporting_month;
+    }
+   
     
     public String LastMonth(){
        
@@ -252,6 +262,70 @@ String last_reporting_month=ReportingEndDate(prevmonth, year);
   
      return mwezini+"-01";
   }
+  
+    
+    
+  public String LastQuarterStartDate(String dt)
+  {
+  //2023-10-01
+      String lastquarterstartdate="";
+      String dts[]=dt.split("-");
+      
+      String mn=dts[1];
+      String yr1=dts[0];
+      
+      if(mn.equals("10") || mn.equals("11") || mn.equals("12"))
+      {  
+  lastquarterstartdate=dts[0]+"-07-01";      
+      }
+      else  if(mn.equals("01") || mn.equals("02") || mn.equals("03"))
+      {  
+   int ly=new Integer(yr1)-1;
+  lastquarterstartdate=ly+"-10-01";     
+      }
+        else  if(mn.equals("04") || mn.equals("05") || mn.equals("06"))
+      {  
+  lastquarterstartdate=dts[0]+"-01-01";      
+      }
+        else  if(mn.equals("07") || mn.equals("08") || mn.equals("09"))
+      {  
+  lastquarterstartdate=dts[0]+"-04-01";      
+      }
+      
+  return lastquarterstartdate;
+  }  
+    
+  
+  
+    public String LastQuarterEndDate(String dt)
+  {
+  //2023-10-01
+      String lastquarterstartdate="";
+      String dts[]=dt.split("-");
+      
+      String mn=dts[1];
+      String yr1=dts[0];
+      if(mn.equals("10") || mn.equals("11") || mn.equals("12"))
+      {  
+  lastquarterstartdate=dts[0]+"-09-30";      
+      }
+      else  if(mn.equals("01") || mn.equals("02") || mn.equals("03"))
+      {  
+          
+          int ly=new Integer(yr1)-1;
+  lastquarterstartdate=ly+"-12-31";     
+      }
+        else  if(mn.equals("04") || mn.equals("05") || mn.equals("06"))
+      {  
+  lastquarterstartdate=dts[0]+"-03-31";      
+      }
+        else  if(mn.equals("07") || mn.equals("08") || mn.equals("09"))
+      {  
+  lastquarterstartdate=dts[0]+"-06-30";      
+      }
+      
+  return lastquarterstartdate;
+  }  
   
   
 }

@@ -191,7 +191,7 @@ legend.formatter {
                                                 int curyear=cal.get(Calendar.YEAR);
                                                  int curmn=cal.get(Calendar.MONTH)+1;
                                                 String selected="";
-                                                if(curmn>=11){curyear=curyear+1;}
+                                                if(curmn>=10){curyear=curyear+1;}
                                                 
                                             for(int a=curyear-1;a<=curyear;a++)
                                             {
@@ -272,9 +272,9 @@ legend.formatter {
                                 <b>Action</b> <font color="red"></font>
                                </td><td>
                                  <select  style="width:300px;float:right;color:black;" data-placeholder="Facility" class="span6" tabindex="-1"  id="correction_form" name="correction_form">
-                                    <option value="F1v7">Full Form 1a</option>
-                                    <option value="F1v7_linkage">Linkage Section Only</option>
-                                    <option value="F1v7_cxca">CXCA Section Only</option>
+                                    <option value="F1v8">Full Form 1a</option>
+                                    <option value="F1v8_linkage">Linkage Section Only</option>
+                                    <option value="F1v8_cxca">CXCA Section Only</option>
                                     <!--<option value="F1v6_prev">Form 1a without Prep New Subpopulation</option>-->
                                  </select></div>  
                            </td></tr>

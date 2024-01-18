@@ -60,30 +60,42 @@ public class pulldata extends HttpServlet {
             String act="";
             String county="";
             String subcounty="";
-            String fac="";
+            String fc="";
             String startdate="";
             String enddate="";
+            String mdt="";
            
           
             //loadmtrs_sel_val,act=loadmothers,fac
             
             if(request.getParameter("act")!=null){act=request.getParameter("act");}
-            if(request.getParameter("fac")!=null){fac=request.getParameter("fac");}
+            if(request.getParameter("fc")!=null){fc=request.getParameter("fc");}
             if(request.getParameter("ct")!=null){county=request.getParameter("ct");}
+            if(request.getParameter("mdt")!=null){mdt=request.getParameter("mdt");}
             if(request.getParameter("sct")!=null){subcounty=request.getParameter("sct");}
             if(request.getParameter("sd")!=null){startdate=request.getParameter("sd");}
             if(request.getParameter("ed")!=null){enddate=request.getParameter("ed");}
              
-             
+            // System.out.println("______Pulling Data from "+act);
              //A table will load both headers and data values dynamically
+             
+             
+             String mywhere="";
+             
+             if(!fc.equals("")){mywhere=" and subpartnera.SubPartnerID in (\""+fc+"\") ";}
+             else if(!subcounty.equals("")){mywhere=" and subpartnera.DistrictID in (\""+subcounty+"\") ";}
+             else if(!mdt.equals("")){mywhere=" and mdt in (\""+mdt+"\") ";}
+             else if(!county.equals("")){mywhere=" and district.CountyID in (\""+county+"\") ";}
+             
           
             //get
             if(act.equals("getSitesSummary"))
-            {               
+            {       
+                 System.out.println("______Pulling Data from "+act);
              //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
                // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
-               ResultSet rs1=pullDataFromDbGivenQuery(conn,"call internal_system.analytics_sites_summary(\"\");");
-                System.out.println("______Pulling Data from "+act);
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"call internal_system.analytics_sites_summary('"+mywhere+"');");
+               
                 out.println(toJsonFormatDynamic(rs1));                                               
     
             }

@@ -23,7 +23,7 @@ $(document).ready(function() {
                     data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
                 }],
                 title: {
-                    text: 'Product Trends by Month',
+                    text: 'Prep New BY Month',
                     align: 'left'
                 },
                 grid: {
@@ -101,28 +101,25 @@ $(document).ready(function() {
                 dataLabels: {
                     enabled: false
                 },
-                colors: ["#0e9e4a", "#1abc9c", "#e74c3c"],
+                colors: ["#ff0000", "#1abc9c"],
                 stroke: {
                     show: true,
                     width: 2,
                     colors: ['transparent']
                 },
                 series: [{
-                    name: 'Net Profit',
-                    data: [44, 55, 57, 56, 61, 58, 63]
+                    name: 'Target',
+                    data: [100, 100, 100, 100, 11, 100, 100]
                 }, {
-                    name: 'Revenue',
-                    data: [76, 85, 101, 98, 87, 105, 91]
-                }, {
-                    name: 'Free Cash Flow',
-                    data: [35, 41, 36, 26, 45, 48, 52]
+                    name: 'Achieved',
+                    data: [23, 30, 44, 55, 63, 78, 91]
                 }],
                 xaxis: {
                     categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
                 },
                 yaxis: {
                     title: {
-                        text: '$ (thousands)'
+                        text: '# Initiated'
                     }
                 },
                 fill: {
@@ -132,7 +129,7 @@ $(document).ready(function() {
                 tooltip: {
                     y: {
                         formatter: function(val) {
-                            return "$ " + val + " thousands"
+                            return "# " + val + " Patients"
                         }
                     }
                 }
@@ -173,16 +170,16 @@ $(document).ready(function() {
                     },
                 },
                 series: [{
-                    name: 'PRODUCT A',
+                    name: 'Baringo',
                     data: [44, 55, 41, 67, 22, 43]
                 }, {
-                    name: 'PRODUCT B',
+                    name: 'Laikipia',
                     data: [13, 23, 20, 8, 13, 27]
                 }, {
-                    name: 'PRODUCT C',
+                    name: 'Nakuru',
                     data: [11, 17, 15, 15, 21, 14]
                 }, {
-                    name: 'PRODUCT D',
+                    name: 'Samburu',
                     data: [21, 7, 25, 13, 22, 8]
                 }],
                 xaxis: {
@@ -210,7 +207,7 @@ $(document).ready(function() {
                     height: 320,
                     type: 'pie',
                 },
-                labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+                labels: ['Other PITC', 'Index Testing', 'TB Clinics', 'PMTCT_ANC1 ONLY', 'VCT'],
                 series: [44, 55, 13, 43, 22],
                 colors: ["#1abc9c", "#0e9e4a", "#00acc1", "#f1c40f", "#e74c3c"],
                 legend: {
@@ -220,7 +217,7 @@ $(document).ready(function() {
                 dataLabels: {
                     enabled: true,
                     dropShadow: {
-                        enabled: false,
+                        enabled: false
                     }
                 },
                 responsive: [{

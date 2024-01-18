@@ -176,15 +176,38 @@
                              </div>
                            </div>
                             
-                              
+                            <% IdGenerator2 ig= new IdGenerator2(); %>
+                            
+                              <div class="control-group" >
+                              <label class="control-label">Start date<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                  <input required type="text" title="" value="<%=ig.LastQuarterStartDate(ig.CurrentMonthEndDate())%>"  class="form-control input-lg" name="sdate" id="sdate" />
+                            </div>
+                           </div>
+                            
+                            
+                            <div class="control-group" >
+                              <label class="control-label">End date<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                           <input value="<%=ig.LastQuarterEndDate(ig.CurrentMonthEndDate())%>" required type="text" title=""  class="form-control input-lg" name="edate" id="edate" />
+                            </div>
+                           </div>
+                            
+                            
+                            
                               <div class="control-group" >
                               <label class="control-label">Specify Data Section<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                   <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="outiput" id="outiput" >
                                       
-                                       <option value=''>Select DataSet</option>
-                                       <option value='prv'>Prevention</option>
-                                       <option value='vls'>VL Supression</option>
+                                       <!--<option value=''>Select DataSet</option>-->
+                                       <option value='Treatment'>Treatment</option>
+                                       <option value='Viral Suppression'>VL Supression</option>
+                                       <option value='Prevention'>Prevention</option>
+                                       <option value='Testing - HTS_TST'>Testing - HTS_TST</option>
+                                       <option value='Testing - All Others'>Testing - All Others</option>
+                                       <option value='Testing - HTS_RECENT'>Testing - HTS_RECENT</option>
+                                       <option value='Health Systems'>Health Systems</option>
                                        
                                        
                                       
@@ -193,7 +216,17 @@
                               </div>
                            </div>
                               
-                              
+                            <div class="control-group" >
+                              <label class="control-label">Enter Zeros All sites<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="entrytype" id="entrytype" >
+                                       <option value='nonzero'>Non Zero Values</option>
+                                       <option value='allnumeric'>all Zero Values</option>
+                                       <option value='enterblanks'>Delete Entered Data</option>
+                                     
+                                </select>
+                              </div>
+                           </div>
                               
                             
                               
@@ -364,19 +397,22 @@ function getReport()
       
                 $('.loading').show();
                 $('#generaterpt').hide();
-               var urel=$("#outiput").val();
+               var dataseti=$("#outiput").val();
                var sts=$("#sites").val();
+               var sd=$("#sdate").val();
+               var ed=$("#edate").val();
+               var et=$("#entrytype").val();
               
                 //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
              
-                var ur="AutoDataEntry?sp="+urel+"&prd=" + period;
+                var ur="AutoDataEntry";
  console.log(ur);
  
  $.ajax({
      url: ur,
      type:'post',
      dataType: 'html',
-     data: {ds:urel,prd:period,sts:sts},
+     data: {ds:dataseti,prd:period,sts:sts,sd:sd,ed:ed,sp:dataseti,et:et},
      success: function (data) {
          $('.loading').hide(); 
          $('#generaterpt').show();
@@ -418,7 +454,7 @@ function loadDataToElement(act,element,issearchselect,firstoption)
          $("#"+element).html(firstoption+data);
          //$('#generaterpt').html("<i class='glyphicon glyphicon-ok'></i> Report Generated");
         if(issearchselect==='yes'){
-         $("#"+element).select2();   
+         //$("#"+element).select2();   
             
         }                
      }

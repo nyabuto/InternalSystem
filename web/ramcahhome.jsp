@@ -245,14 +245,14 @@
 								<h5 class="card-title">Manage Forms</h5>
 								<p class="card-text"></p>
 								<br/>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_add_groups" class="btn  btn-primary">Add Groups</a>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_add_shujaas" class="btn  btn-primary">Add Binti Shujaas</a>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_enrollment" class="btn  btn-primary">Enrollment</a>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_anc_visits" class="btn  btn-primary">ANC Visits</a>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_delivery_immunization" class="btn  btn-primary">Immunization</a>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_pnc_visits" class="btn  btn-primary">Post Natal Services</a>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_followup" class="btn  btn-primary">Follow Up</a>
-                                                                <a href="../Cohorts/binti_shujaa.jsp?frm=binti_exit" class="btn  btn-primary">Exit Form</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_add_groups" class="btn  btn-primary">Add Groups</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_add_shujaas" class="btn  btn-primary">Add Binti Shujaas</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_enrollment" class="btn  btn-primary">Enrollment</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_anc_visits" class="btn  btn-primary">ANC Visits</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_delivery_immunization" class="btn  btn-primary">Immunization</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_pnc_visits" class="btn  btn-primary">Post Natal Services</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_followup" class="btn  btn-primary">Follow Up</a>
+                                                                <a href="https://usaidtujengejamii.org:8443/Cohorts/binti_shujaa.jsp?frm=binti_exit" class="btn  btn-primary">Exit Form</a>
 								
 							</div>
 						</div>

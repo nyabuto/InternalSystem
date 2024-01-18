@@ -413,7 +413,7 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                          
                          String rw_suffix =facilityid+"_"+mwakamwezi;
                     
-                    String [] required_rows={"21:p_txcurr_"+rw_suffix,"22:tx_new_"+rw_suffix,"27:txcurr_"+rw_suffix};
+                    String [] required_rows={"26:p_txcurr_"+rw_suffix,"27:tx_new_"+rw_suffix,"32:txcurr_"+rw_suffix};
                  
                     
                     

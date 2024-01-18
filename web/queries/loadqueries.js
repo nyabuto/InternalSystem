@@ -42,7 +42,7 @@ function showqry(){
     
     var vl1=$("#queryhistory").val();
     
-   $("#query").html(vl1);
+   $("#query").val(vl1);
     
     
 }

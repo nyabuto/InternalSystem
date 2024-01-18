@@ -148,6 +148,14 @@ public class dataPulls extends HttpServlet {
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     
             }
+               if(act.equals("getNakuruCus"))
+            {               
+                
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"SELECT concat(cuid,',',cu,'-',CentreSanteID) as rcd FROM internal_system.cus join subpartnera sp on sp.CentreSanteId=cus.Mflcode;");
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
             
             
             if(act.equals("getgrant"))

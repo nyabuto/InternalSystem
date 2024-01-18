@@ -1773,6 +1773,22 @@
         <servlet-name>bfci_tracker</servlet-name>
         <servlet-class>RAMCAH.bfci_tracker</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>loadMdt</servlet-name>
+        <servlet-class>loaders.loadMdt</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadyearmonth</servlet-name>
+        <servlet-class>loaders.loadyearmonth</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSubcountymdt</servlet-name>
+        <servlet-class>loaders.loadSubcountymdt</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadtxml200</servlet-name>
+        <servlet-class>TX_ML.uploadtxml200</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3544,6 +3560,22 @@
     <servlet-mapping>
         <servlet-name>bfci_tracker</servlet-name>
         <url-pattern>/bfci_tracker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadMdt</servlet-name>
+        <url-pattern>/loadMdt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadyearmonth</servlet-name>
+        <url-pattern>/loadyearmonth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSubcountymdt</servlet-name>
+        <url-pattern>/loadSubcountymdt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadtxml200</servlet-name>
+        <url-pattern>/uploadtxml200</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

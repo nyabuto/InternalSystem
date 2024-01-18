@@ -166,7 +166,7 @@ public class uploadtxml extends HttpServlet {
              
              
             //String getVersion="select version from f1a_version where active=1";
-            String activeversion = "TX_ML  Data 2.0.0";
+            String activeversion = "TX_ML  Data 2.2.0";
             //conn.rs=conn.st.executeQuery(getVersion);
             
 //            while(conn.rs.next()){
@@ -647,9 +647,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong TX_ML template version "+excelversion+" . Expected Version is 2.0.0 <br>";
+        failed_reason+= "Failed: You have used Wrong TX_ML template version "+excelversion+" . Expected Version is 2.1.0 <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 2.0.0 \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 2.1.0 \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;
