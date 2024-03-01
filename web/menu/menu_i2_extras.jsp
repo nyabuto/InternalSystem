@@ -334,7 +334,7 @@
 
 
 
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=hpv_vaccination" class="btn btn-light">
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=hpv_vaccination&ac=9595" class="btn btn-light">
                             <img style="width:130px;"  src="images/hpv.png"/></a>
                         
 
@@ -351,7 +351,7 @@
 
 
 
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=cxca_pos" class="btn btn-light">
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=cxca_pos&ac=9595" class="btn btn-light">
                             <img style="width:130px;"  src="images/cxca_screen.png"/></a>
                         
 
@@ -369,7 +369,7 @@
 
 
 
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=client_exit_form" class="btn btn-light">
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=client_exit_form&ac=9595" class="btn btn-light">
                             <img style="width:130px;"  src="images/client_exit.png"/></a>
                         
 
@@ -436,12 +436,12 @@
 
 
 
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/see_main.jsp" class="btn btn-light">
-                            <img style="width:130px;"  src="images/see.png"/></a>
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=hei_audit&&ac=9595" class="btn btn-light">
+                            <img style="width:130px;"  src="images/heiaudit.png"/></a>
                         
 
                     </div>
-                    <h5 class="formcss"><b>Social Economic & Environmental Factors affecting ROcs</b></h5>
+                    <h5 class="formcss"><b>HEI Audit</b></h5>
                 <hr>
                 </div>
             </div>
@@ -487,7 +487,7 @@
 
 
 
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=mother" class="btn btn-light">
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/clinicalforms.jsp?frm=mother&ac=9595" class="btn btn-light">
                             <img style="width:130px;"  src="images/pmtct_ovc.png"/></a>
                         
 

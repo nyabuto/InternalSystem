@@ -166,7 +166,7 @@ public class upload_f1a_ipt_only extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 7.0.1";
+            String activeversion = "Form 1A  version 8.0.0";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -186,7 +186,7 @@ public class upload_f1a_ipt_only extends HttpServlet {
                     email =  uploaderdetails.get("email");
             
             //GET ALLOWED PERIOD AND FACILITIES
-            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads where form='form1a'";
+            String getinfo = "SELECT IFNULL(periods,'') AS periods,IFNULL(mfl_codes,'') AS mfl_codes FROM fas_allowed_excel_uploads where form='iptsection'";
             conn.rs = conn.st.executeQuery(getinfo);
             if(conn.rs.next()){
               periods = conn.rs.getString("periods");
@@ -828,7 +828,7 @@ else{
                     session.setAttribute("form1a", "<b>sending F1a Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,MaNderitu@deloitte.co.ke,EMaingi@deloitte.co.ke,afyanyota@gmail.com,EMaingi@usaidtujengejamii.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke,afyanyota@gmail.com,EMaingi@usaidtujengejamii.org","Admin");
                     
                     //send to user
                     if(!email.equals(""))
@@ -855,13 +855,13 @@ else{
           
           
           
-          response.sendRedirect("uploadf1a.jsp");
+          response.sendRedirect("uploadipt.jsp");
           }
           
           else if(no_uploads==0){
           session.setAttribute("warnings", "");
           session.setAttribute("message", " <img src=\"images/failed.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b id=\"notify\">ERROR: "+failed_reason+"</b> ");
-          response.sendRedirect("uploadf1a.jsp"); 
+          response.sendRedirect("uploadipt.jsp"); 
           }
           
           else if(total_errors>0){

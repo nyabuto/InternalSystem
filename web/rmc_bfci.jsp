@@ -203,7 +203,7 @@ input[readonly]{
 
 <div class='form-group col-md-4'>
 <label for='donor_name'><b>Reporting Month<font color='red'>*</font></b></label>
-<select required="true" type='select' onchange="getFacilitiesJson();isdisplayindicators();" class='form-control' id='period' name='period'  ></select>
+<select required="true" type='select' onchange="isdisplayindicators();" class='form-control' id='period' name='period'  ></select>
 </div>
                                         
 <!--<div class='form-group col-md-2'></div>-->

@@ -154,7 +154,19 @@ tr>td {
                  
                   <div class="portlet box blue">
                      <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload Viral Load Raw Data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated: 2018-09-13 12:45pm </div>
+                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload Viral Load Raw Data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">  <%  dbConn conn = new dbConn();
+                        
+                     
+                        
+conn.rs=conn.st.executeQuery("select Max(Date_Tested) as md from vl_surge");
+
+while(conn.rs.next()){
+
+out.println("<br/><font color='white'> <i> Last date VLs Downloaded: <b>"+conn.rs.getString(1)+"</b></i> </font>");
+
+}
+
+                        %>   </div>
                      </div>
                       
                       <div  class="portlet-body form" id="progress_area" hidden="true">

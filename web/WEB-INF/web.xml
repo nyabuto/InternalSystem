@@ -1789,6 +1789,10 @@
         <servlet-name>uploadtxml200</servlet-name>
         <servlet-class>TX_ML.uploadtxml200</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>bfci_summary</servlet-name>
+        <servlet-class>RAMCAH.bfci_summary</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3576,6 +3580,10 @@
     <servlet-mapping>
         <servlet-name>uploadtxml200</servlet-name>
         <url-pattern>/uploadtxml200</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>bfci_summary</servlet-name>
+        <url-pattern>/bfci_summary</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

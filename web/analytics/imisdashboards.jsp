@@ -311,6 +311,9 @@
             </div>
             <!-- prject ,team member start -->
             <!-- seo start -->
+<!--            
+            
+            
             <div class="col-xl-4 col-md-12">
                 <div class="card">
                     <div class="card-body">
@@ -356,6 +359,9 @@
                     </div>
                 </div>
             </div>
+            -->
+            
+            
             <!-- seo end -->
 
             <!-- Latest Customers start -->

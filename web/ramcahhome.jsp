@@ -163,7 +163,7 @@
 														
 								<br/>
 								
-                                                                <a href="applicants.jsp" class="btn  btn-primary">Data Entry</a>
+                                                                <a target="_blank" href="https://enketo.ona.io/x/qaE18hpo" class="btn  btn-primary">Data Entry</a>
 								
 							</div>
 						</div>
@@ -203,7 +203,7 @@
 														
 								<br/>
 								
-                                                                <a href="applicants.jsp" class="btn  btn-primary">Data Entry</a>
+                                                                <a target="_blank" href="https://enketo.ona.io/x/c6dCGXCY" class="btn  btn-primary">Data Entry</a>
 								
 							</div>
 						</div>

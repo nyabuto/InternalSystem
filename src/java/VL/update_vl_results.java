@@ -77,6 +77,10 @@ public class update_vl_results extends HttpServlet {
             {
               out.println(updateNonEMRResults(conn, sdate, edate, ""));  
             }
+            else if(qry.equals("updateMissingWeights"))
+            {
+              out.println(updateMissingWeights(conn, sdate, edate, ""));  
+            }
             
            //updateEMRResults(conn, sdate, edate, "");
            //updatePMTCT(conn, sdate, edate, "");
@@ -383,6 +387,132 @@ public String updateNonEMRResults(dbConn conn,String sdate,String edate,String m
                 
                 
             }
+            
+            
+            
+            
+            
+            
+            
+           
+        } catch (SQLException ex) {
+            session.setAttribute("vlerror",ex);
+            Logger.getLogger(update_vl_results.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return "Completed running Non EMR Results";
+}
+public String updateMissingWeights(dbConn conn,String sdate,String edate,String mflcodes) {
+
+String sdym=sdate.replace("-", "").substring(0,6);
+String edym=edate.replace("-", "").substring(0,6);
+    
+        try {
+            int updatedrows=0;
+            int searchcount=0;
+            String ym=edate.replace("-","").substring(0,6);
+            
+            String mfl="";
+            String facil="";
+            String cccno="";
+            String system="";
+            
+            String mflwhere="1=1";
+            
+            if(!mflcodes.equals(""))
+            {
+                
+                mflwhere=" and  mflcode in ('"+mflcodes+"')";
+                
+            }
+            
+            //get a list of ccc numbrs without weight
+            String getemrmissingweights="select ccc_no,system from internal_system.missing_valid_weight where latest_valid_weight is null ";
+            
+            System.out.println("Missing weights:"+getemrmissingweights);
+            conn.rs=conn.st.executeQuery(getemrmissingweights);
+            
+            while(conn.rs.next()){
+                
+                searchcount++;
+                
+                cccno=conn.rs.getString("ccc_no");
+                system=conn.rs.getString("system");
+                
+                
+                if(system.equals("KenyaEMR")){
+                
+                
+                String getmax_weight="select cccno,uzito as uzito  from vl_kenyaemr where cccno = '"+cccno+"' and (uzito between 2 and 40 ) and ( Yearmonth between '"+sdym+"' and '"+edym+"' )  order by Yearmonth DESC limit 1 ";
+                System.out.println("weight count number:"+searchcount+":"+getmax_weight);
+                conn.rs1=conn.st1.executeQuery(getmax_weight);
+                
+                if(conn.rs1.next()){
+                    
+                    String uzt=conn.rs1.getString("uzito");
+                    
+                  
+                 
+                    String updaterecord="update missing_valid_weight set latest_valid_weight='"+uzt+"'  where ccc_no='"+cccno+"'    ";
+                    
+                    System.out.println(" update query: "+updaterecord+"\n");
+                    
+                    updatedrows++;
+                    
+                    conn.st3.executeUpdate(updaterecord);
+                    
+                    System.out.println(updatedrows+": Records updated "+cccno+"\n");
+                     session.setAttribute("vlcount",updatedrows);
+                    //id=10056_1005600001_2020-05-08                   
+                  
+                    
+                }
+               
+                
+            }//end of kenyaemr
+               
+                
+                //VLMIS
+                else 
+                {
+            
+                    
+                      String getmax_weight="select ccc_number, uzito as uzito  from nonemr_curr where ccc_number = '"+cccno+"' and (uzito between 2 and 40 ) and ( Last_Clinical_Visit_Date between '"+sdate+"' and '"+edate+"' )  order by Last_Clinical_Visit_Date DESC limit 1 ";
+                
+                      System.out.println("weight count number:"+searchcount+" :"+getmax_weight);
+                
+                conn.rs1=conn.st1.executeQuery(getmax_weight);
+                
+                if(conn.rs1.next()){
+                    
+                    String uzt=conn.rs1.getString("uzito");
+                    
+                   
+                 
+                    String updaterecord="update missing_valid_weight set latest_valid_weight='"+uzt+"'  where ccc_no='"+cccno+"'    ";
+                    
+                    System.out.println(" update VLMIS query: "+updaterecord+"\n");
+                    
+                    updatedrows++;
+                    
+                    conn.st3.executeUpdate(updaterecord);
+                    
+                    System.out.println(updatedrows+": VLMIS Records updated "+cccno+"\n");
+                     session.setAttribute("vlcount",updatedrows);
+                    //id=10056_1005600001_2020-05-08                   
+                  
+                    
+                }
+               
+                    
+                    
+            
+            }
+                
+                
+            }
+            
+
+// end of kenyaemr
             
             
             
