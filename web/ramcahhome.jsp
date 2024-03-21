@@ -146,6 +146,7 @@
                                                                 
                                                                 
                                                                 <%@include file="ramcah/bfci_tracker_modal.jsp" %>        
+                                                                <%@include file="ramcah/bfci_summary_modal.jsp" %>        
                                                                 
                                                                 
 								
@@ -282,6 +283,9 @@
    <script type="text/javascript" src="ramcah/defaults.js"></script>
           
 
+   
+   
+   
 
 </body>
 </html>

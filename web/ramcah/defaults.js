@@ -43,15 +43,17 @@
 
                loadMonth("startdate");
                 loadMonth("enddate");
+                loadMonth("sdate");
+                loadMonth("edate");
                 
                 
-                function getReport(url)
+                function getReport(url,s,e)
 {
     
     
   
-   var sd=$("#startdate").val();
-   var ed=$("#enddate").val();
+   var sd=$("#"+s).val();
+   var ed=$("#"+e).val();
   
         
         

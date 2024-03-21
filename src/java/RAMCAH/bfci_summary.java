@@ -64,7 +64,7 @@ public class bfci_summary extends HttpServlet {
     
     
        
-String allpath = getServletContext().getRealPath("/bfci_tracker.xlsx");
+String allpath = getServletContext().getRealPath("/bfci_data.xlsx");
 
 XSSFWorkbook wb1;
  
@@ -79,7 +79,7 @@ String mydrive = allpath.substring(0, 1);
 
 String np=mydrive+":\\HSDSA\\HTSRRI\\MACROS\\";
 
-String filepath="BFCI_Tracker_Report"+dat2+".xlsx";
+String filepath="BFCI_Report"+dat2+".xlsx";
 
 
 if(isUnix())
@@ -93,7 +93,7 @@ if(isUnix())
  np+=filepath;
  
 //check if file exists
-String sourcepath = getServletContext().getRealPath("/bfci_tracker.xlsx");
+String sourcepath = getServletContext().getRealPath("/bfci_data.xlsx");
 
 File f = new File(np);
 if(!f.exists()&& !f.isFile() ) {
@@ -254,7 +254,7 @@ XSSFWorkbook wb = wb1;
         if(1==1){// for sections
     // XSSFSheet shet2= wb.getSheet("Raw Data Report");
         // tell your xssfsheet where its content begins and where it ends
-((XSSFSheet)shet1).getCTWorksheet().getDimension().setRef("A1:G" + (shet1.getLastRowNum() + 1));
+((XSSFSheet)shet1).getCTWorksheet().getDimension().setRef("A1:N" + (shet1.getLastRowNum() + 1));
 
 CTTable ctTable = ((XSSFSheet)shet1).getTables().get(0).getCTTable();
 
@@ -295,9 +295,9 @@ ctTable.setRef("A1:N" + (shet1.getLastRowNum() + 1)); // adjust reference as nee
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(bfci_tracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(bfci_summary.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidFormatException ex) {
-            Logger.getLogger(bfci_tracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(bfci_summary.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -315,9 +315,9 @@ ctTable.setRef("A1:N" + (shet1.getLastRowNum() + 1)); // adjust reference as nee
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(bfci_tracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(bfci_summary.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidFormatException ex) {
-            Logger.getLogger(bfci_tracker.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(bfci_summary.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

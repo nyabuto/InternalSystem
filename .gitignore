@@ -106,3 +106,4 @@ build/web/test.jsp
 build/web/upload_tb_raw_data.jsp
 build/web/verificationreport.jsp
 build/web/WEB-INF/web.xml
+src/java/DHIS2/dhisconfig.java

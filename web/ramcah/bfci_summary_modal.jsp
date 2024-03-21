@@ -10,14 +10,14 @@
          
           
     <body>
-            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Reporting Rate</button>
+            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#bfci_summary">Data Summary</button>
 				
 					
-						<div id="exampleModalCenter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div id="bfci_summary" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bfci_summaryTitle" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalCenterTitle">BFCI Reporting Rates</h5>
+										<h5 class="modal-title" id="exampleModalCenterTitle">BFCI Summary Output</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 									</div>
 									<div class="modal-body">
@@ -25,14 +25,14 @@
                                                                         
 <div class='form-group col-md-12'>
 <label for='donor_name'><b>Start Year Month<font color='red'>*</font></b></label>
-<select required="true" type='select'  class='form-control' id='startdate' name='startdate'  >  
+<select required="true" type='select'  class='form-control' id='sdate' name='sdate'  >  
 </select>
 </div>
                                                                             
                                                                             
 <div class='form-group col-md-12'>
 <label for='donor_name'><b>End Year Month<font color='red'>*</font></b></label>
-<select required="true" type='select'  class='form-control' id='enddate' name='enddate'  >  
+<select required="true" type='select'  class='form-control' id='edate' name='edate'  >  
 </select>
 </div>
                                                                         
@@ -40,7 +40,7 @@
 									<div class="modal-footer">
 										<button type="button" class="btn  btn-secondary" data-dismiss="modal">Close</button>
 										                                                                               
-                                                                                  <label id="generaterpt" class="btn btn-success" onclick="getReport('bfci_tracker','startdate','enddate');">Generate report</label>
+                                                                                  <label id="generaterpt" class="btn btn-success" onclick="getReport('bfci_summary','sdate','edate');">Generate report</label>
                                                                                   
                                                                                   <button  style="display:none;"  class="btn  btn-primary m-2 loading" type="button" disabled>
 									<span class="spinner-border spinner-border-sm" role="status"></span>

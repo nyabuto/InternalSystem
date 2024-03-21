@@ -64,7 +64,7 @@ public  Connection conn = null;
                     conn = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
                     }
 
-                    //System.out.println("connection is : "+conn);
+                   // System.out.println("connection is : "+conn);
 
                 } else {
                     //call the page thats sets up the database
