@@ -10,7 +10,7 @@
          
           
     <body>
-            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#bfci_summary">Data Summary</button>
+            <button type="button" class="btn  btn-success" data-toggle="modal" data-target="#bfci_summary">Data Summary</button>
 				
 					
 						<div id="bfci_summary" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bfci_summaryTitle" aria-hidden="true">

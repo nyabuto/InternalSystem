@@ -6,7 +6,7 @@
 
 //alert("Testiii");
 
- function loadMonth(elm){
+ function loadMonth(elm,selv){
  
        
               $.ajax({
@@ -22,8 +22,11 @@
                         
                         for(var a=0;a<dat.length;a++)
                         {                           
+                     var sv="";
+                     if(selv===dat[a].id){sv="selected";}
+                     console.log(selv+" compared to "+dat[a].id+" is :"+sv);
                      
-                          o+="<option value='"+dat[a].id+"'>"+dat[a].year+" "+dat[a].month+"</option>";   
+                          o+="<option "+sv+" value='"+dat[a].id+"'>"+dat[a].year+" "+dat[a].month+"</option>";   
                         }
                         
                    $("#"+elm).html(o);
@@ -41,10 +44,12 @@
    
 
 
-               loadMonth("startdate");
-                loadMonth("enddate");
-                loadMonth("sdate");
-                loadMonth("edate");
+                loadMonth("sd","202310");
+                loadMonth("ed","");
+                loadMonth("startdate","202310");
+                loadMonth("enddate","");
+                loadMonth("sdate","202310");
+                loadMonth("edate","");
                 
                 
                 function getReport(url,s,e)

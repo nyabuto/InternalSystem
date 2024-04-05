@@ -10,7 +10,7 @@
          
           
     <body>
-            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Reporting Rate</button>
+            <button type="button" class="btn  btn-success" data-toggle="modal" data-target="#exampleModalCenter">Reporting Rate</button>
 				
 					
 						<div id="exampleModalCenter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

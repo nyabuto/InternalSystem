@@ -1793,6 +1793,10 @@
         <servlet-name>bfci_summary</servlet-name>
         <servlet-class>RAMCAH.bfci_summary</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>pullDashboardData</servlet-name>
+        <servlet-class>RAMCAH.pullDashboardData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3584,6 +3588,10 @@
     <servlet-mapping>
         <servlet-name>bfci_summary</servlet-name>
         <url-pattern>/bfci_summary</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pullDashboardData</servlet-name>
+        <url-pattern>/pullDashboardData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

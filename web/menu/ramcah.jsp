@@ -37,15 +37,18 @@
 				</div>
 				
 				<ul class="nav pcoded-inner-navbar ">
+                                    <li class="nav-item">
+					    <a href="rmcahdashboards.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span><span class="pcoded-mtext">Dashboards</span></a>
+					</li>
 					<li class="nav-item pcoded-menu-caption">
 						<label>Data entry</label>
 					</li>
 					<li class="nav-item">
-					    <a href="ramcahhome.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
+					    <a href="ramcahhome.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Data Entry</span></a>
 					</li>
                                         
                                          <li class="nav-item pcoded-hasmenu">
-					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-tablet"></i></span><span class="pcoded-mtext">Data Entry Forms</span></a>
+					    <!--<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-tablet"></i></span><span class="pcoded-mtext">Data Entry Forms</span></a>-->
                                        <ul class="pcoded-submenu">
                                         <li class="nav-item">
 					    <a href="indicatorssummary.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-award"></i></span><span class="pcoded-mtext">Indicators summary</span></a>
@@ -107,7 +110,7 @@
                                         
                                         
                                         <li class="nav-item pcoded-hasmenu">
-					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Log Out</span></a>
+					    <a href="logout.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Log Out</span></a>
 					    <ul class="pcoded-submenu">
 					        <li><a href="logout.jsp" target="_blank">Sign out</a></li>
 					    </ul>
