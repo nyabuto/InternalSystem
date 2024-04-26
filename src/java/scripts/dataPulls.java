@@ -234,8 +234,12 @@ public class dataPulls extends HttpServlet {
             }
                    if(act.equals("getDatimSites"))
             {               
-                
-               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(datimname,',',datimname,'-',CentreSanteID) as site from internal_system.subpartnera   where active =1  order by datimname ASC ");
+                String siteswhere="";
+                 
+                //siteswhere=" and subpartnera.CentreSanteID in (SELECT distinct(facility_id) FROM internal_system.fas_hypertension where yearmonth='202403' and total>0) ";
+               // siteswhere=" and subpartnera.CentreSanteID in (14432,14607,15138,14477,20005,14609,15174,15305,15502,10890,15325,15339,15170,15266,10672,14404,15417,15589,14836,14431,16683,15398,15280,14805,14845,14551,15108,14801,14802,15406,25155,18009,15009,14265,15008,14207,14733,15365,14263,14177,20137,14224,14611,14223,14424,15678,16390,15495,15372,15331,15156,15358,15013,15200,14426,15126,14943,15768,15682,14212) ";
+                 
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(datimname,',',datimname,'-',CentreSanteID) as site from internal_system.subpartnera   where active =1 "+siteswhere+"   order by datimname ASC ");
 
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     

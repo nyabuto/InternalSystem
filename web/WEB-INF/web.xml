@@ -1797,6 +1797,18 @@
         <servlet-name>pullDashboardData</servlet-name>
         <servlet-class>RAMCAH.pullDashboardData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>load_hpt_list</servlet-name>
+        <servlet-class>HPT.load_hpt_list</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateHptValues</servlet-name>
+        <servlet-class>HPT.updateHptValues</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getSitesWithHptClients</servlet-name>
+        <servlet-class>HPT.getSitesWithHptClients</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3592,6 +3604,18 @@
     <servlet-mapping>
         <servlet-name>pullDashboardData</servlet-name>
         <url-pattern>/pullDashboardData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>load_hpt_list</servlet-name>
+        <url-pattern>/load_hpt_list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateHptValues</servlet-name>
+        <url-pattern>/updateHptValues</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getSitesWithHptClients</servlet-name>
+        <url-pattern>/getSitesWithHptClients</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

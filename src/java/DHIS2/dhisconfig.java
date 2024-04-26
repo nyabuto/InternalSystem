@@ -46,8 +46,8 @@ String  gmail_pass=null;
   dhis2_Password="!";
   //dhis2_username="";
 
-  dhis2_username="tujengejamii";
-  dhis2_Password="Usaidtujengejamii21!";
+  dhis2_username="ekaunda";
+  dhis2_Password="123456@Ab";
   gmail_pass="jndhardsfmnmgfmx";
   //dhis2_username="emmanuelkaunda";
 

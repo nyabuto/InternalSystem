@@ -167,15 +167,13 @@
                               <label class="control-label">Specify Output:<font color='red'><b>*</b></font></label>
                               <div class="controls">
                                   <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="outiput" id="outiput" >
-                                      
-                                     
                                      
                                        <option value='sp_vl_insertkenyaemr_weekly'>Refresh KenyaEMR- Weekly</option>
                                        <option value='sp_vl_insertkenyaemr'>Refresh KenyaEMR- Monthly</option>
                                        <!--<option value='sp_vl_insert_nonemrvl'>Refresh VLMIS-Weekly</option>-->
                                        <option value='sp_vl_insert_nonemrvl'>Refresh VLMIS-Monthly</option>
                                        <option value='sp_vl_insertwebsite_deduplicated'>Refresh VL Website-Monthly</option>
-                                      
+                                       <option value='sp_refresh_hypertension'>Refresh Hypertension</option>                                      
                                              
                                       </select>
                               </div>

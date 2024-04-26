@@ -71,6 +71,7 @@ public class AutoDataEntry extends HttpServlet {
         String sd="";
         String ed="";
         String entrytype="";
+        String specificform="";
         
         String sts_arr[]=null;
         
@@ -80,6 +81,7 @@ public class AutoDataEntry extends HttpServlet {
         if(request.getParameter("sd")!=null){sd=request.getParameter("sd");}
         if(request.getParameter("ed")!=null){ed=request.getParameter("ed");}
         if(request.getParameter("et")!=null){entrytype=request.getParameter("et");}
+        if(request.getParameter("specificform")!=null){specificform=request.getParameter("specificform");}
         
        
         dbConn conn= new dbConn();
@@ -90,6 +92,7 @@ public class AutoDataEntry extends HttpServlet {
        prdhm.put("ed", ed);
        prdhm.put("prd", prd);
        prdhm.put("entrytype", entrytype);
+       prdhm.put("specificform", specificform);
         
         sts_arr=request.getParameterValues("sts[]");
         
@@ -107,13 +110,19 @@ public class AutoDataEntry extends HttpServlet {
 		System.setProperty("webdriver.chrome.driver","C:\\HSDSA\\chromedriver.exe");
                 
                 ChromeOptions options = new ChromeOptions();
-options.addArguments("--remote-allow-origins=*");
+//options.addArguments("--remote-allow-origins=*");
+//options.addArguments("--remote-debugging-port=9222");
 
-options.addArguments("user-data-dir=C:\\Users\\Emmanuel Kaunda\\AppData\\Local\\Google\\Chrome\\User Data");
-options.addArguments("--profile-directory=Person 1");
+//options.addArguments("user-data-dir=C:\\Users\\Emmanuel Kaunda\\AppData\\Local\\Google\\Chrome\\User Data");
+//options.addArguments("--profile-directory=Person 1");
+
+
 //options.addArguments("debuggerAddress","127.0.0.1:9222");
 //options.addArguments("--headless");
-   options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+
+
+
+options.setPageLoadStrategy(PageLoadStrategy.EAGER);
 
 //ChromeDriver driver = new ChromeDriver(options);
                 
@@ -236,7 +245,7 @@ for(int a=0;a<sites.length;a++){
          
              if(lmt==1){ }
              System.out.println("initiate 5 seconds timeout");
-           Thread.sleep(5000);
+           Thread.sleep(10000);
              System.out.println(" 5 seconds timeout completed");
              
              if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.linkText(ds))).isDisplayed()){ 
@@ -254,7 +263,33 @@ for(int a=0;a<sites.length;a++){
                           
                
                //enterViralSuppression(driver);
+               if(specificform.equals("TXML"))
+               {
+              
                enterTX_ML(conn,driver,prdhm);
+               }
+               else if(specificform.equals("HPT"))
+               {              
+                enterTX_HTN(conn,driver,prdhm);
+               }
+               else if(specificform.equals("RTT"))
+               {              
+                
+                enterTX_RTT(conn,driver,prdhm);
+               }
+               else if(specificform.equals("TXTB"))
+               {              
+                
+                enterTX_TB(conn,driver,prdhm);
+               }
+               else  
+               {
+               enterTX_RTT(conn,driver,prdhm);
+               enterTX_HTN(conn,driver,prdhm);
+               enterTX_ML(conn,driver,prdhm);
+               enterTX_TB(conn,driver,prdhm);
+               }
+               
                
             //Validate and close   
              new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.id("validateButton"))).click();
@@ -503,6 +538,368 @@ for(int a=0;a<sites.length;a++){
             String dfacil=basics.get("hf");          
             
             if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id("A5A8LKqJw4w-TtohM6zck1v-val"))).isDisplayed()){
+                
+                
+                //get all columns
+                String clmns=alldata.get("indicator_metadata");
+                String clmnar[]=clmns.split(",");
+              //St. Joseph RiftValley Hospital_Facility
+              String siteexits=alldata.get(dfacil+"_Facility");
+                System.out.println("Check if site existsts:::"+siteexits);
+                if(siteexits!=null)
+                {
+                
+            for(int cl=0;cl<clmnar.length;cl++)
+            {
+                
+              WebElement uam= null;
+              if(!clmnar[cl].equals("Facility")){
+                  String val=alldata.get(dfacil+"_"+clmnar[cl]);
+                  
+                  switch (entrytype) {
+                      case "nonzero":
+                          //here, only non zero numeric values are entered. This excludes Zeros
+                          if(!val.equals("0.0") && !val.equals("0") ){
+                              
+                              uam=driver.findElement(By.id(clmnar[cl]));
+                             
+                              uam.click();
+                              uam.clear();
+                              System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                              val=val.replace(".0","");
+                              
+                              
+                              
+                              uam.sendKeys(val);
+                          }           break;
+                      case "allnumeric":
+                          //here, all the data elements are entered with all numeric values including zeros
+                          
+                          uam=driver.findElement(By.id(clmnar[cl]));
+                         
+                         
+                           
+                          System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                           val=val.replace(".0","");
+                           
+                           String ic=uam.getAttribute("value");
+                           System.out.println("ic value:::"+ic);
+                           if((isNumeric(ic) && new Integer(ic)>0) || ic.equals("") || ic.equals("0"))
+                           {
+                               System.out.println("ic value inside is:::"+ic);
+                               
+                           if(!ic.equals(val)){
+                               //dont replace blank with 0s
+                               if(!(val.equals("0")&&ic.equals(""))){
+                                   
+                                uam.click();
+                             uam.clear();  
+                          uam.sendKeys(val);
+                               }
+                           }
+                            }
+                          break;
+                      case "enterblanks":
+                          //here, only blank values are entered. This excludes Zeros
+                          uam=driver.findElement(By.id(clmnar[cl]));
+                          
+                          uam.click();
+                          uam.clear();
+                          uam.sendKeys("");
+                          System.out.println("Zeros entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                          break;
+                      default:
+                          break;
+                  }
+                 
+                  
+                 
+                  }
+                                
+            }
+          //validateButton
+                    //ui-button-icon ui-icon ui-icon-closethick
+                
+            }  //checking if site exists
+                
+                else {
+                    System.out.println("Site Does not exist in Datim list::::::");
+                    
+                }
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AutoDataEntry.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       //  new WebDriverWait(driver, Duration.ofSeconds(150)).until(ExpectedConditions.elementToBeClickable(By.linkText("Treatment"))).click();
+    
+    }
+    
+    
+    public  void enterTX_RTT(dbConn conn,WebDriver driver,HashMap<String,String> basics) throws InterruptedException{
+    
+        //Run the query for pulling all sites data from IMIS
+        //convert the resultset into a string hashmap 
+        //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array 
+        //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array 
+        
+        String entrytype=basics.get("entrytype");
+        try {
+            String qry="call internal_system.sp_dbot_TX_RTT('"+basics.get("sd")+"','"+basics.get("ed")+"');";
+            
+            System.out.println("query:"+qry);
+            
+           HashMap<String, String> alldata = new HashMap< >();
+            
+         
+            alldata=convertDatimResultSetToMap(getAnyDataFromDb(conn,qry));
+            
+            String dfacil=basics.get("hf");          
+            
+            if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id("in0Xpzvlr33-bxf9A4AqmpS-val"))).isDisplayed()){
+                
+                
+                //get all columns
+                String clmns=alldata.get("indicator_metadata");
+                String clmnar[]=clmns.split(",");
+              //St. Joseph RiftValley Hospital_Facility
+              String siteexits=alldata.get(dfacil+"_Facility");
+                System.out.println("Check if site existsts:::"+siteexits);
+                if(siteexits!=null)
+                {
+                
+            for(int cl=0;cl<clmnar.length;cl++)
+            {
+                
+              WebElement uam= null;
+              if(!clmnar[cl].equals("Facility")){
+                  String val=alldata.get(dfacil+"_"+clmnar[cl]);
+                  
+                  switch (entrytype) {
+                      case "nonzero":
+                          //here, only non zero numeric values are entered. This excludes Zeros
+                          if(!val.equals("0.0") && !val.equals("0") ){
+                              
+                              uam=driver.findElement(By.id(clmnar[cl]));
+                             
+                              uam.click();
+                              uam.clear();
+                              System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                              val=val.replace(".0","");
+                              
+                              
+                              
+                              uam.sendKeys(val);
+                          }           break;
+                      case "allnumeric":
+                          //here, all the data elements are entered with all numeric values including zeros
+                          
+                          uam=driver.findElement(By.id(clmnar[cl]));
+                         
+                         
+                           
+                          System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                           val=val.replace(".0","");
+                           
+                           String ic=uam.getAttribute("value");
+                           System.out.println("ic value:::"+ic);
+                           if((isNumeric(ic) && new Integer(ic)>0) || ic.equals("") || ic.equals("0"))
+                           {
+                               System.out.println("ic value inside is:::"+ic);
+                               
+                           if(!ic.equals(val)){
+                               //dont replace blank with 0s
+                               if(!(val.equals("0")&&ic.equals(""))){
+                                   
+                                uam.click();
+                             uam.clear();  
+                          uam.sendKeys(val);
+                               }
+                           }
+                            }
+                          break;
+                      case "enterblanks":
+                          //here, only blank values are entered. This excludes Zeros
+                          uam=driver.findElement(By.id(clmnar[cl]));
+                          
+                          uam.click();
+                          uam.clear();
+                          uam.sendKeys("");
+                          System.out.println("Zeros entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                          break;
+                      default:
+                          break;
+                  }
+                 
+                  
+                 
+                  }
+                                
+            }
+          //validateButton
+                    //ui-button-icon ui-icon ui-icon-closethick
+                
+            }  //checking if site exists
+                
+                else {
+                    System.out.println("Site Does not exist in Datim list::::::");
+                    
+                }
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AutoDataEntry.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       //  new WebDriverWait(driver, Duration.ofSeconds(150)).until(ExpectedConditions.elementToBeClickable(By.linkText("Treatment"))).click();
+    
+    }
+    
+    public  void enterTX_HTN(dbConn conn,WebDriver driver,HashMap<String,String> basics) throws InterruptedException{
+    
+        //Run the query for pulling all sites data from IMIS
+        //convert the resultset into a string hashmap 
+        //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array 
+        //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array 
+        
+        String entrytype=basics.get("entrytype");
+        try {
+            String qry="call internal_system.sp_dbot_HPT('"+basics.get("sd")+"','"+basics.get("ed")+"');";
+            
+            System.out.println("query:"+qry);
+            
+           HashMap<String, String> alldata = new HashMap< >();
+            
+         
+            alldata=convertDatimResultSetToMap(getAnyDataFromDb(conn,qry));
+            
+            String dfacil=basics.get("hf");          
+            
+            if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id("oDe9APeim8V-T8xKXv1IFV3-val"))).isDisplayed()){
+                
+                
+                //get all columns
+                String clmns=alldata.get("indicator_metadata");
+                String clmnar[]=clmns.split(",");
+              //St. Joseph RiftValley Hospital_Facility
+              String siteexits=alldata.get(dfacil+"_Facility");
+              
+                System.out.println("Check if site existsts:::"+siteexits);
+                if(siteexits!=null)
+                {
+                
+            for(int cl=0;cl<clmnar.length;cl++)
+            {
+                
+              WebElement uam= null;
+              if(!clmnar[cl].equals("Facility")){
+                  String val=alldata.get(dfacil+"_"+clmnar[cl]);
+                  
+                  switch (entrytype) {
+                      case "nonzero":
+                          //here, only non zero numeric values are entered. This excludes Zeros
+                          if(!val.equals("0.0") && !val.equals("0") ){
+                              
+                              uam=driver.findElement(By.id(clmnar[cl]));
+                             
+                              uam.click();
+                              uam.clear();
+                              System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                              val=val.replace(".0","");
+                              
+                              
+                              
+                              uam.sendKeys(val);
+                          }           break;
+                      case "allnumeric":
+                          //here, all the data elements are entered with all numeric values including zeros
+                          
+                          uam=driver.findElement(By.id(clmnar[cl]));
+                         
+                         
+                           
+                          System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                           val=val.replace(".0","");
+                           
+                           String ic=uam.getAttribute("value");
+                           System.out.println("ic value:::"+ic);
+                           if((isNumeric(ic) && new Integer(ic)>0) || ic.equals("") || ic.equals("0"))
+                           {
+                               System.out.println("ic value inside is:::"+ic);
+                               
+                           if(!ic.equals(val)){
+                               //dont replace blank with 0s
+                               if(!(val.equals("0")&&ic.equals(""))){
+                                   
+                                uam.click();
+                             uam.clear();  
+                          uam.sendKeys(val);
+                               }
+                           }
+                            }
+                          break;
+                      case "enterblanks":
+                          //here, only blank values are entered. This excludes Zeros
+                          uam=driver.findElement(By.id(clmnar[cl]));
+                          
+                          uam.click();
+                          uam.clear();
+                          uam.sendKeys("");
+                          System.out.println("Zeros entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                          break;
+                      default:
+                          break;
+                  }
+                 
+                  
+                 
+                  }
+                                
+            }
+          //validateButton
+                    //ui-button-icon ui-icon ui-icon-closethick
+                
+            }  //checking if site exists
+                
+                else {
+                    System.out.println("Site Does not exist in Datim list::::::");
+                    
+                }
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AutoDataEntry.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       //  new WebDriverWait(driver, Duration.ofSeconds(150)).until(ExpectedConditions.elementToBeClickable(By.linkText("Treatment"))).click();
+    
+    }
+    
+    public  void enterTX_TB(dbConn conn,WebDriver driver,HashMap<String,String> basics) throws InterruptedException{
+    
+        //Run the query for pulling all sites data from IMIS
+        //convert the resultset into a string hashmap 
+        //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array 
+        //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array 
+        
+        String entrytype=basics.get("entrytype");
+        try {
+            String qry="call internal_system.sp_dbot_TXTB('"+basics.get("sd")+"','"+basics.get("ed")+"');";
+            
+            System.out.println("query:"+qry);
+            
+           HashMap<String, String> alldata = new HashMap< >();
+            
+         
+            alldata=convertDatimResultSetToMap(getAnyDataFromDb(conn,qry));
+            
+            String dfacil=basics.get("hf");          
+            
+            if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id("oDe9APeim8V-T8xKXv1IFV3-val"))).isDisplayed()){
                 
                 
                 //get all columns
