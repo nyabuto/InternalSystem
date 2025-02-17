@@ -52,17 +52,17 @@ String utj_pass=null;
   //dhis2_username="";
 
   dhis2_username="ekaunda";
-  dhis2_Password="123456@Ab";
-  gmail_pass="jndhardsfmnmgfmx";
+  dhis2_Password="";
+  gmail_pass="";
   
   
-   utj_pass="cxjkkhzlwcksftrr";
-  utj_email="utjdata@usaidtujengejamii.org";
+   utj_pass="";
+  utj_email="";
   
-  //dhis2_username="emmanuelkaunda";
+  //dhis2_username="";
 
   
- // dhis2_Password="P@ssw0rd";
+ // dhis2_Password="";
   dhis2_API_URL="api/";
   
   dhis2_API_URL_orgUnits="organisationUnits.json?fields=id,name,level,parent,path,shortName&paging=false&links=false";  
