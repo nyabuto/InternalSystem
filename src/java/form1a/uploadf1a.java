@@ -121,7 +121,7 @@ public class uploadf1a extends HttpServlet {
             String subpartnerid = "", yearmonth = "", month = "";
             
             String uploadstatus="";
-            String lastexcelid="502";
+            String lastexcelid="506";
             
             session = request.getSession();
             if (session.getAttribute("userid") != null) {
@@ -166,7 +166,7 @@ public class uploadf1a extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 8.0.0";
+            String activeversion = "Form 1A  version 9.0.3";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -654,9 +654,9 @@ while (conn.rs2.next()) {
     }//end of correct version
     else {
         no_uploads=0;
-        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 8.0.0 <a href='uploadf1a.jsp'>Upload Version 8.0.0 here</href> <br>";
+        failed_reason+= "Failed: You have used Wrong F1a template version "+excelversion+" . Expected Version is 9.0.3 <a href='uploadf1a.jsp'>Upload Version 9.0.3 here</href> <br>";
 
-        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 8.0.0. <a href='uploadf1a.jsp'>Upload Version 8.0.0 here</href> \n " ;
+        String tx="Failed: You have used Wrong template version "+excelversion+" . Expected Version is 9.0.3. <a href='uploadf1a.jsp'>Upload Version 9.0.3 here</href> \n " ;
         if(!uploadstatus.contains(tx))
         {
             uploadstatus+=tx;

@@ -6,6 +6,7 @@
 package loaders;
 
 import General.IdGenerator;
+import General.IdGenerator2;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -100,10 +101,10 @@ public class loadyearmonth extends HttpServlet {
         JSONObject jomain = new JSONObject();
         
         
-             IdGenerator ig= new IdGenerator();
+             IdGenerator2 ig= new IdGenerator2();
         
         
-        String qry="select * from internal_system.htsself_period where id <="+ig.CurrentYearMonth()+" order by id desc limit 13";
+        String qry="select * from internal_system.htsself_period where concat(year,'-',monthid,'-',enddate) <'"+ig.LastMonthEndDate()+"' order by id desc limit 13";
         
              System.out.println(qry);
         
@@ -115,6 +116,8 @@ public class loadyearmonth extends HttpServlet {
             jo.put("id", conn.rs.getString("id"));
             jo.put("year", conn.rs.getString("year"));
             jo.put("month", conn.rs.getString("month"));
+            jo.put("monthid", conn.rs.getString("monthid"));
+            jo.put("enddate", conn.rs.getString("enddate"));
           
         armain.put(jo);
         }

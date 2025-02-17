@@ -345,11 +345,11 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     XSSFCell facilcl= rw.getCell(6);
                     facilcl.setCellValue(facilityname);
                     
-                    XSSFCell mflcl= rw.getCell(8);
+                    XSSFCell mflcl= rw.getCell(9);
                     mflcl.setCellValue(mflcode);
                     
                     
-                    XSSFCell facilidcl= rw.getCell(15);
+                    XSSFCell facilidcl= rw.getCell(16);
                     facilidcl.setCellValue(facilityid);
                     
                     
@@ -357,12 +357,12 @@ if(smonth.equals(emonth)){  mwezi=emonth;  } else { mwezi=smonth+"_to_"+emonth; 
                     countycl.setCellValue(county);
                     
                     
-                    XSSFCell monthcl= rw.getCell(12);
+                    XSSFCell monthcl= rw.getCell(13);
                     monthcl.setCellValue(month);
                     
                     
                     
-                    XSSFCell yearcl= rw.getCell(10);
+                    XSSFCell yearcl= rw.getCell(11);
                     yearcl.setCellValue(mwaka);
                     
                     

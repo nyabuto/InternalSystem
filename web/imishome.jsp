@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+   
 <head>
 	<title>IMIS</title>
 	<!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
@@ -19,10 +20,30 @@
          <link rel="shortcut icon" href="images/imis.png" width="20px" />
 
 	<!-- vendor css -->
-	<link rel="stylesheet" href="rmc_assets/css/style.css">
+	<!--<link rel="stylesheet" href="rmc_assets/css/style_2.css">-->
+        
+        
+        
+         <link rel="stylesheet" href="rmc_assets/css/style_2.css" >
+    <link rel="stylesheet" href="rmc_assets/css/style-preset.css" >
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- [Tabler Icons] https://tablericons.com -->
+<link rel="stylesheet" href="rmc_assets/fonts/tabler-icons.min.css" />
+<!-- [Feather Icons] https://feathericons.com -->
+<link rel="stylesheet" href="rmc_assets/fonts/feather.css" />
+<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+<link rel="stylesheet" href="rmc_assets/fonts/fontawesome.css" />                                                  
+<!-- [Material Icons] https://fonts.google.com/icons -->
+<link rel="stylesheet" href="rmc_assets/fonts/material.css" />
+   
+        
 	
-	   <link rel="stylesheet" href="select2/css/select2.css"/>
+	   <link rel="stylesheet" href="Login_v6/vendor/select2/select2.css"/>
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
+
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 </head>
 <body class="">
 	<!-- [ Pre-loader ] start -->
@@ -52,7 +73,7 @@
 	</header>
 	<!-- [ Header ] end -->
 	
-	
+	 
 
 <!-- [ Main Content ] start -->
 <div class="pcoded-main-container">
@@ -68,6 +89,7 @@
 				<div class="card">
 					<div class="card-body">
 						<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                                    <%if(session.getAttribute("userAccess")!=null){%>
 							<li class="nav-item">
 								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"> <span class="pcoded-micon"><i class="feather icon-bar-chart"></i></span>  Home</a>
 							</li>
@@ -105,9 +127,14 @@
 <!--                                                         <li class="nav-item">
 								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-resources" role="tab" aria-controls="pills-resources" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-external-link"></i></span>  Resources</a>
 							</li>-->
- <li class="nav-item">
+                                                        <%%> <li class="nav-item">
 								<a class="nav-link" id="pills-moremodules-tab" data-toggle="pill" href="#pills-moremodules" role="tab" aria-controls="pills-moremodules" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-plus"></i></span>Extras</a>
 							</li>
+                                                        
+
+
+
+  <%}%>
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -186,6 +213,8 @@
                                                             
                                                             
 						</div>
+                                                        
+                                                        
 					</div>
 				</div>
 			</div>
@@ -204,12 +233,12 @@
                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>                                    -->
 <!--<script src="assets/js/jquery-1.8.3.min.js"></script>-->  
                                                            
-<script src="select2/js/select2.js"></script>         
-  <script src="analytics/loadfilters.js"></script>         
+<script src="Login_v6/vendor/select2/select2.js"></script>         
+  <script src="analytics/loadimisfilters.js"></script>         
   <script src="queries/loadqueries.js"></script>         
                                                            <script>
                                                                
-jQuery(document).ready(function() {
+//jQuery(document).ready(function() {
    
    
     $.ajax({
@@ -227,9 +256,64 @@ success:function (data){
 
 //$('#county').select2();
 
-});
+//});
                                                                
-                                                           </script>
+</script>
+
+
+
+
+<script > 
+    // $(document).ready(function(){
+       // $("#progress_area").hide();
+       // $("#upload_area").show();
+         
+    
+     setInterval(function() {
+      load_records();
+      }, 1000);  
+    
+     //});
+     
+     function load_records(){
+             $.ajax({
+        url:'issessionactive',
+        type:"post",
+        dataType:"html",
+        success:function(dt){
+           // console.log(dt);
+if(dt.trim()==='true'){} else {
+
+window.location.href = "logout.jsp";
+
+
+}         
+        }, 
+        error: function(jqXHR, textStatus, errorThrown) {
+       //error in loading upload status
+       $("#status").html(errorThrown);
+            }
+  });
+     }
+     load_records();
+     
+     
+     
+     
+     
+     
+     
+           $(document).ready(function () {
+    const lp = localStorage.getItem("lastpage");
+    if (lp) 
+    {
+//       $(lp).click(); // Outputs: Hello from the main page!
+    }
+});
+    
+     
+     
+</script>
 
 </body>
 </html>

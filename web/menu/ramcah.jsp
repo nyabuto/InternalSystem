@@ -46,6 +46,9 @@
 					<li class="nav-item">
 					    <a href="ramcahhome.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Data Entry</span></a>
 					</li>
+					<li class="nav-item">
+					    <a href="ramcahimport.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-upload"></i></span><span class="pcoded-mtext">Data Import</span></a>
+					</li>
                                         
                                          <li class="nav-item pcoded-hasmenu">
 					    <!--<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-tablet"></i></span><span class="pcoded-mtext">Data Entry Forms</span></a>-->

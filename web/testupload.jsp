@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : UploadVL
     Created on : Mar 16, 2018, 8:37:33 AM
@@ -68,7 +69,8 @@ tr>td {
   padding-right: 3em;
 }                  
                 </style>
-                
+               
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%>  
   
 </head>
 <!-- END HEAD -->

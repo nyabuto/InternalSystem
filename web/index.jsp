@@ -38,14 +38,27 @@
 						</div>
 						<div class="form-group mb-4">
 							<input type="password" class="form-control"name ="password" id="Password" placeholder="Password">
+                                                        
+                                                        <input type="hidden" name="ipv4ad" id="ipv4ad"/>
+                                                        
 						</div>
-						<div class="custom-control custom-checkbox text-left mb-4 mt-2">
+                                                
+                                                <div class="g-recaptcha" data-sitekey="6LeYh0AqAAAAAOPpTdxB49Tqsm3PT6xf6JVY5iWG"></div>
+<!--						<div class="custom-control custom-checkbox text-left mb-4 mt-2">
 							<input type="checkbox" class="custom-control-input" id="customCheck1">
 							<label class="custom-control-label" for="customCheck1">Save credentials.</label>
-						</div>
+						</div>-->
 						<button class="btn btn-block btn-primary mb-4">Sign in</button>
+                                                
+                                                <div class="form-group mb-4">
+                                                    
+                                                    <div class="toast-body"><p class='ujumbe'></p></div>
+
+
+                                                    <p class='callalert' onclick="$('.toast-3s').toast('show')">.</p>   
+                                                </div>
 						<hr>
-						<p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html" class="f-w-400">Reset</a></p>
+						<!--<p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html" class="f-w-400">Reset</a></p>-->
 						<!--<p class="mb-0 text-muted">Don?t have an account? <a href="auth-signup.html" class="f-w-400">Signup</a></p>-->
 					</div>
 				</div>
@@ -66,9 +79,44 @@
 
 <script src="rmc_assets/js/pcoded.min.js"></script>
 
+<%if(session.getAttribute("kd_session")!=null){  response.sendRedirect("imishome.jsp");%><%} else { }%>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 
-</body>
+<script type="text/javascript">
+    
+    $.getJSON('https://api.ipify.org?format=json', function(data) {
+    console.log("Client's IP address is: " + data.ip);
+    $("#ipv4ad").val(data.ip);
+    
+});
+    
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    </script>
+    
+    <%if (session.getAttribute("login") != null) { %>
+   <script type="text/javascript"> 
+                    
+                    var uju='<%=session.getAttribute("login")%>';
+                    $('.ujumbe').html(uju);
+                    $('.callalert').click();
+                      
+                    
+                </script> <%
+                session.removeAttribute("login");
+                            }
+
+    %>
+      
+     
 
 </html>
 

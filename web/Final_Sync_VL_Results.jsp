@@ -59,7 +59,7 @@
 }
                     
                 </style>
-                
+                <%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
   
 </head>
 <!-- END HEAD -->
@@ -174,6 +174,7 @@
                                        <option value='sp_vl_insert_nonemrvl'>Refresh VLMIS-Monthly</option>
                                        <option value='sp_vl_insertwebsite_deduplicated'>Refresh VL Website-Monthly</option>
                                        <option value='sp_refresh_hypertension'>Refresh Hypertension</option>                                      
+                                       <option value='sp_refresh_ipt_cascade'>Refresh HFR TpT</option>                                      
                                              
                                       </select>
                               </div>

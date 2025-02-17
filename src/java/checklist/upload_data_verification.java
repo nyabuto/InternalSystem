@@ -81,16 +81,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      
      HashMap<String, String> versions= new HashMap<String, String>();
      
-     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
+     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 2.1.0");
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
-     int rowCount=41;
-     
+     int rowCount=41;     
 
 
 
-String dv[]={"id","facility_id","indicator_id","yearmonth","verificationdate","recounted_register_emr","moh731","form1a","concordance","khis","fmaps_adt","gaps","action_taken","responsible","timeline","status","value_before_correction","value_after_correction","correction_reason","correction_action","staff","tool_version"};
+String dv[]={"id","facility_id","indicator_id","yearmonth","verificationdate","recounted_register_emr","moh731","form1a","concordance","khis","fmaps_adt","gaps","action_taken","responsible","timeline","status","value_before_correction","value_after_correction","correction_reason","correction_action","staff","tool_version","emr"};
 
 //___________________________________________________________________________________________________________
 

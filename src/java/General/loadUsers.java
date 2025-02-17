@@ -24,9 +24,9 @@ import javax.servlet.http.HttpSession;
  */
 public class loadUsers extends HttpServlet {
 HttpSession session;
-String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checked711A,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC,checkedGapanalysis,checkedHTS,checkedART,checkedPMTCT,checkedF1a,checkedF1a_readonly;
+String checkedReport,checkedManagement,checkedUploads,checkedmoh731,checkedactive,checkedTB,checkedGender,checkedNutrition,checkedKMMP,checkedVMMC,checkedGapanalysis,checkedHTS,checkedART,checkedPMTCT,checkedF1a,checkedF1a_readonly;
 String data;
-int report,management,moh711,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads,gapanalysis,hts,art,pmtct,f1a,f1a_readonly;
+int report,management,isactive,moh731,tb,gender,nutrition,kmmp,position,accessLevel,vmmc,uploads,gapanalysis,hts,art,pmtct,f1a,f1a_readonly;
 String userid,fname,mname,lname,username,fullname,Access;
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -46,7 +46,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 + "<th>Access Management</th>" 
 + "<th>Access Upload Excel</th>"
 //+ "<th>Access MOH711A</th>"
-+ "<th>Access MOH711</th>"
+
 + "<th>Access MOH731</th>"
 + "<th>Access Gender</th>"
 + "<th>Access Nutrition</th>"
@@ -57,12 +57,13 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
 + "<th>HTS</th>"
 + "<th>ART</th>"
 + "<th>F1 ReadOnly</th>"
++ "<th>Activate Account</th>"
 + "</tr></thead>";
          
           String getAllUsers="SELECT * FROM user";
           conn.rs=conn.st.executeQuery(getAllUsers);
           while(conn.rs.next()){
-checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP=checkedGapanalysis=checkedHTS=checkedART=checkedPMTCT=checkedF1a_readonly=checkedF1a="";
+checkedReport=checkedManagement=checkedmoh731=checkedactive=checkedTB=checkedGender=checkedNutrition=checkedUploads=checkedKMMP=checkedGapanalysis=checkedHTS=checkedART=checkedPMTCT=checkedF1a_readonly=checkedF1a="";
          position++;
          
         userid=conn.rs.getString("userid");
@@ -78,7 +79,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         
         report=conn.rs.getInt("access_reports");
         management=conn.rs.getInt("access_maintenance");
-        moh711=conn.rs.getInt("access_moh711");
+        isactive=conn.rs.getInt("isactive");
         moh731=conn.rs.getInt("access_moh731");
         f1a=conn.rs.getInt("access_form1a");
         gender=conn.rs.getInt("access_gender");
@@ -93,7 +94,7 @@ checkedReport=checkedManagement=checkedmoh731=checked711A=checkedTB=checkedGende
         
         if(report==1){checkedReport="checked";}      
         if(management==1){checkedManagement="checked";}      
-        if(moh711==1){checked711A="checked";}      
+        if(isactive==1){checkedactive="checked";}      
         if(moh731==1){checkedmoh731="checked";}
         if(f1a==1){checkedF1a="checked";}
         if(gender==1){checkedGender="checked";}
@@ -115,7 +116,7 @@ data+="<td>"+Access+"</td>";
 data+="<td><input type=\"checkbox\" name=\"access_reports_"+position+"\" onchange=\"return updator('access_reports##"+position+"');\" id=\"access_reports##"+position+"\" style=\"width:20px;\" "+checkedReport+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_maintenance_"+position+"\" onchange=\"return updator('access_maintenance##"+position+"');\" id=\"access_maintenance##"+position+"\" style=\"width:20px;\" "+checkedManagement+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_uploads_"+position+"\" onchange=\"return updator('access_uploads##"+position+"');\" id=\"access_uploads##"+position+"\" style=\"width:20px;\" "+checkedUploads+" ></td>"; 
-data+="<td><input type=\"checkbox\" name=\"access_moh711_"+position+"\" onchange=\"return updator('access_moh711##"+position+"');\" id=\"access_moh711##"+position+"\" style=\"width:20px;\" "+checked711A+" ></td>"; 
+ 
 data+="<td><input type=\"checkbox\" name=\"access_moh731_"+position+"\" onchange=\"return updator('access_moh731##"+position+"');\" id=\"access_moh731##"+position+"\" style=\"width:20px;\" "+checkedmoh731+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_gender_"+position+"\" onchange=\"return updator('access_gender##"+position+"');\" id=\"access_gender##"+position+"\" style=\"width:20px;\" "+checkedGender+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_nutrition_"+position+"\" onchange=\"return updator('access_nutrition##"+position+"');\" id=\"access_nutrition##"+position+"\" style=\"width:20px;\" "+checkedNutrition+" ></td>"; 
@@ -126,6 +127,7 @@ data+="<td><input type=\"checkbox\" name=\"gapanalysis_"+position+"\" onchange=\
 data+="<td><input type=\"checkbox\" name=\"access_hts_"+position+"\" onchange=\"return updator('access_hts##"+position+"');\" id=\"access_hts##"+position+"\" style=\"width:20px;\" "+checkedHTS+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"access_art_"+position+"\" onchange=\"return updator('access_art##"+position+"');\" id=\"access_art##"+position+"\" style=\"width:20px;\" "+checkedART+" ></td>"; 
 data+="<td><input type=\"checkbox\" name=\"readonly_form1a_"+position+"\" onchange=\"return updator('readonly_form1a##"+position+"');\" id=\"readonly_form1a##"+position+"\" style=\"width:20px;\" "+checkedF1a_readonly+" ></td>"; 
+data+="<td><input type=\"checkbox\" name=\"isactive_"+position+"\" onchange=\"return updator('isactive##"+position+"');\" id=\"isactive##"+position+"\" style=\"width:20px;\" "+checkedactive+" ></td>";
 data+="</tr>";
 
     }

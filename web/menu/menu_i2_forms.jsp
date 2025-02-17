@@ -38,7 +38,7 @@
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-6">
-                                            <h5 class="formcss"><img style="width:150px;" src="./images/icons/prep.png" class="img img-circle" />Consolidated Prep</h5>
+                                            <h5 class="formcss"><img style="width:150px;" src="./images/icons/prep.png" class="img img-circle" />Monthly Prep</h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
@@ -151,7 +151,7 @@
 				</div>
                                                                 
     <div class="row">
-					<div class="col-sm-12 col-md-6">
+					<div style="display:none;" class="col-sm-12 col-md-6">
 						<h5 class="formcss"> <img style="width:150px;" src="./images/icons/aca.png" class="img img-circle" />  ART  Cohort Analysis (ACA) & Maternal Cohort Analysis (MCA)</h5>
 						<hr>
 						<div class="card text-left">
@@ -169,7 +169,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-6">
+					<div class="col-sm-12 col-md-12">
 						<h5 class="formcss" > <img style="width:150px;" src="./images/icons/jmw.png" class="img img-circle" />  Jua Mtoto Wako (JMW)</h5>
 						<hr>
 						<div class="card text-left">

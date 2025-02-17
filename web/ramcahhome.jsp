@@ -22,6 +22,7 @@
 	<link rel="stylesheet" href="rmc_assets/css/style.css">
 	
 	
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 
 </head>
 <body class="">

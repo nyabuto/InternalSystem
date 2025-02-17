@@ -98,6 +98,9 @@ td{
 </style>
 <script type="text/javascript" src="js/fas/sum_values.js"></script>
 <script type="text/javascript" src="js/fas/validation.js"></script>
+
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

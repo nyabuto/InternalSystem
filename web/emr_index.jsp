@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>UTJ Courses</title>
+	<title>EMR Status</title>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,7 +44,16 @@
 
 </head>
 <body>
-	
+	<%
+        
+        String c="";
+        
+if(request.getParameter("c")!=null)
+{
+c=request.getParameter("c");
+}
+        
+        %>
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-t-3 p-b-20">
@@ -57,7 +66,7 @@
 					
 
 					<div class="wrap-input100 validate-input m-b-50" data-validate="Enter Access Code">
-						<input class="input100" type="password" name="codeaccess">
+                                            <input value="<%=c%>" class="input100" type="password" name="codeaccess">
 						<span class="focus-input100" data-placeholder="Enter Acess Code"></span>
 					</div>
 

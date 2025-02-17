@@ -59,7 +59,7 @@
 }
                     
                 </style>
-                
+                <%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
   
 </head>
 <!-- END HEAD -->
@@ -211,10 +211,10 @@
                              
                          
                               
-  <label id="generaterpt" class="btn green" onclick="getReport();">Generate report</label>
+  <label id="generaterpt" class="btn green" onclick="getReport();">Refresh Tables</label>
                           
 
-                         
+                         <a href="fpt_sendDataToDHIS.jsp" class="btn btn-success">Send Data</a>
                            </div>
                                    </td>
                             </tr> 

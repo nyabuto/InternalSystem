@@ -6,11 +6,11 @@
 
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+ 
 <nav class="pcoded-navbar  ">
 		<div class="navbar-wrapper  ">
 			<div class="navbar-content scroll-div " >
-				
+				 
 				<div class="">
 					<div class="main-menu-header">
                                             <img class="img-radius" src="images/imis.png" alt="User-Profile-Image">
@@ -43,6 +43,62 @@
 					<li class="nav-item">
 					    <a href="imishome.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
 					</li>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                                                           <%if(session.getAttribute("userAccess")!=null){%>
+							
+							<li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-forms-tab');"  href="#pills-forms" > <span class="pcoded-micon"><i class="feather icon-info"></i></span> Forms</a>
+							</li>
+                                                        <li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-reprates-tab');"  href="#pills-reprates" > <span class="pcoded-micon"><i class="feather icon-clock"></i></span>Reporting Rates</a>
+							</li>
+                                                        
+                                                        <li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-gapanalysis-tab');"  href="#pills-gapanalysis" > <span class="pcoded-micon"><i class="feather icon-activity"></i></span>Gap Analysis</a>
+							</li>
+                                                        
+                                                         
+                                                        
+                                                         <li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-dataexchange-tab');" data-toggle="pill" href="imishome.jsp#pills-dataexchange"  >  <span class="pcoded-micon"><i class="feather icon-cast"></i></span>Data Exchange</a>
+							</li>
+                                                         <li class="nav-item">
+							<a class="nav-link" onclick="clicktb('pills-emr-tab');"  href="#pills-emr" >  <span class="pcoded-micon"><i class="feather icon-link"></i></span>  EMR</a>
+							</li>
+                                                        
+							<li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-reports-tab');"  href="imishome.jsp#pills-reports" > <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span>   Excel Reports</a>
+							</li>
+                                                       
+                                                        
+                                                        <li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-contact-tab');" data-toggle="pill" href="#pills-queries" role="tab" > <span class="pcoded-micon"><i class="feather icon-command"></i></span> Queries</a>
+							</li>
+                                                        <li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-management-tab');" href="#pills-management"  > <span class="pcoded-micon"><i class="feather icon-settings"></i></span>  Management</a>
+							</li>
+<!--                                                         <li class="nav-item">
+								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-resources" role="tab" aria-controls="pills-resources" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-external-link"></i></span>  Resources</a>
+							</li>-->
+                                                        <%%> <li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-moremodules-tab');"  href="#pills-moremodules" > <span class="pcoded-micon"><i class="feather icon-plus"></i></span>Extras</a>
+							</li>
+                                                        
+
+
+
+  <%}%>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
                                         
 <!--                                         <li class="nav-item pcoded-hasmenu">
 					    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-tablet"></i></span><span class="pcoded-mtext">Data Entry Forms</span></a>
@@ -84,9 +140,9 @@
                                         
                                         
                                         <li class="nav-item pcoded-hasmenu">
-					    <a href="logout.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Log Out</span></a>
+					    <a href="logout" class="nav-link "><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Log Out</span></a>
 					    <ul class="pcoded-submenu">
-					        <li><a href="logout.jsp" >Sign out</a></li>
+					        <li><a href="logout" >Sign out</a></li>
 					    </ul>
 					</li>
                                         
@@ -99,3 +155,14 @@
 			</div>
 		</div>
 	</nav>
+
+  
+  <script>
+      
+      function clicktb(elm){
+          
+          $("#"+elm).click();
+          
+      }
+      
+  </script>

@@ -85,6 +85,8 @@ table{
 }
 </style>
 <script type="text/javascript" src="js/sum_newvmmc.js"></script>
+
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

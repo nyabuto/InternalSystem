@@ -407,7 +407,7 @@ nojustgap++;
  //now go to the database and do a query for each section
 
  String getqueries="Select * from gap_analysis where active=1 and section='"+Sections[a]+"'  ";
- 
+          System.out.println(" Get queries:"+getqueries);
  conn.rs=conn.st.executeQuery(getqueries); 
  while(conn.rs.next()){
  String active_section=conn.rs.getString("subpartnera_column");

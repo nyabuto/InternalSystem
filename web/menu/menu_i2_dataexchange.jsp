@@ -124,6 +124,7 @@
                                                                 <a  href="fpt_tobaselines_refresh.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>Refresh FPT table </a>
                                                                 <a  href="fpt_sendDataToDHIS.jsp" class="btn btn-light"><i class="feather icon-bluetooth"></i>Push Data to PPMS</a>
                                                                 <a  href="../Cohorts/hfrreports.jsp" class="btn btn-light"><i class="feather icon-clipboard"></i>Push HFR & JMW to PPMS</a>
+                                                                <a  href="refreshDHIS2.jsp" class="btn btn-light"><i class="feather icon-clipboard"></i>Pull DHIS Instance Resources</a>
                                                                 
                                                                 
        
@@ -171,6 +172,9 @@
                  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",uploads,")){%> 
                                                                 
                                                                 <a  href="DatimEntryAuto.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Bot)</a>
+                                                                <a  href="DatimEntryAutons.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (No search)</a>
+                                                                <a  href="DatimAutoEntryMulti.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Multi screens)</a>
+                                                                <a  href="DatimAutoEntryMultins.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Multi screens no search)</a>
                                                                 
                                                                 
                                                                 
@@ -231,8 +235,10 @@
 							
 								  <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
                    <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",uploads,")){%> 
-                                                                <a  href="khis_to_imis_template.xlsx" class="btn btn-light"><i class="feather icon-save"></i>Download KHIS Template</a>
+                                                                <a  href="khis_to_imis_template.xlsx" class="btn btn-light"><i class="feather icon-save"></i>Download KHIS Template(Old)</a>
+                                                                <a  href="moh_731_2023_khis_template.xlsx" class="btn btn-light"><i class="feather icon-save"></i>Download KHIS Template(New)</a>
                                                                 <a  href="https://hiskenya.org/dhis-web-data-visualizer/index.html#/WOIdhoNIYB8" class="btn btn-light"><i class="feather icon-save"></i>UTJ Monthly Favorite</a>
+                                                                <a  href="https://hiskenya.org/dhis-web-data-visualizer/index.html#/CN95YzjrE8C" class="btn btn-light"><i class="feather icon-save"></i>MOH 731 Rev 23</a>
                                                                
                                                                 <a  href="sc_arv_disp_curr_template.xlsx" class="btn btn-light"><i class="feather icon-save"></i>Download SC_ARV & SC_Curr Template</a>
                                                                

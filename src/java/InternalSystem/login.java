@@ -6,6 +6,7 @@
 
 package InternalSystem;
 
+import General.IdGenerator2;
 import database.dbConn;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 public class login extends HttpServlet {
 HttpSession session;
-String username,password,fname,mname,lname,userid,level,pass,fullname,status,nextPage,email;
+String username,password,fname,mname,lname,userid,level,pass,fullname,status,nextPage,email,ipv4ad,useractive;
 MessageDigest m;
 String userAccess;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -35,17 +36,32 @@ String userAccess;
       session=request.getSession();
           dbConn conn = new dbConn();
          //conn.st.executeUpdate("Set GLOBAL  max_connections=6000");
-          
-          username=password=fname=mname=lname=userid=level=pass=fullname=status=nextPage="";
+           IdGenerator2 ig= new IdGenerator2();
+          username=password=fname=mname=lname=userid=level=pass=fullname=status=nextPage=ipv4ad=useractive="";
           userAccess=",";
-          username=request.getParameter("username").trim();
-          pass=request.getParameter("password").trim();
           
           
+          if(request.getParameter("username")!=null){ username=request.getParameter("username").trim();}
+          if(request.getParameter("password")!=null){pass=request.getParameter("password").trim();}
+          if(request.getParameter("ipv4ad")!=null){ ipv4ad=request.getParameter("ipv4ad").trim();}
+          
+          
+          
+          //ipv4ad
            HashMap<String, String> kd= new HashMap<>();
 
 
+if(isMaxLimitsReached(conn, username, 5)){// denie user login
+    
+    
+     status="<font color=\"red\"><b>Failed:</b> You have entered incorrect Password too many times. Please Try login again after 15 minutes!.</font>";
+             nextPage="index.jsp";
+             session.setAttribute("login", status);
+}
 
+else {
+    //proceed
+        
          
           System.out.println("username : "+username+" password : "+pass);
           m = MessageDigest.getInstance("MD5");
@@ -54,7 +70,7 @@ String userAccess;
         System.out.println("username : "+username+" password : "+password);  
         String logger="SELECT userid,fname,mname,lname,level,"
        + "access_reports,access_maintenance,access_moh711,access_moh731,"
-                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct,access_form1a,readonly_form1a,access_checklist,email " 
+                + "access_tb,access_gender,access_nutrition,access_kmmp,access_vmmc,access_uploads,gapanalysis,access_hts,access_art,access_pmtct,access_form1a,readonly_form1a,access_checklist,email,isactive " 
                 + " FROM user WHERE username=? && password=?" ;
         conn.pst=conn.conn.prepareStatement(logger);
         conn.pst.setString(1, username);
@@ -68,6 +84,7 @@ String userAccess;
              lname=conn.rs.getString(4);
              level=conn.rs.getString(5);
              email=conn.rs.getString("email");
+             useractive=conn.rs.getString("isactive");
              fullname=fname+" "+mname+" "+lname;
              session.setAttribute("userid", userid);
              session.setAttribute("fullname", fullname);
@@ -81,7 +98,7 @@ String userAccess;
              
              
              
-              kd.put("userid", userid);
+             kd.put("userid", userid);
              kd.put("fullname", fullname);
              kd.put("level", level);
              kd.put("username", username);
@@ -89,9 +106,14 @@ String userAccess;
              kd.put("mname", mname);
              kd.put("lname", lname);
              kd.put("email", email);
+             kd.put("password", pass);
              
-           session.setAttribute("kd_session", kd); 
              
+            
+             
+         
+           
+             updateuserlogin(conn,username, ipv4ad ,session.getId(), 0,""+ig.timestamp());
              
              if(conn.rs.getInt("access_reports")==1){userAccess+="reports,";}
              if(conn.rs.getInt("access_maintenance")==1){userAccess+="maintenance,";}
@@ -116,19 +138,36 @@ String userAccess;
              
            session.setAttribute("userAccess", userAccess);  
            status="success"; 
-           if(level.equals("4")){nextPage="rmcahdashboards.jsp";} else {           
+            if(useractive.equals("0")){
+                nextPage="index.jsp";
+            
+            status="<font color=\"red\"><b>Failed:</b> This account was disabled by the Administrator.</font>";
+            }
+           else if(level.equals("4")){
+                 session.setAttribute("kd_session", kd); 
+               nextPage="rmcahdashboards.jsp";}
+           
+           else {
+                 session.setAttribute("kd_session", kd); 
            nextPage="imishome.jsp";
            }
           
-           System.out.println("access rights : "+session.getAttribute("userAccess"));
+           System.out.println("account active : "+useractive);
          }
          else
          {
+              updateuserlogin(conn,username, ipv4ad ,session.getId(), 1,"");
+             
              status="<font color=\"red\"><b>Failed:</b> Wrong username and password combination.</font>";
              nextPage="index.jsp";
              session.setAttribute("login", status);
          }
-         System.out.println("STATUS IS :  "+status);
+         
+         
+    }
+         
+         
+         System.out.println("Next Page is :  "+nextPage);
          if(conn.conn!=null){
  conn.conn.close();
          }
@@ -196,5 +235,86 @@ String userAccess;
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    
+   public void updateuserlogin(dbConn conn,String uname, String ipadress ,String sessionid, int wrong_attempt_no,String succesfullogin ) throws SQLException
+   {
+       
+       
+       IdGenerator2 ig= new IdGenerator2();
+       
+       String tm=ig.timestamp();
+       
+       
+       String loginattemptqry=" select wrongattempts,lastsuccesfullogin from loginlogs where username='"+uname+"'" ;
+       
+       int totalwrongattempts=0;
+       int prev_attempt_no=0;
+       String lastsuccesfullogin="";
+       
+       conn.rs4=conn.st4.executeQuery(loginattemptqry);
+       
+       if(conn.rs4.next())
+       {
+       prev_attempt_no=conn.rs4.getInt(1);
+       lastsuccesfullogin=conn.rs4.getString(2);
+       
+       }
+       
+       
+       if(succesfullogin.equals("")){succesfullogin=lastsuccesfullogin;}
+       //if the current login is succesful, meaning wrong attempt is 0, user will be categorized as having no worng attempts, regardless of the previous wrong attempts
+       
+       if(wrong_attempt_no==0){totalwrongattempts=0;} 
+       else 
+       {           
+           //increment previous wrong attempts by 1
+           totalwrongattempts=prev_attempt_no+1;
+           
+       }
+       String upd="replace into loginlogs (username,wrongattempts,ipadress,lastsuccesfullogin,lastloginattempt) value (?,?,?,?,?)";
+       
+        conn.pst3=conn.conn.prepareStatement(upd);
+        
+        conn.pst3.setString(1,uname);
+        conn.pst3.setString(2,""+totalwrongattempts);
+        conn.pst3.setString(3,ipadress);
+        conn.pst3.setString(4,succesfullogin);
+        conn.pst3.setString(5,tm);
+        
+         conn.rs3=conn.pst3.executeQuery();
+       
+   
+   } 
+   
+   
+   public boolean isMaxLimitsReached(dbConn conn, String uname, int wrongattemptsthreshold) throws SQLException
+   {
+       IdGenerator2 ig= new IdGenerator2();
+       
+       
+       boolean reachedlimits=false;
+       
+       String maxlimits="select wrongattempts, TIMESTAMPDIFF(MINUTE, substring(lastloginattempt,1,19), '"+ig.timestamp().substring(0, 19)+"') AS minutes from loginlogs where username='"+uname+"' and wrongattempts >='"+wrongattemptsthreshold+"' and TIMESTAMPDIFF(MINUTE, lastloginattempt, '"+ig.timestamp()+"') <15 ";
+       
+       System.out.println("max Limit query: "+maxlimits);
+       conn.rs=conn.st.executeQuery(maxlimits);
+       
+       if(conn.rs.next())
+       {
+           
+         reachedlimits=true;  
+           
+       }
+       
+              
+    return reachedlimits;
+   
+       
+   
+   }
+   
+    
+   
 
 }

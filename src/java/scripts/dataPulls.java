@@ -6,6 +6,11 @@
 package scripts;
 
 
+
+
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import database.dbConn;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +19,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,7 +76,59 @@ public class dataPulls extends HttpServlet {
             String pkidval="";
             String maintablename="";
             String vwtable="";
+            String datimindicswhr="";
             //loadmtrs_sel_val,act=loadmothers,fac
+            
+            
+            
+            String cnt="";
+            String sct="";
+            String rgn="";
+            String fc="";
+            String orgunitfilter="";
+            
+            String sd="";
+            String ed="";
+            String full_sd="";
+            String full_ed="";
+            String groupby="";
+            String groupbyorgunit="";
+            
+            
+            
+            String ramcahstoredprocedure="";
+            
+            String qtr="";
+            
+            
+            
+            if(request.getParameter("act")!=null){act=request.getParameter("act");}
+            if(request.getParameter("fc")!=null){fc=request.getParameter("fc");}
+            if(request.getParameter("cnt")!=null){cnt=request.getParameter("cnt");}
+            if(request.getParameter("mdt")!=null){rgn=request.getParameter("mdt");}
+            if(request.getParameter("sct")!=null){sct=request.getParameter("sct");}
+            if(request.getParameter("sd")!=null){sd=request.getParameter("sd");}
+            if(request.getParameter("ed")!=null){ed=request.getParameter("ed");}
+            if(request.getParameter("full_ed")!=null){full_ed=request.getParameter("full_ed");}
+            if(request.getParameter("full_sd")!=null){full_sd=request.getParameter("full_sd");}
+            if(request.getParameter("groupby")!=null){groupby=request.getParameter("groupby");}
+            if(request.getParameter("groupbyorgunit")!=null){groupbyorgunit=request.getParameter("groupbyorgunit");}
+            
+            
+            
+            if(request.getParameter("sp")!=null){ramcahstoredprocedure=request.getParameter("sp");}
+            
+            
+             String mywhere=" and 1=1 ";
+             
+             if(!fc.equals("")){mywhere+=" and sa.SubPartnerID in (\""+fc+"\") ";}
+             else if(!sct.equals("")){mywhere+=" and sa.DistrictID in (\""+sct+"\") ";}
+             else if(!rgn.equals("")){mywhere+=" and mdt in (\""+rgn+"\") ";}
+             else if(!cnt.equals("")){mywhere+=" and ds.CountyID in (\""+cnt+"\") ";}
+             //else if(!ed.equals("")){mywhere=" and cd.linelisting_month <= \""+ed+"\" ";}
+             //else if(!sd.equals("")){mywhere=" and cd.linelisting_month >= \""+sd+"\" ";}
+
+
             
             if(request.getParameter("act")!=null){act=request.getParameter("act");}
             if(request.getParameter("fac")!=null){fac=request.getParameter("fac");}
@@ -76,6 +136,7 @@ public class dataPulls extends HttpServlet {
             if(request.getParameter("tablename")!=null){maintablename=request.getParameter("tablename");}
             if(request.getParameter("vwtable")!=null){vwtable=request.getParameter("vwtable");}
             if(request.getParameter("pkidval")!=null){pkidval=request.getParameter("pkidval");}
+            if(request.getParameter("qtr")!=null){qtr=request.getParameter("qtr");}
            
             if(request.getParameter("loadmtrs_sel_val")!=null){loadmtrs_sel_val=request.getParameter("loadmtrs_sel_val");}
             
@@ -84,7 +145,21 @@ public class dataPulls extends HttpServlet {
             
              if(request.getParameter("fm")!=null){fm=request.getParameter("fm");}
              if(request.getParameter("table_docker")!=null){table_docker=request.getParameter("table_docker");}
+             if(request.getParameter("datimindicswhr")!=null){
+                 
+                 String prmsv[]=request.getParameter("datimindicswhr").split(",");
+                 String scts="";
+                 for(int cx=0;cx<prmsv.length;cx++){if(cx<prmsv.length-1){scts+="'"+prmsv[cx]+"',";} else {scts+="'"+prmsv[cx]+"'";}}
+                 
+                 String frqs="'QA'";
+                 
+                 if(qtr.contains("Q1")){frqs+=",'SA'";}
+                 if(qtr.contains("Q3")){frqs+=",'AN','SA'";}
+                 
+                 datimindicswhr=" and Section in ("+scts+") and frequency in ("+frqs+") ";
              
+             }
+             System.out.println("Built Where ="+datimindicswhr);
              //A table will load both headers and data values dynamically
             if(act.equals("loadedits"))
             {               
@@ -117,6 +192,23 @@ public class dataPulls extends HttpServlet {
             {               
                 
                ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(orgunit,',',upper(orgunit)) as rcd from ramcah_sum_indicators where is_active=1 group by orgunit ; ");
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
+            if(act.equals("getDatimSections"))
+            {               
+                
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(Section,',',Section) as rcd from datimbotqueries where active=1 group by Section order by `order` ; ");
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
+            
+            if(act.equals("getDatimIndicators"))
+            {               
+                
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(spname,',',Indicator) as rcd from datimbotqueries where active=1 "+datimindicswhr+" group by id order by `order`; ");
 
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     
@@ -234,18 +326,83 @@ public class dataPulls extends HttpServlet {
             }
                    if(act.equals("getDatimSites"))
             {               
+                //String siteswhere=" and subpartnera.DistrictID in (select DistrictId from district where CountyID in (1) )";
                 String siteswhere="";
                  
                 //siteswhere=" and subpartnera.CentreSanteID in (SELECT distinct(facility_id) FROM internal_system.fas_hypertension where yearmonth='202403' and total>0) ";
                // siteswhere=" and subpartnera.CentreSanteID in (14432,14607,15138,14477,20005,14609,15174,15305,15502,10890,15325,15339,15170,15266,10672,14404,15417,15589,14836,14431,16683,15398,15280,14805,14845,14551,15108,14801,14802,15406,25155,18009,15009,14265,15008,14207,14733,15365,14263,14177,20137,14224,14611,14223,14424,15678,16390,15495,15372,15331,15156,15358,15013,15200,14426,15126,14943,15768,15682,14212) ";
                  
-               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(datimname,',',datimname,'-',CentreSanteID) as site from internal_system.subpartnera   where active =1 "+siteswhere+"   order by datimname ASC ");
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(datimname,',',datimname,'-',CentreSanteID) as site from internal_system.subpartnera   where active =1 "+siteswhere+" and datimname is not null  order by datimname ASC ");
 
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     
             }
+                   
+                    if(act.equals("getMonthlyBintiEnrollmentsChart"))
+            {               
+             //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
+               // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"call sp_Binti_Shujaa_monthly_enrollments('"+mywhere+"')");
+                System.out.println("______Pulling Data from "+maintablename);
+                out.println(toJsonFormatDynamic(rs1));                                               
+    
+            }
+                    
+                            if(act.equals("getRamcahCharts"))
+            {               
+             //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
+               // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"call "+ramcahstoredprocedure+"('"+mywhere+"')");
+                System.out.println("______Pulling Data from "+maintablename);
+                out.println(toJsonFormatDynamic(rs1));                                             
+    
+            }
+                            if(act.equals("getEmrCascades"))
+            {               
+             //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
+               // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"call analytics_emr_cascades('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"')");
+                System.out.println("______Pulling Data from "+maintablename);
+                out.println(toJsonFormatDynamic(rs1));                                             
+    
+            }
+                            if(act.equals("getEmrCascadesReadable"))
+            {               
+             //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
+               // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
+               ResultSet rs3=pullDataFromDbGivenQuery(conn,"call analytics_emr_cascades_mdt('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"')");
+             
+                
+                
+//                JSONArray ja= toJsonFormatDynamic(rs3);
+//                System.out.println("______Pulling Data from "+ja);
+//                
+                out.println(toOrderedJsonFormatDynamic(rs3)); 
+    
+            }
+                            if(act.equals("getEmrRdqaData"))
+            {               
+             //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
+               // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
+               ResultSet rs3=pullDataFromDbGivenQuery(conn,"call analytics_emr_rdqa('"+mywhere+"', '"+full_sd+"', '2024-11-30', '"+groupbyorgunit+"', '"+groupby+"')");
+             
+                
+                
+//                JSONArray ja= toJsonFormatDynamic(rs3);
+              System.out.println("call analytics_emr_rdqa('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"')");
+//                
+                out.println(toOrderedJsonFormatDynamic(rs3)); 
+    
+            }
             
             
+                   
+                   if(conn.rs!=null){conn.rs.close();}
+                   if(conn.rs1!=null){conn.rs1.close();}
+                   if(conn.st!=null){conn.st.close();}
+                   if(conn.st1!=null){conn.st1.close();}
+                   if(conn.conn!=null){conn.conn.close();}
+                   
         }
     }
 
@@ -438,7 +595,7 @@ while(res.next())
 
                 for (int i = 1; i <= columnCount; i++) {
                     mycolumns.add(metaData.getColumnLabel(i));                    
-                  
+                   
                 }//end of for loop
                 count++;
             }//end of if
@@ -446,18 +603,111 @@ while(res.next())
     
     
 JSONObject jo = new JSONObject(); 
+Map<String, Object> orderedMap = new LinkedHashMap<>();
 
 for(int c=0;c<mycolumns.size();c++){
     String vl="";
     if(res.getString(mycolumns.get(c).toString())!=null){vl=res.getString(mycolumns.get(c).toString());}
 jo.put(mycolumns.get(c).toString(),vl);
-
     
 }
 
+//System.out.println("On result set  to Json Format Conversion, the JSON Object data is: "+orderedMap);
 
 
 jo2.put(jo);
+    
+count++;
+    
+}
+    
+return jo2;    
+}
+
+
+public JSONArray toOrderedJsonFormatDynamic(ResultSet res) 
+        throws SQLException, JsonProcessingException
+{
+
+    
+int count1=0;
+
+  ResultSetMetaData metaData = res.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+         
+        int count = count1;
+        ArrayList mycolumns = new ArrayList();
+    
+    
+    
+JSONArray jo2 = new JSONArray();
+
+
+
+
+while(res.next())
+{
+    
+     if (count == (count1)) 
+     {
+
+                for (int i = 1; i <= columnCount; i++) {
+                    mycolumns.add(metaData.getColumnLabel(i));                    
+                   
+                }//end of for loop
+                count++;
+            }//end of if
+    
+    
+    JSONArray jo3 = new JSONArray();
+    
+JSONObject jo = new JSONObject(); 
+
+LinkedHashMap<String, String> orderedMap = new LinkedHashMap<String,String>();
+
+for(int c=0;c<mycolumns.size();c++)
+{
+    String vl="";
+    if(res.getString(mycolumns.get(c).toString())!=null){vl=res.getString(mycolumns.get(c).toString());}
+    
+    
+orderedMap.put(mycolumns.get(c).toString(),vl);
+jo.put(mycolumns.get(c).toString(),vl);
+   
+
+
+
+}
+
+ObjectMapper om = new ObjectMapper();
+       String  json;
+   json = om.writerWithDefaultPrettyPrinter().writeValueAsString(orderedMap);
+
+   
+    String underscore="\"";
+   String underscore1="\"\"";
+   
+    System.out.println("underscore:"+underscore+":underscore1"+underscore1);
+   
+  json = json.replace("\r\n", "");
+  json = json.replace("\"",underscore);
+  json = json.replace("\",  \"","\",\"");
+  json = json.replace(" : ",":");
+  json = json.replace("{  \"","{\"");
+//json = json.replaceAll("'", "\"");
+     //ObjectMapper objectMapper = new ObjectMapper();
+        //String unescaped = objectMapper.readValue(json, String.class);
+//    Object jsonObject = om.readValue(json, Object.class);
+  
+jo=  new JSONObject(orderedMap);
+System.out.println("Ordered Map is is:: "+json+"");
+
+
+
+
+
+jo2.put(json+"");
     
 count++;
     

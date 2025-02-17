@@ -441,17 +441,34 @@ allin.add("total");
                     
                   wb=  populatePrep(wb, required_rows, allin, hm);
                  
-  String [] required_rows_prepnew={"1:528_"+rw_suffix,"2:530_"+rw_suffix,"3:527_"+rw_suffix,"4:531_"+rw_suffix,"5:529_"+rw_suffix,"6:526_"+rw_suffix,"7:532_"+rw_suffix,"8:525_"+rw_suffix,"9:533_"+rw_suffix};
+  String [] required_rows_prepnew={"1:528_"+rw_suffix,"2:530_"+rw_suffix,"3:527_"+rw_suffix,"4:531_"+rw_suffix,"5:529_"+rw_suffix,"6:526_"+rw_suffix,"7:532_"+rw_suffix,"8:525_"+rw_suffix,"9:565_"+rw_suffix,"10:566_"+rw_suffix,"11:533_"+rw_suffix};
                  
+                  //525,526,527,528,529,530,531,532,533,565,566
                   
+                 
+
+
+
+
+
                   
 ArrayList allin_pn = new ArrayList();
 allin_pn.add("m19");
 allin_pn.add("f19");
 allin_pn.add("m24");
 allin_pn.add("f24");
-allin_pn.add("m25");
-allin_pn.add("f25");
+allin_pn.add("m29");
+allin_pn.add("f29");
+allin_pn.add("m34");
+allin_pn.add("f34");
+allin_pn.add("m39");
+allin_pn.add("f39");
+allin_pn.add("m44");
+allin_pn.add("f44");
+allin_pn.add("m49");
+allin_pn.add("f49");
+allin_pn.add("m50");
+allin_pn.add("f50");
 allin_pn.add("total");
                   
  wb=  populatePrepnew(wb, required_rows_prepnew, allin_pn, hm_pn);
@@ -466,11 +483,11 @@ allin_pn.add("total");
                   
             if (OSValidator.isWindows()) 
             {
-                npt = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\Consolidated_Prep_" + facilityname.replace(" ", "_")+"_"+year +"_"+mwezi+ ".xlsx";
+                npt = mydrive + ":\\HSDSA\\InternalSystem\\F1a\\Templates\\Monthly_Prep_" + facilityname.replace(" ", "_")+"_"+year +"_"+mwezi+ ".xlsx";
             }
             else if (OSValidator.isUnix()) 
             {
-                npt = "/HSDSA/InternalSystem/F1a/Templates/Consolidated_Prep_" + facilityname.replace(" ", "_")+"_"+year+"_"+mwezi+ ".xlsx";
+                npt = "/HSDSA/InternalSystem/F1a/Templates/Monthly_Prep_" + facilityname.replace(" ", "_")+"_"+year+"_"+mwezi+ ".xlsx";
             }
                 
 
@@ -501,7 +518,7 @@ byte[] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=" + "Consolidated_Prep_"+workbookidentifier.replace(" ", "_") + ".xlsx");
+response.setHeader("Content-Disposition", "attachment; filename=" + "Monthly_Prep_"+workbookidentifier.replace(" ", "_") + ".xlsx");
 response.setHeader("Set-Cookie","fileDownload=true; path=/");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
@@ -821,8 +838,23 @@ allin.add("f19");
 allin.add("m24");
 allin.add("f24");
 
-allin.add("m25");
-allin.add("f25");
+allin.add("m29");
+allin.add("f29");
+
+allin.add("m34");
+allin.add("f34");
+
+allin.add("m39");
+allin.add("f39");
+
+allin.add("m44");
+allin.add("f44");
+
+allin.add("m49");
+allin.add("f49");
+
+allin.add("m50");
+allin.add("f50");
 
 allin.add("total");
 

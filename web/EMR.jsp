@@ -61,8 +61,24 @@
         }
                     
 </style>
+
+
                 
-  
+  <%
+      
+    
+    if(session.getAttribute("kd_session")!=null){%><%} else {  
+
+if(session.getAttribute("emr_login")!=null)
+{
+
+}
+else {
+response.sendRedirect("emr_index.jsp");
+}
+
+
+}%> 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -255,7 +271,16 @@
                             </div>
                             </div>
                             
-                            
+                             <div class="control-group">
+                              <label class="control-label">EMR Server computer has a functional UPS?<required-field></required-field></label>
+                              <div class="controls">
+                       
+                                  <select  id="has_functional_ups" name="has_functional_ups" required="true" >
+                                      <option value="">Select Status</option>
+                                        <option ng-repeat="a in yesno" value="{{a}}">{{a}}</option>                                 
+                                  </select>      
+                            </div>
+                           </div>
                      
                             <div class="control-group">
                               <label class="control-label">Is Web ADT Installed?<required-field></required-field></label>
@@ -284,7 +309,7 @@
                             
                             
                              <div class="control-group">
-                              <label class="control-label">Reliable Power backup available?<required-field></required-field></label>
+                              <label class="control-label">Alternative Power source available?<required-field></required-field></label>
                               <div class="controls">
                        
                                   <select id="has_power_backup" name="has_power_backup" required="true" >

@@ -1809,6 +1809,54 @@
         <servlet-name>getSitesWithHptClients</servlet-name>
         <servlet-class>HPT.getSitesWithHptClients</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>micarereport</servlet-name>
+        <servlet-class>templatereports.micarereport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ehts_ML</servlet-name>
+        <servlet-class>DatimAutoScripts.ehts_ML</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>liftupmicareanalysis</servlet-name>
+        <servlet-class>templatereports.liftupmicareanalysis</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MultiAutoDataEntry</servlet-name>
+        <servlet-class>DatimAutoScripts.MultiAutoDataEntry</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MissingHPDM</servlet-name>
+        <servlet-class>HPDM.MissingHPDM</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>logout.logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>issessionactive</servlet-name>
+        <servlet-class>activesession.issessionactive</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>upload_data_verification_v200</servlet-name>
+        <servlet-class>checklist.upload_data_verification_v200</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadQOC</servlet-name>
+        <servlet-class>QOC.UploadQOC</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>micarev2</servlet-name>
+        <servlet-class>templatereports.micarev2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadrdqa</servlet-name>
+        <servlet-class>LoadExcels.uploadrdqa</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>validaterecaptacha</servlet-name>
+        <servlet-class>recapcha.validaterecaptacha</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3617,7 +3665,66 @@
         <servlet-name>getSitesWithHptClients</servlet-name>
         <url-pattern>/getSitesWithHptClients</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>micarereport</servlet-name>
+        <url-pattern>/micarereport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ehts_ML</servlet-name>
+        <url-pattern>/ehts_ML</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>liftupmicareanalysis</servlet-name>
+        <url-pattern>/liftupmicareanalysis</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MultiAutoDataEntry</servlet-name>
+        <url-pattern>/MultiAutoDataEntry</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MissingHPDM</servlet-name>
+        <url-pattern>/MissingHPDM</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>issessionactive</servlet-name>
+        <url-pattern>/issessionactive</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>upload_data_verification_v200</servlet-name>
+        <url-pattern>/upload_data_verification_v200</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadQOC</servlet-name>
+        <url-pattern>/UploadQOC</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>micarev2</servlet-name>
+        <url-pattern>/micarev2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadrdqa</servlet-name>
+        <url-pattern>/uploadrdqa</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>validaterecaptacha</servlet-name>
+        <url-pattern>/validaterecaptacha</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>-1</session-timeout>
+        <session-timeout>20</session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorpage.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error500.jsp</location>
+    </error-page>
 </web-app>

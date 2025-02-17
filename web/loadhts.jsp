@@ -95,6 +95,8 @@ td{
 }
 </style>
 <script type="text/javascript" src="js/sum_ipt.js"></script>
+
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

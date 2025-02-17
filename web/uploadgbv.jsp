@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : Form731
     Created on : May 11, 2015, 10:09:28 AM
@@ -52,6 +53,8 @@
   display: inline-block;
 }
     </style>
+    
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
   
 </head>
 <!-- END HEAD -->

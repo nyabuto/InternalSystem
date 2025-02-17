@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : datimReport
     Created on : Jul 14, 2015, 8:09:17 AM
@@ -40,6 +41,8 @@
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 <link rel="stylesheet" href="select2/css/select2.css">
 
+
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
   
 </head>
 <!-- END HEAD -->

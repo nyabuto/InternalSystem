@@ -93,7 +93,7 @@
         
 
 
- <%@include file="/menu/menu.html"%>
+         <%@include file="/menu/menu.jsp"%>
 
 
 

@@ -22,7 +22,7 @@ function loadqueries(){
                  var qrs="<option value=''>Select Query </value>";
                 for(var as=0;as<data.length;as++){
                
-            qrs+="<option value=\""+data[as].qry+"\">"+data[as].queryname+"</option>";
+            qrs+="<option data-qname=\""+data[as].queryname+"\" value=\""+data[as].qry+"\">"+data[as].queryname+"</option>";
             
             $("#queryhistory").html(qrs);
             $("#queryhistory").select2();
@@ -41,8 +41,13 @@ function loadqueries(){
 function showqry(){
     
     var vl1=$("#queryhistory").val();
+    var qn=$("#queryhistory").find(':selected').attr('data-qname');
+    qn=qn.replace("/"," or ");
+    qn=qn.replaceAll(" ","_");
+    qn=qn.substring(0,60);
     
    $("#query").val(vl1);
+   $("#qname").val(qn);
     
     
 }

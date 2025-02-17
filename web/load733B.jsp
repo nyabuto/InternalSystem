@@ -72,6 +72,8 @@ legend.formatter {
 </style>
 <!--form 733b styles-->
 <link rel="stylesheet" href="css/733b.css"/>
+
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
    
 </head>
 <!-- END HEAD -->

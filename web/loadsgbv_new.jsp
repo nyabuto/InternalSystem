@@ -84,6 +84,8 @@ legend.formatter {
 </style>
  <script src="jspdf/jspdf.js"></script> 
       <script src="jspdf/from-html.js"></script> 
+      
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

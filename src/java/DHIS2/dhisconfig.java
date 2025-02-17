@@ -33,6 +33,11 @@ String  dhis2_API_URL_DailyART=null;
 String  dhis2_API_URL_UploadF1a=null;  
 String  gmail_pass=null;  
 
+
+
+String utj_email=null;
+String utj_pass=null;
+
   public dhisconfig()
   {
   
@@ -49,6 +54,11 @@ String  gmail_pass=null;
   dhis2_username="ekaunda";
   dhis2_Password="123456@Ab";
   gmail_pass="jndhardsfmnmgfmx";
+  
+  
+   utj_pass="cxjkkhzlwcksftrr";
+  utj_email="utjdata@usaidtujengejamii.org";
+  
   //dhis2_username="emmanuelkaunda";
 
   
@@ -66,6 +76,25 @@ String  gmail_pass=null;
   dhis2_API_URL_UploadF1a="dataValueSets";
   
   }  
+  
+  
+  
+  
+    public String getUtj_email() {
+        return utj_email;
+    }
+
+    public void setUtj_email(String utj_email) {
+        this.utj_email = utj_email;
+    }
+
+    public String getUtj_pass() {
+        return utj_pass;
+    }
+
+    public void setUtj_pass(String utj_pass) {
+        this.utj_pass = utj_pass;
+    }
   
 public String getDhis2_username() {
         return dhis2_username;

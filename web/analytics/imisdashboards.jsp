@@ -18,8 +18,12 @@
     <link rel="stylesheet" href="rmc_assets/css/style.css">
     
     
-
+   
 </head>
+
+
+
+
 <body class="">
 	<!-- [ Pre-loader ] start -->
 	<div class="loader-bg">
@@ -431,6 +435,7 @@
 
 <!-- custom-chart js -->
 <script src="rmc_assets/js/pages/dashboard-main.js"></script>
+
 </body>
 
 </html>

@@ -50,7 +50,7 @@ public class UploadKenyaEMRVl extends HttpServlet {
   private static final String UPLOAD_DIR = "uploads";
   String query="",query_update="",value,checker_query;
   String SubPartnerID,mfl_code,year,month,yearmonth,id;
-  String[] columns =  {"vl_kenyaemr_id","AgeYrs","Sex","cccno","HIV_Enrollment_Date","ART_Start_Date","Last_VL","Last_VL_Date","Facility_Name","MFL_Code","Justification","PMTCT","Yearmonth","Next_appointment_date","Last_Visit_Date","Indicator","regimen_name","regimen_line","uzito","Patient_stable","Differentiated_care","Population_Type","key_population_type","pregnancy_status","expected_delivery_date","family_planning_status","family_planning_method","Screened_for_Cervical_Cancer","VisitScheduled","cxca_Screened_last6Months","pregnant_last12months","mch","patient_type","height","Date_of_Birth","nupi","ART_Regimen_at_init","Date_Start_Current_Regimen","phone","date_confirmed_hiv_positive","Age_Bracket","has_ncd","ncd_Name","systolic_pressure","diastolic_pressure","cd4_results","cd4_collection_Date","enrolled_in_cpims","ovc_comprehensive_program","CPIMS_unique_identifier","Enrolled_in_ovc","Enrolled_in_otz","WHO_stage","ptn_county","ptn_subcounty","ptn_location","ptn_sublocation","ptn_village","ptn_landmark","screened_for_tb","tb_status","spatum_smear_ordered","genexpert_ordered","chest_xray_ordered","spatum_smear_result","genexpert_result","chest_xray_result","clinical_tb_diagnosis","referral","cvd_Ever_vaccinated","first_vaccine_type","first_dose_date","second_vaccine_type","second_dose_date","final_vaccination_status","ever_received_booster","booster_vaccine_taken","on_ipt","ever_on_ipt","pregnancy_status_","breastfeeding","IPTStartDate","ushauri_consent","nutritional_status","person_present","arv_adherence","total_listed_contacts","biological_children","parents","siblings","sexual_partner","co_wife","sns","biological_children_hiv_neg","biological_children_hiv_pos","biological_children_unknown_hiv","sexual_partner_hiv_neg","sexual_partner_hiv_pos","sexual_partner_unknown_hiv","sibling_hiv_neg","sibling_hiv_pos","sibling_unknown_hiv","parent_hiv_neg","parent_hiv_pos","parent_unknown_hiv","pwp_disclosure","pwp_pead_disclosure","pwp_partner_tested","condom_provided","substance_abuse_screening","screened_for_sti","cacx_screening","sti_partner_notification","at_risk_population","Last_phq9_screening_Date","phq9_rating","ipt_outcome_date","ipt_outcome","Date_Hypertension_recorded","Patient_Has_Hypertension","Hypertension_Onset_Date","Hypertension_Contolled"};
+  String[] columns =  {"vl_kenyaemr_id","AgeYrs","Sex","cccno","HIV_Enrollment_Date","ART_Start_Date","Last_VL","Last_VL_Date","Facility_Name","MFL_Code","Justification","PMTCT","Yearmonth","Next_appointment_date","Last_Visit_Date","Indicator","regimen_name","regimen_line","uzito","Patient_stable","Differentiated_care","Population_Type","key_population_type","pregnancy_status","expected_delivery_date","family_planning_status","family_planning_method","Screened_for_Cervical_Cancer","VisitScheduled","cxca_Screened_last6Months","pregnant_last12months","mch","patient_type","height","Date_of_Birth","nupi","ART_Regimen_at_init","Date_Start_Current_Regimen","phone","date_confirmed_hiv_positive","Age_Bracket","has_ncd","ncd_Name","systolic_pressure","diastolic_pressure","cd4_results","cd4_collection_Date","enrolled_in_cpims","ovc_comprehensive_program","CPIMS_unique_identifier","Enrolled_in_ovc","Enrolled_in_otz","WHO_stage","ptn_county","ptn_subcounty","ptn_location","ptn_sublocation","ptn_village","ptn_landmark","screened_for_tb","tb_status","spatum_smear_ordered","genexpert_ordered","chest_xray_ordered","spatum_smear_result","genexpert_result","chest_xray_result","clinical_tb_diagnosis","referral","cvd_Ever_vaccinated","first_vaccine_type","first_dose_date","second_vaccine_type","second_dose_date","final_vaccination_status","ever_received_booster","booster_vaccine_taken","on_ipt","ever_on_ipt","pregnancy_status_","breastfeeding","IPTStartDate","ushauri_consent","nutritional_status","person_present","arv_adherence","total_listed_contacts","biological_children","parents","siblings","sexual_partner","co_wife","sns","biological_children_hiv_neg","biological_children_hiv_pos","biological_children_unknown_hiv","sexual_partner_hiv_neg","sexual_partner_hiv_pos","sexual_partner_unknown_hiv","sibling_hiv_neg","sibling_hiv_pos","sibling_unknown_hiv","parent_hiv_neg","parent_hiv_pos","parent_unknown_hiv","pwp_disclosure","pwp_pead_disclosure","pwp_partner_tested","condom_provided","substance_abuse_screening","screened_for_sti","cacx_screening","sti_partner_notification","at_risk_population","Last_phq9_screening_Date","phq9_rating","ipt_outcome_date","ipt_outcome","Date_Hypertension_recorded","Patient_Has_Hypertension","Hypertension_Onset_Date","Hypertension_Contolled","risk_eval_date","iit_risk_category","risk_factors","Serum_Cryptococcal_Ag_Done","Date_Cryptococcal_Ag_Done","Last_Visit_Weight","Screening_Type_CXCA_Form","Screening_Method_CXCA_Form","Screening_Result_CXCA_Form","Treatment_Status_CXCA_Form","Last_SCreening_Date_CXCA_Form","On_DSD","DSD_model","Date_Started_DSD","On_DSD_abv_1_Yr","Retained_on_DSD_abv_1_yr","Virally_Supressed","Date_Diabetes_recorded","Patient_Has_Diabetis","Diabetes_Onset_Date","Diabetes_Contolled","Client_Eligible_for_IPT_TPT","GAD7_Date_Last_Screened_for_Anxiety","GAD7_Anxiety_Screening_Outcome","alcohol_drinking_frequency","smoking_frequency","drugs_use_frequency","Date_Last_Screened_for_Alcohol_Abuse","Heis_Ever_Enrolled","Deliveries_Ever_Done","PNCs_Ever_Done","ANCs_Ever_Done","Prep_Enrollments_Ever_Done"};
   int updated,added;
   String min_date="",max_date="",date_tested="";
   String value_vl="";
@@ -95,7 +95,7 @@ public class UploadKenyaEMRVl extends HttpServlet {
         int number_sheets = workbook.getNumberOfSheets();
         while(j<number_sheets){
         XSSFSheet worksheet;
-        
+        String hasdetected_vl="no";
         worksheet = workbook.getSheetAt(j);
         Iterator rowIterator = worksheet.iterator();
         int rowCount = worksheet.getLastRowNum();
@@ -129,7 +129,8 @@ public class UploadKenyaEMRVl extends HttpServlet {
             }
            
              
-            else{
+          else 
+            {
                switch (cell.getCellType()) {
                    case 0:
                        //numeric
@@ -148,7 +149,8 @@ public class UploadKenyaEMRVl extends HttpServlet {
               
              }  
                
-            if(!"Missing".equalsIgnoreCase(value)){}  else {
+            if(!"Missing".equalsIgnoreCase(value)){}  else 
+                {
                 value="";
                 }
             
@@ -158,22 +160,44 @@ public class UploadKenyaEMRVl extends HttpServlet {
         
 //          checker_query+=label+"="+value+" AND ";
                }
-               else{
+               
+               else 
+               {
                    
                    if(value.contains("'"))
                    {
                        value=value.replace("'", "");
                    }
+                   
+                   if(label.equals("Last_VL")){
+                   
+                   if(value.equals("DETECTED")|| value.equals("BEYOND DETECTABLE LIMIT"))
+                   {
+                       hasdetected_vl="yes";
+                   value="";
+                   }
+                       
+                   }
+                   if(label.equals("Last_VL_Date"))
+                   {
+                     if(hasdetected_vl.equals("yes"))
+                     {
+                  
+                         value="";
+                         hasdetected_vl="no";
+                     }
+                   
+                   }
+                   
+                   
                query+=label+"='"+value+"',";
               
             
-               }
-            
-            
+                }
             
             
             colmnscounter++;
-       }
+       }//end of for loop
        
        //Change gender
        
@@ -234,7 +258,7 @@ if(session.getAttribute("username")!=null){
 if(!uploadedfiles.contains(full_path))
 {
   try {
-                  sf.SendEmail("VL_KENYAEMR", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,cbonde@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+                  sf.SendEmail("VL_KENYAEMR", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org"+em,usern);
       } catch (MessagingException ex) {
                   Logger.getLogger(UploadKenyaEMRVl.class.getName()).log(Level.SEVERE, null, ex);
               }

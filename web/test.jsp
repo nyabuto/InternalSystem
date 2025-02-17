@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : Form731
     Created on : May 11, 2015, 10:09:28 AM
@@ -39,6 +40,7 @@
    <link rel="stylesheet" type="text/css" href="assets/uniform/css/uniform.default.css" />
 
   
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

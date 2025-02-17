@@ -401,7 +401,7 @@
                     </div>
                     <div class="card-body">
                        
-                       <div id="cqi1"></div>
+                       <div id="bintismonthlyenrollments"></div>
                         
                         <!--Enter Content here-->
                         
@@ -436,7 +436,7 @@
                         
                         <!--Enter Content here-->
                         
-                         <div id="cqi3"></div>
+                         <div id="bintishivstatusatenrollment"></div>
                         
                         
                     </div>
@@ -469,7 +469,7 @@
                         
                         <!--Enter Content here-->
                         
-                        <div id="cqi2"></div>
+                        <div id="bintismonthlyfollowups"></div>
                         
                         
                         
@@ -560,6 +560,286 @@
 <script type="text/javascript">
     
     
+    
+    var fc="";
+    var cnt="";
+    var sct="";
+    var rgn="";
+    var sd="";
+    var ed="";
+    
+    
+        function loadChart(action,sp,elementid,subjects,charttype)
+{ 
+  
+    //alert("Called");
+    
+     if($("#mflcode").val()!==null){fc=$("#mflcode").val();}
+    if($("#county").val()!==null){cnt=$("#county").val();}
+    if($("#subcounty").val()!==null){sct=$("#subcounty").val();}
+    if($("#Region").val()!==null){rgn=$("#Region").val();}
+    
+    if($("#startdate").val()!==null){sd=$("#startdate").val();} 
+    if($("#enddate").val()!==null){ed=$("#enddate").val();} 
+        
+    
+    //once the edit form is clicked, the assumption is that the add section will be loaded
+    //$('#home-tab').click();
+    //$('#home-tab').html("Edit Projects");
+    
+   
+//    console.log("_"+fc+"vs"+dt);
+
+            
+           
+            
+            //now load the data
+          $.ajax({
+                    url:'dataPulls',                            
+                    type:'post',  
+                    data:
+                    {
+                        act:action,
+                        fc:fc,
+                        cnt:cnt,
+                        sct:sct,
+                        rgn:rgn,
+                        sd:sd,
+                        ed:ed,
+                        sp:sp
+                    },
+                    dataType: 'json',  
+                    success: function(data) 
+                    {
+                        console.log("data ni:"+data);
+                        var ttl=data[0].title;
+                        const dt=[];
+                        const mns=[];
+                        for(a=0;a<data.length;a++)
+                        {
+                          dt.push(data[a].value);
+                          mns.push(data[a].months);
+                           console.log(dt); 
+                        }
+                        
+                        $(function() {
+            var options = {
+                chart: {
+                    height: 300,
+                    type: charttype,
+                    zoom: {
+                        enabled: false
+                    }
+                        },
+                dataLabels: {
+                    enabled: true,
+                    width: 2
+                },
+                stroke: {
+                    curve: 'straight',
+                },
+                colors: ["#1abc9c"],
+                series: [{
+                    name: subjects,
+                    data: dt
+                }],
+                title: {
+                    text: ttl,
+                    align: 'center'
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f6ff', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: mns,
+                }
+            }
+
+            var chart = new ApexCharts(
+                document.querySelector("#"+elementid),
+                options
+                                      );
+   
+            chart.render();
+        });
+        
+        
+              
+                        
+                        
+                        for(var a=0;a<data.length;a++){
+                            
+                          console.log(data[a].Value);   
+                          console.log(data[a].element);   
+                            
+                             if($("#"+data[a].element)!==null)
+                             {
+     $("#"+data[a].element).html(data[a].Value);
+            }
+                        }
+                        
+
+                    }  
+//});
+                        
+
+   
+                        
+                        
+                    });    
+             
+    
+    
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    function loadDonutChart(action,sp,elementid,subjects,charttype)
+{ 
+
+    if($("#mflcode").val()!==null){fc=$("#mflcode").val();}
+    if($("#county").val()!==null){cnt=$("#county").val();}
+    if($("#subcounty").val()!==null){sct=$("#subcounty").val();}
+    if($("#Region").val()!==null){rgn=$("#Region").val();}
+    
+    if($("#startdate").val()!==null){sd=$("#startdate").val();} 
+    if($("#enddate").val()!==null){ed=$("#enddate").val();} 
+        
+    
+    //once the edit form is clicked, the assumption is that the add section will be loaded
+    //$('#home-tab').click();
+    //$('#home-tab').html("Edit Projects");
+    
+   
+//    console.log("_"+fc+"vs"+dt);
+
+            
+           
+            
+            //now load the data
+          $.ajax({
+                    url:'dataPulls',                            
+                    type:'post',  
+                    data:
+                    {
+                        act:action,
+                        fc:fc,
+                        cnt:cnt,
+                        sct:sct,
+                        rgn:rgn,
+                        sd:sd,
+                        ed:ed,
+                        sp:sp
+                    },
+                    dataType: 'json',  
+                    success: function(data) 
+                    {
+                        console.log("data ni:"+data);
+                        var ttl=data[0].title;
+                        const dt=[];
+                        const mns=[];
+                        for(var a=0;a<data.length;a++)
+                        {
+                            var vl=data[a].value;
+                          dt.push(parseInt(vl));
+                          mns.push(data[a].dimension);
+                           console.log(dt); 
+                        }
+                        
+                       
+               $(function() {
+            var options = {
+                chart: {
+                    height: 320,
+                    type: charttype
+                },
+                
+    labels: mns,
+                series: dt,
+                colors: ["#1abc9c", "#0e9e4a", "#00acc1", "#f1c40f"],
+                legend: {
+                    show: true,
+                    position: 'bottom'
+                },
+                 title: {
+                    text: ttl,
+                    align: 'center'
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            labels: {
+                                show: true,
+                                name: {
+                                    show: true
+                                },
+                                value: {
+                                    show: true
+                                }
+                            }
+                        },
+                        expandOnClick: true
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    dropShadow: {
+                        enabled: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {          
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            }
+            var chart = new ApexCharts(
+                document.querySelector("#"+elementid),
+                options
+            );
+            chart.render();
+        });
+    
+                        
+                        
+//                        for(var a=0;a<data.length;a++){
+//                            
+//                          console.log(data[a].Value);   
+//                          console.log(data[a].element);   
+//                            
+//                             if($("#"+data[a].element)!==null){
+//     $("#"+data[a].element).html(data[a].Value);
+//            }
+//                        }
+                        
+
+                    }  
+//});
+                        
+
+   
+                        
+                        
+                    });    
+             
+    
+    
+}
+    
+    loadChart('getRamcahCharts','sp_Binti_Shujaa_monthly_enrollments','bintismonthlyenrollments','Bintis Enrolled','bar');
+    loadChart('getRamcahCharts','sp_Binti_Shujaa_monthly_followups','bintismonthlyfollowups','Bintis Followed up','line');
+    loadDonutChart('getRamcahCharts','sp_Binti_Shujaa_hiv_status_at_enrollment','bintishivstatusatenrollment','Bintis Tested','donut');
      
 </script>
 

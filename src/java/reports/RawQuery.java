@@ -58,11 +58,13 @@ int row,errors;
        
        query = query_original.toLowerCase();
        
-       
+       String qname="IMIS_Qry_";
        
        row=errors=0;
        message = "";
-       
+       if(request.getParameter("qname")!=null){
+       qname=request.getParameter("qname");
+       }
        //XSSFWorkbook wb = new XSSFWorkbook();
        
        SXSSFWorkbook wb = new SXSSFWorkbook(1000);
@@ -143,13 +145,13 @@ int row,errors;
         stborder.setFont(font_cell);
         stborder.setWrapText(false);
 
-        Sheet Sheet = wb.createSheet("IMIS Adhoc Query Output");
+        Sheet Sheet = wb.createSheet("data range");
         
        // check query
-       if(query.contains("insert") || query.contains("update") || query.contains("replace") || query.contains("into")  || query.contains("user") || query.contains("drop") || query.contains("truncate")){
+       if(query.contains("insert") || query.contains("update") || query.contains("replace") || query.contains("into")  || query.contains("user") || query.contains("drop") || query.contains("truncate") || query.contains("information_schema") || query.contains("mysql")|| query.contains("employee")){
            System.out.println("This query is not allowed");
            errors++;
-           message="Your are running a wrong query. Any query attempting to change data is disabled";
+           message="Your are running a wrong query. Any query attempting to change data or view unauthorized information is disabled";
        }
        else{
 if(query.contains("select ") || query.contains("call ")){
@@ -251,7 +253,7 @@ message="There is nothing to be executed in this query. Review it and try execut
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=IMIS_Adhoc_Query_"+dt+".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename="+qname+"_"+dt+".xlsx");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);
         outStream.flush();     

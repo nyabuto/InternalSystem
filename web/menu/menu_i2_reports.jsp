@@ -18,8 +18,9 @@
 			<div class="col-xl-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-6">
-						<h5 class="formcss"><b>DATIM</b></h5>
+						<h5 class="formcss"><b><img style="width:150px;" src="./images/icons/datim.png" class="img img-circle" />DATIM</b></h5>
 						<hr>
+						
 						<div class="card text-left">
 							<div class="card-body">
 								
@@ -41,14 +42,14 @@
                                   	
 				
 					<div class="col-sm-12 col-md-6">
-						<h5 class="formcss"><b>Query Reports</b></h5>
+						<h5 class="formcss"><b><img style="width:150px;" src="./images/icons/xls.png" class="img img-circle" />Template Reports</b></h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
 								
 							
 								<%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%>  
-                                                                <a  href="RawQuery.jsp" class="btn btn-light"><i class="feather icon-cloud-upload"></i>Query Reports (Excel)</a>
+                                                                <a  href="templatereports.jsp" class="btn btn-light"><i class="feather icon-cloud-upload"></i>Template Reports (Excel)</a>
                                                                 
                                                                
 	 
@@ -82,7 +83,8 @@
 			<div class="col-xl-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-6">
-						<h5 class="formcss"><b>Master Facility List</b></h5>
+						
+                                                <h5 class="formcss"><b><img style="width:150px;" src="./images/icons/site.png" class="img img-circle" />Master Facility List</b></h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
@@ -102,7 +104,9 @@
                                   	
 				
 					<div class="col-sm-12 col-md-6">
-						<h5 class="formcss"><b>Training Reports</b></h5>
+						
+                                                 <h5 class="formcss"><b><img style="width:150px;" src="./images/icons/data_comparison.png" class="img img-circle" />Training Reports</b></h5>
+						
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
@@ -132,7 +136,8 @@
         <div class="col-xl-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-6">
-						<h5 class="formcss"><b>Surge Reports</b></h5>
+						 <h5 class="formcss"><b><img style="width:150px;" src="./images/icons/surge.png" class="img img-circle" />Surge Reports</b></h5>
+						
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
@@ -152,7 +157,9 @@
                                   	
 				
 					<div class="col-sm-12 col-md-6">
-						<h5 class="formcss"><b>HFR Reports</b></h5>
+						
+                                          
+                                                 <h5 class="formcss"><b><img style="width:150px;" src="./images/hfr.png" class="img img-circle" />HFR Reports</b></h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
@@ -180,7 +187,9 @@
                                                                    <div class="col-xl-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-12">
-						<h5 class="formcss"><b>Other Reports</b></h5>
+						
+                                                  <h5 class="formcss"><b><img style="width:150px;" src="./images/icons/reports.png" class="img img-circle" />Other Reports</b></h5>
+                                                                
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">

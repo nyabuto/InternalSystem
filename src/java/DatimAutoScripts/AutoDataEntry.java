@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static junit.framework.Assert.assertEquals;
 
 import org.openqa.selenium.*;
 
@@ -74,6 +75,8 @@ public class AutoDataEntry extends HttpServlet {
         String specificform="";
         
         String sts_arr[]=null;
+        String scts_arr[]=null;
+        String forms_arr[]=null;
         
         if(request.getParameter("ds")!=null){ds=request.getParameter("ds");}
         if(request.getParameter("prd")!=null){prd=request.getParameter("prd");}
@@ -95,6 +98,8 @@ public class AutoDataEntry extends HttpServlet {
        prdhm.put("specificform", specificform);
         
         sts_arr=request.getParameterValues("sts[]");
+        scts_arr=request.getParameterValues("ds[]");
+        forms_arr=request.getParameterValues("specificform[]");
         
         
         System.out.println(""+sts);
@@ -111,9 +116,10 @@ public class AutoDataEntry extends HttpServlet {
                 
                 ChromeOptions options = new ChromeOptions();
 //options.addArguments("--remote-allow-origins=*");
-//options.addArguments("--remote-debugging-port=9222");
+options.addArguments("--remote-debugging-port=7045");
 
 //options.addArguments("user-data-dir=C:\\Users\\Emmanuel Kaunda\\AppData\\Local\\Google\\Chrome\\User Data");
+options.addArguments("user-data-dir=C:\\HSDSA\\Selenium");
 //options.addArguments("--profile-directory=Person 1");
 
 
@@ -142,26 +148,73 @@ options.setPageLoadStrategy(PageLoadStrategy.EAGER);
                 
                 
     	
-        String baseUrl = "https://www.datim.org/";
+       // String baseUrl = "https://state.okta.com/oauth2/v1/authorize?response_type=code&client_id=0oaqewjmeqf4J8YH8297&scope=openid%20email&state=2H1FADRx0E6JYVIwteqJFAdGrdunYMTypRkyOxmNEYQ%3D&redirect_uri=https://www.datim.org/oauth2/code/okta&nonce=zy20h3yQpCHEaWnfb067B9ZbOzZKq6G2N4rWoVE5wDk";
+        String baseUrl = "https://www.datim.org/dhis-web-dataentry/index.action";
         
         // launch Fire fox and direct it to the Base URL
         driver.get(baseUrl);
 driver.manage().window().maximize();
-WebElement accept=driver.findElement(By.cssSelector("button"));
-        accept.click();
-        // get the actual value of the title
-WebElement username=driver.findElement(By.id("j_username"));
-WebElement password=driver.findElement(By.id("j_password"));
-WebElement login=driver.findElement(By.id("submit"));
-username.sendKeys("ekaunda");
-password.sendKeys("Plusaphia2013!!");
-login.click();
+ //Opens a new tab and switches to new tab
+        //driver.switchTo().newWindow(WindowType.TAB);
+        //assertEquals("",driver.getTitle());
+        
+        
+        
+//WebElement accept=driver.findElement(By.cssSelector("button"));
+//        accept.click();
+//        // get the actual value of the title
+//WebElement username=driver.findElement(By.id("identifier"));
+//WebElement password=driver.findElement(By.id("j_password"));
+//WebElement login=driver.findElement(By.id("submit"));
+//username.sendKeys("emaingi@usaidtujengejamii.org");
+//password.sendKeys("Plusaphia2013!!");
+//login.click();
+
+/****OCTA Verification*****/
+if(1==2){
+if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.elementToBeClickable(By.id("input28"))).isEnabled())
+       {
+  //driver.manage().window().setSize(new Dimension(1936, 1056));
+    driver.findElement(By.id("input28")).clear();
+    driver.findElement(By.id("input28")).sendKeys("emaingi@usaidtujengejamii.org");
+    driver.findElement(By.id("signin-container")).click();
+    
+      //System.out.println("initiate 10 seconds timeout");
+          // Thread.sleep(20000);
+          //   System.out.println(" 5 seconds timeout completed");
+    
+//    driver.findElement(By.cssSelector(".hover")).click();
+    driver.findElement(By.cssSelector(".button")).click();
+    
+    if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.elementToBeClickable(By.id("input64"))).isEnabled()){
+    driver.findElement(By.id("input64")).sendKeys("Plusaphia2013!");
+    driver.findElement(By.cssSelector(".button")).click();
+    }
+       if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.elementToBeClickable(By.id("input90"))).isEnabled()){
+           
+              //Thread.sleep(20000);
+   // driver.findElement(By.id("input90")).sendKeys("Plusaphia2013!");
+   // driver.findElement(By.cssSelector(".button")).click();
+    }
+//    System.out.println("initiate 10 seconds timeout");
+//           Thread.sleep(20000);
+//             System.out.println(" 5 seconds timeout completed");
+//    
+    //driver.findElement(By.id("input90")).sendKeys("146833");
+    //driver.findElement(By.cssSelector(".button")).click();
+    
+    
+       }
+
+        }//disable login via selenium 
+
+/**********/
     //WebElement clickapps=driver.findElement(By.cssSelector("[data-test=headerbar-apps-icon] > svg > path"));
 //clickapps.click();
    // WebElement dataentry=driver.findElement(By.linkText("Data Entry"));    
         String dataentryurl="https://www.datim.org/dhis-web-dataentry/index.action";
-        driver.get(dataentryurl);
-     
+       // driver.get(dataentryurl);
+     //Thread.sleep(20000);
      WebElement search=driver.findElement(By.id("searchIcon"));
      
         //System.out.println("before site search click");
@@ -179,13 +232,14 @@ login.click();
 String sites[]=sts_arr;
 
 
+
 String datim_tabs[]={"Prevention"};
 //String datim_tabs[]={"Prevention","Testing - HTS_TST","Testing - All Others","Treatment","Viral Suppression","Health Systems","Testing - HTS_RECENT"};
 String datim_tabs_show_hid[]={"#PEPFAR_Form_2_DSD > .PEPFAR_Form_ShowHide","#PEPFAR_Form_2_DSD > .PEPFAR_Form_ShowHide","#PEPFAR_Form_3_DSD > .PEPFAR_Form_ShowHide","#PEPFAR_Form_4_DSD > .PEPFAR_Form_ShowHide","#PEPFAR_Form_5_DSD > .PEPFAR_Form_ShowHide","#PEPFAR_Form_6_DSD > .PEPFAR_Form_ShowHide","#PEPFAR_Form_7_DSD > .PEPFAR_Form_ShowHide"};
 
 int lmt=1;
-for(int a=0;a<sites.length;a++){
-    
+for(int a=0;a<sites.length;a++)
+{    
     //add facility name to list
     
      prdhm.put("hf", sites[a]);
@@ -196,8 +250,10 @@ for(int a=0;a<sites.length;a++){
    
     if(!sites[a].equals("")){
 
-
+if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.elementToBeClickable(By.id("searchField"))).isDisplayed()){
     searchfield.clear();
+    
+}
      //System.out.println("After site clear click");
      searchfield.sendKeys(sites[a]);
       
@@ -232,7 +288,7 @@ for(int a=0;a<sites.length;a++){
         //April - June 2022
         //Thread.sleep(7000);
     }
-        for(int b=0;b<datim_tabs.length;b++){
+        for(int b=0;b<scts_arr.length;b++){
         
             
 //WebElement clicktab=driver.findElement(By.id(datim_tabs[b]));
@@ -244,13 +300,21 @@ for(int a=0;a<sites.length;a++){
             //click the section name the first time only
          
              if(lmt==1){ }
-             System.out.println("initiate 5 seconds timeout");
-           Thread.sleep(10000);
-             System.out.println(" 5 seconds timeout completed");
              
-             if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.linkText(ds))).isDisplayed()){ 
-                   System.out.println(ds);
-                 new WebDriverWait(driver, Duration.ofSeconds(150)).until(ExpectedConditions.elementToBeClickable(By.linkText(ds))).click();
+             if(b==0){
+             System.out.println("initiate 10 seconds timeout");
+           Thread.sleep(10000);
+             System.out.println(" 10 seconds timeout completed");
+             }
+             else {
+                  System.out.println("initiate 2 seconds timeout");
+           Thread.sleep(2000);
+             System.out.println(" 2 seconds timeout completed");
+             
+             }
+             if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.linkText(scts_arr[b]))).isDisplayed()){ 
+                   System.out.println(scts_arr[b]);
+                 new WebDriverWait(driver, Duration.ofSeconds(150)).until(ExpectedConditions.elementToBeClickable(By.linkText(scts_arr[b]))).click();
                //driver.findElement(By.linkText("Viral Suppression")).click();
              }
               // new WebDriverWait(driver, Duration.ofSeconds(100),Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.linkText("Viral Suppression"))).click();
@@ -258,58 +322,64 @@ for(int a=0;a<sites.length;a++){
               
            //driver.findElement(By.linkText("Viral Suppression")).click();
            
+           //loop through the sections
+           for(int ay=0;ay<forms_arr.length;ay++)
+           {
+               
+               System.out.println("Form being entered"+forms_arr[ay]);
+               
           // if(datim_tabs[b].equals("Prevention")){
-           if(ds.equals("Treatment")){
+//           if(scts_arr[ay].equals("Treatment")){
                           
                
-               //enterViralSuppression(driver);
-               if(specificform.equals("TXML"))
-               {
-              
-               enterTX_ML(conn,driver,prdhm);
-               }
-               else if(specificform.equals("HPT"))
-               {              
-                enterTX_HTN(conn,driver,prdhm);
-               }
-               else if(specificform.equals("RTT"))
-               {              
-                
-                enterTX_RTT(conn,driver,prdhm);
-               }
-               else if(specificform.equals("TXTB"))
-               {              
-                
-                enterTX_TB(conn,driver,prdhm);
-               }
-               else  
-               {
-               enterTX_RTT(conn,driver,prdhm);
-               enterTX_HTN(conn,driver,prdhm);
-               enterTX_ML(conn,driver,prdhm);
-               enterTX_TB(conn,driver,prdhm);
-               }
+//               //enterViralSuppression(driver);
+//               if(specificform.equals("TXML"))
+//               {
+//              
+             enterAnyData(conn,driver,prdhm,scts_arr[b],forms_arr[ay]);
+//               }
+//               else if(specificform.equals("HPT"))
+//               {              
+//                enterTX_HTN(conn,driver,prdhm);
+//               }
+//               else if(specificform.equals("RTT"))
+//               {              
+//                
+//                enterTX_RTT(conn,driver,prdhm);
+//               }
+//               else if(specificform.equals("TXTB"))
+//               {              
+//                
+//                enterTX_TB(conn,driver,prdhm);
+//               }
+//               else  
+//               {
+//               enterTX_RTT(conn,driver,prdhm);
+//               //enterTX_HTN(conn,driver,prdhm);
+//               enterTX_ML(conn,driver,prdhm);
+//               enterTX_TB(conn,driver,prdhm);
+//               }
                
                
-            //Validate and close   
-             new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.id("validateButton"))).click();
-            new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".ui-button-icon"))).click();
-            
-             
-           }
-           else  if(ds.equals("Prevention")){                         
-               
-               //enterViralSuppression(driver);
-               enterPrevention(conn,driver,prdhm);
-             
-           }
            
-             else  if(ds.equals("Viral Suppression")){                         
-               
-               enterViralSuppression(conn,driver,prdhm);
-             
              
            }
+//           else  if(scts_arr[ay].equals("Prevention")){                         
+//               
+//               //enterViralSuppression(driver);
+//               enterPrevention(conn,driver,prdhm);
+//             
+//           }
+           
+//             else  if(scts_arr[ay].equals("Viral Suppression")){                         
+//               
+//              // enterViralSuppression(conn,driver,prdhm);
+//             
+//             
+//           }
+       // } 
+       
+        //Validate and close   
            
            
         
@@ -323,8 +393,14 @@ for(int a=0;a<sites.length;a++){
         //driver.findElement(By.id("ui-id-27")).click();
         // driver.findElement(By.cssSelector("#PEPFAR_Form_4_DSD > .PEPFAR_Form:nth-child(10) > .PEPFAR_Form_Container")).click();
          
+       
+           JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, 0);");
          
 }
+           new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.id("validateButton"))).click();
+            new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".ui-button-icon"))).click();
+            
         
    lmt++;      
 
@@ -446,77 +522,7 @@ for(int a=0;a<sites.length;a++){
     
     }
     
-    public  void enterViralSuppression(dbConn conn,WebDriver driver,HashMap<String,String> hm) throws InterruptedException{
-    
-        
-  if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id("AakrBNBU2G4-GILufDV2tEB-val"))).isDisplayed()){
-        
- 
-  
-    
-    
-    WebElement uam= driver.findElement(By.id("AakrBNBU2G4-GILufDV2tEB-val")); uam.clear();uam.sendKeys("");
- 
-    uam=driver.findElement(By.id("AakrBNBU2G4-GILufDV2tEB-val")); uam.clear();uam.sendKeys("");
-   uam= driver.findElement(By.id("AakrBNBU2G4-dRjezxQktoz-val")); uam.clear();uam.sendKeys("");
-    driver.findElement(By.id("AakrBNBU2G4-zLbjm4E1NsG-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-QqlHrg6f0Sm-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-zqARzn2wVj5-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-hRq4baaUamW-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-J8fGj3Iefbc-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-VdMgEQkOtuV-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-ay6Bp2UGIE5-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-YOMb0sp9VLV-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-undUoo1tECg-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-jjUGfPF0ObP-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-tEMe0224zlP-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-NCnIv37EwU1-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-YDzeLL6xf5o-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-zouTxRQ0kXP-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-i1yTaswn4qW-val")).click();
-    driver.findElement(By.id("AakrBNBU2G4-lNnwcd2RT4K-val")).click();
-    driver.findElement(By.id("L2n6ajKliOT-vxBSF1mguas-val")).click();
-    driver.findElement(By.id("L2n6ajKliOT-jaxEUorPKgv-val")).click();
-    driver.findElement(By.id("kegCp8t3TVW-FyhQbdBMM1p-val")).click();
-    driver.findElement(By.id("kegCp8t3TVW-fCiy8R7Dv9x-val")).click();
-    driver.findElement(By.id("kegCp8t3TVW-dUCNvz8ByrS-val")).click();
-    driver.findElement(By.id("kegCp8t3TVW-VCEoYHLyTxk-val")).click();
-    
-    //TX_PVLS_D
-    
-    driver.findElement(By.id("YMfWvFuB5kH-GILufDV2tEB-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-dRjezxQktoz-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-zLbjm4E1NsG-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-AG0milXShQM-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-LyXZybq6Sjf-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-Vi8sd7mvZW4-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-PEXIFVXGP9S-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-VdMgEQkOtuV-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-ay6Bp2UGIE5-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-YOMb0sp9VLV-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-undUoo1tECg-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-jjUGfPF0ObP-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-tEMe0224zlP-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-NCnIv37EwU1-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-YDzeLL6xf5o-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-zouTxRQ0kXP-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-zUjkTTlva36-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-i1yTaswn4qW-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-N9EXA1gNh16-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-lNnwcd2RT4K-val")).click();
-    driver.findElement(By.id("YMfWvFuB5kH-Yy619I6uuTP-val")).click();
-    driver.findElement(By.id("PkVxxyOLky3-vxBSF1mguas-val")).click();
-    driver.findElement(By.id("PkVxxyOLky3-jaxEUorPKgv-val")).click();
-    driver.findElement(By.id("HOtmew3ZhxO-FyhQbdBMM1p-val")).click();
-    driver.findElement(By.id("HOtmew3ZhxO-wbJ9Nh2jqUG-val")).click();
-    driver.findElement(By.id("HOtmew3ZhxO-fCiy8R7Dv9x-val")).click();
-    driver.findElement(By.id("HOtmew3ZhxO-dUCNvz8ByrS-val")).click();
-    //driver.navigate().refresh();
-    
-          }
-    
-    }
-    
+   
     public  void enterTX_ML(dbConn conn,WebDriver driver,HashMap<String,String> basics) throws InterruptedException{
     
         //Run the query for pulling all sites data from IMIS
@@ -565,7 +571,7 @@ for(int a=0;a<sites.length;a++){
                              
                               uam.click();
                               uam.clear();
-                              System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                              //System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
                               val=val.replace(".0","");
                               
                               
@@ -579,14 +585,14 @@ for(int a=0;a<sites.length;a++){
                          
                          
                            
-                          System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                          //System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
                            val=val.replace(".0","");
                            
                            String ic=uam.getAttribute("value");
-                           System.out.println("ic value:::"+ic);
+                          // System.out.println("ic value:::"+ic);
                            if((isNumeric(ic) && new Integer(ic)>0) || ic.equals("") || ic.equals("0"))
                            {
-                               System.out.println("ic value inside is:::"+ic);
+                               //System.out.println("ic value inside is:::"+ic);
                                
                            if(!ic.equals(val)){
                                //dont replace blank with 0s
@@ -1000,6 +1006,183 @@ for(int a=0;a<sites.length;a++){
     }
     
     
+      public  void enterAnyData(dbConn conn,WebDriver driver,HashMap<String,String> basics, String section, String Storedprocedure) throws InterruptedException{
+    
+        try {
+            //Run the query for pulling all sites data from IMIS
+            //convert the resultset into a string hashmap
+            //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array
+            //on the hashmap, add a metadata containing the columns and create a coma separated string that should be used to split the variables into an array
+            
+            String getdetailsqry="select * from datimbotqueries where spname in ('"+Storedprocedure+"') and Section in ('"+section+"') limit 1";
+            
+            conn.rs1=conn.st1.executeQuery(getdetailsqry);
+            String firstelement="";
+            String reportingperiod="";
+            while(conn.rs1.next())
+            {
+                firstelement=conn.rs1.getString("startingelemnt");
+                reportingperiod=conn.rs1.getString("frequency");
+                System.out.println("Starting Element is "+firstelement);
+            }
+            System.out.println("pull query details::"+getdetailsqry);
+            String startd=basics.get("sd");
+            //check the reporting period and skip some indicators
+            if((reportingperiod.equals("QA"))|| (reportingperiod.equals("SA") && (startd.contains("-03-01") || startd.contains("-07-01") )) || (reportingperiod.equals("AN") && (startd.contains("-07-01") )) ){
+                
+                String entrytype=basics.get("entrytype");
+                try {
+                    String qry="call internal_system."+Storedprocedure+"(\""+basics.get("sd")+"\",\""+basics.get("ed")+"\",\""+basics.get("hf")+"\");";
+                    
+                    System.out.println("query:"+qry);
+                    
+                    HashMap<String, String> alldata = new HashMap< >();
+                    
+                    
+                    alldata=convertDatimResultSetToMap(getAnyDataFromDb(conn,qry));
+                    System.out.println("alldata size is "+alldata.size());
+                    String dfacil=basics.get("hf");
+                    //The starting element has been picked automatically
+                    if(alldata.size()>0){
+                    if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.elementToBeClickable(By.linkText(section))).isDisplayed()){
+                        
+                        //new WebDriverWait(driver, Duration.ofSeconds(150)).until(ExpectedConditions.elementToBeClickable(By.linkText(section))).click();
+                        
+                        if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id(firstelement))).isDisplayed()){
+                            
+                            
+                            //get all columns
+                            String clmns=alldata.get("indicator_metadata");
+                            
+                            System.out.println("Size of clms is:"+clmns.length()+" and value is: "+clmns);
+                            if(clmns.length()>0){
+                            String clmnar[]=clmns.split(",");
+                            //St. Joseph RiftValley Hospital_Facility
+                            String siteexits=alldata.get(dfacil+"_Facility");
+                            System.out.println("Check if site existsts:::"+siteexits);
+                            if(siteexits!=null)
+                            {
+                                
+                                for(int cl=0;cl<clmnar.length;cl++)
+                                {
+//                                    Actions act =  new Actions(driver);
+//                                    act.moveToElement(driver.findElement(By.id(clmnar[cl]))).click().perform();
+                                    WebElement uam= null;
+                                    if(!clmnar[cl].equals("Facility") && !clmnar[cl].equals("datimname") ){
+                                       
+                                        
+                                        String val="";
+                                         if(alldata.get(dfacil+"_"+clmnar[cl])!=null){ val=alldata.get(dfacil+"_"+clmnar[cl]); }
+                                        
+                                        
+                                        switch (entrytype) {
+                                            case "nonzero":
+                                                //here, only non zero numeric values are entered. This excludes Zeros
+                                                if(!val.equals("0.0") && !val.equals("0") ){
+                                                    
+                                                    if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id(clmnar[cl]))).isDisplayed()){
+                                                        
+                                                    uam=driver.findElement(By.id(clmnar[cl])); 
+                                                    
+                                                    
+                                                    
+                                                     uam.click();
+                                                    uam.clear();
+                                                    System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                                                    val=val.replace(".0","");
+                                                    
+                                                    
+                                                    
+                                                    uam.sendKeys(val);
+                                                    }
+                                                    
+                                                   
+                                                }           break;
+                                            case "allnumeric":
+                                                //here, all the data elements are entered with all numeric values including zeros
+                                                
+                                                if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id(clmnar[cl]))).isDisplayed()){
+                                                        
+                                                    uam=driver.findElement(By.id(clmnar[cl])); 
+                                                    }
+                                                
+                                                
+                                                
+                                                System.out.println("What is entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                                                val=val.replace(".0","");
+                                                
+                                                String ic=uam.getAttribute("value");
+                                                System.out.println("ic value:::"+ic);
+                                                if((isNumeric(ic) && new Integer(ic)>0) || ic.equals("") || ic.equals("0"))
+                                                {
+                                                    System.out.println("ic value inside is:::"+ic);
+                                                    
+                                                    if(!ic.equals(val)){
+                                                        //dont replace blank with 0s
+                                                        if(!(val.equals("0")&&ic.equals(""))){
+                                                            
+                                                            uam.click();
+                                                            uam.clear();
+                                                            uam.sendKeys(val);
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            case "enterblanks":
+                                                //here, only blank values are entered. This excludes Zeros
+                                                if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id(clmnar[cl]))).isDisplayed()){
+                                                        
+                                                    uam=driver.findElement(By.id(clmnar[cl])); 
+                                                    }
+                                                
+                                                uam.click();
+                                                uam.clear();
+                                                uam.sendKeys("");
+                                                System.out.println("Zeros entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                        
+                                        
+                                        
+                                    }
+                                    
+                                }
+                                //validateButton
+                                //ui-button-icon ui-icon ui-icon-closethick
+                                
+                            }  //checking if site exists
+                            
+                            else {
+                                System.out.println("Site Does not exist in Datim list::::::");
+                                
+                            }
+                            
+                        }//end of checking for blank sections
+                        }//end of checking if fist element is displayed
+                        
+                    } //end of checking if section is displayed
+                    
+                    
+                }//end of checking if that site has any data after runing the stored procedure
+                } catch (SQLException ex) {
+                    Logger.getLogger(AutoDataEntry.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else {
+                
+                System.out.println("Skip this Indicator, it is not entered during this quarter");
+                
+            }
+            //  new WebDriverWait(driver, Duration.ofSeconds(150)).until(ExpectedConditions.elementToBeClickable(By.linkText("Treatment"))).click();
+        } catch (SQLException ex) {
+            Logger.getLogger(AutoDataEntry.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    
+    
     
        public boolean isNumeric(String s) {
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");
@@ -1037,8 +1220,9 @@ ResultSetMetaData md = rs.getMetaData();
                                  }
                    }
                    String colname=md.getColumnName(a);
-                   
-                                  
+                   if(colname.equals("datimname")){colname="Facility";}
+                  System.out.println("colname is :"+colname);
+                  
                 hm.put(facilid+"_"+colname, rs.getString(colname));
                 
                    //System.out.println("Added:"+facilid+"_"+colname+","+rs.getString(colname));

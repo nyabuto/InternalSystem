@@ -44,7 +44,7 @@
                          <form action="RawQuery" method="post"   >
                        <div  class="portlet-body form" >
                            
-                           
+                           <input type='hidden' name='qname' id='qname'>
                             <div class="form-inline">
                             
                                     

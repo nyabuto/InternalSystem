@@ -3,7 +3,7 @@
     Created on : May 11, 2015, 10:09:28 AM
     Author     : Maureen
 --%>
-
+<%if(session.getAttribute("userAccess")!=null){} else {response.sendRedirect("index.jsp");}%>
 <%@page import="database.dbConn"%>
 <%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

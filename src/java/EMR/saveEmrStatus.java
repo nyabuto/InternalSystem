@@ -63,7 +63,7 @@ public class saveEmrStatus extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             //list of all data elements to be saved
-            String dataelementsarr[]={"id","yearmonth","facility_id","emr","emr_version","emr_status","has_backup_disk","no_of_emr_adt_comps","has_adt","adt_version","has_power_backup","is_tx_curr_emr","tx_curr_paper","tx_curr_emr","site_dropped_ccc_dar","comments","hts_emr","art_emr","anc_emr","eid_emr","tb_emr","emr_accuracy","emr_completeness","emr_last_backup_date"};
+            String dataelementsarr[]={"id","yearmonth","facility_id","emr","emr_version","emr_status","has_backup_disk","no_of_emr_adt_comps","has_adt","adt_version","has_power_backup","is_tx_curr_emr","tx_curr_paper","tx_curr_emr","site_dropped_ccc_dar","comments","hts_emr","art_emr","anc_emr","eid_emr","tb_emr","emr_accuracy","emr_completeness","emr_last_backup_date","has_functional_ups"};
             /* TODO output your page here. You may use following sample code. */
             
             

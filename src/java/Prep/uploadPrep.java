@@ -167,7 +167,7 @@ public class uploadPrep extends HttpServlet {
              
              
    
-            String activeversion = "PrEP Partner Performance Tool version 2.0.0";
+            String activeversion = "Monthly Prep Reporting Tool 1.0.1";
             
             
             String dbname = "prep_temp";
@@ -279,7 +279,7 @@ if (sheetname.equals("datafile")) {
     
     String  powrowval="";
     
- XSSFCell poicell = worksheet.getRow(315).getCell((short) 7);    
+ XSSFCell poicell = worksheet.getRow(2).getCell((short) 7);    
                                 switch (poicell.getCellType()) {
                                     case 1:
                                         powrowval = poicell.getStringCellValue();
@@ -293,14 +293,14 @@ if (sheetname.equals("datafile")) {
                                 }
      
 
-     if(powrowval.equals("PRP01-031"))
-     {
+//     if(powrowval.equals("PRP01-031"))
+//     {
          Poirowname="poi_row_no"; 
          
-     }
-     else {
-     Poirowname="old_poi_row_no"; 
-     }
+//     }
+//     else {
+//     Poirowname="old_poi_row_no"; 
+//     }
     
     System.out.println("Inside the Loop, Poi Row name is "+Poirowname);
       

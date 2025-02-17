@@ -95,6 +95,8 @@ td{
 }
 </style>
 <script type="text/javascript" src="js/sum_ipt.js"></script>
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -135,9 +137,8 @@ td{
                                     <option value=""></option>                                 
                                    
                                  </select>
-<!--                                   <font color="#4b8df8" size="3px"><b><%if(session.getAttribute("year")!=null){out.println(session.getAttribute("year").toString()+" | ");}%></b></font>
-                                    <input type="hidden" name="year" id="year" value="<%=session.getAttribute("year").toString()%>">
-                                  -->
+
+                                  
                                     <font color="white" size="3px"><b>Month: </b></font>  
                                   
                                   <select style="width:150px;" placeholder="Month" class="span4 m-wrap" tabindex="-1"  id="month" name="month" onchange="sendtosessionmonth();">

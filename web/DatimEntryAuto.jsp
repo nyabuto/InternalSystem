@@ -59,6 +59,7 @@
 }
                     
                 </style>
+                <%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
                 
   
 </head>
@@ -155,7 +156,7 @@
                              <div class="control-group">
                               <label class="control-label">Facilities<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <select multiple required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="sites" id="sites" >
+                                  <select size="13" multiple required type="text" title=""  class="form-control input-lg" name="sites" id="sites" >
                                     <option value='All'>All Sites</option>
                                      
                                     </select>
@@ -195,35 +196,62 @@
                             
                             
                             
-                              <div class="control-group" >
+                            
+                            
+                            
+                             <div class="control-group" >
                               <label class="control-label">Specify Data Section<font color='red'><b>*</b></font></label>
                               <div class="controls">
-                                  <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="outiput" id="outiput" >
+                                  <select multiple size="6"  required type="text" title="" onchange="selectoutput();loadDataToElement('getDatimIndicators','specificform','yes','','outiput');"  class="form-control input-lg" name="outiput" id="outiput" >
                                       
                                        <!--<option value=''>Select DataSet</option>-->
-                                       <option value='Treatment'>Treatment</option>
+<!--                                       <option value='Treatment'>Treatment</option>
                                        <option value='Viral Suppression'>VL Supression</option>
                                        <option value='Prevention'>Prevention</option>
                                        <option value='Testing - HTS_TST'>Testing - HTS_TST</option>
                                        <option value='Testing - All Others'>Testing - All Others</option>
                                        <option value='Testing - HTS_RECENT'>Testing - HTS_RECENT</option>
                                        <option value='Health Systems'>Health Systems</option>
-                                       
+                                       -->
                                        
                                       
                                              
                                       </select>
+                                  
+                                  <input type="checkbox" id="select_all_sections" name="select_all_sections" >Select All Sections
                               </div>
                            </div>
+                            
                               
-                            <div class="control-group" >
-                              <label class="control-label">Enter Zeros All sites<font color='red'><b>*</b></font></label>
+                             <div class="control-group" >
+                              <label class="control-label">Specify Data Set<font color='red'><b> *</b></font></label>
                               <div class="controls">
-                                <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="entrytype" id="entrytype" >
-                                       <option value='nonzero'>Non Zero Values</option>
-                                       <option value='allnumeric'>all Zero Values</option>
+                                  <select multiple required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="specificform" id="specificform" >
+                                      
+                                       <!--<option value=''>Select DataSet</option>-->
+                                       <option value=''>Specify Set</option>                                       
+                                       <option value='TXML'>TX_ML</option>
+                                       <option value='RTT'>TX_RTT</option>
+                                       <option value='HPT'>Hypertension</option>
+                                       <option value='TXTB'>TX_TB</option>
+                                             
+                                      </select>
+                                  
+                                  <input type="checkbox" id="select_all_indicators" name="select_all_indicators" >Select All Indicators
+
+
+                              </div>
+                           </div>
+                            
+                            
+                            <div class="control-group" >
+                              <label class="control-label">Data Entry Type<font color='red'><b>*</b></font></label>
+                              <div class="controls">
+                                <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="entrytype" id="entrytype" >                                       
+                                       <option value='allnumeric'>New entry & Corrections</option>
+                                        <option value='nonzero'>New Entries only</option> 
                                        <option value='enterblanks'>Delete Entered Data</option>
-                                     
+                                                                          
                                 </select>
                               </div>
                            </div>
@@ -398,10 +426,13 @@ function getReport()
                 $('.loading').show();
                 $('#generaterpt').hide();
                var dataseti=$("#outiput").val();
+//               decodeURI($("#outiput").val());
+
                var sts=$("#sites").val();
                var sd=$("#sdate").val();
                var ed=$("#edate").val();
                var et=$("#entrytype").val();
+               var specificform=$("#specificform").val();
               
                 //?startdate=" + startdate + "&enddate=" + enddate + "&cbos=" + cbos
              
@@ -412,7 +443,7 @@ function getReport()
      url: ur,
      type:'post',
      dataType: 'html',
-     data: {ds:dataseti,prd:period,sts:sts,sd:sd,ed:ed,sp:dataseti,et:et},
+     data: {ds:dataseti,prd:period,sts:sts,sd:sd,ed:ed,sp:dataseti,et:et,specificform:specificform},
      success: function (data) {
          $('.loading').hide(); 
          $('#generaterpt').show();
@@ -442,19 +473,29 @@ selectoutput();
 
 
 
-function loadDataToElement(act,element,issearchselect,firstoption)
+function loadDataToElement(act,element,issearchselect,firstoption,sourceoffilter)
 {
+    
+    var wrv="";
+    var qtr=$("#quarter").val();
+    if(sourceoffilter!==''){ wrv=decodeURI($("#"+sourceoffilter).val());
+    
+        
+        }
     
    $.ajax({
      url: 'dataPulls',
+     type:'POST',
      dataType: 'html',
-     data: {act:act},
+     
+     data: {act:act,datimindicswhr:wrv,qtr:qtr},
      success: function (data) 
-     {                
+     {      
+          data=data.replace("<option value=''>select option</option>","");
          $("#"+element).html(firstoption+data);
          //$('#generaterpt').html("<i class='glyphicon glyphicon-ok'></i> Report Generated");
         if(issearchselect==='yes'){
-         //$("#"+element).select2();   
+         $("#"+element).select2();   
             
         }                
      }
@@ -463,14 +504,31 @@ function loadDataToElement(act,element,issearchselect,firstoption)
     
 }
 
-  loadDataToElement('getDatimPeriod','quarter','no','');
-  loadDataToElement('getDatimSites','sites','yes','');
+  loadDataToElement('getDatimPeriod','quarter','no','','');
+  loadDataToElement('getDatimSites','sites','yes','','');
+  loadDataToElement('getDatimSections','outiput','yes','','');
+  loadDataToElement('getDatimIndicators','specificform','yes','','outiput');
      
     
     
     $('#select_all').click(function() {
    $('#sites option').prop('selected', true);
                                         });
+  
+    
+    $('#select_all_indicators').click(function() {
+   $('#specificform option').prop('selected', true);
+                                        });
+
+
+
+
+  
+    $('#select_all_sections').click(function() {
+   $('#outiput option').prop('selected', true);
+                                        });
+    
+    
     
     
    </script>

@@ -43,6 +43,7 @@
 <link rel="stylesheet" href="select2/css/select2.css">
 
   
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

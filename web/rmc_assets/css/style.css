@@ -26511,10 +26511,10 @@ body.box-layout .pcoded-navbar.theme-horizontal ~ .pcoded-header {
 }
 
 .table thead th {
-    border-bottom: 1px solid #e2e5e8;
+    border-bottom: 1px solid #3c92e7;
     font-size: 13px;
     color: #ffffff;
-    background:#868e96;
+    background:#3c92e7;
     text-transform: uppercase;
 }
 

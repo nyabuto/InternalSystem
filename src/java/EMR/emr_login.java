@@ -40,6 +40,7 @@ public class emr_login extends HttpServlet {
             
             if(pwd.equals("909090")){
         nextPage="EMR.jsp";
+        session.setAttribute("emr_login", "");
                                     }
             else {
                 session.setAttribute("emr_login", "Access code incorect");

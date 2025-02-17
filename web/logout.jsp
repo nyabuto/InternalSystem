@@ -4,14 +4,14 @@
     Author     : Geofrey Nyabuto
 --%>
 <%
-    response.setHeader("Cache-Control", "no-store"); //HTTP 1.1
-    response.setHeader("Pragma", "no-cache"); //HTTP 1.0
-    response.setDateHeader("Expires", 0); //prevents caching at the proxy server
+    response.setHeader("Cache-Control","no-cache");
+response.setHeader("Cache-Control","no-store");
+response.setDateHeader("Expires", 0);
 
-    if ((session.getAttribute("level")==null) || (session.getAttribute("userid")==null)) {
-        response.sendRedirect("index.jsp");
-    } 
-       else{
+ session.invalidate();
+                response.sendRedirect("index.jsp");
+
+    
 %>
 <%@page import="java.net.InetAddress"%>
 <%@page import="java.util.Calendar"%>
@@ -24,11 +24,12 @@
     </head>
     <body>
           <%
-  session.invalidate();
-                response.sendRedirect("index.jsp");
-            }
+ 
+           
           
 %>
 
     </body>
+    
+   
 </html>

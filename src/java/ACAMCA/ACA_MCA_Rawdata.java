@@ -8,6 +8,7 @@ package ACAMCA;
 
 import General.IdGenerator;
 import database.dbConn;
+import java.awt.Color;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,13 +22,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -47,52 +49,52 @@ public class ACA_MCA_Rawdata extends HttpServlet {
 //______________________________________________________________________________________
 //                       CREATE THE WORKSHEETS          
 //______________________________________________________________________________________  
-        HSSFWorkbook wb = new HSSFWorkbook();
+        XSSFWorkbook wb = new XSSFWorkbook();
 
-        HSSFFont font = wb.createFont();
+        XSSFFont font = wb.createFont();
         font.setFontHeightInPoints((short) 18);
         font.setFontName("Cambria");
         font.setColor((short) 0000);
         CellStyle style = wb.createCellStyle();
         style.setFont(font);
-        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        HSSFFont font2 = wb.createFont();
+        style.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        XSSFFont font2 = wb.createFont();
         font2.setFontName("Cambria");
         font2.setColor((short) 0000);
         CellStyle style2 = wb.createCellStyle();
         style2.setFont(font2);
-        style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        style2.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+        style2.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        style2.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        style2.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        style2.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        style2.setAlignment(XSSFCellStyle.ALIGN_LEFT);
 
-        HSSFCellStyle stborder = wb.createCellStyle();
-        stborder.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stborder.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stborder.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stborder.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stborder.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        XSSFCellStyle stborder = wb.createCellStyle();
+        stborder.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        stborder.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        stborder.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        stborder.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        stborder.setAlignment(XSSFCellStyle.ALIGN_CENTER);
 
-        HSSFCellStyle stylex = wb.createCellStyle();
+        XSSFCellStyle stylex = wb.createCellStyle();
         stylex.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylex.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylex.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylex.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylex.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylex.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+        stylex.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+        stylex.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        stylex.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        stylex.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        stylex.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        stylex.setAlignment(XSSFCellStyle.ALIGN_LEFT);
 
-        HSSFCellStyle stylesum = wb.createCellStyle();
+        XSSFCellStyle stylesum = wb.createCellStyle();
         stylesum.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-        stylesum.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        stylesum.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        stylesum.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        stylesum.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        stylesum.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+        stylesum.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        stylesum.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        stylesum.setAlignment(XSSFCellStyle.ALIGN_CENTER);
 
-        HSSFFont fontx = wb.createFont();
+        XSSFFont fontx = wb.createFont();
         fontx.setColor(HSSFColor.BLACK.index);
         fontx.setFontName("Cambria");
         stylex.setFont(fontx);
@@ -101,10 +103,10 @@ public class ACA_MCA_Rawdata extends HttpServlet {
         stylesum.setFont(fontx);
         stylesum.setWrapText(true);
 
-        HSSFSheet acashet = wb.createSheet("ACA raw Data");
-        HSSFSheet mcashet = wb.createSheet("MCA raw Data");
+        XSSFSheet acashet = wb.createSheet("HCA raw Data");
+//        XSSFSheet mcashet = wb.createSheet("MCA raw Data");
         
-        HSSFSheet Sheetnames[]={acashet,mcashet};
+        XSSFSheet Sheetnames[]={acashet};
 
         String year="";
        IdGenerator dats= new IdGenerator();
@@ -158,10 +160,10 @@ public class ACA_MCA_Rawdata extends HttpServlet {
         }
         
         //for(int sheetno=0;sheetno < wb.getNumberOfSheets();sheetno++){
-        for(HSSFSheet shet:Sheetnames){
+        for(XSSFSheet shet:Sheetnames){
         
-        HSSFRow rw0=shet.createRow(1);
-        HSSFCell cell = rw0.createCell(0);
+        XSSFRow rw0=shet.createRow(1);
+        XSSFCell cell = rw0.createCell(0);
                     cell.setCellValue(shet.getSheetName()+" for Period "+startdate+" and "+enddate);
                     cell.setCellStyle(style);
         shet.addMergedRegion(new CellRangeAddress(1, 1, 0,10));
@@ -171,13 +173,13 @@ public class ACA_MCA_Rawdata extends HttpServlet {
               //shet.getSheetName();
               
                 String storedprocedure="";
-                if(shet.getSheetName().equals("ACA raw Data")){
+                if(shet.getSheetName().equals("HCA raw Data")){
                 
-                storedprocedure="pmtct_art_cohort.rpt_ACA";
+                storedprocedure="hei.hca_pivot_raw";
                 }
                 else { 
                 
-                 storedprocedure="pmtct_art_cohort.rpt_MCA";
+                 storedprocedure="pmtct_art_cohort.rpt_ACA";
                 }
         
         //========Query two====Facility Details==============
@@ -199,12 +201,12 @@ public class ACA_MCA_Rawdata extends HttpServlet {
 
             if (count == (count1)) {
 //header rows
-                HSSFRow rw = shet.createRow(count);
+                XSSFRow rw = shet.createRow(count);
 rw.setHeightInPoints(26);
                 for (int i = 1; i <= columnCount; i++) {
 
                     mycolumns.add(metaData.getColumnLabel(i));
-                    HSSFCell cell0 = rw.createCell(i - 1);
+                    XSSFCell cell0 = rw.createCell(i - 1);
                     cell0.setCellValue(metaData.getColumnLabel(i));
                     cell0.setCellStyle(stylex);
 
@@ -213,12 +215,12 @@ rw.setHeightInPoints(26);
                 count++;
             }//end of if
             //data rows     
-            HSSFRow rw = shet.createRow(count);
+            XSSFRow rw = shet.createRow(count);
 
             for (int a = 0; a < columnCount; a++) {
                 //System.out.print(mycolumns.get(a) + ":" + conn.rs.getString("" + mycolumns.get(a)));
 
-                HSSFCell cell0 = rw.createCell(a);
+                XSSFCell cell0 = rw.createCell(a);
                  if(isNumeric(conn.rs.getString("" + mycolumns.get(a)))){
                // if(1==1){
                 
@@ -276,7 +278,7 @@ rw.setHeightInPoints(26);
         response.setContentType("application/ms-excel");
         response.setContentLength(outArray.length);
         response.setHeader("Expires:", "0"); // eliminates browser caching
-        response.setHeader("Content-Disposition", "attachment; filename=" + "ACA_MCA_rpt_from_"+startdate+"_to_"+enddate+"_gen_" + createdOn.trim() + ".xls");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "HCA_rpt_from_"+startdate+"_to_"+enddate+"_gen_" + createdOn.trim() + ".xlsx");
          response.setHeader("Set-Cookie","fileDownload=true; path=/");
         OutputStream outStream = response.getOutputStream();
         outStream.write(outArray);

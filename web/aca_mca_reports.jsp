@@ -17,7 +17,7 @@
 <!-- BEGIN HEAD -->
 <head>
    <meta charset="utf-8" />
-   <title>ACA MCA Reports</title>
+   <title>HCA Reports</title>
    <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -59,7 +59,7 @@
 }
                     
                 </style>
-                
+                 <%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%>  
   
 </head>
 <!-- END HEAD -->
@@ -71,7 +71,7 @@
       <div class="navbar-inner">
          <div class="container-fluid">
             <!-- BEGIN LOGO -->
-            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">ACA/MCA Reports & tracker</h1><br/>
+            <h1 style="text-align:center;font-size: 50px;color:white;padding-bottom:16px ;font-weight: bolder;">HCA Reports & tracker</h1><br/>
             
             <!-- END LOGO -->
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -130,7 +130,7 @@
                   <ul class="breadcrumb">
                      <li style="width: 900px;">
                         <i class="icon-home"></i>
-                        <a href="#" style="margin-left:40%;">Generate ACA & MCA Reports</a> 
+                        <a href="#" style="margin-left:40%;">Generate HCA Reports</a> 
                         <!--<span class="icon-angle-right"></span>-->
                      </li>
            

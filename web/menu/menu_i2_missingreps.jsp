@@ -24,6 +24,7 @@
 <a   style="margin: 5px;" href="Tracker_kenyaEMR.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/lab.png" class="img img-circle" /><i class="feather icon-clock"></i> KenyaEMR VL Reports Tracker</a>
 <a   style="margin: 5px;" href="emr_status_tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/emr.png" class="img img-circle" /><i class="feather icon-clock"></i> EMR Status Missing Reports</a>
 <a   style="margin: 5px;" href="../Cohorts/hfrreports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hfr.png" class="img img-circle" /><i class="feather icon-clock"></i>HFR Missing Reports</a>
+<a   style="margin: 5px;" href="hpdm_tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hpdm.png" class="img img-circle" /><i class="feather icon-clock"></i>Hypertension and Diabetes Missing Reports</a>
 
                                                                 
                                                                 

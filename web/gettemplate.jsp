@@ -13,7 +13,7 @@
 <head>
    <meta charset="utf-8" />
    <title>Download F1A Template</title>
-     
+   <%if(session.getAttribute("userAccess")!=null){} else {response.sendRedirect("index.jsp");}%>
     <link rel="shortcut icon" href="images/imis.png"/>
    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
    <meta content="" name="description" />
@@ -66,6 +66,7 @@ legend.formatter {
 
 }
 </style>
+<%if(session.getAttribute("kd_session")!=null){%><%} else {  response.sendRedirect("logout");}%> 
 
 </head>
 <!-- END HEAD -->
@@ -170,7 +171,7 @@ legend.formatter {
                   <!-- BEGIN SAMPLE FORM PORTLET--> 
                   <form action="downloadTemplate" method="post" class="form-horizontal" style="min-height: 450px;">
                       <br/>
-                      <h4 class='btn-block btn-info btn-lg' style='text-align:center;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional.   &nbsp;&nbsp;&nbsp;&nbsp;   <a class="btn-danger btn-lg" href="F1aUserGuide.pptx">User Guide</a>  <a class="btn-success btn-lg" href="Printable_F1v4.xlsx">Printable F1a</a></h4>
+                      <h4 class='btn-block  btn-lg' style='text-align:center;background-color: #4b8df8; color:white;'> Input fields marked with <font color='red'>*</font> are a must enter. Others are optional.   &nbsp;&nbsp;&nbsp;&nbsp;   <a class="btn-danger btn-lg" href="F1aUserGuide.pptx">User Guide</a>  <a class="btn-success btn-lg" href="Printable_F1v4.xlsx">Printable F1a</a></h4>
                       <br/>
                     <%if(session.getAttribute("userAccess")!=null){} else {%>   <h4 class='btn-block btn-warning btn-lg' style='text-align:center;color:black;'> Please <a href="index.jsp" class="btn-info btn-lg "><b>Login</b></a> using your IMIS Credentials in order to access the Upload module </h4>
                       <br/>
@@ -269,12 +270,25 @@ legend.formatter {
                            </td></tr>
                        
                        <tr><td> 
-                                <b>Action</b> <font color="red"></font>
+                                <b>Form Section</b> <font color="red"></font>
                                </td><td>
                                  <select  style="width:300px;float:right;color:black;" data-placeholder="Facility" class="span6" tabindex="-1"  id="correction_form" name="correction_form">
                                     <option value="F1v8">Full Form 1a</option>
-                                    <option value="F1v8_linkage">Linkage Section Only</option>
-                                    <option value="F1v8_cxca">CXCA Section Only</option>
+<!--                                    <option value="F1v8_linkage">Linkage Section Only</option>
+                                    <option value="F1v8_cxca">CXCA Section Only</option>-->
+                                    <!--<option value="F1v6_prev">Form 1a without Prep New Subpopulation</option>-->
+                                 </select></div>  
+                           </td></tr>
+                  
+                  <tr><td> 
+                                <b>Include previously uploaded data</b> <font color="red">*</font>
+                               </td><td>
+                                 <select required="true"  style="width:300px;float:right;color:black;" data-placeholder="Facility" class="span6" tabindex="-1"  id="includedata" name="includedata">
+                                    
+                                    <option value="">Select Option</option>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                   
                                     <!--<option value="F1v6_prev">Form 1a without Prep New Subpopulation</option>-->
                                  </select></div>  
                            </td></tr>
