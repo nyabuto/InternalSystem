@@ -95,11 +95,13 @@ public class dataPulls extends HttpServlet {
             String groupbyorgunit="";
             
             
-            
             String ramcahstoredprocedure="";
             
             String qtr="";
-            
+           
+            //Target Yearmonth
+            //
+        
             
             
             if(request.getParameter("act")!=null){act=request.getParameter("act");}
@@ -113,6 +115,16 @@ public class dataPulls extends HttpServlet {
             if(request.getParameter("full_sd")!=null){full_sd=request.getParameter("full_sd");}
             if(request.getParameter("groupby")!=null){groupby=request.getParameter("groupby");}
             if(request.getParameter("groupbyorgunit")!=null){groupbyorgunit=request.getParameter("groupbyorgunit");}
+                        
+            
+            
+            String targetyearmonth="202410";
+            String annualperformancesp="analytics_prevention_cascades_prepnew";
+            
+           if(!full_sd.equals(""))
+           {
+               targetyearmonth=GetTargetYearMonth(full_sd);
+           }
             
             
             
@@ -139,6 +151,7 @@ public class dataPulls extends HttpServlet {
             if(request.getParameter("qtr")!=null){qtr=request.getParameter("qtr");}
            
             if(request.getParameter("loadmtrs_sel_val")!=null){loadmtrs_sel_val=request.getParameter("loadmtrs_sel_val");}
+            if(request.getParameter("annualperformancesp")!=null){annualperformancesp=request.getParameter("annualperformancesp");}
             
             
             if(act.equals("loadmothers")){out.println(buildoptsFromDbResultSet(pullAddedMothers(conn, fac),loadmtrs_sel_val));}
@@ -395,6 +408,21 @@ public class dataPulls extends HttpServlet {
     
             }
             
+                            
+                            
+                                            if(act.equals("getAnnualPerformance"))
+            {               
+             //This section pulls data from the provided stored procedure and returns the data in json form
+               ResultSet rs3=pullDataFromDbGivenQuery(conn,"call "+annualperformancesp+"('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"','"+targetyearmonth+"')");
+             
+                
+                
+//                JSONArray ja= toJsonFormatDynamic(rs3);
+//                System.out.println("______Pulling Data from "+ja);
+//                
+                out.println(toJsonFormatDynamic(rs3)); 
+    
+            }
             
                    
                    if(conn.rs!=null){conn.rs.close();}
@@ -821,5 +849,32 @@ public String deleteRow(dbConn con, String rowid,String primarykeycolumn, String
         }
         
          return status;
+}
+
+
+public String GetTargetYearMonth(String startdate){
+//the passed startdate should be of format XXXX-MM-DD
+    String ym="190000";
+
+    
+    String y=startdate.substring(0,4);
+    String m=startdate.substring(5,7);
+    
+    if(m.contains("10")||m.contains("11")||m.contains("12"))
+    {
+    ym=y+"10";
+    }
+    else {
+    y=""+(new Integer(y)-1);
+    
+    ym=y+"10";
+    
+    }
+    
+    System.out.println("y:"+y);
+    System.out.println("m:"+m);
+    System.out.println("ym:"+ym);
+    
+return ym;
 }
 }

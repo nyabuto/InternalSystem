@@ -43,7 +43,7 @@ function floatchart() {
                 }
             }
         }
-        new ApexCharts(document.querySelector("#support-chart"), options1).render();
+//        new ApexCharts(document.querySelector("#support-chart"), options1).render();
     });
     // [ support-chart ] end
     // [ power-card-chart1 ] start
@@ -93,7 +93,7 @@ function floatchart() {
             }
         };
         var chart = new ApexCharts(document.querySelector("#power-card-chart1"), options);
-        chart.render();
+//        chart.render();
     });
     // [ power-card-chart1 ] end
     // [ power-card-chart3 ] start
@@ -143,7 +143,7 @@ function floatchart() {
             }
         };
         var chart = new ApexCharts(document.querySelector("#power-card-chart3"), options);
-        chart.render();
+//        chart.render();
     });
     // [ power-card-chart3 ] end
     // [ seo-chart1 ] start

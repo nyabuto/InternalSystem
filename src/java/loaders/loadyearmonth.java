@@ -104,7 +104,7 @@ public class loadyearmonth extends HttpServlet {
              IdGenerator2 ig= new IdGenerator2();
         
         
-        String qry="select * from internal_system.htsself_period where concat(year,'-',monthid,'-',enddate) <'"+ig.LastMonthEndDate()+"' order by id desc limit 13";
+        String qry="select * from internal_system.htsself_period where concat(year,'-',monthid,'-',enddate) <'"+ig.LastMonthEndDate()+"' order by id desc limit 14";
         
              System.out.println(qry);
         

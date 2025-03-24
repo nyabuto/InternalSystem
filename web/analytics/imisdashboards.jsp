@@ -55,7 +55,7 @@
                         
           
                                     
- <div class="col-sm-12">
+<!-- <div class="col-sm-12">
                 <div class="card">
                    
                     <div class="card-body">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-
+-->
 
 
                 
@@ -434,7 +434,7 @@
 
 
 <!-- custom-chart js -->
-<script src="rmc_assets/js/pages/dashboard-main.js"></script>
+<!--<script src="rmc_assets/js/pages/dashboard-main.js"></script>-->
 
 </body>
 

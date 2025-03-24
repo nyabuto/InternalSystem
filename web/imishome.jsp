@@ -127,7 +127,8 @@
 <!--                                                         <li class="nav-item">
 								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-resources" role="tab" aria-controls="pills-resources" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-external-link"></i></span>  Resources</a>
 							</li>-->
-                                                        <%%> <li class="nav-item">
+                                                        <%%> 
+                                                        <li class="nav-item">
 								<a class="nav-link" id="pills-moremodules-tab" data-toggle="pill" href="#pills-moremodules" role="tab" aria-controls="pills-moremodules" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-plus"></i></span>Extras</a>
 							</li>
                                                         
@@ -139,9 +140,14 @@
 						<div class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 			<h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-bar-chart-2"></i> Dashboards</h4>	
-                                                            <hr>
+<!--                                                            <hr>-->
+
+                                                     <!--This is the regional and date filter-->
+                                                               <%@include file="analytics/filter_elements.jsp" %> 
+
                                                             <div style="overflow-y:scroll; height:90vh;overflow-x:hidden ;">
-                                                            <%@include file="menu/menu_i2_charts.jsp" %> 
+                                                                <!--All the charts and dasboards are defined here-->
+                                                                <%@include file="analytics/menu_i2_charts.jsp" %> 
                                                             
                                                             </div>
                                                             
@@ -307,7 +313,9 @@ window.location.href = "logout.jsp";
     const lp = localStorage.getItem("lastpage");
     if (lp) 
     {
-//       $(lp).click(); // Outputs: Hello from the main page!
+//        console.log("Last Page is :"+lp);
+        
+       $(lp).click(); // Outputs: Hello from the main page!
     }
 });
     

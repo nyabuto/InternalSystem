@@ -27,7 +27,7 @@
 <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
 <link rel="stylesheet" href="rmc_assets/fonts/fontawesome.css" />
 <!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href=rmc_assets/fonts/material.css" />
+<!--<link rel="stylesheet" href=../rmc_assets/fonts/material.css" />-->
     
     
     
@@ -70,7 +70,7 @@
          
                         
           
-                                    
+<!--                                    
  <div class="col-sm-12">
                 <div class="card">
                    
@@ -121,7 +121,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
 
 
@@ -130,6 +130,10 @@
             
         </div>
         
+         <div class="col-xl-12 col-md-12">
+                <h5 class=" btn-primary " style="text-align: center;padding-top:4px;padding-bottom:4px;">KenyaEMR Linelist Data Analysis</h5>
+            </div>
+        <hr/>
          <div class="row">
             <!-- table card-1 start -->
             <div class="col-md-12 col-xl-3">

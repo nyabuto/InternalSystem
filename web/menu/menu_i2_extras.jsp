@@ -46,11 +46,11 @@ pw=us.get("password");
 
 
                         <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=dailyart.jsp" class="btn btn-light">
-                            <img style="width:130px;"  src="images/icons/tx.png"/></a>
+                            <img style="width:130px;text-align: center;"  src="images/icons/tx.png"/></a>
                         
 
                     </div>
-                    <h5 class="formcss"><b>Daily ART</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>Daily ART</b></h5>
                 <hr>
                 </div>
             </div>
@@ -305,7 +305,7 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>Mortality Audit</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>Mortality Audit</b></h5>
                 <hr>
                 </div>
             </div>
@@ -323,45 +323,13 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>Advanced HIV Disease (AHD)</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>Advanced HIV Disease (AHD)</b></h5>
                 <hr>
                 </div>
             </div>
             
-              <div class="col-sm-12 col-md-2">
-                
-                <div class="card text-left">
-                    <div class="card-body">
-
-
-
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=hpdm_main.jsp" class="btn btn-light">
-                            <img style="width:130px;"  src="images/hpdm.png"/></a>
-                        
-
-                    </div>
-                    <h5 class="formcss"><b>Hypertension & Diabetes </b></h5>
-                <hr>
-                </div>
-            </div>
-            
-             <div class="col-sm-12 col-md-2">
-                
-                <div class="card text-left">
-                    <div class="card-body">
-
-
-
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=clinicalforms.jsp?frm=hpv_vaccination&act=9595" class="btn btn-light">
-                            <img style="width:130px;"  src="images/hpv.png"/></a>
-                        
-
-                    </div>
-                    <h5 class="formcss"><b>HPV Vaccination</b></h5>
-                <hr>
-                </div>
-            </div>
-            
+                            
+                            
             <div class="col-sm-12 col-md-2">
                 
                 <div class="card text-left">
@@ -374,7 +342,7 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>CXCA Positives Followup</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>CXCA Positives Followup</b></h5>
                 <hr>
                 </div>
             </div> 
@@ -392,10 +360,51 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>Client Exit Interview</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>Client Exit Interview</b></h5>
                 <hr>
                 </div>
             </div> 
+            
+                            
+                            
+                                                
+                           
+              <div class="col-sm-12 col-md-2">
+                
+                <div class="card text-left">
+                    <div class="card-body">
+
+
+
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=hpdm_main.jsp" class="btn btn-light">
+                            <img style="width:130px;"  src="images/hpdm.png"/></a>
+                        
+
+                    </div>
+                    <h5 class="formcss" style="text-align: center;"><b>Hypertension & Diabetes </b></h5>
+                <hr>
+                </div>
+            </div>
+            
+                            
+                           
+                            
+             <div class="col-sm-12 col-md-2">
+                
+                <div class="card text-left">
+                    <div class="card-body">
+
+
+
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=clinicalforms.jsp?frm=hpv_vaccination&act=9595" class="btn btn-light">
+                            <img style="width:130px;"  src="images/hpv.png"/></a>
+                        
+
+                    </div>
+                    <h5 class="formcss" style="text-align: center;"><b>HPV Vaccination</b></h5>
+                <hr>
+                </div>
+            </div>
             
            
 
@@ -421,7 +430,7 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>Retention Audit</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>Retention Audit</b></h5>
                 <hr>
                 </div>
             </div>
@@ -440,7 +449,7 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>HEI Weekly Form</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>HEI Weekly Form</b></h5>
                 <hr>
                 </div>
             </div>   
@@ -459,7 +468,7 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>HEI Audit</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>HEI Audit</b></h5>
                 <hr>
                 </div>
             </div>
@@ -476,7 +485,7 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>Stock Verification</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>Stock Verification</b></h5>
                 <hr>
                 </div>
             </div>
@@ -493,7 +502,7 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>UTJ CQI </b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>UTJ CQI </b></h5>
                 <hr>
                 </div>
             </div>
@@ -510,13 +519,23 @@ pw=us.get("password");
                         
 
                     </div>
-                    <h5 class="formcss"><b>PMTCT OVC Forms</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>PMTCT OVC Forms</b></h5>
                 <hr>
                 </div>
             </div> 
             
             
  </div>
+                            
+                            
+                            <div class="row">
+                                
+            
+                            
+                          
+                                
+                            </div>
+                            
             </div>
 
 

@@ -17,7 +17,7 @@ function loadmonths(){
        
         var curyr=dt.getYear()+1900;
      
-        console.log("mwezi wa "+curmonth+"  mwaka wa "+curyr);
+       // console.log("mwezi wa "+curmonth+"  mwaka wa "+curyr);
         
       var yr=document.getElementById("year").value;
 //      alert(yr);
@@ -109,7 +109,7 @@ success:function (data){
       return true;  
     }
     
-     $('#mdt').select2();  
+     $('.mdt').select2();  
     
      
     
@@ -193,8 +193,11 @@ function getPeriod(){
                         
                         for(var a=0;a<dat.length;a++)
                         {                           
+                     var selected="";
                      
-                          std+="<option data-startdate='"+dat[a].year+"-"+dat[a].monthid+"-01' value='"+dat[a].id+"'>"+dat[a].year+" "+dat[a].month+"</option>";   
+                     if(dat[a].monthid==='10'){selected=" selected ";}
+                     
+                          std+="<option "+selected+" data-startdate='"+dat[a].year+"-"+dat[a].monthid+"-01' value='"+dat[a].id+"'>"+dat[a].year+" "+dat[a].month+"</option>";   
                           end+="<option data-enddate='"+dat[a].year+"-"+dat[a].monthid+"-"+dat[a].enddate+"' value='"+dat[a].id+"'>"+dat[a].year+" "+dat[a].month+"</option>";   
                         }
                        
@@ -214,6 +217,112 @@ function getPeriod(){
    
 
 getPeriod();
+
+
+
+
+function utjSitesSummaryOverall()
+{ 
+//    alert("called");
+    //once the edit form is clicked, the assumption is that the add section will be loaded
+    //$('#home-tab').click();
+    //$('#home-tab').html("Edit Projects");
+//      $("#ovc_enrolled_perc_rd").html('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+//      $("#otz_enrolled_perc_rd").html('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+//   
+//    console.log("_"+fc+"vs"+dt);
+
+    var fc="";
+    var cnt="";
+    var sct="";
+    var rgn="";
+    var sd="";
+    var ed="";
+    
+    var full_sd="";
+    var full_ed="";
+    
+    if($(".facility").val()!==null){fc=$(".facility").val();}
+    if($(".county").val()!==null){cnt=$(".county").val();}
+    if($(".subcounty").val()!==null){sct=$(".subcounty").val();}
+    if($(".mdt").val()!==null){rgn=$(".mdt").val();}
+    
+    if($(".startdate").val()!==null){sd=$(".startdate").val();  full_sd=$(".startdate option:selected").data("startdate"); } 
+    if($(".enddate").val()!==null){ed=$(".enddate").val();  full_ed=$(".enddate option:selected").data("enddate");} 
+ 
+            
+           
+            
+            //now load the data
+          $.ajax({
+                    url:'pulldata',                            
+                    type:'post',  
+                    data:
+                    {
+                        act:'getSitesSummary',
+                        fc:fc,
+                        cnt:cnt,
+                        sct:sct,
+                        mdt:rgn,
+                        sd:sd,
+                        ed:ed,
+                        full_sd:full_sd,
+                        full_ed:full_ed,                   
+                         groupbyorgunit:'\"UTJ\" as OrganizationUnit,',
+                        groupby:' '
+                    },
+                    dataType: 'json',  
+                    success: function(data) 
+                    {
+                         //  console.log("data ni:"+data);
+                  
+//                      if I want to display ovc list only   
+                  
+                        
+                       // console.log(data);
+                        
+                        const keys = Object.keys(data[0]);  
+                       // console.log(keys);
+for (const key in data[0]) 
+{  
+    
+    
+     
+    
+    var ky=key;
+    var vl=data[0][key];
+    
+    
+   
+   
+   //console.log("The length of Radial Length is :"+radialdt.length) 
+    //don't include 
+    if($("#"+ky)!==null){
+     $("#"+ky).html(vl);
+ }
+ 
+ 
+  
+}
+                  
+
+                    }  
+//});
+                        
+                  
+//                         $('.dates').datepicker({
+//                             todayHighlight: true, daysOfWeekDisabled: "0,6",clearBtn: true, autoclose: true,format: "yyyy-mm-dd",
+//     });
+     
+   
+                        
+                        
+                    });    
+             
+    
+    
+}
+
 
 
 
@@ -270,16 +379,16 @@ function emrimisdataSummaryOverall()
                     dataType: 'json',  
                     success: function(data) 
                     {
-                           console.log("data ni:"+data);
+                         //  console.log("data ni:"+data);
                   
 //                      if I want to display ovc list only   
                       var rdlitems=['ovc_enrolled_perc','otz_enrolled_perc'];  
                         
                         
-                        console.log(data);
+                       // console.log(data);
                         
                         const keys = Object.keys(data[0]);  
-                        console.log(keys);
+                       // console.log(keys);
 for (const key in data[0]) 
 {  
     
@@ -305,7 +414,7 @@ for (const key in data[0])
      loadRadialChart(ky+"_rd",percent_numeric,radialdt,radiallabel);
      
  }
-   console.log("The length of Radial Length is :"+radialdt.length) 
+   //console.log("The length of Radial Length is :"+radialdt.length) 
     //don't include 
     if($("."+ky)!==null){
      $("."+ky).html(vl);
@@ -396,8 +505,8 @@ function emrimisdataSummarybyMdt()
                         data=JSON.parse("["+data+"]");
 //                        data=JSON.stringify(data);
                         
-                          console.log("data 1 ni:"+d);
-                          console.log("data 2 ni:"+data);
+//                          console.log("data 1 ni:"+d);
+//                          console.log("data 2 ni:"+data);
                   
 //                      if I want to display certain Tables, I will build tables for each Cascade 
 // Note that below arrays contains the names of the table colums as written on the stored procedure for ease of  management. Any renaming done to the mysql column should also be done on the table below
@@ -451,7 +560,7 @@ function emrimisdataSummarybyMdt()
                         for( var rw=0;rw<data.length;rw++){
                             
                        var keys = Object.keys(data[rw]);  
-                        console.log("Headers by order:"+keys);     
+                       // console.log("Headers by order:"+keys);     
               
                             
                             
@@ -614,7 +723,7 @@ cx_tblrows+=rowend;
                   
                   
                   if(rw===parseInt((data.length))-1){
-                      console.log("This is the end of orgunit rows");
+//                      console.log("This is the end of orgunit rows");
    //note that the first item on the array (refer to argument below) contains the name of the DOM element that will host our table
                       htmltablebuilder( ncdtableitems[0],tblheader,tblrows );
                       htmltablebuilder( ipttableitems[0],ipttblheader,ipttblrows );
@@ -726,7 +835,7 @@ function emrRdqabyMdt()
                         for( var rw=0;rw<data.length;rw++){
                             
                        var keys = Object.keys(data[rw]);  
-                        console.log("Headers by order:"+keys);     
+//                        console.log("Headers by order:"+keys);     
                             
                             
                               var rowstart="<tr>";
@@ -845,7 +954,7 @@ function htmltablebuilder( hostelementname,tableheaders,tablebody )
              
     
     
-    console.log(" Table for element "+hostelementname+" is: "+tbl);
+//    console.log(" Table for element "+hostelementname+" is: "+tbl);
     
     $("."+hostelementname).html(tbl);
     
@@ -880,12 +989,562 @@ function conditionalformat( val ){
     return conditioned_value;
 }
 
+
+
+//This is a java script that loads prevention charts
+
+//Here we are loading three type of charts for each indicator. The bignumber ( eg 14,000 45%) , The periodic trends data and the the mdt regional summary 
+
+function loadAnnualPerformanceAgainstTarget(spname,elementname)
+{ 
+    
+    //once the edit form is clicked, the assumption is that the add section will be loaded
+    //$('#home-tab').click();
+    //$('#home-tab').html("Edit Projects");
+//      $("#ovc_enrolled_perc_rd").html('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+//      $("#otz_enrolled_perc_rd").html('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>');
+//   
+//    console.log("_"+fc+"vs"+dt);
+
+
+var    bignumberelement="ap_"+elementname;
+var    bignumberelement_perc="ap_"+elementname+"_perc";
+var    bignumberelement_perc_pb="ap_"+elementname+"_perc_pb";
+var    trendelement ="ap_"+elementname+"_trends";
+var    regiontemplate="ap_"+elementname+"_summary";
+
+    var fc="";
+    var cnt="";
+    var sct="";
+    var rgn="";
+    var sd="";
+    var ed="";
+    
+    var full_sd="";
+    var full_ed="";
+    
+    if($(".facility").val()!==null){fc=$(".facility").val();}
+    if($(".county").val()!==null){cnt=$(".county").val();}
+    if($(".subcounty").val()!==null){sct=$(".subcounty").val();}
+    if($(".mdt").val()!==null){rgn=$(".mdt").val();}
+    
+    if($(".startdate").val()!==null){sd=$(".startdate").val();  full_sd=$(".startdate option:selected").data("startdate"); } 
+    if($(".enddate").val()!==null){ed=$(".enddate").val();  full_ed=$(".enddate option:selected").data("enddate");} 
+ 
+            
+           
+            
+            //now load the data
+          $.ajax({
+                    url:'dataPulls',                            
+                    type:'post',  
+                    data:
+                    {
+                        act:'getAnnualPerformance',
+                        fc:fc,
+                        cnt:cnt,
+                        sct:sct,
+                        mdt:rgn,
+                        sd:sd,
+                        ed:ed,
+                        full_sd:full_sd,
+                        full_ed:full_ed,                   
+                         groupbyorgunit:'`mdt` as Region,',
+                        groupby:' group by  yearmonth  ',
+                        annualperformancesp:spname
+                    },
+                    dataType: 'json',  
+                    success: function(data) 
+                    {
+                           
+                  var periodic_mns=[];
+                  var periodic_perf=[];
+                  var periodic_tgt=[];
+                  var periodic_res=[];
+                
+                  var periodictitle="";
+//               
+                 //arrays for regional data
+                 
+               
+                var tblheader= "<th>Region</th><th >Annual Target</th><th >Achieved</th><th >%Achieved</th>";
+                  var tblrows="";
+                    
+//                    console.log("Data has rows: "+data.length);
+                        
+                        for (var rw=0;rw<data.length;rw++){
+                          
+                
+
+                            
+                            
+//                            console.log("data is:"+data[rw]);
+                        const keys = Object.keys(data[rw]);  
+                        
+                        var rws=data[rw];
+                        var category=rws.category;
+                        var monthname=rws.Month;
+                        var period=rws.Period;
+                        var region=rws.Region;
+                        var indicator=rws.Indicator;
+                            indicator=indicator.toUpperCase();
+                        var result=Math.round(rws.Result);
+                            var resultcomad=result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        var atarget=Math.round(rws.AnnualTarget);
+                            atarget=atarget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        var mtarget=Math.round(rws.MonthlyTarget);
+                            mtarget=mtarget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        var perf=Math.round(rws.Perf);
+                        
+//                        console.log("Categories ni: "+rws.category);
+                            
+                        /**  **/ 
+                        
+              if(category==='overalltotal'){ 
+              
+//This section deiplays the annual performance for big numbers
+//
+ $("."+bignumberelement).html(resultcomad);
+ $("."+bignumberelement_perc).html(perf+"%");
+ $("."+bignumberelement_perc_pb).css("width",perf);
+                            
+                            }  
+                            
+             if(category==='periodictrends'){
+                 
+                  periodic_mns.push(monthname);
+                   periodic_perf.push(perf);
+                   periodic_res.push(result);
+                   periodic_tgt.push(mtarget);
+                   
+                   
+                   
+                 periodictitle=indicator+" Trends";
+                 
+//                 console.log("Months:"+periodic_mns);
+//                 console.log("performance:"+periodic_dt);
+                 
+             }               
+                            
+       if(category==='regionaltotal'){
+                 
+            
+//_____________Build an html table inside for loop_____
+ var rowstart="<tr>";
+
+if(rw===parseInt((data.length))-1)
+{   
+    rowstart+="<tfoot class='table-info'>";
+}  
+
+//build the table row start 
+tblrows+=rowstart;
+var vl1=conditionalformat(perf+"%");
+//add data into table rows  
+tblrows += "<td ><b>" + region + "</b></td>";
+tblrows += "<td >" + atarget + "</td>";
+tblrows += "<td >" + resultcomad + "</td>";
+tblrows += "<td ><b>" + vl1 + "</b></td>";
+//outside for loop						
+var rowend="</tr>";
+
+if(rw===parseInt((data.length))-1){
+    
+    rowend+="</tfoot>";
+}
+
+tblrows+=rowend;            
+                 
+             }//end of regional total                          
+                
+
+if(rw===parseInt(data.length)-1){
+    
+//   loadLiniearChart(trendelement,periodic_perf,periodic_mns,'bar',periodictitle);   
+//   loadLiniearChart(trendelement,periodic_perf,periodic_mns,'bar',periodictitle);   
+   htmltablebuilder( regiontemplate,tblheader,tblrows );
+   loadSingleComboChart(trendelement,periodic_perf,periodic_tgt,periodic_res,periodic_mns,periodictitle);
+//    loadComboChart(elementid,perc_dt,target_dt,results_dt,mns,title)
+}
+
+                    }  //end of looping throug all data rows
+                    
+                    
+                  
+                    
+                    
+                
+                    }//end of success formula
+                
+                
+                
+//});
+                        
+                  
+
+   
+                        
+                        
+                    });    
+             
+    
+    
+}
+
+
+
+        function loadLiniearChart(elementid,dt,mns,charttype,title)
+{ 
+  
+//    alert("Called");
+    
+   
+    //once the edit form is clicked, the assumption is that the add section will be loaded
+    //$('#home-tab').click();
+    //$('#home-tab').html("Edit Projects");
+    
+   
+    console.log("element is_"+elementid);
+            
+  
+                    
+                        var ttl=title;
+                       
+                        
+                        $(function() {
+            var options = {
+                chart: {
+                    height: 350,
+                    type: charttype,
+                    zoom: {
+                        enabled: true
+                    }
+                        },
+                dataLabels: {
+                    enabled: true,
+                    width: 2
+                },
+                stroke: {
+                    curve: 'straight',
+                },
+                colors: ["#1abc9c"],
+                series: [{
+                    name: '% Performance',
+                    data: dt
+                }],
+                title: {
+                    text: ttl,
+                    align: 'center'
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f6ff', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: mns,
+                }
+            };
+  $("."+elementid).html('');
+            var chart = new ApexCharts(
+                document.querySelector("."+elementid),
+                options
+                                      );
+   
+            chart.render();
+        });
+        
+        
+              
+                        
+                        
+                   
+                        
+                        }//end of loadliniar chart
+               
+    
+        function loadSingleComboChart(elementid,perc_dt,target_dt,results_dt,mns,title)
+{ 
+  
+//    alert("Called");
+    
+   
+    //once the edit form is clicked, the assumption is that the add section will be loaded
+    //$('#home-tab').click();
+    //$('#home-tab').html("Edit Projects");
+    
+ 
+//    console.log("element is_"+elementid+":% echieved:_"+perc_dt+": target:_"+target_dt+": results:_"+results_dt);
+            
+  
+                    
+                        var ttl=title;
+                       
+                        
+                        $(function() {
+          var options = {
+          series: [{
+          name: 'Results',
+          type: 'column',
+          data: results_dt
+        }, {
+          name: '% Achieved',
+          type: 'line',
+          data: perc_dt
+        
+        }],
+          chart: {
+          height: 350,
+          type: 'line',
+            zoom: {
+                        enabled: false
+                    }
+        },
+        stroke: {
+          width: [0, 4]
+        },
+        title: {
+          text: ttl
+          ,align: 'center'
+          , floating: true
+        },
+        dataLabels: {
+          enabled: true,
+           style: {fontSize: '16px'}, 
+          enabledOnSeries: [0,1]
+          ,
+           formatter: function (value, { seriesIndex }) {
+      if (seriesIndex === 1) {
+        return value + "%"; // Apply % only to the line chart values
+      }
+      return value;
+    }
+          
+        }
+        
+        ,labels: mns,
+        yaxis: [{
+          title: {
+            text: 'Results'
+          }
+        
+        }, {
+          opposite: true,
+          title: {
+            text: '% Achieved'
+          },min: 0,
+          labels: {
+        formatter: function (val) {
+          return val + "%"; // Adds % to y-axis labels
+        }}
+        }]//end of y axis
+        };
+         $("."+elementid).html('');
+        var chart = new ApexCharts(document.querySelector("."+elementid), options);
+        chart.render();
+        });
+        
+        
+              
+                        
+                        
+                   
+                        
+                        }//end of loadliniar chart
+               
+    
+        function loadMultiComboChart(elementid,perc_dt,target_dt,results_dt,mns,title)
+{ 
+  
+//    alert("Called");
+    
+   
+    //once the edit form is clicked, the assumption is that the add section will be loaded
+    //$('#home-tab').click();
+    //$('#home-tab').html("Edit Projects");
+    
+   
+    console.log("element is_"+elementid);
+            
+  
+                    
+                        var ttl=title;
+                       
+                        
+                        $(function() {
+           var options = {
+          series: [{
+          name: 'Target',
+          type: 'column',
+          data: target_dt
+        }, {
+          name: 'Results',
+          type: 'column',
+          data: results_dt
+        }, {
+          name: 'Performance',
+          type: 'line',
+          data: perc_dt
+        }],
+          chart: {
+          height: 350,
+          type: 'line',
+          stacked: false
+        },
+        dataLabels: {
+          enabled: true
+        },
+        stroke: {
+          width: [1, 1, 4]
+        },
+        title: {
+          text: title,
+          align: 'left',
+          offsetX: 110
+        },
+        xaxis: {
+          categories: mns,
+        },
+        yaxis: [
+          {
+            seriesName: 'Target',
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#008FFB'
+            },
+            labels: {
+              style: {
+                colors: '#008FFB',
+              }
+            },
+            title: {
+              text: "Target",
+              style: {
+                color: '#008FFB',
+              }
+            },
+            tooltip: {
+              enabled: true
+            }
+          },
+          {
+            seriesName: 'Results',
+            opposite: true,
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#00E396'
+            },
+            labels: {
+              style: {
+                colors: '#00E396',
+              }
+            },
+            title: {
+              text: "Results",
+              style: {
+                color: '#00E396',
+              }
+            },
+          },
+          {
+            seriesName: 'Performance',
+            opposite: true,
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#FEB019'
+            },
+            labels: {
+              style: {
+                colors: '#FEB019',
+              },
+            },
+            title: {
+              text: "Performance (%)",
+              style: {
+                color: '#FEB019',
+              }
+            }
+          },
+        ],
+        tooltip: {
+          fixed: {
+            enabled: true,
+            position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+            offsetY: 30,
+            offsetX: 60
+          },
+        },
+        legend: {
+          horizontalAlign: 'left',
+          offsetX: 40
+        }
+        };
+  $("."+elementid).html('');
+        var chart = new ApexCharts(document.querySelector("."+elementid), options);
+        chart.render();
+        });
+        
+        
+              
+                        
+                        
+                   
+                        
+                        }//end of loadliniar chart
+               
+    
+    
+
+    
+    
+    
+    
+
+
   
 function updtimis()
 {
+    utjSitesSummaryOverall();
  emrimisdataSummaryOverall();  
  emrimisdataSummarybyMdt();
  emrRdqabyMdt();
+
+loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_gendgbv','gend_gbv');
+loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_prepct','prep_ct');
+loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_prepnew','prep_new');
+loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_tb_prev_d','tb_prev_d');
+loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_tb_prev_n','tb_prev_n');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_cascades_htstst','hts_tst');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_cascades_htspos','hts_tst_pos');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_cxca_scrn','cxca_scrn');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_htsself','hts_self');
+//
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_pos','pmtct_pos');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_d','pmtct_stat_d');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_n','pmtct_stat_n');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_pos','tb_pos');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_stat_d','tb_stat_d');
+//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_stat_n','tb_stat_n');
+//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_pmtct_art','pmtct_art');
+//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tb_art','tb_art');
+//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_curr','tx_curr');
+//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_new','tx_new');
+//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_tb_d','tx_tb_d');
+//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_tb_n','tx_tb_n');
+//loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_d','tx_pvls_d');
+//loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_n','tx_pvls_n');
+
+
 }
 
   

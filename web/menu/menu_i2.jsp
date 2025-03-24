@@ -41,7 +41,7 @@
 						<!--<label>Data entry</label>-->
 					</li>
 					<li class="nav-item">
-					    <a href="imishome.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
+					    <a href="imishome.jsp" class="nav-link " onclick="clicktb('pills-home-tab');" href="#pills-home"  ><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
 					</li>
                                         
                                         
@@ -140,7 +140,7 @@
                                         
                                         
                                         <li class="nav-item pcoded-hasmenu">
-					    <a href="logout" class="nav-link "><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Log Out</span></a>
+					    <a  href="logout" class="nav-link " onclick="clicktb('pills-home-tab');"><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Log Out</span></a>
 					    <ul class="pcoded-submenu">
 					        <li><a href="logout" >Sign out</a></li>
 					    </ul>
@@ -162,7 +162,11 @@
       function clicktb(elm){
           
           $("#"+elm).click();
+           localStorage.setItem("lastpage", "#"+elm);
+//          window.location.href = "imishome.jsp";
           
       }
       
   </script>
+  
+   
