@@ -44,82 +44,19 @@
 <!-- [ Main Content ] start -->
 
     <div class="pcoded-content">
-        <!-- [ breadcrumb ] start -->
-       
-        <!-- [ breadcrumb ] end -->
-        <!-- [ Main Content ] start -->
+     
+         <%@include file="preventionannualsummary.html" %> 
+        <%@include file="testingannualsummary.html" %> 
+        <%@include file="testingotherannualsummary.html" %> 
+        <%@include file="treatmentannualsummary.html" %> 
+        <%@include file="vlannualsummary.html" %> 
         
-        <div class="row">
-            
-         
-                        
-          
-                                    
-<!-- <div class="col-sm-12">
-                <div class="card">
-                   
-                    <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="county">County</label>
-                                        <select onchange="loadmdt(); updt()" required='true' class='form-control' id='county' name='county'  ></select>
-                                    </div>
-                                </div>
-                                
-                                
-                                  <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="mdt">MDT Region</label>
-                                        <select onchange="loadsubcounty();updt();" required='true' class='form-control' id='mdt' name='mdt'  ></select>
-                                    </div>
-                                </div>
-                                
-                                
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="subcounty">Sub-County</label>
-                                        <select onchange="loadfacils();updt();" required='true' class='form-control' id='subcounty' name='subcounty'  ></select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="facility">Facility</label>
-                                         <select onchange="updt();" required='true' class='form-control' id='facility' name='facility'  ></select>
-                                    </div>
-                                </div>
-                                 <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="startyearmonth">Start Period</label>
-                                        <select required='true' class='form-control' id='startdate' name='startdate'  ></select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="floating-label" for="facility">End Period</label>
-                                         <select required='true' class='form-control' id='enddate' name='enddate'  ></select>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+      <div class="col-xl-12 col-md-12">
+                <h5 class=" btn-primary " style="text-align: center;padding-top:2px;padding-bottom:2px;">Sites Coverage</h5>
             </div>
--->
-
-
-                
-
-            
-        </div>
         
         <div class="row">
-            
-            
-            
-            
-            
+       
             <!-- table card-1 start -->
             <div class="col-md-12 col-xl-6">
                 <div class="card flat-card">
@@ -280,157 +217,28 @@
                 </div>
                 
             </div>
-            <!-- table card-2 end -->
-            <!-- Widget primary-success card start -->
-<!--            <div class="col-md-12 col-xl-4">
-                <div class="card support-bar overflow-hidden">
-                   
-                    <div id="support-chart"></div>
-                    <div class="card-footer bg-primary text-white">
-                        <div class="row text-center">
-                            <div class="col">
-                                <h4 class="m-0 text-white">10</h4>
-                                <span>Open</span>
-                            </div>
-                            <div class="col">
-                                <h4 class="m-0 text-white">5</h4>
-                                <span>Running</span>
-                            </div>
-                            <div class="col">
-                                <h4 class="m-0 text-white">3</h4>
-                                <span>Solved</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-            <!-- Widget primary-success card end -->
-
-            <!-- prject ,team member start -->
-            <div class="col-xl-6 col-md-12">
-              
-            </div>
-            <div class="col-xl-6 col-md-12">
-              
-            </div>
-            <!-- prject ,team member start -->
-            <!-- seo start -->
-<!--            
-            
-            
-            <div class="col-xl-4 col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <h3>59,847</h3>
-                                <h6 class="text-muted m-b-0">Patients on ART<i class="fa fa-caret-down text-c-red m-l-10"></i></h6>
-                            </div>
-                            <div class="col-6">
-                                <div id="seo-chart1" class="d-flex align-items-end"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <h3>87%</h3>
-                                <h6 class="text-muted m-b-0">VL Access<i class="fa fa-caret-up text-c-green m-l-10"></i></h6>
-                            </div>
-                            <div class="col-6">
-                                <div id="seo-chart2" class="d-flex align-items-end"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <h3>97%</h3>
-                                <h6 class="text-muted m-b-0">VL Suppression<i class="fa fa-caret-down text-c-red m-l-10"></i></h6>
-                            </div>
-                            <div class="col-6">
-                                <div id="seo-chart3" class="d-flex align-items-end"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
-            
-            
-            <!-- seo end -->
-
-            <!-- Latest Customers start -->
-           
-           
-            <!-- Latest Customers end -->
         </div>
+        
+       
+        
         <!-- [ Main Content ] end -->
     </div>
 
-<!-- [ Main Content ] end -->
-    <!-- Warning Section start -->
-    <!-- Older IE warning message -->
-    <!--[if lt IE 11]>
-        <div class="ie-warning">
-            <h1>Warning!!</h1>
-            <p>You are using an outdated version of Internet Explorer, please upgrade
-               <br/>to any of the following web browsers to access this website.
-            </p>
-            <div class="iew-container">
-                <ul class="iew-download">
-                    <li>
-                        <a href="http://www.google.com/chrome/">
-                            <img src="rmc_assets/images/browser/chrome.png" alt="Chrome">
-                            <div>Chrome</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.mozilla.org/en-US/firefox/new/">
-                            <img src="rmc_assets/images/browser/firefox.png" alt="Firefox">
-                            <div>Firefox</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.opera.com">
-                            <img src="rmc_assets/images/browser/opera.png" alt="Opera">
-                            <div>Opera</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.apple.com/safari/">
-                            <img src="rmc_assets/images/browser/safari.png" alt="Safari">
-                            <div>Safari</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
-                            <img src="rmc_assets/images/browser/ie.png" alt="">
-                            <div>IE (11 & above)</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <p>Sorry for the inconvenience!</p>
-        </div>
-    <![endif]-->
     <!-- Warning Section Ends -->
 
     <!-- Required Js -->
-    <script src="rmc_assets/js/vendor-all.min.js"></script>
+     <script src="rmc_assets/js/vendor-all.min.js"></script>
     <script src="rmc_assets/js/plugins/bootstrap.min.js"></script>
-    <script src="rmc_assets/js/pcoded.min.js"></script>
+    <!--<script src="rmc_assets/js/pcoded.min.js"></script>-->
 
 <!-- Apex Chart -->
 <script src="rmc_assets/js/plugins/apexcharts.min.js"></script>
+<!--    <script src="rmc_assets/js/vendor-all.min.js"></script>
+    <script src="rmc_assets/js/plugins/bootstrap.min.js"></script>
+    <script src="rmc_assets/js/pcoded.min.js"></script>
+
+ Apex Chart 
+<script src="rmc_assets/js/plugins/apexcharts.min.js"></script>-->
 
 
 <!-- custom-chart js -->

@@ -23,21 +23,25 @@
 					<div class="card-body" style="background-color:#E9E9E9;">
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
    
-
+ <li class="nav-item">
+        <a class="nav-link active" id="pills-summary-tab" data-toggle="pill" href="#pills-summary" role="tab" aria-controls="pills-summary" aria-selected="true"> <span class="pcoded-micon"><i class="feather icon-bar-chart"></i></span>Summary</a>
+    </li>
+    
     <li class="nav-item">
         <a class="nav-link" id="pills-emrcharts-tab" data-toggle="pill" href="#pills-emrcharts" role="tab" aria-controls="pills-emrcharts" aria-selected="false">  <span class="pcoded-micon"><i class="feather icon-link"></i></span>EMR</a>
     </li>
      <li class="nav-item">
-        <a class="nav-link   active " id="pills-prevention-tab" data-toggle="pill" href="#pills-prevention" role="tab" aria-controls="pills-prevention" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-info"></i></span>Prevention</a>
+        <a class="nav-link    " id="pills-prevention-tab" data-toggle="pill" href="#pills-prevention" role="tab" aria-controls="pills-prevention" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-info"></i></span>Prevention</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link" id="pills-summary-tab" data-toggle="pill" href="#pills-summary" role="tab" aria-controls="pills-summary" aria-selected="true"> <span class="pcoded-micon"><i class="feather icon-bar-chart"></i></span>Summary</a>
-    </li>
+   
 
 
     <li class="nav-item">
         <a class="nav-link" id="pills-testing-tab" data-toggle="pill" href="#pills-testing" role="tab" aria-controls="pills-testing" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-clock"></i></span>HIV Testing</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-testingother-tab" data-toggle="pill" href="#pills-testingother" role="tab" aria-controls="pills-testingother" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-user-plus"></i></span>HIV Other Testing</a>
     </li>
 
     <li class="nav-item">
@@ -59,39 +63,45 @@
 						</ul>
 						<div class="tab-content" id="pills-tabContent1">
                                                     
-                                                    <div class="tab-pane fade" id="pills-emrcharts" role="tabpanel" aria-labelledby="pills-emrcharts-tab">
-                                                            <!----EMR---->
-                                                            
-                                                            <%@include file="../analytics/imisemr.jsp" %> 
-                                                            
-							</div>
-                                                    <div class="tab-pane fade   show active" id="pills-prevention" role="tabpanel" aria-labelledby="pills-prevention-tab">
-								                           <!----Prevention---->
-                                                  <%@include file="../analytics/preventioncharts.jsp" %> 
-                                                       </div>
                                                     
-                                                          
-                                                    
-							<div class="tab-pane fade " id="pills-summary" role="tabpanel" aria-labelledby="pills-summary-tab">
+                                                    <div class="tab-pane fade show active" id="pills-summary" role="tabpanel" aria-labelledby="pills-summary-tab">
 								<!----Summary---->
                                                             
                                                                 <%@include file="../analytics/imisdashboards.jsp" %> 
                                                             
                                                             
 							</div>
+                                                    
+                                                    <div class="tab-pane fade" id="pills-emrcharts" role="tabpanel" aria-labelledby="pills-emrcharts-tab">
+                                                            <!----EMR---->
+                                                            
+                                                            <%@include file="../analytics/imisemr.jsp" %> 
+                                                            
+							</div>
+                                                    <div class="tab-pane fade   " id="pills-prevention" role="tabpanel" aria-labelledby="pills-prevention-tab">
+								                           <!----Prevention---->
+                                                  <%@include file="../analytics/preventioncharts.jsp" %> 
+                                                       </div>
+                                                    
 							
 							<div class="tab-pane fade" id="pills-testing" role="tabpanel" aria-labelledby="pills-testing-tab">
                                                           <!----Testing---->
+                                                            <%@include file="../analytics/testingcharts.jsp" %>
+							</div>
+                                                        
+                                                        <div class="tab-pane fade" id="pills-testingother" role="tabpanel" aria-labelledby="pills-testingother-tab">
+                                                          <!----Testing---->
+                                                            <%@include file="../analytics/testingothercharts.jsp" %>
 							</div>
                                                             
                            <div class="tab-pane fade" id="pills-treatment" role="tabpanel" aria-labelledby="pills-treatment-tab">
                                                             <!----Treatment---->
-                                                           
+                                                            <%@include file="../analytics/treatmentcharts.jsp" %> 
 							</div>
                          <div class="tab-pane fade" id="pills-vl" role="tabpanel" aria-labelledby="pills-vl-tab">
                                                             <!----VL---->
-                                                         
-					     </div>
+                                                            <%@include file="../analytics/vlsuppressioncharts.jsp" %>        
+			 </div>
                         
                                                           
                                    <div class="tab-pane fade" id="pills-surge" role="tabpanel" aria-labelledby="pills-surge-tab">

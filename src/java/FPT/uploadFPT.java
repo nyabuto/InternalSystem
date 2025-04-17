@@ -752,7 +752,7 @@ else{
     
             org.json.JSONObject jo=pda.toJsonString(conn,f1adata, dc.getDhis2_username());
              System.out.println("uploading to Data to index Testing App");
-            pda.UploadFPTToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password());            
+//            pda.UploadFPTToServer(jo,dc.getDhis2_username(),dc.getDhis2_Password());            
             
        
       

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>KenyaEMR-Dashboard</title>
+    <title>Treatment Charts</title>
     <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 11]>
@@ -92,10 +92,10 @@
         </div>
         
         
-        <%--<%@include file="preventionannualsummary.html" %>--%> 
+         <%--<%@include file="treatmentannualsummary.html" %>--%> 
             
           <div class="col-xl-12 col-md-12">
-                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends Against Targets</h5>
+                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends</h5>
             </div>
             <hr/>
             
@@ -105,10 +105,10 @@
         <div class="col-md-6 col-xl-6">
                 <div class="card">
                     <div class="card-header">
-                          <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Initiation Monthly Trends</h6>
+                          <h6 class='btn-info' style="text-align:center;padding:4px;">Starting ART Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_prep_new_trends"></div>
+                        <div class="ap_tx_new_trends"></div>
                     </div>
                 </div>
             </div>    
@@ -117,10 +117,10 @@
                 <div class="card">
                     <div class="card-header">
                         
-                            <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Continuation Quarterly Trends</h6>
+                            <h6 class='btn-info' style="text-align:center;padding:4px;">Current on ART Quarterly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_prep_ct_trends"></div>
+                        <div class="ap_tx_curr_trends"></div>
                     </div>
                 </div>
             </div> 
@@ -134,10 +134,10 @@
                 <div class="card">
                     <div class="card-header">
                         
-                         <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Initiation Monthly Trends</h6>
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">Screened for TB Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_tb_prev_d_trends"></div>
+                        <div class="ap_tx_tb_d_trends"></div>
                     </div>
                 </div>
             </div> 
@@ -145,10 +145,10 @@
             <div class="col-md-6 col-xl-6">
                 <div class="card">
                     <div class="card-header">
-                        <h6 class='btn-info' style="text-align:center;padding:4px;">IPT Completion Monthly Trends</h6>
+                        <h6 class='btn-info' style="text-align:center;padding:4px;">TB Co-infected put on TB Treatment Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_tb_prev_n_trends"></div>
+                        <div class="ap_tx_tb_n_trends"></div>
                     </div>
                 </div>
             </div> 
@@ -157,14 +157,26 @@
              <div class="row">
            <!----Monthly Trendlines------> 
           
-        <div class="col-md-6 col-xl-12">
+            <div class="col-md-6 col-xl-6">
                 <div class="card">
                     <div class="card-header">
                     
-                         <h6 class='btn-info' style="text-align:center;padding:4px;">Violence Monthly Trends</h6>
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">PMTCT ART Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_gend_gbv_trends"></div>
+                        <div class="ap_pmtct_art_trends"></div>
+                    </div>
+                </div>
+            </div> 
+           
+        <div class="col-md-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                    
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">TB ART Monthly Trends</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="ap_tb_art_trends"></div>
                     </div>
                 </div>
             </div> 
@@ -184,7 +196,7 @@
      <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Initiation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">Starting ART By Region</h6>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -192,7 +204,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_prep_new_summary">
+                     <table class="table table-sm  ap_tx_new_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -211,7 +223,7 @@
      <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Continuation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">Current on ART By Region</h6>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -219,7 +231,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_prep_ct_summary">
+                     <table class="table table-sm  ap_tx_curr_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -248,7 +260,7 @@
      <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Initiation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">Screened for TB By Region</h6>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -256,7 +268,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_tb_prev_d_summary">
+                     <table class="table table-sm  ap_tx_tb_d_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -275,7 +287,7 @@
      <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Completion By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">TB Cases on ART Put on TB Treatment By Region</h6>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -283,7 +295,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_tb_prev_n_summary">
+                     <table class="table table-sm  ap_tx_tb_n_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -309,10 +321,11 @@
            
           <div class="row"> 
            
-           <div class="col-xl-12 col-md-12">
+              
+               <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Violence summary By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">PMTCT HIV +ve put on ART summary By Region</h6>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -320,7 +333,34 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_tb_prev_n_summary">
+                     <table class="table table-sm  ap_pmtct_art_summary">
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <div class=" spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                      </table>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+              
+           <div class="col-xl-6 col-md-12">
+            <div class="card User-Activity table-card">
+              <div class="card-header">
+                <h6 class='btn-info' style="text-align:center;padding:4px;">TB Co-infected put on TB Treatment summary By Region</h6>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                    
+                  <div class="activity-scroll" style="width:100%;">
+                    
+                      
+                     <table class="table table-sm  ap_tx_tb_n_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">

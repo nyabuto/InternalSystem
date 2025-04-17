@@ -179,7 +179,7 @@ public class dataPulls extends HttpServlet {
              //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
                // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
                ResultSet rs1=pullDataFromDbGivenQuery(conn,"select * from "+vwtable);
-                System.out.println("______Pulling Data from Grants");
+//                System.out.println("______Pulling Data from Grants");
                 out.println(buildDataTable(conn,rs1,table_docker,tablepkid,maintablename));                                               
     
             }
@@ -191,7 +191,7 @@ public class dataPulls extends HttpServlet {
              //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
                // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
                ResultSet rs1=pullDataFromDbGivenQuery(conn,"select * from "+maintablename+" where "+tablepkid+"='"+pkidval+"' limit 1");
-                System.out.println("______Pulling Data from "+maintablename);
+//                System.out.println("______Pulling Data from "+maintablename);
                 out.println(toJsonFormatDynamic(rs1));                                               
     
             }
@@ -356,7 +356,7 @@ public class dataPulls extends HttpServlet {
              //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
                // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
                ResultSet rs1=pullDataFromDbGivenQuery(conn,"call sp_Binti_Shujaa_monthly_enrollments('"+mywhere+"')");
-                System.out.println("______Pulling Data from "+maintablename);
+//                System.out.println("______Pulling Data from "+maintablename);
                 out.println(toJsonFormatDynamic(rs1));                                               
     
             }
@@ -366,7 +366,7 @@ public class dataPulls extends HttpServlet {
              //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
                // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
                ResultSet rs1=pullDataFromDbGivenQuery(conn,"call "+ramcahstoredprocedure+"('"+mywhere+"')");
-                System.out.println("______Pulling Data from "+maintablename);
+//                System.out.println("______Pulling Data from "+maintablename);
                 out.println(toJsonFormatDynamic(rs1));                                             
     
             }
@@ -375,7 +375,7 @@ public class dataPulls extends HttpServlet {
              //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
                // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
                ResultSet rs1=pullDataFromDbGivenQuery(conn,"call analytics_emr_cascades('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"')");
-                System.out.println("______Pulling Data from "+maintablename);
+//                System.out.println("______Pulling Data from "+maintablename);
                 out.println(toJsonFormatDynamic(rs1));                                             
     
             }
@@ -397,12 +397,12 @@ public class dataPulls extends HttpServlet {
             {               
              //The idea here is to load data from multiple datatables dynamically into a web view. We are working with an assumption that each table has a unique Primary key id called tablepkid. We also have an assumption that the main table where the data is saved might be different from the view . 
                // For that reason we are sourcing for two tables/sources , 1 view for pulling preview data and a table which will be used as a destination
-               ResultSet rs3=pullDataFromDbGivenQuery(conn,"call analytics_emr_rdqa('"+mywhere+"', '"+full_sd+"', '2024-11-30', '"+groupbyorgunit+"', '"+groupby+"')");
+               ResultSet rs3=pullDataFromDbGivenQuery(conn,"call analytics_emr_rdqa('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"')");
              
                 
                 
 //                JSONArray ja= toJsonFormatDynamic(rs3);
-              System.out.println("call analytics_emr_rdqa('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"')");
+//              System.out.println("call analytics_emr_rdqa('"+mywhere+"', '"+full_sd+"', '"+full_ed+"', '"+groupbyorgunit+"', '"+groupby+"')");
 //                
                 out.println(toOrderedJsonFormatDynamic(rs3)); 
     

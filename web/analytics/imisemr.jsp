@@ -9,27 +9,27 @@
     	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     	<![endif]-->
-    <!-- Meta -->
+<!--     Meta 
   
-    <!-- Favicon icon -->
+     Favicon icon 
     <link rel="icon" href="rmc_assets/images/favicon.ico" type="image/x-icon">
 
-    <!-- vendor css -->
+     vendor css 
     <link rel="stylesheet" href="rmc_assets/css/style_2.css">
     
     
-    <!--<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />-->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-<!-- [Tabler Icons] https://tablericons.com -->
+ [Tabler Icons] https://tablericons.com 
 <link rel="stylesheet" href="rmc_assets/fonts/tabler-icons.min.css" />
-<!-- [Feather Icons] https://feathericons.com -->
+ [Feather Icons] https://feathericons.com 
 <link rel="stylesheet" href="rmc_assets/fonts/feather.css" />
-<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+ [Font Awesome Icons] https://fontawesome.com/icons 
 <link rel="stylesheet" href="rmc_assets/fonts/fontawesome.css" />
-<!-- [Material Icons] https://fonts.google.com/icons -->
-<!--<link rel="stylesheet" href=../rmc_assets/fonts/material.css" />-->
+ [Material Icons] https://fonts.google.com/icons 
+<link rel="stylesheet" href=../rmc_assets/fonts/material.css" />
     
-    
+    -->
     
     
     <style>
@@ -1432,12 +1432,7 @@
     <!-- Warning Section Ends -->
 
     <!-- Required Js -->
-    <script src="rmc_assets/js/vendor-all.min.js"></script>
-    <script src="rmc_assets/js/plugins/bootstrap.min.js"></script>
-    <script src="rmc_assets/js/pcoded.min.js"></script>
-
-<!-- Apex Chart -->
-<script src="rmc_assets/js/plugins/apexcharts.min.js"></script>
+   
 <!--<script src="rmc_assets/js/pages/chart-apex_1.js"></script>-->
 <!--<script src="./rmc_assets/js/pages/chartsdata.js"></script>-->
 

@@ -211,7 +211,8 @@
                               </td>
                               <td class="col-xs-4">
                               <div class="controls">
-                                  <input data-date-end-date="0d" required type="text" title="this is the date that the week started" value="2022-06-01" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="weekstart">
+                                  <% String ly=ig.getDate12MonthsAgo(ig.LastMonthEndDate());     %>
+                                  <input data-date-end-date="0d" required type="text" title="this is the date that the week started" value="<%=ly%>" class="form-control input-lg tarehe" name="weekstart" autocomplete="off" id="weekstart">
                               </div>
                            </td>
                            </tr>
@@ -245,7 +246,7 @@
                       </td>
                       <td class="col-xs-4">
                               <div class="controls">
-                                  <input  required type="text"  title="this is the yearmonth" value="<%=ig.currentYear()+ig.CurrentMonth()%>" class="form-control input-lg" name="ym" id="ym" autocomplete="off">
+                                  <input  required type="text"  title="this is the yearmonth" value="<%=ig.LastMonthEndDate().replace("-","").substring(0,6)%>" class="form-control input-lg" name="ym" id="ym" autocomplete="off">
                               </div>
                            </div>
                               </td>

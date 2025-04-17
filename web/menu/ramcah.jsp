@@ -120,6 +120,14 @@
 					</li>
                                         
                                         
+                                        
+                                        <li class="nav-item pcoded-hasmenu">
+					    <a href="imishome.jsp" class="nav-link "><span class="pcoded-micon"><i class="feather icon-reply"></i></span><span class="pcoded-mtext">Switch to C&T Side</span></a>
+					    
+					</li>
+                                        
+                                        
+                                        
 					
 				</ul>
 				

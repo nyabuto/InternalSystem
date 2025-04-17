@@ -169,9 +169,10 @@ public class UploadKenyaEMRVl extends HttpServlet {
                        value=value.replace("'", "");
                    }
                    
-                   if(label.equals("Last_VL")){
+                   if(label.equals("Last_VL"))
+                   {
                    
-                   if(value.equals("DETECTED")|| value.equals("BEYOND DETECTABLE LIMIT"))
+                   if( value.equals("DETECTED") || value.equals("BEYOND DETECTABLE LIMIT") || value.equals("POOR SAMPLE QUALITY") )
                    {
                        hasdetected_vl="yes";
                    value="";

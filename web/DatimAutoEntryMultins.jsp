@@ -251,7 +251,8 @@
                                 <select required type="text" title="" onchange='selectoutput();'  class="form-control input-lg" name="entrytype" id="entrytype" >                                       
                                        <option value='allnumeric'>New entry & Corrections</option>
                                         <option value='nonzero'>New Entries only</option> 
-                                       <option value='enterblanks'>Delete Entered Data</option>
+                                        <option value='deletenonblanks'>Delete Entered Data</option>
+                                       <option value='enterblanks'>Delete All Data</option>
                                                                           
                                 </select>
                               </div>

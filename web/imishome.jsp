@@ -38,7 +38,7 @@
 <!-- [Material Icons] https://fonts.google.com/icons -->
 <link rel="stylesheet" href="rmc_assets/fonts/material.css" />
    
-        
+         <link rel="stylesheet" type="text/css" href="assets/bootstrap-datepicker/css/datepicker.css" />
 	
 	   <link rel="stylesheet" href="Login_v6/vendor/select2/select2.css"/>
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
@@ -114,7 +114,7 @@
 							</li>
                                                         
 							<li class="nav-item">
-								<a class="nav-link" id="pills-reports-tab" data-toggle="pill" href="#pills-reports" role="tab" aria-controls="pills-reports" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span>   Excel Reports</a>
+								<a class="nav-link" id="pills-reports-tab" data-toggle="pill" href="#pills-reports" role="tab" aria-controls="pills-reports" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span> Reports</a>
 							</li>
                                                        
                                                         
@@ -130,6 +130,9 @@
                                                         <%%> 
                                                         <li class="nav-item">
 								<a class="nav-link" id="pills-moremodules-tab" data-toggle="pill" href="#pills-moremodules" role="tab" aria-controls="pills-moremodules" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-plus"></i></span>Extras</a>
+							</li>
+                                                        <li class="nav-item">
+								<a class="nav-link" id="pills-rmcah-tab" data-toggle="pill" href="#pills-rmcah" role="tab" aria-controls="pills-rmcah" aria-selected="false"> <span class="pcoded-micon"><i class="feather icon-plus"></i></span>RMCAH</a>
 							</li>
                                                         
 
@@ -206,6 +209,29 @@
                                                             <%@include file="menu/menu_i2_extras.jsp" %> 
                                                             
 							</div> 
+                                                             <div class="tab-pane fade" id="pills-rmcah" role="tabpanel" aria-labelledby="pills-rmcah-tab">
+                          <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-clipboard"></i>RMCAH</h4>
+                                                            <!---Start RMCAH---->
+                                                            
+                                                            
+                                                            <div class="card text-left">
+							<div class="card-body">
+								
+							
+		
+                                                                  
+                                                              <a  href="rmcahdashboards.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Switch to RMCAH Module</a>     
+
+								
+							</div>
+						</div>
+                                                            
+                                                            
+                                                            <!---End RMCAH---->
+                                                            
+                                                            
+                                                            
+							</div> 
                                                             
                                                         <div class="tab-pane fade" id="pills-management" role="tabpanel" aria-labelledby="pills-management-tab">
                            <h4 class="well btn-primary" style="text-align: center;border-radius:5px; padding: 10px;"> <i class="feather icon-settings"></i>System Management</h4>
@@ -213,9 +239,10 @@
                                                             
                                                             <%@include file="menu/menu_i2_management.jsp" %>
 							</div>
-                                                         <div class="tab-pane fade" id="pills-resources" role="tabpanel" aria-labelledby="pills-resources-tab">
-                                                            <!----Resources---->
-							</div>
+<!--                                                         <div class="tab-pane fade" id="pills-resources" role="tabpanel" aria-labelledby="pills-resources-tab">
+                                                            --Resources--
+							</div>-->
+                                                        
                                                             
                                                             
 						</div>
@@ -241,7 +268,12 @@
                                                            
 <script src="Login_v6/vendor/select2/select2.js"></script>         
   <script src="analytics/loadimisfilters.js"></script>         
-  <script src="queries/loadqueries.js"></script>         
+  <script src="queries/loadqueries.js"></script>   
+   <!--<script  src="assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>-->
+   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <!--<script src="https://code.jquery.com/jquery-3.7.1.js"></script>-->
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
                                                            <script>
                                                                
 //jQuery(document).ready(function() {
@@ -263,6 +295,129 @@ success:function (data){
 //$('#county').select2();
 
 //});
+
+
+
+ $(".tarehe_kitambo").datepicker({
+    endDate: "now()",
+    clearBtn: true,
+    format: "yyyy-mm-dd"
+    ,'z-index': 9999,
+        'position': 'absolute' 
+}).on('changeDate', function(ev){
+    $(this).datepicker('hide');
+//    var mk=$("#weekstart").val();
+////    var mk=addDays($("#weekstart").val(),6);
+//    //alert(mk);
+//    $("#weekend").val(mk);
+});
+
+
+
+      $(".tarehe1").datepicker({
+    startDate: "2024-10-01",
+    endDate: "now()",
+    clearBtn: true,
+    format: "yyyy-mm-dd"
+    ,'z-index': 9999,
+        'position': 'absolute',
+         changeMonth: true,
+      changeYear: true
+}).on('changeDate', function(ev){
+    $(this).datepicker('hide');
+//    var mk=$("#weekstart").val();
+////    var mk=addDays($("#weekstart").val(),6);
+//    //alert(mk);
+//    $("#weekend").val(mk);
+});
+      $(".tarehe").datepicker({
+         changeMonth: true,
+      changeYear: true,
+        dateFormat: "yy-mm-dd",
+        maxDate:"+0d",
+        Values:false,
+        showAnim:'slideDown'
+        <% 
+                     
+                  if(session.getAttribute("kd_session")!=null){
+				  if(!session.getAttribute("level").toString().equals("1")){  %>  
+                 <%if(session.getAttribute("userAccess")!=null){
+				 if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>
+        
+        ,minDate: new Date(2021, 3, 1)
+        <%} else {%>
+      ,minDate: new Date(2024, 9, 1)
+<%}}}}%>
+      
+}).on('changeDate', function(ev){
+    $(this).datepicker('hide');
+//    $(this).datepicker( "option", "dateFormat","yyyy-mm-dd" );
+
+});
+
+
+  
+
+
+
+
+
+  $(function() {
+    $("#query").on("contextmenu", function(e) {
+      e.preventDefault();
+//      alert("Right-click is disabled on this button.");
+    });
+    
+    $("#startdate").on("contextmenu", function(e) {
+      e.preventDefault();
+//      alert("Right-click is disabled on this button.");
+    });
+    $("#enddate").on("contextmenu", function(e) {
+      e.preventDefault();
+//      alert("Right-click is disabled on this button.");
+    });
+    
+  });
+
+
+function showtoday() {
+
+
+
+                                       var currentdate = new Date();
+
+                                       var mn = "" + (currentdate.getMonth() + 1);
+                                       var dt = "" + currentdate.getDate();
+                                       var hr = "" + currentdate.getHours();
+                                       var min = "" + currentdate.getMinutes();
+                                       var sc = "" + currentdate.getSeconds();
+                                       if (mn.length === 1) {
+                                           mn = '0' + mn;
+                                       }
+                                       if (dt.length === 1) {
+                                           dt = '0' + dt;
+                                       }
+                                       if (hr.length === 1) {
+                                           hr = '0' + hr;
+                                       }
+                                       if (min.length === 1) {
+                                           min = '0' + min;
+                                       }
+                                       if (sc.length === 1) {
+                                           sc = '0' + sc;
+                                       }
+
+
+                                       var leo = "" + currentdate.getFullYear() + "-" + mn + "-" + dt;
+
+                                       $("#enddate").val(leo);
+
+                                       return leo;
+                                   }
+                                  // showtoday();
+
+
+
                                                                
 </script>
 

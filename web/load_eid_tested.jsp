@@ -126,15 +126,20 @@
                   
                   
                   
+                            <%
+                  dbConn cn= new dbConn();
                   
-                  <ul class="breadcrumb">
-                     <li style="width: 900px;">
-                        <i class="icon-home"></i>
-                        <a href="DataCleaner.jsp" style="margin-left:40%;">Check gaps in EID tested raw data to IMIS via excel.</a> 
-                        <!--<span class="icon-angle-right"></span>-->
-                     </li>
-           
-                  </ul>
+
+String qry=" select max(datetested) as md from eid_raw_tested";
+String md="";
+cn.rs=cn.st.executeQuery(qry);
+
+while (cn.rs.next()){
+
+md=cn.rs.getString(1);
+}
+                  
+                  %>
                </div>
             </div>
             <!-- END PAGE HEADER-->
@@ -144,7 +149,7 @@
                   <!-- BEGIN SAMPLE FORM PORTLET-->   
                   <div class="portlet box blue">
                      <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload EID Tested Raw Data</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated: 2018-09-13 10:09am </div>
+                         <div class="btn btn-info"><a href="load_eid_positive.jsp">Upload EID HIV +ves</a></div><div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload EID Tested Raw Data</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated:  <font color='white'><%=md%></font> </div>
                      </div>
                       
                       

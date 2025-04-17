@@ -4,8 +4,13 @@
     Author     : Emmanuel Kaunda
 --%>
 
+<%@page import="General.IdGenerator2"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+
+
+
 
           
    <div class="row">
@@ -19,7 +24,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        <h5>Run Queries</h5>
+                        <h6 class=" btn-primary " style="text-align: center;padding-top:6px;padding-bottom:6px;">Run Queries:  <span style="color:yellow;">You can now use date pickers to specify query date range.</span></h6>
                         <div class="card-header-right">
                             <div class="btn-group card-option">
                                 <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,10 +54,22 @@
                             
                                     
                                         <label class="form-group col-md-1 floating-label" for="facility"> <b>Queries</b> </label>
+                                        <% IdGenerator2 ig = new IdGenerator2();
                                         
+                                        %>
                                         
-                                         <select style="width:70%;"  class='form-group  col-md-4' name="queryhistory" id="queryhistory"  onchange="showqry();"  ></select>
-                                   
+                                         <select style="width:20%;"  class='form-group  col-lg' name="queryhistory" id="queryhistory"  onchange="showqry();replaceStartDate();replaceEndDate();"  ></select>
+                                          <div style="display:none" class="form-group startdatediv">
+                                         <label class="form-group col-md-2 floating-label"><b>Start Date:</b></label>
+                                         <input readonly onchange="replaceStartDate();"  type="text" title="" value="<%=ig.LastQuarterStartDate(ig.LastMonthStartDate())%>" class="form-control input-lg tarehe" name="startdate" autocomplete="off" id="startdate">
+                                          <input type="hidden" name="sd" id="sd">
+                                          </div>
+                                         
+                                         <div style="display:none" class="form-group enddatediv">
+                                         <label class="form-group col-md-2 floating-label"><b>End Date Date:</b></label>
+                                         <input readonly onchange="replaceEndDate();"  type="text" title="" value="<%=ig.LastMonthEndDate()%>" class="form-control input-lg tarehe" name="enddate" id="enddate" autocomplete="off">
+                                        <input type="hidden" name="ed" id="ed">
+                                         </div>
                                 
                                 
                             <button type="submit" class="btn btn-success mx-sm-3 mb-2" style="font-weight: bolder;">Execute Query</button>
@@ -62,14 +79,14 @@
                                <option value=''>Query History</option>
                                
                            </select> -->
-                         
+                          <hr/>
                     </div> 
                       
-                      
+                     
                      <div class="portlet-body form"  id="upload_area">
                         <!-- BEGIN FORM-->
                         
-                            <textarea  name="query" id="query" value="" class="form-control" rows="29" cols="40" spellcheck="false" placeholder="Enter your query here" required style="background-color:#080808;color:white;border-radius:20px ;"><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
+                            <textarea    <% if(session.getAttribute("kd_session")!=null){  if(!session.getAttribute("level").toString().equals("1")){  %> <%if(session.getAttribute("userAccess")!=null){ if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>  <%} else {%>   readonly    <%}}}}%>     name="query" id="query" value="" class="form-control" rows="29" cols="40" spellcheck="false" placeholder="Enter your query here" required style="background-color:#080808;color:white;border-radius:20px ;"><%if (session.getAttribute("query") != null) { out.println(session.getAttribute("query"));  session.removeAttribute("query");}%></textarea>   
                         <br><br><br><br>
                         
                         
@@ -116,6 +133,8 @@
 </div>
 			
 </div>
+         
+   
        
             
 

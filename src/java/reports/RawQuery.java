@@ -59,12 +59,39 @@ int row,errors;
        query = query_original.toLowerCase();
        
        String qname="IMIS_Qry_";
-       
+       String sd="";
+       String ed="";
        row=errors=0;
        message = "";
+       if(request.getParameter("sd")!=null){
+       sd=request.getParameter("sd");
+       }
+       if(request.getParameter("ed")!=null){
+       ed=request.getParameter("ed");
+       }
+       
+       
+       
+       
        if(request.getParameter("qname")!=null){
        qname=request.getParameter("qname");
        }
+       //yearmonths have 4 characters
+       if(sd.length()==6){
+           
+           //do replacements here
+          query=query.replace("@sym",sd);
+          query=query.replace("@eym",ed);
+       
+       }
+       else {
+       query=query.replace("@sd",sd);
+          query=query.replace("@ed",ed);
+       
+       }
+       
+        System.out.println("Replaced Query ni :::"+query_original);
+       
        //XSSFWorkbook wb = new XSSFWorkbook();
        
        SXSSFWorkbook wb = new SXSSFWorkbook(1000);

@@ -48,7 +48,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
   private static final String UPLOAD_DIR = "uploads";
   String query="",query_update="",value,checker_query;
   String SubPartnerID,mfl_code,year,month,yearmonth,id;
-  String[] columns =  {"SystemID","samplecode","Batch","Lab_Tested_In","County","Sub_County","Partner","Facility","Mflcode","Gender","DOB","Age","PCR_Type","enroll_cccno","collectiondate","Date_Received","testingdate","Date_Dispatched","Test_Result","validation","enrollment","treatment_init_date","`Enrollment_CCC_#`","other_reasons"};
+  String[] columns =  {"SystemID","samplecode","Batch","Lab_Tested_In","County","Sub_County","Partner","Facility","Mflcode","Gender","DOB","Age","PCR_Type","enroll_cccno","collectiondate","Date_Received","testingdate","Date_Dispatched","Test_Result","validation","enrollment","treatment_init_date","other_reasons"};
   int updated,added;
   String min_date="",max_date="",date_tested="";
   String value_vl="";
@@ -246,7 +246,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
             m1.put("startdate", min_date);
             m1.put("enddate", max_date);
             
-            ds2.pmtct_eid(m1);//eid tested and pos
+        //    ds2.pmtct_eid(m1);//eid tested and pos
         
         //remove counter attributes
         

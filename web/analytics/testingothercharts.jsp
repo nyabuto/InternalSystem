@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>KenyaEMR-Dashboard</title>
+    <!--<title>Testing Other Dashboard</title>-->
     <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 11]>
@@ -10,17 +10,17 @@
     	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     	<![endif]-->
     <!-- Meta -->
-<!--  
-     Favicon icon 
+  
+<!--     Favicon icon 
     <link rel="icon" href="rmc_assets/images/favicon.ico" type="image/x-icon">
 
      vendor css 
     <link rel="stylesheet" href="rmc_assets/css/style_2.css">
-    
     -->
+    
     <!--<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />-->
-
-<!-- [Tabler Icons] https://tablericons.com 
+<!--
+ [Tabler Icons] https://tablericons.com 
 <link rel="stylesheet" href="rmc_assets/fonts/tabler-icons.min.css" />
  [Feather Icons] https://feathericons.com 
 <link rel="stylesheet" href="rmc_assets/fonts/feather.css" />
@@ -29,8 +29,8 @@
  [Material Icons] https://fonts.google.com/icons 
 <link rel="stylesheet" href=rmc_assets/fonts/material.css" />
     
-    
     -->
+    
     
     <style>
     .fontheader1{
@@ -91,11 +91,11 @@
             
         </div>
         
+        <%--<%@include file="testingotherannualsummary.html" %>--%>
         
-        <%--<%@include file="preventionannualsummary.html" %>--%> 
             
           <div class="col-xl-12 col-md-12">
-                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends Against Targets</h5>
+                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends</h5>
             </div>
             <hr/>
             
@@ -105,72 +105,119 @@
         <div class="col-md-6 col-xl-6">
                 <div class="card">
                     <div class="card-header">
-                          <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Initiation Monthly Trends</h6>
+                          <h6 class='btn-info' style="text-align:center;padding:4px;">HTS Self Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_prep_new_trends"></div>
-                    </div>
-                </div>
-            </div>    
-          
-            <div class="col-md-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        
-                            <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Continuation Quarterly Trends</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="ap_prep_ct_trends"></div>
+                        <div class="ap_hts_self_trends"></div>
                     </div>
                 </div>
             </div> 
+           
+            <div class="col-md-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                    
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">Cervical Cancer Screening Monthly Trends</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="ap_cxca_scrn_trends"></div>
+                    </div>
+                </div>
+            </div>
+          
+           
             </div>
               <div class="row">
            <!----Monthly Trendlines------> 
           
-     
+       <div class="col-md-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        
+                            <h6 class='btn-info' style="text-align:center;padding:4px;">1st ANC Visit Monthly Trends</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="ap_pmtct_stat_d_trends"></div>
+                    </div>
+                </div>
+            </div>
              
            <div class="col-md-6 col-xl-6">
                 <div class="card">
                     <div class="card-header">
                         
-                         <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Initiation Monthly Trends</h6>
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">1st ANC Known HIV Status Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_tb_prev_d_trends"></div>
+                        <div class="ap_pmtct_stat_n_trends"></div>
                     </div>
                 </div>
             </div> 
           
-            <div class="col-md-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class='btn-info' style="text-align:center;padding:4px;">IPT Completion Monthly Trends</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="ap_tb_prev_n_trends"></div>
-                    </div>
-                </div>
-            </div> 
+           
             </div>
            
              <div class="row">
            <!----Monthly Trendlines------> 
           
-        <div class="col-md-6 col-xl-12">
+        <div class="col-md-6 col-xl-6">
                 <div class="card">
                     <div class="card-header">
                     
-                         <h6 class='btn-info' style="text-align:center;padding:4px;">Violence Monthly Trends</h6>
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">New & Relapsed TB Cases Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_gend_gbv_trends"></div>
+                        <div class="ap_tb_stat_d_trends"></div>
                     </div>
                 </div>
             </div> 
+           
+            <div class="col-md-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                    
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">TB Cases Known HIV Status Monthly Trends</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="ap_tb_stat_n_trends"></div>
+                    </div>
+                </div>
+            </div> 
+           
+           
             </div> 
             
+              <div class="row">
+           <!----Monthly Trendlines------> 
+          
+            <div class="col-md-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class='btn-info' style="text-align:center;padding:4px;">PMTCT HIV +ve Monthly Trends</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="ap_pmtct_pos_trends"></div>
+                    </div>
+                </div>
+            </div> 
            
+           
+        <div class="col-md-6 col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                    
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">TB Cases HIV +ve Monthly Trends</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="ap_tb_pos_trends"></div>
+                    </div>
+                </div>
+            </div> 
+           
+            
+           
+           
+            </div> 
             
              <div class="col-xl-12 col-md-12">
                 <h5 class=" btn-primary" style="text-align: center;padding:4px;">Regional Performance  </h5>
@@ -184,7 +231,7 @@
      <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Initiation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">HTS Self Testing By Region</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -192,7 +239,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_prep_new_summary">
+                     <table class="table table-sm  ap_hts_self_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -207,11 +254,14 @@
               </div>
             </div>
           </div>
-                     
-     <div class="col-xl-6 col-md-12">
+                  
+                  
+                  
+                  
+                    <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Continuation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">Cervical Cancer Screening summary By Region</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -219,7 +269,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_prep_ct_summary">
+                     <table class="table table-sm  ap_cxca_scrn_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -234,6 +284,8 @@
               </div>
             </div>
           </div>
+                     
+     
               
            </div>
                      
@@ -243,12 +295,10 @@
            
            
              <div class="row">       
-                     
-                        
-     <div class="col-xl-6 col-md-12">
+                     <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Initiation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">1st ANC Visits By Region</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -256,7 +306,34 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_tb_prev_d_summary">
+                     <table class="table table-sm  ap_pmtct_stat_d_summary">
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <div class=" spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                      </table>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+                        
+     <div class="col-xl-6 col-md-12">
+            <div class="card User-Activity table-card">
+              <div class="card-header">
+                <h6 class='btn-info' style="text-align:center;padding:4px;">1st ANC Visits with Known HIV Status By Region</h4>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                    
+                  <div class="activity-scroll" style="width:100%;">
+                    
+                      
+                     <table class="table table-sm  ap_pmtct_stat_n_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -272,10 +349,28 @@
             </div>
           </div>
                      
-     <div class="col-xl-6 col-md-12">
+     
+              
+           </div>
+           
+           <!---TB Prev end--->
+           
+           
+           
+           <!----Violence summary  Start---->
+           
+         
+        <!-- [ Main Content ] end -->
+    <!--</div>-->
+
+    
+    
+        
+         <div class="row">       
+                     <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Completion By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">New & Relapsed TB Cases By Region</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -283,7 +378,67 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_tb_prev_n_summary">
+                     <table class="table table-sm  ap_tb_stat_d_summary">
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <div class=" spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                      </table>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+                        
+     <div class="col-xl-6 col-md-12">
+            <div class="card User-Activity table-card">
+              <div class="card-header">
+                <h6 class='btn-info' style="text-align:center;padding:4px;">TB Cases with Known HIV Status By Region</h4>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                    
+                  <div class="activity-scroll" style="width:100%;">
+                    
+                      
+                     <table class="table table-sm  ap_tb_stat_n_summary">
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <div class=" spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                      </table>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+                     
+     
+              
+           </div>
+        
+    
+     <div class="row"> 
+           <div class="col-xl-6 col-md-12">
+            <div class="card User-Activity table-card">
+              <div class="card-header">
+                <h6 class='btn-info' style="text-align:center;padding:4px;">PMTCT HIV +ve By Region</h4>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                    
+                  <div class="activity-scroll" style="width:100%;">
+                    
+                      
+                     <table class="table table-sm  ap_pmtct_pos_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -299,20 +454,12 @@
             </div>
           </div>
               
-           </div>
-           
-           <!---TB Prev end--->
-           
-           
-           
-           <!----Violence summary  Start---->
-           
-          <div class="row"> 
-           
-           <div class="col-xl-12 col-md-12">
+              
+      
+           <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Violence summary By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">TB +ve By Region</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -320,7 +467,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_tb_prev_n_summary">
+                     <table class="table table-sm  ap_tb_pos_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -334,7 +481,9 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>      
+              
+         
               
         </div>   
               
@@ -350,9 +499,8 @@
           
             <!-- Latest Customers end -->
         </div>
-        <!-- [ Main Content ] end -->
-    <!--</div>-->
-
+    
+    
 <!-- [ Main Content ] end -->
     <!-- Warning Section start -->
     <!-- Older IE warning message -->

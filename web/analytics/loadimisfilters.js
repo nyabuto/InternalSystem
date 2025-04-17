@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+let percenttime=0;
 
 
 
@@ -45,6 +46,7 @@ success:function (data){
             success:function (data){
                 $(".county").html(data);
                  $('.county').select2();  
+                 $('.groupbyregion').select2();  
                
                 //loadfacils();
               //  App.init();   
@@ -206,7 +208,9 @@ function getPeriod(){
                    $(document).ready(function() {
                     $('.startdate').select2(); 
                     $('.enddate').select2(); 
+                    expectedperformance();
                      updtimis();
+                    
              
                                  } ); 
                         
@@ -466,6 +470,9 @@ function emrimisdataSummarybyMdt()
     var full_sd="";
     var full_ed="";
     
+    var regionalgroupby='`mdt` as Region,'; 
+    var groupby=" group by mdt ";
+    
     if($(".facility").val()!==null){fc=$(".facility").val();}
     if($(".county").val()!==null){cnt=$(".county").val();}
     if($(".subcounty").val()!==null){sct=$(".subcounty").val();}
@@ -474,9 +481,28 @@ function emrimisdataSummarybyMdt()
     if($(".startdate").val()!==null){sd=$(".startdate").val();  full_sd=$(".startdate option:selected").data("startdate"); } 
     if($(".enddate").val()!==null){ed=$(".enddate").val();  full_ed=$(".enddate option:selected").data("enddate");} 
  
-            
-           
-            
+      if($(".groupbyregion").val()!==null){regionalgroupby=$(".groupbyregion").val();}       
+        //use the selected region name group by value to do the actual group by  
+                                            
+      if(regionalgroupby==='`County` as Region,')
+      {
+           groupby=" group by County "; 
+          
+      } 
+else if(regionalgroupby==='`mdt` as Region,')
+      {
+           groupby=" group by mdt "; 
+          
+      } 
+      
+else if(regionalgroupby==='`SubPartnerNom` as Region,')
+      {
+           groupby=" group by SubPartnerNom "; 
+          
+      } 
+else {
+          groupby=" group by mdt ";
+     }
             //now load the data. Note that The data will be grouped into organization units
           $.ajax({
                     url:'dataPulls',                            
@@ -492,8 +518,8 @@ function emrimisdataSummarybyMdt()
                         ed:ed,
                         full_sd:full_sd,
                         full_ed:full_ed,
-                        groupbyorgunit:' `mdt` as Region,',
-                        groupby:' group by mdt '
+                        groupbyorgunit:regionalgroupby,
+                        groupby:groupby
                     },
                     dataType: 'JSON',  
                     success: function(data) 
@@ -773,6 +799,9 @@ function emrRdqabyMdt()
     var full_sd="";
     var full_ed="";
     
+     var regionalgroupby='`mdt` as Region,'; 
+      var groupby=" group by mdt ";
+    
     if($(".facility").val()!==null){fc=$(".facility").val();}
     if($(".county").val()!==null){cnt=$(".county").val();}
     if($(".subcounty").val()!==null){sct=$(".subcounty").val();}
@@ -781,8 +810,29 @@ function emrRdqabyMdt()
     if($(".startdate").val()!==null){sd=$(".startdate").val();  full_sd=$(".startdate option:selected").data("startdate"); } 
     if($(".enddate").val()!==null){ed=$(".enddate").val();  full_ed=$(".enddate option:selected").data("enddate");} 
  
-            
-           
+  if($(".groupbyregion").val()!==null){regionalgroupby=$(".groupbyregion").val();}
+   
+       if(regionalgroupby==='`County` as Region,')
+      {
+           groupby=" group by County "; 
+          
+      } 
+else if(regionalgroupby==='`mdt` as Region,')
+      {
+           groupby=" group by mdt "; 
+          
+      } 
+      
+else if(regionalgroupby==='`SubPartnerNom` as Region,')
+      {
+           groupby=" group by SubPartnerNom "; 
+          
+      } 
+else {
+          groupby=" group by mdt ";
+     }
+	 
+    
             
             //now load the data. Note that The data will be grouped into organization units
           $.ajax({
@@ -799,8 +849,8 @@ function emrRdqabyMdt()
                         ed:ed,
                         full_sd:full_sd,
                         full_ed:full_ed,
-                        groupbyorgunit:' `mdt` as Region,',
-                        groupby:' group by mdt '
+                        groupbyorgunit:regionalgroupby,
+                        groupby:groupby
                     },
                     dataType: 'JSON',  
                     success: function(data) 
@@ -962,8 +1012,11 @@ function htmltablebuilder( hostelementname,tableheaders,tablebody )
 
 
 //have a function that adds percentage values and does conditional formating 
-
-function conditionalformat( val ){
+// <div class="progress wid-50">
+                             // <div class="progress-bar bg-primary vl_done_pmtct_perc_pb" style="width: 76%"></div>
+                            //</div>
+function conditionalformat( val )
+{
     
    var conditioned_value="";
     
@@ -981,6 +1034,32 @@ function conditionalformat( val ){
    else {
        
    conditioned_value= '<b>'+val+'</b>';    
+   }
+    
+    
+    
+    
+    return conditioned_value;
+}
+function conditionalformatprogressbar( val )
+{
+    //the expectation is that the value being passed as an argument should contain a %
+   var conditioned_value="";
+    
+    var numericval=val.replace('%','');
+   numericval=Math.round(numericval/percenttime*100);
+   if(val.indexOf("%")>=0 && $.isNumeric(val.replace('%',''))){
+   //bg-success ap_prep_new_perc_pb" style="width: 0%"></div>
+         if(numericval>=90)                   { conditioned_value='bg-success';  }
+    else if(numericval>=85  && numericval<90 ){ conditioned_value='bg-success';  }
+    else if(numericval>=55 && numericval<85 ) { conditioned_value='bg-warning';  }
+    else if(numericval>=35 && numericval<55 ) { conditioned_value='bg-infor';  }
+    else                                      { conditioned_value='bg-danger';  }
+       
+   }
+   else {
+       
+   conditioned_value= 'bg-danger';    
    }
     
     
@@ -1022,15 +1101,16 @@ var    regiontemplate="ap_"+elementname+"_summary";
     
     var full_sd="";
     var full_ed="";
+    var regionalgroupby='`mdt` as Region,';
     
     if($(".facility").val()!==null){fc=$(".facility").val();}
     if($(".county").val()!==null){cnt=$(".county").val();}
     if($(".subcounty").val()!==null){sct=$(".subcounty").val();}
     if($(".mdt").val()!==null){rgn=$(".mdt").val();}
+    if($(".groupbyregion").val()!==null){regionalgroupby=$(".groupbyregion").val();}
     
     if($(".startdate").val()!==null){sd=$(".startdate").val();  full_sd=$(".startdate option:selected").data("startdate"); } 
     if($(".enddate").val()!==null){ed=$(".enddate").val();  full_ed=$(".enddate option:selected").data("enddate");} 
- 
             
            
             
@@ -1049,7 +1129,7 @@ var    regiontemplate="ap_"+elementname+"_summary";
                         ed:ed,
                         full_sd:full_sd,
                         full_ed:full_ed,                   
-                         groupbyorgunit:'`mdt` as Region,',
+                         groupbyorgunit:regionalgroupby,
                         groupby:' group by  yearmonth  ',
                         annualperformancesp:spname
                     },
@@ -1098,7 +1178,7 @@ var    regiontemplate="ap_"+elementname+"_summary";
                         
 //                        console.log("Categories ni: "+rws.category);
                             
-                        /**  **/ 
+ /** Here we are building big numbers charts showing the annual progress  **/ 
                         
               if(category==='overalltotal'){ 
               
@@ -1107,9 +1187,11 @@ var    regiontemplate="ap_"+elementname+"_summary";
  $("."+bignumberelement).html(resultcomad);
  $("."+bignumberelement_perc).html(perf+"%");
  $("."+bignumberelement_perc_pb).css("width",perf);
-                            
+
+ $("."+bignumberelement_perc_pb).removeClass("bg-success").addClass(conditionalformatprogressbar(perf+"%"));
+                          
                             }  
-                            
+//Create combo charts showing performance against Target
              if(category==='periodictrends'){
                  
                   periodic_mns.push(monthname);
@@ -1117,7 +1199,7 @@ var    regiontemplate="ap_"+elementname+"_summary";
                    periodic_res.push(result);
                    periodic_tgt.push(mtarget);
                    
-                   
+                   if(indicator==='GEND_GBV'){indicator='POST_RESP';}
                    
                  periodictitle=indicator+" Trends";
                  
@@ -1125,7 +1207,7 @@ var    regiontemplate="ap_"+elementname+"_summary";
 //                 console.log("performance:"+periodic_dt);
                  
              }               
-                            
+          //build HTML tables for regional targets                  
        if(category==='regionaltotal'){
                  
             
@@ -1318,17 +1400,29 @@ if(rw===parseInt(data.length)-1){
       if (seriesIndex === 1) {
         return value + "%"; // Apply % only to the line chart values
       }
+      if (seriesIndex === 0) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Apply % only to the line chart values
+                             }
       return value;
     }
           
         }
         
         ,labels: mns,
+        
+         plotOptions: {
+    bar: {
+      dataLabels: {
+        position: "bottom" // Places column chart labels at the base of the bars
+      }
+    }
+  },
+        
         yaxis: [{
           title: {
             text: 'Results'
           }
-        
+        ,min: 0
         }, {
           opposite: true,
           title: {
@@ -1506,7 +1600,28 @@ if(rw===parseInt(data.length)-1){
     
 
     
-    
+    function expectedperformance()
+    {
+        
+        let curmn=$(".enddate").val();
+        
+        let m=curmn.substring(4);
+//      alert(m);
+if(m==='10'){ percenttime=Math.round(8.33*1); }
+if(m==='11'){ percenttime=Math.round(8.33*2); }
+if(m==='12'){ percenttime=Math.round(8.33*3); }
+if(m==='01'){ percenttime=Math.round(8.33*4); }
+if(m==='02'){ percenttime=Math.round(8.33*5); }
+if(m==='03'){ percenttime=50; }
+if(m==='04'){ percenttime=Math.round(8.33*7); }
+if(m==='05'){ percenttime=Math.round(8.33*8); }
+if(m==='06'){ percenttime=Math.round(8.33*9); }
+if(m==='07'){ percenttime=Math.round(8.33*10); }
+if(m==='08'){ percenttime=Math.round(8.33*11); }
+if(m==='09'){ percenttime=100; }
+//alert(percenttime);
+$(".percenttimelbl").html(percenttime);
+    }
     
     
 
@@ -1524,25 +1639,25 @@ loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_prepct','prep_
 loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_prepnew','prep_new');
 loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_tb_prev_d','tb_prev_d');
 loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_tb_prev_n','tb_prev_n');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_cascades_htstst','hts_tst');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_cascades_htspos','hts_tst_pos');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_cxca_scrn','cxca_scrn');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_htsself','hts_self');
+loadAnnualPerformanceAgainstTarget('analytics_testing_cascades_htstst','hts_tst');
+loadAnnualPerformanceAgainstTarget('analytics_testing_cascades_htspos','hts_tst_pos');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_cxca_scrn','cxca_scrn');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_htsself','hts_self');
 //
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_pos','pmtct_pos');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_d','pmtct_stat_d');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_n','pmtct_stat_n');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_pos','tb_pos');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_stat_d','tb_stat_d');
-//loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_stat_n','tb_stat_n');
-//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_pmtct_art','pmtct_art');
-//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tb_art','tb_art');
-//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_curr','tx_curr');
-//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_new','tx_new');
-//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_tb_d','tx_tb_d');
-//loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_tb_n','tx_tb_n');
-//loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_d','tx_pvls_d');
-//loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_n','tx_pvls_n');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_pos','pmtct_pos');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_d','pmtct_stat_d');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_pmtct_stat_n','pmtct_stat_n');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_pos','tb_pos');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_stat_d','tb_stat_d');
+loadAnnualPerformanceAgainstTarget('analytics_testing_other_cascades_tb_stat_n','tb_stat_n');
+loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_pmtct_art','pmtct_art');
+loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tb_art','tb_art');
+loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_curr','tx_curr');
+loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_new','tx_new');
+loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_tb_d','tx_tb_d');
+loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_tb_n','tx_tb_n');
+loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_d','tx_pvls_d');
+loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_n','tx_pvls_n');
 
 
 }

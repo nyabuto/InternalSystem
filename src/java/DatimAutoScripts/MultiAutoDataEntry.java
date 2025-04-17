@@ -194,8 +194,8 @@ if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.e
     //driver.findElement(By.cssSelector("button select-factor link-button")).click();
 //    driver.findElement(By.cssSelector(".authenticator-button")).click();
     Thread.sleep(10000);
-    if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.elementToBeClickable(By.id("input90"))).isEnabled()){
-    driver.findElement(By.id("input90")).sendKeys("Plusaphia2013!!!!");
+    if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.elementToBeClickable(By.id("input92"))).isEnabled()){
+    driver.findElement(By.id("input92")).sendKeys("Plusaphia2013%%");
     driver.findElement(By.cssSelector(".button")).click();
     }
     
@@ -1136,7 +1136,8 @@ if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.e
                                                     }
                                                 }
                                                 break;
-                                            case "enterblanks":
+                                            case "deletenonblanks":
+                                                 if(!val.equals("0.0") && !val.equals("0") ){
                                                 //here, only blank values are entered. This excludes Zeros
                                                 if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id(clmnar[cl]))).isDisplayed()){
                                                         
@@ -1147,7 +1148,23 @@ if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.e
                                                 uam.clear();
                                                 uam.sendKeys("");
                                                 System.out.println("Zeros entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                                        }
                                                 break;
+                                                 case "enterblanks":
+                                              
+                                                //here, only blank values are entered. This excludes Zeros
+                                                if(new WebDriverWait(driver, Duration.ofSeconds(100)).until(ExpectedConditions.presenceOfElementLocated(By.id(clmnar[cl]))).isDisplayed()){
+                                                        
+                                                    uam=driver.findElement(By.id(clmnar[cl])); 
+                                                    }
+                                                
+                                                uam.click();
+                                                uam.clear();
+                                                uam.sendKeys("");
+                                                System.out.println("Zeros entered:"+dfacil+"_"+clmnar[cl]+"_"+val);
+                                        
+                                                break;
+                                           
                                             default:
                                                 break;
                                         }

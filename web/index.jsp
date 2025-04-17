@@ -34,10 +34,10 @@
 						<h4 class="mb-3 f-w-400"><img src="images/imis_banner.JPG"  style="height:70px;"></h4>
 						<hr>
 						<div class="form-group mb-3">
-							<input type="text" class="form-control" name="username" id="username" placeholder="Username">
+                                                    <input maxlength="30" type="text" class="form-control" name="username" id="username" placeholder="Username">
 						</div>
 						<div class="form-group mb-4">
-							<input type="password" class="form-control"name ="password" id="Password" placeholder="Password">
+							<input maxlength="30" type="password" class="form-control"name ="password" id="Password" placeholder="Password">
                                                         
                                                         <input type="hidden" name="ipv4ad" id="ipv4ad"/>
                                                         

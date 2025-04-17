@@ -80,7 +80,7 @@ userid=session.getAttribute("userid").toString();
 //String mindate=tempyear+"-"+tempmonth+"-"+"01";
 
 
-String getdetailsqr= "select * from adhoc_queries  order by timestamp desc";
+String getdetailsqr= "select * from adhoc_queries where active=1 order by timestamp desc";
 //check whether data for that month, year and facility has been saved
 System.out.println(""+getdetailsqr); 
             JSONArray main = new JSONArray();
@@ -97,12 +97,18 @@ while(conn.rs.next())
    String user=conn.rs.getString("user");
    
    String qryname=conn.rs.getString("Name");
+   String datetype=conn.rs.getString("datetype");
+   String startdate_active=conn.rs.getString("startdate_active");
+   String enddate_active=conn.rs.getString("enddate_active");
    
 
    
    ob.put("qry", query);
    ob.put("user", user);
    ob.put("queryname", qryname);
+   ob.put("datetype", datetype);
+   ob.put("startdate_active", startdate_active);
+   ob.put("enddate_active", enddate_active);
    
    main.add(ob);
 }

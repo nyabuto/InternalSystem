@@ -10,6 +10,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Random;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 //import java.time.*; 
 //import java.time.Month; 
@@ -176,6 +179,13 @@ String last_reporting_month=ReportingEndDate(prevmonth, year);
        return  mwaka+"-"+last_reporting_month;
     }
     
+     public static String getDate12MonthsAgo(String inputDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(inputDate, formatter);
+        LocalDate twelveMonthsAgo = date.minusMonths(12).plusDays(1);
+//        twelveMonthsAgo=twelveMonthsAgo.plusDays(1);
+        return twelveMonthsAgo.format(formatter);
+    }
   
   public int getNumberOfDays(int Year, int monthid ){
   

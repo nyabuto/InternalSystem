@@ -29,7 +29,7 @@
 							
 		 <% 
                      
-                  if(session.getAttribute("kd_session")!=null){                                              if(!session.getAttribute("level").toString().equals("1")){  %>  
+                  if(session.getAttribute("kd_session")!=null){     if(!session.getAttribute("level").toString().equals("1")){  %>  
                  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",maintenance,")){%>
                                                                
                                                                 <a  href="refreshDHIS2.jsp" class="btn btn-light"><i class="feather icon-refresh-cw"></i>Refresh PPMS Data Sets</a>

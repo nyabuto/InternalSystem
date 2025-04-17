@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>KenyaEMR-Dashboard</title>
+    <title>Suppression Charts</title>
     <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 11]>
@@ -10,27 +10,27 @@
     	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     	<![endif]-->
     <!-- Meta -->
-<!--  
-     Favicon icon 
-    <link rel="icon" href="rmc_assets/images/favicon.ico" type="image/x-icon">
+  
+    <!-- Favicon icon -->
+    <!--<link rel="icon" href="rmc_assets/images/favicon.ico" type="image/x-icon">-->
 
-     vendor css 
-    <link rel="stylesheet" href="rmc_assets/css/style_2.css">
+    <!-- vendor css -->
+    <!--<link rel="stylesheet" href="rmc_assets/css/style_2.css">-->
     
-    -->
+    
     <!--<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />-->
 
-<!-- [Tabler Icons] https://tablericons.com 
-<link rel="stylesheet" href="rmc_assets/fonts/tabler-icons.min.css" />
- [Feather Icons] https://feathericons.com 
-<link rel="stylesheet" href="rmc_assets/fonts/feather.css" />
- [Font Awesome Icons] https://fontawesome.com/icons 
-<link rel="stylesheet" href="rmc_assets/fonts/fontawesome.css" />
- [Material Icons] https://fonts.google.com/icons 
-<link rel="stylesheet" href=rmc_assets/fonts/material.css" />
+<!-- [Tabler Icons] https://tablericons.com -->
+<!--<link rel="stylesheet" href="rmc_assets/fonts/tabler-icons.min.css" />-->
+<!-- [Feather Icons] https://feathericons.com -->
+<!--<link rel="stylesheet" href="rmc_assets/fonts/feather.css" />-->
+<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+<!--<link rel="stylesheet" href="rmc_assets/fonts/fontawesome.css" />-->
+<!-- [Material Icons] https://fonts.google.com/icons -->
+<!--<link rel="stylesheet" href=rmc_assets/fonts/material.css" />-->
     
     
-    -->
+    
     
     <style>
     .fontheader1{
@@ -92,10 +92,9 @@
         </div>
         
         
-        <%--<%@include file="preventionannualsummary.html" %>--%> 
-            
+       <%--<%@include file="vlannualsummary.html" %>--%> 
           <div class="col-xl-12 col-md-12">
-                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends Against Targets</h5>
+                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends</h5>
             </div>
             <hr/>
             
@@ -105,10 +104,10 @@
         <div class="col-md-6 col-xl-6">
                 <div class="card">
                     <div class="card-header">
-                          <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Initiation Monthly Trends</h6>
+                          <h6 class='btn-info' style="text-align:center;padding:4px;">VL Done Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_prep_new_trends"></div>
+                        <div class="ap_tx_pvls_d_trends"></div>
                     </div>
                 </div>
             </div>    
@@ -117,58 +116,16 @@
                 <div class="card">
                     <div class="card-header">
                         
-                            <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Continuation Quarterly Trends</h6>
+                            <h6 class='btn-info' style="text-align:center;padding:4px;">VL SUppressed Monthly Trends</h6>
                     </div>
                     <div class="card-body">
-                        <div class="ap_prep_ct_trends"></div>
+                        <div class="ap_tx_pvls_n_trends"></div>
                     </div>
                 </div>
             </div> 
             </div>
-              <div class="row">
-           <!----Monthly Trendlines------> 
-          
-     
              
-           <div class="col-md-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        
-                         <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Initiation Monthly Trends</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="ap_tb_prev_d_trends"></div>
-                    </div>
-                </div>
-            </div> 
-          
-            <div class="col-md-6 col-xl-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class='btn-info' style="text-align:center;padding:4px;">IPT Completion Monthly Trends</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="ap_tb_prev_n_trends"></div>
-                    </div>
-                </div>
-            </div> 
-            </div>
-           
-             <div class="row">
-           <!----Monthly Trendlines------> 
-          
-        <div class="col-md-6 col-xl-12">
-                <div class="card">
-                    <div class="card-header">
-                    
-                         <h6 class='btn-info' style="text-align:center;padding:4px;">Violence Monthly Trends</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="ap_gend_gbv_trends"></div>
-                    </div>
-                </div>
-            </div> 
-            </div> 
+         
             
            
             
@@ -184,7 +141,7 @@
      <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Initiation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">VL Done By Region</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -192,7 +149,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_prep_new_summary">
+                     <table class="table table-sm  ap_tx_pvls_d_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -211,7 +168,7 @@
      <div class="col-xl-6 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Prep Continuation By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">VL Suppressed By Region</h4>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
@@ -219,7 +176,7 @@
                   <div class="activity-scroll" style="width:100%;">
                     
                       
-                     <table class="table table-sm  ap_prep_ct_summary">
+                     <table class="table table-sm  ap_tx_pvls_n_summary">
                         <td>
                             <div class="d-flex justify-content-center">
                                 <div class=" spinner-border" role="status">
@@ -242,64 +199,7 @@
            <!---TB Prev start--->
            
            
-             <div class="row">       
-                     
-                        
-     <div class="col-xl-6 col-md-12">
-            <div class="card User-Activity table-card">
-              <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Initiation By Region</h6>
-              </div>
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                    
-                  <div class="activity-scroll" style="width:100%;">
-                    
-                      
-                     <table class="table table-sm  ap_tb_prev_d_summary">
-                        <td>
-                            <div class="d-flex justify-content-center">
-                                <div class=" spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </td>
-                      </table>
-                     
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-                     
-     <div class="col-xl-6 col-md-12">
-            <div class="card User-Activity table-card">
-              <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">IPT/TPT Completion By Region</h6>
-              </div>
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                    
-                  <div class="activity-scroll" style="width:100%;">
-                    
-                      
-                     <table class="table table-sm  ap_tb_prev_n_summary">
-                        <td>
-                            <div class="d-flex justify-content-center">
-                                <div class=" spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </td>
-                      </table>
-                     
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-              
-           </div>
+        
            
            <!---TB Prev end--->
            
@@ -307,36 +207,7 @@
            
            <!----Violence summary  Start---->
            
-          <div class="row"> 
-           
-           <div class="col-xl-12 col-md-12">
-            <div class="card User-Activity table-card">
-              <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Violence summary By Region</h6>
-              </div>
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                    
-                  <div class="activity-scroll" style="width:100%;">
-                    
-                      
-                     <table class="table table-sm  ap_tb_prev_n_summary">
-                        <td>
-                            <div class="d-flex justify-content-center">
-                                <div class=" spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </td>
-                      </table>
-                     
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-              
-        </div>   
+       
               
            <!----Violence Summary end---->
            

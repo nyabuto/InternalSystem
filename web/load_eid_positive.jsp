@@ -134,17 +134,23 @@ tr>td {
                   </h3>
                   
                   
+                  <%
+                  dbConn cn= new dbConn();
+                  
+
+String qry=" select max(testingdate) as md from eid_raw_pos";
+String md="";
+cn.rs=cn.st.executeQuery(qry);
+
+while (cn.rs.next()){
+
+md=cn.rs.getString(1);
+}
+                  
+                  %>
                   
                   
                   
-                  <ul class="breadcrumb">
-                     <li style="width: 900px;">
-                        <i class="icon-home"></i>
-                         <a href="DataCleaner.jsp" style="margin-left:40%;">Check gaps in EID Pos raw data via excel.</a> 
-                        <!--<span class="icon-angle-right"></span>-->
-                     </li>
-           
-                  </ul>
                </div>
             </div>
             <!-- END PAGE HEADER-->
@@ -155,7 +161,7 @@ tr>td {
                  
                   <div class="portlet box blue">
                      <div  style="text-align: center; font-weight: 900; padding: 20px 0 40px 0;">
-                         <div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload EID Pos Raw Data [.XLSX]</div> <div style=" margin-left: 60px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated: 2018-09-20 4:15pm </div>
+                         <div class="btn btn-info"><a href="load_eid_tested.jsp">Upload EID Tests</a></div><div style="float: left; font-size: 30px; margin-left: 20%; color:#ffffff;">Upload EID Pos Raw Data [.XLSX]</div> <div style=" margin-left: 20px; float:left; text-align: center; color:black ;font-family: cambria;">Last Updated: <font color='white'><%=md%></font> </div>
                      </div>
                       
                       <div  class="portlet-body form" id="progress_area" hidden="true">
@@ -182,7 +188,7 @@ tr>td {
                             
                                <table border="1" class="table">
                                    <tr>
-                                  <td>System ID<br>[1]</td><td>Sample ID<br>[2]</td><td>Batch<br>[3]</td><td>Lab Tested In<br>[4]</td><td>County<br>[5]</td><td>Sub-County<br>[6]</td><td>Partner<br>[7]</td><td>Facilty<br>[8]</td><td>Facility Code<br>[9]</td><td>Gender<br>[10]</td><td>DOB<br>[11]</td><td>Age (Months)<br>[12]</td><td>PCR Type<br>[13]</td><td>Enrollment CCC No<br>[14]</td><td>Date Collected<br>[15]</td><td>Date Received<br>[16]</td><td>Date Tested<br>[17]</td><td>Date Dispatched<br>[18]</td><td>Test Result<br>[19]</td><td>Validation (CP,A,VL,RT,UF)<br>[20]</td><td>Enrollment Status<br>[21]</td><td>Date Initiated on Treatment<br>[22]</td><td>Enrollment CCC #<br>[23]</td><td>Other Reasons<br>[24]</td>
+                                  <td>System ID<br>[1]</td><td>Sample ID<br>[2]</td><td>Batch<br>[3]</td><td>Lab Tested In<br>[4]</td><td>County<br>[5]</td><td>Sub-County<br>[6]</td><td>Partner<br>[7]</td><td>Facilty<br>[8]</td><td>Facility Code<br>[9]</td><td>Gender<br>[10]</td><td>DOB<br>[11]</td><td>Age (Months)<br>[12]</td><td>PCR Type<br>[13]</td><td>Enrollment CCC No<br>[14]</td><td>Date Collected<br>[15]</td><td>Date Received<br>[16]</td><td>Date Tested<br>[17]</td><td>Date Dispatched<br>[18]</td><td>Test Result<br>[19]</td><td>Validation (CP,A,VL,RT,UF)<br>[20]</td><td>Enrollment Status<br>[21]</td><td>Date Initiated on Treatment<br>[22]</td><td>Other Reasons<br>[24]</td>
 
                                       
                                    </tr>

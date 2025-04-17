@@ -87,6 +87,9 @@
                                                         <%%> <li class="nav-item">
 								<a class="nav-link" onclick="clicktb('pills-moremodules-tab');"  href="#pills-moremodules" > <span class="pcoded-micon"><i class="feather icon-plus"></i></span>Extras</a>
 							</li>
+                                                        <li class="nav-item">
+								<a class="nav-link" onclick="clicktb('pills-rmcah-tab');"  href="#pills-rmcah" > <span class="pcoded-micon"><i class="feather icon-toggle-left"></i></span>RMCAH</a>
+							</li>
                                                         
 
 
