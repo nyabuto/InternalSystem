@@ -166,7 +166,7 @@
 								
 							
 								  <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
-                                                                <a  href="../Cohorts/hfrreports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>HFR Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/hfrreports.jsp" class="btn btn-light"><i class="feather icon-refresh-ccw"></i>HFR Reports</a>
                                                                
        
                                                                 
@@ -197,14 +197,14 @@
 							
 								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
                                                                
-                                                                <a  href="../Cohorts/rri_gaps_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Service Gap Reports</a>
-                                                                <a  href="../Cohorts/retention.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Retention Audit Reports</a>
-                                                                <a  href="../Cohorts/otz_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>OTZ Reports</a>
-                                                                <a  href="../Cohorts/ahd_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>AHD Reports</a>
-                                                                <a  href="../Cohorts/hei_weekly_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>HEI Weekly Reports</a>
-                                                                <a  href="../Cohorts/me_matrix_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>M&E Matrix Reports</a>
-                                                                <a  href="../Cohorts/stockverification.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Stock Verification Reports</a>
-                                                                <a  href="../Cohorts/upi_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>NUPI & Covid Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/rri_gaps_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Service Gap Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/retention.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Retention Audit Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/otz_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>OTZ Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/ahd_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>AHD Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/hei_weekly_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>HEI Weekly Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/me_matrix_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>M&E Matrix Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/stockverification.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Stock Verification Reports</a>
+                                                                <a  href="https://usaidtujengejamii.org:8443/Cohorts/upi_main.jsp" class="btn btn-light"><i class="feather icon-watch"></i>NUPI & Covid Reports</a>
                                                                 
                                                                 
                                                                   <%}}%>

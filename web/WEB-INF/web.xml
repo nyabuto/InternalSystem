@@ -1857,6 +1857,10 @@
         <servlet-name>validaterecaptacha</servlet-name>
         <servlet-class>recapcha.validaterecaptacha</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AutoDataEntryWards</servlet-name>
+        <servlet-class>DatimAutoScripts.AutoDataEntryWards</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3712,6 +3716,10 @@
     <servlet-mapping>
         <servlet-name>validaterecaptacha</servlet-name>
         <url-pattern>/validaterecaptacha</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutoDataEntryWards</servlet-name>
+        <url-pattern>/AutoDataEntryWards</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>20</session-timeout>

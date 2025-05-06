@@ -29,7 +29,8 @@
 								
 								
 								
-								<%if(session.getAttribute("userAccess")!=null){%>                                                             
+								<%if(session.getAttribute("userAccess")!=null){%>        
+                                                                
                                                                 <a href="EMR.jsp" class="btn btn-light"><img style="width:140px;" src="./images/icons/dataentry.png" class="img img-circle" /> EMR Status Form</a>
                                                                 <a style="margin: 5px;" href="emr_status_tracker.jsp" class="btn btn-light"><img style="width:140px;" src="./images/icons/tracker_1.png" class="img img-circle" /> EMR Status Missing Reports</a>
                                                                 <a style="margin: 5px;" href="emr_status_report.jsp" class="btn btn-light"><img style="width:140px;" src="./images/icons/reports.png" class="img img-circle" />EMR Status Submitted Reports</a>

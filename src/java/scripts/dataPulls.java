@@ -212,7 +212,15 @@ public class dataPulls extends HttpServlet {
             if(act.equals("getDatimSections"))
             {               
                 
-               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(Section,',',Section) as rcd from datimbotqueries where active=1 group by Section order by `order` ; ");
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(Section,',',Section) as rcd from datimbotqueries where active=1 and orgunit_type='Facility' group by Section order by `order` ; ");
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
+             if(act.equals("getDatimCommunitySections"))
+            {               
+                
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(Section,',',Section) as rcd from datimbotqueries where active=1 and orgunit_type='Community' group by Section order by `order` ; ");
 
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     
@@ -221,7 +229,17 @@ public class dataPulls extends HttpServlet {
             if(act.equals("getDatimIndicators"))
             {               
                 
-               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(spname,',',Indicator) as rcd from datimbotqueries where active=1 "+datimindicswhr+" group by id order by `order`; ");
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(spname,',',Indicator) as rcd from datimbotqueries where active=1 "+datimindicswhr+" and orgunit_type='Facility' group by id order by `order`; ");
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
+            
+            if(act.equals("getDatimCommunityIndicators"))
+            {               
+                String qry="select concat(spname,',',Indicator) as rcd from datimbotqueries where active=1 "+datimindicswhr+" and orgunit_type='Community' group by id order by `order`; ";
+                System.out.println("community:indicators"+qry);
+                ResultSet rs1=pullDataFromDbGivenQuery(conn,qry);
 
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     
@@ -245,6 +263,18 @@ public class dataPulls extends HttpServlet {
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     
             }
+              
+              
+                if(act.equals("getDatimWards"))
+            {               
+                
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(datimid,'_',datimname,',',datimname) as rcd from internal_system.ward where ward_id in (SELECT ward_id FROM internal_system.dic)  and datimname is not null group by datimid order by Ward; ");
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
+              
+              
                if(act.equals("getNakuruSites"))
             {               
                 
@@ -569,15 +599,16 @@ public  String buildoptsFromDbResultSet(ResultSet res, String selectedvalue){
 
 while(res.next()){
     
-    //System.out.println("__*****"+res.getString(1));
+    System.out.println("__*****"+res.getString(1));
     String valkey_in[]=res.getString(1).split(",");
     
   
     String selected="";
     if(selectedvalue.equals(valkey_in[0])){selected="selected";}
-    
+    //System.out.println("Leftside:"+valkey_in[0]);
+    //System.out.println("Rightside:"+valkey_in[1]);
     finalopts+="<option "+selected+" value=\""+valkey_in[0]+"\">"+valkey_in[1]+"</option>";
-  
+    
     
                              }
 
@@ -587,6 +618,9 @@ while(res.next()){
         } catch (SQLException ex) {
             Logger.getLogger(dataPulls.class.getName()).log(Level.SEVERE, null, ex);
         }
+ 
+  System.out.println("final option:"+finalopts);
+        
   return finalopts;  
     
 }

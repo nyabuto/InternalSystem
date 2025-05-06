@@ -175,6 +175,7 @@
                                                                 <a  href="DatimEntryAutons.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (No search)</a>
                                                                 <a  href="DatimAutoEntryMulti.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Multi screens)</a>
                                                                 <a  href="DatimAutoEntryMultins.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Multi screens no search)</a>
+                                                                <a  href="DatimEntryAutonsWard.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Wards)</a>
                                                                 
                                                                 
                                                                 

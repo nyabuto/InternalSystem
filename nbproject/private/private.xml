@@ -7,9 +7,12 @@
             <file>file:/C:/projects/InternalSystem/web/ramcahhome.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/form1a.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/DatimEntryAuto.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/preventionannualsummary.html</file>
+            <file>file:/C:/projects/InternalSystem/web/DatimEntryAutons.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/LoadExcels/UploadKenyaEMRVl.java</file>
             <file>file:/C:/projects/InternalSystem/web/analytics/imisemr.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/rmc_assets/css/style_2.css</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/testingotherannualsummary.html</file>
             <file>file:/C:/projects/InternalSystem/src/java/Analytics/pulldata.java</file>
             <file>file:/C:/projects/InternalSystem/src/java/ACAMCA/ACA_MCA_tracker.java</file>
             <file>file:/C:/projects/InternalSystem/web/rmc_assets/js/pages/chartsdata.js</file>
@@ -20,11 +23,18 @@
             <file>file:/C:/projects/InternalSystem/web/getHTSScreeningTemplate.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/menu/menu_i2_extras.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/uploadf1a.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/treatmentannualsummary.html</file>
+            <file>file:/C:/projects/InternalSystem/web/queries/menu_i2_queries.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/preventioncharts.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/menu/menu_i2_missingreps.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/menu/menu_i2_reports.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/index.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/DHIS2/dhisconfig.java</file>
             <file>file:/C:/projects/InternalSystem/web/menu/minimenu.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/ramcah/defaults.js</file>
             <file>file:/C:/projects/InternalSystem/web/js/angular_options.js</file>
+            <file>file:/C:/projects/InternalSystem/src/java/DatimAutoScripts/AutoDataEntryWards.java</file>
+            <file>file:/C:/projects/InternalSystem/src/java/dashboards/PushDataSet2.java</file>
             <file>file:/C:/projects/InternalSystem/src/java/form1a/uploadf1a.java</file>
             <file>file:/C:/projects/InternalSystem/web/menu/menu_i2.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/RAMCAH/bfci_summary.java</file>
@@ -41,6 +51,7 @@
             <file>file:/C:/projects/InternalSystem/src/java/DatimAutoScripts/AutoDataEntry.java</file>
             <file>file:/C:/projects/InternalSystem/src/java/checklist/upload_data_verification.java</file>
             <file>file:/C:/projects/InternalSystem/web/menu/ramcah.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/testingannualsummary.html</file>
             <file>file:/C:/projects/InternalSystem/src/java/ACAMCA/ACA_MCA_Rawdata.java</file>
             <file>file:/C:/projects/InternalSystem/src/java/VL/update_vl_results.java</file>
             <file>file:/C:/projects/InternalSystem/src/java/LoadExcels/UploadKenyaEMRVlv1.java</file>
@@ -50,9 +61,12 @@
             <file>file:/C:/projects/InternalSystem/src/java/DHIS2/dhis2DataSave.java</file>
             <file>file:/C:/projects/InternalSystem/web/analytics/imisdashboards.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/checklist/upload_data_verification_v200.java</file>
+            <file>file:/C:/projects/InternalSystem/web/load_eid_tested.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/TX_ML/downloadtx_ml.java</file>
             <file>file:/C:/projects/InternalSystem/web/ramcah/bfci_tracker_modal.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/queries/loadqueries.js</file>
             <file>file:/C:/projects/InternalSystem/src/java/Prep/uploadPrep.java</file>
+            <file>file:/C:/projects/InternalSystem/src/java/LoadExcels/Load_eid_pos_raw.java</file>
             <file>file:/C:/projects/InternalSystem/web/fpt_tobaselines_refresh.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/menu/menu_i2_forms.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/gettemplate.jsp</file>
@@ -62,13 +76,17 @@
             <file>file:/C:/projects/InternalSystem/src/java/InternalSystem/login.java</file>
             <file>file:/C:/projects/InternalSystem/src/java/TX_ML/uploadtxml.java</file>
             <file>file:/C:/projects/InternalSystem/web/ramcah/loadramcahfilters.js</file>
+            <file>file:/C:/projects/InternalSystem/web/load_eid_positive.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/DHIS2/dhis2Datapull.java</file>
             <file>file:/C:/projects/InternalSystem/web/imishome.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/DatimEntryAutonsWard.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/PullVlResults.jsp</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/vlannualsummary.html</file>
             <file>file:/C:/projects/InternalSystem/web/WEB-INF/web.xml</file>
             <file>file:/C:/projects/InternalSystem/web/menu/menu_i2_emr.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/rmc_assets/js/pages/dashboard-main.js</file>
             <file>file:/C:/projects/InternalSystem/web/rmc_assets/js/pages/chart-apex.js</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/imischarts.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/menu/menu_i2_management.jsp</file>
             <file>file:/C:/projects/InternalSystem/web/ramcah/rmcahcharts.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/DatimAutoScripts/MultiAutoDataEntry.java</file>
@@ -78,6 +96,7 @@
             <file>file:/C:/projects/InternalSystem/web/rmcahdashboards.jsp</file>
             <file>file:/C:/projects/InternalSystem/src/java/EMR/reportEmrStatus.java</file>
             <file>file:/C:/projects/InternalSystem/src/java/HTS_Screening/downloadHTSScreeningTracker.java</file>
+            <file>file:/C:/projects/InternalSystem/web/analytics/filter_elements.jsp</file>
         </group>
     </open-files>
 </project-private>

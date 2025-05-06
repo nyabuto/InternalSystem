@@ -9,8 +9,8 @@
 							
 								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
                                                                 
-<a  style="margin: 5px;" href="../Cohorts/surgereports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" />  <i class="feather icon-clock"></i>Surge Missing Reports (Excel)</a>
-<a  style="margin: 5px;" href="../Cohorts/MissingReports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" /> <i class="feather icon-clock"></i>Surge Missing Reports (Web)</a>
+<a  style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/surgereports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" />  <i class="feather icon-clock"></i>Surge Missing Reports (Excel)</a>
+<a  style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/MissingReports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" /> <i class="feather icon-clock"></i>Surge Missing Reports (Web)</a>
 <a   style="margin: 5px;" href="Form1A_Tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/f1a.png" class="img img-circle" /><i class="feather icon-clock"></i> F1A Submission Tracker</a>
 <a   style="margin: 5px;" href="Prep_Excel_Tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/prep.png" class="img img-circle" /><i class="feather icon-clock"></i> PrEP Submission Tracker</a>
 <a   style="margin: 5px;" href="FPT_Excel_Tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/fpt.png" class="img img-circle" /><i class="feather icon-clock"></i> FPT Excel Tracker</a>
@@ -23,7 +23,7 @@
 <a   style="margin: 5px;" href="fmatt_reports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/fmatt.png" class="img img-circle" /><i class="feather icon-clock"></i> FMATT Reports & Tracker</a>
 <a   style="margin: 5px;" href="Tracker_kenyaEMR.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/lab.png" class="img img-circle" /><i class="feather icon-clock"></i> KenyaEMR VL Reports Tracker</a>
 <a   style="margin: 5px;" href="emr_status_tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/emr.png" class="img img-circle" /><i class="feather icon-clock"></i> EMR Status Missing Reports</a>
-<a   style="margin: 5px;" href="../Cohorts/hfrreports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hfr.png" class="img img-circle" /><i class="feather icon-clock"></i>HFR Missing Reports</a>
+<a   style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/hfrreports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hfr.png" class="img img-circle" /><i class="feather icon-clock"></i>HFR Missing Reports</a>
 <a   style="margin: 5px;" href="hpdm_tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hpdm.png" class="img img-circle" /><i class="feather icon-clock"></i>Hypertension and Diabetes Missing Reports</a>
 
                                                                 
