@@ -234,7 +234,7 @@ if(session.getAttribute("username")!=null){
 if(!uploadedfiles.contains(full_path))
 {
   try {
-                  sf.SendEmail("QOC_KENYAEMR", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,cbonde@usaidtujengejamii.org,DJuma@usaidtujengejamii.org"+em,usern);
+                  sf.SendEmail("QOC_KENYAEMR", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@deloitte.co.ke,DJuma@usaidtujengejamii.org"+em,usern);
       } catch (MessagingException ex) {
                   Logger.getLogger(UploadQOC.class.getName()).log(Level.SEVERE, null, ex);
               }

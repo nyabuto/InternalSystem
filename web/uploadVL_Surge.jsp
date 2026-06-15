@@ -229,7 +229,7 @@ out.println("<br/><font color='white'> <i> Last date VLs Downloaded: <b>"+conn.r
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; USAID Tujenge Jamii | USAID <%=year%>.
+       &copy; Tujenge Jamii | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>

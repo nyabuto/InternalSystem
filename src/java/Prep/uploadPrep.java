@@ -922,7 +922,7 @@ else{
                     session.setAttribute("prep", "<b>sending Prep Copy to Server</b>");
         session.setAttribute("prep_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"DeJuma@deloitte.co.ke,MaNderitu@deloitte.co.ke,EMaingi@usaidtujengejamii.org,sminyata@usaidtujengejamii.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"DeJuma@deloitte.co.ke,MaNderitu@deloitte.co.ke,EMaingi@deloitte.co.ke","Admin");
                     
                     //send to user
                     if(!email.equals(""))

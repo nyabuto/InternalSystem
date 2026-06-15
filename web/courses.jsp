@@ -189,7 +189,7 @@ input[readonly]{
                 <div class="col-sm-12">
 
                     <div class="row">
-                        <div style="text-align: center;" class=" well col-md-12">USAID Tujenge Jamii Courses Completion</div>
+                        <div style="text-align: center;" class=" well col-md-12">Tujenge Jamii Courses Completion</div>
                         
                         <!-- center left-->
                         <div class="col-md-12">
@@ -651,7 +651,7 @@ cmts
 
         <!-- /Main -->
 
-        <footer class="text-center"> &copy; Usaid Tujenge Jamii | USAID </footer>
+        <footer class="text-center"> &copy; Tujenge Jamii | USAID </footer>
 
         <div class="modal" id="addWidgetModal">
             <div class="modal-dialog">

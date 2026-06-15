@@ -166,7 +166,7 @@ public class upload_f1a_cxca_only extends HttpServlet {
              
              
             String getVersion="select version from f1a_version where active=1";
-            String activeversion = "Form 1A  version 9.0.3";
+            String activeversion = "Form 1A  version 10.0.0";
             conn.rs=conn.st.executeQuery(getVersion);
             
             while(conn.rs.next()){
@@ -828,7 +828,7 @@ else{
                     session.setAttribute("form1a", "<b>sending F1a Copy to Server</b>");
         session.setAttribute("form1a_count", 99); 
                     //send to developers
-                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke,afyanyota@gmail.com,EMaingi@usaidtujengejamii.org","Admin");
+                    SendF1excel(maildetails.get("fac"+q), maildetails.get("st"+q) , maildetails.get("fp"+q), maildetails.get("fn"+q), maildetails.get("fulln"+q),"aphiabackup@gmail.com,DeJuma@deloitte.co.ke,EMaingi@deloitte.co.ke,afyanyota@gmail.com","Admin");
                     
                     //send to user
                     if(!email.equals(""))

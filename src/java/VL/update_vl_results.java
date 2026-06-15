@@ -222,7 +222,9 @@ public class update_vl_results extends HttpServlet {
                 
             }
             
-            String getemrmissingresults="select vl_kenyaemr_id, cccno,replace(MFL_Code,'.0','') as MFL_Code,MFL_Code as origmfl ,Facility_Name from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null) and yearmonth='"+ym+"' and length(Uniquecccno(cccno))=10  "+mflwhere+"  order by rand()";
+            //String getemrmissingresults="select vl_kenyaemr_id, cccno,replace(MFL_Code,'.0','') as MFL_Code,MFL_Code as origmfl ,Facility_Name from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null)  and yearmonth='"+ym+"' and length(Uniquecccno(cccno))=10  "+mflwhere+"  order by rand()";
+            String getemrmissingresults="select vl_kenyaemr_id, cccno,replace(MFL_Code,'.0','') as MFL_Code,MFL_Code as origmfl ,Facility_Name from vl_kenyaemr where ( Last_VL like 'missing' or Last_VL='' or Last_VL is null) and (Last_VL_Date !='' ) and yearmonth='"+ym+"' and length(Uniquecccno(cccno))=10  "+mflwhere+"  order by rand()";
+            //String getemrmissingresults="select vl_kenyaemr_id, cccno, mfl_code, origmfl ,facility_name from vl_to_resync   order by rand()";
             
             System.out.println("Missing vls:"+getemrmissingresults);
             conn.rs=conn.st.executeQuery(getemrmissingresults);
@@ -234,10 +236,10 @@ public class update_vl_results extends HttpServlet {
                 mfl=conn.rs.getString("MFL_Code");
                 origmfl=conn.rs.getString("origmfl");
                 cccno=conn.rs.getString("cccno");
-                facil=conn.rs.getString("Facility_Name");
+                facil=conn.rs.getString("facility_name");
                 
-                String getmax_res="select Justification, `Value` as VL_result, Date_Collected, PMTCT, Facility_Name  from vl_surge where Uniquecccno(Patient_CCC_No) = '"+cccno+"' and MFL_Code='"+mfl+"' and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and value!='Collect New Sample'  order by Date_collected DESC limit 1 ";
-                //System.out.println("count number:"+searchcount);
+                String getmax_res=" select ifnull(Justification,'Routine VL') as Justification , `Value` as VL_result, Date_Collected, PMTCT, Facility_Name  from vl_surge where Uniquecccno(Patient_CCC_No) = '"+cccno+"' and MFL_Code='"+mfl+"' and ( Date_Collected between '"+sdate+"' and '"+edate+"' ) and ( value!='Collect New Sample' and value!='' ) order by Date_collected DESC limit 1 ";
+                //System.out.println("search patient data:"+getmax_res);
                 conn.rs1=conn.st1.executeQuery(getmax_res);
                 
                 if(conn.rs1.next()){
@@ -299,6 +301,7 @@ public class update_vl_results extends HttpServlet {
             session.setAttribute("vlerror",ex);
             Logger.getLogger(update_vl_results.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("Completed EMR Results check");
         return "Completed EMR Results ";
     }
     

@@ -95,7 +95,7 @@
         <%--<%@include file="preventionannualsummary.html" %>--%> 
             
           <div class="col-xl-12 col-md-12">
-                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends Against Targets</h5>
+                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends Against Targets <font color='yellow'> [ At <span  class='percenttimelbl'>0</span>% of time Spent] </font></h5>
             </div>
             <hr/>
             
@@ -161,7 +161,7 @@
                 <div class="card">
                     <div class="card-header">
                     
-                         <h6 class='btn-info' style="text-align:center;padding:4px;">Violence Monthly Trends</h6>
+                         <h6 class='btn-info' style="text-align:center;padding:4px;">POST VIOLENCE RESP Monthly Trends</h6>
                     </div>
                     <div class="card-body">
                         <div class="ap_gend_gbv_trends"></div>
@@ -312,7 +312,7 @@
            <div class="col-xl-12 col-md-12">
             <div class="card User-Activity table-card">
               <div class="card-header">
-                <h6 class='btn-info' style="text-align:center;padding:4px;">Violence summary By Region</h6>
+                <h6 class='btn-info' style="text-align:center;padding:4px;">POST VIOLENCE RESP summary By Region</h6>
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">

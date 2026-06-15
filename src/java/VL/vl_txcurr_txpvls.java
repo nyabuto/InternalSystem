@@ -122,7 +122,7 @@ public class vl_txcurr_txpvls extends HttpServlet {
             out.close();
         }
         
-        response.sendRedirect("Sync_VL_Results.jsp");
+//        response.sendRedirect("Sync_VL_Results.jsp");
         
     }
 

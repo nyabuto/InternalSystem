@@ -1022,12 +1022,14 @@ function conditionalformat( val )
     
     var numericval=val.replace('%','');
    
+   numericval=Math.round(numericval/percenttime*100);
+   
    if(val.indexOf("%")>=0 && $.isNumeric(val.replace('%',''))){
    
-         if(numericval>=90)                   { conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-success" style="width: '+numericval+'%"></div></div>';  }
-    else if(numericval>=85  && numericval<90 ){ conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-success" style="width: '+numericval+'%"></div></div>';  }
-    else if(numericval>=55 && numericval<85 ) { conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-warning" style="width: '+numericval+'%"></div></div>';  }
-    else if(numericval>=35 && numericval<55 ) { conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-infor" style="width: '+numericval+'%"></div></div>';  }
+         if(numericval>=100)                 { conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-success" style="width: '+numericval+'%"></div></div>';  }
+     else if(numericval>=89  && numericval<=100 ){ conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-success" style="width: '+numericval+'%"></div></div>';  }
+     else if(numericval>=80 && numericval<89 ){ conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-warning" style="width: '+numericval+'%"></div></div>';  }
+     else if(numericval>=65 && numericval<80 ) { conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-infor" style="width: '+numericval+'%"></div></div>';  }
     else                                      { conditioned_value='<b>'+val+'</b> <div class="progress"><div class="progress-bar bg-danger" style="width: '+numericval+'%"></div></div>';  }
        
    }
@@ -1050,10 +1052,10 @@ function conditionalformatprogressbar( val )
    numericval=Math.round(numericval/percenttime*100);
    if(val.indexOf("%")>=0 && $.isNumeric(val.replace('%',''))){
    //bg-success ap_prep_new_perc_pb" style="width: 0%"></div>
-         if(numericval>=90)                   { conditioned_value='bg-success';  }
-    else if(numericval>=85  && numericval<90 ){ conditioned_value='bg-success';  }
-    else if(numericval>=55 && numericval<85 ) { conditioned_value='bg-warning';  }
-    else if(numericval>=35 && numericval<55 ) { conditioned_value='bg-infor';  }
+         if(numericval>=100)                   { conditioned_value='bg-success';  }
+    else if(numericval>=89  && numericval<=100 ){ conditioned_value='bg-success';  }
+    else if(numericval>=80 && numericval<89 ) { conditioned_value='bg-warning';  }
+    else if(numericval>=65 && numericval<80 ) { conditioned_value='bg-infor';  }
     else                                      { conditioned_value='bg-danger';  }
        
    }
@@ -1607,17 +1609,17 @@ if(rw===parseInt(data.length)-1){
         
         let m=curmn.substring(4);
 //      alert(m);
-if(m==='10'){ percenttime=Math.round(8.33*1); }
-if(m==='11'){ percenttime=Math.round(8.33*2); }
-if(m==='12'){ percenttime=Math.round(8.33*3); }
-if(m==='01'){ percenttime=Math.round(8.33*4); }
-if(m==='02'){ percenttime=Math.round(8.33*5); }
+if(m==='10'){ percenttime=parseFloat(8.33*1)/10; }
+if(m==='11'){ percenttime=parseFloat(8.33*2)/10; }
+if(m==='12'){ percenttime=parseFloat(8.33*3)/10; }
+if(m==='01'){ percenttime=parseFloat(8.33*4)/10; }
+if(m==='02'){ percenttime=parseFloat(8.33*5)/10; }
 if(m==='03'){ percenttime=50; }
-if(m==='04'){ percenttime=Math.round(8.33*7); }
-if(m==='05'){ percenttime=Math.round(8.33*8); }
-if(m==='06'){ percenttime=Math.round(8.33*9); }
-if(m==='07'){ percenttime=Math.round(8.33*10); }
-if(m==='08'){ percenttime=Math.round(8.33*11); }
+if(m==='04'){ percenttime=parseFloat(8.33*7).toFixed(1); }
+if(m==='05'){ percenttime=parseFloat(8.33*8).toFixed(1); }
+if(m==='06'){ percenttime=parseFloat(8.33*9).toFixed(1); }
+if(m==='07'){ percenttime=parseFloat(8.33*10).toFixed(1); }
+if(m==='08'){ percenttime=parseFloat(8.33*11).toFixed(1); }
 if(m==='09'){ percenttime=100; }
 //alert(percenttime);
 $(".percenttimelbl").html(percenttime);
@@ -1629,10 +1631,7 @@ $(".percenttimelbl").html(percenttime);
   
 function updtimis()
 {
-    utjSitesSummaryOverall();
- emrimisdataSummaryOverall();  
- emrimisdataSummarybyMdt();
- emrRdqabyMdt();
+ 
 
 loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_gendgbv','gend_gbv');
 loadAnnualPerformanceAgainstTarget('analytics_prevention_cascades_prepct','prep_ct');
@@ -1659,7 +1658,10 @@ loadAnnualPerformanceAgainstTarget('analytics_treatment_cascades_tx_tb_n','tx_tb
 loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_d','tx_pvls_d');
 loadAnnualPerformanceAgainstTarget('analytics_vl_suppression_cascades_txpvls_n','tx_pvls_n');
 
-
+ utjSitesSummaryOverall();
+ emrimisdataSummaryOverall();  
+ emrimisdataSummarybyMdt();
+ emrRdqabyMdt();
 }
 
   

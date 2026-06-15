@@ -263,12 +263,12 @@ pw=us.get("password");
 
 
 
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=upi_main.jsp" class="btn btn-light">
-                            <img title="UPI Weekly Progress" style="width:130px;"  src="./images/icons/kenyaemr.png"/></a>
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=clinicalforms.jsp?frm=sha_enrollment&act=9595" class="btn btn-light">
+                            <img title="SHA Enrollment Progress" style="width:130px;"  src="./images/icons/sha.png"/></a>
                         
 
                     </div>
-                    <h5 class="formcss"><b>UPI Weekly Progress</b></h5>
+                    <h5 class="formcss"><b>SHA Enrollment Status</b></h5>
                 <hr>
                 </div>
             </div>
@@ -444,12 +444,12 @@ pw=us.get("password");
 
 
 
-                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=hei_weekly_main.jsp" class="btn btn-light">
-                            <img style="width:130px;"  src="images/hei_weekly.png"/></a>
+                        <a target="_blank" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un%>&p=<%=pw%>&rd=micaresites.jsp" class="btn btn-light">
+                            <img style="width:130px;"  src="images/icons/micare.png"/></a>
                         
 
                     </div>
-                    <h5 class="formcss" style="text-align: center;"><b>HEI Weekly Form</b></h5>
+                    <h5 class="formcss" style="text-align: center;"><b>Micare Site Level</b></h5>
                 <hr>
                 </div>
             </div>   

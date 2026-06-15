@@ -227,7 +227,7 @@ tr > td
                      <div class="portlet-body form">
                         <!-- BEGIN FORM-->
                         <form action="#" method="post" class="form-horizontal">
-                            <h5 style='text-align: center;color: black;'> <b>USAID Tujenge Jamii Training Registration Form</b></h5>  
+                            <h5 style='text-align: center;color: black;'> <b>Tujenge Jamii Training Registration Form</b></h5>  
                          <br>
                          <div style="margin-left: 5%;">
                        
@@ -337,7 +337,7 @@ tr > td
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; USAID Tujenge Jamii | USAID <%=year%>.
+       &copy; Tujenge Jamii | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>

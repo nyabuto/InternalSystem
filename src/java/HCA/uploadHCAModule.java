@@ -663,7 +663,7 @@ if(session.getAttribute("username")!=null){
 
 if(!uploadedfiles.contains(fileName))
 {
-    sf.SendEmail("HCA", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+    sf.SendEmail("HCA", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@deloitte.co.ke,DJuma@usaidtujengejamii.org"+em,usern);
 }
 uploadedfiles.add(fileName);  
              } catch (SQLException | MessagingException ex) {

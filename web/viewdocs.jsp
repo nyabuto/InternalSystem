@@ -169,7 +169,7 @@ Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);              
 
 %>
-               <p align="center" style=" font-size: 18px;"> &copyInternal System, USAID Tujenge Jamii | USAID <%=year%>.</p>
+               <p align="center" style=" font-size: 18px;"> &copyInternal System, Tujenge Jamii | USAID <%=year%>.</p>
             </div>
    <script src="assets/js/jquery-1.8.3.min.js"></script>    
    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>  

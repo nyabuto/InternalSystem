@@ -81,7 +81,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      
      HashMap<String, String> versions= new HashMap<String, String>();
      
-     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
+     versions.put("DVT", "Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;
@@ -483,7 +483,7 @@ if(session.getAttribute("username")!=null){
 
 if(!uploadedfiles.contains(full_path))
 {
-    sf.SendEmail("Data Verification", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+    sf.SendEmail("Data Verification", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@deloitte.co.ke,DJuma@deloitte.co.ke"+em,usern);
 }
 uploadedfiles.add(full_path);       
              } catch (SQLException | MessagingException ex) {

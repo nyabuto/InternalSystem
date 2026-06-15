@@ -494,7 +494,7 @@ if(new WebDriverWait(driver, Duration.ofSeconds(200)).until(ExpectedConditions.e
             System.out.println("pull query details::"+getdetailsqry);
             String startd=basics.get("sd");
             //check the reporting period and skip some indicators
-            if((reportingperiod.equals("QA"))|| (reportingperiod.equals("SA") && (startd.contains("-03-01") || startd.contains("-07-01") )) || (reportingperiod.equals("AN") && (startd.contains("-07-01") )) ){
+            if((reportingperiod.equals("QA"))|| (reportingperiod.equals("SA") && (startd.contains("-01-01") || startd.contains("-07-01") )) || (reportingperiod.equals("AN") && (startd.contains("-07-01") )) ){
                 
                 String entrytype=basics.get("entrytype");
                 try {

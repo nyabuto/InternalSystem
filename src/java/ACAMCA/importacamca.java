@@ -1374,7 +1374,7 @@ if(session.getAttribute("username")!=null){
 
 
 if(!uploadedfiles.contains(full_path)){
-    sf.SendEmail("ACA/MCA", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+    sf.SendEmail("ACA/MCA", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@deloitte.co.ke,DeJuma@deloitte.co.ke"+em,usern);
 }
 uploadedfiles.add(full_path);       
              } catch (SQLException | MessagingException ex) {

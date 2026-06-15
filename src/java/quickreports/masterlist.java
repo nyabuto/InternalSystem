@@ -120,13 +120,13 @@ public class masterlist extends HttpServlet {
         }
         dbConn conn = new dbConn();
         //========Query 1=================
-        String mflistname="USAID Tujenge Jamii ";
+        String mflistname="Tujenge Jamii ";
         String detailedprocedurename="rpt_masterlist";
         String summaryprocedurename="rpt_masterlist_summary";
          mergerow="11";
          if(year.equals(""))
          {
-         mflistname=" USAID Tujenge Jamii ";
+         mflistname=" Tujenge Jamii ";
          }
          else
         //APHIAPLUS facility Details

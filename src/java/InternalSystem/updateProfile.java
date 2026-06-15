@@ -43,6 +43,7 @@ MessageDigest m;
     lname=request.getParameter("lname").toUpperCase();
     email=request.getParameter("email");
     username=request.getParameter("username");
+    userid=request.getParameter("userid");
     pass=request.getParameter("password");
 
        m = MessageDigest.getInstance("MD5");
@@ -50,22 +51,23 @@ MessageDigest m;
        password = new BigInteger(1, m.digest()).toString(16);
        
     
-    String checker="SELECT userid FROM user WHERE ((fname=? && mname=? && lname=?) || username=?) && userid!=?";
-    conn.pst=conn.conn.prepareStatement(checker);
-    conn.pst.setString(1, fname);
-    conn.pst.setString(2, mname);
-    conn.pst.setString(3, lname);
-    conn.pst.setString(4, username);
-    conn.pst.setString(5, userid);
-    
-    conn.rs=conn.pst.executeQuery();
-    if(conn.rs.next()==true){
+//    String checker="SELECT userid FROM user WHERE ((fname=? && mname=? && lname=?) || username=?) && userid!=?";
+//    conn.pst=conn.conn.prepareStatement(checker);
+//    conn.pst.setString(1, fname);
+//    conn.pst.setString(2, mname);
+//    conn.pst.setString(3, lname);
+//    conn.pst.setString(4, username);
+//    conn.pst.setString(5, userid);
+//    
+//    conn.rs=conn.pst.executeQuery();
+if(1==1){
+//    if(conn.rs.next()==true){
         
-   session.setAttribute("editUser", "<font color=\"blue\">"+fullname+"</font> <font color=\"red\"> Already exist.</font>");     
-    }
-    
-    
-    else{
+//   session.setAttribute("editUser", "<font color=\"blue\">"+fullname+"</font> <font color=\"red\"> Already exist.</font>");     
+//    }
+//    
+//    
+//    else{
 //     ADD THE USER
         String inserter="UPDATE user SET fname=?,mname=?,lname=?,username=?,password=?,email=? WHERE userid=?";
         conn.pst=conn.conn.prepareStatement(inserter);
@@ -74,11 +76,12 @@ MessageDigest m;
         conn.pst.setString(3, lname);
         conn.pst.setString(4, username);
         conn.pst.setString(5, password);
-        conn.pst.setString(6, userid);
-        conn.pst.setString(7, email);
-    
+        conn.pst.setString(6, email);
+        conn.pst.setString(7, userid);
+       
+        System.out.println(""+conn.pst);
         conn.pst.executeUpdate();
-        
+        System.out.println(" Update status::"+conn.pst);
         fullname=fname+" "+mname+" "+lname;
       
              
@@ -90,9 +93,14 @@ MessageDigest m;
              session.setAttribute("email", email);
      session.setAttribute("editProfile", "<font color=\"black\">"+fullname+"</font> <font color=\"green\"> Details edited successfully.</font>");
     }
+    else {
+        
+        System.out.println("User does not exist:::");
+    
+    }
     
     
-    response.sendRedirect("editProfile.jsp");
+    response.sendRedirect("logout");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

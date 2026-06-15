@@ -41,28 +41,29 @@ String utj_pass=null;
   public dhisconfig()
   {
   
-  dhis2_Name ="USAID Tujenge Jamii";
+  dhis2_Name ="Tujenge Jamii";
   //dhis2_Home_URL ="https://dhis-afyanyota.fhi360.org/";
   //dhis2_Home_URL ="https://hiskenya.org/";
- dhis2_Home_URL ="https://partnermanagementsystem.uonbi.ac.ke/";
+ //dhis2_Home_URL ="https://partnermanagementsystem.uonbi.ac.ke/";
+ dhis2_Home_URL ="https://sll.africacdc.org/";
   
 
   dhis2_username="";
   dhis2_Password="!";
   //dhis2_username="";
 
-  dhis2_username="ekaunda";
-  dhis2_Password="";
-  gmail_pass="";
+  dhis2_username="Emmanuel_Ouma";
+  dhis2_Password="Mouma@2025!";
+  gmail_pass="jndhardsfmnmgfmx";
   
   
-   utj_pass="";
-  utj_email="";
+   utj_pass="cxjkkhzlwcksftrr";
+  utj_email="utjdata@usaidtujengejamii.org";
   
-  //dhis2_username="";
+  //dhis2_username="emmanuelkaunda";
 
   
- // dhis2_Password="";
+ // dhis2_Password="P@ssw0rd";
   dhis2_API_URL="api/";
   
   dhis2_API_URL_orgUnits="organisationUnits.json?fields=id,name,level,parent,path,shortName&paging=false&links=false";  

@@ -176,6 +176,7 @@
                                                                 <a  href="DatimAutoEntryMulti.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Multi screens)</a>
                                                                 <a  href="DatimAutoEntryMultins.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Multi screens no search)</a>
                                                                 <a  href="DatimEntryAutonsWard.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Data Entry (Wards)</a>
+                                                                <a  href="DatimImportFileCreator.jsp" class="btn btn-light"><i class="feather icon-cloud-snow"></i>Datim Import File Creator</a>
                                                                 
                                                                 
                                                                 
@@ -234,17 +235,17 @@
 							<div class="card-body">
 								
 							
-								  <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
+		   <% if(session.getAttribute("level")!=null){ if(!session.getAttribute("level").toString().equals("1")){  %>  
                    <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",uploads,")){%> 
                                                                 <a  href="khis_to_imis_template.xlsx" class="btn btn-light"><i class="feather icon-save"></i>Download KHIS Template(Old)</a>
                                                                 <a  href="moh_731_2023_khis_template.xlsx" class="btn btn-light"><i class="feather icon-save"></i>Download KHIS Template(New)</a>
-                                                                <a  href="https://hiskenya.org/dhis-web-data-visualizer/index.html#/WOIdhoNIYB8" class="btn btn-light"><i class="feather icon-save"></i>UTJ Monthly Favorite</a>
-                                                                <a  href="https://hiskenya.org/dhis-web-data-visualizer/index.html#/CN95YzjrE8C" class="btn btn-light"><i class="feather icon-save"></i>MOH 731 Rev 23</a>
+                                                                <a  href="https://hiskenya.dha.go.ke/dhis-web-data-visualizer/index.html#/WOIdhoNIYB8" class="btn btn-light"><i class="feather icon-save"></i>UTJ Monthly Favorite</a>
+                                                                <a  href="https://hiskenya.dha.go.ke/dhis-web-data-visualizer/index.html#/l5BD1rG9TkX" class="btn btn-light"><i class="feather icon-save"></i>MOH 731 Rev 23</a>
                                                                
                                                                 <a  href="sc_arv_disp_curr_template.xlsx" class="btn btn-light"><i class="feather icon-save"></i>Download SC_ARV & SC_Curr Template</a>
                                                                
-                                                                <a  href="https://hiskenya.org/dhis-web-data-visualizer/#/gdHXLyD2uvC" class="btn btn-light"><i class="feather icon-save"></i>SC_CURR_Favorite</a>
-                                                                <a  href="https://hiskenya.org/dhis-web-data-visualizer/index.html#/VE4otzwd5Qm" class="btn btn-light"><i class="feather icon-save"></i>SC_ARV_Disp Favorite</a>
+                                                                <a  href="https://hiskenya.dha.go.ke/dhis-web-data-visualizer/#/gdHXLyD2uvC" class="btn btn-light"><i class="feather icon-save"></i>SC_CURR_Favorite</a>
+                                                                <a  href="https://hiskenya.dha.go.ke/dhis-web-data-visualizer/index.html#/VE4otzwd5Qm" class="btn btn-light"><i class="feather icon-save"></i>SC_ARV_Disp Favorite</a>
                                                                 <!--<a  href="afyastat_verification.jsp" class="btn btn-light"><i class="feather icon-clipboard"></i>Data Refresh</a>-->
                                                                 
                                                                 

@@ -259,7 +259,7 @@ if(session.getAttribute("username")!=null){
 if(!uploadedfiles.contains(full_path))
 {
   try {
-                  sf.SendEmail("VL_KENYAEMR", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org"+em,usern);
+                  sf.SendEmail("VL_KENYAEMR", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@deloitte.co.ke,DeJuma@deloitte.co.ke"+em,usern);
       } catch (MessagingException ex) {
                   Logger.getLogger(UploadKenyaEMRVl.class.getName()).log(Level.SEVERE, null, ex);
               }

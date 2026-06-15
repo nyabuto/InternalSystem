@@ -154,7 +154,7 @@ return true;
  <br>
   
   <p style="text-align: center">Fields marked <font color="red">*</font> are required/mandatory fields.</p>
-  
+  <input style="display:none;" type="text" name="userid" id="userid" class="textbox" placeholder="" value="<%if(session.getAttribute("userid")!=null){out.println(session.getAttribute("userid").toString());}%>" autocomplete="off" maxlength="30" style="height:25px;" required>
   <br>
     <table style="margin-left: 200px;">  
       <tr>
@@ -233,7 +233,7 @@ Calendar cal = Calendar.getInstance();
 int year= cal.get(Calendar.YEAR);              
 
 %>
-               <p align="center" style=" font-size: 18px;"> &copyInternal System, USAID Tujenge Jamii | USAID <%=year%>.</p>
+               <p align="center" style=" font-size: 18px;"> &copyInternal System, Tujenge Jamii | USAID <%=year%>.</p>
             </div>
 
     

@@ -766,7 +766,7 @@ ResultSetMetaData md = rs.getMetaData();
             }//end of if
             //data rows     
             XSSFRow rw = sht.getRow(count);
-
+            System.out.println("data verification row number :"+count);
             for (int aa = 0; aa < columnCount; aa++) {
                 //System.out.print(mycolumns.get(a) + ":" + conn.rs.getString("" + mycolumns.get(a)));
 

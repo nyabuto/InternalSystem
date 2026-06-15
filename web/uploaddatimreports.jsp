@@ -322,7 +322,7 @@
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; USAID Tujenge Jamii | USAID <%=year%>.
+       &copy; Tujenge Jamii | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>

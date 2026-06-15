@@ -195,6 +195,8 @@ tr>td {
                               <label class="control-label col-lg-6">Select Filled Form1A excel file<font color='red'><b>*</b></font></label>
                               <div class="controls col-lg-6">
                                  <input onMouseOver='checksession();' accept=".xlsx" required type="file" name="file_name" multiple="true" id="upload" value="" class="textbox" required> 
+                              <!--<label class="btn btn-info">The Upload Module is not ready for use. Please be patient</label>-->
+                              
                               </div>
                            </div>  
                            <div class="control-group" style="display:none;">
@@ -270,7 +272,7 @@ tr>td {
                     int year = cal.get(Calendar.YEAR);       
 %>
        
-       &copy; USAID Tujenge Jamii | USAID <%=year%>.
+       &copy; Tujenge Jamii | USAID <%=year%>.
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>

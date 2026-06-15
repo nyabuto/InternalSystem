@@ -61,21 +61,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
  
-          String sessionText="Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ";  
+String sessionText="Data for Workbooks: <br/> "+fileNames+"Uploaded Successfully ";  
      
-     String nomflsheets="";
+String nomflsheets="";
     
-      int year,quarter,checker,missing = 0,added = 0,updated = 0;
+int year,quarter,checker,missing = 0,added = 0,updated = 0;
       
-      String county_name,county_id, district_name,district_id,hf_name,hf_id;
-     fileNames="";
-     fileName="";
+String county_name,county_id, district_name,district_id,hf_name,hf_id;
+fileNames="";
+fileName="";
  
      
-     String ujumbe="";
+String ujumbe="";
      
-    String user="unknown user";
-    String userid="unknown user";
+String user="unknown user";
+String userid="unknown user";
     
     
      
@@ -482,7 +482,7 @@ if(session.getAttribute("username")!=null){
 
 if(!uploadedfiles.contains(full_path))
 {
-    sf.SendEmail("Data Verification", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+    sf.SendEmail("Data Verification", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@deloitte.co.ke,DeJuma@deloitte.co.ke"+em,usern);
 }
 uploadedfiles.add(full_path);       
              } catch (SQLException | MessagingException ex) {

@@ -95,7 +95,7 @@
         <%--<%@include file="testingannualsummary.html" %>--%> 
             
           <div class="col-xl-12 col-md-12">
-                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends</h5>
+                <h5 class=" btn-primary" style="text-align: center;padding:4px;">Performance Trends <font color='yellow'> [ At <span  class='percenttimelbl'>0</span>% of time Spent] </font></h5>
             </div>
             <hr/>
             

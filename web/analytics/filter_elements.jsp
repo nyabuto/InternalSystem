@@ -58,7 +58,7 @@
                                             <option value="`mdt` as Region,">MDT</option>
                                             
                                             <option value="\'UTJ\' as Region,">Overall</option>
-                                            <option value="`SubPartnerNom` as Region,">Facility (Discouraged)</option>
+                                            <!--<option value="`SubPartnerNom` as Region,">Facility (Discouraged)</option>-->
                                         </select>
                                     </div>
                                 </div>

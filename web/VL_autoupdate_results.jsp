@@ -311,7 +311,7 @@
                     int year = cal.get(Calendar.YEAR);       
 %>
      <% dbConn conn= new dbConn(); %>  
-     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; USAID Tujenge Jamii | USAID <%=year%>.<b><i> </i></b> &nbsp;   </i></h4>
+     <h4 class="portlet-title" style="text-align: center;color:black;"> &copy; Tujenge Jamii | USAID <%=year%>.<b><i> </i></b> &nbsp;   </i></h4>
       <div class="span pull-right">
          <span class="go-top"><i class="icon-angle-up"></i></span>
       </div>
@@ -355,7 +355,7 @@
 //        alert("data submitted");
      setInterval(function() {
       refreshLables();
-      }, 100);  
+      }, 10000);  
     });
      });
   
@@ -458,9 +458,10 @@ function refreshLables()
                       var ct=dat.vlcount;
                   $("#msg1").html(dat.vlerror);
                   $("#msg2").html(dat.vlquery);
-                  if(ct!==''){
+                  if(ct!=='')
+                  {
                   $("#msg3").html("<b> Updated rows: "+ct+"</b>");
-                      }
+                  }
                       
                   }
                   
@@ -469,8 +470,7 @@ function refreshLables()
 
 
  function patasubcounty(){
-           
-           
+                   
            
         
         var county=document.getElementById("county").value;

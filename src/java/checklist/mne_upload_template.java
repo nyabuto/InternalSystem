@@ -78,7 +78,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
      
      HashMap<String, String> versions= new HashMap<String, String>();
      
-     versions.put("DVT", "USAID Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
+     versions.put("DVT", "Tujenge Jamii Facility Data Quality Verification Tool Version 2.0.0");
      //versions.put("MCA", "Maternal Cohort Analysis (MCA) Version 2.0.0");
      
      int rowgani=1;

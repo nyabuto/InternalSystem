@@ -25,8 +25,10 @@
 							<div class="card-body">
 								
 								<a  href="gettemplate.jsp" class="btn btn-light"><i class="feather icon-save"></i> Download F1A Template</a>
+								<!--<a  href="gettemplatelen.jsp" class="btn btn-light"><i class="feather icon-save"></i> Download F1A (<font color="red">Len Prep Sites</font>)</a>-->
 								<%if(session.getAttribute("userAccess")!=null){%>
                                                                 <a  href="uploadf1a.jsp" class="btn btn-light"><i class="feather icon-upload"></i>Upload F1A</a>
+                                                                <!--<a  style="margin: 5px;" href="uploadf1aLen.jsp" class="btn btn-light"><i class="feather icon-upload"></i> Upload F1a - (<font color="red">Len Prep Sites</font>)</a>-->
                                                                 <a  style="margin: 5px;" href="uploadcxca.jsp" class="btn btn-light"><i class="feather icon-upload"></i> Upload F1a - CXCA Section</a>
                                                                 <a  style="margin: 5px;" href="Form1A_Tracker.jsp" class="btn btn-light"><i class="feather icon-clock"></i> F1A Submission Tracker</a>
                                                                 <a  style="margin: 5px;" href="F1aUserGuide.pptx" class="btn btn-light"><i class="feather icon-help-circle"></i> User Guide</a>
@@ -37,6 +39,33 @@
 							</div>
 						</div>
 					</div>
+                                                                
+                                                                
+                                   <div class="col-sm-12 col-md-6">
+						<h5 class="formcss" > <img style="width:150px;" src="./images/icons/emr.png" class="img img-circle" />   EMR Status</h5>
+						<hr>
+						<div class="card text-left">
+							<div class="card-body">
+								<div class="card-body">
+								
+								
+								<%if(session.getAttribute("userAccess")!=null){%>                                                             
+                                                                <a  href="EMR.jsp" class="btn btn-light"><i class="feather icon-save"></i> EMR Status Form</a>
+                                                                <a  style="margin: 5px;" href="emr_status_tracker.jsp" class="btn btn-light"><i class="feather icon-clock"></i> EMR Missing Reports</a>
+                                                                <a  style="margin: 5px;" href="emr_status_report.jsp" class="btn btn-light"><i class="feather icon-clock"></i> EMR Submitted Reports</a>
+                                                                
+                                                                
+                                                                <%}%>
+								
+							</div>
+								
+							</div>
+						</div>
+					</div>
+                                                                
+                                                                
+                                                                
+                                                                <!--
 					<div class="col-sm-12 col-md-6">
                                             <h5 class="formcss"><img style="width:150px;" src="./images/icons/prep.png" class="img img-circle" />Monthly Prep</h5>
 						<hr>
@@ -58,10 +87,12 @@
 							</div>
 						</div>
 					</div>
+                                                                
+                                                                -->
                                   	
 				</div>
                               
-                                                                <div class="row">
+                                                            <!--    <div class="row">
 					<div class="col-sm-12 col-md-6">
 						<h5 class="formcss">
                                                     <img style="width:150px;" src="./images/icons/fpt.png" class="img img-circle" /> Family Partner Testing (FPT)</h5>
@@ -103,7 +134,7 @@
 						</div>
 					</div>
                                   	
-				</div>
+				</div> -->
                                                                 
                          
                                                                 
@@ -149,7 +180,7 @@
 					</div>
                                   	
 				</div>
-                                                                
+         <!--                                                       
     <div class="row">
 					<div style="display:none;" class="col-sm-12 col-md-6">
 						<h5 class="formcss"> <img style="width:150px;" src="./images/icons/aca.png" class="img img-circle" />  ART  Cohort Analysis (ACA) & Maternal Cohort Analysis (MCA)</h5>
@@ -192,7 +223,7 @@
 						</div>
 					</div>
                                   	
-				</div>                                                               
+				</div>    -->                                                            
     <div class="row">
 					<div class="col-sm-12 col-md-6">
 						<h5 class="formcss"> <img style="width:150px;" src="./images/icons/data_comparison.png" class="img img-circle" />  Data Verification Form</h5>
@@ -212,7 +243,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-6">
+					<!--
+                                                                <div class="col-sm-12 col-md-6">
 						<h5 class="formcss" > <img style="width:150px;" src="./images/icons/fmatt.png" class="img img-circle" />   Facility Missed Appointment Tracking Tool (FMATT)</h5>
 						<hr>
 						<div class="card text-left">
@@ -232,13 +264,13 @@
 								
 							</div>
 						</div>
-					</div>
+					</div> -->
                                   	
-				</div>    
+<!--				</div>    
                                                                 
+                                 <div class="row">                               -->
                                                                 
-                                                                
-                                                                  <div class="row">
+                                                                  
 					<div class="col-sm-12 col-md-6">
 						<h5 class="formcss"> <img style="width:150px;" src="./images/icons/lab.png" class="img img-circle" />   Viral Load Data Uploads</h5>
 						<hr>
@@ -259,27 +291,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-6">
-						<h5 class="formcss" > <img style="width:150px;" src="./images/icons/emr.png" class="img img-circle" />   EMR Status</h5>
-						<hr>
-						<div class="card text-left">
-							<div class="card-body">
-								<div class="card-body">
-								
-								
-								<%if(session.getAttribute("userAccess")!=null){%>                                                             
-                                                                <a  href="EMR.jsp" class="btn btn-light"><i class="feather icon-save"></i> EMR Status Form</a>
-                                                                <a  style="margin: 5px;" href="emr_status_tracker.jsp" class="btn btn-light"><i class="feather icon-clock"></i> EMR Missing Reports</a>
-                                                                <a  style="margin: 5px;" href="emr_status_report.jsp" class="btn btn-light"><i class="feather icon-clock"></i> EMR Submitted Reports</a>
-                                                                
-                                                                
-                                                                <%}%>
-								
-							</div>
-								
-							</div>
-						</div>
-					</div>
+					</div><!--end of row--->
+                                                                 <div class="row">     
+					
                                   	
 				</div>  
                                                                 

@@ -455,7 +455,7 @@ input[readonly]{
 
         <!-- /Main -->
 
-        <footer class="text-center"> &copy; Usaid Tujenge Jamii | USAID </footer>
+        <footer class="text-center"> &copy; Tujenge Jamii | USAID </footer>
 
         <div class="modal" id="addWidgetModal">
             <div class="modal-dialog">

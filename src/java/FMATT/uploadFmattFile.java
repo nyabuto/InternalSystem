@@ -428,7 +428,7 @@ Uploader=session.getAttribute("username").toString();
 
 
 if(!uploadedfiles.contains(full_path)){
-sf.SendEmail("FMatt", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@usaidtujengejamii.org,DJuma@usaidtujengejamii.org,mnderitu@usaidtujengejamii.org"+em,usern);
+sf.SendEmail("FMatt", Facii, "Uploaded Successfully!", full_path, fileName,  Uploader, "EMaingi@deloitte.co.ke,Dejuma@deloitte.co.ke"+em,usern);
 }   
  uploadedfiles.add(full_path);       
         

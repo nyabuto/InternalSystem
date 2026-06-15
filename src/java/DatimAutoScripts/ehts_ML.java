@@ -146,7 +146,7 @@ while(conn.rs.next()){
     
     driver.findElement(By.cssSelector(".Qr7Oae:nth-child(2) .whsOnd")).sendKeys(conn.rs.getString("Your_email_address"));
     
-    driver.findElement(By.cssSelector(".Qr7Oae:nth-child(3) .whsOnd")).sendKeys("USAID Tujenge Jamii");
+    driver.findElement(By.cssSelector(".Qr7Oae:nth-child(3) .whsOnd")).sendKeys("Tujenge Jamii");
 
     driver.findElement(By.cssSelector(".Qr7Oae:nth-child(4) .whsOnd")).sendKeys(conn.rs.getString("county"));
 

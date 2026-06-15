@@ -1194,6 +1194,10 @@
         <servlet-class>General.loadMultipleFacilities</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>loadMultipleFacilitiesLen</servlet-name>
+        <servlet-class>General.loadMultipleFacilitiesLen</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>saveFavoriteSites</servlet-name>
         <servlet-class>form1a.saveFavoriteSites</servlet-class>
     </servlet>
@@ -1860,6 +1864,38 @@
     <servlet>
         <servlet-name>AutoDataEntryWards</servlet-name>
         <servlet-class>DatimAutoScripts.AutoDataEntryWards</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updatesitename</servlet-name>
+        <servlet-class>scripts.updatesitename</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>datimImportGenerator</servlet-name>
+        <servlet-class>DatimAutoScripts.datimImportGenerator</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DatimImportOutput</servlet-name>
+        <servlet-class>DatimAutoScripts.DatimImportOutput</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MissingRDQA</servlet-name>
+        <servlet-class>VL.MissingRDQA</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadTemplateLen</servlet-name>
+        <servlet-class>form1a.downloadTemplateLen</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>uploadf1aLen</servlet-name>
+        <servlet-class>form1a.uploadf1aLen</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadSubcountyLen</servlet-name>
+        <servlet-class>General.loadSubcountyLen</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>clearDatimData</servlet-name>
+        <servlet-class>DatimAutoScripts.clearDatimData</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
@@ -3054,6 +3090,10 @@
         <url-pattern>/loadMultipleFacilities</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>loadMultipleFacilitiesLen</servlet-name>
+        <url-pattern>/loadMultipleFacilitiesLen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>saveFavoriteSites</servlet-name>
         <url-pattern>/saveFavoriteSites</url-pattern>
     </servlet-mapping>
@@ -3720,6 +3760,38 @@
     <servlet-mapping>
         <servlet-name>AutoDataEntryWards</servlet-name>
         <url-pattern>/AutoDataEntryWards</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatesitename</servlet-name>
+        <url-pattern>/updatesitename</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>datimImportGenerator</servlet-name>
+        <url-pattern>/datimImportGenerator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatimImportOutput</servlet-name>
+        <url-pattern>/DatimImportOutput</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MissingRDQA</servlet-name>
+        <url-pattern>/MissingRDQA</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadTemplateLen</servlet-name>
+        <url-pattern>/downloadTemplateLen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadf1aLen</servlet-name>
+        <url-pattern>/uploadf1aLen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadSubcountyLen</servlet-name>
+        <url-pattern>/loadSubcountyLen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>clearDatimData</servlet-name>
+        <url-pattern>/clearDatimData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>20</session-timeout>

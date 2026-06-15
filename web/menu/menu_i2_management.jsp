@@ -44,10 +44,16 @@
                                                                 
                                                                   <%}}%>
                                                                   
-                                                              <a  href="editProfile.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Edit Profile</a>     
+                                                                
 
-<%}
+<% 
 }
+
+%>
+ <a  href="editProfile.jsp" class="btn btn-light"><i class="feather icon-watch"></i>Edit Profile</a>  
+<%
+    }
+
 %>
 								
 							</div>

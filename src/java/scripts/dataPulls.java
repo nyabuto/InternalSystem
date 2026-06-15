@@ -225,6 +225,15 @@ public class dataPulls extends HttpServlet {
                 out.println(buildoptsFromDbResultSet(rs1,""));                                               
     
             }
+             
+              if(act.equals("getDatimSiteandCommunitySections"))
+            {               
+                
+               ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(Section,',',Section) as rcd from datimbotqueries where active=1  group by Section order by `order` ; ");
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
             
             if(act.equals("getDatimIndicators"))
             {               
@@ -245,6 +254,16 @@ public class dataPulls extends HttpServlet {
     
             }
             
+            
+             if(act.equals("getDatimFacilityCommunityIndicators"))
+            {               
+                String qry="select concat(spname,',',Indicator) as rcd from datimbotqueries where active=1 "+datimindicswhr+"  group by id order by `order`; ";
+                System.out.println("community:indicators"+qry);
+                ResultSet rs1=pullDataFromDbGivenQuery(conn,qry);
+
+                out.println(buildoptsFromDbResultSet(rs1,""));                                               
+    
+            }
             
             
               if(act.equals("getNakuruDistricts"))
@@ -373,7 +392,11 @@ public class dataPulls extends HttpServlet {
                 String siteswhere="";
                  
                 //siteswhere=" and subpartnera.CentreSanteID in (SELECT distinct(facility_id) FROM internal_system.fas_hypertension where yearmonth='202403' and total>0) ";
-               // siteswhere=" and subpartnera.CentreSanteID in (14432,14607,15138,14477,20005,14609,15174,15305,15502,10890,15325,15339,15170,15266,10672,14404,15417,15589,14836,14431,16683,15398,15280,14805,14845,14551,15108,14801,14802,15406,25155,18009,15009,14265,15008,14207,14733,15365,14263,14177,20137,14224,14611,14223,14424,15678,16390,15495,15372,15331,15156,15358,15013,15200,14426,15126,14943,15768,15682,14212) ";
+//                siteswhere=" and subpartnera.CentreSanteID in (14867,17191,14207,14431,14498,16413,15212,15304,10890,15509,15635,16403,16820,15035,14924,16409,14924,14212,14223,14228,14243,15769,14321,14391,14404,21122,14426,14446,14458,14477,14508,14510,14552,14606,14607,14609,14610,14611,14836,14867,14912,14943,14954,15007,15013,15079,15106,10672,15126,15137,15138,15152,15170,15174,20005,15253,21248,15305,15339,15404,15417,15447,15495,15589,15621,15678,15718,15725,15735,15768,15778,15288) ";
+               //siteswhere=" and subpartnera.CentreSanteID in (15495,10056,14510,10672,15325,15339,15404,15417,15589,15398,15212,15725,15678) ";
+               //siteswhere=" and subpartnera.CentreSanteID in (15170,20138,15365,15304,15325,15502,18009,14207,14263,14265,14177,14498,15188,15290,15686,14477,14659,15008,15009) ";
+              // siteswhere=" and subpartnera.CentreSanteID in (14867,15138,15325) ";
+               //siteswhere=" and subpartnera.CentreSanteID in (14573,15373,15502,15035,15404,15318,15413,14448,15280,14508,14510,15406,15203,17787,19592,15361,18142,15490,15402,15182,14493,15560,14486,14469,14469,15180,15107,15226,15373) ";
                  
                ResultSet rs1=pullDataFromDbGivenQuery(conn,"select concat(datimname,',',datimname,'-',CentreSanteID) as site from internal_system.subpartnera   where active =1 "+siteswhere+" and datimname is not null  order by datimname ASC ");
 

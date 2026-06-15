@@ -1,16 +1,38 @@
- <div class="col-xl-12">
+
+<%@page import="java.util.HashMap"%>
+<div class="col-xl-12">
 				<div class="row">
 					<div class="col-sm-12 col-md-12">
 						<h5 class="formcss"><b>Report Trackers</b></h5>
 						<hr>
 						<div class="card text-left">
 							<div class="card-body">
+                                                            
+                                                            
+                                                            <%
+
+String un1="";
+String pw1="";
+
+if(session.getAttribute("kd_session")!=null)
+{
+
+HashMap<String,String> us= new HashMap();
+    
+us=(HashMap)session.getAttribute("kd_session");
+
+un1=us.get("username");
+pw1=us.get("password");
+
+}
+
+%>
 								
 							
 								 <%if(session.getAttribute("userAccess")!=null){if(session.getAttribute("userAccess").toString().contains(",reports,")){%> 
                                                                 
-<a  style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/surgereports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" />  <i class="feather icon-clock"></i>Surge Missing Reports (Excel)</a>
-<a  style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/MissingReports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" /> <i class="feather icon-clock"></i>Surge Missing Reports (Web)</a>
+<a  style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un1%>&p=<%=pw1%>&rd=surgereports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" />  <i class="feather icon-clock"></i>Surge Missing Reports (Excel)</a>
+<a  style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un1%>&p=<%=pw1%>&rd=MissingReports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/surge.png" class="img img-circle" /> <i class="feather icon-clock"></i>Surge Missing Reports (Web)</a>
 <a   style="margin: 5px;" href="Form1A_Tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/f1a.png" class="img img-circle" /><i class="feather icon-clock"></i> F1A Submission Tracker</a>
 <a   style="margin: 5px;" href="Prep_Excel_Tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/prep.png" class="img img-circle" /><i class="feather icon-clock"></i> PrEP Submission Tracker</a>
 <a   style="margin: 5px;" href="FPT_Excel_Tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/fpt.png" class="img img-circle" /><i class="feather icon-clock"></i> FPT Excel Tracker</a>
@@ -23,10 +45,11 @@
 <a   style="margin: 5px;" href="fmatt_reports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/fmatt.png" class="img img-circle" /><i class="feather icon-clock"></i> FMATT Reports & Tracker</a>
 <a   style="margin: 5px;" href="Tracker_kenyaEMR.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/lab.png" class="img img-circle" /><i class="feather icon-clock"></i> KenyaEMR VL Reports Tracker</a>
 <a   style="margin: 5px;" href="emr_status_tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/icons/emr.png" class="img img-circle" /><i class="feather icon-clock"></i> EMR Status Missing Reports</a>
-<a   style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/hfrreports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hfr.png" class="img img-circle" /><i class="feather icon-clock"></i>HFR Missing Reports</a>
+<a   style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un1%>&p=<%=pw1%>&rd=hfr_reports.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hfr.png" class="img img-circle" /><i class="feather icon-clock"></i>HFR Missing Reports</a>
 <a   style="margin: 5px;" href="hpdm_tracker.jsp" class="btn btn-light"><img style="width:100px;" src="./images/hpdm.png" class="img img-circle" /><i class="feather icon-clock"></i>Hypertension and Diabetes Missing Reports</a>
+<a   style="margin: 5px;" href="https://usaidtujengejamii.org:8443/Cohorts/index.jsp?ac=<%=un1%>&p=<%=pw1%>&rd=otz_main.jsp" class="btn btn-light"><img style="width:100px;" src="./images/otz.png" class="img img-circle" /><i class="feather icon-clock"></i>OTZ Missing Reports</a>
 
-                                                                
+                                                             
                                                                 
                                                                 
                                                                   <%}}%>

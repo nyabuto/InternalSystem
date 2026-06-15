@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Usaid Tujenge Jamii Data Systems</title>
+        <title>Tujenge Jamii Data Systems</title>
     </head>
     <body>
      
