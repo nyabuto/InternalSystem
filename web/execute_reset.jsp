@@ -3,7 +3,7 @@
 
 <head>
 
-	<title>IMIS</title>
+	<title>New Password</title>
 
 
 	<meta charset="utf-8">
@@ -22,7 +22,7 @@
 
 
 </head>
-<form action="login">
+<form action="#">
 <!-- [ auth-signin ] start -->
 <div class="auth-wrapper">
 	<div class="auth-content text-center">
@@ -31,25 +31,27 @@
 			<div class="row align-items-center ">
 				<div class="col-md-12">
 					<div class="card-body">
-						<h4 class="mb-3 f-w-400"><img src="images/imis_banner.JPG"  style="height:70px;"></h4>
+						<h4 class="mb-3 f-w-400">New Password</h4>
 						<hr>
 						<div class="form-group mb-3">
-                                                    <input maxlength="30" type="text" class="form-control" name="username" id="username" placeholder="Username">
+                                     <input maxlength="30" type="password" class="form-control"name ="password" id="Password" placeholder="Password">
+                                                        
 						</div>
 						<div class="form-group mb-4">
-							<input maxlength="30" type="password" class="form-control"name ="password" id="Password" placeholder="Password">
+				     <input maxlength="30" type="password" class="form-control"name ="confirmpassword" id="Password" placeholder="confirmpassword">
                                                         
                                                         <input type="hidden" name="ipv4ad" id="ipv4ad"/>
+                                                        <input type="hidden" name="userid" id="userid"/>
                                                         
 						</div>
                                                 
                                                    <!--<input type="hidden" name="ipv4ad" id="ipv4ad"/>-->
-                                                <div class="g-recaptcha" data-sitekey="6LeYh0AqAAAAAOPpTdxB49Tqsm3PT6xf6JVY5iWG"></div>
+                                              
 <!--						<div class="custom-control custom-checkbox text-left mb-4 mt-2">
 							<input type="checkbox" class="custom-control-input" id="customCheck1">
 							<label class="custom-control-label" for="customCheck1">Save credentials.</label>
 						</div>-->
-						<button class="btn btn-block btn-primary mb-4">Sign in</button>
+						<button class="btn btn-block btn-primary mb-4">Save New Password</button>
                                                 
                                                 <div class="form-group mb-4">
                                                     
@@ -59,7 +61,7 @@
                                                     <p class='callalert' onclick="$('.toast-3s').toast('show')">.</p>   
                                                 </div>
 						<hr>
-                                                <p class="mb-2 text-muted">Forgot password? <a href="resetpassword.jsp" class="f-w-400">Reset</a></p>
+						<p class="mb-2 text-muted"> <a href="index.jsp" class="f-w-400">Login Page</a></p>
 						<!--<p class="mb-0 text-muted">Don?t have an account? <a href="auth-signup.html" class="f-w-400">Signup</a></p>-->
 					</div>
 				</div>
@@ -80,7 +82,6 @@
 
 <script src="rmc_assets/js/pcoded.min.js"></script>
 
-<%if(session.getAttribute("kd_session")!=null){  response.sendRedirect("imishome.jsp");%><%} else { }%>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 
@@ -106,13 +107,13 @@
     <%if (session.getAttribute("login") != null) { %>
    <script type="text/javascript"> 
                     
-                    var uju='<%=session.getAttribute("login")%>';
+                    var uju='<%=session.getAttribute("reset")%>';
                     $('.ujumbe').html(uju);
                     $('.callalert').click();
                       
                     
                 </script> <%
-                session.removeAttribute("login");
+                session.removeAttribute("reset");
                             }
 
     %>

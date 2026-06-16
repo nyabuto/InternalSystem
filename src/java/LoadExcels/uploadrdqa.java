@@ -33,6 +33,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.DateUtil;
 @MultipartConfig(fileSizeThreshold=1024*1024*30, 	// 20 MB 
                  maxFileSize=1024*1024*50,      	// 50 MB
                  maxRequestSize=1024*1024*100) 
@@ -115,6 +116,10 @@ public class uploadrdqa extends HttpServlet {
        for (String label : columns){
           
            XSSFCell cell = rowi.getCell((short) colmnscounter);
+           
+           
+           
+           
             if(cell==null){
                 break;
             }
@@ -152,6 +157,9 @@ public class uploadrdqa extends HttpServlet {
              
               
              }  
+            
+            System.out.println("Cell type is:"+cell.getCellType()+" and Value is "+value);
+            
                
             if(!"Missing".equalsIgnoreCase(value)){}  else 
                 {

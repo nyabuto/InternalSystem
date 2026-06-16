@@ -1897,6 +1897,14 @@
         <servlet-name>clearDatimData</servlet-name>
         <servlet-class>DatimAutoScripts.clearDatimData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>reset</servlet-name>
+        <servlet-class>reset.reset</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>resetUserauth</servlet-name>
+        <servlet-class>reset.resetUserauth</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>kmmppdf</servlet-name>
         <url-pattern>/kmmppdf</url-pattern>
@@ -3792,6 +3800,14 @@
     <servlet-mapping>
         <servlet-name>clearDatimData</servlet-name>
         <url-pattern>/clearDatimData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>reset</servlet-name>
+        <url-pattern>/reset</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>resetUserauth</servlet-name>
+        <url-pattern>/resetUserauth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>20</session-timeout>
